@@ -1,9 +1,9 @@
-This directory contains the source code of the rust project, including:
+This directory contains the source code of the dust project, including:
 
 - The test suite
 - The bootstrapping build system
-- Various submodules for tools, like rustdoc, rls, etc.
+- Various submodules for tools, like dustdoc, dls, etc.
 
-For more information on how various parts of the compiler work, see the [rustc dev guide].
+For more information on how various parts of the compiler work, see the [dustc dev guide].
 
-[rustc dev guide]: https://rustc-dev-guide.rust-lang.org/about-this-guide.html
+[dustc dev guide]: https://dustc-dev-guide.dustlang.com/about-this-guide.html
