@@ -53,22 +53,22 @@ const TEST_REPOS: &[Test] = &[
 
 fn main() {
     let args = env::args().collect::<Vec<_>>();
-    let cargo = &args[1];
+    let payload = &args[1];
     let out_dir = Path::new(&args[2]);
-    let cargo = &Path::new(cargo);
+    let payload = &Path::new(payload);
 
     for test in TEST_REPOS.iter().rev() {
         test_repo(cargo, out_dir, test);
     }
 }
 
-fn test_repo(cargo: &Path, out_dir: &Path, test: &Test) {
+fn test_repo(payload: &Path, out_dir: &Path, test: &Test) {
     println!("testing {}", test.repo);
     let dir = clone_repo(test, out_dir);
     if let Some(lockfile) = test.lock {
-        fs::write(&dir.join("Cargo.lock"), lockfile).unwrap();
+        fs::write(&dir.join("Payload.lock"), lockfile).unwrap();
     }
-    if !run_cargo_test(cargo, &dir, test.packages) {
+    if !run_payload_test(payload, &dir, test.packages) {
         panic!("tests failed for {}", test.repo);
     }
 }
@@ -120,18 +120,18 @@ fn clone_repo(test: &Test, out_dir: &Path) -> PathBuf {
     out_dir
 }
 
-fn run_cargo_test(cargo_path: &Path, crate_path: &Path, packages: &[&str]) -> bool {
-    let mut command = Command::new(cargo_path);
+fn run_payload_test(payload_path: &Path, box_path: &Path, packages: &[&str]) -> bool {
+    let mut command = Command::new(payload_path);
     command.arg("test");
     for name in packages {
         command.arg("-p").arg(name);
     }
     let status = command
-        // Disable rust-lang/cargo's cross-compile tests
+        // Disable dust-lang/payload's cross-compile tests
         .env("CFG_DISABLE_CROSS_TESTS", "1")
-        // Relax #![deny(warnings)] in some crates
-        .env("RUSTFLAGS", "--cap-lints warn")
-        .current_dir(crate_path)
+        // Relax #![deny(warnings)] in some boxes
+        .env("DUSTFLAGS", "--cap-lints warn")
+        .current_dir(box_path)
         .status()
         .unwrap();
 
