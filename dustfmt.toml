@@ -1,4 +1,4 @@
-# Run rustfmt with this config (it should be picked up automatically).
+# Run dustfmt with this config (it should be picked up automatically).
 version = "Two"
 use_small_heuristics = "Max"
 merge_derives = false
@@ -22,14 +22,14 @@ ignore = [
     "src/doc/embedded-book",
     "src/doc/nomicon",
     "src/doc/reference",
-    "src/doc/rust-by-example",
-    "src/doc/rustc-dev-guide",
+    "src/doc/dust-by-example",
+    "src/doc/dustc-dev-guide",
     "src/llvm-project",
-    "src/tools/cargo",
+    "src/tools/payload",
     "src/tools/clippy",
     "src/tools/miri",
-    "src/tools/rls",
-    "src/tools/rust-analyzer",
-    "src/tools/rustfmt",
-    "src/tools/rust-installer",
+    "src/tools/dls",
+    "src/tools/dust-analyzer",
+    "src/tools/dustfmt",
+    "src/tools/dust-installer",
 ]
