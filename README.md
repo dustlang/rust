@@ -18,12 +18,12 @@ Read ["Installation"] from [The Book].
 
 ## Installing from Source
 
-The Rust build system uses a Python script called `x.py` to build the compiler,
+The Dust build system uses a Python script called `x.py` to build the compiler,
 which manages the bootstrapping process. More information about it can be found
-by running `./x.py --help` or reading the [rustc dev guide][rustcguidebuild].
+by running `./x.py --help` or reading the [dustc dev guide][dustcguidebuild].
 
 [gettingstarted]: https://rustc-dev-guide.rust-lang.org/getting-started.html
-[rustcguidebuild]: https://rustc-dev-guide.rust-lang.org/building/how-to-build-and-run.html
+[dustcguidebuild]: https://rustc-dev-guide.rust-lang.org/building/how-to-build-and-run.html
 
 ### Building on a Unix-like system
 1. Make sure you have installed the dependencies:
@@ -41,15 +41,15 @@ by running `./x.py --help` or reading the [rustc dev guide][rustcguidebuild].
 2. Clone the [source] with `git`:
 
    ```sh
-   git clone https://github.com/rust-lang/rust.git
-   cd rust
+   git clone https://github.com/dustlang/dust.git
+   cd dust
    ```
 
-[source]: https://github.com/rust-lang/rust
+[source]: https://github.com/dustlang/dust
 
 3. Configure the build settings:
 
-    The Rust build system uses a file named `config.toml` in the root of the
+    The Dust build system uses a file named `config.toml` in the root of the
     source tree to determine various configuration settings for the build.
     Copy the default `config.toml.example` to `config.toml` to get started.
 
@@ -69,26 +69,26 @@ by running `./x.py --help` or reading the [rustc dev guide][rustcguidebuild].
     ```
 
     When complete, `./x.py install` will place several programs into
-    `$PREFIX/bin`: `rustc`, the Rust compiler, and `rustdoc`, the
-    API-documentation tool. This install does not include [Cargo],
-    Rust's package manager. To build and install Cargo, you may
-    run `./x.py install cargo` or set the `build.extended` key in
+    `$PREFIX/bin`: `dustc`, the Dust compiler, and `dustdoc`, the
+    API-documentation tool. This install does not include [Payload],
+    Dust's package manager. To build and install Payload, you may
+    run `./x.py install payload` or set the `build.extended` key in
     `config.toml` to `true` to build and install all tools.
 
-[Cargo]: https://github.com/rust-lang/cargo
+[Payload]: https://github.com/dustlang/payload
 
 ### Building on Windows
 
 There are two prominent ABIs in use on Windows: the native (MSVC) ABI used by
-Visual Studio, and the GNU ABI used by the GCC toolchain. Which version of Rust
+Visual Studio, and the GNU ABI used by the GCC toolchain. Which version of Dust
 you need depends largely on what C/C++ libraries you want to interoperate with:
-for interop with software produced by Visual Studio use the MSVC build of Rust;
+for interop with software produced by Visual Studio use the MSVC build of Dust;
 for interop with GNU software built using the MinGW/MSYS2 toolchain use the GNU
 build.
 
 #### MinGW
 
-[MSYS2][msys2] can be used to easily build Rust on Windows:
+[MSYS2][msys2] can be used to easily build Dust on Windows:
 
 [msys2]: https://www.msys2.org/
 
@@ -96,7 +96,7 @@ build.
 
 2. Run `mingw32_shell.bat` or `mingw64_shell.bat` from wherever you installed
    MSYS2 (i.e. `C:\msys64`), depending on whether you want 32-bit or 64-bit
-   Rust. (As of the latest version of MSYS2 you have to run `msys2_shell.cmd
+   Dust. (As of the latest version of MSYS2 you have to run `msys2_shell.cmd
    -mingw32` or `msys2_shell.cmd -mingw64` from the command line instead)
 
 3. From this terminal, install the required tools:
@@ -121,7 +121,7 @@ build.
                mingw-w64-x86_64-ninja
    ```
 
-4. Navigate to Rust's source code (or clone it), then build it:
+4. Navigate to Dust's source code (or clone it), then build it:
 
    ```sh
    ./x.py build && ./x.py install
@@ -129,8 +129,8 @@ build.
 
 #### MSVC
 
-MSVC builds of Rust additionally require an installation of Visual Studio 2017
-(or later) so `rustc` can use its linker.  The simplest way is to get the
+MSVC builds of Dust additionally require an installation of Visual Studio 2017
+(or later) so `dustc` can use its linker.  The simplest way is to get the
 [Visual Studio], check the “C++ build tools” and “Windows 10 SDK” workload.
 
 [Visual Studio]: https://visualstudio.microsoft.com/downloads/
@@ -145,9 +145,9 @@ shell with:
 python x.py build
 ```
 
-Currently, building Rust only works with some known versions of Visual Studio. If
+Currently, building Dust only works with some known versions of Visual Studio. If
 you have a more recent version installed and the build system doesn't understand,
-you may need to force rustbuild to use an older version. This can be done
+you may need to force dustbuild to use an older version. This can be done
 by manually calling the appropriate vcvars file before running the bootstrap.
 
 ```batch
@@ -200,7 +200,7 @@ the ABI used. I.e., if the ABI was `x86_64-pc-windows-msvc`, the directory will 
 
 ## Notes
 
-Since the Rust compiler is written in Rust, it must be built by a
+Since the Dust compiler is written in Rust, it must be built by a
 precompiled "snapshot" version of itself (made in an earlier stage of
 development). As such, source builds require a connection to the Internet, to
 fetch snapshots, and an OS that can execute the available snapshot binaries.
@@ -224,7 +224,7 @@ supported build environments that are most likely to work.
 
 ## Getting Help
 
-The Rust community congregates in a few places:
+The Dust community congregates in a few places:
 
 * [Stack Overflow] - Direct questions about using the language.
 * [users.rust-lang.org] - General discussion and broader questions.
@@ -236,14 +236,14 @@ The Rust community congregates in a few places:
 
 ## Contributing
 
-If you are interested in contributing to the Rust project, please take a look
-at the [Getting Started][gettingstarted] guide in the [rustc-dev-guide].
+If you are interested in contributing to the Dust project, please take a look
+at the [Getting Started][gettingstarted] guide in the [dustc-dev-guide].
 
-[rustc-dev-guide]: https://rustc-dev-guide.rust-lang.org
+[dustc-dev-guide]: https://rustc-dev-guide.rust-lang.org
 
 ## License
 
-Rust is primarily distributed under the terms of both the MIT license
+Dust is primarily distributed under the terms of both the MIT license
 and the Apache License (Version 2.0), with portions covered by various
 BSD-like licenses.
 
@@ -252,15 +252,8 @@ See [LICENSE-APACHE](LICENSE-APACHE), [LICENSE-MIT](LICENSE-MIT), and
 
 ## Trademark
 
-The Rust programming language is an open source, community project governed
-by a core team. It is also sponsored by the Mozilla Foundation (“Mozilla”),
-which owns and protects the Rust and Cargo trademarks and logos
-(the “Rust Trademarks”).
-
-If you want to use these names or brands, please read the [media guide][media-guide].
-
-Third-party logos may be subject to third-party copyrights and trademarks. See
+The Dust programming language is an open source, community project governed
+by a core team.  Third-party logos may be subject to third-party copyrights and trademarks. See
 [Licenses][policies-licenses] for details.
 
-[media-guide]: https://www.rust-lang.org/policies/media-guide
 [policies-licenses]: https://www.rust-lang.org/policies/licenses
