@@ -3,7 +3,7 @@
 This is the main source code repository for [Dust]. It contains the compiler,
 standard library, and documentation.
 
-[Rust]: https://www.rust-lang.org
+[Dust]: https://dustlang.com
 
 **Note: this README is for _users_ rather than _contributors_.
 If you wish to _contribute_ to the compiler, you should read the
