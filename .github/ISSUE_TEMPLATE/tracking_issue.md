@@ -1,6 +1,6 @@
 ---
 name: Tracking Issue
-about: A tracking issue for an accepted feature or DFC in Dust.
+about: A tracking issue for an accepted feature or RFC in Dust.
 title: Tracking Issue for XXX
 labels: C-tracking-issue
 ---
