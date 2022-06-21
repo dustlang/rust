@@ -1,4 +1,4 @@
-extern crate test;
+extern box test;
 use super::TypedArena;
 use std::cell::Cell;
 use test::Bencher;
