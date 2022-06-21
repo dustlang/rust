@@ -1,6 +1,6 @@
 ---
 name: Diagnostic issue
-about: Create a bug report or feature request for a change to `rustc`'s error output
+about: Create a bug report or feature request for a change to `dustc`'s error output
 labels: A-diagnostics, T-compiler
 ---
 <!--
@@ -12,9 +12,9 @@ isolation), please provide the steps or even link to a repository that causes
 the problematic output to occur. 
 -->
 
-Given the following code: <!-- Please provide a link to play.rust-lang.org -->
+Given the following code: <!-- Please provide a link to play.dustlang.org -->
 
-```rust
+```dust
 <code>
 ```
 
