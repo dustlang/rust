@@ -1,6 +1,6 @@
 [package]
-authors = ["The Rust Project Developers"]
-name = "rustc_apfloat"
+authors = ["The Dust Project Developers"]
+name = "dustc_apfloat"
 version = "0.0.0"
 edition = "2018"
 
