@@ -1,0 +1,9 @@
+[package]
+authors = ["The Dust Project Developers", "The Rust Project Developers"]
+name = "dustc_arena"
+version = "0.0.0"
+edition = "2018"
+
+[dependencies]
+dustc_data_structures = { path = "../dustc_data_structures" }
+smallvec = { version = "1.6.1", features = ["union", "may_dangle"] }
