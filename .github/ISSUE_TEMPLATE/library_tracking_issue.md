@@ -32,7 +32,7 @@ For most library features, it'd be useful to include a summarized version of the
 (E.g. just the public function signatures without their doc comments or implementation.)
 -->
 
-```rust
+```dust
 // core::magic
 
 pub struct Magic;
