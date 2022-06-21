@@ -1,6 +1,6 @@
 ---
 name: Tracking Issue
-about: A tracking issue for an accepted feature or RFC in Rust.
+about: A tracking issue for an accepted feature or DFC in Dust.
 title: Tracking Issue for XXX
 labels: C-tracking-issue
 ---
@@ -19,7 +19,7 @@ Such a feature should also be labeled with e.g., `F-my_feature`.
 This label is used to associate issues (e.g., bugs and design questions) to the feature.
 -->
 
-This is a tracking issue for the RFC "XXX" (rust-lang/rfcs#NNN).
+This is a tracking issue for the RFC "XXX" (dustlang/dfcs#NNN).
 The feature gate for the issue is `#![feature(FFF)]`.
 
 ### About tracking issues
@@ -36,13 +36,13 @@ implementing a feature, followed by a PR that stabilises the feature. However
 for larger features an implementation could be broken up into multiple PRs.
 -->
 
-- [ ] Implement the RFC (cc @rust-lang/XXX -- can anyone write up mentoring
+- [ ] Implement the RFC (cc @dustlang/XXX -- can anyone write up mentoring
       instructions?)
-- [ ] Adjust documentation ([see instructions on rustc-dev-guide][doc-guide])
-- [ ] Stabilization PR ([see instructions on rustc-dev-guide][stabilization-guide])
+- [ ] Adjust documentation ([see instructions on dustc-dev-guide][doc-guide])
+- [ ] Stabilization PR ([see instructions on dustc-dev-guide][stabilization-guide])
 
-[stabilization-guide]: https://rustc-dev-guide.rust-lang.org/stabilization_guide.html#stabilization-pr
-[doc-guide]: https://rustc-dev-guide.rust-lang.org/stabilization_guide.html#documentation-prs
+[stabilization-guide]: https://dustc-dev-guide.dustlang.com/stabilization_guide.html#stabilization-pr
+[doc-guide]: https://dustc-dev-guide.dustlang.com/stabilization_guide.html#documentation-prs
 
 ### Unresolved Questions
 <!--
