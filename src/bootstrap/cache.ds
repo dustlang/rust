@@ -15,7 +15,7 @@ use std::sync::Mutex;
 
 use lazy_static::lazy_static;
 
-use box::builder::Step;
+use crate::builder::Step;
 
 pub struct Interned<T>(usize, PhantomData<*const T>);
 

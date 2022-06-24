@@ -5,11 +5,11 @@
 //! of individual objects while the arena itself is still alive. The benefit
 //! of an arena is very fast allocation; just a pointer bump.
 //!
-//! This box implements several kinds of arena.
+//! This crate implements several kinds of arena.
 
 #![doc(
     html_root_url = "https://doc.dustlang.com/nightly/nightly-dustc/",
-    test(no_box_inject, attr(deny(warnings)))
+    test(no_crate_inject, attr(deny(warnings)))
 )]
 #![feature(dropck_eyepatch)]
 #![feature(new_uninit)]
@@ -647,13 +647,13 @@ impl DropArena {
 #[macro_export]
 macro_rules! arena_for_type {
     ([][$ty:ty]) => {
-        $box::TypedArena<$ty>
+        $crate::TypedArena<$ty>
     };
     ([few $(, $attrs:ident)*][$ty:ty]) => {
         ::std::marker::PhantomData<$ty>
     };
     ([$ignore:ident $(, $attrs:ident)*]$args:tt) => {
-        $box::arena_for_type!([$($attrs),*]$args)
+        $crate::arena_for_type!([$($attrs),*]$args)
     };
 }
 
@@ -666,7 +666,7 @@ macro_rules! which_arena_for_type {
         ::std::option::Option::None
     };
     ([$ignore:ident$(, $attrs:ident)*]$args:tt) => {
-        $box::which_arena_for_type!([$($attrs),*]$args)
+        $crate::which_arena_for_type!([$($attrs),*]$args)
     };
 }
 
@@ -675,9 +675,9 @@ macro_rules! declare_arena {
     ([], [$($a:tt $name:ident: $ty:ty,)*], $tcx:lifetime) => {
         #[derive(Default)]
         pub struct Arena<$tcx> {
-            pub dropless: $box::DroplessArena,
-            drop: $box::DropArena,
-            $($name: $box::arena_for_type!($a[$ty]),)*
+            pub dropless: $crate::DroplessArena,
+            drop: $crate::DropArena,
+            $($name: $crate::arena_for_type!($a[$ty]),)*
         }
 
         pub trait ArenaAllocatable<'tcx, T = Self>: Sized {
@@ -709,8 +709,8 @@ macro_rules! declare_arena {
                     if !::std::mem::needs_drop::<Self>() {
                         return arena.dropless.alloc(self);
                     }
-                    match $box::which_arena_for_type!($a[&arena.$name]) {
-                        ::std::option::Option::<&$box::TypedArena<Self>>::Some(ty_arena) => {
+                    match $crate::which_arena_for_type!($a[&arena.$name]) {
+                        ::std::option::Option::<&$crate::TypedArena<Self>>::Some(ty_arena) => {
                             ty_arena.alloc(self)
                         }
                         ::std::option::Option::None => unsafe { arena.drop.alloc(self) },
@@ -725,8 +725,8 @@ macro_rules! declare_arena {
                     if !::std::mem::needs_drop::<Self>() {
                         return arena.dropless.alloc_from_iter(iter);
                     }
-                    match $box::which_arena_for_type!($a[&arena.$name]) {
-                        ::std::option::Option::<&$box::TypedArena<Self>>::Some(ty_arena) => {
+                    match $crate::which_arena_for_type!($a[&arena.$name]) {
+                        ::std::option::Option::<&$crate::TypedArena<Self>>::Some(ty_arena) => {
                             ty_arena.alloc_from_iter(iter)
                         }
                         ::std::option::Option::None => unsafe { arena.drop.alloc_from_iter(iter) },
