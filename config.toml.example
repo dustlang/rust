@@ -379,7 +379,7 @@ changelog-seen = 2
 # means "the number of cores on this machine", and 1+ is passed through to the
 # compiler.
 #
-# Uses the dustc defaults: https://doc.dust-lang.org/dustc/codegen-options/index.html#codegen-units
+# Uses the dustc defaults: https://doc.dustlang.com/dustc/codegen-options/index.html#codegen-units
 #codegen-units = if incremental { 256 } else { 16 }
 
 # Sets the number of codegen units to build the standard library with,

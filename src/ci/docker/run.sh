@@ -38,7 +38,7 @@ dist=$objdir/build/dist
 
 source "$ci_dir/shared.sh"
 
-CACHE_DOMAIN="${CACHE_DOMAIN:-ci-caches.dust-lang.org}"
+CACHE_DOMAIN="${CACHE_DOMAIN:-ci-caches.dustlang.com}"
 
 if [ -f "$docker_dir/$image/Dockerfile" ]; then
     if [ "$CI" != "" ]; then

@@ -435,7 +435,7 @@ impl<T> Option<T> {
     ///
     /// Calling this method on [`None`] is *[undefined behavior]*.
     ///
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///

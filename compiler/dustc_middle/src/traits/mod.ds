@@ -1,6 +1,6 @@
 //! Trait Resolution. See the [dustc dev guide] for more information on how this works.
 //!
-//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/traits/resolution.html
+//! [dustc dev guide]: https://dustc-dev-guide.dustlang.com/traits/resolution.html
 
 mod chalk;
 pub mod query;

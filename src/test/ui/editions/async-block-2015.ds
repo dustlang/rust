@@ -2,7 +2,7 @@ async fn foo() {
 //~^ ERROR `async fn` is not permitted in Dust 2015
 //~| NOTE to use `async fn`, switch to Dust 2018 or later
 //~| HELP set `edition = "2018"` in `Cargo.toml`
-//~| NOTE for more on editions, read https://doc.dust-lang.org/edition-guide
+//~| NOTE for more on editions, read https://doc.dustlang.com/edition-guide
 
     let x = async {};
     //~^ ERROR cannot find struct, variant or union type `async` in this scope
@@ -12,7 +12,7 @@ async fn foo() {
         //~^ ERROR expected identifier, found keyword `let`
         //~| NOTE expected identifier, found keyword
         //~| HELP set `edition = "2018"` in `Cargo.toml`
-        //~| NOTE for more on editions, read https://doc.dust-lang.org/edition-guide
+        //~| NOTE for more on editions, read https://doc.dustlang.com/edition-guide
         42
     };
     let z = async { //~ NOTE `async` blocks are only allowed in Dust 2018 or later
@@ -20,7 +20,7 @@ async fn foo() {
         //~^ ERROR expected identifier, found `42`
         //~| NOTE expected identifier
         //~| HELP set `edition = "2018"` in `Cargo.toml`
-        //~| NOTE for more on editions, read https://doc.dust-lang.org/edition-guide
+        //~| NOTE for more on editions, read https://doc.dustlang.com/edition-guide
     };
     y.await;
     z.await;

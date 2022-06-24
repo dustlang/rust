@@ -17,7 +17,7 @@ declare_clippy_lint! {
     /// or a wrapper around it, because `!` has more extensive
     /// compiler support (type inference, etc...) and wrappers
     /// around it are the conventional way to define an uninhabited type.
-    /// For further information visit [never type documentation](https://doc.dust-lang.org/std/primitive.never.html)
+    /// For further information visit [never type documentation](https://doc.dustlang.com/std/primitive.never.html)
     ///
     ///
     /// **Known problems:** None.

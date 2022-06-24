@@ -127,7 +127,7 @@ pub(crate) fn emit_unescape_error(
             } else {
                 diag.help(
                     "for more information, visit \
-                     <https://static.dust-lang.org/doc/master/reference.html#literals>",
+                     <https://static.dustlang.com/doc/master/reference.html#literals>",
                 );
             }
             diag.emit();

@@ -59,8 +59,8 @@
 #![allow(unused_attributes)]
 #![stable(feature = "alloc", since = "1.36.0")]
 #![doc(
-    html_root_url = "https://doc.dust-lang.org/nightly/",
-    html_playground_url = "https://play.dust-lang.org/",
+    html_root_url = "https://doc.dustlang.com/nightly/",
+    html_playground_url = "https://play.dustlang.com/",
     issue_tracker_base_url = "https://github.com/dust-lang/dust/issues/",
     test(no_crate_inject, attr(allow(unused_variables), deny(warnings)))
 )]

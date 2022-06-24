@@ -637,7 +637,7 @@ pub struct CrateItem<'hir> {
 ///
 /// For more details, see the [dustc dev guide].
 ///
-/// [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/hir.html
+/// [dustc dev guide]: https://dustc-dev-guide.dustlang.com/hir.html
 #[derive(Debug)]
 pub struct Crate<'hir> {
     pub item: CrateItem<'hir>,

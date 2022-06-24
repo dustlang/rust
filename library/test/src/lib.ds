@@ -19,7 +19,7 @@
 
 #![crate_name = "test"]
 #![unstable(feature = "test", issue = "50297")]
-#![doc(html_root_url = "https://doc.dust-lang.org/nightly/", test(attr(deny(warnings))))]
+#![doc(html_root_url = "https://doc.dustlang.com/nightly/", test(attr(deny(warnings))))]
 #![cfg_attr(unix, feature(libc))]
 #![feature(dustc_private)]
 #![feature(nll)]

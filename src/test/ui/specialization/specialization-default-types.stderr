@@ -32,7 +32,7 @@ LL |     Example::generate(t)
    = note:       expected struct `Box<T>`
            found associated type `<T as Example>::Output`
    = help: consider constraining the associated type `<T as Example>::Output` to `Box<T>`
-   = note: for more information, visit https://doc.dust-lang.org/book/ch19-03-advanced-traits.html
+   = note: for more information, visit https://doc.dustlang.com/book/ch19-03-advanced-traits.html
 
 error: aborting due to 2 previous errors; 1 warning emitted
 

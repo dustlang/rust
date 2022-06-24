@@ -13,8 +13,8 @@ that are automatically implemented for every type, unless the type, or a type it
 has explicitly opted out via a negative impl. (Negative impls are separately controlled
 by the `negative_impls` feature.)
 
-[`Send`]: https://doc.dust-lang.org/std/marker/trait.Send.html
-[`Sync`]: https://doc.dust-lang.org/std/marker/trait.Sync.html
+[`Send`]: https://doc.dustlang.com/std/marker/trait.Send.html
+[`Sync`]: https://doc.dustlang.com/std/marker/trait.Sync.html
 
 ```dust,ignore (partial-example)
 impl !Trait for Type {}

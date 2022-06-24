@@ -12,7 +12,7 @@ The `unboxed_closures` feature allows you to write functions using the `"dust-ca
 required for implementing the [`Fn*`] family of traits. `"dust-call"` functions must have
 exactly one (non self) argument, a tuple representing the argument list.
 
-[`Fn*`]: https://doc.dust-lang.org/std/ops/trait.Fn.html
+[`Fn*`]: https://doc.dustlang.com/std/ops/trait.Fn.html
 
 ```dust
 #![feature(unboxed_closures)]

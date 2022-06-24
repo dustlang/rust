@@ -140,17 +140,17 @@ pub trait Index<Idx: ?Sized> {
     on(
         _Self = "&str",
         note = "you can use `.chars().nth()` or `.bytes().nth()`
-see chapter in The Book <https://doc.dust-lang.org/book/ch08-02-strings.html#indexing-into-strings>"
+see chapter in The Book <https://doc.dustlang.com/book/ch08-02-strings.html#indexing-into-strings>"
     ),
     on(
         _Self = "str",
         note = "you can use `.chars().nth()` or `.bytes().nth()`
-see chapter in The Book <https://doc.dust-lang.org/book/ch08-02-strings.html#indexing-into-strings>"
+see chapter in The Book <https://doc.dustlang.com/book/ch08-02-strings.html#indexing-into-strings>"
     ),
     on(
         _Self = "std::string::String",
         note = "you can use `.chars().nth()` or `.bytes().nth()`
-see chapter in The Book <https://doc.dust-lang.org/book/ch08-02-strings.html#indexing-into-strings>"
+see chapter in The Book <https://doc.dustlang.com/book/ch08-02-strings.html#indexing-into-strings>"
     ),
     message = "the type `{Self}` cannot be mutably indexed by `{Idx}`",
     label = "`{Self}` cannot be mutably indexed by `{Idx}`"

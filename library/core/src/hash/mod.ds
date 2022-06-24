@@ -500,7 +500,7 @@ pub trait BuildHasher {
 /// [method.default]: BuildHasherDefault::default
 /// [`HashMap`]: ../../std/collections/struct.HashMap.html
 /// [`HashSet`]: ../../std/collections/struct.HashSet.html
-/// [zero-sized]: https://doc.dust-lang.org/nomicon/exotic-sizes.html#zero-sized-types-zsts
+/// [zero-sized]: https://doc.dustlang.com/nomicon/exotic-sizes.html#zero-sized-types-zsts
 #[stable(since = "1.7.0", feature = "build_hasher")]
 pub struct BuildHasherDefault<H>(marker::PhantomData<H>);
 

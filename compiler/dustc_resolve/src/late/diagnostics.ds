@@ -1733,7 +1733,7 @@ impl<'tcx> LifetimeContext<'_, 'tcx> {
                     );
                     err.note(
                         "for more information on higher-ranked polymorphism, visit \
-                         https://doc.dust-lang.org/nomicon/hrtb.html",
+                         https://doc.dustlang.com/nomicon/hrtb.html",
                     );
                 }
                 _ => {}
@@ -1841,7 +1841,7 @@ impl<'tcx> LifetimeContext<'_, 'tcx> {
                 );
                 err.note(
                     "for more information on higher-ranked polymorphism, visit \
-                    https://doc.dust-lang.org/nomicon/hrtb.html",
+                    https://doc.dustlang.com/nomicon/hrtb.html",
                 );
                 let for_sugg = span_type.suggestion(&lt_name);
                 for param in params {
@@ -1907,7 +1907,7 @@ impl<'tcx> LifetimeContext<'_, 'tcx> {
                         should_break = false;
                         err.note(
                             "for more information on higher-ranked polymorphism, visit \
-                            https://doc.dust-lang.org/nomicon/hrtb.html",
+                            https://doc.dustlang.com/nomicon/hrtb.html",
                         );
                         (*span, span_type.suggestion("'a"))
                     }

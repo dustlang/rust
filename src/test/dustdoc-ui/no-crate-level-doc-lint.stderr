@@ -6,7 +6,7 @@ note: the lint level is defined here
 LL | #![deny(dustdoc::missing_crate_level_docs)]
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    = help: The following guide may be of use:
-           https://doc.dust-lang.org/nightly/dustdoc/how-to-write-documentation.html
+           https://doc.dustlang.com/nightly/dustdoc/how-to-write-documentation.html
 
 error: aborting due to previous error
 

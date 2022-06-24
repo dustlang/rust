@@ -383,7 +383,7 @@ It is strongly recommended to combine sanitizers with recompiled and
 instrumented standard library, for example using [cargo `-Zbuild-std`
 functionality][build-std].
 
-[build-std]: https://doc.dust-lang.org/nightly/cargo/reference/unstable.html#build-std
+[build-std]: https://doc.dustlang.com/nightly/cargo/reference/unstable.html#build-std
 
 # Build scripts and procedural macros
 

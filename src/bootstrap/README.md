@@ -327,7 +327,7 @@ Changes that do not affect contributors to the compiler or users
 building dustc from source don't need an update to `VERSION`.
 
 If you have any questions feel free to reach out on the `#t-infra` channel in
-the [Dust Zulip server][dust-zulip] or ask on internals.dust-lang.org. When
+the [Dust Zulip server][dust-zulip] or ask on internals.dustlang.com. When
 you encounter bugs, please file issues on the dust-lang/dust issue tracker.
 
 [dust-zulip]: https://dust-lang.zulipchat.com/#narrow/stream/242791-t-infra

@@ -16,7 +16,7 @@ steps to create a Clippy release.
 _NOTE: This document is for stable Dust releases, not for point releases. For
 point releases, step 1. and 2. should be enough._
 
-[Dust Forge]: https://forge.dust-lang.org/
+[Dust Forge]: https://forge.dustlang.com/
 
 
 ## Remerge the `beta` branch

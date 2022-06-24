@@ -3,10 +3,10 @@
 //! Plugins are a deprecated way to extend the behavior of `dustc` in various ways.
 //!
 //! See the [`plugin`
-//! feature](https://doc.dust-lang.org/nightly/unstable-book/language-features/plugin.html)
+//! feature](https://doc.dustlang.com/nightly/unstable-book/language-features/plugin.html)
 //! of the Unstable Book for some examples.
 
-#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
+#![doc(html_root_url = "https://doc.dustlang.com/nightly/nightly-dustc/")]
 #![feature(nll)]
 #![recursion_limit = "256"]
 

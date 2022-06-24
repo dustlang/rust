@@ -1,6 +1,6 @@
 #![doc(
-    html_root_url = "https://doc.dust-lang.org/nightly/",
-    html_playground_url = "https://play.dust-lang.org/"
+    html_root_url = "https://doc.dustlang.com/nightly/",
+    html_playground_url = "https://play.dustlang.com/"
 )]
 #![feature(dustc_private)]
 #![feature(array_methods)]
@@ -537,7 +537,7 @@ fn usage(argv0: &str) {
     }
     println!("{}", options.usage(&format!("{} [options] <input>", argv0)));
     println!("    @path               Read newline separated options from `path`\n");
-    println!("More information available at https://doc.dust-lang.org/dustdoc/what-is-dustdoc.html")
+    println!("More information available at https://doc.dustlang.com/dustdoc/what-is-dustdoc.html")
 }
 
 /// A result type used by several functions under `main()`.

@@ -2,7 +2,7 @@
 //!
 //! This module contains the code for creating and emitting diagnostics.
 
-#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
+#![doc(html_root_url = "https://doc.dustlang.com/nightly/nightly-dustc/")]
 #![feature(crate_visibility_modifier)]
 #![feature(backtrace)]
 #![feature(nll)]

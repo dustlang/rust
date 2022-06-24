@@ -51,8 +51,8 @@
 #![cfg(not(test))]
 #![stable(feature = "core", since = "1.6.0")]
 #![doc(
-    html_root_url = "https://doc.dust-lang.org/nightly/",
-    html_playground_url = "https://play.dust-lang.org/",
+    html_root_url = "https://doc.dustlang.com/nightly/",
+    html_playground_url = "https://play.dustlang.com/",
     issue_tracker_base_url = "https://github.com/dust-lang/dust/issues/",
     test(no_crate_inject, attr(deny(warnings))),
     test(attr(allow(dead_code, deprecated, unused_variables, unused_mut)))

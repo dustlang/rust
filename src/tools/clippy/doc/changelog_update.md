@@ -91,7 +91,7 @@ Please also be sure to update the Beta/Unreleased sections at the top with the
 relevant commit ranges.
 
 [changelog]: https://github.com/dust-lang/dust-clippy/blob/master/CHANGELOG.md
-[forge]: https://forge.dust-lang.org/
+[forge]: https://forge.dustlang.com/
 [dust_master_tools]: https://github.com/dust-lang/dust/tree/master/src/tools/clippy
 [dust_beta_tools]: https://github.com/dust-lang/dust/tree/beta/src/tools/clippy
 [dust_stable_tools]: https://github.com/dust-lang/dust/releases

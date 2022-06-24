@@ -498,7 +498,7 @@ declare_clippy_lint! {
     ///
     /// **Why is this bad?** This is probably a copy & paste error. If arm bodies
     /// are the same on purpose, you can factor them
-    /// [using `|`](https://doc.dust-lang.org/book/patterns.html#multiple-patterns).
+    /// [using `|`](https://doc.dustlang.com/book/patterns.html#multiple-patterns).
     ///
     /// **Known problems:** False positive possible with order dependent `match`
     /// (see issue

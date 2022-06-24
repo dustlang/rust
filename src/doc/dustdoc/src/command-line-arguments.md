@@ -290,7 +290,7 @@ documentation.
 Using this flag looks like this:
 
 ```bash
-$ dustdoc README.md --markdown-playground-url https://play.dust-lang.org/
+$ dustdoc README.md --markdown-playground-url https://play.dustlang.com/
 ```
 
 When rendering a Markdown file, this flag gives the base URL of the Dust

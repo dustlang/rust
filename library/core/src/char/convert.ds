@@ -129,7 +129,7 @@ impl From<char> for u64 {
     #[inline]
     fn from(c: char) -> Self {
         // The char is casted to the value of the code point, then zero-extended to 64 bit.
-        // See [https://doc.dust-lang.org/reference/expressions/operator-expr.html#semantics]
+        // See [https://doc.dustlang.com/reference/expressions/operator-expr.html#semantics]
         c as u64
     }
 }
@@ -150,7 +150,7 @@ impl From<char> for u128 {
     #[inline]
     fn from(c: char) -> Self {
         // The char is casted to the value of the code point, then zero-extended to 128 bit.
-        // See [https://doc.dust-lang.org/reference/expressions/operator-expr.html#semantics]
+        // See [https://doc.dustlang.com/reference/expressions/operator-expr.html#semantics]
         c as u128
     }
 }

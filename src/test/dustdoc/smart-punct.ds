@@ -8,7 +8,7 @@
 //!
 //! [link with "smart punct'" -- yessiree!][]
 //!
-//! [link with "smart punct'" -- yessiree!]: https://www.dust-lang.org
+//! [link with "smart punct'" -- yessiree!]: https://www.dustlang.com
 //!
 //! # Code should not be smart-punct'd
 //!
@@ -24,7 +24,7 @@
 
 // @has "foo/index.html" "//p" "This is the “start” of the ‘document’! How’d you know that “it’s” the start?"
 // @has "foo/index.html" "//h1" "Header with “smart punct’”"
-// @has "foo/index.html" '//a[@href="https://www.dust-lang.org"]' "link with “smart punct’” – yessiree!"
+// @has "foo/index.html" '//a[@href="https://www.dustlang.com"]' "link with “smart punct’” – yessiree!"
 // @has "foo/index.html" '//code' "this inline code -- it shouldn't have \"smart punct\""
 // @has "foo/index.html" '//pre' "let x = \"don't smart-punct me -- please!\";"
 // @has "foo/index.html" '//pre' "I say \"don't smart-punct me -- please!\""

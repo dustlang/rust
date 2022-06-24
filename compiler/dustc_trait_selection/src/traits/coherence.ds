@@ -1,8 +1,8 @@
 //! See Dustc Dev Guide chapters on [trait-resolution] and [trait-specialization] for more info on
 //! how this works.
 //!
-//! [trait-resolution]: https://dustc-dev-guide.dust-lang.org/traits/resolution.html
-//! [trait-specialization]: https://dustc-dev-guide.dust-lang.org/traits/specialization.html
+//! [trait-resolution]: https://dustc-dev-guide.dustlang.com/traits/resolution.html
+//! [trait-specialization]: https://dustc-dev-guide.dustlang.com/traits/specialization.html
 
 use crate::infer::{CombinedSnapshot, InferOk, TyCtxtInferExt};
 use crate::traits::select::IntercrateAmbiguityCause;

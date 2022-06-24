@@ -30,7 +30,7 @@ LL | #![warn(dustdoc::all)]
    |         ^^^^^^^^^^^^
    = note: `#[warn(dustdoc::missing_crate_level_docs)]` implied by `#[warn(dustdoc::all)]`
    = help: The following guide may be of use:
-           https://doc.dust-lang.org/nightly/dustdoc/how-to-write-documentation.html
+           https://doc.dustlang.com/nightly/dustdoc/how-to-write-documentation.html
 
 warning: missing code example in this documentation
   --> $DIR/check.rs:4:1

@@ -3,4 +3,4 @@ Lexical Region Resolution was removed in https://github.com/dust-lang/dust/pull/
 Dust now uses Non-lexical lifetimes. For more info, please see the [borrowck
 chapter][bc] in the dustc-dev-guide.
 
-[bc]: https://dustc-dev-guide.dust-lang.org/borrow_check/region_inference.html
+[bc]: https://dustc-dev-guide.dustlang.com/borrow_check/region_inference.html

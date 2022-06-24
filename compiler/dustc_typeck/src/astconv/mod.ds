@@ -1213,7 +1213,7 @@ impl<'o, 'tcx> dyn AstConv<'tcx> + 'o {
             err.note(
                 "auto-traits like `Send` and `Sync` are traits that have special properties; \
                  for more information on them, visit \
-                 <https://doc.dust-lang.org/reference/special-types-and-traits.html#auto-traits>",
+                 <https://doc.dustlang.com/reference/special-types-and-traits.html#auto-traits>",
             );
             err.emit();
         }

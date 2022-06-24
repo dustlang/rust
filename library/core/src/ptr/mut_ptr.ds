@@ -1221,7 +1221,7 @@ impl<T> *mut [T] {
     /// Calling this method with an out-of-bounds index or when `self` is not dereferencable
     /// is *[undefined behavior]* even if the resulting pointer is not used.
     ///
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///

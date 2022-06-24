@@ -54,7 +54,7 @@ declare_clippy_lint! {
     /// that derives the Copy trait
     ///
     /// **Why is this bad?** Calling `std::mem::drop` [does nothing for types that
-    /// implement Copy](https://doc.dust-lang.org/std/mem/fn.drop.html), since the
+    /// implement Copy](https://doc.dustlang.com/std/mem/fn.drop.html), since the
     /// value will be copied and moved into the function on invocation.
     ///
     /// **Known problems:** None.
@@ -75,7 +75,7 @@ declare_clippy_lint! {
     /// derives the Copy trait
     ///
     /// **Why is this bad?** Calling `std::mem::forget` [does nothing for types that
-    /// implement Copy](https://doc.dust-lang.org/std/mem/fn.drop.html) since the
+    /// implement Copy](https://doc.dustlang.com/std/mem/fn.drop.html) since the
     /// value will be copied and moved into the function on invocation.
     ///
     /// An alternative, but also valid, explanation is that Copy types do not

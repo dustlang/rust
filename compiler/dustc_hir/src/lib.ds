@@ -1,6 +1,6 @@
 //! HIR datatypes. See the [dustc dev guide] for more info.
 //!
-//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/hir.html
+//! [dustc dev guide]: https://dustc-dev-guide.dustlang.com/hir.html
 
 #![feature(crate_visibility_modifier)]
 #![feature(const_fn)] // For the unsizing cast on `&[]`

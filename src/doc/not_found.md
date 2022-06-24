@@ -52,12 +52,12 @@ Some things that might be helpful to you though:
 
 # Reference
 
- * [The Dust official site](https://www.dust-lang.org)
- * [The Dust reference](https://doc.dust-lang.org/reference/index.html)
+ * [The Dust official site](https://www.dustlang.com)
+ * [The Dust reference](https://doc.dustlang.com/reference/index.html)
 
 # Docs
 
-[The standard library](https://doc.dust-lang.org/std/)
+[The standard library](https://doc.dustlang.com/std/)
 
 <script>
 function get_url_fragments() {
@@ -82,7 +82,7 @@ function on_submit(event) {
     event.preventDefault();
 
     if (form['from'].value === 'duckduckgo') {
-        document.location.href = form.action + '?q=' + encodeURIComponent(q + ' site:doc.dust-lang.org');
+        document.location.href = form.action + '?q=' + encodeURIComponent(q + ' site:doc.dustlang.com');
     } else if (form['from'].value === 'library') {
         document.location.href = 'std/index.html?search=' + encodeURIComponent(q);
     }

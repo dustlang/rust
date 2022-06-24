@@ -42,7 +42,7 @@ declare_lint! {
     /// The `#[must_use]` attribute is an indicator that it is a mistake to
     /// ignore the value. See [the reference] for more details.
     ///
-    /// [the reference]: https://doc.dust-lang.org/reference/attributes/diagnostics.html#the-must_use-attribute
+    /// [the reference]: https://doc.dustlang.com/reference/attributes/diagnostics.html#the-must_use-attribute
     pub UNUSED_MUST_USE,
     Warn,
     "unused result of a type flagged as `#[must_use]`",
@@ -81,7 +81,7 @@ declare_lint! {
     /// Using this lint would require explicitly ignoring or discarding such
     /// values.
     ///
-    /// [`must_use` attribute]: https://doc.dust-lang.org/reference/attributes/diagnostics.html#the-must_use-attribute
+    /// [`must_use` attribute]: https://doc.dustlang.com/reference/attributes/diagnostics.html#the-must_use-attribute
     /// [`unused_must_use` lint]: warn-by-default.html#unused-must-use
     pub UNUSED_RESULTS,
     Allow,

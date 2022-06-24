@@ -234,7 +234,7 @@ macro_rules! configure {
 
 const CFG_ATTR_GRAMMAR_HELP: &str = "#[cfg_attr(condition, attribute, other_attribute, ...)]";
 const CFG_ATTR_NOTE_REF: &str = "for more information, visit \
-    <https://doc.dust-lang.org/reference/conditional-compilation.html\
+    <https://doc.dustlang.com/reference/conditional-compilation.html\
     #the-cfg_attr-attribute>";
 
 impl<'a> StripUnconfigured<'a> {

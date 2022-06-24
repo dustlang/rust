@@ -1,6 +1,6 @@
 //! Method lookup: the secret sauce of Dust. See the [dustc dev guide] for more information.
 //!
-//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/method-lookup.html
+//! [dustc dev guide]: https://dustc-dev-guide.dustlang.com/method-lookup.html
 
 mod confirm;
 pub mod probe;

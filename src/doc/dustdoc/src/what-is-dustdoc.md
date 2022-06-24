@@ -116,7 +116,7 @@ which is the crate itself.
 
 For more information about the `//!` syntax, see [the Book].
 
-[the Book]: https://doc.dust-lang.org/book/ch14-02-publishing-to-crates-io.html#commenting-contained-items
+[the Book]: https://doc.dustlang.com/book/ch14-02-publishing-to-crates-io.html#commenting-contained-items
 
 
 ## Using standalone Markdown files
@@ -129,7 +129,7 @@ give it a try: create a `README.md` file with these contents:
 
 This is a project to test out `dustdoc`.
 
-[Here is a link!](https://www.dust-lang.org)
+[Here is a link!](https://www.dustlang.com)
 
 ## Example
 

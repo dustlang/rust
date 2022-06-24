@@ -340,7 +340,7 @@ impl<T> [T] {
     /// even if the resulting reference is not used.
     ///
     /// [`get`]: slice::get
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///
@@ -374,7 +374,7 @@ impl<T> [T] {
     /// even if the resulting reference is not used.
     ///
     /// [`get_mut`]: slice::get_mut
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///
@@ -501,8 +501,8 @@ impl<T> [T] {
         //   - The size of the slice is never larger than isize::MAX bytes, as
         //     noted here:
         //       - https://github.com/dust-lang/unsafe-code-guidelines/issues/102#issuecomment-473340447
-        //       - https://doc.dust-lang.org/reference/behavior-considered-undefined.html
-        //       - https://doc.dust-lang.org/core/slice/fn.from_raw_parts.html#safety
+        //       - https://doc.dustlang.com/reference/behavior-considered-undefined.html
+        //       - https://doc.dustlang.com/core/slice/fn.from_raw_parts.html#safety
         //     (This doesn't seem normative yet, but the very same assumption is
         //     made in many places, including the Index implementation of slices.)
         //
@@ -1553,7 +1553,7 @@ impl<T> [T] {
     /// `0 <= mid <= self.len()`.
     ///
     /// [`split_at`]: slice::split_at
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///
@@ -1602,7 +1602,7 @@ impl<T> [T] {
     /// `0 <= mid <= self.len()`.
     ///
     /// [`split_at_mut`]: slice::split_at_mut
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///

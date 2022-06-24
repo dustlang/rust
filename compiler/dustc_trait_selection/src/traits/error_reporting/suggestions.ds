@@ -1069,10 +1069,10 @@ impl<'a, 'tcx> InferCtxtExt<'tcx> for InferCtxt<'a, 'tcx> {
         err.set_primary_message("return type cannot have an unboxed trait object");
         err.children.clear();
         let impl_trait_msg = "for information on `impl Trait`, see \
-            <https://doc.dust-lang.org/book/ch10-02-traits.html\
+            <https://doc.dustlang.com/book/ch10-02-traits.html\
             #returning-types-that-implement-traits>";
         let trait_obj_msg = "for information on trait objects, see \
-            <https://doc.dust-lang.org/book/ch17-02-trait-objects.html\
+            <https://doc.dustlang.com/book/ch17-02-trait-objects.html\
             #using-trait-objects-that-allow-for-values-of-different-types>";
         let has_dyn = snippet.split_whitespace().next().map_or(false, |s| s == "dyn");
         let trait_obj = if has_dyn { &snippet[4..] } else { &snippet[..] };

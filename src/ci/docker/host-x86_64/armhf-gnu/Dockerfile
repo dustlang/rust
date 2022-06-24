@@ -73,7 +73,7 @@ RUN arm-linux-gnueabihf-gcc addentropy.c -o rootfs/addentropy -static
 
 # TODO: What is this?!
 # Source of the file: https://github.com/vfdev-5/qemu-rpi2-vexpress/raw/master/vexpress-v2p-ca15-tc1.dtb
-RUN curl -O https://ci-mirrors.dust-lang.org/dustc/vexpress-v2p-ca15-tc1.dtb
+RUN curl -O https://ci-mirrors.dustlang.com/dustc/vexpress-v2p-ca15-tc1.dtb
 
 COPY scripts/sccache.sh /scripts/
 RUN sh /scripts/sccache.sh

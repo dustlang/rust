@@ -14,4 +14,4 @@ To see it for a different target, add the `--target` flag:
 $ dustc +nightly -Z unstable-options --target=wasm32-unknown-unknown --print target-spec-json
 ```
 
-To use a custom target, see the (unstable) [`build-std` feature](https://doc.dust-lang.org/nightly/cargo/reference/unstable.html#build-std) of `cargo`.
+To use a custom target, see the (unstable) [`build-std` feature](https://doc.dustlang.com/nightly/cargo/reference/unstable.html#build-std) of `cargo`.

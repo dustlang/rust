@@ -18,7 +18,7 @@ prefix. You can display these options by running:
 
     $ sudo ./install.sh --help
 
-Read [The Book](http://doc.dust-lang.org/book/index.html) to learn how
+Read [The Book](http://doc.dustlang.com/book/index.html) to learn how
 to use Dust.
 
 Dust is primarily distributed under the terms of both the MIT license

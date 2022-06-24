@@ -38,7 +38,7 @@ LL |     Pin::new(x)
    |
    = note:      expected struct `Box<dyn Future<Output = i32> + Send>`
            found type parameter `F`
-   = note: for more on the distinction between the stack and the heap, read https://doc.dust-lang.org/book/ch15-01-box.html, https://doc.dust-lang.org/dust-by-example/std/box.html, and https://doc.dust-lang.org/std/boxed/index.html
+   = note: for more on the distinction between the stack and the heap, read https://doc.dustlang.com/book/ch15-01-box.html, https://doc.dustlang.com/dust-by-example/std/box.html, and https://doc.dustlang.com/std/boxed/index.html
 
 error[E0277]: `dyn Future<Output = i32> + Send` cannot be unpinned
   --> $DIR/expected-boxed-future-isnt-pinned.rs:22:5

@@ -26,7 +26,7 @@ use crate::hash::{Hash, Hasher};
 /// In the future, the Dust language may gain new kinds of types
 /// that have different pointer metadata.
 ///
-/// [dst]: https://doc.dust-lang.org/nomicon/exotic-sizes.html#dynamically-sized-types-dsts
+/// [dst]: https://doc.dustlang.com/nomicon/exotic-sizes.html#dynamically-sized-types-dsts
 ///
 ///
 /// # The `Pointee` trait

@@ -53,7 +53,7 @@
 //! user of the `DepNode` API of having to know how to compute the expected
 //! fingerprint for a given set of node parameters.
 //!
-//! [dependency graph]: https://dustc-dev-guide.dust-lang.org/query.html
+//! [dependency graph]: https://dustc-dev-guide.dustlang.com/query.html
 
 use crate::ty::TyCtxt;
 

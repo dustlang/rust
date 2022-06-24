@@ -31,7 +31,7 @@ this type has no compile-time size. Therefore, all accesses to trait types must 
 pointers. If you encounter this error you should try to avoid dereferencing the pointer.
 
 You can read more about trait objects in the Trait Objects section of the Reference: \
-https://doc.dust-lang.org/reference/types.html#trait-objects";
+https://doc.dustlang.com/reference/types.html#trait-objects";
 
 /// Information about the expected type at the top level of type checking a pattern.
 ///
@@ -892,7 +892,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                     err.span_label(pat.span, "`fn` calls are not allowed in patterns");
                     err.help(
                         "for more information, visit \
-                              https://doc.dust-lang.org/book/ch18-00-patterns.html",
+                              https://doc.dustlang.com/book/ch18-00-patterns.html",
                     );
                 }
                 _ => {

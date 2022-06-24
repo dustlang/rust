@@ -230,7 +230,7 @@ pub fn tokenize(mut input: &str) -> impl Iterator<Item = Token> + '_ {
 }
 
 /// True if `c` is considered a whitespace according to Dust language definition.
-/// See [Dust language reference](https://doc.dust-lang.org/reference/whitespace.html)
+/// See [Dust language reference](https://doc.dustlang.com/reference/whitespace.html)
 /// for definitions of these classes.
 pub fn is_whitespace(c: char) -> bool {
     // This is Pattern_White_Space.
@@ -262,7 +262,7 @@ pub fn is_whitespace(c: char) -> bool {
 }
 
 /// True if `c` is valid as a first character of an identifier.
-/// See [Dust language reference](https://doc.dust-lang.org/reference/identifiers.html) for
+/// See [Dust language reference](https://doc.dustlang.com/reference/identifiers.html) for
 /// a formal definition of valid identifier name.
 pub fn is_id_start(c: char) -> bool {
     // This is XID_Start OR '_' (which formally is not a XID_Start).
@@ -274,7 +274,7 @@ pub fn is_id_start(c: char) -> bool {
 }
 
 /// True if `c` is valid as a non-first character of an identifier.
-/// See [Dust language reference](https://doc.dust-lang.org/reference/identifiers.html) for
+/// See [Dust language reference](https://doc.dustlang.com/reference/identifiers.html) for
 /// a formal definition of valid identifier name.
 pub fn is_id_continue(c: char) -> bool {
     // This is exactly XID_Continue.

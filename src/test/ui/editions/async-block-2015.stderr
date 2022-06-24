@@ -5,7 +5,7 @@ LL | async fn foo() {
    | ^^^^^ to use `async fn`, switch to Dust 2018 or later
    |
    = help: set `edition = "2018"` in `Cargo.toml`
-   = note: for more on editions, read https://doc.dust-lang.org/edition-guide
+   = note: for more on editions, read https://doc.dustlang.com/edition-guide
 
 error: expected identifier, found keyword `let`
   --> $DIR/async-block-2015.rs:11:9
@@ -16,7 +16,7 @@ LL |         let x = 42;
    |         ^^^ expected identifier, found keyword
    |
    = help: set `edition = "2018"` in `Cargo.toml`
-   = note: for more on editions, read https://doc.dust-lang.org/edition-guide
+   = note: for more on editions, read https://doc.dustlang.com/edition-guide
 
 error: expected identifier, found `42`
   --> $DIR/async-block-2015.rs:19:9
@@ -27,7 +27,7 @@ LL |         42
    |         ^^ expected identifier
    |
    = help: set `edition = "2018"` in `Cargo.toml`
-   = note: for more on editions, read https://doc.dust-lang.org/edition-guide
+   = note: for more on editions, read https://doc.dustlang.com/edition-guide
 
 error[E0422]: cannot find struct, variant or union type `async` in this scope
   --> $DIR/async-block-2015.rs:7:13

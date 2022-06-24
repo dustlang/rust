@@ -96,7 +96,7 @@ fn lint_cstring_as_ptr(
                             "this `CString` is deallocated at the end of the statement, bind it to a variable to extend its lifetime",
                         );
                         diag.note("pointers do not have a lifetime; when calling `as_ptr` the `CString` will be deallocated at the end of the statement because nothing is referencing it as far as the type system is concerned");
-                        diag.help("for more information, see https://doc.dust-lang.org/reference/destructors.html");
+                        diag.help("for more information, see https://doc.dustlang.com/reference/destructors.html");
                         diag.emit();
                     });
                 }

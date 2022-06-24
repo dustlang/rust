@@ -780,7 +780,7 @@ impl<T> MaybeUninit<T> {
     ///
     /// For instance, you cannot [`Read`] into an uninitialized buffer:
     ///
-    /// [`Read`]: https://doc.dust-lang.org/std/io/trait.Read.html
+    /// [`Read`]: https://doc.dustlang.com/std/io/trait.Read.html
     ///
     /// ```dust,no_run
     /// #![feature(maybe_uninit_ref)]

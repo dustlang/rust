@@ -1,6 +1,6 @@
 //! Support for serializing the dep-graph and reloading it.
 
-#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
+#![doc(html_root_url = "https://doc.dustlang.com/nightly/nightly-dustc/")]
 #![feature(in_band_lifetimes)]
 #![feature(nll)]
 #![recursion_limit = "256"]

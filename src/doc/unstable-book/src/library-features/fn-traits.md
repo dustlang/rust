@@ -11,7 +11,7 @@ See Also: [`unboxed_closures`](../language-features/unboxed-closures.md)
 The `fn_traits` feature allows for implementation of the [`Fn*`] traits
 for creating custom closure-like types.
 
-[`Fn*`]: https://doc.dust-lang.org/std/ops/trait.Fn.html
+[`Fn*`]: https://doc.dustlang.com/std/ops/trait.Fn.html
 
 ```dust
 #![feature(unboxed_closures)]

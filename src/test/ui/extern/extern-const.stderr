@@ -6,7 +6,7 @@ LL |     const dust_dbg_static_mut: libc::c_int;
    |     |
    |     help: try using a static value: `static`
    |
-   = note: for more information, visit https://doc.dust-lang.org/std/keyword.extern.html
+   = note: for more information, visit https://doc.dustlang.com/std/keyword.extern.html
 
 error: aborting due to previous error
 

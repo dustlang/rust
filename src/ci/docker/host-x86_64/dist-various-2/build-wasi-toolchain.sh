@@ -3,7 +3,7 @@
 set -ex
 
 # Originally from https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/clang+llvm-11.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz
-curl https://ci-mirrors.dust-lang.org/dustc/2021-01-14-clang%2Bllvm-11.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz | \
+curl https://ci-mirrors.dustlang.com/dustc/2021-01-14-clang%2Bllvm-11.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz | \
   tar xJf -
 export PATH=`pwd`/clang+llvm-11.0.1-x86_64-linux-gnu-ubuntu-16.04/bin:$PATH
 

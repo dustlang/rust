@@ -143,7 +143,7 @@ This will generate the following warning:
 warning: no documentation found for this crate's top-level module
   |
   = help: The following guide may be of use:
-          https://doc.dust-lang.org/nightly/dustdoc/how-to-write-documentation.html
+          https://doc.dustlang.com/nightly/dustdoc/how-to-write-documentation.html
 ```
 
 This is currently "allow" by default, but it is intended to make this a

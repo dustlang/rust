@@ -4,7 +4,7 @@
 //!
 //! This API is completely unstable and subject to change.
 
-#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
+#![doc(html_root_url = "https://doc.dustlang.com/nightly/nightly-dustc/")]
 #![feature(bool_to_option)]
 #![feature(const_cstr_unchecked)]
 #![feature(crate_visibility_modifier)]

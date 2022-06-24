@@ -1,7 +1,7 @@
 //! Module for inferring the variance of type and lifetime parameters. See the [dustc dev guide]
 //! chapter for more info.
 //!
-//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/variance.html
+//! [dustc dev guide]: https://dustc-dev-guide.dustlang.com/variance.html
 
 use hir::Node;
 use dustc_arena::DroplessArena;

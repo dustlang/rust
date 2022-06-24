@@ -416,7 +416,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                         if let ty::RawPtr(_) = &actual.kind() {
                             err.note(
                                 "try using `<*const T>::as_ref()` to get a reference to the \
-                                      type behind the pointer: https://doc.dust-lang.org/std/\
+                                      type behind the pointer: https://doc.dustlang.com/std/\
                                       primitive.pointer.html#method.as_ref",
                             );
                             err.note(

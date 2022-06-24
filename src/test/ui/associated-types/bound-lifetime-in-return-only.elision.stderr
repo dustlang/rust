@@ -5,7 +5,7 @@ LL | fn elision(_: fn() -> &i32) {
    |                       ^ expected named lifetime parameter
    |
    = help: this function's return type contains a borrowed value, but there is no value for it to be borrowed from
-   = note: for more information on higher-ranked polymorphism, visit https://doc.dust-lang.org/nomicon/hrtb.html
+   = note: for more information on higher-ranked polymorphism, visit https://doc.dustlang.com/nomicon/hrtb.html
 help: consider making the type lifetime-generic with a new `'a` lifetime
    |
 LL | fn elision(_: for<'a> fn() -> &'a i32) {

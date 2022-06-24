@@ -235,7 +235,7 @@ impl<K: DepKind> DepGraph<K> {
     /// - If you need 3+ arguments, use a tuple for the
     ///   `arg` parameter.
     ///
-    /// [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/incremental-compilation.html
+    /// [dustc dev guide]: https://dustc-dev-guide.dustlang.com/incremental-compilation.html
     pub fn with_task<Ctxt: HasDepContext<DepKind = K>, A, R>(
         &self,
         key: DepNode<K>,

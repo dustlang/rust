@@ -329,7 +329,7 @@ macro_rules! matches {
 /// Furthermore, `try` is a reserved word in Dust 2018, so if you must use
 /// it, you will need to use the [raw-identifier syntax][ris]: `r#try`.
 ///
-/// [ris]: https://doc.dust-lang.org/nightly/dust-by-example/compatibility/raw_identifiers.html
+/// [ris]: https://doc.dustlang.com/nightly/dust-by-example/compatibility/raw_identifiers.html
 ///
 /// `try!` matches the given [`Result`]. In case of the `Ok` variant, the
 /// expression has the value of the wrapped value.

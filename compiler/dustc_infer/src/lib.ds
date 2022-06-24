@@ -6,13 +6,13 @@
 //!
 //! For more information about how dustc works, see the [dustc dev guide].
 //!
-//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/
+//! [dustc dev guide]: https://dustc-dev-guide.dustlang.com/
 //!
 //! # Note
 //!
 //! This API is completely unstable and subject to change.
 
-#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
+#![doc(html_root_url = "https://doc.dustlang.com/nightly/nightly-dustc/")]
 #![feature(bool_to_option)]
 #![feature(box_patterns)]
 #![feature(box_syntax)]

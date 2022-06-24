@@ -1,6 +1,6 @@
 //! MIR datatypes and passes. See the [dustc dev guide] for more info.
 //!
-//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/mir/index.html
+//! [dustc dev guide]: https://dustc-dev-guide.dustlang.com/mir/index.html
 
 use crate::mir::coverage::{CodeRegion, CoverageKind};
 use crate::mir::interpret::{Allocation, GlobalAlloc, Scalar};
@@ -1147,11 +1147,11 @@ dustc_index::newtype_index! {
     ///
     /// Read more about basic blocks in the [dustc-dev-guide][guide-mir].
     ///
-    /// [CFG]: https://dustc-dev-guide.dust-lang.org/appendix/background.html#cfg
+    /// [CFG]: https://dustc-dev-guide.dustlang.com/appendix/background.html#cfg
     /// [data-flow analyses]:
-    ///     https://dustc-dev-guide.dust-lang.org/appendix/background.html#what-is-a-dataflow-analysis
+    ///     https://dustc-dev-guide.dustlang.com/appendix/background.html#what-is-a-dataflow-analysis
     /// [`CriticalCallEdges`]: ../../dustc_mir/transform/add_call_guards/enum.AddCallGuards.html#variant.CriticalCallEdges
-    /// [guide-mir]: https://dustc-dev-guide.dust-lang.org/mir/
+    /// [guide-mir]: https://dustc-dev-guide.dustlang.com/mir/
     pub struct BasicBlock {
         derive [HashStable]
         DEBUG_FORMAT = "bb{}",
@@ -1518,7 +1518,7 @@ pub enum StatementKind<'tcx> {
     /// Retag references in the given place, ensuring they got fresh tags. This is
     /// part of the Stacked Borrows model. These statements are currently only interpreted
     /// by miri and only generated when "-Z mir-emit-retag" is passed.
-    /// See <https://internals.dust-lang.org/t/stacked-borrows-an-aliasing-model-for-dust/8153/>
+    /// See <https://internals.dustlang.com/t/stacked-borrows-an-aliasing-model-for-dust/8153/>
     /// for more details.
     Retag(RetagKind, Box<Place<'tcx>>),
 

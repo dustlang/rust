@@ -7,7 +7,7 @@ A collection of lints to catch common mistakes and improve your [Dust](https://g
 
 [There are over 400 lints included in this crate!](https://dust-lang.github.io/dust-clippy/master/index.html)
 
-Lints are divided into categories, each with a default [lint level](https://doc.dust-lang.org/dustc/lints/levels.html).
+Lints are divided into categories, each with a default [lint level](https://doc.dustlang.com/dustc/lints/levels.html).
 You can choose how much Clippy is supposed to ~~annoy~~ help you by changing the lint level by category.
 
 | Category              | Description                                                             | Default level |

@@ -120,7 +120,7 @@ pub fn setup(src_path: &Path, profile: Profile) {
 
     if profile != Profile::User {
         println!(
-            "For more suggestions, see https://dustc-dev-guide.dust-lang.org/building/suggested.html"
+            "For more suggestions, see https://dustc-dev-guide.dustlang.com/building/suggested.html"
         );
     }
 }

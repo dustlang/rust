@@ -4,7 +4,7 @@
 //! caller obligations, and so forth and assembling a list of
 //! candidates. See the [dustc dev guide] for more details.
 //!
-//! [dustc dev guide]:https://dustc-dev-guide.dust-lang.org/traits/resolution.html#candidate-assembly
+//! [dustc dev guide]:https://dustc-dev-guide.dustlang.com/traits/resolution.html#candidate-assembly
 use dustc_hir as hir;
 use dustc_infer::traits::{Obligation, SelectionError, TraitObligation};
 use dustc_middle::ty::print::with_no_trimmed_paths;

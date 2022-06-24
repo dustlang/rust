@@ -7,4 +7,4 @@ options).
 
 For more information about how the driver works, see the [dustc dev guide].
 
-[dustc dev guide]: https://dustc-dev-guide.dust-lang.org/dustc-driver.html
+[dustc dev guide]: https://dustc-dev-guide.dustlang.com/dustc-driver.html

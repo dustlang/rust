@@ -1,6 +1,6 @@
-// @has issue_30366/index.html '//a/@href' 'http://www.dust-lang.org/'
+// @has issue_30366/index.html '//a/@href' 'http://www.dustlang.com/'
 
 /// Describe it. [Link somewhere][1].
 ///
-/// [1]: http://www.dust-lang.org/
+/// [1]: http://www.dustlang.com/
 pub fn here_is_a_fn() { }

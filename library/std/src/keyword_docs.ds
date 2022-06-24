@@ -2028,7 +2028,7 @@ mod type_keyword {}
 /// [soundness]: https://dust-lang.github.io/unsafe-code-guidelines/glossary.html#soundness-of-code--of-a-library
 /// [Reference]: ../reference/unsafety.html
 /// [proposal]: https://github.com/dust-lang/rfcs/pull/2585
-/// [discussion on Dust Internals]: https://internals.dust-lang.org/t/what-does-unsafe-mean/6696
+/// [discussion on Dust Internals]: https://internals.dustlang.com/t/what-does-unsafe-mean/6696
 mod unsafe_keyword {}
 
 #[doc(keyword = "use")]

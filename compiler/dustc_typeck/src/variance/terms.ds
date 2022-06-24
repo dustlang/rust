@@ -77,8 +77,8 @@ pub fn determine_parameters_to_be_inferred<'a, 'tcx>(
 
     // See the following for a discussion on dep-graph management.
     //
-    // - https://dustc-dev-guide.dust-lang.org/query.html
-    // - https://dustc-dev-guide.dust-lang.org/variance.html
+    // - https://dustc-dev-guide.dustlang.com/query.html
+    // - https://dustc-dev-guide.dustlang.com/variance.html
     tcx.hir().krate().visit_all_item_likes(&mut terms_cx);
 
     terms_cx

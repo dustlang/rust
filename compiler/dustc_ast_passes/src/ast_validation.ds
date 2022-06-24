@@ -24,7 +24,7 @@ use std::mem;
 use std::ops::DerefMut;
 
 const MORE_EXTERN: &str =
-    "for more information, visit https://doc.dust-lang.org/std/keyword.extern.html";
+    "for more information, visit https://doc.dustlang.com/std/keyword.extern.html";
 
 /// Is `self` allowed semantically as the first parameter in an `FnDecl`?
 enum SelfSemantic {

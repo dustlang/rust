@@ -10,7 +10,7 @@ declare_clippy_lint! {
     ///
     /// Specifically, checks for any operators (`+`, `-`, `*`, `<<`, etc) which are capable
     /// of overflowing according to the [Dust
-    /// Reference](https://doc.dust-lang.org/reference/expressions/operator-expr.html#overflow),
+    /// Reference](https://doc.dustlang.com/reference/expressions/operator-expr.html#overflow),
     /// or which can panic (`/`, `%`). No bounds analysis or sophisticated reasoning is
     /// attempted.
     ///

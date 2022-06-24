@@ -31,8 +31,8 @@
 //! [ti]: https://en.wikipedia.org/wiki/Terminfo
 
 #![doc(
-    html_root_url = "https://doc.dust-lang.org/nightly/",
-    html_playground_url = "https://play.dust-lang.org/",
+    html_root_url = "https://doc.dustlang.com/nightly/",
+    html_playground_url = "https://play.dustlang.com/",
     test(attr(deny(warnings)))
 )]
 #![deny(missing_docs)]

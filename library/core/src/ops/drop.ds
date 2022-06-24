@@ -6,7 +6,7 @@
 /// focus on scope for the examples here. To learn about some of those other cases,
 /// please see [the reference] section on destructors.
 ///
-/// [the reference]: https://doc.dust-lang.org/reference/destructors.html
+/// [the reference]: https://doc.dustlang.com/reference/destructors.html
 ///
 /// This destructor consists of two components:
 /// - A call to `Drop::drop` for that value, if this special `Drop` trait is implemented for its type.
@@ -124,7 +124,7 @@
 ///
 /// Please see [the reference] for the full rules.
 ///
-/// [the reference]: https://doc.dust-lang.org/reference/destructors.html
+/// [the reference]: https://doc.dustlang.com/reference/destructors.html
 ///
 /// ## `Copy` and `Drop` are exclusive
 ///

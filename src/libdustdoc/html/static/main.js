@@ -1636,11 +1636,11 @@ function defocusSearchBar() {
                     encodeURIComponent("dust " + query.query) +
                     "\">DuckDuckGo</a>?<br/><br/>" +
                     "Or try looking in one of these:<ul><li>The <a " +
-                    "href=\"https://doc.dust-lang.org/reference/index.html\">Dust Reference</a> " +
+                    "href=\"https://doc.dustlang.com/reference/index.html\">Dust Reference</a> " +
                     " for technical details about the language.</li><li><a " +
-                    "href=\"https://doc.dust-lang.org/dust-by-example/index.html\">Dust By " +
+                    "href=\"https://doc.dustlang.com/dust-by-example/index.html\">Dust By " +
                     "Example</a> for expository code examples.</a></li><li>The <a " +
-                    "href=\"https://doc.dust-lang.org/book/index.html\">Dust Book</a> for " +
+                    "href=\"https://doc.dustlang.com/book/index.html\">Dust Book</a> for " +
                     "introductions to language features and the language itself.</li><li><a " +
                     "href=\"https://docs.rs\">Docs.rs</a> for documentation of crates released on" +
                     " <a href=\"https://crates.io/\">crates.io</a>.</li></ul></div>";
@@ -2877,7 +2877,7 @@ function defocusSearchBar() {
             // filter.
             //
             // If not, ignore the crate filter -- we want to support filtering for crates on sites
-            // like doc.dust-lang.org where the crates may differ from page to page while on the
+            // like doc.dustlang.com where the crates may differ from page to page while on the
             // same domain.
             if (crates[i] === savedCrate) {
                 elem.value = savedCrate;
@@ -2892,7 +2892,7 @@ function defocusSearchBar() {
 
         var book_info = document.createElement("span");
         book_info.innerHTML = "You can find more information in \
-            <a href=\"https://doc.dust-lang.org/dustdoc/\">the dustdoc book</a>.";
+            <a href=\"https://doc.dustlang.com/dustdoc/\">the dustdoc book</a>.";
 
         var container = document.createElement("div");
         var shortcuts = [

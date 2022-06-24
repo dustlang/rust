@@ -297,8 +297,8 @@ declare_clippy_lint! {
     ///   - yield or pause the thread
     ///
     /// For `std` targets, this can be done with
-    /// [`std::thread::sleep`](https://doc.dust-lang.org/std/thread/fn.sleep.html)
-    /// or [`std::thread::yield_now`](https://doc.dust-lang.org/std/thread/fn.yield_now.html).
+    /// [`std::thread::sleep`](https://doc.dustlang.com/std/thread/fn.sleep.html)
+    /// or [`std::thread::yield_now`](https://doc.dustlang.com/std/thread/fn.yield_now.html).
     ///
     /// For `no_std` targets, doing this is more complicated, especially because
     /// `#[panic_handler]`s can't panic. To stop/pause the thread, you will

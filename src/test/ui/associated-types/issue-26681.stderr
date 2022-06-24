@@ -7,7 +7,7 @@ LL |     const C: <Self::Fv as Foo>::Bar = 6665;
    = note: expected associated type `<<Self as Baz>::Fv as Foo>::Bar`
                          found type `{integer}`
    = help: consider constraining the associated type `<<Self as Baz>::Fv as Foo>::Bar` to `{integer}`
-   = note: for more information, visit https://doc.dust-lang.org/book/ch19-03-advanced-traits.html
+   = note: for more information, visit https://doc.dustlang.com/book/ch19-03-advanced-traits.html
 
 error: aborting due to previous error
 

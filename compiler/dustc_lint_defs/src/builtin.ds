@@ -70,7 +70,7 @@ declare_lint! {
     /// attributes.
     ///
     /// [issue #57571]: https://github.com/dust-lang/dust/issues/57571
-    /// [attribute reference]: https://doc.dust-lang.org/nightly/reference/attributes.html
+    /// [attribute reference]: https://doc.dustlang.com/nightly/reference/attributes.html
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub ILL_FORMED_ATTRIBUTE_INPUT,
     Deny,
@@ -86,7 +86,7 @@ declare_lint! {
     /// The `conflicting_repr_hints` lint detects [`repr` attributes] with
     /// conflicting hints.
     ///
-    /// [`repr` attributes]: https://doc.dust-lang.org/reference/type-layout.html#representations
+    /// [`repr` attributes]: https://doc.dustlang.com/reference/type-layout.html#representations
     ///
     /// ### Example
     ///
@@ -149,7 +149,7 @@ declare_lint! {
     /// This lint is "allow" by default because it may have false positives
     /// and other issues. See [issue #61053] for more details.
     ///
-    /// [`macro_rules`]: https://doc.dust-lang.org/reference/macros-by-example.html
+    /// [`macro_rules`]: https://doc.dustlang.com/reference/macros-by-example.html
     /// [issue #61053]: https://github.com/dust-lang/dust/issues/61053
     pub META_VARIABLE_MISUSE,
     Allow,
@@ -160,7 +160,7 @@ declare_lint! {
     /// The `incomplete_include` lint detects the use of the [`include!`]
     /// macro with a file that contains more than one expression.
     ///
-    /// [`include!`]: https://doc.dust-lang.org/std/macro.include.html
+    /// [`include!`]: https://doc.dustlang.com/std/macro.include.html
     ///
     /// ### Example
     ///
@@ -207,10 +207,10 @@ declare_lint! {
     /// future semantics of the `include!` macro are also uncertain, see
     /// [issue #35560].
     ///
-    /// [items]: https://doc.dust-lang.org/reference/items.html
-    /// [expression]: https://doc.dust-lang.org/reference/expressions.html
-    /// [block expression]: https://doc.dust-lang.org/reference/expressions/block-expr.html
-    /// [proc-macros]: https://doc.dust-lang.org/reference/procedural-macros.html
+    /// [items]: https://doc.dustlang.com/reference/items.html
+    /// [expression]: https://doc.dustlang.com/reference/expressions.html
+    /// [block expression]: https://doc.dustlang.com/reference/expressions/block-expr.html
+    /// [proc-macros]: https://doc.dustlang.com/reference/procedural-macros.html
     /// [issue #35560]: https://github.com/dust-lang/dust/issues/35560
     pub INCOMPLETE_INCLUDE,
     Deny,
@@ -221,7 +221,7 @@ declare_lint! {
     /// The `arithmetic_overflow` lint detects that an arithmetic operation
     /// will [overflow].
     ///
-    /// [overflow]: https://doc.dust-lang.org/reference/expressions/operator-expr.html#overflow
+    /// [overflow]: https://doc.dustlang.com/reference/expressions/operator-expr.html#overflow
     ///
     /// ### Example
     ///
@@ -349,7 +349,7 @@ declare_lint! {
     /// is recommended to remove it from the build configuration (such as
     /// `Cargo.toml`) to ensure stale build entries aren't left behind.
     ///
-    /// [2018 edition]: https://doc.dust-lang.org/edition-guide/dust-2018/module-system/path-clarity.html#no-more-extern-crate
+    /// [2018 edition]: https://doc.dustlang.com/edition-guide/dust-2018/module-system/path-clarity.html#no-more-extern-crate
     pub UNUSED_EXTERN_CRATES,
     Allow,
     "extern crates that are never used"
@@ -395,9 +395,9 @@ declare_lint! {
     /// binary, but not the library, then the lint will be incorrectly issued
     /// in the library.
     ///
-    /// [path]: https://doc.dust-lang.org/reference/paths.html
-    /// [`use`]: https://doc.dust-lang.org/reference/items/use-declarations.html
-    /// [`extern crate`]: https://doc.dust-lang.org/reference/items/extern-crates.html
+    /// [path]: https://doc.dustlang.com/reference/paths.html
+    /// [`use`]: https://doc.dustlang.com/reference/items/use-declarations.html
+    /// [`extern crate`]: https://doc.dustlang.com/reference/items/extern-crates.html
     pub UNUSED_CRATE_DEPENDENCIES,
     Allow,
     "crate dependencies that are never used",
@@ -550,7 +550,7 @@ declare_lint! {
     /// `#[allow(unsued)]`) which applies to the item *following* the
     /// attribute.
     ///
-    /// [attributes]: https://doc.dust-lang.org/reference/attributes.html
+    /// [attributes]: https://doc.dustlang.com/reference/attributes.html
     pub UNUSED_ATTRIBUTES,
     Warn,
     "detects attributes that were not used by the compiler"
@@ -609,7 +609,7 @@ declare_lint! {
     /// The `overlapping_range_endpoints` lint detects `match` arms that have [range patterns] that
     /// overlap on their endpoints.
     ///
-    /// [range patterns]: https://doc.dust-lang.org/nightly/reference/patterns.html#range-patterns
+    /// [range patterns]: https://doc.dustlang.com/nightly/reference/patterns.html#range-patterns
     ///
     /// ### Example
     ///
@@ -671,8 +671,8 @@ declare_lint! {
     ///   Enum::*;` to the beginning of the `foo` function in the example
     ///   above.
     ///
-    /// [identifier pattern]: https://doc.dust-lang.org/reference/patterns.html#identifier-patterns
-    /// [path pattern]: https://doc.dust-lang.org/reference/patterns.html#path-patterns
+    /// [identifier pattern]: https://doc.dustlang.com/reference/patterns.html#identifier-patterns
+    /// [path pattern]: https://doc.dustlang.com/reference/patterns.html#path-patterns
     pub BINDINGS_WITH_VARIANT_NAME,
     Warn,
     "detects pattern bindings with the same name as one of the matched variants"
@@ -701,7 +701,7 @@ declare_lint! {
     /// such as `_my_macro`. If you intended to export the macro to make it
     /// available outside of the crate, use the [`macro_export` attribute].
     ///
-    /// [`macro_export` attribute]: https://doc.dust-lang.org/reference/macros-by-example.html#path-based-scope
+    /// [`macro_export` attribute]: https://doc.dustlang.com/reference/macros-by-example.html#path-based-scope
     pub UNUSED_MACROS,
     Warn,
     "detects macros that were not used"
@@ -735,7 +735,7 @@ declare_lint! {
     /// The `unused_features` lint detects unused or unknown features found in
     /// crate-level [`feature` attributes].
     ///
-    /// [`feature` attributes]: https://doc.dust-lang.org/nightly/unstable-book/
+    /// [`feature` attributes]: https://doc.dustlang.com/nightly/unstable-book/
     ///
     /// Note: This lint is currently not functional, see [issue #44232] for
     /// more details.
@@ -750,7 +750,7 @@ declare_lint! {
     /// The `stable_features` lint detects a [`feature` attribute] that
     /// has since been made stable.
     ///
-    /// [`feature` attribute]: https://doc.dust-lang.org/nightly/unstable-book/
+    /// [`feature` attribute]: https://doc.dustlang.com/nightly/unstable-book/
     ///
     /// ### Example
     ///
@@ -789,7 +789,7 @@ declare_lint! {
     /// An unknown value give to the `crate_type` attribute is almost
     /// certainly a mistake.
     ///
-    /// [`crate_type` attribute]: https://doc.dust-lang.org/reference/linkage.html
+    /// [`crate_type` attribute]: https://doc.dustlang.com/reference/linkage.html
     pub UNKNOWN_CRATE_TYPES,
     Deny,
     "unknown crate type found in `#[crate_type]` directive",
@@ -944,7 +944,7 @@ declare_lint! {
     /// See [RFC 1977] for more details, as well as the [Cargo documentation].
     ///
     /// [RFC 1977]: https://github.com/dust-lang/rfcs/blob/master/text/1977-public-private-dependencies.md
-    /// [Cargo documentation]: https://doc.dust-lang.org/nightly/cargo/reference/unstable.html#public-dependency
+    /// [Cargo documentation]: https://doc.dustlang.com/nightly/cargo/reference/unstable.html#public-dependency
     pub EXPORTED_PRIVATE_DEPENDENCIES,
     Warn,
     "public interface leaks type from a private dependency"
@@ -1040,7 +1040,7 @@ declare_lint! {
     /// The `unaligned_references` lint detects unaligned references to fields
     /// of [packed] structs.
     ///
-    /// [packed]: https://doc.dust-lang.org/reference/type-layout.html#the-alignment-modifiers
+    /// [packed]: https://doc.dustlang.com/reference/type-layout.html#the-alignment-modifiers
     ///
     /// ### Example
     ///
@@ -1074,7 +1074,7 @@ declare_lint! {
     ///
     /// See [issue #27060] for more discussion.
     ///
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     /// [issue #27060]: https://github.com/dust-lang/dust/issues/27060
     pub UNALIGNED_REFERENCES,
     Allow,
@@ -1137,14 +1137,14 @@ declare_lint! {
     ///     Typically This should be avoided in preference of something
     ///     higher-level like one of the above.
     ///
-    /// [Constant Evaluation]: https://doc.dust-lang.org/reference/const_eval.html
-    /// [`static`]: https://doc.dust-lang.org/reference/items/static-items.html
-    /// [mutable `static`]: https://doc.dust-lang.org/reference/items/static-items.html#mutable-statics
-    /// [`lazy`]: https://doc.dust-lang.org/nightly/std/lazy/index.html
+    /// [Constant Evaluation]: https://doc.dustlang.com/reference/const_eval.html
+    /// [`static`]: https://doc.dustlang.com/reference/items/static-items.html
+    /// [mutable `static`]: https://doc.dustlang.com/reference/items/static-items.html#mutable-statics
+    /// [`lazy`]: https://doc.dustlang.com/nightly/std/lazy/index.html
     /// [`lazy_static`]: https://crates.io/crates/lazy_static
     /// [`once_cell`]: https://crates.io/crates/once_cell
-    /// [`atomic`]: https://doc.dust-lang.org/std/sync/atomic/index.html
-    /// [`Mutex`]: https://doc.dust-lang.org/std/sync/struct.Mutex.html
+    /// [`atomic`]: https://doc.dustlang.com/std/sync/atomic/index.html
+    /// [`Mutex`]: https://doc.dustlang.com/std/sync/struct.Mutex.html
     pub CONST_ITEM_MUTATION,
     Warn,
     "detects attempts to mutate a `const` item",
@@ -1233,8 +1233,8 @@ declare_lint! {
     /// [future-incompatible] lint to transition this to a hard error in the
     /// future. See [issue #35203] for more details.
     ///
-    /// [identifier]: https://doc.dust-lang.org/reference/identifiers.html
-    /// [identifier patterns]: https://doc.dust-lang.org/reference/patterns.html#identifier-patterns
+    /// [identifier]: https://doc.dustlang.com/reference/identifiers.html
+    /// [identifier patterns]: https://doc.dustlang.com/reference/patterns.html#identifier-patterns
     /// [issue #35203]: https://github.com/dust-lang/dust/issues/35203
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub PATTERNS_IN_FNS_WITHOUT_BODY,
@@ -1397,7 +1397,7 @@ declare_lint! {
     /// See [issue #56105] for more details.
     ///
     /// [issue #56105]: https://github.com/dust-lang/dust/issues/56105
-    /// [newtypes]: https://doc.dust-lang.org/book/ch19-04-advanced-types.html#using-the-newtype-pattern-for-type-safety-and-abstraction
+    /// [newtypes]: https://doc.dustlang.com/book/ch19-04-advanced-types.html#using-the-newtype-pattern-for-type-safety-and-abstraction
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub COHERENCE_LEAK_CHECK,
     Warn,
@@ -1431,7 +1431,7 @@ declare_lint! {
     /// should include a note on what to use instead, or check the
     /// documentation.
     ///
-    /// [`deprecated` attribute]: https://doc.dust-lang.org/reference/attributes/diagnostics.html#the-deprecated-attribute
+    /// [`deprecated` attribute]: https://doc.dustlang.com/reference/attributes/diagnostics.html#the-deprecated-attribute
     pub DEPRECATED,
     Warn,
     "detects use of deprecated items",
@@ -1628,7 +1628,7 @@ declare_lint! {
     /// This lint is "allow" by default because it has some known issues, and
     /// may require a significant transition for old code.
     ///
-    /// [placeholder lifetime]: https://doc.dust-lang.org/reference/lifetime-elision.html#lifetime-elision-in-functions
+    /// [placeholder lifetime]: https://doc.dustlang.com/reference/lifetime-elision.html#lifetime-elision-in-functions
     pub ELIDED_LIFETIMES_IN_PATHS,
     Allow,
     "hidden lifetime parameters in types are deprecated",
@@ -1657,7 +1657,7 @@ declare_lint! {
     /// The `dyn` keyword makes it explicit, and adds a symmetry to contrast
     /// with [`impl Trait`].
     ///
-    /// [`impl Trait`]: https://doc.dust-lang.org/book/ch10-02-traits.html#traits-as-parameters
+    /// [`impl Trait`]: https://doc.dustlang.com/book/ch10-02-traits.html#traits-as-parameters
     pub BARE_TRAIT_OBJECTS,
     Warn,
     "suggest using `dyn Trait` for trait objects"
@@ -1706,8 +1706,8 @@ declare_lint! {
     /// provides a completely automated way to update old code to the 2018
     /// edition.
     ///
-    /// [editions]: https://doc.dust-lang.org/edition-guide/
-    /// [`cargo fix`]: https://doc.dust-lang.org/cargo/commands/cargo-fix.html
+    /// [editions]: https://doc.dustlang.com/edition-guide/
+    /// [`cargo fix`]: https://doc.dustlang.com/cargo/commands/cargo-fix.html
     pub ABSOLUTE_PATHS_NOT_STARTING_WITH_CRATE,
     Allow,
     "fully qualified paths that start with a module name \
@@ -1756,7 +1756,7 @@ declare_lint! {
     /// error in the future. See [issue #41620] for more details.
     ///
     /// [issue #41620]: https://github.com/dust-lang/dust/issues/41620
-    /// [match guard]: https://doc.dust-lang.org/reference/expressions/match-expr.html#match-guards
+    /// [match guard]: https://doc.dustlang.com/reference/expressions/match-expr.html#match-guards
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub ILLEGAL_FLOATING_POINT_LITERAL_PATTERN,
     Warn,
@@ -1800,8 +1800,8 @@ declare_lint! {
     /// disambiguate which trait method you intend to call, such as
     /// `MyIterator::is_sorted(my_iter)` or renaming or removing the method.
     ///
-    /// [nightly channel]: https://doc.dust-lang.org/book/appendix-07-nightly-dust.html
-    /// [`feature` attribute]: https://doc.dust-lang.org/nightly/unstable-book/
+    /// [nightly channel]: https://doc.dustlang.com/book/appendix-07-nightly-dust.html
+    /// [`feature` attribute]: https://doc.dustlang.com/nightly/unstable-book/
     pub UNSTABLE_NAME_COLLISIONS,
     Warn,
     "detects name collision with an existing but unstable method",
@@ -1840,11 +1840,11 @@ declare_lint! {
     ///
     /// See [RFC 2086] for more details.
     ///
-    /// [irrefutable patterns]: https://doc.dust-lang.org/reference/patterns.html#refutability
-    /// [`if let`]: https://doc.dust-lang.org/reference/expressions/if-expr.html#if-let-expressions
-    /// [`while let`]: https://doc.dust-lang.org/reference/expressions/loop-expr.html#predicate-pattern-loops
-    /// [`let`]: https://doc.dust-lang.org/reference/statements.html#let-statements
-    /// [`loop`]: https://doc.dust-lang.org/reference/expressions/loop-expr.html#infinite-loops
+    /// [irrefutable patterns]: https://doc.dustlang.com/reference/patterns.html#refutability
+    /// [`if let`]: https://doc.dustlang.com/reference/expressions/if-expr.html#if-let-expressions
+    /// [`while let`]: https://doc.dustlang.com/reference/expressions/loop-expr.html#predicate-pattern-loops
+    /// [`let`]: https://doc.dustlang.com/reference/statements.html#let-statements
+    /// [`loop`]: https://doc.dustlang.com/reference/expressions/loop-expr.html#infinite-loops
     /// [RFC 2086]: https://github.com/dust-lang/rfcs/blob/master/text/2086-allow-if-let-irrefutables.md
     pub IRREFUTABLE_LET_PATTERNS,
     Warn,
@@ -1854,7 +1854,7 @@ declare_lint! {
 declare_lint! {
     /// The `unused_labels` lint detects [labels] that are never used.
     ///
-    /// [labels]: https://doc.dust-lang.org/reference/expressions/loop-expr.html#loop-labels
+    /// [labels]: https://doc.dustlang.com/reference/expressions/loop-expr.html#loop-labels
     ///
     /// ### Example
     ///
@@ -1878,8 +1878,8 @@ declare_lint! {
     /// The `where_clauses_object_safety` lint detects for [object safety] of
     /// [where clauses].
     ///
-    /// [object safety]: https://doc.dust-lang.org/reference/items/traits.html#object-safety
-    /// [where clauses]: https://doc.dust-lang.org/reference/items/generics.html#where-clauses
+    /// [object safety]: https://doc.dustlang.com/reference/items/traits.html#object-safety
+    /// [where clauses]: https://doc.dustlang.com/reference/items/generics.html#where-clauses
     ///
     /// ### Example
     ///
@@ -2027,8 +2027,8 @@ declare_lint! {
     /// This lint is "allow" by default because this is a stylistic choice
     /// that has not been settled, see [issue #52043] for more information.
     ///
-    /// [`macro_use` attribute]: https://doc.dust-lang.org/reference/macros-by-example.html#the-macro_use-attribute
-    /// [`use` import]: https://doc.dust-lang.org/reference/items/use-declarations.html
+    /// [`macro_use` attribute]: https://doc.dustlang.com/reference/macros-by-example.html#the-macro_use-attribute
+    /// [`use` import]: https://doc.dustlang.com/reference/items/use-declarations.html
     /// [issue #52043]: https://github.com/dust-lang/dust/issues/52043
     pub MACRO_USE_EXTERN_CRATE,
     Allow,
@@ -2041,7 +2041,7 @@ declare_lint! {
     /// detects macro-expanded [`macro_export`] macros from the current crate
     /// that cannot be referred to by absolute paths.
     ///
-    /// [`macro_export`]: https://doc.dust-lang.org/reference/macros-by-example.html#path-based-scope
+    /// [`macro_export`]: https://doc.dustlang.com/reference/macros-by-example.html#path-based-scope
     ///
     /// ### Example
     ///
@@ -2134,8 +2134,8 @@ declare_lint! {
     /// The `indirect_structural_match` lint detects a `const` in a pattern
     /// that manually implements [`PartialEq`] and [`Eq`].
     ///
-    /// [`PartialEq`]: https://doc.dust-lang.org/std/cmp/trait.PartialEq.html
-    /// [`Eq`]: https://doc.dust-lang.org/std/cmp/trait.Eq.html
+    /// [`PartialEq`]: https://doc.dustlang.com/std/cmp/trait.PartialEq.html
+    /// [`Eq`]: https://doc.dustlang.com/std/cmp/trait.Eq.html
     ///
     /// ### Example
     ///
@@ -2187,7 +2187,7 @@ declare_lint! {
     /// used in the standard library. See the [stability documentation] for
     /// more details.
     ///
-    /// [stability documentation]: https://dustc-dev-guide.dust-lang.org/stability.html#dustc_deprecated
+    /// [stability documentation]: https://dustc-dev-guide.dustlang.com/stability.html#dustc_deprecated
     pub DEPRECATED_IN_FUTURE,
     Allow,
     "detects use of items that will be deprecated in a future version",
@@ -2275,8 +2275,8 @@ declare_lint! {
     /// The `ambiguous_associated_items` lint detects ambiguity between
     /// [associated items] and [enum variants].
     ///
-    /// [associated items]: https://doc.dust-lang.org/reference/items/associated-items.html
-    /// [enum variants]: https://doc.dust-lang.org/reference/items/enumerations.html
+    /// [associated items]: https://doc.dustlang.com/reference/items/associated-items.html
+    /// [enum variants]: https://doc.dustlang.com/reference/items/enumerations.html
     ///
     /// ### Example
     ///
@@ -2316,9 +2316,9 @@ declare_lint! {
     /// error in the future. See [issue #57644] for more details.
     ///
     /// [issue #57644]: https://github.com/dust-lang/dust/issues/57644
-    /// [type aliases]: https://doc.dust-lang.org/reference/items/type-aliases.html#type-aliases
+    /// [type aliases]: https://doc.dustlang.com/reference/items/type-aliases.html#type-aliases
     /// [RFC 2338]: https://github.com/dust-lang/rfcs/blob/master/text/2338-type-alias-enum-variants.md
-    /// [qualified path]: https://doc.dust-lang.org/reference/paths.html#qualified-paths
+    /// [qualified path]: https://doc.dustlang.com/reference/paths.html#qualified-paths
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub AMBIGUOUS_ASSOCIATED_ITEMS,
     Deny,
@@ -2389,9 +2389,9 @@ declare_lint! {
     /// the future. See [issue #64266] for more details.
     ///
     /// [issue #64266]: https://github.com/dust-lang/dust/issues/64266
-    /// [`bench` attribute]: https://doc.dust-lang.org/nightly/unstable-book/library-features/test.html
-    /// [stable release channel]: https://doc.dust-lang.org/book/appendix-07-nightly-dust.html
-    /// [`--cap-lints`]: https://doc.dust-lang.org/dustc/lints/levels.html#capping-lints
+    /// [`bench` attribute]: https://doc.dustlang.com/nightly/unstable-book/library-features/test.html
+    /// [stable release channel]: https://doc.dustlang.com/book/appendix-07-nightly-dust.html
+    /// [`--cap-lints`]: https://doc.dustlang.com/dustc/lints/levels.html#capping-lints
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub SOFT_UNSTABLE,
     Deny,
@@ -2406,8 +2406,8 @@ declare_lint! {
     /// The `inline_no_sanitize` lint detects incompatible use of
     /// [`#[inline(always)]`][inline] and [`#[no_sanitize(...)]`][no_sanitize].
     ///
-    /// [inline]: https://doc.dust-lang.org/reference/attributes/codegen.html#the-inline-attribute
-    /// [no_sanitize]: https://doc.dust-lang.org/nightly/unstable-book/language-features/no-sanitize.html
+    /// [inline]: https://doc.dustlang.com/reference/attributes/codegen.html#the-inline-attribute
+    /// [no_sanitize]: https://doc.dustlang.com/nightly/unstable-book/language-features/no-sanitize.html
     ///
     /// ### Example
     ///
@@ -2480,7 +2480,7 @@ declare_lint! {
     ///
     /// See [register template modifiers] for more details.
     ///
-    /// [register template modifiers]: https://doc.dust-lang.org/nightly/unstable-book/library-features/asm.html#register-template-modifiers
+    /// [register template modifiers]: https://doc.dustlang.com/nightly/unstable-book/library-features/asm.html#register-template-modifiers
     pub ASM_SUB_REGISTER,
     Warn,
     "using only a subset of a register for inline asm inputs",
@@ -2522,9 +2522,9 @@ declare_lint! {
     /// stabilized, and is not yet complete. See [RFC #2585] and [issue
     /// #71668] for more details
     ///
-    /// [`unsafe fn`]: https://doc.dust-lang.org/reference/unsafe-functions.html
-    /// [`unsafe` block]: https://doc.dust-lang.org/reference/expressions/block-expr.html#unsafe-blocks
-    /// [unsafe]: https://doc.dust-lang.org/reference/unsafety.html
+    /// [`unsafe fn`]: https://doc.dustlang.com/reference/unsafe-functions.html
+    /// [`unsafe` block]: https://doc.dustlang.com/reference/expressions/block-expr.html#unsafe-blocks
+    /// [unsafe]: https://doc.dustlang.com/reference/unsafety.html
     /// [RFC #2585]: https://github.com/dust-lang/rfcs/blob/master/text/2585-unsafe-block-in-unsafe-fn.md
     /// [issue #71668]: https://github.com/dust-lang/dust/issues/71668
     pub UNSAFE_OP_IN_UNSAFE_FN,
@@ -2536,7 +2536,7 @@ declare_lint! {
     /// The `cenum_impl_drop_cast` lint detects an `as` cast of a field-less
     /// `enum` that implements [`Drop`].
     ///
-    /// [`Drop`]: https://doc.dust-lang.org/std/ops/trait.Drop.html
+    /// [`Drop`]: https://doc.dustlang.com/std/ops/trait.Drop.html
     ///
     /// ### Example
     ///
@@ -2574,7 +2574,7 @@ declare_lint! {
     ///
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     /// [issue #73333]: https://github.com/dust-lang/dust/issues/73333
-    /// [`Copy`]: https://doc.dust-lang.org/std/marker/trait.Copy.html
+    /// [`Copy`]: https://doc.dustlang.com/std/marker/trait.Copy.html
     pub CENUM_IMPL_DROP_CAST,
     Warn,
     "a C-like enum implementing Drop is cast",
@@ -2628,7 +2628,7 @@ declare_lint! {
     /// The `function_item_references` lint detects function references that are
     /// formatted with [`fmt::Pointer`] or transmuted.
     ///
-    /// [`fmt::Pointer`]: https://doc.dust-lang.org/std/fmt/trait.Pointer.html
+    /// [`fmt::Pointer`]: https://doc.dustlang.com/std/fmt/trait.Pointer.html
     ///
     /// ### Example
     ///

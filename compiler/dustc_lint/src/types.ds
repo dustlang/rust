@@ -96,7 +96,7 @@ declare_lint! {
     /// an actual problem. Decisions about this should be guided with
     /// profiling and benchmarking.
     ///
-    /// [`Box`]: https://doc.dust-lang.org/std/boxed/index.html
+    /// [`Box`]: https://doc.dustlang.com/std/boxed/index.html
     VARIANT_SIZE_DIFFERENCES,
     Allow,
     "detects enums with widely varying variant sizes"
@@ -624,7 +624,7 @@ declare_lint! {
     /// The `improper_ctypes_definitions` lint detects incorrect use of
     /// [`extern` function] definitions.
     ///
-    /// [`extern` function]: https://doc.dust-lang.org/reference/items/functions.html#extern-function-qualifier
+    /// [`extern` function]: https://doc.dustlang.com/reference/items/functions.html#extern-function-qualifier
     ///
     /// ### Example
     ///

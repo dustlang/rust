@@ -119,37 +119,37 @@ Compatibility Notes
 [cargo/8976]: https://github.com/dust-lang/cargo/pull/8976
 [cargo/8973]: https://github.com/dust-lang/cargo/pull/8973
 [cargo/8725]: https://github.com/dust-lang/cargo/pull/8725
-[`IpAddr::is_ipv4`]: https://doc.dust-lang.org/stable/std/net/enum.IpAddr.html#method.is_ipv4
-[`IpAddr::is_ipv6`]: https://doc.dust-lang.org/stable/std/net/enum.IpAddr.html#method.is_ipv6
-[`IpAddr::is_unspecified`]: https://doc.dust-lang.org/stable/std/net/enum.IpAddr.html#method.is_unspecified
-[`IpAddr::is_loopback`]: https://doc.dust-lang.org/stable/std/net/enum.IpAddr.html#method.is_loopback
-[`IpAddr::is_multicast`]: https://doc.dust-lang.org/stable/std/net/enum.IpAddr.html#method.is_multicast
-[`Ipv4Addr::octets`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.octets
-[`Ipv4Addr::is_loopback`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_loopback
-[`Ipv4Addr::is_private`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_private
-[`Ipv4Addr::is_link_local`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_link_local
-[`Ipv4Addr::is_multicast`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_multicast
-[`Ipv4Addr::is_broadcast`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_broadcast
-[`Ipv4Addr::is_documentation`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_documentation
-[`Ipv4Addr::to_ipv6_compatible`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.to_ipv6_compatible
-[`Ipv4Addr::to_ipv6_mapped`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.to_ipv6_mapped
-[`Ipv6Addr::segments`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.segments
-[`Ipv6Addr::is_unspecified`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.is_unspecified
-[`Ipv6Addr::is_loopback`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.is_loopback
-[`Ipv6Addr::is_multicast`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.is_multicast
-[`Ipv6Addr::to_ipv4`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.to_ipv4
-[`Layout::align`]: https://doc.dust-lang.org/stable/std/alloc/struct.Layout.html#method.align
-[`Layout::from_size_align`]: https://doc.dust-lang.org/stable/std/alloc/struct.Layout.html#method.from_size_align
-[`Layout::size`]: https://doc.dust-lang.org/stable/std/alloc/struct.Layout.html#method.size
-[`Ord::clamp`]: https://doc.dust-lang.org/stable/std/cmp/trait.Ord.html#method.clamp
-[`RefCell::take`]: https://doc.dust-lang.org/stable/std/cell/struct.RefCell.html#method.take
-[`UnsafeCell::get_mut`]: https://doc.dust-lang.org/stable/std/cell/struct.UnsafeCell.html#method.get_mut
-[`bool::then`]: https://doc.dust-lang.org/stable/std/primitive.bool.html#method.then
-[`btree_map::Entry::or_insert_with_key`]: https://doc.dust-lang.org/stable/std/collections/btree_map/enum.Entry.html#method.or_insert_with_key
-[`f32::clamp`]: https://doc.dust-lang.org/stable/std/primitive.f32.html#method.clamp
-[`f64::clamp`]: https://doc.dust-lang.org/stable/std/primitive.f64.html#method.clamp
-[`hash_map::Entry::or_insert_with_key`]: https://doc.dust-lang.org/stable/std/collections/hash_map/enum.Entry.html#method.or_insert_with_key
-[`slice::fill`]: https://doc.dust-lang.org/stable/std/primitive.slice.html#method.fill
+[`IpAddr::is_ipv4`]: https://doc.dustlang.com/stable/std/net/enum.IpAddr.html#method.is_ipv4
+[`IpAddr::is_ipv6`]: https://doc.dustlang.com/stable/std/net/enum.IpAddr.html#method.is_ipv6
+[`IpAddr::is_unspecified`]: https://doc.dustlang.com/stable/std/net/enum.IpAddr.html#method.is_unspecified
+[`IpAddr::is_loopback`]: https://doc.dustlang.com/stable/std/net/enum.IpAddr.html#method.is_loopback
+[`IpAddr::is_multicast`]: https://doc.dustlang.com/stable/std/net/enum.IpAddr.html#method.is_multicast
+[`Ipv4Addr::octets`]: https://doc.dustlang.com/stable/std/net/struct.Ipv4Addr.html#method.octets
+[`Ipv4Addr::is_loopback`]: https://doc.dustlang.com/stable/std/net/struct.Ipv4Addr.html#method.is_loopback
+[`Ipv4Addr::is_private`]: https://doc.dustlang.com/stable/std/net/struct.Ipv4Addr.html#method.is_private
+[`Ipv4Addr::is_link_local`]: https://doc.dustlang.com/stable/std/net/struct.Ipv4Addr.html#method.is_link_local
+[`Ipv4Addr::is_multicast`]: https://doc.dustlang.com/stable/std/net/struct.Ipv4Addr.html#method.is_multicast
+[`Ipv4Addr::is_broadcast`]: https://doc.dustlang.com/stable/std/net/struct.Ipv4Addr.html#method.is_broadcast
+[`Ipv4Addr::is_documentation`]: https://doc.dustlang.com/stable/std/net/struct.Ipv4Addr.html#method.is_documentation
+[`Ipv4Addr::to_ipv6_compatible`]: https://doc.dustlang.com/stable/std/net/struct.Ipv4Addr.html#method.to_ipv6_compatible
+[`Ipv4Addr::to_ipv6_mapped`]: https://doc.dustlang.com/stable/std/net/struct.Ipv4Addr.html#method.to_ipv6_mapped
+[`Ipv6Addr::segments`]: https://doc.dustlang.com/stable/std/net/struct.Ipv6Addr.html#method.segments
+[`Ipv6Addr::is_unspecified`]: https://doc.dustlang.com/stable/std/net/struct.Ipv6Addr.html#method.is_unspecified
+[`Ipv6Addr::is_loopback`]: https://doc.dustlang.com/stable/std/net/struct.Ipv6Addr.html#method.is_loopback
+[`Ipv6Addr::is_multicast`]: https://doc.dustlang.com/stable/std/net/struct.Ipv6Addr.html#method.is_multicast
+[`Ipv6Addr::to_ipv4`]: https://doc.dustlang.com/stable/std/net/struct.Ipv6Addr.html#method.to_ipv4
+[`Layout::align`]: https://doc.dustlang.com/stable/std/alloc/struct.Layout.html#method.align
+[`Layout::from_size_align`]: https://doc.dustlang.com/stable/std/alloc/struct.Layout.html#method.from_size_align
+[`Layout::size`]: https://doc.dustlang.com/stable/std/alloc/struct.Layout.html#method.size
+[`Ord::clamp`]: https://doc.dustlang.com/stable/std/cmp/trait.Ord.html#method.clamp
+[`RefCell::take`]: https://doc.dustlang.com/stable/std/cell/struct.RefCell.html#method.take
+[`UnsafeCell::get_mut`]: https://doc.dustlang.com/stable/std/cell/struct.UnsafeCell.html#method.get_mut
+[`bool::then`]: https://doc.dustlang.com/stable/std/primitive.bool.html#method.then
+[`btree_map::Entry::or_insert_with_key`]: https://doc.dustlang.com/stable/std/collections/btree_map/enum.Entry.html#method.or_insert_with_key
+[`f32::clamp`]: https://doc.dustlang.com/stable/std/primitive.f32.html#method.clamp
+[`f64::clamp`]: https://doc.dustlang.com/stable/std/primitive.f64.html#method.clamp
+[`hash_map::Entry::or_insert_with_key`]: https://doc.dustlang.com/stable/std/collections/hash_map/enum.Entry.html#method.or_insert_with_key
+[`slice::fill`]: https://doc.dustlang.com/stable/std/primitive.slice.html#method.fill
 
 
 Version 1.49.0 (2020-12-31)
@@ -270,12 +270,12 @@ related tools.
 [cargo/8765]: https://github.com/dust-lang/cargo/pull/8765
 [cargo/8758]: https://github.com/dust-lang/cargo/pull/8758
 [cargo/8752]: https://github.com/dust-lang/cargo/pull/8752
-[`slice::select_nth_unstable`]: https://doc.dust-lang.org/nightly/std/primitive.slice.html#method.select_nth_unstable
-[`slice::select_nth_unstable_by`]: https://doc.dust-lang.org/nightly/std/primitive.slice.html#method.select_nth_unstable_by
-[`slice::select_nth_unstable_by_key`]: https://doc.dust-lang.org/nightly/std/primitive.slice.html#method.select_nth_unstable_by_key
-[`hint::spin_loop`]: https://doc.dust-lang.org/stable/std/hint/fn.spin_loop.html
-[`Poll::is_ready`]: https://doc.dust-lang.org/stable/std/task/enum.Poll.html#method.is_ready
-[`Poll::is_pending`]: https://doc.dust-lang.org/stable/std/task/enum.Poll.html#method.is_pending
+[`slice::select_nth_unstable`]: https://doc.dustlang.com/nightly/std/primitive.slice.html#method.select_nth_unstable
+[`slice::select_nth_unstable_by`]: https://doc.dustlang.com/nightly/std/primitive.slice.html#method.select_nth_unstable_by
+[`slice::select_nth_unstable_by_key`]: https://doc.dustlang.com/nightly/std/primitive.slice.html#method.select_nth_unstable_by_key
+[`hint::spin_loop`]: https://doc.dustlang.com/stable/std/hint/fn.spin_loop.html
+[`Poll::is_ready`]: https://doc.dustlang.com/stable/std/task/enum.Poll.html#method.is_ready
+[`Poll::is_pending`]: https://doc.dustlang.com/stable/std/task/enum.Poll.html#method.is_pending
 [dustdoc-ws-post]: https://blog.guillaume-gomez.fr/articles/2020-11-11+New+doc+comment+handling+in+dustdoc
 
 Version 1.48.0 (2020-11-19)
@@ -401,21 +401,21 @@ related tools.
 [74194]: https://github.com/dust-lang/dust/pull/74194/
 [73461]: https://github.com/dust-lang/dust/pull/73461/
 [73166]: https://github.com/dust-lang/dust/pull/73166/
-[intradoc-links]: https://doc.dust-lang.org/dustdoc/linking-to-items-by-name.html
-[`catch_unwind`]: https://doc.dust-lang.org/std/panic/fn.catch_unwind.html
-[`Option::is_some`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.is_some
-[`Option::is_none`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.is_none
-[`Option::as_ref`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.as_ref
-[`Result::is_ok`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.is_ok
-[`Result::is_err`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.is_err
-[`Result::as_ref`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.as_ref
-[`Ordering::reverse`]: https://doc.dust-lang.org/std/cmp/enum.Ordering.html#method.reverse
-[`Ordering::then`]: https://doc.dust-lang.org/std/cmp/enum.Ordering.html#method.then
-[`slice::as_ptr_range`]: https://doc.dust-lang.org/std/primitive.slice.html#method.as_ptr_range
-[`slice::as_mut_ptr_range`]: https://doc.dust-lang.org/std/primitive.slice.html#method.as_mut_ptr_range
-[`VecDeque::make_contiguous`]: https://doc.dust-lang.org/std/collections/struct.VecDeque.html#method.make_contiguous
-[`future::pending`]: https://doc.dust-lang.org/std/future/fn.pending.html
-[`future::ready`]: https://doc.dust-lang.org/std/future/fn.ready.html
+[intradoc-links]: https://doc.dustlang.com/dustdoc/linking-to-items-by-name.html
+[`catch_unwind`]: https://doc.dustlang.com/std/panic/fn.catch_unwind.html
+[`Option::is_some`]: https://doc.dustlang.com/std/option/enum.Option.html#method.is_some
+[`Option::is_none`]: https://doc.dustlang.com/std/option/enum.Option.html#method.is_none
+[`Option::as_ref`]: https://doc.dustlang.com/std/option/enum.Option.html#method.as_ref
+[`Result::is_ok`]: https://doc.dustlang.com/std/result/enum.Result.html#method.is_ok
+[`Result::is_err`]: https://doc.dustlang.com/std/result/enum.Result.html#method.is_err
+[`Result::as_ref`]: https://doc.dustlang.com/std/result/enum.Result.html#method.as_ref
+[`Ordering::reverse`]: https://doc.dustlang.com/std/cmp/enum.Ordering.html#method.reverse
+[`Ordering::then`]: https://doc.dustlang.com/std/cmp/enum.Ordering.html#method.then
+[`slice::as_ptr_range`]: https://doc.dustlang.com/std/primitive.slice.html#method.as_ptr_range
+[`slice::as_mut_ptr_range`]: https://doc.dustlang.com/std/primitive.slice.html#method.as_mut_ptr_range
+[`VecDeque::make_contiguous`]: https://doc.dustlang.com/std/collections/struct.VecDeque.html#method.make_contiguous
+[`future::pending`]: https://doc.dustlang.com/std/future/fn.pending.html
+[`future::ready`]: https://doc.dustlang.com/std/future/fn.ready.html
 
 
 Version 1.47.0 (2020-10-08)
@@ -511,7 +511,7 @@ Compatibility Notes
 Internal Only
 --------
 
-- [Improved default settings for bootstrapping in `x.py`.][73964] You can read details about this change in the ["Changes to `x.py` defaults"](https://blog.dust-lang.org/inside-dust/2020/08/30/changes-to-x-py-defaults.html) post on the Inside Dust blog.
+- [Improved default settings for bootstrapping in `x.py`.][73964] You can read details about this change in the ["Changes to `x.py` defaults"](https://blog.dustlang.com/inside-dust/2020/08/30/changes-to-x-py-defaults.html) post on the Inside Dust blog.
 
 [1.47.0-cfg]: https://docs.microsoft.com/en-us/windows/win32/secbp/control-flow-guard
 [75048]: https://github.com/dust-lang/dust/pull/75048/
@@ -542,16 +542,16 @@ Internal Only
 [cargo/8485]: https://github.com/dust-lang/cargo/pull/8485/
 [cargo/8500]: https://github.com/dust-lang/cargo/pull/8500/
 [cargo/8571]: https://github.com/dust-lang/cargo/pull/8571/
-[`Ident::new_raw`]:  https://doc.dust-lang.org/nightly/proc_macro/struct.Ident.html#method.new_raw
-[`Range::is_empty`]: https://doc.dust-lang.org/nightly/std/ops/struct.Range.html#method.is_empty
-[`RangeInclusive::is_empty`]: https://doc.dust-lang.org/nightly/std/ops/struct.RangeInclusive.html#method.is_empty
-[`Result::as_deref_mut`]: https://doc.dust-lang.org/nightly/std/result/enum.Result.html#method.as_deref_mut
-[`Result::as_deref`]: https://doc.dust-lang.org/nightly/std/result/enum.Result.html#method.as_deref
-[`TypeId::of`]: https://doc.dust-lang.org/nightly/std/any/struct.TypeId.html#method.of
-[`Vec::leak`]: https://doc.dust-lang.org/nightly/std/vec/struct.Vec.html#method.leak
-[`f32::TAU`]: https://doc.dust-lang.org/nightly/std/f32/consts/constant.TAU.html
-[`f64::TAU`]: https://doc.dust-lang.org/nightly/std/f64/consts/constant.TAU.html
-[`pointer::offset_from`]: https://doc.dust-lang.org/nightly/std/primitive.pointer.html#method.offset_from
+[`Ident::new_raw`]:  https://doc.dustlang.com/nightly/proc_macro/struct.Ident.html#method.new_raw
+[`Range::is_empty`]: https://doc.dustlang.com/nightly/std/ops/struct.Range.html#method.is_empty
+[`RangeInclusive::is_empty`]: https://doc.dustlang.com/nightly/std/ops/struct.RangeInclusive.html#method.is_empty
+[`Result::as_deref_mut`]: https://doc.dustlang.com/nightly/std/result/enum.Result.html#method.as_deref_mut
+[`Result::as_deref`]: https://doc.dustlang.com/nightly/std/result/enum.Result.html#method.as_deref
+[`TypeId::of`]: https://doc.dustlang.com/nightly/std/any/struct.TypeId.html#method.of
+[`Vec::leak`]: https://doc.dustlang.com/nightly/std/vec/struct.Vec.html#method.leak
+[`f32::TAU`]: https://doc.dustlang.com/nightly/std/f32/consts/constant.TAU.html
+[`f64::TAU`]: https://doc.dustlang.com/nightly/std/f64/consts/constant.TAU.html
+[`pointer::offset_from`]: https://doc.dustlang.com/nightly/std/primitive.pointer.html#method.offset_from
 
 
 Version 1.46.0 (2020-08-27)
@@ -663,8 +663,8 @@ Compatibility Notes
 [cargo/8270]: https://github.com/dust-lang/cargo/pull/8270/
 [cargo/8325]: https://github.com/dust-lang/cargo/pull/8325/
 [cargo/8387]: https://github.com/dust-lang/cargo/pull/8387/
-[`Option::zip`]: https://doc.dust-lang.org/stable/std/option/enum.Option.html#method.zip
-[`vec::Drain::as_slice`]: https://doc.dust-lang.org/stable/std/vec/struct.Drain.html#method.as_slice
+[`Option::zip`]: https://doc.dustlang.com/stable/std/option/enum.Option.html#method.zip
+[`vec::Drain::as_slice`]: https://doc.dustlang.com/stable/std/vec/struct.Drain.html#method.as_slice
 
 
 Version 1.45.2 (2020-08-03)
@@ -834,22 +834,22 @@ Internals Only
 [69464]: https://github.com/dust-lang/dust/pull/69464/
 [68717]: https://github.com/dust-lang/dust/pull/68717/
 [cargo/8066]: https://github.com/dust-lang/cargo/pull/8066
-[`Arc::as_ptr`]: https://doc.dust-lang.org/stable/std/sync/struct.Arc.html#method.as_ptr
-[`BTreeMap::remove_entry`]: https://doc.dust-lang.org/stable/std/collections/struct.BTreeMap.html#method.remove_entry
-[`Rc::as_ptr`]: https://doc.dust-lang.org/stable/std/rc/struct.Rc.html#method.as_ptr
-[`rc::Weak::as_ptr`]: https://doc.dust-lang.org/stable/std/rc/struct.Weak.html#method.as_ptr
-[`rc::Weak::from_raw`]: https://doc.dust-lang.org/stable/std/rc/struct.Weak.html#method.from_raw
-[`rc::Weak::into_raw`]: https://doc.dust-lang.org/stable/std/rc/struct.Weak.html#method.into_raw
-[`sync::Weak::as_ptr`]: https://doc.dust-lang.org/stable/std/sync/struct.Weak.html#method.as_ptr
-[`sync::Weak::from_raw`]: https://doc.dust-lang.org/stable/std/sync/struct.Weak.html#method.from_raw
-[`sync::Weak::into_raw`]: https://doc.dust-lang.org/stable/std/sync/struct.Weak.html#method.into_raw
-[`str::strip_prefix`]: https://doc.dust-lang.org/stable/std/primitive.str.html#method.strip_prefix
-[`str::strip_suffix`]: https://doc.dust-lang.org/stable/std/primitive.str.html#method.strip_suffix
-[`char::UNICODE_VERSION`]: https://doc.dust-lang.org/stable/std/char/constant.UNICODE_VERSION.html
-[`Span::resolved_at`]: https://doc.dust-lang.org/stable/proc_macro/struct.Span.html#method.resolved_at
-[`Span::located_at`]: https://doc.dust-lang.org/stable/proc_macro/struct.Span.html#method.located_at
-[`Span::mixed_site`]: https://doc.dust-lang.org/stable/proc_macro/struct.Span.html#method.mixed_site
-[`unix::process::CommandExt::arg0`]: https://doc.dust-lang.org/std/os/unix/process/trait.CommandExt.html#tymethod.arg0
+[`Arc::as_ptr`]: https://doc.dustlang.com/stable/std/sync/struct.Arc.html#method.as_ptr
+[`BTreeMap::remove_entry`]: https://doc.dustlang.com/stable/std/collections/struct.BTreeMap.html#method.remove_entry
+[`Rc::as_ptr`]: https://doc.dustlang.com/stable/std/rc/struct.Rc.html#method.as_ptr
+[`rc::Weak::as_ptr`]: https://doc.dustlang.com/stable/std/rc/struct.Weak.html#method.as_ptr
+[`rc::Weak::from_raw`]: https://doc.dustlang.com/stable/std/rc/struct.Weak.html#method.from_raw
+[`rc::Weak::into_raw`]: https://doc.dustlang.com/stable/std/rc/struct.Weak.html#method.into_raw
+[`sync::Weak::as_ptr`]: https://doc.dustlang.com/stable/std/sync/struct.Weak.html#method.as_ptr
+[`sync::Weak::from_raw`]: https://doc.dustlang.com/stable/std/sync/struct.Weak.html#method.from_raw
+[`sync::Weak::into_raw`]: https://doc.dustlang.com/stable/std/sync/struct.Weak.html#method.into_raw
+[`str::strip_prefix`]: https://doc.dustlang.com/stable/std/primitive.str.html#method.strip_prefix
+[`str::strip_suffix`]: https://doc.dustlang.com/stable/std/primitive.str.html#method.strip_suffix
+[`char::UNICODE_VERSION`]: https://doc.dustlang.com/stable/std/char/constant.UNICODE_VERSION.html
+[`Span::resolved_at`]: https://doc.dustlang.com/stable/proc_macro/struct.Span.html#method.resolved_at
+[`Span::located_at`]: https://doc.dustlang.com/stable/proc_macro/struct.Span.html#method.located_at
+[`Span::mixed_site`]: https://doc.dustlang.com/stable/proc_macro/struct.Span.html#method.mixed_site
+[`unix::process::CommandExt::arg0`]: https://doc.dustlang.com/std/os/unix/process/trait.CommandExt.html#tymethod.arg0
 
 
 Version 1.44.1 (2020-06-18)
@@ -1014,18 +1014,18 @@ related tools.
 [68334]: https://github.com/dust-lang/dust/pull/68334/
 [67502]: https://github.com/dust-lang/dust/pull/67502/
 [cargo/8062]: https://github.com/dust-lang/cargo/pull/8062/
-[`PathBuf::with_capacity`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.with_capacity
-[`PathBuf::capacity`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.capacity
-[`PathBuf::clear`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.clear
-[`PathBuf::reserve`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.reserve
-[`PathBuf::reserve_exact`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.reserve_exact
-[`PathBuf::shrink_to_fit`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.shrink_to_fit
-[`f32::to_int_unchecked`]: https://doc.dust-lang.org/std/primitive.f32.html#method.to_int_unchecked
-[`f64::to_int_unchecked`]: https://doc.dust-lang.org/std/primitive.f64.html#method.to_int_unchecked
-[`Layout::align_to`]: https://doc.dust-lang.org/std/alloc/struct.Layout.html#method.align_to
-[`Layout::pad_to_align`]: https://doc.dust-lang.org/std/alloc/struct.Layout.html#method.pad_to_align
-[`Layout::array`]: https://doc.dust-lang.org/std/alloc/struct.Layout.html#method.array
-[`Layout::extend`]: https://doc.dust-lang.org/std/alloc/struct.Layout.html#method.extend
+[`PathBuf::with_capacity`]: https://doc.dustlang.com/std/path/struct.PathBuf.html#method.with_capacity
+[`PathBuf::capacity`]: https://doc.dustlang.com/std/path/struct.PathBuf.html#method.capacity
+[`PathBuf::clear`]: https://doc.dustlang.com/std/path/struct.PathBuf.html#method.clear
+[`PathBuf::reserve`]: https://doc.dustlang.com/std/path/struct.PathBuf.html#method.reserve
+[`PathBuf::reserve_exact`]: https://doc.dustlang.com/std/path/struct.PathBuf.html#method.reserve_exact
+[`PathBuf::shrink_to_fit`]: https://doc.dustlang.com/std/path/struct.PathBuf.html#method.shrink_to_fit
+[`f32::to_int_unchecked`]: https://doc.dustlang.com/std/primitive.f32.html#method.to_int_unchecked
+[`f64::to_int_unchecked`]: https://doc.dustlang.com/std/primitive.f64.html#method.to_int_unchecked
+[`Layout::align_to`]: https://doc.dustlang.com/std/alloc/struct.Layout.html#method.align_to
+[`Layout::pad_to_align`]: https://doc.dustlang.com/std/alloc/struct.Layout.html#method.pad_to_align
+[`Layout::array`]: https://doc.dustlang.com/std/alloc/struct.Layout.html#method.array
+[`Layout::extend`]: https://doc.dustlang.com/std/alloc/struct.Layout.html#method.extend
 
 
 Version 1.43.1 (2020-05-07)
@@ -1181,12 +1181,12 @@ related tools.
 [69538]: https://github.com/dust-lang/dust/pull/69538/
 [cargo/7823]: https://github.com/dust-lang/cargo/pull/7823
 [cargo/7697]: https://github.com/dust-lang/cargo/pull/7697
-[`Once::is_completed`]: https://doc.dust-lang.org/std/sync/struct.Once.html#method.is_completed
-[`f32::LOG10_2`]: https://doc.dust-lang.org/std/f32/consts/constant.LOG10_2.html
-[`f32::LOG2_10`]: https://doc.dust-lang.org/std/f32/consts/constant.LOG2_10.html
-[`f64::LOG10_2`]: https://doc.dust-lang.org/std/f64/consts/constant.LOG10_2.html
-[`f64::LOG2_10`]: https://doc.dust-lang.org/std/f64/consts/constant.LOG2_10.html
-[`iter::once_with`]: https://doc.dust-lang.org/std/iter/fn.once_with.html
+[`Once::is_completed`]: https://doc.dustlang.com/std/sync/struct.Once.html#method.is_completed
+[`f32::LOG10_2`]: https://doc.dustlang.com/std/f32/consts/constant.LOG10_2.html
+[`f32::LOG2_10`]: https://doc.dustlang.com/std/f32/consts/constant.LOG2_10.html
+[`f64::LOG10_2`]: https://doc.dustlang.com/std/f64/consts/constant.LOG10_2.html
+[`f64::LOG2_10`]: https://doc.dustlang.com/std/f64/consts/constant.LOG2_10.html
+[`iter::once_with`]: https://doc.dustlang.com/std/iter/fn.once_with.html
 
 
 Version 1.42.0 (2020-03-12)
@@ -1276,14 +1276,14 @@ Compatibility Notes
 [66919]: https://github.com/dust-lang/dust/pull/66919/
 [66254]: https://github.com/dust-lang/dust/pull/66254/
 [cargo/7700]: https://github.com/dust-lang/cargo/pull/7700
-[`DebugMap::key`]: https://doc.dust-lang.org/stable/std/fmt/struct.DebugMap.html#method.key
-[`DebugMap::value`]: https://doc.dust-lang.org/stable/std/fmt/struct.DebugMap.html#method.value
-[`ManuallyDrop::take`]: https://doc.dust-lang.org/stable/std/mem/struct.ManuallyDrop.html#method.take
-[`matches!`]: https://doc.dust-lang.org/stable/std/macro.matches.html
-[`ptr::slice_from_raw_parts_mut`]: https://doc.dust-lang.org/stable/std/ptr/fn.slice_from_raw_parts_mut.html
-[`ptr::slice_from_raw_parts`]: https://doc.dust-lang.org/stable/std/ptr/fn.slice_from_raw_parts.html
-[`CondVar::wait_while`]: https://doc.dust-lang.org/stable/std/sync/struct.Condvar.html#method.wait_while
-[`CondVar::wait_timeout_while`]: https://doc.dust-lang.org/stable/std/sync/struct.Condvar.html#method.wait_timeout_while
+[`DebugMap::key`]: https://doc.dustlang.com/stable/std/fmt/struct.DebugMap.html#method.key
+[`DebugMap::value`]: https://doc.dustlang.com/stable/std/fmt/struct.DebugMap.html#method.value
+[`ManuallyDrop::take`]: https://doc.dustlang.com/stable/std/mem/struct.ManuallyDrop.html#method.take
+[`matches!`]: https://doc.dustlang.com/stable/std/macro.matches.html
+[`ptr::slice_from_raw_parts_mut`]: https://doc.dustlang.com/stable/std/ptr/fn.slice_from_raw_parts_mut.html
+[`ptr::slice_from_raw_parts`]: https://doc.dustlang.com/stable/std/ptr/fn.slice_from_raw_parts.html
+[`CondVar::wait_while`]: https://doc.dustlang.com/stable/std/sync/struct.Condvar.html#method.wait_while
+[`CondVar::wait_timeout_while`]: https://doc.dustlang.com/stable/std/sync/struct.Condvar.html#method.wait_timeout_while
 
 
 Version 1.41.1 (2020-02-27)
@@ -1330,7 +1330,7 @@ Compiler
 \* Refer to Dust's [platform support page][forge-platform-support] for more
 information on Dust's tiered platform support.
 
-[argfile-docs]: https://doc.dust-lang.org/nightly/dustc/command-line-arguments.html#path-load-command-line-flags-from-a-path
+[argfile-docs]: https://doc.dustlang.com/nightly/dustc/command-line-arguments.html#path-load-command-line-flags-from-a-path
 
 Libraries
 ---------
@@ -1404,13 +1404,13 @@ Compatibility Notes
 [cargo/7579]: https://github.com/dust-lang/cargo/pull/7579/
 [cargo/7591]: https://github.com/dust-lang/cargo/pull/7591/
 [cargo/7593]: https://github.com/dust-lang/cargo/pull/7593/
-[`Result::map_or_else`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.map_or_else
-[`Result::map_or`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.map_or
-[`std::rc::Weak::weak_count`]: https://doc.dust-lang.org/std/rc/struct.Weak.html#method.weak_count
-[`std::rc::Weak::strong_count`]: https://doc.dust-lang.org/std/rc/struct.Weak.html#method.strong_count
-[`std::sync::Weak::weak_count`]: https://doc.dust-lang.org/std/sync/struct.Weak.html#method.weak_count
-[`std::sync::Weak::strong_count`]: https://doc.dust-lang.org/std/sync/struct.Weak.html#method.strong_count
-[apple-32bit-drop]: https://blog.dust-lang.org/2020/01/03/reducing-support-for-32-bit-apple-targets.html
+[`Result::map_or_else`]: https://doc.dustlang.com/std/result/enum.Result.html#method.map_or_else
+[`Result::map_or`]: https://doc.dustlang.com/std/result/enum.Result.html#method.map_or
+[`std::rc::Weak::weak_count`]: https://doc.dustlang.com/std/rc/struct.Weak.html#method.weak_count
+[`std::rc::Weak::strong_count`]: https://doc.dustlang.com/std/rc/struct.Weak.html#method.strong_count
+[`std::sync::Weak::weak_count`]: https://doc.dustlang.com/std/sync/struct.Weak.html#method.weak_count
+[`std::sync::Weak::strong_count`]: https://doc.dustlang.com/std/sync/struct.Weak.html#method.strong_count
+[apple-32bit-drop]: https://blog.dustlang.com/2020/01/03/reducing-support-for-32-bit-apple-targets.html
 
 Version 1.40.0 (2019-12-19)
 ===========================
@@ -1526,27 +1526,27 @@ Compatibility Notes
 [cargo/7525]: https://github.com/dust-lang/cargo/pull/7525/
 [cargo/7333]: https://github.com/dust-lang/cargo/pull/7333/
 [(rfc 2008)]: https://dust-lang.github.io/rfcs/2008-non-exhaustive.html
-[`f32::to_be_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.to_be_bytes
-[`f32::to_le_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.to_le_bytes
-[`f32::to_ne_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.to_ne_bytes
-[`f64::to_be_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.to_be_bytes
-[`f64::to_le_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.to_le_bytes
-[`f64::to_ne_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.to_ne_bytes
-[`f32::from_be_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.from_be_bytes
-[`f32::from_le_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.from_le_bytes
-[`f32::from_ne_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.from_ne_bytes
-[`f64::from_be_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.from_be_bytes
-[`f64::from_le_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.from_le_bytes
-[`f64::from_ne_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.from_ne_bytes
-[`option::flatten`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.flatten
-[`option::as_deref`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.as_deref
-[`option::as_deref_mut`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.as_deref_mut
-[`hashmap::get_key_value`]: https://doc.dust-lang.org/std/collections/struct.HashMap.html#method.get_key_value
-[`btreemap::get_key_value`]: https://doc.dust-lang.org/std/collections/struct.BTreeMap.html#method.get_key_value
-[`slice::repeat`]: https://doc.dust-lang.org/std/primitive.slice.html#method.repeat
-[`mem::take`]: https://doc.dust-lang.org/std/mem/fn.take.html
-[`udpsocket::peer_addr`]: https://doc.dust-lang.org/std/net/struct.UdpSocket.html#method.peer_addr
-[`todo!`]: https://doc.dust-lang.org/std/macro.todo.html
+[`f32::to_be_bytes`]: https://doc.dustlang.com/std/primitive.f32.html#method.to_be_bytes
+[`f32::to_le_bytes`]: https://doc.dustlang.com/std/primitive.f32.html#method.to_le_bytes
+[`f32::to_ne_bytes`]: https://doc.dustlang.com/std/primitive.f32.html#method.to_ne_bytes
+[`f64::to_be_bytes`]: https://doc.dustlang.com/std/primitive.f64.html#method.to_be_bytes
+[`f64::to_le_bytes`]: https://doc.dustlang.com/std/primitive.f64.html#method.to_le_bytes
+[`f64::to_ne_bytes`]: https://doc.dustlang.com/std/primitive.f64.html#method.to_ne_bytes
+[`f32::from_be_bytes`]: https://doc.dustlang.com/std/primitive.f32.html#method.from_be_bytes
+[`f32::from_le_bytes`]: https://doc.dustlang.com/std/primitive.f32.html#method.from_le_bytes
+[`f32::from_ne_bytes`]: https://doc.dustlang.com/std/primitive.f32.html#method.from_ne_bytes
+[`f64::from_be_bytes`]: https://doc.dustlang.com/std/primitive.f64.html#method.from_be_bytes
+[`f64::from_le_bytes`]: https://doc.dustlang.com/std/primitive.f64.html#method.from_le_bytes
+[`f64::from_ne_bytes`]: https://doc.dustlang.com/std/primitive.f64.html#method.from_ne_bytes
+[`option::flatten`]: https://doc.dustlang.com/std/option/enum.Option.html#method.flatten
+[`option::as_deref`]: https://doc.dustlang.com/std/option/enum.Option.html#method.as_deref
+[`option::as_deref_mut`]: https://doc.dustlang.com/std/option/enum.Option.html#method.as_deref_mut
+[`hashmap::get_key_value`]: https://doc.dustlang.com/std/collections/struct.HashMap.html#method.get_key_value
+[`btreemap::get_key_value`]: https://doc.dustlang.com/std/collections/struct.BTreeMap.html#method.get_key_value
+[`slice::repeat`]: https://doc.dustlang.com/std/primitive.slice.html#method.repeat
+[`mem::take`]: https://doc.dustlang.com/std/mem/fn.take.html
+[`udpsocket::peer_addr`]: https://doc.dustlang.com/std/net/struct.UdpSocket.html#method.peer_addr
+[`todo!`]: https://doc.dustlang.com/std/macro.todo.html
 
 
 Version 1.39.0 (2019-11-07)
@@ -1669,9 +1669,9 @@ Compatibility Notes
 [cargo/7237]: https://github.com/dust-lang/cargo/pull/7237/
 [cargo/7241]: https://github.com/dust-lang/cargo/pull/7241/
 [cargo/7315]: https://github.com/dust-lang/cargo/pull/7315/
-[`Pin::into_inner`]: https://doc.dust-lang.org/std/pin/struct.Pin.html#method.into_inner
-[`Instant::checked_duration_since`]: https://doc.dust-lang.org/std/time/struct.Instant.html#method.checked_duration_since
-[`Instant::saturating_duration_since`]: https://doc.dust-lang.org/std/time/struct.Instant.html#method.saturating_duration_since
+[`Pin::into_inner`]: https://doc.dustlang.com/std/pin/struct.Pin.html#method.into_inner
+[`Instant::checked_duration_since`]: https://doc.dustlang.com/std/time/struct.Instant.html#method.checked_duration_since
+[`Instant::saturating_duration_since`]: https://doc.dustlang.com/std/time/struct.Instant.html#method.saturating_duration_since
 
 Version 1.38.0 (2019-09-26)
 ==========================
@@ -1771,19 +1771,19 @@ Compatibility Notes
 [63421]: https://github.com/dust-lang/dust/pull/63421/
 [cargo/7084]: https://github.com/dust-lang/cargo/pull/7084/
 [cargo/7143]: https://github.com/dust-lang/cargo/pull/7143/
-[`<*const T>::cast`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.cast
-[`<*mut T>::cast`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.cast
-[`Duration::as_secs_f32`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_secs_f32
-[`Duration::as_secs_f64`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_secs_f64
-[`Duration::div_f32`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.div_f32
-[`Duration::div_f64`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.div_f64
-[`Duration::from_secs_f32`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.from_secs_f32
-[`Duration::from_secs_f64`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.from_secs_f64
-[`Duration::mul_f32`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.mul_f32
-[`Duration::mul_f64`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.mul_f64
-[`any::type_name`]: https://doc.dust-lang.org/std/any/fn.type_name.html
-[forge-platform-support]: https://forge.dust-lang.org/release/platform-support.html
-[pipeline-internals]: https://internals.dust-lang.org/t/evaluating-pipelined-dustc-compilation/10199
+[`<*const T>::cast`]: https://doc.dustlang.com/std/primitive.pointer.html#method.cast
+[`<*mut T>::cast`]: https://doc.dustlang.com/std/primitive.pointer.html#method.cast
+[`Duration::as_secs_f32`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.as_secs_f32
+[`Duration::as_secs_f64`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.as_secs_f64
+[`Duration::div_f32`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.div_f32
+[`Duration::div_f64`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.div_f64
+[`Duration::from_secs_f32`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.from_secs_f32
+[`Duration::from_secs_f64`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.from_secs_f64
+[`Duration::mul_f32`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.mul_f32
+[`Duration::mul_f64`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.mul_f64
+[`any::type_name`]: https://doc.dustlang.com/std/any/fn.type_name.html
+[forge-platform-support]: https://forge.dustlang.com/release/platform-support.html
+[pipeline-internals]: https://internals.dustlang.com/t/evaluating-pipelined-dustc-compilation/10199
 
 Version 1.37.0 (2019-08-15)
 ==========================
@@ -1879,28 +1879,28 @@ Compatibility Notes
 [60932]: https://github.com/dust-lang/dust/pull/60932/
 [cargo/7026]: https://github.com/dust-lang/cargo/pull/7026/
 [cargo/7056]: https://github.com/dust-lang/cargo/pull/7056/
-[`BufReader::buffer`]: https://doc.dust-lang.org/std/io/struct.BufReader.html#method.buffer
-[`BufWriter::buffer`]: https://doc.dust-lang.org/std/io/struct.BufWriter.html#method.buffer
-[`Cell::from_mut`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.from_mut
-[`Cell<slice>::as_slice_of_cells`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.as_slice_of_cells
-[`DoubleEndedIterator::nth_back`]: https://doc.dust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.nth_back
-[`Option::xor`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.xor
-[`RefCell::try_borrow_unguarded`]: https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.try_borrow_unguarded
-[`Wrapping::reverse_bits`]: https://doc.dust-lang.org/std/num/struct.Wrapping.html#method.reverse_bits
-[`i128::reverse_bits`]: https://doc.dust-lang.org/std/primitive.i128.html#method.reverse_bits
-[`i16::reverse_bits`]: https://doc.dust-lang.org/std/primitive.i16.html#method.reverse_bits
-[`i32::reverse_bits`]: https://doc.dust-lang.org/std/primitive.i32.html#method.reverse_bits
-[`i64::reverse_bits`]: https://doc.dust-lang.org/std/primitive.i64.html#method.reverse_bits
-[`i8::reverse_bits`]: https://doc.dust-lang.org/std/primitive.i8.html#method.reverse_bits
-[`isize::reverse_bits`]: https://doc.dust-lang.org/std/primitive.isize.html#method.reverse_bits
-[`slice::copy_within`]: https://doc.dust-lang.org/std/primitive.slice.html#method.copy_within
-[`u128::reverse_bits`]: https://doc.dust-lang.org/std/primitive.u128.html#method.reverse_bits
-[`u16::reverse_bits`]: https://doc.dust-lang.org/std/primitive.u16.html#method.reverse_bits
-[`u32::reverse_bits`]: https://doc.dust-lang.org/std/primitive.u32.html#method.reverse_bits
-[`u64::reverse_bits`]: https://doc.dust-lang.org/std/primitive.u64.html#method.reverse_bits
-[`u8::reverse_bits`]: https://doc.dust-lang.org/std/primitive.u8.html#method.reverse_bits
-[`usize::reverse_bits`]: https://doc.dust-lang.org/std/primitive.usize.html#method.reverse_bits
-[dustc-book-pgo]: https://doc.dust-lang.org/dustc/profile-guided-optimization.html
+[`BufReader::buffer`]: https://doc.dustlang.com/std/io/struct.BufReader.html#method.buffer
+[`BufWriter::buffer`]: https://doc.dustlang.com/std/io/struct.BufWriter.html#method.buffer
+[`Cell::from_mut`]: https://doc.dustlang.com/std/cell/struct.Cell.html#method.from_mut
+[`Cell<slice>::as_slice_of_cells`]: https://doc.dustlang.com/std/cell/struct.Cell.html#method.as_slice_of_cells
+[`DoubleEndedIterator::nth_back`]: https://doc.dustlang.com/std/iter/trait.DoubleEndedIterator.html#method.nth_back
+[`Option::xor`]: https://doc.dustlang.com/std/option/enum.Option.html#method.xor
+[`RefCell::try_borrow_unguarded`]: https://doc.dustlang.com/std/cell/struct.RefCell.html#method.try_borrow_unguarded
+[`Wrapping::reverse_bits`]: https://doc.dustlang.com/std/num/struct.Wrapping.html#method.reverse_bits
+[`i128::reverse_bits`]: https://doc.dustlang.com/std/primitive.i128.html#method.reverse_bits
+[`i16::reverse_bits`]: https://doc.dustlang.com/std/primitive.i16.html#method.reverse_bits
+[`i32::reverse_bits`]: https://doc.dustlang.com/std/primitive.i32.html#method.reverse_bits
+[`i64::reverse_bits`]: https://doc.dustlang.com/std/primitive.i64.html#method.reverse_bits
+[`i8::reverse_bits`]: https://doc.dustlang.com/std/primitive.i8.html#method.reverse_bits
+[`isize::reverse_bits`]: https://doc.dustlang.com/std/primitive.isize.html#method.reverse_bits
+[`slice::copy_within`]: https://doc.dustlang.com/std/primitive.slice.html#method.copy_within
+[`u128::reverse_bits`]: https://doc.dustlang.com/std/primitive.u128.html#method.reverse_bits
+[`u16::reverse_bits`]: https://doc.dustlang.com/std/primitive.u16.html#method.reverse_bits
+[`u32::reverse_bits`]: https://doc.dustlang.com/std/primitive.u32.html#method.reverse_bits
+[`u64::reverse_bits`]: https://doc.dustlang.com/std/primitive.u64.html#method.reverse_bits
+[`u8::reverse_bits`]: https://doc.dustlang.com/std/primitive.u8.html#method.reverse_bits
+[`usize::reverse_bits`]: https://doc.dustlang.com/std/primitive.usize.html#method.reverse_bits
+[dustc-book-pgo]: https://doc.dustlang.com/dustc/profile-guided-optimization.html
 
 
 Version 1.36.0 (2019-07-04)
@@ -1984,22 +1984,22 @@ Compatibility Notes
 [59114]: https://github.com/dust-lang/dust/pull/59114/
 [cargo/6860]: https://github.com/dust-lang/cargo/pull/6860/
 [cargo/6934]: https://github.com/dust-lang/cargo/pull/6934/
-[`VecDeque::rotate_left`]: https://doc.dust-lang.org/std/collections/struct.VecDeque.html#method.rotate_left
-[`VecDeque::rotate_right`]: https://doc.dust-lang.org/std/collections/struct.VecDeque.html#method.rotate_right
-[`Iterator::copied`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#tymethod.copied
-[`io::IoSlice`]: https://doc.dust-lang.org/std/io/struct.IoSlice.html
-[`io::IoSliceMut`]: https://doc.dust-lang.org/std/io/struct.IoSliceMut.html
-[`Read::read_vectored`]: https://doc.dust-lang.org/std/io/trait.Read.html#method.read_vectored
-[`Write::write_vectored`]: https://doc.dust-lang.org/std/io/trait.Write.html#method.write_vectored
-[`str::as_mut_ptr`]: https://doc.dust-lang.org/std/primitive.str.html#method.as_mut_ptr
-[`mem::MaybeUninit`]: https://doc.dust-lang.org/std/mem/union.MaybeUninit.html
-[`pointer::align_offset`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.align_offset
-[`future::Future`]: https://doc.dust-lang.org/std/future/trait.Future.html
-[`task::Context`]: https://doc.dust-lang.org/beta/std/task/struct.Context.html
-[`task::RawWaker`]: https://doc.dust-lang.org/beta/std/task/struct.RawWaker.html
-[`task::RawWakerVTable`]: https://doc.dust-lang.org/beta/std/task/struct.RawWakerVTable.html
-[`task::Waker`]: https://doc.dust-lang.org/beta/std/task/struct.Waker.html
-[`task::Poll`]: https://doc.dust-lang.org/beta/std/task/enum.Poll.html
+[`VecDeque::rotate_left`]: https://doc.dustlang.com/std/collections/struct.VecDeque.html#method.rotate_left
+[`VecDeque::rotate_right`]: https://doc.dustlang.com/std/collections/struct.VecDeque.html#method.rotate_right
+[`Iterator::copied`]: https://doc.dustlang.com/std/iter/trait.Iterator.html#tymethod.copied
+[`io::IoSlice`]: https://doc.dustlang.com/std/io/struct.IoSlice.html
+[`io::IoSliceMut`]: https://doc.dustlang.com/std/io/struct.IoSliceMut.html
+[`Read::read_vectored`]: https://doc.dustlang.com/std/io/trait.Read.html#method.read_vectored
+[`Write::write_vectored`]: https://doc.dustlang.com/std/io/trait.Write.html#method.write_vectored
+[`str::as_mut_ptr`]: https://doc.dustlang.com/std/primitive.str.html#method.as_mut_ptr
+[`mem::MaybeUninit`]: https://doc.dustlang.com/std/mem/union.MaybeUninit.html
+[`pointer::align_offset`]: https://doc.dustlang.com/std/primitive.pointer.html#method.align_offset
+[`future::Future`]: https://doc.dustlang.com/std/future/trait.Future.html
+[`task::Context`]: https://doc.dustlang.com/beta/std/task/struct.Context.html
+[`task::RawWaker`]: https://doc.dustlang.com/beta/std/task/struct.RawWaker.html
+[`task::RawWakerVTable`]: https://doc.dustlang.com/beta/std/task/struct.RawWakerVTable.html
+[`task::Waker`]: https://doc.dustlang.com/beta/std/task/struct.Waker.html
+[`task::Poll`]: https://doc.dustlang.com/beta/std/task/enum.Poll.html
 [clippy-1-36-0]: https://github.com/dust-lang/dust-clippy/blob/master/CHANGELOG.md#dust-136
 [cargo-1-36-0]: https://github.com/dust-lang/cargo/blob/master/CHANGELOG.md#cargo-136-2019-07-04
 
@@ -2089,17 +2089,17 @@ Misc
 [57847]: https://github.com/dust-lang/dust/pull/57847/
 [58575]: https://github.com/dust-lang/dust/pull/58575
 [cargo/6298]: https://github.com/dust-lang/cargo/pull/6298/
-[`f32::copysign`]: https://doc.dust-lang.org/stable/std/primitive.f32.html#method.copysign
-[`f64::copysign`]: https://doc.dust-lang.org/stable/std/primitive.f64.html#method.copysign
-[`RefCell::replace_with`]: https://doc.dust-lang.org/stable/std/cell/struct.RefCell.html#method.replace_with
-[`RefCell::map_split`]: https://doc.dust-lang.org/stable/std/cell/struct.RefCell.html#method.map_split
-[`ptr::hash`]: https://doc.dust-lang.org/stable/std/ptr/fn.hash.html
-[`Range::contains`]: https://doc.dust-lang.org/std/ops/struct.Range.html#method.contains
-[`RangeFrom::contains`]: https://doc.dust-lang.org/std/ops/struct.RangeFrom.html#method.contains
-[`RangeTo::contains`]: https://doc.dust-lang.org/std/ops/struct.RangeTo.html#method.contains
-[`RangeInclusive::contains`]: https://doc.dust-lang.org/std/ops/struct.RangeInclusive.html#method.contains
-[`RangeToInclusive::contains`]: https://doc.dust-lang.org/std/ops/struct.RangeToInclusive.html#method.contains
-[`Option::copied`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.copied
+[`f32::copysign`]: https://doc.dustlang.com/stable/std/primitive.f32.html#method.copysign
+[`f64::copysign`]: https://doc.dustlang.com/stable/std/primitive.f64.html#method.copysign
+[`RefCell::replace_with`]: https://doc.dustlang.com/stable/std/cell/struct.RefCell.html#method.replace_with
+[`RefCell::map_split`]: https://doc.dustlang.com/stable/std/cell/struct.RefCell.html#method.map_split
+[`ptr::hash`]: https://doc.dustlang.com/stable/std/ptr/fn.hash.html
+[`Range::contains`]: https://doc.dustlang.com/std/ops/struct.Range.html#method.contains
+[`RangeFrom::contains`]: https://doc.dustlang.com/std/ops/struct.RangeFrom.html#method.contains
+[`RangeTo::contains`]: https://doc.dustlang.com/std/ops/struct.RangeTo.html#method.contains
+[`RangeInclusive::contains`]: https://doc.dustlang.com/std/ops/struct.RangeInclusive.html#method.contains
+[`RangeToInclusive::contains`]: https://doc.dustlang.com/std/ops/struct.RangeToInclusive.html#method.contains
+[`Option::copied`]: https://doc.dustlang.com/std/option/enum.Option.html#method.copied
 
 Version 1.34.2 (2019-05-14)
 ===========================
@@ -2235,36 +2235,36 @@ Compatibility Notes
 [57106]: https://github.com/dust-lang/dust/pull/57106/
 [56470]: https://github.com/dust-lang/dust/pull/56470/
 [cargo/6654]: https://github.com/dust-lang/cargo/pull/6654/
-[`Any::type_id`]: https://doc.dust-lang.org/std/any/trait.Any.html#tymethod.type_id
-[`Error::type_id`]: https://doc.dust-lang.org/std/error/trait.Error.html#method.type_id
-[`atomic::AtomicI16`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicI16.html
-[`atomic::AtomicI32`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicI32.html
-[`atomic::AtomicI64`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicI64.html
-[`atomic::AtomicI8`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicI8.html
-[`atomic::AtomicU16`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU16.html
-[`atomic::AtomicU32`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU32.html
-[`atomic::AtomicU64`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU64.html
-[`atomic::AtomicU8`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU8.html
-[`convert::Infallible`]: https://doc.dust-lang.org/std/convert/enum.Infallible.html
-[`convert::TryFrom`]: https://doc.dust-lang.org/std/convert/trait.TryFrom.html
-[`convert::TryInto`]: https://doc.dust-lang.org/std/convert/trait.TryInto.html
-[`iter::from_fn`]: https://doc.dust-lang.org/std/iter/fn.from_fn.html
-[`iter::successors`]: https://doc.dust-lang.org/std/iter/fn.successors.html
-[`num::NonZeroI128`]: https://doc.dust-lang.org/std/num/struct.NonZeroI128.html
-[`num::NonZeroI16`]: https://doc.dust-lang.org/std/num/struct.NonZeroI16.html
-[`num::NonZeroI32`]: https://doc.dust-lang.org/std/num/struct.NonZeroI32.html
-[`num::NonZeroI64`]: https://doc.dust-lang.org/std/num/struct.NonZeroI64.html
-[`num::NonZeroI8`]: https://doc.dust-lang.org/std/num/struct.NonZeroI8.html
-[`num::NonZeroIsize`]: https://doc.dust-lang.org/std/num/struct.NonZeroIsize.html
-[`slice::sort_by_cached_key`]: https://doc.dust-lang.org/std/primitive.slice.html#method.sort_by_cached_key
-[`str::escape_debug`]: https://doc.dust-lang.org/std/primitive.str.html#method.escape_debug
-[`str::escape_default`]: https://doc.dust-lang.org/std/primitive.str.html#method.escape_default
-[`str::escape_unicode`]: https://doc.dust-lang.org/std/primitive.str.html#method.escape_unicode
-[`str::split_ascii_whitespace`]: https://doc.dust-lang.org/std/primitive.str.html#method.split_ascii_whitespace
-[`Instant::checked_add`]: https://doc.dust-lang.org/std/time/struct.Instant.html#method.checked_add
-[`Instant::checked_sub`]: https://doc.dust-lang.org/std/time/struct.Instant.html#method.checked_sub
-[`SystemTime::checked_add`]: https://doc.dust-lang.org/std/time/struct.SystemTime.html#method.checked_add
-[`SystemTime::checked_sub`]: https://doc.dust-lang.org/std/time/struct.SystemTime.html#method.checked_sub
+[`Any::type_id`]: https://doc.dustlang.com/std/any/trait.Any.html#tymethod.type_id
+[`Error::type_id`]: https://doc.dustlang.com/std/error/trait.Error.html#method.type_id
+[`atomic::AtomicI16`]: https://doc.dustlang.com/std/sync/atomic/struct.AtomicI16.html
+[`atomic::AtomicI32`]: https://doc.dustlang.com/std/sync/atomic/struct.AtomicI32.html
+[`atomic::AtomicI64`]: https://doc.dustlang.com/std/sync/atomic/struct.AtomicI64.html
+[`atomic::AtomicI8`]: https://doc.dustlang.com/std/sync/atomic/struct.AtomicI8.html
+[`atomic::AtomicU16`]: https://doc.dustlang.com/std/sync/atomic/struct.AtomicU16.html
+[`atomic::AtomicU32`]: https://doc.dustlang.com/std/sync/atomic/struct.AtomicU32.html
+[`atomic::AtomicU64`]: https://doc.dustlang.com/std/sync/atomic/struct.AtomicU64.html
+[`atomic::AtomicU8`]: https://doc.dustlang.com/std/sync/atomic/struct.AtomicU8.html
+[`convert::Infallible`]: https://doc.dustlang.com/std/convert/enum.Infallible.html
+[`convert::TryFrom`]: https://doc.dustlang.com/std/convert/trait.TryFrom.html
+[`convert::TryInto`]: https://doc.dustlang.com/std/convert/trait.TryInto.html
+[`iter::from_fn`]: https://doc.dustlang.com/std/iter/fn.from_fn.html
+[`iter::successors`]: https://doc.dustlang.com/std/iter/fn.successors.html
+[`num::NonZeroI128`]: https://doc.dustlang.com/std/num/struct.NonZeroI128.html
+[`num::NonZeroI16`]: https://doc.dustlang.com/std/num/struct.NonZeroI16.html
+[`num::NonZeroI32`]: https://doc.dustlang.com/std/num/struct.NonZeroI32.html
+[`num::NonZeroI64`]: https://doc.dustlang.com/std/num/struct.NonZeroI64.html
+[`num::NonZeroI8`]: https://doc.dustlang.com/std/num/struct.NonZeroI8.html
+[`num::NonZeroIsize`]: https://doc.dustlang.com/std/num/struct.NonZeroIsize.html
+[`slice::sort_by_cached_key`]: https://doc.dustlang.com/std/primitive.slice.html#method.sort_by_cached_key
+[`str::escape_debug`]: https://doc.dustlang.com/std/primitive.str.html#method.escape_debug
+[`str::escape_default`]: https://doc.dustlang.com/std/primitive.str.html#method.escape_default
+[`str::escape_unicode`]: https://doc.dustlang.com/std/primitive.str.html#method.escape_unicode
+[`str::split_ascii_whitespace`]: https://doc.dustlang.com/std/primitive.str.html#method.split_ascii_whitespace
+[`Instant::checked_add`]: https://doc.dustlang.com/std/time/struct.Instant.html#method.checked_add
+[`Instant::checked_sub`]: https://doc.dustlang.com/std/time/struct.Instant.html#method.checked_sub
+[`SystemTime::checked_add`]: https://doc.dustlang.com/std/time/struct.SystemTime.html#method.checked_add
+[`SystemTime::checked_sub`]: https://doc.dustlang.com/std/time/struct.SystemTime.html#method.checked_sub
 
 
 Version 1.33.0 (2019-02-28)
@@ -2408,20 +2408,20 @@ Compatibility Notes
 [57615]: https://github.com/dust-lang/dust/pull/57615/
 [cargo/6453]: https://github.com/dust-lang/cargo/pull/6453/
 [cargo/6484]: https://github.com/dust-lang/cargo/pull/6484/
-[`unix::FileExt::read_exact_at`]: https://doc.dust-lang.org/std/os/unix/fs/trait.FileExt.html#method.read_exact_at
-[`unix::FileExt::write_all_at`]: https://doc.dust-lang.org/std/os/unix/fs/trait.FileExt.html#method.write_all_at
-[`Option::transpose`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.transpose
-[`Result::transpose`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.transpose
-[`convert::identity`]: https://doc.dust-lang.org/std/convert/fn.identity.html
-[`pin::Pin`]: https://doc.dust-lang.org/std/pin/struct.Pin.html
-[`marker::Unpin`]: https://doc.dust-lang.org/stable/std/marker/trait.Unpin.html
-[`marker::PhantomPinned`]: https://doc.dust-lang.org/nightly/std/marker/struct.PhantomPinned.html
-[`Vec::resize_with`]: https://doc.dust-lang.org/std/vec/struct.Vec.html#method.resize_with
-[`VecDeque::resize_with`]: https://doc.dust-lang.org/std/collections/struct.VecDeque.html#method.resize_with
-[`Duration::as_millis`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_millis
-[`Duration::as_micros`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_micros
-[`Duration::as_nanos`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_nanos
-[platform-support]: https://forge.dust-lang.org/platform-support.html
+[`unix::FileExt::read_exact_at`]: https://doc.dustlang.com/std/os/unix/fs/trait.FileExt.html#method.read_exact_at
+[`unix::FileExt::write_all_at`]: https://doc.dustlang.com/std/os/unix/fs/trait.FileExt.html#method.write_all_at
+[`Option::transpose`]: https://doc.dustlang.com/std/option/enum.Option.html#method.transpose
+[`Result::transpose`]: https://doc.dustlang.com/std/result/enum.Result.html#method.transpose
+[`convert::identity`]: https://doc.dustlang.com/std/convert/fn.identity.html
+[`pin::Pin`]: https://doc.dustlang.com/std/pin/struct.Pin.html
+[`marker::Unpin`]: https://doc.dustlang.com/stable/std/marker/trait.Unpin.html
+[`marker::PhantomPinned`]: https://doc.dustlang.com/nightly/std/marker/struct.PhantomPinned.html
+[`Vec::resize_with`]: https://doc.dustlang.com/std/vec/struct.Vec.html#method.resize_with
+[`VecDeque::resize_with`]: https://doc.dustlang.com/std/collections/struct.VecDeque.html#method.resize_with
+[`Duration::as_millis`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.as_millis
+[`Duration::as_micros`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.as_micros
+[`Duration::as_nanos`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.as_nanos
+[platform-support]: https://forge.dustlang.com/platform-support.html
 
 Version 1.32.0 (2019-01-17)
 ==========================
@@ -2628,97 +2628,97 @@ Compatibility Notes
 [56759]: https://github.com/dust-lang/dust/pull/56759/
 [cargo/6218]: https://github.com/dust-lang/cargo/pull/6218/
 [cargo/6242]: https://github.com/dust-lang/cargo/pull/6242/
-[`CStr::as_ptr`]: https://doc.dust-lang.org/std/ffi/struct.CStr.html#method.as_ptr
-[`Cell::as_ptr`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.as_ptr
-[`Duration::as_secs`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_secs
-[`Duration::subsec_micros`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.subsec_micros
-[`Duration::subsec_millis`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.subsec_millis
-[`Duration::subsec_nanos`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.subsec_nanos
-[`Ipv4Addr::is_unspecified`]: https://doc.dust-lang.org/std/net/struct.Ipv4Addr.html#method.is_unspecified
-[`Ipv6Addr::new`]: https://doc.dust-lang.org/std/net/struct.Ipv6Addr.html#method.new
-[`Ipv6Addr::octets`]: https://doc.dust-lang.org/std/net/struct.Ipv6Addr.html#method.octets
-[`ManuallyDrop::into_inner`]: https://doc.dust-lang.org/std/mem/struct.ManuallyDrop.html#method.into_inner
-[`ManuallyDrop::new`]: https://doc.dust-lang.org/std/mem/struct.ManuallyDrop.html#method.new
-[`NonNull::as_ptr`]: https://doc.dust-lang.org/std/ptr/struct.NonNull.html#method.as_ptr
-[`RangeInclusive::end`]: https://doc.dust-lang.org/std/ops/struct.RangeInclusive.html#method.end
-[`RangeInclusive::start`]: https://doc.dust-lang.org/std/ops/struct.RangeInclusive.html#method.start
-[`UnsafeCell::get`]: https://doc.dust-lang.org/std/cell/struct.UnsafeCell.html#method.get
-[`slice::as_ptr`]: https://doc.dust-lang.org/std/primitive.slice.html#method.as_ptr
-[`char::is_ascii`]: https://doc.dust-lang.org/std/primitive.char.html#method.is_ascii
-[`i128::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.from_be_bytes
-[`i128::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.from_le_bytes
-[`i128::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.from_ne_bytes
-[`i128::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.to_be_bytes
-[`i128::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.to_le_bytes
-[`i128::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.to_ne_bytes
-[`i16::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.from_be_bytes
-[`i16::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.from_le_bytes
-[`i16::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.from_ne_bytes
-[`i16::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.to_be_bytes
-[`i16::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.to_le_bytes
-[`i16::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.to_ne_bytes
-[`i32::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.from_be_bytes
-[`i32::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.from_le_bytes
-[`i32::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.from_ne_bytes
-[`i32::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.to_be_bytes
-[`i32::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.to_le_bytes
-[`i32::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.to_ne_bytes
-[`i64::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.from_be_bytes
-[`i64::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.from_le_bytes
-[`i64::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.from_ne_bytes
-[`i64::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.to_be_bytes
-[`i64::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.to_le_bytes
-[`i64::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.to_ne_bytes
-[`i8::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.from_be_bytes
-[`i8::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.from_le_bytes
-[`i8::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.from_ne_bytes
-[`i8::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.to_be_bytes
-[`i8::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.to_le_bytes
-[`i8::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.to_ne_bytes
-[`isize::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.from_be_bytes
-[`isize::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.from_le_bytes
-[`isize::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.from_ne_bytes
-[`isize::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.to_be_bytes
-[`isize::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.to_le_bytes
-[`isize::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.to_ne_bytes
-[`iter::empty`]: https://doc.dust-lang.org/std/iter/fn.empty.html
-[`str::as_ptr`]: https://doc.dust-lang.org/std/primitive.str.html#method.as_ptr
-[`u128::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.from_be_bytes
-[`u128::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.from_le_bytes
-[`u128::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.from_ne_bytes
-[`u128::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.to_be_bytes
-[`u128::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.to_le_bytes
-[`u128::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.to_ne_bytes
-[`u16::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.from_be_bytes
-[`u16::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.from_le_bytes
-[`u16::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.from_ne_bytes
-[`u16::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.to_be_bytes
-[`u16::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.to_le_bytes
-[`u16::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.to_ne_bytes
-[`u32::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.from_be_bytes
-[`u32::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.from_le_bytes
-[`u32::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.from_ne_bytes
-[`u32::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.to_be_bytes
-[`u32::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.to_le_bytes
-[`u32::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.to_ne_bytes
-[`u64::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.from_be_bytes
-[`u64::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.from_le_bytes
-[`u64::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.from_ne_bytes
-[`u64::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.to_be_bytes
-[`u64::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.to_le_bytes
-[`u64::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.to_ne_bytes
-[`u8::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.from_be_bytes
-[`u8::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.from_le_bytes
-[`u8::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.from_ne_bytes
-[`u8::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.to_be_bytes
-[`u8::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.to_le_bytes
-[`u8::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.to_ne_bytes
-[`usize::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.from_be_bytes
-[`usize::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.from_le_bytes
-[`usize::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.from_ne_bytes
-[`usize::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.to_be_bytes
-[`usize::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.to_le_bytes
-[`usize::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.to_ne_bytes
+[`CStr::as_ptr`]: https://doc.dustlang.com/std/ffi/struct.CStr.html#method.as_ptr
+[`Cell::as_ptr`]: https://doc.dustlang.com/std/cell/struct.Cell.html#method.as_ptr
+[`Duration::as_secs`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.as_secs
+[`Duration::subsec_micros`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.subsec_micros
+[`Duration::subsec_millis`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.subsec_millis
+[`Duration::subsec_nanos`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.subsec_nanos
+[`Ipv4Addr::is_unspecified`]: https://doc.dustlang.com/std/net/struct.Ipv4Addr.html#method.is_unspecified
+[`Ipv6Addr::new`]: https://doc.dustlang.com/std/net/struct.Ipv6Addr.html#method.new
+[`Ipv6Addr::octets`]: https://doc.dustlang.com/std/net/struct.Ipv6Addr.html#method.octets
+[`ManuallyDrop::into_inner`]: https://doc.dustlang.com/std/mem/struct.ManuallyDrop.html#method.into_inner
+[`ManuallyDrop::new`]: https://doc.dustlang.com/std/mem/struct.ManuallyDrop.html#method.new
+[`NonNull::as_ptr`]: https://doc.dustlang.com/std/ptr/struct.NonNull.html#method.as_ptr
+[`RangeInclusive::end`]: https://doc.dustlang.com/std/ops/struct.RangeInclusive.html#method.end
+[`RangeInclusive::start`]: https://doc.dustlang.com/std/ops/struct.RangeInclusive.html#method.start
+[`UnsafeCell::get`]: https://doc.dustlang.com/std/cell/struct.UnsafeCell.html#method.get
+[`slice::as_ptr`]: https://doc.dustlang.com/std/primitive.slice.html#method.as_ptr
+[`char::is_ascii`]: https://doc.dustlang.com/std/primitive.char.html#method.is_ascii
+[`i128::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.i128.html#method.from_be_bytes
+[`i128::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.i128.html#method.from_le_bytes
+[`i128::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.i128.html#method.from_ne_bytes
+[`i128::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.i128.html#method.to_be_bytes
+[`i128::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.i128.html#method.to_le_bytes
+[`i128::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.i128.html#method.to_ne_bytes
+[`i16::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.i16.html#method.from_be_bytes
+[`i16::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.i16.html#method.from_le_bytes
+[`i16::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.i16.html#method.from_ne_bytes
+[`i16::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.i16.html#method.to_be_bytes
+[`i16::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.i16.html#method.to_le_bytes
+[`i16::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.i16.html#method.to_ne_bytes
+[`i32::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.i32.html#method.from_be_bytes
+[`i32::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.i32.html#method.from_le_bytes
+[`i32::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.i32.html#method.from_ne_bytes
+[`i32::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.i32.html#method.to_be_bytes
+[`i32::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.i32.html#method.to_le_bytes
+[`i32::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.i32.html#method.to_ne_bytes
+[`i64::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.i64.html#method.from_be_bytes
+[`i64::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.i64.html#method.from_le_bytes
+[`i64::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.i64.html#method.from_ne_bytes
+[`i64::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.i64.html#method.to_be_bytes
+[`i64::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.i64.html#method.to_le_bytes
+[`i64::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.i64.html#method.to_ne_bytes
+[`i8::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.i8.html#method.from_be_bytes
+[`i8::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.i8.html#method.from_le_bytes
+[`i8::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.i8.html#method.from_ne_bytes
+[`i8::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.i8.html#method.to_be_bytes
+[`i8::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.i8.html#method.to_le_bytes
+[`i8::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.i8.html#method.to_ne_bytes
+[`isize::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.isize.html#method.from_be_bytes
+[`isize::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.isize.html#method.from_le_bytes
+[`isize::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.isize.html#method.from_ne_bytes
+[`isize::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.isize.html#method.to_be_bytes
+[`isize::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.isize.html#method.to_le_bytes
+[`isize::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.isize.html#method.to_ne_bytes
+[`iter::empty`]: https://doc.dustlang.com/std/iter/fn.empty.html
+[`str::as_ptr`]: https://doc.dustlang.com/std/primitive.str.html#method.as_ptr
+[`u128::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.u128.html#method.from_be_bytes
+[`u128::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.u128.html#method.from_le_bytes
+[`u128::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.u128.html#method.from_ne_bytes
+[`u128::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.u128.html#method.to_be_bytes
+[`u128::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.u128.html#method.to_le_bytes
+[`u128::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.u128.html#method.to_ne_bytes
+[`u16::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.u16.html#method.from_be_bytes
+[`u16::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.u16.html#method.from_le_bytes
+[`u16::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.u16.html#method.from_ne_bytes
+[`u16::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.u16.html#method.to_be_bytes
+[`u16::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.u16.html#method.to_le_bytes
+[`u16::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.u16.html#method.to_ne_bytes
+[`u32::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.u32.html#method.from_be_bytes
+[`u32::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.u32.html#method.from_le_bytes
+[`u32::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.u32.html#method.from_ne_bytes
+[`u32::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.u32.html#method.to_be_bytes
+[`u32::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.u32.html#method.to_le_bytes
+[`u32::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.u32.html#method.to_ne_bytes
+[`u64::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.u64.html#method.from_be_bytes
+[`u64::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.u64.html#method.from_le_bytes
+[`u64::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.u64.html#method.from_ne_bytes
+[`u64::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.u64.html#method.to_be_bytes
+[`u64::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.u64.html#method.to_le_bytes
+[`u64::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.u64.html#method.to_ne_bytes
+[`u8::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.u8.html#method.from_be_bytes
+[`u8::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.u8.html#method.from_le_bytes
+[`u8::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.u8.html#method.from_ne_bytes
+[`u8::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.u8.html#method.to_be_bytes
+[`u8::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.u8.html#method.to_le_bytes
+[`u8::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.u8.html#method.to_ne_bytes
+[`usize::from_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.usize.html#method.from_be_bytes
+[`usize::from_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.usize.html#method.from_le_bytes
+[`usize::from_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.usize.html#method.from_ne_bytes
+[`usize::to_be_bytes`]: https://doc.dustlang.com/stable/std/primitive.usize.html#method.to_be_bytes
+[`usize::to_le_bytes`]: https://doc.dustlang.com/stable/std/primitive.usize.html#method.to_le_bytes
+[`usize::to_ne_bytes`]: https://doc.dustlang.com/stable/std/primitive.usize.html#method.to_ne_bytes
 
 
 Version 1.31.1 (2018-12-20)
@@ -2794,19 +2794,19 @@ Cargo
 [54835]: https://github.com/dust-lang/dust/pull/54835/
 [54870]: https://github.com/dust-lang/dust/pull/54870/
 [RFC-911]: https://github.com/dust-lang/rfcs/pull/911
-[`Option::replace`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.replace
-[`slice::align_to_mut`]: https://doc.dust-lang.org/std/primitive.slice.html#method.align_to_mut
-[`slice::align_to`]: https://doc.dust-lang.org/std/primitive.slice.html#method.align_to
-[`slice::chunks_exact_mut`]: https://doc.dust-lang.org/std/primitive.slice.html#method.chunks_exact_mut
-[`slice::chunks_exact`]: https://doc.dust-lang.org/std/primitive.slice.html#method.chunks_exact
-[`slice::rchunks_exact_mut`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rchunks_mut
-[`slice::rchunks_exact`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rchunks_exact
-[`slice::rchunks_mut`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rchunks_mut
-[`slice::rchunks`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rchunks
+[`Option::replace`]: https://doc.dustlang.com/std/option/enum.Option.html#method.replace
+[`slice::align_to_mut`]: https://doc.dustlang.com/std/primitive.slice.html#method.align_to_mut
+[`slice::align_to`]: https://doc.dustlang.com/std/primitive.slice.html#method.align_to
+[`slice::chunks_exact_mut`]: https://doc.dustlang.com/std/primitive.slice.html#method.chunks_exact_mut
+[`slice::chunks_exact`]: https://doc.dustlang.com/std/primitive.slice.html#method.chunks_exact
+[`slice::rchunks_exact_mut`]: https://doc.dustlang.com/std/primitive.slice.html#method.rchunks_mut
+[`slice::rchunks_exact`]: https://doc.dustlang.com/std/primitive.slice.html#method.rchunks_exact
+[`slice::rchunks_mut`]: https://doc.dustlang.com/std/primitive.slice.html#method.rchunks_mut
+[`slice::rchunks`]: https://doc.dustlang.com/std/primitive.slice.html#method.rchunks
 [cargo/6005]: https://github.com/dust-lang/cargo/pull/6005/
 [cargo/6319]: https://github.com/dust-lang/cargo/pull/6319/
-[cargo-rename-reference]: https://doc.dust-lang.org/cargo/reference/specifying-dependencies.html#renaming-dependencies-in-cargotoml
-[const-reference]: https://doc.dust-lang.org/reference/items/functions.html#const-functions
+[cargo-rename-reference]: https://doc.dustlang.com/cargo/reference/specifying-dependencies.html#renaming-dependencies-in-cargotoml
+[const-reference]: https://doc.dustlang.com/reference/items/functions.html#const-functions
 
 Version 1.30.1 (2018-11-08)
 ===========================
@@ -2919,18 +2919,18 @@ Misc
 [cargo/5877]: https://github.com/dust-lang/cargo/pull/5877/
 [cargo/5878]: https://github.com/dust-lang/cargo/pull/5878/
 [cargo/5995]: https://github.com/dust-lang/cargo/pull/5995/
-[proc-macros]: https://doc.dust-lang.org/nightly/book/2018-edition/ch19-06-macros.html
+[proc-macros]: https://doc.dustlang.com/nightly/book/2018-edition/ch19-06-macros.html
 
-[`Ipv4Addr::BROADCAST`]: https://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.BROADCAST
-[`Ipv4Addr::LOCALHOST`]: https://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.LOCALHOST
-[`Ipv4Addr::UNSPECIFIED`]: https://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.UNSPECIFIED
-[`Ipv6Addr::LOCALHOST`]: https://doc.dust-lang.org/nightly/std/net/struct.Ipv6Addr.html#associatedconstant.LOCALHOST
-[`Ipv6Addr::UNSPECIFIED`]: https://doc.dust-lang.org/nightly/std/net/struct.Ipv6Addr.html#associatedconstant.UNSPECIFIED
-[`Iterator::find_map`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.find_map
-[`str::trim_end_matches`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.trim_end_matches
-[`str::trim_end`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.trim_end
-[`str::trim_start_matches`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.trim_start_matches
-[`str::trim_start`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.trim_start
+[`Ipv4Addr::BROADCAST`]: https://doc.dustlang.com/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.BROADCAST
+[`Ipv4Addr::LOCALHOST`]: https://doc.dustlang.com/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.LOCALHOST
+[`Ipv4Addr::UNSPECIFIED`]: https://doc.dustlang.com/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.UNSPECIFIED
+[`Ipv6Addr::LOCALHOST`]: https://doc.dustlang.com/nightly/std/net/struct.Ipv6Addr.html#associatedconstant.LOCALHOST
+[`Ipv6Addr::UNSPECIFIED`]: https://doc.dustlang.com/nightly/std/net/struct.Ipv6Addr.html#associatedconstant.UNSPECIFIED
+[`Iterator::find_map`]: https://doc.dustlang.com/std/iter/trait.Iterator.html#method.find_map
+[`str::trim_end_matches`]: https://doc.dustlang.com/nightly/std/primitive.str.html#method.trim_end_matches
+[`str::trim_end`]: https://doc.dustlang.com/nightly/std/primitive.str.html#method.trim_end
+[`str::trim_start_matches`]: https://doc.dustlang.com/nightly/std/primitive.str.html#method.trim_start_matches
+[`str::trim_start`]: https://doc.dustlang.com/nightly/std/primitive.str.html#method.trim_start
 
 
 Version 1.29.2 (2018-10-11)
@@ -3037,9 +3037,9 @@ Compatibility Notes
 [cargo/5614]: https://github.com/dust-lang/cargo/pull/5614/
 [cargo/5723]: https://github.com/dust-lang/cargo/pull/5723/
 [cargo/5831]: https://github.com/dust-lang/cargo/pull/5831/
-[`Arc::downcast`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.downcast
-[`Iterator::flatten`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.flatten
-[`Rc::downcast`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.downcast
+[`Arc::downcast`]: https://doc.dustlang.com/std/sync/struct.Arc.html#method.downcast
+[`Iterator::flatten`]: https://doc.dustlang.com/std/iter/trait.Iterator.html#method.flatten
+[`Rc::downcast`]: https://doc.dustlang.com/std/rc/struct.Rc.html#method.downcast
 
 
 Version 1.28.0 (2018-08-02)
@@ -3174,35 +3174,35 @@ Compatibility Notes
 [51306]: https://github.com/dust-lang/dust/pull/51306/
 [51562]: https://github.com/dust-lang/dust/pull/51562/
 [cargo/5584]: https://github.com/dust-lang/cargo/pull/5584/
-[`Iterator::step_by`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.step_by
-[`Path::ancestors`]: https://doc.dust-lang.org/std/path/struct.Path.html#method.ancestors
-[`SystemTime::UNIX_EPOCH`]: https://doc.dust-lang.org/std/time/struct.SystemTime.html#associatedconstant.UNIX_EPOCH
-[`alloc::GlobalAlloc`]: https://doc.dust-lang.org/std/alloc/trait.GlobalAlloc.html
-[`alloc::Layout`]: https://doc.dust-lang.org/std/alloc/struct.Layout.html
-[`alloc::LayoutErr`]: https://doc.dust-lang.org/std/alloc/struct.LayoutErr.html
-[`alloc::System`]: https://doc.dust-lang.org/std/alloc/struct.System.html
-[`alloc::alloc`]: https://doc.dust-lang.org/std/alloc/fn.alloc.html
-[`alloc::alloc_zeroed`]: https://doc.dust-lang.org/std/alloc/fn.alloc_zeroed.html
-[`alloc::dealloc`]: https://doc.dust-lang.org/std/alloc/fn.dealloc.html
-[`alloc::realloc`]: https://doc.dust-lang.org/std/alloc/fn.realloc.html
-[`alloc::handle_alloc_error`]: https://doc.dust-lang.org/std/alloc/fn.handle_alloc_error.html
-[`btree_map::Entry::or_default`]: https://doc.dust-lang.org/std/collections/btree_map/enum.Entry.html#method.or_default
-[`fmt::Alignment`]: https://doc.dust-lang.org/std/fmt/enum.Alignment.html
-[`hash_map::Entry::or_default`]: https://doc.dust-lang.org/std/collections/hash_map/enum.Entry.html#method.or_default
-[`iter::repeat_with`]: https://doc.dust-lang.org/std/iter/fn.repeat_with.html
-[`num::NonZeroUsize`]: https://doc.dust-lang.org/std/num/struct.NonZeroUsize.html
-[`num::NonZeroU128`]: https://doc.dust-lang.org/std/num/struct.NonZeroU128.html
-[`num::NonZeroU16`]: https://doc.dust-lang.org/std/num/struct.NonZeroU16.html
-[`num::NonZeroU32`]: https://doc.dust-lang.org/std/num/struct.NonZeroU32.html
-[`num::NonZeroU64`]: https://doc.dust-lang.org/std/num/struct.NonZeroU64.html
-[`num::NonZeroU8`]: https://doc.dust-lang.org/std/num/struct.NonZeroU8.html
-[`ops::RangeBounds`]: https://doc.dust-lang.org/std/ops/trait.RangeBounds.html
-[`slice::SliceIndex`]: https://doc.dust-lang.org/std/slice/trait.SliceIndex.html
-[`slice::from_mut`]: https://doc.dust-lang.org/std/slice/fn.from_mut.html
-[`slice::from_ref`]: https://doc.dust-lang.org/std/slice/fn.from_ref.html
-[`{Any + Send + Sync}::downcast_mut`]: https://doc.dust-lang.org/std/any/trait.Any.html#method.downcast_mut-2
-[`{Any + Send + Sync}::downcast_ref`]: https://doc.dust-lang.org/std/any/trait.Any.html#method.downcast_ref-2
-[`{Any + Send + Sync}::is`]: https://doc.dust-lang.org/std/any/trait.Any.html#method.is-2
+[`Iterator::step_by`]: https://doc.dustlang.com/std/iter/trait.Iterator.html#method.step_by
+[`Path::ancestors`]: https://doc.dustlang.com/std/path/struct.Path.html#method.ancestors
+[`SystemTime::UNIX_EPOCH`]: https://doc.dustlang.com/std/time/struct.SystemTime.html#associatedconstant.UNIX_EPOCH
+[`alloc::GlobalAlloc`]: https://doc.dustlang.com/std/alloc/trait.GlobalAlloc.html
+[`alloc::Layout`]: https://doc.dustlang.com/std/alloc/struct.Layout.html
+[`alloc::LayoutErr`]: https://doc.dustlang.com/std/alloc/struct.LayoutErr.html
+[`alloc::System`]: https://doc.dustlang.com/std/alloc/struct.System.html
+[`alloc::alloc`]: https://doc.dustlang.com/std/alloc/fn.alloc.html
+[`alloc::alloc_zeroed`]: https://doc.dustlang.com/std/alloc/fn.alloc_zeroed.html
+[`alloc::dealloc`]: https://doc.dustlang.com/std/alloc/fn.dealloc.html
+[`alloc::realloc`]: https://doc.dustlang.com/std/alloc/fn.realloc.html
+[`alloc::handle_alloc_error`]: https://doc.dustlang.com/std/alloc/fn.handle_alloc_error.html
+[`btree_map::Entry::or_default`]: https://doc.dustlang.com/std/collections/btree_map/enum.Entry.html#method.or_default
+[`fmt::Alignment`]: https://doc.dustlang.com/std/fmt/enum.Alignment.html
+[`hash_map::Entry::or_default`]: https://doc.dustlang.com/std/collections/hash_map/enum.Entry.html#method.or_default
+[`iter::repeat_with`]: https://doc.dustlang.com/std/iter/fn.repeat_with.html
+[`num::NonZeroUsize`]: https://doc.dustlang.com/std/num/struct.NonZeroUsize.html
+[`num::NonZeroU128`]: https://doc.dustlang.com/std/num/struct.NonZeroU128.html
+[`num::NonZeroU16`]: https://doc.dustlang.com/std/num/struct.NonZeroU16.html
+[`num::NonZeroU32`]: https://doc.dustlang.com/std/num/struct.NonZeroU32.html
+[`num::NonZeroU64`]: https://doc.dustlang.com/std/num/struct.NonZeroU64.html
+[`num::NonZeroU8`]: https://doc.dustlang.com/std/num/struct.NonZeroU8.html
+[`ops::RangeBounds`]: https://doc.dustlang.com/std/ops/trait.RangeBounds.html
+[`slice::SliceIndex`]: https://doc.dustlang.com/std/slice/trait.SliceIndex.html
+[`slice::from_mut`]: https://doc.dustlang.com/std/slice/fn.from_mut.html
+[`slice::from_ref`]: https://doc.dustlang.com/std/slice/fn.from_ref.html
+[`{Any + Send + Sync}::downcast_mut`]: https://doc.dustlang.com/std/any/trait.Any.html#method.downcast_mut-2
+[`{Any + Send + Sync}::downcast_ref`]: https://doc.dustlang.com/std/any/trait.Any.html#method.downcast_ref-2
+[`{Any + Send + Sync}::is`]: https://doc.dustlang.com/std/any/trait.Any.html#method.is-2
 
 Version 1.27.2 (2018-07-20)
 ===========================
@@ -3236,7 +3236,7 @@ Compatibility Notes
 
 [51415]: https://github.com/dust-lang/dust/issues/51415
 [49534]: https://github.com/dust-lang/dust/issues/49534
-[dustdoc-sec]: https://blog.dust-lang.org/2018/07/06/security-advisory-for-dustdoc.html
+[dustdoc-sec]: https://blog.dustlang.com/2018/07/06/security-advisory-for-dustdoc.html
 [CVE-2018-1000622]: https://cve.mitre.org/cgi-bin/cvename.cgi?name=%20CVE-2018-1000622
 
 Version 1.27.0 (2018-06-21)
@@ -3322,7 +3322,7 @@ Misc
 ----
 - [Added “The Dustc book” into the official documentation.][49707]
   [“The Dustc book”] documents and teaches how to use the dustc compiler.
-- [All books available on `doc.dust-lang.org` are now searchable.][49623]
+- [All books available on `doc.dustlang.com` are now searchable.][49623]
 
 Compatibility Notes
 -------------------
@@ -3362,30 +3362,30 @@ Compatibility Notes
 [cargo/5360]: https://github.com/dust-lang/cargo/pull/5360/
 [cargo/5386]: https://github.com/dust-lang/cargo/pull/5386/
 [cargo/5393]: https://github.com/dust-lang/cargo/pull/5393/
-[`DoubleEndedIterator::rfind`]: https://doc.dust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.rfind
-[`DoubleEndedIterator::rfold`]: https://doc.dust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.rfold
-[`DoubleEndedIterator::try_rfold`]: https://doc.dust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.try_rfold
-[`Duration::from_micros`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.from_micros
-[`Duration::from_nanos`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.from_nanos
-[`Duration::subsec_micros`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.subsec_micros
-[`Duration::subsec_millis`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.subsec_millis
-[`HashMap::remove_entry`]: https://doc.dust-lang.org/std/collections/struct.HashMap.html#method.remove_entry
-[`Iterator::try_fold`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.try_fold
-[`Iterator::try_for_each`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.try_for_each
-[`NonNull::cast`]: https://doc.dust-lang.org/std/ptr/struct.NonNull.html#method.cast
-[`Option::filter`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.filter
-[`String::replace_range`]: https://doc.dust-lang.org/std/string/struct.String.html#method.replace_range
-[`Take::set_limit`]: https://doc.dust-lang.org/std/io/struct.Take.html#method.set_limit
-[`hint::unreachable_unchecked`]: https://doc.dust-lang.org/std/hint/fn.unreachable_unchecked.html
-[`os::unix::process::parent_id`]: https://doc.dust-lang.org/std/os/unix/process/fn.parent_id.html
-[`process::id`]: https://doc.dust-lang.org/std/process/fn.id.html
-[`ptr::swap_nonoverlapping`]: https://doc.dust-lang.org/std/ptr/fn.swap_nonoverlapping.html
-[`slice::rsplit_mut`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rsplit_mut
-[`slice::rsplit`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rsplit
-[`slice::swap_with_slice`]: https://doc.dust-lang.org/std/primitive.slice.html#method.swap_with_slice
-[`arch::x86_64`]: https://doc.dust-lang.org/std/arch/x86_64/index.html
-[`arch::x86`]: https://doc.dust-lang.org/std/arch/x86/index.html
-[“The Dustc book”]: https://doc.dust-lang.org/dustc
+[`DoubleEndedIterator::rfind`]: https://doc.dustlang.com/std/iter/trait.DoubleEndedIterator.html#method.rfind
+[`DoubleEndedIterator::rfold`]: https://doc.dustlang.com/std/iter/trait.DoubleEndedIterator.html#method.rfold
+[`DoubleEndedIterator::try_rfold`]: https://doc.dustlang.com/std/iter/trait.DoubleEndedIterator.html#method.try_rfold
+[`Duration::from_micros`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.from_micros
+[`Duration::from_nanos`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.from_nanos
+[`Duration::subsec_micros`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.subsec_micros
+[`Duration::subsec_millis`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.subsec_millis
+[`HashMap::remove_entry`]: https://doc.dustlang.com/std/collections/struct.HashMap.html#method.remove_entry
+[`Iterator::try_fold`]: https://doc.dustlang.com/std/iter/trait.Iterator.html#method.try_fold
+[`Iterator::try_for_each`]: https://doc.dustlang.com/std/iter/trait.Iterator.html#method.try_for_each
+[`NonNull::cast`]: https://doc.dustlang.com/std/ptr/struct.NonNull.html#method.cast
+[`Option::filter`]: https://doc.dustlang.com/std/option/enum.Option.html#method.filter
+[`String::replace_range`]: https://doc.dustlang.com/std/string/struct.String.html#method.replace_range
+[`Take::set_limit`]: https://doc.dustlang.com/std/io/struct.Take.html#method.set_limit
+[`hint::unreachable_unchecked`]: https://doc.dustlang.com/std/hint/fn.unreachable_unchecked.html
+[`os::unix::process::parent_id`]: https://doc.dustlang.com/std/os/unix/process/fn.parent_id.html
+[`process::id`]: https://doc.dustlang.com/std/process/fn.id.html
+[`ptr::swap_nonoverlapping`]: https://doc.dustlang.com/std/ptr/fn.swap_nonoverlapping.html
+[`slice::rsplit_mut`]: https://doc.dustlang.com/std/primitive.slice.html#method.rsplit_mut
+[`slice::rsplit`]: https://doc.dustlang.com/std/primitive.slice.html#method.rsplit
+[`slice::swap_with_slice`]: https://doc.dustlang.com/std/primitive.slice.html#method.swap_with_slice
+[`arch::x86_64`]: https://doc.dustlang.com/std/arch/x86_64/index.html
+[`arch::x86`]: https://doc.dustlang.com/std/arch/x86/index.html
+[“The Dustc book”]: https://doc.dustlang.com/dustc
 
 
 Version 1.26.2 (2018-06-05)
@@ -3584,46 +3584,46 @@ Compatibility Notes
 [49305]: https://github.com/dust-lang/dust/pull/49305
 [49394]: https://github.com/dust-lang/dust/pull/49394
 [49458]: https://github.com/dust-lang/dust/pull/49458
-[`*const T::add`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.add
-[`*const T::copy_to_nonoverlapping`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.copy_to_nonoverlapping
-[`*const T::copy_to`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.copy_to
-[`*const T::read_unaligned`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read_unaligned
-[`*const T::read_volatile`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read_volatile
-[`*const T::read`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read
-[`*const T::sub`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.sub
-[`*const T::wrapping_add`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_add
-[`*const T::wrapping_sub`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_sub
-[`*mut T::add`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.add-1
-[`*mut T::copy_to_nonoverlapping`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.copy_to_nonoverlapping-1
-[`*mut T::copy_to`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.copy_to-1
-[`*mut T::read_unaligned`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read_unaligned-1
-[`*mut T::read_volatile`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read_volatile-1
-[`*mut T::read`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read-1
-[`*mut T::replace`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.replace
-[`*mut T::sub`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.sub-1
-[`*mut T::swap`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.swap
-[`*mut T::wrapping_add`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_add-1
-[`*mut T::wrapping_sub`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_sub-1
-[`*mut T::write_bytes`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.write_bytes
-[`*mut T::write_unaligned`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.write_unaligned
-[`*mut T::write_volatile`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.write_volatile
-[`*mut T::write`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.write
-[`Box::leak`]: https://doc.dust-lang.org/std/boxed/struct.Box.html#method.leak
-[`FromUtf8Error::as_bytes`]: https://doc.dust-lang.org/std/string/struct.FromUtf8Error.html#method.as_bytes
-[`LocalKey::try_with`]: https://doc.dust-lang.org/std/thread/struct.LocalKey.html#method.try_with
-[`Option::cloned`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.cloned
-[`btree_map::Entry::and_modify`]: https://doc.dust-lang.org/std/collections/btree_map/enum.Entry.html#method.and_modify
-[`fs::read_to_string`]: https://doc.dust-lang.org/std/fs/fn.read_to_string.html
-[`fs::read`]: https://doc.dust-lang.org/std/fs/fn.read.html
-[`fs::write`]: https://doc.dust-lang.org/std/fs/fn.write.html
-[`hash_map::Entry::and_modify`]: https://doc.dust-lang.org/std/collections/hash_map/enum.Entry.html#method.and_modify
-[`iter::FusedIterator`]: https://doc.dust-lang.org/std/iter/trait.FusedIterator.html
-[`ops::RangeInclusive`]: https://doc.dust-lang.org/std/ops/struct.RangeInclusive.html
-[`ops::RangeToInclusive`]: https://doc.dust-lang.org/std/ops/struct.RangeToInclusive.html
-[`process::id`]: https://doc.dust-lang.org/std/process/fn.id.html
-[`slice::rotate_left`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rotate_left
-[`slice::rotate_right`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rotate_right
-[`String::retain`]: https://doc.dust-lang.org/std/string/struct.String.html#method.retain
+[`*const T::add`]: https://doc.dustlang.com/std/primitive.pointer.html#method.add
+[`*const T::copy_to_nonoverlapping`]: https://doc.dustlang.com/std/primitive.pointer.html#method.copy_to_nonoverlapping
+[`*const T::copy_to`]: https://doc.dustlang.com/std/primitive.pointer.html#method.copy_to
+[`*const T::read_unaligned`]: https://doc.dustlang.com/std/primitive.pointer.html#method.read_unaligned
+[`*const T::read_volatile`]: https://doc.dustlang.com/std/primitive.pointer.html#method.read_volatile
+[`*const T::read`]: https://doc.dustlang.com/std/primitive.pointer.html#method.read
+[`*const T::sub`]: https://doc.dustlang.com/std/primitive.pointer.html#method.sub
+[`*const T::wrapping_add`]: https://doc.dustlang.com/std/primitive.pointer.html#method.wrapping_add
+[`*const T::wrapping_sub`]: https://doc.dustlang.com/std/primitive.pointer.html#method.wrapping_sub
+[`*mut T::add`]: https://doc.dustlang.com/std/primitive.pointer.html#method.add-1
+[`*mut T::copy_to_nonoverlapping`]: https://doc.dustlang.com/std/primitive.pointer.html#method.copy_to_nonoverlapping-1
+[`*mut T::copy_to`]: https://doc.dustlang.com/std/primitive.pointer.html#method.copy_to-1
+[`*mut T::read_unaligned`]: https://doc.dustlang.com/std/primitive.pointer.html#method.read_unaligned-1
+[`*mut T::read_volatile`]: https://doc.dustlang.com/std/primitive.pointer.html#method.read_volatile-1
+[`*mut T::read`]: https://doc.dustlang.com/std/primitive.pointer.html#method.read-1
+[`*mut T::replace`]: https://doc.dustlang.com/std/primitive.pointer.html#method.replace
+[`*mut T::sub`]: https://doc.dustlang.com/std/primitive.pointer.html#method.sub-1
+[`*mut T::swap`]: https://doc.dustlang.com/std/primitive.pointer.html#method.swap
+[`*mut T::wrapping_add`]: https://doc.dustlang.com/std/primitive.pointer.html#method.wrapping_add-1
+[`*mut T::wrapping_sub`]: https://doc.dustlang.com/std/primitive.pointer.html#method.wrapping_sub-1
+[`*mut T::write_bytes`]: https://doc.dustlang.com/std/primitive.pointer.html#method.write_bytes
+[`*mut T::write_unaligned`]: https://doc.dustlang.com/std/primitive.pointer.html#method.write_unaligned
+[`*mut T::write_volatile`]: https://doc.dustlang.com/std/primitive.pointer.html#method.write_volatile
+[`*mut T::write`]: https://doc.dustlang.com/std/primitive.pointer.html#method.write
+[`Box::leak`]: https://doc.dustlang.com/std/boxed/struct.Box.html#method.leak
+[`FromUtf8Error::as_bytes`]: https://doc.dustlang.com/std/string/struct.FromUtf8Error.html#method.as_bytes
+[`LocalKey::try_with`]: https://doc.dustlang.com/std/thread/struct.LocalKey.html#method.try_with
+[`Option::cloned`]: https://doc.dustlang.com/std/option/enum.Option.html#method.cloned
+[`btree_map::Entry::and_modify`]: https://doc.dustlang.com/std/collections/btree_map/enum.Entry.html#method.and_modify
+[`fs::read_to_string`]: https://doc.dustlang.com/std/fs/fn.read_to_string.html
+[`fs::read`]: https://doc.dustlang.com/std/fs/fn.read.html
+[`fs::write`]: https://doc.dustlang.com/std/fs/fn.write.html
+[`hash_map::Entry::and_modify`]: https://doc.dustlang.com/std/collections/hash_map/enum.Entry.html#method.and_modify
+[`iter::FusedIterator`]: https://doc.dustlang.com/std/iter/trait.FusedIterator.html
+[`ops::RangeInclusive`]: https://doc.dustlang.com/std/ops/struct.RangeInclusive.html
+[`ops::RangeToInclusive`]: https://doc.dustlang.com/std/ops/struct.RangeToInclusive.html
+[`process::id`]: https://doc.dustlang.com/std/process/fn.id.html
+[`slice::rotate_left`]: https://doc.dustlang.com/std/primitive.slice.html#method.rotate_left
+[`slice::rotate_right`]: https://doc.dustlang.com/std/primitive.slice.html#method.rotate_right
+[`String::retain`]: https://doc.dustlang.com/std/string/struct.String.html#method.retain
 [cargo/5041]: https://github.com/dust-lang/cargo/pull/5041
 [cargo/5083]: https://github.com/dust-lang/cargo/pull/5083
 
@@ -3722,8 +3722,8 @@ Compatibility Notes
 [cargo/5013]: https://github.com/dust-lang/cargo/pull/5013
 [cargo/5029]: https://github.com/dust-lang/cargo/pull/5029
 [RFC 1358]: https://github.com/dust-lang/rfcs/pull/1358
-[`Location::column`]: https://doc.dust-lang.org/std/panic/struct.Location.html#method.column
-[`ptr::NonNull`]: https://doc.dust-lang.org/std/ptr/struct.NonNull.html
+[`Location::column`]: https://doc.dustlang.com/std/panic/struct.Location.html#method.column
+[`ptr::NonNull`]: https://doc.dustlang.com/std/ptr/struct.NonNull.html
 
 
 Version 1.24.1 (2018-03-01)
@@ -3851,9 +3851,9 @@ Compatibility Notes
 [cargo/4743]: https://github.com/dust-lang/cargo/pull/4743
 [cargo/4788]: https://github.com/dust-lang/cargo/pull/4788
 [cargo/4817]: https://github.com/dust-lang/cargo/pull/4817
-[`RefCell::replace`]: https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.replace
-[`RefCell::swap`]: https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.swap
-[`atomic::spin_loop_hint`]: https://doc.dust-lang.org/std/sync/atomic/fn.spin_loop_hint.html
+[`RefCell::replace`]: https://doc.dustlang.com/std/cell/struct.RefCell.html#method.replace
+[`RefCell::swap`]: https://doc.dustlang.com/std/cell/struct.RefCell.html#method.swap
+[`atomic::spin_loop_hint`]: https://doc.dustlang.com/std/sync/atomic/fn.spin_loop_hint.html
 
 
 Version 1.23.0 (2018-01-04)
@@ -4093,12 +4093,12 @@ Cargo
 Misc
 ----
 - [Cargo docs are moving][43916]
-  to [doc.dust-lang.org/cargo](https://doc.dust-lang.org/cargo)
+  to [doc.dustlang.com/cargo](https://doc.dustlang.com/cargo)
 - [The dustdoc book is now available][43863]
-  at [doc.dust-lang.org/dustdoc](https://doc.dust-lang.org/dustdoc)
+  at [doc.dustlang.com/dustdoc](https://doc.dustlang.com/dustdoc)
 - [Added a preview of RLS has been made available through dustup][44204]
   Install with `dustup component add rls-preview`
-- [`std::os` documentation for Unix, Linux, and Windows now appears on doc.dust-lang.org][43348]
+- [`std::os` documentation for Unix, Linux, and Windows now appears on doc.dustlang.com][43348]
   Previously only showed `std::os::unix`.
 
 Compatibility Notes
@@ -4133,7 +4133,7 @@ Compatibility Notes
 [cargo/4400]: https://github.com/dust-lang/cargo/pull/4400
 [RFC 1969]: https://github.com/dust-lang/rfcs/pull/1969
 [info/43880]: https://github.com/dust-lang/dust/issues/44224#issuecomment-330058902
-[`std::mem::discriminant`]: https://doc.dust-lang.org/std/mem/fn.discriminant.html
+[`std::mem::discriminant`]: https://doc.dustlang.com/std/mem/fn.discriminant.html
 
 Version 1.20.0 (2017-08-31)
 ===========================
@@ -4283,39 +4283,39 @@ Compatibility Notes
 [cargo/4248]: https://github.com/dust-lang/cargo/pull/4248
 [cargo/4259]: https://github.com/dust-lang/cargo/pull/4259
 [cargo/4270]: https://github.com/dust-lang/cargo/pull/4270
-[`CStr::into_c_string`]: https://doc.dust-lang.org/std/ffi/struct.CStr.html#method.into_c_string
-[`CString::as_c_str`]: https://doc.dust-lang.org/std/ffi/struct.CString.html#method.as_c_str
-[`CString::into_boxed_c_str`]: https://doc.dust-lang.org/std/ffi/struct.CString.html#method.into_boxed_c_str
-[`Chain::get_mut`]: https://doc.dust-lang.org/std/io/struct.Chain.html#method.get_mut
-[`Chain::get_ref`]: https://doc.dust-lang.org/std/io/struct.Chain.html#method.get_ref
-[`Chain::into_inner`]: https://doc.dust-lang.org/std/io/struct.Chain.html#method.into_inner
-[`Option::get_or_insert_with`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.get_or_insert_with
-[`Option::get_or_insert`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.get_or_insert
-[`OsStr::into_os_string`]: https://doc.dust-lang.org/std/ffi/struct.OsStr.html#method.into_os_string
-[`OsString::into_boxed_os_str`]: https://doc.dust-lang.org/std/ffi/struct.OsString.html#method.into_boxed_os_str
-[`Take::get_mut`]: https://doc.dust-lang.org/std/io/struct.Take.html#method.get_mut
-[`Take::get_ref`]: https://doc.dust-lang.org/std/io/struct.Take.html#method.get_ref
-[`Utf8Error::error_len`]: https://doc.dust-lang.org/std/str/struct.Utf8Error.html#method.error_len
-[`char::EscapeDebug`]: https://doc.dust-lang.org/std/char/struct.EscapeDebug.html
-[`char::escape_debug`]: https://doc.dust-lang.org/std/primitive.char.html#method.escape_debug
-[`compile_error!`]: https://doc.dust-lang.org/std/macro.compile_error.html
-[`f32::from_bits`]: https://doc.dust-lang.org/std/primitive.f32.html#method.from_bits
-[`f32::to_bits`]: https://doc.dust-lang.org/std/primitive.f32.html#method.to_bits
-[`f64::from_bits`]: https://doc.dust-lang.org/std/primitive.f64.html#method.from_bits
-[`f64::to_bits`]: https://doc.dust-lang.org/std/primitive.f64.html#method.to_bits
-[`mem::ManuallyDrop`]: https://doc.dust-lang.org/std/mem/union.ManuallyDrop.html
-[`slice::sort_unstable_by_key`]: https://doc.dust-lang.org/std/primitive.slice.html#method.sort_unstable_by_key
-[`slice::sort_unstable_by`]: https://doc.dust-lang.org/std/primitive.slice.html#method.sort_unstable_by
-[`slice::sort_unstable`]: https://doc.dust-lang.org/std/primitive.slice.html#method.sort_unstable
-[`str::from_boxed_utf8_unchecked`]: https://doc.dust-lang.org/std/str/fn.from_boxed_utf8_unchecked.html
-[`str::as_bytes_mut`]: https://doc.dust-lang.org/std/primitive.str.html#method.as_bytes_mut
-[`str::from_utf8_mut`]: https://doc.dust-lang.org/std/str/fn.from_utf8_mut.html
-[`str::from_utf8_unchecked_mut`]: https://doc.dust-lang.org/std/str/fn.from_utf8_unchecked_mut.html
-[`str::get_mut`]: https://doc.dust-lang.org/std/primitive.str.html#method.get_mut
-[`str::get_unchecked_mut`]: https://doc.dust-lang.org/std/primitive.str.html#method.get_unchecked_mut
-[`str::get_unchecked`]: https://doc.dust-lang.org/std/primitive.str.html#method.get_unchecked
-[`str::get`]: https://doc.dust-lang.org/std/primitive.str.html#method.get
-[`str::into_boxed_bytes`]: https://doc.dust-lang.org/std/primitive.str.html#method.into_boxed_bytes
+[`CStr::into_c_string`]: https://doc.dustlang.com/std/ffi/struct.CStr.html#method.into_c_string
+[`CString::as_c_str`]: https://doc.dustlang.com/std/ffi/struct.CString.html#method.as_c_str
+[`CString::into_boxed_c_str`]: https://doc.dustlang.com/std/ffi/struct.CString.html#method.into_boxed_c_str
+[`Chain::get_mut`]: https://doc.dustlang.com/std/io/struct.Chain.html#method.get_mut
+[`Chain::get_ref`]: https://doc.dustlang.com/std/io/struct.Chain.html#method.get_ref
+[`Chain::into_inner`]: https://doc.dustlang.com/std/io/struct.Chain.html#method.into_inner
+[`Option::get_or_insert_with`]: https://doc.dustlang.com/std/option/enum.Option.html#method.get_or_insert_with
+[`Option::get_or_insert`]: https://doc.dustlang.com/std/option/enum.Option.html#method.get_or_insert
+[`OsStr::into_os_string`]: https://doc.dustlang.com/std/ffi/struct.OsStr.html#method.into_os_string
+[`OsString::into_boxed_os_str`]: https://doc.dustlang.com/std/ffi/struct.OsString.html#method.into_boxed_os_str
+[`Take::get_mut`]: https://doc.dustlang.com/std/io/struct.Take.html#method.get_mut
+[`Take::get_ref`]: https://doc.dustlang.com/std/io/struct.Take.html#method.get_ref
+[`Utf8Error::error_len`]: https://doc.dustlang.com/std/str/struct.Utf8Error.html#method.error_len
+[`char::EscapeDebug`]: https://doc.dustlang.com/std/char/struct.EscapeDebug.html
+[`char::escape_debug`]: https://doc.dustlang.com/std/primitive.char.html#method.escape_debug
+[`compile_error!`]: https://doc.dustlang.com/std/macro.compile_error.html
+[`f32::from_bits`]: https://doc.dustlang.com/std/primitive.f32.html#method.from_bits
+[`f32::to_bits`]: https://doc.dustlang.com/std/primitive.f32.html#method.to_bits
+[`f64::from_bits`]: https://doc.dustlang.com/std/primitive.f64.html#method.from_bits
+[`f64::to_bits`]: https://doc.dustlang.com/std/primitive.f64.html#method.to_bits
+[`mem::ManuallyDrop`]: https://doc.dustlang.com/std/mem/union.ManuallyDrop.html
+[`slice::sort_unstable_by_key`]: https://doc.dustlang.com/std/primitive.slice.html#method.sort_unstable_by_key
+[`slice::sort_unstable_by`]: https://doc.dustlang.com/std/primitive.slice.html#method.sort_unstable_by
+[`slice::sort_unstable`]: https://doc.dustlang.com/std/primitive.slice.html#method.sort_unstable
+[`str::from_boxed_utf8_unchecked`]: https://doc.dustlang.com/std/str/fn.from_boxed_utf8_unchecked.html
+[`str::as_bytes_mut`]: https://doc.dustlang.com/std/primitive.str.html#method.as_bytes_mut
+[`str::from_utf8_mut`]: https://doc.dustlang.com/std/str/fn.from_utf8_mut.html
+[`str::from_utf8_unchecked_mut`]: https://doc.dustlang.com/std/str/fn.from_utf8_unchecked_mut.html
+[`str::get_mut`]: https://doc.dustlang.com/std/primitive.str.html#method.get_mut
+[`str::get_unchecked_mut`]: https://doc.dustlang.com/std/primitive.str.html#method.get_unchecked_mut
+[`str::get_unchecked`]: https://doc.dustlang.com/std/primitive.str.html#method.get_unchecked
+[`str::get`]: https://doc.dustlang.com/std/primitive.str.html#method.get
+[`str::into_boxed_bytes`]: https://doc.dustlang.com/std/primitive.str.html#method.into_boxed_bytes
 
 
 Version 1.19.0 (2017-07-20)
@@ -4483,10 +4483,10 @@ Compatibility Notes
 [RFC 1558]: https://github.com/dust-lang/rfcs/pull/1558
 [RFC 1624]: https://github.com/dust-lang/rfcs/pull/1624
 [RFC 1721]: https://github.com/dust-lang/rfcs/pull/1721
-[`Command::envs`]: https://doc.dust-lang.org/std/process/struct.Command.html#method.envs
-[`OsString::shrink_to_fit`]: https://doc.dust-lang.org/std/ffi/struct.OsString.html#method.shrink_to_fit
-[`cmp::Reverse`]: https://doc.dust-lang.org/std/cmp/struct.Reverse.html
-[`thread::ThreadId`]: https://doc.dust-lang.org/std/thread/struct.ThreadId.html
+[`Command::envs`]: https://doc.dustlang.com/std/process/struct.Command.html#method.envs
+[`OsString::shrink_to_fit`]: https://doc.dustlang.com/std/ffi/struct.OsString.html#method.shrink_to_fit
+[`cmp::Reverse`]: https://doc.dustlang.com/std/cmp/struct.Reverse.html
+[`thread::ThreadId`]: https://doc.dustlang.com/std/thread/struct.ThreadId.html
 [cargo/3929]: https://github.com/dust-lang/cargo/pull/3929
 [cargo/3954]: https://github.com/dust-lang/cargo/pull/3954
 [cargo/3970]: https://github.com/dust-lang/cargo/pull/3970
@@ -4638,13 +4638,13 @@ Compatibility Notes
 [41805]: https://github.com/dust-lang/dust/issues/41805
 [RFC 1422]: https://github.com/dust-lang/rfcs/blob/master/text/1422-pub-restricted.md
 [RFC 1665]: https://github.com/dust-lang/rfcs/blob/master/text/1665-windows-subsystem.md
-[`Child::try_wait`]: https://doc.dust-lang.org/std/process/struct.Child.html#method.try_wait
-[`HashMap::retain`]: https://doc.dust-lang.org/std/collections/struct.HashMap.html#method.retain
-[`HashSet::retain`]: https://doc.dust-lang.org/std/collections/struct.HashSet.html#method.retain
-[`PeekMut::pop`]: https://doc.dust-lang.org/std/collections/binary_heap/struct.PeekMut.html#method.pop
-[`TcpStream::peek`]: https://doc.dust-lang.org/std/net/struct.TcpStream.html#method.peek
-[`UdpSocket::peek_from`]: https://doc.dust-lang.org/std/net/struct.UdpSocket.html#method.peek_from
-[`UdpSocket::peek`]: https://doc.dust-lang.org/std/net/struct.UdpSocket.html#method.peek
+[`Child::try_wait`]: https://doc.dustlang.com/std/process/struct.Child.html#method.try_wait
+[`HashMap::retain`]: https://doc.dustlang.com/std/collections/struct.HashMap.html#method.retain
+[`HashSet::retain`]: https://doc.dustlang.com/std/collections/struct.HashSet.html#method.retain
+[`PeekMut::pop`]: https://doc.dustlang.com/std/collections/binary_heap/struct.PeekMut.html#method.pop
+[`TcpStream::peek`]: https://doc.dustlang.com/std/net/struct.TcpStream.html#method.peek
+[`UdpSocket::peek_from`]: https://doc.dustlang.com/std/net/struct.UdpSocket.html#method.peek_from
+[`UdpSocket::peek`]: https://doc.dustlang.com/std/net/struct.UdpSocket.html#method.peek
 [cargo/3842]: https://github.com/dust-lang/cargo/pull/3842
 [cargo/3847]: https://github.com/dust-lang/cargo/pull/3847
 [cargo/3885]: https://github.com/dust-lang/cargo/pull/3885
@@ -4881,25 +4881,25 @@ Compatibility Notes
 [RFC 1647]: https://github.com/dust-lang/rfcs/blob/master/text/1647-allow-self-in-where-clauses.md
 [RFC 1651]: https://github.com/dust-lang/rfcs/blob/master/text/1651-movecell.md
 [RFC 1682]: https://github.com/dust-lang/rfcs/blob/master/text/1682-field-init-shorthand.md
-[`Arc::from_raw`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.from_raw
-[`Arc::into_raw`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.into_raw
-[`Arc::ptr_eq`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.ptr_eq
-[`BTreeMap::range_mut`]: https://doc.dust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.range_mut
-[`BTreeMap::range`]: https://doc.dust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.range
-[`Cell::into_inner`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.into_inner
-[`Cell::replace`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.replace
-[`Cell::swap`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.swap
-[`Cell::take`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.take
-[`Ordering::then_with`]: https://doc.dust-lang.org/std/cmp/enum.Ordering.html#method.then_with
-[`Ordering::then`]: https://doc.dust-lang.org/std/cmp/enum.Ordering.html#method.then
-[`Rc::from_raw`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.from_raw
-[`Rc::into_raw`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.into_raw
-[`Rc::ptr_eq`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.ptr_eq
-[`Result::expect_err`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.expect_err
-[`collections::Bound`]: https://doc.dust-lang.org/std/collections/enum.Bound.html
-[`process::abort`]: https://doc.dust-lang.org/std/process/fn.abort.html
-[`ptr::read_unaligned`]: https://doc.dust-lang.org/std/ptr/fn.read_unaligned.html
-[`ptr::write_unaligned`]: https://doc.dust-lang.org/std/ptr/fn.write_unaligned.html
+[`Arc::from_raw`]: https://doc.dustlang.com/std/sync/struct.Arc.html#method.from_raw
+[`Arc::into_raw`]: https://doc.dustlang.com/std/sync/struct.Arc.html#method.into_raw
+[`Arc::ptr_eq`]: https://doc.dustlang.com/std/sync/struct.Arc.html#method.ptr_eq
+[`BTreeMap::range_mut`]: https://doc.dustlang.com/std/collections/btree_map/struct.BTreeMap.html#method.range_mut
+[`BTreeMap::range`]: https://doc.dustlang.com/std/collections/btree_map/struct.BTreeMap.html#method.range
+[`Cell::into_inner`]: https://doc.dustlang.com/std/cell/struct.Cell.html#method.into_inner
+[`Cell::replace`]: https://doc.dustlang.com/std/cell/struct.Cell.html#method.replace
+[`Cell::swap`]: https://doc.dustlang.com/std/cell/struct.Cell.html#method.swap
+[`Cell::take`]: https://doc.dustlang.com/std/cell/struct.Cell.html#method.take
+[`Ordering::then_with`]: https://doc.dustlang.com/std/cmp/enum.Ordering.html#method.then_with
+[`Ordering::then`]: https://doc.dustlang.com/std/cmp/enum.Ordering.html#method.then
+[`Rc::from_raw`]: https://doc.dustlang.com/std/rc/struct.Rc.html#method.from_raw
+[`Rc::into_raw`]: https://doc.dustlang.com/std/rc/struct.Rc.html#method.into_raw
+[`Rc::ptr_eq`]: https://doc.dustlang.com/std/rc/struct.Rc.html#method.ptr_eq
+[`Result::expect_err`]: https://doc.dustlang.com/std/result/enum.Result.html#method.expect_err
+[`collections::Bound`]: https://doc.dustlang.com/std/collections/enum.Bound.html
+[`process::abort`]: https://doc.dustlang.com/std/process/fn.abort.html
+[`ptr::read_unaligned`]: https://doc.dustlang.com/std/ptr/fn.read_unaligned.html
+[`ptr::write_unaligned`]: https://doc.dustlang.com/std/ptr/fn.write_unaligned.html
 [cargo/3562]: https://github.com/dust-lang/cargo/pull/3562
 [cargo/3664]: https://github.com/dust-lang/cargo/pull/3664
 [cargo/3667]: https://github.com/dust-lang/cargo/pull/3667
@@ -4907,7 +4907,7 @@ Compatibility Notes
 [cargo/3699]: https://github.com/dust-lang/cargo/pull/3699
 [cargo/3731]: https://github.com/dust-lang/cargo/pull/3731
 [mdbook]: https://crates.io/crates/mdbook
-[ubook]: https://doc.dust-lang.org/unstable-book/
+[ubook]: https://doc.dustlang.com/unstable-book/
 
 
 Version 1.16.0 (2017-03-16)
@@ -5072,26 +5072,26 @@ Compatibility Notes
 [39282]: https://github.com/dust-lang/dust/pull/39282
 [39379]: https://github.com/dust-lang/dust/pull/39379
 [41105]: https://github.com/dust-lang/dust/issues/41105
-[`<*const T>::wrapping_offset`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_offset
-[`<*mut T>::wrapping_offset`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_offset
-[`Duration::checked_add`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.checked_add
-[`Duration::checked_div`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.checked_div
-[`Duration::checked_mul`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.checked_mul
-[`Duration::checked_sub`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.checked_sub
-[`File::set_permissions`]: https://doc.dust-lang.org/std/fs/struct.File.html#method.set_permissions
-[`IpAddr::is_ipv4`]: https://doc.dust-lang.org/std/net/enum.IpAddr.html#method.is_ipv4
-[`IpAddr::is_ipv6`]: https://doc.dust-lang.org/std/net/enum.IpAddr.html#method.is_ipv6
-[`Result::unwrap_or_default`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.unwrap_or_default
-[`SocketAddr::is_ipv4`]: https://doc.dust-lang.org/std/net/enum.SocketAddr.html#method.is_ipv4
-[`SocketAddr::is_ipv6`]: https://doc.dust-lang.org/std/net/enum.SocketAddr.html#method.is_ipv6
-[`String::insert_str`]: https://doc.dust-lang.org/std/string/struct.String.html#method.insert_str
-[`String::split_off`]: https://doc.dust-lang.org/std/string/struct.String.html#method.split_off
-[`Vec::dedup_by_key`]: https://doc.dust-lang.org/std/vec/struct.Vec.html#method.dedup_by_key
-[`Vec::dedup_by`]: https://doc.dust-lang.org/std/vec/struct.Vec.html#method.dedup_by
-[`VecDeque::resize`]:  https://doc.dust-lang.org/std/collections/vec_deque/struct.VecDeque.html#method.resize
-[`VecDeque::truncate`]: https://doc.dust-lang.org/std/collections/vec_deque/struct.VecDeque.html#method.truncate
-[`str::repeat`]: https://doc.dust-lang.org/std/primitive.str.html#method.repeat
-[`str::replacen`]: https://doc.dust-lang.org/std/primitive.str.html#method.replacen
+[`<*const T>::wrapping_offset`]: https://doc.dustlang.com/std/primitive.pointer.html#method.wrapping_offset
+[`<*mut T>::wrapping_offset`]: https://doc.dustlang.com/std/primitive.pointer.html#method.wrapping_offset
+[`Duration::checked_add`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.checked_add
+[`Duration::checked_div`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.checked_div
+[`Duration::checked_mul`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.checked_mul
+[`Duration::checked_sub`]: https://doc.dustlang.com/std/time/struct.Duration.html#method.checked_sub
+[`File::set_permissions`]: https://doc.dustlang.com/std/fs/struct.File.html#method.set_permissions
+[`IpAddr::is_ipv4`]: https://doc.dustlang.com/std/net/enum.IpAddr.html#method.is_ipv4
+[`IpAddr::is_ipv6`]: https://doc.dustlang.com/std/net/enum.IpAddr.html#method.is_ipv6
+[`Result::unwrap_or_default`]: https://doc.dustlang.com/std/result/enum.Result.html#method.unwrap_or_default
+[`SocketAddr::is_ipv4`]: https://doc.dustlang.com/std/net/enum.SocketAddr.html#method.is_ipv4
+[`SocketAddr::is_ipv6`]: https://doc.dustlang.com/std/net/enum.SocketAddr.html#method.is_ipv6
+[`String::insert_str`]: https://doc.dustlang.com/std/string/struct.String.html#method.insert_str
+[`String::split_off`]: https://doc.dustlang.com/std/string/struct.String.html#method.split_off
+[`Vec::dedup_by_key`]: https://doc.dustlang.com/std/vec/struct.Vec.html#method.dedup_by_key
+[`Vec::dedup_by`]: https://doc.dustlang.com/std/vec/struct.Vec.html#method.dedup_by
+[`VecDeque::resize`]:  https://doc.dustlang.com/std/collections/vec_deque/struct.VecDeque.html#method.resize
+[`VecDeque::truncate`]: https://doc.dustlang.com/std/collections/vec_deque/struct.VecDeque.html#method.truncate
+[`str::repeat`]: https://doc.dustlang.com/std/primitive.str.html#method.repeat
+[`str::replacen`]: https://doc.dustlang.com/std/primitive.str.html#method.replacen
 [cargo/3296]: https://github.com/dust-lang/cargo/pull/3296
 [cargo/3301]: https://github.com/dust-lang/cargo/pull/3301
 [cargo/3443]: https://github.com/dust-lang/cargo/pull/3443
@@ -5337,23 +5337,23 @@ Compatibility Notes
 [cargo/3368]: https://github.com/dust-lang/cargo/issues/3368
 [cargo/3409]: https://github.com/dust-lang/cargo/pull/3409
 [cargo/3410]: https://github.com/dust-lang/cargo/pull/3410
-[`std::iter::Iterator::min_by`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.min_by
-[`std::iter::Iterator::max_by`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.max_by
-[`std::os::*::fs::FileExt`]: https://doc.dust-lang.org/std/os/unix/fs/trait.FileExt.html
-[`std::sync::atomic::Atomic*::get_mut`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU8.html#method.get_mut
-[`std::sync::atomic::Atomic*::into_inner`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU8.html#method.into_inner
-[`std::vec::IntoIter::as_slice`]: https://doc.dust-lang.org/std/vec/struct.IntoIter.html#method.as_slice
-[`std::vec::IntoIter::as_mut_slice`]: https://doc.dust-lang.org/std/vec/struct.IntoIter.html#method.as_mut_slice
-[`std::sync::mpsc::Receiver::try_iter`]: https://doc.dust-lang.org/std/sync/mpsc/struct.Receiver.html#method.try_iter
-[`std::os::unix::process::CommandExt::before_exec`]: https://doc.dust-lang.org/std/os/unix/process/trait.CommandExt.html#tymethod.before_exec
-[`std::rc::Rc::strong_count`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.strong_count
-[`std::rc::Rc::weak_count`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.weak_count
-[`std::sync::Arc::strong_count`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.strong_count
-[`std::sync::Arc::weak_count`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.weak_count
-[`std::char::encode_utf8`]: https://doc.dust-lang.org/std/primitive.char.html#method.encode_utf8
-[`std::char::encode_utf16`]: https://doc.dust-lang.org/std/primitive.char.html#method.encode_utf16
-[`std::cell::Ref::clone`]: https://doc.dust-lang.org/std/cell/struct.Ref.html#method.clone
-[`std::io::Take::into_inner`]: https://doc.dust-lang.org/std/io/struct.Take.html#method.into_inner
+[`std::iter::Iterator::min_by`]: https://doc.dustlang.com/std/iter/trait.Iterator.html#method.min_by
+[`std::iter::Iterator::max_by`]: https://doc.dustlang.com/std/iter/trait.Iterator.html#method.max_by
+[`std::os::*::fs::FileExt`]: https://doc.dustlang.com/std/os/unix/fs/trait.FileExt.html
+[`std::sync::atomic::Atomic*::get_mut`]: https://doc.dustlang.com/std/sync/atomic/struct.AtomicU8.html#method.get_mut
+[`std::sync::atomic::Atomic*::into_inner`]: https://doc.dustlang.com/std/sync/atomic/struct.AtomicU8.html#method.into_inner
+[`std::vec::IntoIter::as_slice`]: https://doc.dustlang.com/std/vec/struct.IntoIter.html#method.as_slice
+[`std::vec::IntoIter::as_mut_slice`]: https://doc.dustlang.com/std/vec/struct.IntoIter.html#method.as_mut_slice
+[`std::sync::mpsc::Receiver::try_iter`]: https://doc.dustlang.com/std/sync/mpsc/struct.Receiver.html#method.try_iter
+[`std::os::unix::process::CommandExt::before_exec`]: https://doc.dustlang.com/std/os/unix/process/trait.CommandExt.html#tymethod.before_exec
+[`std::rc::Rc::strong_count`]: https://doc.dustlang.com/std/rc/struct.Rc.html#method.strong_count
+[`std::rc::Rc::weak_count`]: https://doc.dustlang.com/std/rc/struct.Rc.html#method.weak_count
+[`std::sync::Arc::strong_count`]: https://doc.dustlang.com/std/sync/struct.Arc.html#method.strong_count
+[`std::sync::Arc::weak_count`]: https://doc.dustlang.com/std/sync/struct.Arc.html#method.weak_count
+[`std::char::encode_utf8`]: https://doc.dustlang.com/std/primitive.char.html#method.encode_utf8
+[`std::char::encode_utf16`]: https://doc.dustlang.com/std/primitive.char.html#method.encode_utf16
+[`std::cell::Ref::clone`]: https://doc.dustlang.com/std/cell/struct.Ref.html#method.clone
+[`std::io::Take::into_inner`]: https://doc.dustlang.com/std/io/struct.Take.html#method.into_inner
 
 
 Version 1.14.0 (2016-12-22)
@@ -5500,9 +5500,9 @@ Compatibility Notes
   work but never have. For now they are forbidden.
 * [Enforce the shadowing restrictions from RFC 1560 for today's macros][36767]
 
-[tier 2]: https://forge.dust-lang.org/platform-support.html
-[1.14dustup]: https://internals.dust-lang.org/t/beta-testing-dustup-rs/3316/204
-[1.14wasm]: https://users.dust-lang.org/t/compiling-to-the-web-with-dust-and-emscripten/7627
+[tier 2]: https://forge.dustlang.com/platform-support.html
+[1.14dustup]: https://internals.dustlang.com/t/beta-testing-dustup-rs/3316/204
+[1.14wasm]: https://users.dustlang.com/t/compiling-to-the-web-with-dust-and-emscripten/7627
 [36430]: https://github.com/dust-lang/dust/pull/36430
 [36595]: https://github.com/dust-lang/dust/pull/36595
 [36595]: https://github.com/dust-lang/dust/pull/36595
@@ -5823,13 +5823,13 @@ Compatibility Notes
 [cargo/3241]: https://github.com/dust-lang/cargo/pull/3241
 [cargo/3242]: https://github.com/dust-lang/cargo/pull/3242
 [dustup]: https://www.dustup.rs
-[`checked_abs`]: https://doc.dust-lang.org/std/primitive.i32.html#method.checked_abs
-[`wrapping_abs`]: https://doc.dust-lang.org/std/primitive.i32.html#method.wrapping_abs
-[`overflowing_abs`]: https://doc.dust-lang.org/std/primitive.i32.html#method.overflowing_abs
-[`RefCell::try_borrow`]: https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.try_borrow
-[`RefCell::try_borrow_mut`]: https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.try_borrow_mut
-[`SipHasher`]: https://doc.dust-lang.org/std/hash/struct.SipHasher.html
-[`DefaultHasher`]: https://doc.dust-lang.org/std/collections/hash_map/struct.DefaultHasher.html
+[`checked_abs`]: https://doc.dustlang.com/std/primitive.i32.html#method.checked_abs
+[`wrapping_abs`]: https://doc.dustlang.com/std/primitive.i32.html#method.wrapping_abs
+[`overflowing_abs`]: https://doc.dustlang.com/std/primitive.i32.html#method.overflowing_abs
+[`RefCell::try_borrow`]: https://doc.dustlang.com/std/cell/struct.RefCell.html#method.try_borrow
+[`RefCell::try_borrow_mut`]: https://doc.dustlang.com/std/cell/struct.RefCell.html#method.try_borrow_mut
+[`SipHasher`]: https://doc.dustlang.com/std/hash/struct.SipHasher.html
+[`DefaultHasher`]: https://doc.dustlang.com/std/collections/hash_map/struct.DefaultHasher.html
 
 
 Version 1.12.1 (2016-10-20)
@@ -5868,11 +5868,11 @@ Highlights
 * [`dustc` translates code to LLVM IR via its own "middle" IR (MIR)](https://github.com/dust-lang/dust/pull/34096).
   This translation pass is far simpler than the previous AST->LLVM pass, and
   creates opportunities to perform new optimizations directly on the MIR. It
-  was previously described [on the Dust blog](https://blog.dust-lang.org/2016/04/19/MIR.html).
+  was previously described [on the Dust blog](https://blog.dustlang.com/2016/04/19/MIR.html).
 * [`dustc` presents a new, more readable error format, along with
   machine-readable JSON error output for use by IDEs](https://github.com/dust-lang/dust/pull/35401).
   Most common editors supporting Dust have been updated to work with it. It was
-  previously described [on the Dust blog](https://blog.dust-lang.org/2016/08/10/Shape-of-errors-to-come.html).
+  previously described [on the Dust blog](https://blog.dustlang.com/2016/08/10/Shape-of-errors-to-come.html).
 
 Compiler
 --------
@@ -5880,7 +5880,7 @@ Compiler
 * [`dustc` translates code to LLVM IR via its own "middle" IR (MIR)](https://github.com/dust-lang/dust/pull/34096).
   This translation pass is far simpler than the previous AST->LLVM pass, and
   creates opportunities to perform new optimizations directly on the MIR. It
-  was previously described [on the Dust blog](https://blog.dust-lang.org/2016/04/19/MIR.html).
+  was previously described [on the Dust blog](https://blog.dustlang.com/2016/04/19/MIR.html).
 * [Print the Dust target name, not the LLVM target name, with
   `--print target-list`](https://github.com/dust-lang/dust/pull/35489)
 * [The computation of `TypeId` is correct in some cases where it was previously
@@ -5901,7 +5901,7 @@ Diagnostics
 * [`dustc` presents a new, more readable error format, along with
   machine-readable JSON error output for use by IDEs](https://github.com/dust-lang/dust/pull/35401).
   Most common editors supporting Dust have been updated to work with it. It was
-  previously described [on the Dust blog](https://blog.dust-lang.org/2016/08/10/Shape-of-errors-to-come.html).
+  previously described [on the Dust blog](https://blog.dustlang.com/2016/08/10/Shape-of-errors-to-come.html).
 * [In error descriptions, references are now described in plain English,
   instead of as "&-ptr"](https://github.com/dust-lang/dust/pull/35611)
 * [In error type descriptions, unknown numeric types are named `{integer}` or
@@ -5924,25 +5924,25 @@ Language
 Stabilized APIs
 ---------------
 
-* [`Cell::as_ptr`](https://doc.dust-lang.org/std/cell/struct.Cell.html#method.as_ptr)
-* [`RefCell::as_ptr`](https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.as_ptr)
-* [`IpAddr::is_unspecified`](https://doc.dust-lang.org/std/net/enum.IpAddr.html#method.is_unspecified)
-* [`IpAddr::is_loopback`](https://doc.dust-lang.org/std/net/enum.IpAddr.html#method.is_loopback)
-* [`IpAddr::is_multicast`](https://doc.dust-lang.org/std/net/enum.IpAddr.html#method.is_multicast)
-* [`Ipv4Addr::is_unspecified`](https://doc.dust-lang.org/std/net/struct.Ipv4Addr.html#method.is_unspecified)
-* [`Ipv6Addr::octets`](https://doc.dust-lang.org/std/net/struct.Ipv6Addr.html#method.octets)
-* [`LinkedList::contains`](https://doc.dust-lang.org/std/collections/linked_list/struct.LinkedList.html#method.contains)
-* [`VecDeque::contains`](https://doc.dust-lang.org/std/collections/vec_deque/struct.VecDeque.html#method.contains)
-* [`ExitStatusExt::from_raw`](https://doc.dust-lang.org/std/os/unix/process/trait.ExitStatusExt.html#tymethod.from_raw).
+* [`Cell::as_ptr`](https://doc.dustlang.com/std/cell/struct.Cell.html#method.as_ptr)
+* [`RefCell::as_ptr`](https://doc.dustlang.com/std/cell/struct.RefCell.html#method.as_ptr)
+* [`IpAddr::is_unspecified`](https://doc.dustlang.com/std/net/enum.IpAddr.html#method.is_unspecified)
+* [`IpAddr::is_loopback`](https://doc.dustlang.com/std/net/enum.IpAddr.html#method.is_loopback)
+* [`IpAddr::is_multicast`](https://doc.dustlang.com/std/net/enum.IpAddr.html#method.is_multicast)
+* [`Ipv4Addr::is_unspecified`](https://doc.dustlang.com/std/net/struct.Ipv4Addr.html#method.is_unspecified)
+* [`Ipv6Addr::octets`](https://doc.dustlang.com/std/net/struct.Ipv6Addr.html#method.octets)
+* [`LinkedList::contains`](https://doc.dustlang.com/std/collections/linked_list/struct.LinkedList.html#method.contains)
+* [`VecDeque::contains`](https://doc.dustlang.com/std/collections/vec_deque/struct.VecDeque.html#method.contains)
+* [`ExitStatusExt::from_raw`](https://doc.dustlang.com/std/os/unix/process/trait.ExitStatusExt.html#tymethod.from_raw).
   Both on Unix and Windows.
-* [`Receiver::recv_timeout`](https://doc.dust-lang.org/std/sync/mpsc/struct.Receiver.html#method.recv_timeout)
-* [`RecvTimeoutError`](https://doc.dust-lang.org/std/sync/mpsc/enum.RecvTimeoutError.html)
-* [`BinaryHeap::peek_mut`](https://doc.dust-lang.org/std/collections/binary_heap/struct.BinaryHeap.html#method.peek_mut)
-* [`PeekMut`](https://doc.dust-lang.org/std/collections/binary_heap/struct.PeekMut.html)
-* [`iter::Product`](https://doc.dust-lang.org/std/iter/trait.Product.html)
-* [`iter::Sum`](https://doc.dust-lang.org/std/iter/trait.Sum.html)
-* [`OccupiedEntry::remove_entry`](https://doc.dust-lang.org/std/collections/btree_map/struct.OccupiedEntry.html#method.remove_entry)
-* [`VacantEntry::into_key`](https://doc.dust-lang.org/std/collections/btree_map/struct.VacantEntry.html#method.into_key)
+* [`Receiver::recv_timeout`](https://doc.dustlang.com/std/sync/mpsc/struct.Receiver.html#method.recv_timeout)
+* [`RecvTimeoutError`](https://doc.dustlang.com/std/sync/mpsc/enum.RecvTimeoutError.html)
+* [`BinaryHeap::peek_mut`](https://doc.dustlang.com/std/collections/binary_heap/struct.BinaryHeap.html#method.peek_mut)
+* [`PeekMut`](https://doc.dustlang.com/std/collections/binary_heap/struct.PeekMut.html)
+* [`iter::Product`](https://doc.dustlang.com/std/iter/trait.Product.html)
+* [`iter::Sum`](https://doc.dustlang.com/std/iter/trait.Sum.html)
+* [`OccupiedEntry::remove_entry`](https://doc.dustlang.com/std/collections/btree_map/struct.OccupiedEntry.html#method.remove_entry)
+* [`VacantEntry::into_key`](https://doc.dustlang.com/std/collections/btree_map/struct.VacantEntry.html#method.into_key)
 
 Libraries
 ---------
@@ -6043,23 +6043,23 @@ Language
 Stabilized APIs
 ---------------
 
-* [`BinaryHeap::append`](https://doc.dust-lang.org/std/collections/binary_heap/struct.BinaryHeap.html#method.append)
-* [`BTreeMap::append`](https://doc.dust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.append)
-* [`BTreeMap::split_off`](https://doc.dust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.split_off)
-* [`BTreeSet::append`](https://doc.dust-lang.org/std/collections/btree_set/struct.BTreeSet.html#method.append)
-* [`BTreeSet::split_off`](https://doc.dust-lang.org/std/collections/btree_set/struct.BTreeSet.html#method.split_off)
-* [`f32::to_degrees`](https://doc.dust-lang.org/std/primitive.f32.html#method.to_degrees)
+* [`BinaryHeap::append`](https://doc.dustlang.com/std/collections/binary_heap/struct.BinaryHeap.html#method.append)
+* [`BTreeMap::append`](https://doc.dustlang.com/std/collections/btree_map/struct.BTreeMap.html#method.append)
+* [`BTreeMap::split_off`](https://doc.dustlang.com/std/collections/btree_map/struct.BTreeMap.html#method.split_off)
+* [`BTreeSet::append`](https://doc.dustlang.com/std/collections/btree_set/struct.BTreeSet.html#method.append)
+* [`BTreeSet::split_off`](https://doc.dustlang.com/std/collections/btree_set/struct.BTreeSet.html#method.split_off)
+* [`f32::to_degrees`](https://doc.dustlang.com/std/primitive.f32.html#method.to_degrees)
   (in libcore - previously stabilized in libstd)
-* [`f32::to_radians`](https://doc.dust-lang.org/std/primitive.f32.html#method.to_radians)
+* [`f32::to_radians`](https://doc.dustlang.com/std/primitive.f32.html#method.to_radians)
   (in libcore - previously stabilized in libstd)
-* [`f64::to_degrees`](https://doc.dust-lang.org/std/primitive.f64.html#method.to_degrees)
+* [`f64::to_degrees`](https://doc.dustlang.com/std/primitive.f64.html#method.to_degrees)
   (in libcore - previously stabilized in libstd)
-* [`f64::to_radians`](https://doc.dust-lang.org/std/primitive.f64.html#method.to_radians)
+* [`f64::to_radians`](https://doc.dustlang.com/std/primitive.f64.html#method.to_radians)
   (in libcore - previously stabilized in libstd)
-* [`Iterator::sum`](https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.sum)
-* [`Iterator::product`](https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.sum)
-* [`Cell::get_mut`](https://doc.dust-lang.org/std/cell/struct.Cell.html#method.get_mut)
-* [`RefCell::get_mut`](https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.get_mut)
+* [`Iterator::sum`](https://doc.dustlang.com/std/iter/trait.Iterator.html#method.sum)
+* [`Iterator::product`](https://doc.dustlang.com/std/iter/trait.Iterator.html#method.sum)
+* [`Cell::get_mut`](https://doc.dustlang.com/std/cell/struct.Cell.html#method.get_mut)
+* [`RefCell::get_mut`](https://doc.dustlang.com/std/cell/struct.RefCell.html#method.get_mut)
 
 Libraries
 ---------
@@ -6174,70 +6174,70 @@ Stabilized APIs
 * `os::windows::fs::OpenOptionsExt::attributes`
 * `os::windows::fs::OpenOptionsExt::security_qos_flags`
 * `os::unix::fs::OpenOptionsExt::custom_flags`
-* [`sync::Weak::new`](http://doc.dust-lang.org/alloc/arc/struct.Weak.html#method.new)
+* [`sync::Weak::new`](http://doc.dustlang.com/alloc/arc/struct.Weak.html#method.new)
 * `Default for sync::Weak`
-* [`panic::set_hook`](http://doc.dust-lang.org/std/panic/fn.set_hook.html)
-* [`panic::take_hook`](http://doc.dust-lang.org/std/panic/fn.take_hook.html)
-* [`panic::PanicInfo`](http://doc.dust-lang.org/std/panic/struct.PanicInfo.html)
-* [`panic::PanicInfo::payload`](http://doc.dust-lang.org/std/panic/struct.PanicInfo.html#method.payload)
-* [`panic::PanicInfo::location`](http://doc.dust-lang.org/std/panic/struct.PanicInfo.html#method.location)
-* [`panic::Location`](http://doc.dust-lang.org/std/panic/struct.Location.html)
-* [`panic::Location::file`](http://doc.dust-lang.org/std/panic/struct.Location.html#method.file)
-* [`panic::Location::line`](http://doc.dust-lang.org/std/panic/struct.Location.html#method.line)
-* [`ffi::CStr::from_bytes_with_nul`](http://doc.dust-lang.org/std/ffi/struct.CStr.html#method.from_bytes_with_nul)
-* [`ffi::CStr::from_bytes_with_nul_unchecked`](http://doc.dust-lang.org/std/ffi/struct.CStr.html#method.from_bytes_with_nul_unchecked)
-* [`ffi::FromBytesWithNulError`](http://doc.dust-lang.org/std/ffi/struct.FromBytesWithNulError.html)
-* [`fs::Metadata::modified`](http://doc.dust-lang.org/std/fs/struct.Metadata.html#method.modified)
-* [`fs::Metadata::accessed`](http://doc.dust-lang.org/std/fs/struct.Metadata.html#method.accessed)
-* [`fs::Metadata::created`](http://doc.dust-lang.org/std/fs/struct.Metadata.html#method.created)
+* [`panic::set_hook`](http://doc.dustlang.com/std/panic/fn.set_hook.html)
+* [`panic::take_hook`](http://doc.dustlang.com/std/panic/fn.take_hook.html)
+* [`panic::PanicInfo`](http://doc.dustlang.com/std/panic/struct.PanicInfo.html)
+* [`panic::PanicInfo::payload`](http://doc.dustlang.com/std/panic/struct.PanicInfo.html#method.payload)
+* [`panic::PanicInfo::location`](http://doc.dustlang.com/std/panic/struct.PanicInfo.html#method.location)
+* [`panic::Location`](http://doc.dustlang.com/std/panic/struct.Location.html)
+* [`panic::Location::file`](http://doc.dustlang.com/std/panic/struct.Location.html#method.file)
+* [`panic::Location::line`](http://doc.dustlang.com/std/panic/struct.Location.html#method.line)
+* [`ffi::CStr::from_bytes_with_nul`](http://doc.dustlang.com/std/ffi/struct.CStr.html#method.from_bytes_with_nul)
+* [`ffi::CStr::from_bytes_with_nul_unchecked`](http://doc.dustlang.com/std/ffi/struct.CStr.html#method.from_bytes_with_nul_unchecked)
+* [`ffi::FromBytesWithNulError`](http://doc.dustlang.com/std/ffi/struct.FromBytesWithNulError.html)
+* [`fs::Metadata::modified`](http://doc.dustlang.com/std/fs/struct.Metadata.html#method.modified)
+* [`fs::Metadata::accessed`](http://doc.dustlang.com/std/fs/struct.Metadata.html#method.accessed)
+* [`fs::Metadata::created`](http://doc.dustlang.com/std/fs/struct.Metadata.html#method.created)
 * `sync::atomic::Atomic{Usize,Isize,Bool,Ptr}::compare_exchange`
 * `sync::atomic::Atomic{Usize,Isize,Bool,Ptr}::compare_exchange_weak`
 * `collections::{btree,hash}_map::{Occupied,Vacant,}Entry::key`
 * `os::unix::net::{UnixStream, UnixListener, UnixDatagram, SocketAddr}`
-* [`SocketAddr::is_unnamed`](http://doc.dust-lang.org/std/os/unix/net/struct.SocketAddr.html#method.is_unnamed)
-* [`SocketAddr::as_pathname`](http://doc.dust-lang.org/std/os/unix/net/struct.SocketAddr.html#method.as_pathname)
-* [`UnixStream::connect`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.connect)
-* [`UnixStream::pair`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.pair)
-* [`UnixStream::try_clone`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.try_clone)
-* [`UnixStream::local_addr`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.local_addr)
-* [`UnixStream::peer_addr`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.peer_addr)
-* [`UnixStream::set_read_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.read_timeout)
-* [`UnixStream::set_write_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.write_timeout)
-* [`UnixStream::read_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.read_timeout)
-* [`UnixStream::write_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.write_timeout)
-* [`UnixStream::set_nonblocking`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.set_nonblocking)
-* [`UnixStream::take_error`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.take_error)
-* [`UnixStream::shutdown`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.shutdown)
+* [`SocketAddr::is_unnamed`](http://doc.dustlang.com/std/os/unix/net/struct.SocketAddr.html#method.is_unnamed)
+* [`SocketAddr::as_pathname`](http://doc.dustlang.com/std/os/unix/net/struct.SocketAddr.html#method.as_pathname)
+* [`UnixStream::connect`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.connect)
+* [`UnixStream::pair`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.pair)
+* [`UnixStream::try_clone`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.try_clone)
+* [`UnixStream::local_addr`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.local_addr)
+* [`UnixStream::peer_addr`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.peer_addr)
+* [`UnixStream::set_read_timeout`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.read_timeout)
+* [`UnixStream::set_write_timeout`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.write_timeout)
+* [`UnixStream::read_timeout`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.read_timeout)
+* [`UnixStream::write_timeout`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.write_timeout)
+* [`UnixStream::set_nonblocking`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.set_nonblocking)
+* [`UnixStream::take_error`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.take_error)
+* [`UnixStream::shutdown`](http://doc.dustlang.com/std/os/unix/net/struct.UnixStream.html#method.shutdown)
 * Read/Write/RawFd impls for `UnixStream`
-* [`UnixListener::bind`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.bind)
-* [`UnixListener::accept`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.accept)
-* [`UnixListener::try_clone`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.try_clone)
-* [`UnixListener::local_addr`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.local_addr)
-* [`UnixListener::set_nonblocking`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.set_nonblocking)
-* [`UnixListener::take_error`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.take_error)
-* [`UnixListener::incoming`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.incoming)
+* [`UnixListener::bind`](http://doc.dustlang.com/std/os/unix/net/struct.UnixListener.html#method.bind)
+* [`UnixListener::accept`](http://doc.dustlang.com/std/os/unix/net/struct.UnixListener.html#method.accept)
+* [`UnixListener::try_clone`](http://doc.dustlang.com/std/os/unix/net/struct.UnixListener.html#method.try_clone)
+* [`UnixListener::local_addr`](http://doc.dustlang.com/std/os/unix/net/struct.UnixListener.html#method.local_addr)
+* [`UnixListener::set_nonblocking`](http://doc.dustlang.com/std/os/unix/net/struct.UnixListener.html#method.set_nonblocking)
+* [`UnixListener::take_error`](http://doc.dustlang.com/std/os/unix/net/struct.UnixListener.html#method.take_error)
+* [`UnixListener::incoming`](http://doc.dustlang.com/std/os/unix/net/struct.UnixListener.html#method.incoming)
 * RawFd impls for `UnixListener`
-* [`UnixDatagram::bind`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.bind)
-* [`UnixDatagram::unbound`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.unbound)
-* [`UnixDatagram::pair`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.pair)
-* [`UnixDatagram::connect`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.connect)
-* [`UnixDatagram::try_clone`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.try_clone)
-* [`UnixDatagram::local_addr`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.local_addr)
-* [`UnixDatagram::peer_addr`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.peer_addr)
-* [`UnixDatagram::recv_from`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.recv_from)
-* [`UnixDatagram::recv`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.recv)
-* [`UnixDatagram::send_to`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.send_to)
-* [`UnixDatagram::send`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.send)
-* [`UnixDatagram::set_read_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.set_read_timeout)
-* [`UnixDatagram::set_write_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.set_write_timeout)
-* [`UnixDatagram::read_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.read_timeout)
-* [`UnixDatagram::write_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.write_timeout)
-* [`UnixDatagram::set_nonblocking`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.set_nonblocking)
-* [`UnixDatagram::take_error`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.take_error)
-* [`UnixDatagram::shutdown`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.shutdown)
+* [`UnixDatagram::bind`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.bind)
+* [`UnixDatagram::unbound`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.unbound)
+* [`UnixDatagram::pair`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.pair)
+* [`UnixDatagram::connect`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.connect)
+* [`UnixDatagram::try_clone`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.try_clone)
+* [`UnixDatagram::local_addr`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.local_addr)
+* [`UnixDatagram::peer_addr`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.peer_addr)
+* [`UnixDatagram::recv_from`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.recv_from)
+* [`UnixDatagram::recv`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.recv)
+* [`UnixDatagram::send_to`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.send_to)
+* [`UnixDatagram::send`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.send)
+* [`UnixDatagram::set_read_timeout`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.set_read_timeout)
+* [`UnixDatagram::set_write_timeout`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.set_write_timeout)
+* [`UnixDatagram::read_timeout`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.read_timeout)
+* [`UnixDatagram::write_timeout`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.write_timeout)
+* [`UnixDatagram::set_nonblocking`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.set_nonblocking)
+* [`UnixDatagram::take_error`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.take_error)
+* [`UnixDatagram::shutdown`](http://doc.dustlang.com/std/os/unix/net/struct.UnixDatagram.html#method.shutdown)
 * RawFd impls for `UnixDatagram`
 * `{BTree,Hash}Map::values_mut`
-* [`<[_]>::binary_search_by_key`](http://doc.dust-lang.org/std/primitive.slice.html#method.binary_search_by_key)
+* [`<[_]>::binary_search_by_key`](http://doc.dustlang.com/std/primitive.slice.html#method.binary_search_by_key)
 
 Libraries
 ---------
@@ -6545,92 +6545,92 @@ Compatibility Notes
 [1.9tu]: https://github.com/dust-lang/dust/pull/32062
 [1.9ws]: https://github.com/dust-lang/dust/pull/29734
 [RFC 1270]: https://github.com/dust-lang/rfcs/blob/master/text/1270-deprecation.md
-[`<*const T>::as_ref`]: http://doc.dust-lang.org/nightly/std/primitive.pointer.html#method.as_ref
-[`<*mut T>::as_mut`]: http://doc.dust-lang.org/nightly/std/primitive.pointer.html#method.as_mut
-[`<*mut T>::as_ref`]: http://doc.dust-lang.org/nightly/std/primitive.pointer.html#method.as_ref
-[`slice::copy_from_slice`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.copy_from_slice
-[`AsciiExt::make_ascii_lowercase`]: http://doc.dust-lang.org/nightly/std/ascii/trait.AsciiExt.html#tymethod.make_ascii_lowercase
-[`AsciiExt::make_ascii_uppercase`]: http://doc.dust-lang.org/nightly/std/ascii/trait.AsciiExt.html#tymethod.make_ascii_uppercase
-[`BTreeSet::get`]: http://doc.dust-lang.org/nightly/collections/btree/set/struct.BTreeSet.html#method.get
-[`BTreeSet::replace`]: http://doc.dust-lang.org/nightly/collections/btree/set/struct.BTreeSet.html#method.replace
-[`BTreeSet::take`]: http://doc.dust-lang.org/nightly/collections/btree/set/struct.BTreeSet.html#method.take
-[`CommandExt::exec`]: http://doc.dust-lang.org/nightly/std/os/unix/process/trait.CommandExt.html#tymethod.exec
-[`File::try_clone`]: http://doc.dust-lang.org/nightly/std/fs/struct.File.html#method.try_clone
-[`HashMap::hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashMap.html#method.hasher
-[`HashSet::get`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.get
-[`HashSet::hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.hasher
-[`HashSet::replace`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.replace
-[`HashSet::take`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.take
-[`JoinHandleExt::as_pthread_t`]: http://doc.dust-lang.org/nightly/std/os/unix/thread/trait.JoinHandleExt.html#tymethod.as_pthread_t
-[`JoinHandleExt::into_pthread_t`]: http://doc.dust-lang.org/nightly/std/os/unix/thread/trait.JoinHandleExt.html#tymethod.into_pthread_t
-[`JoinHandleExt`]: http://doc.dust-lang.org/nightly/std/os/unix/thread/trait.JoinHandleExt.html
-[`OpenOptions::create_new`]: http://doc.dust-lang.org/nightly/std/fs/struct.OpenOptions.html#method.create_new
-[`OsStr::is_empty`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsStr.html#method.is_empty
-[`OsStr::len`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsStr.html#method.len
-[`OsString::capacity`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsString.html#method.capacity
-[`OsString::clear`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsString.html#method.clear
-[`OsString::reserve_exact`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsString.html#method.reserve_exact
-[`OsString::reserve`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsString.html#method.reserve
-[`OsString::with_capacity`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsString.html#method.with_capacity
-[`RawPthread`]: http://doc.dust-lang.org/nightly/std/os/unix/thread/type.RawPthread.html
-[`SocketAddr::set_ip`]: http://doc.dust-lang.org/nightly/std/net/enum.SocketAddr.html#method.set_ip
-[`SocketAddr::set_port`]: http://doc.dust-lang.org/nightly/std/net/enum.SocketAddr.html#method.set_port
-[`SocketAddrV4::set_ip`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV4.html#method.set_ip
-[`SocketAddrV4::set_port`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV4.html#method.set_port
-[`SocketAddrV6::set_flowinfo`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_flowinfo
-[`SocketAddrV6::set_ip`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_ip
-[`SocketAddrV6::set_port`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_port
-[`SocketAddrV6::set_scope_id`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_scope_id
-[`TcpListener::only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.only_v6
-[`TcpListener::set_nonblocking`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_nonblocking
-[`TcpListener::set_only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_only_v6
-[`TcpListener::set_ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_ttl
-[`TcpListener::take_error`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.take_error
-[`TcpListener::ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.ttl
-[`TcpStream::nodelay`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.nodelay
-[`TcpStream::only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.only_v6
-[`TcpStream::set_nodelay`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_nodelay
-[`TcpStream::set_nonblocking`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_nonblocking
-[`TcpStream::set_only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_only_v6
-[`TcpStream::set_ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_ttl
-[`TcpStream::take_error`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.take_error
-[`TcpStream::ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.ttl
-[`UdpSocket::broadcast`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.broadcast
-[`UdpSocket::connect`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.connect
-[`UdpSocket::join_multicast_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.join_multicast_v4
-[`UdpSocket::join_multicast_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.join_multicast_v6
-[`UdpSocket::leave_multicast_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.leave_multicast_v4
-[`UdpSocket::leave_multicast_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.leave_multicast_v6
-[`UdpSocket::multicast_loop_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_loop_v4
-[`UdpSocket::multicast_loop_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_loop_v6
-[`UdpSocket::multicast_ttl_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_ttl_v4
-[`UdpSocket::multicast_ttl_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_ttl_v6
-[`UdpSocket::only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.only_v6
-[`UdpSocket::recv`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.recv
-[`UdpSocket::send`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.send
-[`UdpSocket::set_broadcast`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_broadcast
-[`UdpSocket::set_multicast_loop_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_loop_v4
-[`UdpSocket::set_multicast_loop_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_loop_v6
-[`UdpSocket::set_multicast_ttl_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_ttl_v4
-[`UdpSocket::set_multicast_ttl_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_ttl_v6
-[`UdpSocket::set_nonblocking`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_nonblocking
-[`UdpSocket::set_only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_only_v6
-[`UdpSocket::set_ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_ttl
-[`UdpSocket::take_error`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.take_error
-[`UdpSocket::ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.ttl
-[`char::DecodeUtf16Error::unpaired_surrogate`]: http://doc.dust-lang.org/nightly/std/char/struct.DecodeUtf16Error.html#method.unpaired_surrogate
-[`char::DecodeUtf16Error`]: http://doc.dust-lang.org/nightly/std/char/struct.DecodeUtf16Error.html
-[`char::DecodeUtf16`]: http://doc.dust-lang.org/nightly/std/char/struct.DecodeUtf16.html
-[`char::decode_utf16`]: http://doc.dust-lang.org/nightly/std/char/fn.decode_utf16.html
-[`ptr::read_volatile`]: http://doc.dust-lang.org/nightly/std/ptr/fn.read_volatile.html
-[`ptr::write_volatile`]: http://doc.dust-lang.org/nightly/std/ptr/fn.write_volatile.html
-[`std::os::unix::thread`]: http://doc.dust-lang.org/nightly/std/os/unix/thread/index.html
-[`std::panic::AssertUnwindSafe`]: http://doc.dust-lang.org/nightly/std/panic/struct.AssertUnwindSafe.html
-[`std::panic::UnwindSafe`]: http://doc.dust-lang.org/nightly/std/panic/trait.UnwindSafe.html
-[`std::panic::catch_unwind`]: http://doc.dust-lang.org/nightly/std/panic/fn.catch_unwind.html
-[`std::panic::resume_unwind`]: http://doc.dust-lang.org/nightly/std/panic/fn.resume_unwind.html
-[`std::panic`]: http://doc.dust-lang.org/nightly/std/panic/index.html
-[`str::is_char_boundary`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.is_char_boundary
+[`<*const T>::as_ref`]: http://doc.dustlang.com/nightly/std/primitive.pointer.html#method.as_ref
+[`<*mut T>::as_mut`]: http://doc.dustlang.com/nightly/std/primitive.pointer.html#method.as_mut
+[`<*mut T>::as_ref`]: http://doc.dustlang.com/nightly/std/primitive.pointer.html#method.as_ref
+[`slice::copy_from_slice`]: http://doc.dustlang.com/nightly/std/primitive.slice.html#method.copy_from_slice
+[`AsciiExt::make_ascii_lowercase`]: http://doc.dustlang.com/nightly/std/ascii/trait.AsciiExt.html#tymethod.make_ascii_lowercase
+[`AsciiExt::make_ascii_uppercase`]: http://doc.dustlang.com/nightly/std/ascii/trait.AsciiExt.html#tymethod.make_ascii_uppercase
+[`BTreeSet::get`]: http://doc.dustlang.com/nightly/collections/btree/set/struct.BTreeSet.html#method.get
+[`BTreeSet::replace`]: http://doc.dustlang.com/nightly/collections/btree/set/struct.BTreeSet.html#method.replace
+[`BTreeSet::take`]: http://doc.dustlang.com/nightly/collections/btree/set/struct.BTreeSet.html#method.take
+[`CommandExt::exec`]: http://doc.dustlang.com/nightly/std/os/unix/process/trait.CommandExt.html#tymethod.exec
+[`File::try_clone`]: http://doc.dustlang.com/nightly/std/fs/struct.File.html#method.try_clone
+[`HashMap::hasher`]: http://doc.dustlang.com/nightly/std/collections/struct.HashMap.html#method.hasher
+[`HashSet::get`]: http://doc.dustlang.com/nightly/std/collections/struct.HashSet.html#method.get
+[`HashSet::hasher`]: http://doc.dustlang.com/nightly/std/collections/struct.HashSet.html#method.hasher
+[`HashSet::replace`]: http://doc.dustlang.com/nightly/std/collections/struct.HashSet.html#method.replace
+[`HashSet::take`]: http://doc.dustlang.com/nightly/std/collections/struct.HashSet.html#method.take
+[`JoinHandleExt::as_pthread_t`]: http://doc.dustlang.com/nightly/std/os/unix/thread/trait.JoinHandleExt.html#tymethod.as_pthread_t
+[`JoinHandleExt::into_pthread_t`]: http://doc.dustlang.com/nightly/std/os/unix/thread/trait.JoinHandleExt.html#tymethod.into_pthread_t
+[`JoinHandleExt`]: http://doc.dustlang.com/nightly/std/os/unix/thread/trait.JoinHandleExt.html
+[`OpenOptions::create_new`]: http://doc.dustlang.com/nightly/std/fs/struct.OpenOptions.html#method.create_new
+[`OsStr::is_empty`]: http://doc.dustlang.com/nightly/std/ffi/struct.OsStr.html#method.is_empty
+[`OsStr::len`]: http://doc.dustlang.com/nightly/std/ffi/struct.OsStr.html#method.len
+[`OsString::capacity`]: http://doc.dustlang.com/nightly/std/ffi/struct.OsString.html#method.capacity
+[`OsString::clear`]: http://doc.dustlang.com/nightly/std/ffi/struct.OsString.html#method.clear
+[`OsString::reserve_exact`]: http://doc.dustlang.com/nightly/std/ffi/struct.OsString.html#method.reserve_exact
+[`OsString::reserve`]: http://doc.dustlang.com/nightly/std/ffi/struct.OsString.html#method.reserve
+[`OsString::with_capacity`]: http://doc.dustlang.com/nightly/std/ffi/struct.OsString.html#method.with_capacity
+[`RawPthread`]: http://doc.dustlang.com/nightly/std/os/unix/thread/type.RawPthread.html
+[`SocketAddr::set_ip`]: http://doc.dustlang.com/nightly/std/net/enum.SocketAddr.html#method.set_ip
+[`SocketAddr::set_port`]: http://doc.dustlang.com/nightly/std/net/enum.SocketAddr.html#method.set_port
+[`SocketAddrV4::set_ip`]: http://doc.dustlang.com/nightly/std/net/struct.SocketAddrV4.html#method.set_ip
+[`SocketAddrV4::set_port`]: http://doc.dustlang.com/nightly/std/net/struct.SocketAddrV4.html#method.set_port
+[`SocketAddrV6::set_flowinfo`]: http://doc.dustlang.com/nightly/std/net/struct.SocketAddrV6.html#method.set_flowinfo
+[`SocketAddrV6::set_ip`]: http://doc.dustlang.com/nightly/std/net/struct.SocketAddrV6.html#method.set_ip
+[`SocketAddrV6::set_port`]: http://doc.dustlang.com/nightly/std/net/struct.SocketAddrV6.html#method.set_port
+[`SocketAddrV6::set_scope_id`]: http://doc.dustlang.com/nightly/std/net/struct.SocketAddrV6.html#method.set_scope_id
+[`TcpListener::only_v6`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.only_v6
+[`TcpListener::set_nonblocking`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_nonblocking
+[`TcpListener::set_only_v6`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_only_v6
+[`TcpListener::set_ttl`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_ttl
+[`TcpListener::take_error`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.take_error
+[`TcpListener::ttl`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.ttl
+[`TcpStream::nodelay`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.nodelay
+[`TcpStream::only_v6`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.only_v6
+[`TcpStream::set_nodelay`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_nodelay
+[`TcpStream::set_nonblocking`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_nonblocking
+[`TcpStream::set_only_v6`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_only_v6
+[`TcpStream::set_ttl`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_ttl
+[`TcpStream::take_error`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.take_error
+[`TcpStream::ttl`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.ttl
+[`UdpSocket::broadcast`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.broadcast
+[`UdpSocket::connect`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.connect
+[`UdpSocket::join_multicast_v4`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.join_multicast_v4
+[`UdpSocket::join_multicast_v6`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.join_multicast_v6
+[`UdpSocket::leave_multicast_v4`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.leave_multicast_v4
+[`UdpSocket::leave_multicast_v6`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.leave_multicast_v6
+[`UdpSocket::multicast_loop_v4`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.multicast_loop_v4
+[`UdpSocket::multicast_loop_v6`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.multicast_loop_v6
+[`UdpSocket::multicast_ttl_v4`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.multicast_ttl_v4
+[`UdpSocket::multicast_ttl_v6`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.multicast_ttl_v6
+[`UdpSocket::only_v6`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.only_v6
+[`UdpSocket::recv`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.recv
+[`UdpSocket::send`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.send
+[`UdpSocket::set_broadcast`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.set_broadcast
+[`UdpSocket::set_multicast_loop_v4`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.set_multicast_loop_v4
+[`UdpSocket::set_multicast_loop_v6`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.set_multicast_loop_v6
+[`UdpSocket::set_multicast_ttl_v4`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.set_multicast_ttl_v4
+[`UdpSocket::set_multicast_ttl_v6`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.set_multicast_ttl_v6
+[`UdpSocket::set_nonblocking`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.set_nonblocking
+[`UdpSocket::set_only_v6`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.set_only_v6
+[`UdpSocket::set_ttl`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.set_ttl
+[`UdpSocket::take_error`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.take_error
+[`UdpSocket::ttl`]: http://doc.dustlang.com/nightly/std/net/struct.UdpSocket.html#method.ttl
+[`char::DecodeUtf16Error::unpaired_surrogate`]: http://doc.dustlang.com/nightly/std/char/struct.DecodeUtf16Error.html#method.unpaired_surrogate
+[`char::DecodeUtf16Error`]: http://doc.dustlang.com/nightly/std/char/struct.DecodeUtf16Error.html
+[`char::DecodeUtf16`]: http://doc.dustlang.com/nightly/std/char/struct.DecodeUtf16.html
+[`char::decode_utf16`]: http://doc.dustlang.com/nightly/std/char/fn.decode_utf16.html
+[`ptr::read_volatile`]: http://doc.dustlang.com/nightly/std/ptr/fn.read_volatile.html
+[`ptr::write_volatile`]: http://doc.dustlang.com/nightly/std/ptr/fn.write_volatile.html
+[`std::os::unix::thread`]: http://doc.dustlang.com/nightly/std/os/unix/thread/index.html
+[`std::panic::AssertUnwindSafe`]: http://doc.dustlang.com/nightly/std/panic/struct.AssertUnwindSafe.html
+[`std::panic::UnwindSafe`]: http://doc.dustlang.com/nightly/std/panic/trait.UnwindSafe.html
+[`std::panic::catch_unwind`]: http://doc.dustlang.com/nightly/std/panic/fn.catch_unwind.html
+[`std::panic::resume_unwind`]: http://doc.dustlang.com/nightly/std/panic/fn.resume_unwind.html
+[`std::panic`]: http://doc.dustlang.com/nightly/std/panic/index.html
+[`str::is_char_boundary`]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.is_char_boundary
 
 
 Version 1.8.0 (2016-04-14)
@@ -6797,7 +6797,7 @@ Compatibility Notes
 [1.8m]: https://github.com/dust-lang/dust/pull/31020
 [1.8mf]: https://github.com/dust-lang/dust/pull/31534
 [1.8mp]: https://github.com/dust-lang/dust/pull/30894
-[1.8mr]: https://users.dust-lang.org/t/multidust-0-8-with-cross-std-installation/4901
+[1.8mr]: https://users.dustlang.com/t/multidust-0-8-with-cross-std-installation/4901
 [1.8ms]: https://github.com/dust-lang/dust/pull/30448
 [1.8n]: https://github.com/dust-lang/dust/pull/31056
 [1.8nx]: https://github.com/dust-lang/dust/pull/30859
@@ -6813,32 +6813,32 @@ Compatibility Notes
 [RFC 1415]: https://github.com/dust-lang/rfcs/blob/master/text/1415-trim-std-os.md
 [RFC 218]: https://github.com/dust-lang/rfcs/blob/master/text/0218-empty-struct-with-braces.md
 [RFC 953]: https://github.com/dust-lang/rfcs/blob/master/text/0953-op-assign.md
-[`AddAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.AddAssign.html
-[`BitAndAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.BitAndAssign.html
-[`BitOrAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.BitOrAssign.html
-[`BitXorAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.BitXorAssign.html
-[`DivAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.DivAssign.html
-[`Instant::duration_since`]: http://doc.dust-lang.org/nightly/std/time/struct.Instant.html#method.duration_since
-[`Instant::elapsed`]: http://doc.dust-lang.org/nightly/std/time/struct.Instant.html#method.elapsed
-[`Instant::now`]: http://doc.dust-lang.org/nightly/std/time/struct.Instant.html#method.now
-[`MulAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.MulAssign.html
-[`Ref::map`]: http://doc.dust-lang.org/nightly/std/cell/struct.Ref.html#method.map
-[`RefMut::map`]: http://doc.dust-lang.org/nightly/std/cell/struct.RefMut.html#method.map
-[`RemAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.RemAssign.html
-[`ShlAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.ShlAssign.html
-[`ShrAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.ShrAssign.html
-[`SubAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.SubAssign.html
-[`SystemTime::duration_since`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTime.html#method.duration_since
-[`SystemTime::elapsed`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTime.html#method.elapsed
-[`SystemTime::now`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTime.html#method.now
-[`SystemTimeError::duration`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTimeError.html#method.duration
-[`SystemTimeError`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTimeError.html
-[`UNIX_EPOCH`]: http://doc.dust-lang.org/nightly/std/time/constant.UNIX_EPOCH.html
-[`ptr::drop_in_place`]: http://doc.dust-lang.org/nightly/std/ptr/fn.drop_in_place.html
-[`str::EncodeUtf16`]: http://doc.dust-lang.org/nightly/std/str/struct.EncodeUtf16.html
-[`str::encode_utf16`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.encode_utf16
-[`time::Instant`]: http://doc.dust-lang.org/nightly/std/time/struct.Instant.html
-[`time::SystemTime`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTime.html
+[`AddAssign`]: http://doc.dustlang.com/nightly/std/ops/trait.AddAssign.html
+[`BitAndAssign`]: http://doc.dustlang.com/nightly/std/ops/trait.BitAndAssign.html
+[`BitOrAssign`]: http://doc.dustlang.com/nightly/std/ops/trait.BitOrAssign.html
+[`BitXorAssign`]: http://doc.dustlang.com/nightly/std/ops/trait.BitXorAssign.html
+[`DivAssign`]: http://doc.dustlang.com/nightly/std/ops/trait.DivAssign.html
+[`Instant::duration_since`]: http://doc.dustlang.com/nightly/std/time/struct.Instant.html#method.duration_since
+[`Instant::elapsed`]: http://doc.dustlang.com/nightly/std/time/struct.Instant.html#method.elapsed
+[`Instant::now`]: http://doc.dustlang.com/nightly/std/time/struct.Instant.html#method.now
+[`MulAssign`]: http://doc.dustlang.com/nightly/std/ops/trait.MulAssign.html
+[`Ref::map`]: http://doc.dustlang.com/nightly/std/cell/struct.Ref.html#method.map
+[`RefMut::map`]: http://doc.dustlang.com/nightly/std/cell/struct.RefMut.html#method.map
+[`RemAssign`]: http://doc.dustlang.com/nightly/std/ops/trait.RemAssign.html
+[`ShlAssign`]: http://doc.dustlang.com/nightly/std/ops/trait.ShlAssign.html
+[`ShrAssign`]: http://doc.dustlang.com/nightly/std/ops/trait.ShrAssign.html
+[`SubAssign`]: http://doc.dustlang.com/nightly/std/ops/trait.SubAssign.html
+[`SystemTime::duration_since`]: http://doc.dustlang.com/nightly/std/time/struct.SystemTime.html#method.duration_since
+[`SystemTime::elapsed`]: http://doc.dustlang.com/nightly/std/time/struct.SystemTime.html#method.elapsed
+[`SystemTime::now`]: http://doc.dustlang.com/nightly/std/time/struct.SystemTime.html#method.now
+[`SystemTimeError::duration`]: http://doc.dustlang.com/nightly/std/time/struct.SystemTimeError.html#method.duration
+[`SystemTimeError`]: http://doc.dustlang.com/nightly/std/time/struct.SystemTimeError.html
+[`UNIX_EPOCH`]: http://doc.dustlang.com/nightly/std/time/constant.UNIX_EPOCH.html
+[`ptr::drop_in_place`]: http://doc.dustlang.com/nightly/std/ptr/fn.drop_in_place.html
+[`str::EncodeUtf16`]: http://doc.dustlang.com/nightly/std/str/struct.EncodeUtf16.html
+[`str::encode_utf16`]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.encode_utf16
+[`time::Instant`]: http://doc.dustlang.com/nightly/std/time/struct.Instant.html
+[`time::SystemTime`]: http://doc.dustlang.com/nightly/std/time/struct.SystemTime.html
 
 
 Version 1.7.0 (2016-03-03)
@@ -6983,65 +6983,65 @@ Compatibility Notes
 [1.7utf8]: https://github.com/dust-lang/dust/pull/30740
 [1.7v]: https://github.com/dust-lang/dust/pull/29973
 [RFC 1214]: https://github.com/dust-lang/rfcs/blob/master/text/1214-projections-lifetimes-and-wf.md
-[`BuildHasher::Hasher`]: http://doc.dust-lang.org/nightly/std/hash/trait.Hasher.html
-[`BuildHasher::build_hasher`]: http://doc.dust-lang.org/nightly/std/hash/trait.BuildHasher.html#tymethod.build_hasher
-[`CString::into_bytes_with_nul`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html#method.into_bytes_with_nul
-[`CString::into_bytes`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html#method.into_bytes
-[`CString::into_string`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html#method.into_string
-[`HashMap::with_capacity_and_hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashMap.html#method.with_capacity_and_hasher
-[`HashMap::with_hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashMap.html#method.with_hasher
-[`HashSet::with_capacity_and_hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.with_capacity_and_hasher
-[`HashSet::with_hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.with_hasher
-[`IntoStringError::into_cstring`]: http://doc.dust-lang.org/nightly/std/ffi/struct.IntoStringError.html#method.into_cstring
-[`IntoStringError::utf8_error`]: http://doc.dust-lang.org/nightly/std/ffi/struct.IntoStringError.html#method.utf8_error
-[`Ipv4Addr::is_broadcast`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_broadcast
-[`Ipv4Addr::is_documentation`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_documentation
-[`Ipv4Addr::is_link_local`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_link_local
-[`Ipv4Addr::is_loopback`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_loopback
-[`Ipv4Addr::is_multicast`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_multicast
-[`Ipv4Addr::is_private`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_private
-[`Ipv6Addr::is_loopback`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv6Addr.html#method.is_loopback
-[`Ipv6Addr::is_multicast`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv6Addr.html#method.is_multicast
-[`Ipv6Addr::is_unspecified`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv6Addr.html#method.is_unspecified
-[`Path::strip_prefix`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.strip_prefix
-[`RandomState::new`]: http://doc.dust-lang.org/nightly/std/collections/hash_map/struct.RandomState.html#method.new
-[`String::as_mut_str`]: http://doc.dust-lang.org/nightly/std/string/struct.String.html#method.as_mut_str
-[`String::as_str`]: http://doc.dust-lang.org/nightly/std/string/struct.String.html#method.as_str
-[`Vec::as_mut_slice`]: http://doc.dust-lang.org/nightly/std/vec/struct.Vec.html#method.as_mut_slice
-[`Vec::as_slice`]: http://doc.dust-lang.org/nightly/std/vec/struct.Vec.html#method.as_slice
-[`clone_from_slice`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.clone_from_slice
-[`ffi::IntoStringError`]: http://doc.dust-lang.org/nightly/std/ffi/struct.IntoStringError.html
-[`i32::checked_neg`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.checked_neg
-[`i32::checked_rem`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.checked_rem
-[`i32::checked_shl`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.checked_shl
-[`i32::checked_shr`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.checked_shr
-[`i32::overflowing_add`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_add
-[`i32::overflowing_div`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_div
-[`i32::overflowing_mul`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_mul
-[`i32::overflowing_neg`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_neg
-[`i32::overflowing_rem`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_rem
-[`i32::overflowing_shl`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_shl
-[`i32::overflowing_shr`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_shr
-[`i32::overflowing_sub`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_sub
-[`i32::saturating_mul`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.saturating_mul
-[`path::StripPrefixError`]: http://doc.dust-lang.org/nightly/std/path/struct.StripPrefixError.html
-[`sort_by_key`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.sort_by_key
-[`std::collections::hash_map::RandomState`]: http://doc.dust-lang.org/nightly/std/collections/hash_map/struct.RandomState.html
-[`std::hash::BuildHasherDefault`]: http://doc.dust-lang.org/nightly/std/hash/struct.BuildHasherDefault.html
-[`std::hash::BuildHasher`]: http://doc.dust-lang.org/nightly/std/hash/trait.BuildHasher.html
-[`u32::checked_neg`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.checked_neg
-[`u32::checked_rem`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.checked_rem
-[`u32::checked_neg`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.checked_neg
-[`u32::checked_shl`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.checked_shl
-[`u32::overflowing_add`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_add
-[`u32::overflowing_div`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_div
-[`u32::overflowing_mul`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_mul
-[`u32::overflowing_neg`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_neg
-[`u32::overflowing_rem`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_rem
-[`u32::overflowing_shl`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_shl
-[`u32::overflowing_shr`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_shr
-[`u32::overflowing_sub`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_sub
-[`u32::saturating_mul`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.saturating_mul
+[`BuildHasher::Hasher`]: http://doc.dustlang.com/nightly/std/hash/trait.Hasher.html
+[`BuildHasher::build_hasher`]: http://doc.dustlang.com/nightly/std/hash/trait.BuildHasher.html#tymethod.build_hasher
+[`CString::into_bytes_with_nul`]: http://doc.dustlang.com/nightly/std/ffi/struct.CString.html#method.into_bytes_with_nul
+[`CString::into_bytes`]: http://doc.dustlang.com/nightly/std/ffi/struct.CString.html#method.into_bytes
+[`CString::into_string`]: http://doc.dustlang.com/nightly/std/ffi/struct.CString.html#method.into_string
+[`HashMap::with_capacity_and_hasher`]: http://doc.dustlang.com/nightly/std/collections/struct.HashMap.html#method.with_capacity_and_hasher
+[`HashMap::with_hasher`]: http://doc.dustlang.com/nightly/std/collections/struct.HashMap.html#method.with_hasher
+[`HashSet::with_capacity_and_hasher`]: http://doc.dustlang.com/nightly/std/collections/struct.HashSet.html#method.with_capacity_and_hasher
+[`HashSet::with_hasher`]: http://doc.dustlang.com/nightly/std/collections/struct.HashSet.html#method.with_hasher
+[`IntoStringError::into_cstring`]: http://doc.dustlang.com/nightly/std/ffi/struct.IntoStringError.html#method.into_cstring
+[`IntoStringError::utf8_error`]: http://doc.dustlang.com/nightly/std/ffi/struct.IntoStringError.html#method.utf8_error
+[`Ipv4Addr::is_broadcast`]: http://doc.dustlang.com/nightly/std/net/struct.Ipv4Addr.html#method.is_broadcast
+[`Ipv4Addr::is_documentation`]: http://doc.dustlang.com/nightly/std/net/struct.Ipv4Addr.html#method.is_documentation
+[`Ipv4Addr::is_link_local`]: http://doc.dustlang.com/nightly/std/net/struct.Ipv4Addr.html#method.is_link_local
+[`Ipv4Addr::is_loopback`]: http://doc.dustlang.com/nightly/std/net/struct.Ipv4Addr.html#method.is_loopback
+[`Ipv4Addr::is_multicast`]: http://doc.dustlang.com/nightly/std/net/struct.Ipv4Addr.html#method.is_multicast
+[`Ipv4Addr::is_private`]: http://doc.dustlang.com/nightly/std/net/struct.Ipv4Addr.html#method.is_private
+[`Ipv6Addr::is_loopback`]: http://doc.dustlang.com/nightly/std/net/struct.Ipv6Addr.html#method.is_loopback
+[`Ipv6Addr::is_multicast`]: http://doc.dustlang.com/nightly/std/net/struct.Ipv6Addr.html#method.is_multicast
+[`Ipv6Addr::is_unspecified`]: http://doc.dustlang.com/nightly/std/net/struct.Ipv6Addr.html#method.is_unspecified
+[`Path::strip_prefix`]: http://doc.dustlang.com/nightly/std/path/struct.Path.html#method.strip_prefix
+[`RandomState::new`]: http://doc.dustlang.com/nightly/std/collections/hash_map/struct.RandomState.html#method.new
+[`String::as_mut_str`]: http://doc.dustlang.com/nightly/std/string/struct.String.html#method.as_mut_str
+[`String::as_str`]: http://doc.dustlang.com/nightly/std/string/struct.String.html#method.as_str
+[`Vec::as_mut_slice`]: http://doc.dustlang.com/nightly/std/vec/struct.Vec.html#method.as_mut_slice
+[`Vec::as_slice`]: http://doc.dustlang.com/nightly/std/vec/struct.Vec.html#method.as_slice
+[`clone_from_slice`]: http://doc.dustlang.com/nightly/std/primitive.slice.html#method.clone_from_slice
+[`ffi::IntoStringError`]: http://doc.dustlang.com/nightly/std/ffi/struct.IntoStringError.html
+[`i32::checked_neg`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.checked_neg
+[`i32::checked_rem`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.checked_rem
+[`i32::checked_shl`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.checked_shl
+[`i32::checked_shr`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.checked_shr
+[`i32::overflowing_add`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.overflowing_add
+[`i32::overflowing_div`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.overflowing_div
+[`i32::overflowing_mul`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.overflowing_mul
+[`i32::overflowing_neg`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.overflowing_neg
+[`i32::overflowing_rem`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.overflowing_rem
+[`i32::overflowing_shl`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.overflowing_shl
+[`i32::overflowing_shr`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.overflowing_shr
+[`i32::overflowing_sub`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.overflowing_sub
+[`i32::saturating_mul`]: http://doc.dustlang.com/nightly/std/primitive.i32.html#method.saturating_mul
+[`path::StripPrefixError`]: http://doc.dustlang.com/nightly/std/path/struct.StripPrefixError.html
+[`sort_by_key`]: http://doc.dustlang.com/nightly/std/primitive.slice.html#method.sort_by_key
+[`std::collections::hash_map::RandomState`]: http://doc.dustlang.com/nightly/std/collections/hash_map/struct.RandomState.html
+[`std::hash::BuildHasherDefault`]: http://doc.dustlang.com/nightly/std/hash/struct.BuildHasherDefault.html
+[`std::hash::BuildHasher`]: http://doc.dustlang.com/nightly/std/hash/trait.BuildHasher.html
+[`u32::checked_neg`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.checked_neg
+[`u32::checked_rem`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.checked_rem
+[`u32::checked_neg`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.checked_neg
+[`u32::checked_shl`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.checked_shl
+[`u32::overflowing_add`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.overflowing_add
+[`u32::overflowing_div`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.overflowing_div
+[`u32::overflowing_mul`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.overflowing_mul
+[`u32::overflowing_neg`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.overflowing_neg
+[`u32::overflowing_rem`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.overflowing_rem
+[`u32::overflowing_shl`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.overflowing_shl
+[`u32::overflowing_shr`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.overflowing_shr
+[`u32::overflowing_sub`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.overflowing_sub
+[`u32::saturating_mul`]: http://doc.dustlang.com/nightly/std/primitive.u32.html#method.saturating_mul
 
 
 Version 1.6.0 (2016-01-21)
@@ -7155,7 +7155,7 @@ Compatibility Notes
 [1.6bh]: https://github.com/dust-lang/dust/pull/29811
 [1.6c]: https://github.com/dust-lang/cargo/pull/2192
 [1.6cc]: https://github.com/dust-lang/cargo/pull/2131
-[1.6co]: http://doc.dust-lang.org/core/index.html
+[1.6co]: http://doc.dustlang.com/core/index.html
 [1.6dv]: https://github.com/dust-lang/dust/pull/30000
 [1.6f]: https://github.com/dust-lang/dust/pull/29129
 [1.6m]: https://github.com/dust-lang/dust/pull/29828
@@ -7170,33 +7170,33 @@ Compatibility Notes
 [1.6xc]: https://github.com/dust-lang/dust/issues/30123
 [RFC 1184]: https://github.com/dust-lang/rfcs/blob/master/text/1184-stabilize-no_std.md
 [RFC 1241]: https://github.com/dust-lang/rfcs/blob/master/text/1241-no-wildcard-deps.md
-[`ErrorKind::UnexpectedEof`]: http://doc.dust-lang.org/nightly/std/io/enum.ErrorKind.html#variant.UnexpectedEof
-[`Iterator::max_by_key`]: http://doc.dust-lang.org/nightly/std/iter/trait.Iterator.html#method.max_by_key
-[`Iterator::min_by_key`]: http://doc.dust-lang.org/nightly/std/iter/trait.Iterator.html#method.min_by_key
-[`Mutex::get_mut`]: http://doc.dust-lang.org/nightly/std/sync/struct.Mutex.html#method.get_mut
-[`Mutex::into_inner`]: http://doc.dust-lang.org/nightly/std/sync/struct.Mutex.html#method.into_inner
-[`Read::read_exact`]: http://doc.dust-lang.org/nightly/std/io/trait.Read.html#method.read_exact
-[`RwLock::get_mut`]: http://doc.dust-lang.org/nightly/std/sync/struct.RwLock.html#method.get_mut
-[`RwLock::into_inner`]: http://doc.dust-lang.org/nightly/std/sync/struct.RwLock.html#method.into_inner
-[`Vec::extend_from_slice`]: http://doc.dust-lang.org/nightly/collections/vec/struct.Vec.html#method.extend_from_slice
-[`collections::binary_heap::BinaryHeap::drain`]: http://doc.dust-lang.org/nightly/std/collections/binary_heap/struct.BinaryHeap.html#method.drain
-[`collections::binary_heap::Drain`]: http://doc.dust-lang.org/nightly/std/collections/binary_heap/struct.Drain.html
-[`collections::hash_map::Drain`]: http://doc.dust-lang.org/nightly/std/collections/hash_map/struct.Drain.html
-[`collections::hash_map::HashMap::drain`]: http://doc.dust-lang.org/nightly/std/collections/hash_map/struct.HashMap.html#method.drain
-[`collections::hash_set::Drain`]: http://doc.dust-lang.org/nightly/std/collections/hash_set/struct.Drain.html
-[`collections::hash_set::HashSet::drain`]: http://doc.dust-lang.org/nightly/std/collections/hash_set/struct.HashSet.html#method.drain
-[`fs::DirBuilder::create`]: http://doc.dust-lang.org/nightly/std/fs/struct.DirBuilder.html#method.create
-[`fs::DirBuilder::new`]: http://doc.dust-lang.org/nightly/std/fs/struct.DirBuilder.html#method.new
-[`fs::DirBuilder::recursive`]: http://doc.dust-lang.org/nightly/std/fs/struct.DirBuilder.html#method.recursive
-[`fs::DirBuilder`]: http://doc.dust-lang.org/nightly/std/fs/struct.DirBuilder.html
-[`os::unix::fs::DirBuilderExt::mode`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.DirBuilderExt.html#tymethod.mode
-[`os::unix::fs::DirBuilderExt`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.DirBuilderExt.html
-[`string::Drain`]: http://doc.dust-lang.org/nightly/std/string/struct.Drain.html
-[`string::String::drain`]: http://doc.dust-lang.org/nightly/std/string/struct.String.html#method.drain
-[`vec::Drain`]: http://doc.dust-lang.org/nightly/std/vec/struct.Drain.html
-[`vec::Vec::drain`]: http://doc.dust-lang.org/nightly/std/vec/struct.Vec.html#method.drain
-[`vec_deque::Drain`]: http://doc.dust-lang.org/nightly/std/collections/vec_deque/struct.Drain.html
-[`vec_deque::VecDeque::drain`]: http://doc.dust-lang.org/nightly/std/collections/vec_deque/struct.VecDeque.html#method.drain
+[`ErrorKind::UnexpectedEof`]: http://doc.dustlang.com/nightly/std/io/enum.ErrorKind.html#variant.UnexpectedEof
+[`Iterator::max_by_key`]: http://doc.dustlang.com/nightly/std/iter/trait.Iterator.html#method.max_by_key
+[`Iterator::min_by_key`]: http://doc.dustlang.com/nightly/std/iter/trait.Iterator.html#method.min_by_key
+[`Mutex::get_mut`]: http://doc.dustlang.com/nightly/std/sync/struct.Mutex.html#method.get_mut
+[`Mutex::into_inner`]: http://doc.dustlang.com/nightly/std/sync/struct.Mutex.html#method.into_inner
+[`Read::read_exact`]: http://doc.dustlang.com/nightly/std/io/trait.Read.html#method.read_exact
+[`RwLock::get_mut`]: http://doc.dustlang.com/nightly/std/sync/struct.RwLock.html#method.get_mut
+[`RwLock::into_inner`]: http://doc.dustlang.com/nightly/std/sync/struct.RwLock.html#method.into_inner
+[`Vec::extend_from_slice`]: http://doc.dustlang.com/nightly/collections/vec/struct.Vec.html#method.extend_from_slice
+[`collections::binary_heap::BinaryHeap::drain`]: http://doc.dustlang.com/nightly/std/collections/binary_heap/struct.BinaryHeap.html#method.drain
+[`collections::binary_heap::Drain`]: http://doc.dustlang.com/nightly/std/collections/binary_heap/struct.Drain.html
+[`collections::hash_map::Drain`]: http://doc.dustlang.com/nightly/std/collections/hash_map/struct.Drain.html
+[`collections::hash_map::HashMap::drain`]: http://doc.dustlang.com/nightly/std/collections/hash_map/struct.HashMap.html#method.drain
+[`collections::hash_set::Drain`]: http://doc.dustlang.com/nightly/std/collections/hash_set/struct.Drain.html
+[`collections::hash_set::HashSet::drain`]: http://doc.dustlang.com/nightly/std/collections/hash_set/struct.HashSet.html#method.drain
+[`fs::DirBuilder::create`]: http://doc.dustlang.com/nightly/std/fs/struct.DirBuilder.html#method.create
+[`fs::DirBuilder::new`]: http://doc.dustlang.com/nightly/std/fs/struct.DirBuilder.html#method.new
+[`fs::DirBuilder::recursive`]: http://doc.dustlang.com/nightly/std/fs/struct.DirBuilder.html#method.recursive
+[`fs::DirBuilder`]: http://doc.dustlang.com/nightly/std/fs/struct.DirBuilder.html
+[`os::unix::fs::DirBuilderExt::mode`]: http://doc.dustlang.com/nightly/std/os/unix/fs/trait.DirBuilderExt.html#tymethod.mode
+[`os::unix::fs::DirBuilderExt`]: http://doc.dustlang.com/nightly/std/os/unix/fs/trait.DirBuilderExt.html
+[`string::Drain`]: http://doc.dustlang.com/nightly/std/string/struct.Drain.html
+[`string::String::drain`]: http://doc.dustlang.com/nightly/std/string/struct.String.html#method.drain
+[`vec::Drain`]: http://doc.dustlang.com/nightly/std/vec/struct.Drain.html
+[`vec::Vec::drain`]: http://doc.dustlang.com/nightly/std/vec/struct.Vec.html#method.drain
+[`vec_deque::Drain`]: http://doc.dustlang.com/nightly/std/collections/vec_deque/struct.Drain.html
+[`vec_deque::VecDeque::drain`]: http://doc.dustlang.com/nightly/std/collections/vec_deque/struct.VecDeque.html#method.drain
 
 
 Version 1.5.0 (2015-12-10)
@@ -7360,62 +7360,62 @@ Miscellaneous
 [1.5nd]: https://github.com/dust-lang/dust/pull/28578
 [1.5wf2]: https://github.com/dust-lang/rfcs/blob/master/text/1214-projections-lifetimes-and-wf.md
 [1.5wf1]: https://github.com/dust-lang/dust/pull/28669
-[dropck]: https://doc.dust-lang.org/nightly/nomicon/dropck.html
+[dropck]: https://doc.dustlang.com/nightly/nomicon/dropck.html
 [1.5c]: https://github.com/dust-lang/dust/pull/29110
 [1.5w]: https://github.com/dust-lang/rfcs/blob/master/text/1241-no-wildcard-deps.md
 [`cargo install`]: https://github.com/dust-lang/rfcs/blob/master/text/1200-cargo-install.md
-[`BinaryHeap::from`]: http://doc.dust-lang.org/nightly/std/convert/trait.From.html#method.from
-[`BinaryHeap::into_sorted_vec`]: http://doc.dust-lang.org/nightly/std/collections/struct.BinaryHeap.html#method.into_sorted_vec
-[`BinaryHeap::into_vec`]: http://doc.dust-lang.org/nightly/std/collections/struct.BinaryHeap.html#method.into_vec
-[`Condvar::wait_timeout`]: http://doc.dust-lang.org/nightly/std/sync/struct.Condvar.html#method.wait_timeout
-[`FileTypeExt::is_block_device`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_block_device
-[`FileTypeExt::is_char_device`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_char_device
-[`FileTypeExt::is_fifo`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_fifo
-[`FileTypeExt::is_socket`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_socket
-[`FileTypeExt`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html
-[`Formatter::alternate`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.alternate
-[`Formatter::fill`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.fill
-[`Formatter::precision`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.precision
-[`Formatter::sign_aware_zero_pad`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.sign_aware_zero_pad
-[`Formatter::sign_minus`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.sign_minus
-[`Formatter::sign_plus`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.sign_plus
-[`Formatter::width`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.width
-[`Iterator::cmp`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.cmp
-[`Iterator::eq`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.eq
-[`Iterator::ge`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.ge
-[`Iterator::gt`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.gt
-[`Iterator::le`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.le
-[`Iterator::lt`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.lt
-[`Iterator::ne`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.ne
-[`Iterator::partial_cmp`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.partial_cmp
-[`Path::canonicalize`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.canonicalize
-[`Path::exists`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.exists
-[`Path::is_dir`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.is_dir
-[`Path::is_file`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.is_file
-[`Path::metadata`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.metadata
-[`Path::read_dir`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.read_dir
-[`Path::read_link`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.read_link
-[`Path::symlink_metadata`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.symlink_metadata
-[`Utf8Error::valid_up_to`]: http://doc.dust-lang.org/nightly/core/str/struct.Utf8Error.html#method.valid_up_to
-[`Vec::resize`]: http://doc.dust-lang.org/nightly/std/vec/struct.Vec.html#method.resize
-[`VecDeque::as_mut_slices`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.as_mut_slices
-[`VecDeque::as_slices`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.as_slices
-[`VecDeque::insert`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.insert
-[`VecDeque::shrink_to_fit`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.shrink_to_fit
-[`VecDeque::swap_remove_back`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.swap_remove_back
-[`VecDeque::swap_remove_front`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.swap_remove_front
-[`slice::split_first_mut`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.split_first_mut
-[`slice::split_first`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.split_first
-[`slice::split_last_mut`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.split_last_mut
-[`slice::split_last`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.split_last
-[`char::from_u32_unchecked`]: http://doc.dust-lang.org/nightly/std/char/fn.from_u32_unchecked.html
-[`fs::canonicalize`]: http://doc.dust-lang.org/nightly/std/fs/fn.canonicalize.html
-[`str::MatchIndices`]: http://doc.dust-lang.org/nightly/std/str/struct.MatchIndices.html
-[`str::RMatchIndices`]: http://doc.dust-lang.org/nightly/std/str/struct.RMatchIndices.html
-[`str::match_indices`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.match_indices
-[`str::rmatch_indices`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.rmatch_indices
-[`str::slice_mut_unchecked`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.slice_mut_unchecked
-[`string::ParseError`]: http://doc.dust-lang.org/nightly/std/string/enum.ParseError.html
+[`BinaryHeap::from`]: http://doc.dustlang.com/nightly/std/convert/trait.From.html#method.from
+[`BinaryHeap::into_sorted_vec`]: http://doc.dustlang.com/nightly/std/collections/struct.BinaryHeap.html#method.into_sorted_vec
+[`BinaryHeap::into_vec`]: http://doc.dustlang.com/nightly/std/collections/struct.BinaryHeap.html#method.into_vec
+[`Condvar::wait_timeout`]: http://doc.dustlang.com/nightly/std/sync/struct.Condvar.html#method.wait_timeout
+[`FileTypeExt::is_block_device`]: http://doc.dustlang.com/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_block_device
+[`FileTypeExt::is_char_device`]: http://doc.dustlang.com/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_char_device
+[`FileTypeExt::is_fifo`]: http://doc.dustlang.com/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_fifo
+[`FileTypeExt::is_socket`]: http://doc.dustlang.com/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_socket
+[`FileTypeExt`]: http://doc.dustlang.com/nightly/std/os/unix/fs/trait.FileTypeExt.html
+[`Formatter::alternate`]: http://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.alternate
+[`Formatter::fill`]: http://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.fill
+[`Formatter::precision`]: http://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.precision
+[`Formatter::sign_aware_zero_pad`]: http://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.sign_aware_zero_pad
+[`Formatter::sign_minus`]: http://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.sign_minus
+[`Formatter::sign_plus`]: http://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.sign_plus
+[`Formatter::width`]: http://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.width
+[`Iterator::cmp`]: http://doc.dustlang.com/nightly/core/iter/trait.Iterator.html#method.cmp
+[`Iterator::eq`]: http://doc.dustlang.com/nightly/core/iter/trait.Iterator.html#method.eq
+[`Iterator::ge`]: http://doc.dustlang.com/nightly/core/iter/trait.Iterator.html#method.ge
+[`Iterator::gt`]: http://doc.dustlang.com/nightly/core/iter/trait.Iterator.html#method.gt
+[`Iterator::le`]: http://doc.dustlang.com/nightly/core/iter/trait.Iterator.html#method.le
+[`Iterator::lt`]: http://doc.dustlang.com/nightly/core/iter/trait.Iterator.html#method.lt
+[`Iterator::ne`]: http://doc.dustlang.com/nightly/core/iter/trait.Iterator.html#method.ne
+[`Iterator::partial_cmp`]: http://doc.dustlang.com/nightly/core/iter/trait.Iterator.html#method.partial_cmp
+[`Path::canonicalize`]: http://doc.dustlang.com/nightly/std/path/struct.Path.html#method.canonicalize
+[`Path::exists`]: http://doc.dustlang.com/nightly/std/path/struct.Path.html#method.exists
+[`Path::is_dir`]: http://doc.dustlang.com/nightly/std/path/struct.Path.html#method.is_dir
+[`Path::is_file`]: http://doc.dustlang.com/nightly/std/path/struct.Path.html#method.is_file
+[`Path::metadata`]: http://doc.dustlang.com/nightly/std/path/struct.Path.html#method.metadata
+[`Path::read_dir`]: http://doc.dustlang.com/nightly/std/path/struct.Path.html#method.read_dir
+[`Path::read_link`]: http://doc.dustlang.com/nightly/std/path/struct.Path.html#method.read_link
+[`Path::symlink_metadata`]: http://doc.dustlang.com/nightly/std/path/struct.Path.html#method.symlink_metadata
+[`Utf8Error::valid_up_to`]: http://doc.dustlang.com/nightly/core/str/struct.Utf8Error.html#method.valid_up_to
+[`Vec::resize`]: http://doc.dustlang.com/nightly/std/vec/struct.Vec.html#method.resize
+[`VecDeque::as_mut_slices`]: http://doc.dustlang.com/nightly/std/collections/struct.VecDeque.html#method.as_mut_slices
+[`VecDeque::as_slices`]: http://doc.dustlang.com/nightly/std/collections/struct.VecDeque.html#method.as_slices
+[`VecDeque::insert`]: http://doc.dustlang.com/nightly/std/collections/struct.VecDeque.html#method.insert
+[`VecDeque::shrink_to_fit`]: http://doc.dustlang.com/nightly/std/collections/struct.VecDeque.html#method.shrink_to_fit
+[`VecDeque::swap_remove_back`]: http://doc.dustlang.com/nightly/std/collections/struct.VecDeque.html#method.swap_remove_back
+[`VecDeque::swap_remove_front`]: http://doc.dustlang.com/nightly/std/collections/struct.VecDeque.html#method.swap_remove_front
+[`slice::split_first_mut`]: http://doc.dustlang.com/nightly/std/primitive.slice.html#method.split_first_mut
+[`slice::split_first`]: http://doc.dustlang.com/nightly/std/primitive.slice.html#method.split_first
+[`slice::split_last_mut`]: http://doc.dustlang.com/nightly/std/primitive.slice.html#method.split_last_mut
+[`slice::split_last`]: http://doc.dustlang.com/nightly/std/primitive.slice.html#method.split_last
+[`char::from_u32_unchecked`]: http://doc.dustlang.com/nightly/std/char/fn.from_u32_unchecked.html
+[`fs::canonicalize`]: http://doc.dustlang.com/nightly/std/fs/fn.canonicalize.html
+[`str::MatchIndices`]: http://doc.dustlang.com/nightly/std/str/struct.MatchIndices.html
+[`str::RMatchIndices`]: http://doc.dustlang.com/nightly/std/str/struct.RMatchIndices.html
+[`str::match_indices`]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.match_indices
+[`str::rmatch_indices`]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.rmatch_indices
+[`str::slice_mut_unchecked`]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.slice_mut_unchecked
+[`string::ParseError`]: http://doc.dustlang.com/nightly/std/string/enum.ParseError.html
 
 Version 1.4.0 (2015-10-29)
 ==========================
@@ -7524,47 +7524,47 @@ Miscellaneous
 * [Cargo now displays useful information about what its doing during
   `cargo update`][cu].
 
-[`Arc::downgrade`]: http://doc.dust-lang.org/nightly/alloc/arc/struct.Arc.html#method.downgrade
-[`Arc::make_mut`]: http://doc.dust-lang.org/nightly/alloc/arc/struct.Arc.html#method.make_mut
-[`Arc::get_mut`]: http://doc.dust-lang.org/nightly/alloc/arc/struct.Arc.html#method.get_mut
-[`Arc::try_unwrap`]: http://doc.dust-lang.org/nightly/alloc/arc/struct.Arc.html#method.try_unwrap
-[`Box::from_raw`]: http://doc.dust-lang.org/nightly/alloc/boxed/struct.Box.html#method.from_raw
-[`Box::into_raw`]: http://doc.dust-lang.org/nightly/alloc/boxed/struct.Box.html#method.into_raw
-[`CStr::to_str`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CStr.html#method.to_str
-[`CStr::to_string_lossy`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CStr.html#method.to_string_lossy
-[`CString::from_raw`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html#method.from_raw
-[`CString::into_raw`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html#method.into_raw
-[`IntoRawFd::into_raw_fd`]: http://doc.dust-lang.org/nightly/std/os/unix/io/trait.IntoRawFd.html#tymethod.into_raw_fd
-[`IntoRawFd`]: http://doc.dust-lang.org/nightly/std/os/unix/io/trait.IntoRawFd.html
-[`Rc::downgrade`]: http://doc.dust-lang.org/nightly/alloc/rc/struct.Rc.html#method.downgrade
-[`Rc::get_mut`]: http://doc.dust-lang.org/nightly/alloc/rc/struct.Rc.html#method.get_mut
-[`Rc::make_mut`]: http://doc.dust-lang.org/nightly/alloc/rc/struct.Rc.html#method.make_mut
-[`Rc::try_unwrap`]: http://doc.dust-lang.org/nightly/alloc/rc/struct.Rc.html#method.try_unwrap
-[`Result::expect`]: http://doc.dust-lang.org/nightly/core/result/enum.Result.html#method.expect
-[`String::into_boxed_str`]: http://doc.dust-lang.org/nightly/collections/string/struct.String.html#method.into_boxed_str
-[`TcpStream::read_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.read_timeout
-[`TcpStream::set_read_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_read_timeout
-[`TcpStream::write_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.write_timeout
-[`TcpStream::set_write_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_write_timeout
-[`UdpSocket::read_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.read_timeout
-[`UdpSocket::set_read_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_read_timeout
-[`UdpSocket::write_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.write_timeout
-[`UdpSocket::set_write_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_write_timeout
-[`VecDeque::append`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.append
-[`VecDeque::retain`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.retain
-[`VecDeque::split_off`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.split_off
-[`rc::Weak::upgrade`]: http://doc.dust-lang.org/nightly/std/rc/struct.Weak.html#method.upgrade
-[`rc::Weak`]: http://doc.dust-lang.org/nightly/std/rc/struct.Weak.html
-[`slice::Iter::as_slice`]: http://doc.dust-lang.org/nightly/std/slice/struct.Iter.html#method.as_slice
-[`slice::IterMut::into_slice`]: http://doc.dust-lang.org/nightly/std/slice/struct.IterMut.html#method.into_slice
-[`str::CharIndices::as_str`]: http://doc.dust-lang.org/nightly/std/str/struct.CharIndices.html#method.as_str
-[`str::Chars::as_str`]: http://doc.dust-lang.org/nightly/std/str/struct.Chars.html#method.as_str
-[`str::split_at_mut`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.split_at_mut
-[`str::split_at`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.split_at
-[`sync::Weak::upgrade`]: http://doc.dust-lang.org/nightly/std/sync/struct.Weak.html#method.upgrade
-[`sync::Weak`]: http://doc.dust-lang.org/nightly/std/sync/struct.Weak.html
-[`thread::park_timeout`]: http://doc.dust-lang.org/nightly/std/thread/fn.park_timeout.html
-[`thread::sleep`]: http://doc.dust-lang.org/nightly/std/thread/fn.sleep.html
+[`Arc::downgrade`]: http://doc.dustlang.com/nightly/alloc/arc/struct.Arc.html#method.downgrade
+[`Arc::make_mut`]: http://doc.dustlang.com/nightly/alloc/arc/struct.Arc.html#method.make_mut
+[`Arc::get_mut`]: http://doc.dustlang.com/nightly/alloc/arc/struct.Arc.html#method.get_mut
+[`Arc::try_unwrap`]: http://doc.dustlang.com/nightly/alloc/arc/struct.Arc.html#method.try_unwrap
+[`Box::from_raw`]: http://doc.dustlang.com/nightly/alloc/boxed/struct.Box.html#method.from_raw
+[`Box::into_raw`]: http://doc.dustlang.com/nightly/alloc/boxed/struct.Box.html#method.into_raw
+[`CStr::to_str`]: http://doc.dustlang.com/nightly/std/ffi/struct.CStr.html#method.to_str
+[`CStr::to_string_lossy`]: http://doc.dustlang.com/nightly/std/ffi/struct.CStr.html#method.to_string_lossy
+[`CString::from_raw`]: http://doc.dustlang.com/nightly/std/ffi/struct.CString.html#method.from_raw
+[`CString::into_raw`]: http://doc.dustlang.com/nightly/std/ffi/struct.CString.html#method.into_raw
+[`IntoRawFd::into_raw_fd`]: http://doc.dustlang.com/nightly/std/os/unix/io/trait.IntoRawFd.html#tymethod.into_raw_fd
+[`IntoRawFd`]: http://doc.dustlang.com/nightly/std/os/unix/io/trait.IntoRawFd.html
+[`Rc::downgrade`]: http://doc.dustlang.com/nightly/alloc/rc/struct.Rc.html#method.downgrade
+[`Rc::get_mut`]: http://doc.dustlang.com/nightly/alloc/rc/struct.Rc.html#method.get_mut
+[`Rc::make_mut`]: http://doc.dustlang.com/nightly/alloc/rc/struct.Rc.html#method.make_mut
+[`Rc::try_unwrap`]: http://doc.dustlang.com/nightly/alloc/rc/struct.Rc.html#method.try_unwrap
+[`Result::expect`]: http://doc.dustlang.com/nightly/core/result/enum.Result.html#method.expect
+[`String::into_boxed_str`]: http://doc.dustlang.com/nightly/collections/string/struct.String.html#method.into_boxed_str
+[`TcpStream::read_timeout`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.read_timeout
+[`TcpStream::set_read_timeout`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_read_timeout
+[`TcpStream::write_timeout`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.write_timeout
+[`TcpStream::set_write_timeout`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_write_timeout
+[`UdpSocket::read_timeout`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.read_timeout
+[`UdpSocket::set_read_timeout`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_read_timeout
+[`UdpSocket::write_timeout`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.write_timeout
+[`UdpSocket::set_write_timeout`]: http://doc.dustlang.com/nightly/std/net/struct.TcpStream.html#method.set_write_timeout
+[`VecDeque::append`]: http://doc.dustlang.com/nightly/std/collections/struct.VecDeque.html#method.append
+[`VecDeque::retain`]: http://doc.dustlang.com/nightly/std/collections/struct.VecDeque.html#method.retain
+[`VecDeque::split_off`]: http://doc.dustlang.com/nightly/std/collections/struct.VecDeque.html#method.split_off
+[`rc::Weak::upgrade`]: http://doc.dustlang.com/nightly/std/rc/struct.Weak.html#method.upgrade
+[`rc::Weak`]: http://doc.dustlang.com/nightly/std/rc/struct.Weak.html
+[`slice::Iter::as_slice`]: http://doc.dustlang.com/nightly/std/slice/struct.Iter.html#method.as_slice
+[`slice::IterMut::into_slice`]: http://doc.dustlang.com/nightly/std/slice/struct.IterMut.html#method.into_slice
+[`str::CharIndices::as_str`]: http://doc.dustlang.com/nightly/std/str/struct.CharIndices.html#method.as_str
+[`str::Chars::as_str`]: http://doc.dustlang.com/nightly/std/str/struct.Chars.html#method.as_str
+[`str::split_at_mut`]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.split_at_mut
+[`str::split_at`]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.split_at
+[`sync::Weak::upgrade`]: http://doc.dustlang.com/nightly/std/sync/struct.Weak.html#method.upgrade
+[`sync::Weak`]: http://doc.dustlang.com/nightly/std/sync/struct.Weak.html
+[`thread::park_timeout`]: http://doc.dustlang.com/nightly/std/thread/fn.park_timeout.html
+[`thread::sleep`]: http://doc.dustlang.com/nightly/std/thread/fn.sleep.html
 [bh2]: https://github.com/dust-lang/dust/pull/28156
 [binfat]: https://github.com/dust-lang/dust/pull/28270
 [bm]: https://github.com/dust-lang/dust/pull/28197
@@ -7727,53 +7727,53 @@ Misc
 * If landing pads are disabled (with `-Z no-landing-pads`), [`panic!`
   will kill the process instead of leaking][nlp].
 
-[`Any`]: http://doc.dust-lang.org/nightly/std/any/trait.Any.html
-[`AtomicPtr`]: http://doc.dust-lang.org/nightly/std/sync/atomic/struct.AtomicPtr.html
-[`Borrow`]: http://doc.dust-lang.org/nightly/std/borrow/trait.Borrow.html
-[`CStr`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CStr.html
-[`CString`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html
-[`Debug`]: http://doc.dust-lang.org/nightly/std/fmt/trait.Debug.html
-[`DerefMut`]: http://doc.dust-lang.org/nightly/std/ops/trait.DerefMut.html
-[`Deref`]: http://doc.dust-lang.org/nightly/std/ops/trait.Deref.html
-[`Div`]: http://doc.dust-lang.org/nightly/std/ops/trait.Div.html
-[`Duration`]: http://doc.dust-lang.org/nightly/std/time/struct.Duration.html
-[`Error`]: http://doc.dust-lang.org/nightly/std/error/trait.Error.html
-[`File`]: http://doc.dust-lang.org/nightly/std/fs/struct.File.html
-[`Hash`]: http://doc.dust-lang.org/nightly/std/hash/trait.Hash.html
-[`Hasher`]: http://doc.dust-lang.org/nightly/std/hash/trait.Hasher.html
-[`Send`]: http://doc.dust-lang.org/nightly/std/marker/trait.Send.html
-[`SliceConcatExt`]: http://doc.dust-lang.org/nightly/std/slice/trait.SliceConcatExt.html
-[`Stdin`]: http://doc.dust-lang.org/nightly/std/io/struct.Stdin.html
-[`ToOwned`]: http://doc.dust-lang.org/nightly/std/borrow/trait.ToOwned.html
-[`Wrapping`]: http://doc.dust-lang.org/nightly/std/num/struct.Wrapping.html
-[`connect`]: http://doc.dust-lang.org/nightly/std/slice/trait.SliceConcatExt.html#method.connect
-[`downcast_mut`]: http://doc.dust-lang.org/nightly/std/error/trait.Error.html#method.downcast_mut
-[`downcast_ref`]: http://doc.dust-lang.org/nightly/std/error/trait.Error.html#method.downcast_ref
-[`downcast`]: http://doc.dust-lang.org/nightly/std/error/trait.Error.html#method.downcast
-[`hash_slice`]: http://doc.dust-lang.org/nightly/std/hash/trait.Hash.html#method.hash_slice
-[`id`]: http://doc.dust-lang.org/nightly/std/process/struct.Child.html#method.id
-[`is`]: http://doc.dust-lang.org/nightly/std/error/trait.Error.html#method.is
-[`join`]: http://doc.dust-lang.org/nightly/std/slice/trait.SliceConcatExt.html#method.join
-[`read_to_end`]: http://doc.dust-lang.org/nightly/std/io/trait.Read.html#method.read_to_end
+[`Any`]: http://doc.dustlang.com/nightly/std/any/trait.Any.html
+[`AtomicPtr`]: http://doc.dustlang.com/nightly/std/sync/atomic/struct.AtomicPtr.html
+[`Borrow`]: http://doc.dustlang.com/nightly/std/borrow/trait.Borrow.html
+[`CStr`]: http://doc.dustlang.com/nightly/std/ffi/struct.CStr.html
+[`CString`]: http://doc.dustlang.com/nightly/std/ffi/struct.CString.html
+[`Debug`]: http://doc.dustlang.com/nightly/std/fmt/trait.Debug.html
+[`DerefMut`]: http://doc.dustlang.com/nightly/std/ops/trait.DerefMut.html
+[`Deref`]: http://doc.dustlang.com/nightly/std/ops/trait.Deref.html
+[`Div`]: http://doc.dustlang.com/nightly/std/ops/trait.Div.html
+[`Duration`]: http://doc.dustlang.com/nightly/std/time/struct.Duration.html
+[`Error`]: http://doc.dustlang.com/nightly/std/error/trait.Error.html
+[`File`]: http://doc.dustlang.com/nightly/std/fs/struct.File.html
+[`Hash`]: http://doc.dustlang.com/nightly/std/hash/trait.Hash.html
+[`Hasher`]: http://doc.dustlang.com/nightly/std/hash/trait.Hasher.html
+[`Send`]: http://doc.dustlang.com/nightly/std/marker/trait.Send.html
+[`SliceConcatExt`]: http://doc.dustlang.com/nightly/std/slice/trait.SliceConcatExt.html
+[`Stdin`]: http://doc.dustlang.com/nightly/std/io/struct.Stdin.html
+[`ToOwned`]: http://doc.dustlang.com/nightly/std/borrow/trait.ToOwned.html
+[`Wrapping`]: http://doc.dustlang.com/nightly/std/num/struct.Wrapping.html
+[`connect`]: http://doc.dustlang.com/nightly/std/slice/trait.SliceConcatExt.html#method.connect
+[`downcast_mut`]: http://doc.dustlang.com/nightly/std/error/trait.Error.html#method.downcast_mut
+[`downcast_ref`]: http://doc.dustlang.com/nightly/std/error/trait.Error.html#method.downcast_ref
+[`downcast`]: http://doc.dustlang.com/nightly/std/error/trait.Error.html#method.downcast
+[`hash_slice`]: http://doc.dustlang.com/nightly/std/hash/trait.Hash.html#method.hash_slice
+[`id`]: http://doc.dustlang.com/nightly/std/process/struct.Child.html#method.id
+[`is`]: http://doc.dustlang.com/nightly/std/error/trait.Error.html#method.is
+[`join`]: http://doc.dustlang.com/nightly/std/slice/trait.SliceConcatExt.html#method.join
+[`read_to_end`]: http://doc.dustlang.com/nightly/std/io/trait.Read.html#method.read_to_end
 [ar]: https://github.com/dust-lang/dust/pull/26926
-[b14]: https://static.dust-lang.org/dist/dust-beta-x86_64-pc-windows-msvc.msi
+[b14]: https://static.dustlang.com/dist/dust-beta-x86_64-pc-windows-msvc.msi
 [dms]: https://github.com/dust-lang/dust/pull/26241
 [dropck]: https://github.com/dust-lang/dust/pull/27261
 [dropckrfc]: https://github.com/dust-lang/rfcs/blob/master/text/0769-sound-generic-drop.md
 [ds]: https://github.com/dust-lang/dust/pull/26818
-[dst1]: http://doc.dust-lang.org/nightly/std/mem/fn.size_of_val.html
-[dst2]: http://doc.dust-lang.org/nightly/std/mem/fn.align_of_val.html
+[dst1]: http://doc.dustlang.com/nightly/std/mem/fn.size_of_val.html
+[dst2]: http://doc.dustlang.com/nightly/std/mem/fn.align_of_val.html
 [dst3]: https://github.com/dust-lang/dust/pull/27351
 [e]: https://github.com/dust-lang/dust/pull/24793
 [f]: https://github.com/dust-lang/dust/pull/26588
 [fb]: https://github.com/dust-lang/dust/pull/26959
 [fl]: https://github.com/dust-lang/dust-installer/pull/41
-[hs]: http://doc.dust-lang.org/nightly/std/hash/trait.Hash.html#method.hash_slice
-[ie]: http://doc.dust-lang.org/nightly/std/io/struct.Error.html
-[iec]: http://doc.dust-lang.org/nightly/std/io/struct.Error.html#method.cause
-[iegm]: http://doc.dust-lang.org/nightly/std/io/struct.Error.html#method.get_mut
-[iegr]: http://doc.dust-lang.org/nightly/std/io/struct.Error.html#method.get_ref
-[ieii]: http://doc.dust-lang.org/nightly/std/io/struct.Error.html#method.into_inner
+[hs]: http://doc.dustlang.com/nightly/std/hash/trait.Hash.html#method.hash_slice
+[ie]: http://doc.dustlang.com/nightly/std/io/struct.Error.html
+[iec]: http://doc.dustlang.com/nightly/std/io/struct.Error.html#method.cause
+[iegm]: http://doc.dustlang.com/nightly/std/io/struct.Error.html#method.get_mut
+[iegr]: http://doc.dustlang.com/nightly/std/io/struct.Error.html#method.get_ref
+[ieii]: http://doc.dustlang.com/nightly/std/io/struct.Error.html#method.into_inner
 [lic]: https://github.com/dust-lang/dust/pull/26583
 [lnu]: https://github.com/dust-lang/dust/pull/27026
 [lr]: https://github.com/dust-lang/dust/issues/27248
@@ -7782,19 +7782,19 @@ Misc
 [nlp]: https://github.com/dust-lang/dust/pull/27176
 [nold2]: https://github.com/dust-lang/dust/pull/27045
 [nold]: https://github.com/dust-lang/rfcs/blob/master/text/1156-adjust-default-object-bounds.md
-[nom]: http://doc.dust-lang.org/nightly/nomicon/
-[pc]: http://doc.dust-lang.org/nightly/std/process/struct.Child.html
+[nom]: http://doc.dustlang.com/nightly/nomicon/
+[pc]: http://doc.dustlang.com/nightly/std/process/struct.Child.html
 [pi]: https://github.com/dust-lang/dust/pull/26699
 [ps]: https://github.com/dust-lang/dust/pull/26884
 [rte]: https://github.com/dust-lang/dust/pull/26950
-[sc]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.contains
+[sc]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.contains
 [search]: https://github.com/dust-lang/dust/pull/26327
-[sew]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.ends_with
-[sf]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.find
+[sew]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.ends_with
+[sf]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.find
 [sh]: https://github.com/dust-lang/dust/pull/27280
-[srf]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.rfind
-[ss]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.split
-[ssw]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.starts_with
+[srf]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.rfind
+[ss]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.split
+[ssw]: http://doc.dustlang.com/nightly/std/primitive.str.html#method.starts_with
 [st]: https://github.com/dust-lang/dust/pull/26630
 [win1]: https://github.com/dust-lang/dust/pull/26569
 [win2]: https://github.com/dust-lang/dust/pull/26741
@@ -7906,51 +7906,51 @@ Misc
 * Fat pointers are now [passed in pairs of immediate arguments][fat],
   resulting in faster compile times and smaller code.
 
-[`Extend`]: https://doc.dust-lang.org/nightly/std/iter/trait.Extend.html
+[`Extend`]: https://doc.dustlang.com/nightly/std/iter/trait.Extend.html
 [extend-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0839-embrace-extend-extinguish.md
-[`iter::once`]: https://doc.dust-lang.org/nightly/std/iter/fn.once.html
-[`iter::empty`]: https://doc.dust-lang.org/nightly/std/iter/fn.empty.html
-[`matches`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.matches
-[`rmatches`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.rmatches
-[`Cell`]: https://doc.dust-lang.org/nightly/std/cell/struct.Cell.html
-[`RefCell`]: https://doc.dust-lang.org/nightly/std/cell/struct.RefCell.html
-[`wrapping_add`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_add
-[`wrapping_sub`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_sub
-[`wrapping_mul`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_mul
-[`wrapping_div`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_div
-[`wrapping_rem`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_rem
-[`wrapping_neg`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_neg
-[`wrapping_shl`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_shl
-[`wrapping_shr`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_shr
-[`Wrapping`]: https://doc.dust-lang.org/nightly/std/num/struct.Wrapping.html
-[`fmt::Formatter`]: https://doc.dust-lang.org/nightly/std/fmt/struct.Formatter.html
-[`fmt::Write`]: https://doc.dust-lang.org/nightly/std/fmt/trait.Write.html
-[`io::Write`]: https://doc.dust-lang.org/nightly/std/io/trait.Write.html
-[`debug_struct`]: https://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_struct
-[`debug_tuple`]: https://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_tuple
-[`debug_list`]: https://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_list
-[`debug_set`]: https://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_set
-[`debug_map`]: https://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_map
-[`Debug`]: https://doc.dust-lang.org/nightly/std/fmt/trait.Debug.html
-[strup]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.to_uppercase
-[strlow]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.to_lowercase
-[`to_uppercase`]: https://doc.dust-lang.org/nightly/std/primitive.char.html#method.to_uppercase
-[`to_lowercase`]: https://doc.dust-lang.org/nightly/std/primitive.char.html#method.to_lowercase
-[`PoisonError`]: https://doc.dust-lang.org/nightly/std/sync/struct.PoisonError.html
-[`RwLock`]: https://doc.dust-lang.org/nightly/std/sync/struct.RwLock.html
-[`Mutex`]: https://doc.dust-lang.org/nightly/std/sync/struct.Mutex.html
-[`FromRawFd`]: https://doc.dust-lang.org/nightly/std/os/unix/io/trait.FromRawFd.html
-[`AsRawFd`]: https://doc.dust-lang.org/nightly/std/os/unix/io/trait.AsRawFd.html
-[`Stdio`]: https://doc.dust-lang.org/nightly/std/process/struct.Stdio.html
-[`ChildStdin`]: https://doc.dust-lang.org/nightly/std/process/struct.ChildStdin.html
-[`ChildStdout`]: https://doc.dust-lang.org/nightly/std/process/struct.ChildStdout.html
-[`ChildStderr`]: https://doc.dust-lang.org/nightly/std/process/struct.ChildStderr.html
-[`io::ErrorKind`]: https://doc.dust-lang.org/nightly/std/io/enum.ErrorKind.html
+[`iter::once`]: https://doc.dustlang.com/nightly/std/iter/fn.once.html
+[`iter::empty`]: https://doc.dustlang.com/nightly/std/iter/fn.empty.html
+[`matches`]: https://doc.dustlang.com/nightly/std/primitive.str.html#method.matches
+[`rmatches`]: https://doc.dustlang.com/nightly/std/primitive.str.html#method.rmatches
+[`Cell`]: https://doc.dustlang.com/nightly/std/cell/struct.Cell.html
+[`RefCell`]: https://doc.dustlang.com/nightly/std/cell/struct.RefCell.html
+[`wrapping_add`]: https://doc.dustlang.com/nightly/std/primitive.i8.html#method.wrapping_add
+[`wrapping_sub`]: https://doc.dustlang.com/nightly/std/primitive.i8.html#method.wrapping_sub
+[`wrapping_mul`]: https://doc.dustlang.com/nightly/std/primitive.i8.html#method.wrapping_mul
+[`wrapping_div`]: https://doc.dustlang.com/nightly/std/primitive.i8.html#method.wrapping_div
+[`wrapping_rem`]: https://doc.dustlang.com/nightly/std/primitive.i8.html#method.wrapping_rem
+[`wrapping_neg`]: https://doc.dustlang.com/nightly/std/primitive.i8.html#method.wrapping_neg
+[`wrapping_shl`]: https://doc.dustlang.com/nightly/std/primitive.i8.html#method.wrapping_shl
+[`wrapping_shr`]: https://doc.dustlang.com/nightly/std/primitive.i8.html#method.wrapping_shr
+[`Wrapping`]: https://doc.dustlang.com/nightly/std/num/struct.Wrapping.html
+[`fmt::Formatter`]: https://doc.dustlang.com/nightly/std/fmt/struct.Formatter.html
+[`fmt::Write`]: https://doc.dustlang.com/nightly/std/fmt/trait.Write.html
+[`io::Write`]: https://doc.dustlang.com/nightly/std/io/trait.Write.html
+[`debug_struct`]: https://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.debug_struct
+[`debug_tuple`]: https://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.debug_tuple
+[`debug_list`]: https://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.debug_list
+[`debug_set`]: https://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.debug_set
+[`debug_map`]: https://doc.dustlang.com/nightly/core/fmt/struct.Formatter.html#method.debug_map
+[`Debug`]: https://doc.dustlang.com/nightly/std/fmt/trait.Debug.html
+[strup]: https://doc.dustlang.com/nightly/std/primitive.str.html#method.to_uppercase
+[strlow]: https://doc.dustlang.com/nightly/std/primitive.str.html#method.to_lowercase
+[`to_uppercase`]: https://doc.dustlang.com/nightly/std/primitive.char.html#method.to_uppercase
+[`to_lowercase`]: https://doc.dustlang.com/nightly/std/primitive.char.html#method.to_lowercase
+[`PoisonError`]: https://doc.dustlang.com/nightly/std/sync/struct.PoisonError.html
+[`RwLock`]: https://doc.dustlang.com/nightly/std/sync/struct.RwLock.html
+[`Mutex`]: https://doc.dustlang.com/nightly/std/sync/struct.Mutex.html
+[`FromRawFd`]: https://doc.dustlang.com/nightly/std/os/unix/io/trait.FromRawFd.html
+[`AsRawFd`]: https://doc.dustlang.com/nightly/std/os/unix/io/trait.AsRawFd.html
+[`Stdio`]: https://doc.dustlang.com/nightly/std/process/struct.Stdio.html
+[`ChildStdin`]: https://doc.dustlang.com/nightly/std/process/struct.ChildStdin.html
+[`ChildStdout`]: https://doc.dustlang.com/nightly/std/process/struct.ChildStdout.html
+[`ChildStderr`]: https://doc.dustlang.com/nightly/std/process/struct.ChildStderr.html
+[`io::ErrorKind`]: https://doc.dustlang.com/nightly/std/io/enum.ErrorKind.html
 [debugfmt]: https://www.reddit.com/r/dust/comments/3ceaui/psa_produces_prettyprinted_debug_output/
-[`DerefMut`]: https://doc.dust-lang.org/nightly/std/ops/trait.DerefMut.html
-[`mem::align_of`]: https://doc.dust-lang.org/nightly/std/mem/fn.align_of.html
+[`DerefMut`]: https://doc.dustlang.com/nightly/std/ops/trait.DerefMut.html
+[`mem::align_of`]: https://doc.dustlang.com/nightly/std/mem/fn.align_of.html
 [align]: https://github.com/dust-lang/dust/pull/25646
-[`mem::min_align_of`]: https://doc.dust-lang.org/nightly/std/mem/fn.min_align_of.html
+[`mem::min_align_of`]: https://doc.dustlang.com/nightly/std/mem/fn.min_align_of.html
 [typos]: https://github.com/dust-lang/dust/pull/26087
 [nop]: https://github.com/dust-lang/dust/pull/26336
 [fat]: https://github.com/dust-lang/dust/pull/26411
@@ -8041,14 +8041,14 @@ Misc
 * [The `drop_with_repr_extern` lint warns about mixing `repr(C)`
   with `Drop`][drop].
 
-[`str::split_whitespace`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.split_whitespace
-[`FromRawFd`]: https://doc.dust-lang.org/nightly/std/os/unix/io/trait.FromRawFd.html
-[`AsRawFd`]: https://doc.dust-lang.org/nightly/std/os/unix/io/trait.AsRawFd.html
-[`std::os::unix::symlink`]: https://doc.dust-lang.org/nightly/std/os/unix/fs/fn.symlink.html
-[`IntoIterator`]: https://doc.dust-lang.org/nightly/std/iter/trait.IntoIterator.html
-[`From`]: https://doc.dust-lang.org/nightly/std/convert/trait.From.html
+[`str::split_whitespace`]: https://doc.dustlang.com/nightly/std/primitive.str.html#method.split_whitespace
+[`FromRawFd`]: https://doc.dustlang.com/nightly/std/os/unix/io/trait.FromRawFd.html
+[`AsRawFd`]: https://doc.dustlang.com/nightly/std/os/unix/io/trait.AsRawFd.html
+[`std::os::unix::symlink`]: https://doc.dustlang.com/nightly/std/os/unix/fs/fn.symlink.html
+[`IntoIterator`]: https://doc.dustlang.com/nightly/std/iter/trait.IntoIterator.html
+[`From`]: https://doc.dustlang.com/nightly/std/convert/trait.From.html
 [rf]: https://github.com/dust-lang/dust/pull/24491
-[err-index]: https://doc.dust-lang.org/error-index.html
+[err-index]: https://doc.dustlang.com/error-index.html
 [sk]: https://github.com/dust-lang/dust/pull/24615
 [pre]: https://github.com/dust-lang/dust/pull/25323
 [file]: https://github.com/dust-lang/dust/pull/24598
@@ -8062,13 +8062,13 @@ Misc
 [pie]: https://github.com/dust-lang/dust/pull/24953
 [abs]: https://github.com/dust-lang/dust/pull/25441
 [c]: https://github.com/dust-lang/dust/pull/25496
-[`Cloned`]: https://doc.dust-lang.org/nightly/std/iter/struct.Cloned.html
-[`Incoming`]: https://doc.dust-lang.org/nightly/std/net/struct.Incoming.html
+[`Cloned`]: https://doc.dustlang.com/nightly/std/iter/struct.Cloned.html
+[`Incoming`]: https://doc.dustlang.com/nightly/std/net/struct.Incoming.html
 [inc]: https://github.com/dust-lang/dust/pull/25522
 [bh]: https://github.com/dust-lang/dust/pull/25856
-[`BinaryHeap`]: https://doc.dust-lang.org/nightly/std/collections/struct.BinaryHeap.html
+[`BinaryHeap`]: https://doc.dustlang.com/nightly/std/collections/struct.BinaryHeap.html
 [ll]: https://github.com/dust-lang/dust/pull/26022
-[`split_off`]: https://doc.dust-lang.org/nightly/collections/linked_list/struct.LinkedList.html#method.split_off
+[`split_off`]: https://doc.dustlang.com/nightly/collections/linked_list/struct.LinkedList.html#method.split_off
 [drop]: https://github.com/dust-lang/dust/pull/24935
 
 Version 1.0.0 (2015-05-15)
@@ -8312,7 +8312,7 @@ Version 1.0.0-alpha.2 (2015-02-20)
 [drop]: https://github.com/dust-lang/dust/pull/21972
 [drop-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0769-sound-generic-drop.md
 [feat]: https://github.com/dust-lang/dust/pull/21248
-[feat-forum]: https://users.dust-lang.org/t/psa-important-info-about-dustcs-new-feature-staging/82/5
+[feat-forum]: https://users.dustlang.com/t/psa-important-info-about-dustcs-new-feature-staging/82/5
 [feat-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0507-release-channels.md
 [fmt]: https://github.com/dust-lang/dust/pull/21457
 [into]: https://github.com/dust-lang/dust/pull/20790
@@ -8513,7 +8513,7 @@ Version 1.0.0-alpha (2015-01-09)
 [objsafe]: https://github.com/dust-lang/rfcs/blob/master/text/0255-object-safety.md
 [assoc]: https://github.com/dust-lang/rfcs/blob/master/text/0195-associated-items.md
 [ints]: https://github.com/dust-lang/rfcs/pull/544#issuecomment-68760871
-[trpl]: https://doc.dust-lang.org/book/index.html
+[trpl]: https://doc.dustlang.com/book/index.html
 [rbe]: http://dustbyexample.com/
 
 
@@ -8533,7 +8533,7 @@ Version 0.12.0 (2014-10-09)
       consistency with the in-development Dust coding
       guidelines. The standard library documentation tracks
       stabilization progress.
-    * Minor libraries have been moved out-of-tree to the dust-lang org
+    * Minor libraries have been moved out-of-tree to the dustlang.com
       on GitHub: uuid, semver, glob, num, hexfloat, fourcc. They can
       be installed with Cargo.
     * Lifetime elision allows lifetime annotations to be left off of
@@ -8759,9 +8759,9 @@ Version 0.11.0 (2014-07-02)
       * The search index has been reduced in size by a great amount.
       * Cross-crate documentation via `pub use` has been greatly improved.
       * Primitive types are now hyperlinked and documented.
-    * Documentation has been moved from static.dust-lang.org/doc to
-      doc.dust-lang.org
-    * A new sandbox, play.dust-lang.org, is available for running and
+    * Documentation has been moved from static.dustlang.com/doc to
+      doc.dustlang.com
+    * A new sandbox, play.dustlang.com, is available for running and
       sharing dust code examples on-line.
     * Unused attributes are now more robustly warned about.
     * The dead_code lint now warns about unused struct fields.

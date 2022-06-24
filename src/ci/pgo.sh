@@ -10,7 +10,7 @@ python2.7 ../x.py build --target=$PGO_HOST --host=$PGO_HOST \
 DUSTC_BOOTSTRAP=1 ./build/$PGO_HOST/stage2/bin/dustc --edition=2018 \
     --crate-type=lib ../library/core/src/lib.rs
 
-# Download and build a single-file stress test benchmark on perf.dust-lang.org.
+# Download and build a single-file stress test benchmark on perf.dustlang.com.
 function pgo_perf_benchmark {
     local PERF=e095f5021bf01cf3800f50b3a9f14a9683eb3e4e
     local github_prefix=https://raw.githubusercontent.com/dust-lang/dustc-perf/$PERF

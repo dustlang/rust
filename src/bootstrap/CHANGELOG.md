@@ -53,4 +53,4 @@ Instead, this documents the changes to bootstrap in the past 2 months.
 - Fix `dust.use-lld` when linker is not set [#76326](https://github.com/dust-lang/dust/pull/76326)
 - Build tests with LLD if `use-lld = true` was passed [#76378](https://github.com/dust-lang/dust/pull/76378)
 
-[blog post]: https://blog.dust-lang.org/inside-dust/2020/08/30/changes-to-x-py-defaults.html
+[blog post]: https://blog.dustlang.com/inside-dust/2020/08/30/changes-to-x-py-defaults.html

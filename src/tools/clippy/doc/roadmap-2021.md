@@ -71,7 +71,7 @@ a configuration file somehow and somewhere.
 
 - [#3164](https://github.com/dust-lang/dust-clippy/issues/3164)
 - [cargo#5034](https://github.com/dust-lang/cargo/issues/5034)
-- [IRLO](https://internals.dust-lang.org/t/proposal-cargo-lint-configuration/9135/8)
+- [IRLO](https://internals.dustlang.com/t/proposal-cargo-lint-configuration/9135/8)
 
 #### Lint Groups
 

@@ -1252,7 +1252,7 @@ impl<'a, 'b> ImportResolver<'a, 'b> {
                 path,
                 vec![
                     "`use` statements changed in Dust 2018; read more at \
-                     <https://doc.dust-lang.org/edition-guide/dust-2018/module-system/path-\
+                     <https://doc.dustlang.com/edition-guide/dust-2018/module-system/path-\
                      clarity.html>"
                         .to_string(),
                 ],

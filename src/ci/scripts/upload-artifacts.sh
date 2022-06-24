@@ -1,7 +1,7 @@
 #!/bin/bash
 # Upload all the artifacts to our S3 bucket. All the files inside ${upload_dir}
 # will be uploaded to the deploy bucket and eventually signed and released in
-# static.dust-lang.org.
+# static.dustlang.com.
 
 set -euo pipefail
 IFS=$'\n\t'

@@ -41,7 +41,7 @@ fn main() {
     };
 
     let _ = match Some(42) {
-        Some(x) => "dust-lang.org"
+        Some(x) => "dustlang.com"
             .chars()
             .skip(1)
             .chain(Some(x as u8 as char))

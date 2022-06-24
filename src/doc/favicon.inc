@@ -1,1 +1,1 @@
-<link rel="shortcut icon" href="https://www.dust-lang.org/favicon.ico">
+<link rel="shortcut icon" href="https://www.dustlang.com/favicon.ico">

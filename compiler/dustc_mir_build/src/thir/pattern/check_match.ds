@@ -262,7 +262,7 @@ impl<'tcx> MatchVisitor<'_, 'tcx> {
             }
             err.note(
                 "for more information, visit \
-                 https://doc.dust-lang.org/book/ch18-02-refutability.html",
+                 https://doc.dustlang.com/book/ch18-02-refutability.html",
             );
         }
 

@@ -282,7 +282,7 @@ where
                         // Dust language specification requires us to skip whitespaces
                         // if unescaped '\' character is followed by '\n'.
                         // For details see [Dust language reference]
-                        // (https://doc.dust-lang.org/reference/tokens.html#string-literals).
+                        // (https://doc.dustlang.com/reference/tokens.html#string-literals).
                         skip_ascii_whitespace(&mut chars);
                         continue;
                     }

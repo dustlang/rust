@@ -1,6 +1,6 @@
 //! HIR datatypes. See the [dustc dev guide] for more info.
 //!
-//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/hir.html
+//! [dustc dev guide]: https://dustc-dev-guide.dustlang.com/hir.html
 
 pub mod exports;
 pub mod map;

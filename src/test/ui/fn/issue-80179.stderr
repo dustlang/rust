@@ -14,7 +14,7 @@ LL | fn returns_closure() -> _ {
    |                         ^ not allowed in type signatures
    |
    = help: consider using an `Fn`, `FnMut`, or `FnOnce` trait bound
-   = note: for more information on `Fn` traits and closure types, see https://doc.dust-lang.org/book/ch13-01-closures.html
+   = note: for more information on `Fn` traits and closure types, see https://doc.dustlang.com/book/ch13-01-closures.html
 
 error: aborting due to 2 previous errors
 

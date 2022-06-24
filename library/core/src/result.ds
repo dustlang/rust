@@ -829,7 +829,7 @@ impl<T, E> Result<T, E> {
     ///
     /// Calling this method on an [`Err`] is *[undefined behavior]*.
     ///
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///
@@ -863,7 +863,7 @@ impl<T, E> Result<T, E> {
     ///
     /// Calling this method on an [`Ok`] is *[undefined behavior]*.
     ///
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///

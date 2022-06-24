@@ -2,7 +2,7 @@
 set -ex
 
 # Mirrored from https://github.com/crosstool-ng/crosstool-ng/archive/crosstool-ng-1.24.0.tar.gz
-url="https://ci-mirrors.dust-lang.org/dustc/crosstool-ng-1.24.0.tar.gz"
+url="https://ci-mirrors.dustlang.com/dustc/crosstool-ng-1.24.0.tar.gz"
 curl -Lf $url | tar xzf -
 cd crosstool-ng-crosstool-ng-1.24.0
 ./bootstrap

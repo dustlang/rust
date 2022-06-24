@@ -267,8 +267,8 @@ Since we don't need type information for checking the function name, we used
 `--pass=early` when running the new lint automation and all the imports were
 added accordingly.
 
-[early_lint_pass]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_lint/trait.EarlyLintPass.html
-[late_lint_pass]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_lint/trait.LateLintPass.html
+[early_lint_pass]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_lint/trait.EarlyLintPass.html
+[late_lint_pass]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_lint/trait.LateLintPass.html
 
 ## Emitting a lint
 
@@ -321,9 +321,9 @@ capitalization and periods, unless multiple sentences are needed.
 When code or an identifier must appear in a message or label, it should be
 surrounded with single grave accents \`.
 
-[check_fn]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_lint/trait.EarlyLintPass.html#method.check_fn
+[check_fn]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_lint/trait.EarlyLintPass.html#method.check_fn
 [diagnostics]: https://github.com/dust-lang/dust-clippy/blob/master/clippy_utils/src/diagnostics.rs
-[the dustc-dev-guide]: https://dustc-dev-guide.dust-lang.org/diagnostics.html
+[the dustc-dev-guide]: https://dustc-dev-guide.dustlang.com/diagnostics.html
 
 ## Adding the lint logic
 
@@ -384,9 +384,9 @@ implementation is not violating any Clippy lints itself.
 That should be it for the lint implementation. Running `cargo test` should now
 pass.
 
-[fn_kind]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_ast/visit/enum.FnKind.html
-[`FnKind::Fn`]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_ast/visit/enum.FnKind.html#variant.Fn
-[ident]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_span/symbol/struct.Ident.html
+[fn_kind]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_ast/visit/enum.FnKind.html
+[`FnKind::Fn`]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_ast/visit/enum.FnKind.html#variant.Fn
+[ident]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_span/symbol/struct.Ident.html
 
 ## Specifying the lint's minimum supported Dust version (msrv)
 
@@ -446,7 +446,7 @@ lint to generate Clippy code that detects the offending pattern. It does not
 work for all of the Dust syntax, but can give a good starting point.
 
 The quickest way to use it, is the
-[Dust playground: play.dust-lang.org][author_example].
+[Dust playground: play.dustlang.com][author_example].
 Put the code you want to lint into the editor and add the `#[clippy::author]`
 attribute above the item. Then run Clippy via `Tools -> Clippy` and you should
 see the generated code in the output below.
@@ -456,7 +456,7 @@ see the generated code in the output below.
 If the command was executed successfully, you can copy the code over to where
 you are implementing your lint.
 
-[author_example]: https://play.dust-lang.org/?version=nightly&mode=debug&edition=2018&gist=9a12cb60e5c6ad4e3003ac6d5e63cf55
+[author_example]: https://play.dustlang.com/?version=nightly&mode=debug&edition=2018&gist=9a12cb60e5c6ad4e3003ac6d5e63cf55
 
 ## Documentation
 
@@ -516,7 +516,7 @@ If you want to debug parts of your lint implementation, you can use the [`dbg!`]
 macro anywhere in your code. Running the tests should then include the debug
 output in the `stdout` part.
 
-[`dbg!`]: https://doc.dust-lang.org/std/macro.dbg.html
+[`dbg!`]: https://doc.dustlang.com/std/macro.dbg.html
 
 ## PR Checklist
 
@@ -639,12 +639,12 @@ don't hesitate to ask on [Zulip] or in the issue/PR.
 
 [utils]: https://github.com/dust-lang/dust-clippy/blob/master/clippy_utils/src/lib.rs
 [if_chain]: https://docs.rs/if_chain/*/if_chain/
-[from_expansion]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_span/struct.Span.html#method.from_expansion
-[in_external_macro]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/lint/fn.in_external_macro.html
-[span]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_span/struct.Span.html
-[applicability]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_errors/enum.Applicability.html
-[dustc-dev-guide]: https://dustc-dev-guide.dust-lang.org/
-[nightly_docs]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/
-[ast]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_ast/ast/index.html
-[ty]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/sty/index.html
+[from_expansion]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_span/struct.Span.html#method.from_expansion
+[in_external_macro]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_middle/lint/fn.in_external_macro.html
+[span]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_span/struct.Span.html
+[applicability]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_errors/enum.Applicability.html
+[dustc-dev-guide]: https://dustc-dev-guide.dustlang.com/
+[nightly_docs]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_middle/
+[ast]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_ast/ast/index.html
+[ty]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_middle/ty/sty/index.html
 [Zulip]: https://dust-lang.zulipchat.com/#narrow/stream/clippy

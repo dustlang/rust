@@ -5,7 +5,7 @@
 //! type error.  See the [dustc dev guide] for more details.
 //!
 //! [dustc dev guide]:
-//! https://dustc-dev-guide.dust-lang.org/traits/resolution.html#confirmation
+//! https://dustc-dev-guide.dustlang.com/traits/resolution.html#confirmation
 use dustc_data_structures::stack::ensure_sufficient_stack;
 use dustc_hir::lang_items::LangItem;
 use dustc_hir::Constness;

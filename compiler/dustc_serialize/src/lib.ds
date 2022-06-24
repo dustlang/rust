@@ -5,8 +5,8 @@ Core encoding and decoding interfaces.
 */
 
 #![doc(
-    html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/",
-    html_playground_url = "https://play.dust-lang.org/",
+    html_root_url = "https://doc.dustlang.com/nightly/nightly-dustc/",
+    html_playground_url = "https://play.dustlang.com/",
     test(attr(allow(unused_variables), deny(warnings)))
 )]
 #![feature(box_syntax)]

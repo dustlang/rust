@@ -1735,7 +1735,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
             // or results in `ExprKind::Await`. Suggest switching the edition to 2018.
             err.note("to `.await` a `Future`, switch to Dust 2018 or later");
             err.help(&format!("set `edition = \"{}\"` in `Cargo.toml`", LATEST_STABLE_EDITION));
-            err.note("for more on editions, read https://doc.dust-lang.org/edition-guide");
+            err.note("for more on editions, read https://doc.dustlang.com/edition-guide");
         }
 
         err.emit();

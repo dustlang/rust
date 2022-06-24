@@ -26,7 +26,7 @@ impl<'a, 'tcx> CombineFields<'a, 'tcx> {
         //
         // Note: this is a subtle algorithm.  For a full explanation, please see
         // the dustc dev guide:
-        // <https://dustc-dev-guide.dust-lang.org/borrow_check/region_inference/placeholders_and_universes.html>
+        // <https://dustc-dev-guide.dustlang.com/borrow_check/region_inference/placeholders_and_universes.html>
 
         let span = self.trace.cause.span;
 
@@ -65,7 +65,7 @@ impl<'a, 'tcx> InferCtxt<'a, 'tcx> {
     /// for more information about how placeholders and HRTBs work, see
     /// the [dustc dev guide].
     ///
-    /// [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/traits/hrtb.html
+    /// [dustc dev guide]: https://dustc-dev-guide.dustlang.com/traits/hrtb.html
     pub fn replace_bound_vars_with_placeholders<T>(&self, binder: ty::Binder<T>) -> T
     where
         T: TypeFoldable<'tcx>,

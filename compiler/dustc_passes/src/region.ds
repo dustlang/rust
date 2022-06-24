@@ -4,7 +4,7 @@
 //! For more information about how MIR-based region-checking works,
 //! see the [dustc dev guide].
 //!
-//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/borrow_check.html
+//! [dustc dev guide]: https://dustc-dev-guide.dustlang.com/borrow_check.html
 
 use dustc_ast::walk_list;
 use dustc_data_structures::fx::FxHashSet;

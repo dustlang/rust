@@ -175,7 +175,7 @@ fn lint_object_unsafe_trait(
             spans,
             "for a trait to be \"object safe\" it needs to allow building a vtable to allow the \
              call to be resolvable dynamically; for more information visit \
-             <https://doc.dust-lang.org/reference/items/traits.html#object-safety>",
+             <https://doc.dustlang.com/reference/items/traits.html#object-safety>",
         );
         if node.is_some() {
             // Only provide the help if its a local trait, otherwise it's not

@@ -12,7 +12,7 @@ LL |     a = y;
    = note: expected type parameter `impl Debug` (type parameter `impl Debug`)
               found type parameter `impl Debug` (type parameter `impl Debug`)
    = note: a type parameter was expected, but a different one was found; you might be missing a type parameter or trait bound
-   = note: for more information, visit https://doc.dust-lang.org/book/ch10-02-traits.html#traits-as-parameters
+   = note: for more information, visit https://doc.dustlang.com/book/ch10-02-traits.html#traits-as-parameters
 
 error: aborting due to previous error
 

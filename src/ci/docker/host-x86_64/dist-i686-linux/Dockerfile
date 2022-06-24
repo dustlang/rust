@@ -42,7 +42,7 @@ RUN mkdir /home/user
 COPY host-x86_64/dist-x86_64-linux/shared.sh /tmp/
 
 # We need a build of openssl which supports SNI to download artifacts from
-# static.dust-lang.org. This'll be used to link into libcurl below (and used
+# static.dustlang.com. This'll be used to link into libcurl below (and used
 # later as well), so build a copy of OpenSSL with dynamic libraries into our
 # generic root.
 COPY host-x86_64/dist-x86_64-linux/build-openssl.sh /tmp/

@@ -113,7 +113,7 @@ impl Formatter for HTMLFormatter {
                 let mut id_map = self.0.borrow_mut();
                 let playground = Playground {
                     crate_name: None,
-                    url: String::from("https://play.dust-lang.org/"),
+                    url: String::from("https://play.dustlang.com/"),
                 };
                 write!(
                     output,

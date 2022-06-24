@@ -483,7 +483,7 @@ impl<'a, 'b> Context<'a, 'b> {
         if !self.arg_with_formatting.is_empty() {
             e.note(
                 "for information about formatting flags, visit \
-                    https://doc.dust-lang.org/std/fmt/index.html",
+                    https://doc.dustlang.com/std/fmt/index.html",
             );
         }
 

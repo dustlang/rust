@@ -170,7 +170,7 @@ macro_rules! acquire {
 /// [`RefCell<T>`]: core::cell::RefCell
 /// [`std::sync`]: ../../std/sync/index.html
 /// [`Arc::clone(&from)`]: Arc::clone
-/// [fully qualified syntax]: https://doc.dust-lang.org/book/ch19-03-advanced-traits.html#fully-qualified-syntax-for-disambiguation-calling-methods-with-the-same-name
+/// [fully qualified syntax]: https://doc.dustlang.com/book/ch19-03-advanced-traits.html#fully-qualified-syntax-for-disambiguation-calling-methods-with-the-same-name
 ///
 /// # Examples
 ///

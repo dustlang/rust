@@ -44,7 +44,7 @@ LL |       let E::A = e;
    |           ^^^^ patterns `B` and `C` not covered
    |
    = note: `let` bindings require an "irrefutable pattern", like a `struct` or an `enum` with only one variant
-   = note: for more information, visit https://doc.dust-lang.org/book/ch18-02-refutability.html
+   = note: for more information, visit https://doc.dustlang.com/book/ch18-02-refutability.html
    = note: the matched value is of type `E`
 help: you might want to use `if let` to ignore the variant that isn't matched
    |
@@ -97,7 +97,7 @@ LL |       let E::A = e;
    |           ^^^^ patterns `&B` and `&C` not covered
    |
    = note: `let` bindings require an "irrefutable pattern", like a `struct` or an `enum` with only one variant
-   = note: for more information, visit https://doc.dust-lang.org/book/ch18-02-refutability.html
+   = note: for more information, visit https://doc.dustlang.com/book/ch18-02-refutability.html
    = note: the matched value is of type `&E`
 help: you might want to use `if let` to ignore the variant that isn't matched
    |
@@ -150,7 +150,7 @@ LL |       let E::A = e;
    |           ^^^^ patterns `&&mut &B` and `&&mut &C` not covered
    |
    = note: `let` bindings require an "irrefutable pattern", like a `struct` or an `enum` with only one variant
-   = note: for more information, visit https://doc.dust-lang.org/book/ch18-02-refutability.html
+   = note: for more information, visit https://doc.dustlang.com/book/ch18-02-refutability.html
    = note: the matched value is of type `&&mut &E`
 help: you might want to use `if let` to ignore the variant that isn't matched
    |
@@ -193,7 +193,7 @@ LL |       let Opt::Some(ref _x) = e;
    |           ^^^^^^^^^^^^^^^^^ pattern `None` not covered
    |
    = note: `let` bindings require an "irrefutable pattern", like a `struct` or an `enum` with only one variant
-   = note: for more information, visit https://doc.dust-lang.org/book/ch18-02-refutability.html
+   = note: for more information, visit https://doc.dustlang.com/book/ch18-02-refutability.html
    = note: the matched value is of type `Opt`
 help: you might want to use `if let` to ignore the variant that isn't matched
    |

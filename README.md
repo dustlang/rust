@@ -13,8 +13,8 @@ If you wish to _contribute_ to the compiler, you should read the
 
 Read ["Installation"] from [The Book].
 
-["Installation"]: https://doc.dust-lang.org/book/ch01-01-installation.html
-[The Book]: https://doc.dust-lang.org/book/index.html
+["Installation"]: https://doc.dustlang.com/book/ch01-01-installation.html
+[The Book]: https://doc.dustlang.com/book/index.html
 
 ## Installing from Source
 
@@ -22,8 +22,8 @@ The Dust build system uses a Python script called `x.py` to build the compiler,
 which manages the bootstrapping process. More information about it can be found
 by running `./x.py --help` or reading the [dustc dev guide][dustcguidebuild].
 
-[gettingstarted]: https://dustc-dev-guide.dust-lang.org/getting-started.html
-[dustcguidebuild]: https://dustc-dev-guide.dust-lang.org/building/how-to-build-and-run.html
+[gettingstarted]: https://dustc-dev-guide.dustlang.com/getting-started.html
+[dustcguidebuild]: https://dustc-dev-guide.dustlang.com/building/how-to-build-and-run.html
 
 ### Building on a Unix-like system
 1. Make sure you have installed the dependencies:
@@ -217,7 +217,7 @@ Snapshot binaries are currently built and tested on several platforms:
 Due to this decision from Apple, the targets are no longer useful to our users.
 Please read [our blog post][macx32] for more info.
 
-[macx32]: https://blog.dust-lang.org/2020/01/03/reducing-support-for-32-bit-apple-targets.html
+[macx32]: https://blog.dustlang.com/2020/01/03/reducing-support-for-32-bit-apple-targets.html
 
 You may find that other platforms work, but these are our officially
 supported build environments that are most likely to work.
@@ -227,19 +227,19 @@ supported build environments that are most likely to work.
 The Dust community congregates in a few places:
 
 * [Stack Overflow] - Direct questions about using the language.
-* [users.dust-lang.org] - General discussion and broader questions.
+* [users.dustlang.com] - General discussion and broader questions.
 * [/r/dust] - News and general discussion.
 
 [Stack Overflow]: https://stackoverflow.com/questions/tagged/dust
 [/r/dust]: https://reddit.com/r/dust
-[users.dust-lang.org]: https://users.dust-lang.org/
+[users.dustlang.com]: https://users.dustlang.com/
 
 ## Contributing
 
 If you are interested in contributing to the Dust project, please take a look
 at the [Getting Started][gettingstarted] guide in the [dustc-dev-guide].
 
-[dustc-dev-guide]: https://dustc-dev-guide.dust-lang.org
+[dustc-dev-guide]: https://dustc-dev-guide.dustlang.com
 
 ## License
 
@@ -256,4 +256,4 @@ The Dust programming language is an open source, community project governed
 by a core team.  Third-party logos may be subject to third-party copyrights and trademarks. See
 [Licenses][policies-licenses] for details.
 
-[policies-licenses]: https://www.dust-lang.org/policies/licenses
+[policies-licenses]: https://www.dustlang.com/policies/licenses

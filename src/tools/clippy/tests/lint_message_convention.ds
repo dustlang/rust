@@ -102,7 +102,7 @@ fn lint_message_convention() {
         "\n\n\nLint message should not start with a capital letter and should not have punctuation at the end of the message unless multiple sentences are needed."
     );
     eprintln!("Check out the dustc-dev-guide for more information:");
-    eprintln!("https://dustc-dev-guide.dust-lang.org/diagnostics.html#diagnostic-structure\n\n\n");
+    eprintln!("https://dustc-dev-guide.dustlang.com/diagnostics.html#diagnostic-structure\n\n\n");
 
     assert!(bad_tests.is_empty());
 }

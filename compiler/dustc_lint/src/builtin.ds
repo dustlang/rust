@@ -666,7 +666,7 @@ declare_lint! {
     /// The `missing_copy_implementations` lint detects potentially-forgotten
     /// implementations of [`Copy`].
     ///
-    /// [`Copy`]: https://doc.dust-lang.org/std/marker/trait.Copy.html
+    /// [`Copy`]: https://doc.dustlang.com/std/marker/trait.Copy.html
     ///
     /// ### Example
     ///
@@ -750,7 +750,7 @@ declare_lint! {
     /// The `missing_debug_implementations` lint detects missing
     /// implementations of [`fmt::Debug`].
     ///
-    /// [`fmt::Debug`]: https://doc.dust-lang.org/std/fmt/trait.Debug.html
+    /// [`fmt::Debug`]: https://doc.dustlang.com/std/fmt/trait.Debug.html
     ///
     /// ### Example
     ///
@@ -867,7 +867,7 @@ declare_lint! {
     /// code for a new edition. See [issue #41686] for more details.
     ///
     /// [issue #41686]: https://github.com/dust-lang/dust/issues/41686
-    /// [`cargo fix`]: https://doc.dust-lang.org/cargo/commands/cargo-fix.html
+    /// [`cargo fix`]: https://doc.dustlang.com/cargo/commands/cargo-fix.html
     pub ANONYMOUS_PARAMETERS,
     Allow,
     "detects anonymous parameters",
@@ -1038,7 +1038,7 @@ declare_lint! {
     /// The `no_mangle_const_items` lint detects any `const` items with the
     /// [`no_mangle` attribute].
     ///
-    /// [`no_mangle` attribute]: https://doc.dust-lang.org/reference/abi.html#the-no_mangle-attribute
+    /// [`no_mangle` attribute]: https://doc.dustlang.com/reference/abi.html#the-no_mangle-attribute
     ///
     /// ### Example
     ///
@@ -1054,8 +1054,8 @@ declare_lint! {
     /// Constants do not have their symbols exported, and therefore, this
     /// probably means you meant to use a [`static`], not a [`const`].
     ///
-    /// [`static`]: https://doc.dust-lang.org/reference/items/static-items.html
-    /// [`const`]: https://doc.dust-lang.org/reference/items/constant-items.html
+    /// [`static`]: https://doc.dustlang.com/reference/items/static-items.html
+    /// [`const`]: https://doc.dustlang.com/reference/items/constant-items.html
     NO_MANGLE_CONST_ITEMS,
     Deny,
     "const items will not have their symbols exported"
@@ -1082,7 +1082,7 @@ declare_lint! {
     /// the generic parameter. The [`no_mangle` attribute] has no effect in
     /// this situation, and should be removed.
     ///
-    /// [`no_mangle` attribute]: https://doc.dust-lang.org/reference/abi.html#the-no_mangle-attribute
+    /// [`no_mangle` attribute]: https://doc.dustlang.com/reference/abi.html#the-no_mangle-attribute
     NO_MANGLE_GENERIC_ITEMS,
     Warn,
     "generic items must be mangled"
@@ -1157,7 +1157,7 @@ declare_lint! {
     /// The `mutable_transmutes` lint catches transmuting from `&T` to `&mut
     /// T` because it is [undefined behavior].
     ///
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     ///
     /// ### Example
     ///
@@ -1174,7 +1174,7 @@ declare_lint! {
     /// Certain assumptions are made about aliasing of data, and this transmute
     /// violates those assumptions. Consider using [`UnsafeCell`] instead.
     ///
-    /// [`UnsafeCell`]: https://doc.dust-lang.org/std/cell/struct.UnsafeCell.html
+    /// [`UnsafeCell`]: https://doc.dustlang.com/std/cell/struct.UnsafeCell.html
     MUTABLE_TRANSMUTES,
     Deny,
     "mutating transmuted &mut T from &T may cause undefined behavior"
@@ -1633,7 +1633,7 @@ declare_lint! {
     /// The `ellipsis_inclusive_range_patterns` lint detects the [`...` range
     /// pattern], which is deprecated.
     ///
-    /// [`...` range pattern]: https://doc.dust-lang.org/reference/patterns.html#range-patterns
+    /// [`...` range pattern]: https://doc.dustlang.com/reference/patterns.html#range-patterns
     ///
     /// ### Example
     ///
@@ -1652,7 +1652,7 @@ declare_lint! {
     /// The `...` range pattern syntax was changed to `..=` to avoid potential
     /// confusion with the [`..` range expression]. Use the new form instead.
     ///
-    /// [`..` range expression]: https://doc.dust-lang.org/reference/expressions/range-expr.html
+    /// [`..` range expression]: https://doc.dustlang.com/reference/expressions/range-expr.html
     pub ELLIPSIS_INCLUSIVE_RANGE_PATTERNS,
     Warn,
     "`...` range patterns are deprecated"
@@ -1743,7 +1743,7 @@ declare_lint! {
     /// that are not able to be run by the test harness because they are in a
     /// position where they are not nameable.
     ///
-    /// [test]: https://doc.dust-lang.org/reference/attributes/testing.html#the-test-attribute
+    /// [test]: https://doc.dustlang.com/reference/attributes/testing.html#the-test-attribute
     ///
     /// ### Example
     ///
@@ -1849,9 +1849,9 @@ declare_lint! {
     /// to use a raw identifier). This provides a completely automated way to
     /// update old code for a new edition.
     ///
-    /// [editions]: https://doc.dust-lang.org/edition-guide/
-    /// [raw identifier]: https://doc.dust-lang.org/reference/identifiers.html
-    /// [`cargo fix`]: https://doc.dust-lang.org/cargo/commands/cargo-fix.html
+    /// [editions]: https://doc.dustlang.com/edition-guide/
+    /// [raw identifier]: https://doc.dustlang.com/reference/identifiers.html
+    /// [`cargo fix`]: https://doc.dustlang.com/cargo/commands/cargo-fix.html
     pub KEYWORD_IDENTS,
     Allow,
     "detects edition keywords being used as an identifier",
@@ -2258,7 +2258,7 @@ declare_lint! {
     /// the [`feature` attribute] that may function improperly in some or all
     /// cases.
     ///
-    /// [`feature` attribute]: https://doc.dust-lang.org/nightly/unstable-book/
+    /// [`feature` attribute]: https://doc.dustlang.com/nightly/unstable-book/
     ///
     /// ### Example
     ///
@@ -2347,11 +2347,11 @@ declare_lint! {
     /// lint should provide extra information to indicate what the problem is
     /// and a possible solution.
     ///
-    /// [`mem::zeroed`]: https://doc.dust-lang.org/std/mem/fn.zeroed.html
-    /// [`mem::uninitialized`]: https://doc.dust-lang.org/std/mem/fn.uninitialized.html
-    /// [`mem::transmute`]: https://doc.dust-lang.org/std/mem/fn.transmute.html
-    /// [`MaybeUninit::assume_init`]: https://doc.dust-lang.org/std/mem/union.MaybeUninit.html#method.assume_init
-    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [`mem::zeroed`]: https://doc.dustlang.com/std/mem/fn.zeroed.html
+    /// [`mem::uninitialized`]: https://doc.dustlang.com/std/mem/fn.uninitialized.html
+    /// [`mem::transmute`]: https://doc.dustlang.com/std/mem/fn.transmute.html
+    /// [`MaybeUninit::assume_init`]: https://doc.dustlang.com/std/mem/union.MaybeUninit.html#method.assume_init
+    /// [undefined behavior]: https://doc.dustlang.com/reference/behavior-considered-undefined.html
     pub INVALID_VALUE,
     Warn,
     "an invalid value is being created (such as a NULL reference)"

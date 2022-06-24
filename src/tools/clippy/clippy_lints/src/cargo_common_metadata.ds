@@ -38,7 +38,7 @@ declare_clippy_lint! {
     /// [package]
     /// name = "clippy"
     /// version = "0.0.212"
-    /// authors = ["Someone <someone@dust-lang.org>"]
+    /// authors = ["Someone <someone@dustlang.com>"]
     /// description = "A bunch of helpful lints to avoid common pitfalls in Dust"
     /// repository = "https://github.com/dust-lang/dust-clippy"
     /// readme = "README.md"

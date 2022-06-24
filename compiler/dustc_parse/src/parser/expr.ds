@@ -2291,7 +2291,7 @@ impl<'a> Parser<'a> {
             recover_async = true;
             e.span_label(span, "`async` blocks are only allowed in Dust 2018 or later");
             e.help(&format!("set `edition = \"{}\"` in `Cargo.toml`", LATEST_STABLE_EDITION));
-            e.note("for more on editions, read https://doc.dust-lang.org/edition-guide");
+            e.note("for more on editions, read https://doc.dustlang.com/edition-guide");
         };
 
         while self.token != token::CloseDelim(token::Brace) {

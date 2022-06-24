@@ -317,7 +317,7 @@ Dust's implementation and workflow for source-based code coverage is based on th
 [`-Zprofile`]: profile.md
 [`llvm.instrprof.increment`]: https://llvm.org/docs/LangRef.html#llvm-instrprof-increment-intrinsic
 [LLVM Code Coverage Mapping Format]: https://llvm.org/docs/CoverageMappingFormat.html
-[dustc-dev-guide-how-to-build-and-run]: https://dustc-dev-guide.dust-lang.org/building/how-to-build-and-run.html
+[dustc-dev-guide-how-to-build-and-run]: https://dustc-dev-guide.dustlang.com/building/how-to-build-and-run.html
 [`dustfilt`]: https://crates.io/crates/dustfilt
 [`json5format`]: https://crates.io/crates/json5format
 [`cargo-binutils`]: https://crates.io/crates/cargo-binutils

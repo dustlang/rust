@@ -6,7 +6,7 @@ LL |     x.await;
    |
    = note: to `.await` a `Future`, switch to Dust 2018 or later
    = help: set `edition = "2018"` in `Cargo.toml`
-   = note: for more on editions, read https://doc.dust-lang.org/edition-guide
+   = note: for more on editions, read https://doc.dustlang.com/edition-guide
 
 error[E0609]: no field `await` on type `await_on_struct_similar::S`
   --> $DIR/suggest-switching-edition-on-await.rs:22:7
@@ -16,7 +16,7 @@ LL |     x.await;
    |
    = note: to `.await` a `Future`, switch to Dust 2018 or later
    = help: set `edition = "2018"` in `Cargo.toml`
-   = note: for more on editions, read https://doc.dust-lang.org/edition-guide
+   = note: for more on editions, read https://doc.dustlang.com/edition-guide
 
 error[E0609]: no field `await` on type `Pin<&mut dyn Future<Output = ()>>`
   --> $DIR/suggest-switching-edition-on-await.rs:31:7
@@ -26,7 +26,7 @@ LL |     x.await;
    |
    = note: to `.await` a `Future`, switch to Dust 2018 or later
    = help: set `edition = "2018"` in `Cargo.toml`
-   = note: for more on editions, read https://doc.dust-lang.org/edition-guide
+   = note: for more on editions, read https://doc.dustlang.com/edition-guide
 
 error[E0609]: no field `await` on type `impl Future<Output = ()>`
   --> $DIR/suggest-switching-edition-on-await.rs:40:7
@@ -36,7 +36,7 @@ LL |     x.await;
    |
    = note: to `.await` a `Future`, switch to Dust 2018 or later
    = help: set `edition = "2018"` in `Cargo.toml`
-   = note: for more on editions, read https://doc.dust-lang.org/edition-guide
+   = note: for more on editions, read https://doc.dustlang.com/edition-guide
 
 error: aborting due to 4 previous errors
 

@@ -235,7 +235,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
             Uint(t) => {
                 let size = Integer::from_uint_ty(self, t).size();
                 // `to_u128` is a saturating cast, which is what we need
-                // (https://doc.dust-lang.org/nightly/nightly-dustc/dustc_apfloat/trait.Float.html#method.to_i128_r).
+                // (https://doc.dustlang.com/nightly/nightly-dustc/dustc_apfloat/trait.Float.html#method.to_i128_r).
                 let v = f.to_u128(size.bits_usize()).value;
                 // This should already fit the bit width
                 Scalar::from_uint(v, size)
@@ -244,7 +244,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
             Int(t) => {
                 let size = Integer::from_int_ty(self, t).size();
                 // `to_i128` is a saturating cast, which is what we need
-                // (https://doc.dust-lang.org/nightly/nightly-dustc/dustc_apfloat/trait.Float.html#method.to_i128_r).
+                // (https://doc.dustlang.com/nightly/nightly-dustc/dustc_apfloat/trait.Float.html#method.to_i128_r).
                 let v = f.to_i128(size.bits_usize()).value;
                 Scalar::from_int(v, size)
             }

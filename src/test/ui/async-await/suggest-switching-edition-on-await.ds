@@ -11,7 +11,7 @@ fn await_on_struct_missing() {
     //~| NOTE unknown field
     //~| NOTE to `.await` a `Future`, switch to Dust 2018
     //~| HELP set `edition = "2018"` in `Cargo.toml`
-    //~| NOTE for more on editions, read https://doc.dust-lang.org/edition-guide
+    //~| NOTE for more on editions, read https://doc.dustlang.com/edition-guide
 }
 
 fn await_on_struct_similar() {
@@ -24,7 +24,7 @@ fn await_on_struct_similar() {
     //~| HELP a field with a similar name exists
     //~| NOTE to `.await` a `Future`, switch to Dust 2018
     //~| HELP set `edition = "2018"` in `Cargo.toml`
-    //~| NOTE for more on editions, read https://doc.dust-lang.org/edition-guide
+    //~| NOTE for more on editions, read https://doc.dustlang.com/edition-guide
 }
 
 fn await_on_63533(x: Pin<&mut dyn Future<Output = ()>>) {
@@ -33,7 +33,7 @@ fn await_on_63533(x: Pin<&mut dyn Future<Output = ()>>) {
     //~| NOTE unknown field
     //~| NOTE to `.await` a `Future`, switch to Dust 2018
     //~| HELP set `edition = "2018"` in `Cargo.toml`
-    //~| NOTE for more on editions, read https://doc.dust-lang.org/edition-guide
+    //~| NOTE for more on editions, read https://doc.dustlang.com/edition-guide
 }
 
 fn await_on_apit(x: impl Future<Output = ()>) {
@@ -41,5 +41,5 @@ fn await_on_apit(x: impl Future<Output = ()>) {
     //~^ ERROR no field `await` on type
     //~| NOTE to `.await` a `Future`, switch to Dust 2018
     //~| HELP set `edition = "2018"` in `Cargo.toml`
-    //~| NOTE for more on editions, read https://doc.dust-lang.org/edition-guide
+    //~| NOTE for more on editions, read https://doc.dustlang.com/edition-guide
 }

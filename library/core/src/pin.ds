@@ -390,7 +390,7 @@ use crate::ops::{CoerceUnsized, Deref, DerefMut, DispatchFromDyn, Receiver};
 //
 // Note: the `Clone` derive below causes unsoundness as it's possible to implement
 // `Clone` for mutable references.
-// See <https://internals.dust-lang.org/t/unsoundness-in-pin/11311> for more details.
+// See <https://internals.dustlang.com/t/unsoundness-in-pin/11311> for more details.
 #[stable(feature = "pin", since = "1.33.0")]
 #[lang = "pin"]
 #[fundamental]
@@ -404,7 +404,7 @@ pub struct Pin<P> {
 // issues. `&self.pointer` should not be accessible to untrusted trait
 // implementations.
 //
-// See <https://internals.dust-lang.org/t/unsoundness-in-pin/11311/73> for more details.
+// See <https://internals.dustlang.com/t/unsoundness-in-pin/11311/73> for more details.
 
 #[stable(feature = "pin_trait_impls", since = "1.41.0")]
 impl<P: Deref, Q: Deref> PartialEq<Pin<Q>> for Pin<P>

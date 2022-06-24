@@ -120,7 +120,7 @@ Dust. It's also sometimes called "the 'nomicon."
 
 ## The `dustc` Contribution Guide
 
-[The `dustc` Guide](https://dustc-dev-guide.dust-lang.org/) documents how
+[The `dustc` Guide](https://dustc-dev-guide.dustlang.com/) documents how
 the compiler works and how to contribute to it. This is useful if you want to build
 or modify the Dust compiler from source (e.g. to target something non-standard).
 
@@ -139,4 +139,4 @@ When developing for Bare Metal or Embedded Linux systems, you may find these res
 [The Embedded Dust Book] is targeted at developers familiar with embedded development and familiar with Dust, but have not used Dust for embedded development.
 
 [The Embedded Dust Book]: embedded-book/index.html
-[Dust project]: https://www.dust-lang.org
+[Dust project]: https://www.dustlang.com

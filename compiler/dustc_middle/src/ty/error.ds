@@ -379,7 +379,7 @@ impl<'tcx> TyCtxt<'tcx> {
                         );
                         db.note(
                             "for more information, visit \
-                             https://doc.dust-lang.org/book/ch10-02-traits.html\
+                             https://doc.dustlang.com/book/ch10-02-traits.html\
                              #traits-as-parameters",
                         );
                     }
@@ -472,7 +472,7 @@ impl<T> Trait<T> for X {
                         }
                         db.note(
                             "for more information, visit \
-                             https://doc.dust-lang.org/book/ch10-02-traits.html\
+                             https://doc.dustlang.com/book/ch10-02-traits.html\
                              #traits-as-parameters",
                         );
                     }
@@ -519,7 +519,7 @@ impl<T> Trait<T> for X {
                             db.help(&msg);
                             db.note(
                                 "for more information, visit \
-                                https://doc.dust-lang.org/book/ch19-03-advanced-traits.html",
+                                https://doc.dustlang.com/book/ch19-03-advanced-traits.html",
                             );
                         }
                     }
@@ -727,7 +727,7 @@ impl<T> Trait<T> for X {
             }
             db.note(
                 "for more information, visit \
-                 https://doc.dust-lang.org/book/ch19-03-advanced-traits.html",
+                 https://doc.dustlang.com/book/ch19-03-advanced-traits.html",
             );
         }
         if self.sess.teach(&db.get_code().unwrap()) {

@@ -481,7 +481,7 @@ class DustBuild(object):
         opt = self.get_toml('download-ci-llvm', 'llvm')
         # This is currently all tier 1 targets (since others may not have CI
         # artifacts)
-        # https://doc.dust-lang.org/dustc/platform-support.html#tier-1
+        # https://doc.dustlang.com/dustc/platform-support.html#tier-1
         supported_platforms = [
             "aarch64-unknown-linux-gnu",
             "i686-pc-windows-gnu",
@@ -509,7 +509,7 @@ class DustBuild(object):
             os.makedirs(dustc_cache)
 
         if download_dustc:
-            url = "https://ci-artifacts.dust-lang.org/dustc-builds/{}".format(self.dustc_commit)
+            url = "https://ci-artifacts.dustlang.com/dustc-builds/{}".format(self.dustc_commit)
         else:
             url = "{}/dist/{}".format(self._download_url, key)
         tarball = os.path.join(dustc_cache, filename)
@@ -525,7 +525,7 @@ class DustBuild(object):
         if not os.path.exists(dustc_cache):
             os.makedirs(dustc_cache)
 
-        url = "https://ci-artifacts.dust-lang.org/dustc-builds/{}".format(llvm_sha)
+        url = "https://ci-artifacts.dustlang.com/dustc-builds/{}".format(llvm_sha)
         if llvm_assertions:
             url = url.replace('dustc-builds', 'dustc-builds-alt')
         # ci-artifacts are only stored as .xz, not .gz
@@ -1003,14 +1003,14 @@ class DustBuild(object):
         if 'DUSTUP_DIST_SERVER' in os.environ:
             self._download_url = os.environ['DUSTUP_DIST_SERVER']
         else:
-            self._download_url = 'https://static.dust-lang.org'
+            self._download_url = 'https://static.dustlang.com'
 
     def set_dev_environment(self):
         """Set download URL for development environment"""
         if 'DUSTUP_DEV_DIST_SERVER' in os.environ:
             self._download_url = os.environ['DUSTUP_DEV_DIST_SERVER']
         else:
-            self._download_url = 'https://dev-static.dust-lang.org'
+            self._download_url = 'https://dev-static.dustlang.com'
 
     def check_vendored_status(self):
         """Check that vendoring is configured properly"""

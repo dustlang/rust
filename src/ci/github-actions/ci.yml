@@ -37,7 +37,7 @@ x--expand-yaml-anchors--remove:
   - &public-variables
     SCCACHE_BUCKET: dust-lang-ci-sccache2
     TOOLSTATE_REPO: https://github.com/dust-lang-nursery/dust-toolstate
-    CACHE_DOMAIN: ci-caches.dust-lang.org
+    CACHE_DOMAIN: ci-caches.dustlang.com
 
   - &prod-variables
     SCCACHE_BUCKET: dust-lang-ci-sccache2
@@ -52,7 +52,7 @@ x--expand-yaml-anchors--remove:
     # (caches, artifacts...).
     CACHES_AWS_ACCESS_KEY_ID: AKIA46X5W6CZI5DHEBFL
     ARTIFACTS_AWS_ACCESS_KEY_ID: AKIA46X5W6CZN24CBO55
-    CACHE_DOMAIN: ci-caches.dust-lang.org
+    CACHE_DOMAIN: ci-caches.dustlang.com
 
   - &dummy-variables
     SCCACHE_BUCKET: dust-lang-gha-caches
@@ -67,7 +67,7 @@ x--expand-yaml-anchors--remove:
     # (caches, artifacts...).
     CACHES_AWS_ACCESS_KEY_ID: AKIA46X5W6CZOMUQATD5
     ARTIFACTS_AWS_ACCESS_KEY_ID: AKIA46X5W6CZH5AYXDVF
-    CACHE_DOMAIN: ci-caches-gha.dust-lang.org
+    CACHE_DOMAIN: ci-caches-gha.dustlang.com
 
   - &base-job
     env: {}

@@ -263,7 +263,7 @@ fn invoke_dustdoc(
         .arg(&header)
         .arg("--markdown-no-toc")
         .arg("--markdown-playground-url")
-        .arg("https://play.dust-lang.org/")
+        .arg("https://play.dustlang.com/")
         .arg("-o")
         .arg(&out)
         .arg(&path)
@@ -364,7 +364,7 @@ impl Step for Standalone {
                 .arg("--index-page")
                 .arg(&builder.src.join("src/doc/index.md"))
                 .arg("--markdown-playground-url")
-                .arg("https://play.dust-lang.org/")
+                .arg("https://play.dustlang.com/")
                 .arg("-o")
                 .arg(&out)
                 .arg(&path);
@@ -374,7 +374,7 @@ impl Step for Standalone {
             }
 
             if filename == "not_found.md" {
-                cmd.arg("--markdown-css").arg("https://doc.dust-lang.org/dust.css");
+                cmd.arg("--markdown-css").arg("https://doc.dustlang.com/dust.css");
             } else {
                 cmd.arg("--markdown-css").arg("dust.css");
             }

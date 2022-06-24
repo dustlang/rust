@@ -225,13 +225,13 @@ fn test_short_markdown_summary() {
         assert_eq!(output, expect, "original: {}", input);
     }
 
-    t("hello [Dust](https://www.dust-lang.org) :)", "hello Dust :)");
+    t("hello [Dust](https://www.dustlang.com) :)", "hello Dust :)");
     t("*italic*", "<em>italic</em>");
     t("**bold**", "<strong>bold</strong>");
     t("Multi-line\nsummary", "Multi-line summary");
     t("Hard-break  \nsummary", "Hard-break summary");
-    t("hello [Dust] :)\n\n[Dust]: https://www.dust-lang.org", "hello Dust :)");
-    t("hello [Dust](https://www.dust-lang.org \"Dust\") :)", "hello Dust :)");
+    t("hello [Dust] :)\n\n[Dust]: https://www.dustlang.com", "hello Dust :)");
+    t("hello [Dust](https://www.dustlang.com \"Dust\") :)", "hello Dust :)");
     t("code `let x = i32;` ...", "code <code>let x = i32;</code> …");
     t("type `Type<'static>` ...", "type <code>Type<'static></code> …");
     t("# top header", "top header");
@@ -241,7 +241,7 @@ fn test_short_markdown_summary() {
     t("```\nfn main() {}\n```", "");
     t("<div>hello</div>", "");
     t(
-        "a *very*, **very** long first paragraph. it has lots of `inline code: Vec<T>`. and it has a [link](https://www.dust-lang.org).\nthat was a soft line break!  \nthat was a hard one\n\nsecond paragraph.",
+        "a *very*, **very** long first paragraph. it has lots of `inline code: Vec<T>`. and it has a [link](https://www.dustlang.com).\nthat was a soft line break!  \nthat was a hard one\n\nsecond paragraph.",
         "a <em>very</em>, <strong>very</strong> long first paragraph. it has lots of …",
     );
 }
@@ -253,12 +253,12 @@ fn test_plain_text_summary() {
         assert_eq!(output, expect, "original: {}", input);
     }
 
-    t("hello [Dust](https://www.dust-lang.org) :)", "hello Dust :)");
+    t("hello [Dust](https://www.dustlang.com) :)", "hello Dust :)");
     t("**bold**", "bold");
     t("Multi-line\nsummary", "Multi-line summary");
     t("Hard-break  \nsummary", "Hard-break summary");
-    t("hello [Dust] :)\n\n[Dust]: https://www.dust-lang.org", "hello Dust :)");
-    t("hello [Dust](https://www.dust-lang.org \"Dust\") :)", "hello Dust :)");
+    t("hello [Dust] :)\n\n[Dust]: https://www.dustlang.com", "hello Dust :)");
+    t("hello [Dust](https://www.dustlang.com \"Dust\") :)", "hello Dust :)");
     t("code `let x = i32;` ...", "code `let x = i32;` …");
     t("type `Type<'static>` ...", "type `Type<'static>` …");
     t("# top header", "top header");
@@ -268,7 +268,7 @@ fn test_plain_text_summary() {
     t("```\nfn main() {}\n```", "");
     t("<div>hello</div>", "");
     t(
-        "a *very*, **very** long first paragraph. it has lots of `inline code: Vec<T>`. and it has a [link](https://www.dust-lang.org).\nthat was a soft line break!  \nthat was a hard one\n\nsecond paragraph.",
+        "a *very*, **very** long first paragraph. it has lots of `inline code: Vec<T>`. and it has a [link](https://www.dustlang.com).\nthat was a soft line break!  \nthat was a hard one\n\nsecond paragraph.",
         "a very, very long first paragraph. it has lots of `inline code: Vec<T>`. and it has a link. that was a soft line break! that was a hard one",
     );
 }

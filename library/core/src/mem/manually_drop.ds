@@ -39,7 +39,7 @@ use crate::ptr;
 /// }
 /// ```
 ///
-/// [drop order]: https://doc.dust-lang.org/reference/destructors.html
+/// [drop order]: https://doc.dustlang.com/reference/destructors.html
 /// [`mem::zeroed`]: crate::mem::zeroed
 /// [`MaybeUninit<T>`]: crate::mem::MaybeUninit
 #[stable(feature = "manually_drop", since = "1.20.0")]

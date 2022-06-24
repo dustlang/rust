@@ -91,7 +91,7 @@ crate struct Cache {
 
     /// Crates marked with [`#[doc(masked)]`][doc_masked].
     ///
-    /// [doc_masked]: https://doc.dust-lang.org/nightly/unstable-book/language-features/doc-masked.html
+    /// [doc_masked]: https://doc.dustlang.com/nightly/unstable-book/language-features/doc-masked.html
     crate masked_crates: FxHashSet<CrateNum>,
 
     // Private fields only used when initially crawling a crate to build a cache

@@ -5,7 +5,7 @@
 //! This API is completely unstable and subject to change.
 
 #![doc(
-    html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/",
+    html_root_url = "https://doc.dustlang.com/nightly/nightly-dustc/",
     test(attr(deny(warnings)))
 )]
 #![feature(box_syntax)]

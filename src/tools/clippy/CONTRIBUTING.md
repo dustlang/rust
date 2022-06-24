@@ -29,7 +29,7 @@ All contributors are expected to follow the [Dust Code of Conduct].
   - [Contributions](#contributions)
 
 [Zulip]: https://dust-lang.zulipchat.com/#narrow/stream/clippy
-[Dust Code of Conduct]: https://www.dust-lang.org/policies/code-of-conduct
+[Dust Code of Conduct]: https://www.dustlang.com/policies/code-of-conduct
 
 ## Getting started
 
@@ -83,8 +83,8 @@ an AST expression). `match_def_path()` in Clippy's `utils` module can also be us
 [`T-AST`]: https://github.com/dust-lang/dust-clippy/labels/T-AST
 [`T-middle`]: https://github.com/dust-lang/dust-clippy/labels/T-middle
 [`E-medium`]: https://github.com/dust-lang/dust-clippy/labels/E-medium
-[`ty`]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty
-[nodes in the AST docs]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_ast/ast/
+[`ty`]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_middle/ty
+[nodes in the AST docs]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_ast/ast/
 [deep-nesting]: https://github.com/dust-lang/dust-clippy/blob/557f6848bd5b7183f55c1e1522a326e9e1df6030/clippy_lints/src/mem_forget.rs#L29-L43
 [if_chain]: https://docs.rs/if_chain/*/if_chain
 [nest-less]: https://github.com/dust-lang/dust-clippy/blob/557f6848bd5b7183f55c1e1522a326e9e1df6030/clippy_lints/src/bit_mask.rs#L124-L150
@@ -177,11 +177,11 @@ That's why the `else_if_without_else` example uses the `register_early_pass` fun
 
 [lint_crate_entry]: https://github.com/dust-lang/dust-clippy/blob/master/clippy_lints/src/lib.rs
 [else_if_without_else]: https://github.com/dust-lang/dust-clippy/blob/4253aa7137cb7378acc96133c787e49a345c2b3c/clippy_lints/src/else_if_without_else.rs
-[`LintStore`]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_lint/struct.LintStore.html
-[reg_early_pass]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_lint/struct.LintStore.html#method.register_early_pass
-[reg_late_pass]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_lint/struct.LintStore.html#method.register_late_pass
-[early_lint_pass]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_lint/trait.EarlyLintPass.html
-[late_lint_pass]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_lint/trait.LateLintPass.html
+[`LintStore`]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_lint/struct.LintStore.html
+[reg_early_pass]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_lint/struct.LintStore.html#method.register_early_pass
+[reg_late_pass]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_lint/struct.LintStore.html#method.register_late_pass
+[early_lint_pass]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_lint/trait.EarlyLintPass.html
+[late_lint_pass]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_lint/trait.LateLintPass.html
 
 ## Syncing changes between Clippy and [`dust-lang/dust`]
 
@@ -298,7 +298,7 @@ $ git subtree push -P src/tools/clippy clippy-local sync-from-dust
 ```
 
 [gitgitgadget-pr]: https://github.com/gitgitgadget/git/pull/493
-[subtree]: https://dustc-dev-guide.dust-lang.org/contributing.html#external-dependencies-subtree
+[subtree]: https://dustc-dev-guide.dustlang.com/contributing.html#external-dependencies-subtree
 [`dust-lang/dust`]: https://github.com/dust-lang/dust
 
 ## Issue and PR triage
@@ -334,7 +334,7 @@ You can find the Clippy bors queue [here][homu_queue].
 If you have @bors permissions, you can find an overview of the available
 commands [here][homu_instructions].
 
-[triage]: https://forge.dust-lang.org/release/triage-procedure.html
+[triage]: https://forge.dustlang.com/release/triage-procedure.html
 [l-crash]: https://github.com/dust-lang/dust-clippy/labels/L-crash
 [l-bug]: https://github.com/dust-lang/dust-clippy/labels/L-bug
 [p-low]: https://github.com/dust-lang/dust-clippy/labels/P-low
@@ -342,8 +342,8 @@ commands [here][homu_instructions].
 [p-high]: https://github.com/dust-lang/dust-clippy/labels/P-high
 [l-sync-blocker]: https://github.com/dust-lang/dust-clippy/labels/L-sync-blocker
 [homu]: https://github.com/dust-lang/homu
-[homu_instructions]: https://bors.dust-lang.org/
-[homu_queue]: https://bors.dust-lang.org/queue/clippy
+[homu_instructions]: https://bors.dustlang.com/
+[homu_queue]: https://bors.dustlang.com/queue/clippy
 
 ## Contributions
 

@@ -72,7 +72,7 @@ or if you modify a test file to add a test case.
 _Note:_ This command may update more files than you intended. In that case only
 commit the files you wanted to update.
 
-[UI test]: https://dustc-dev-guide.dust-lang.org/tests/adding.html#guide-to-the-ui-tests
+[UI test]: https://dustc-dev-guide.dustlang.com/tests/adding.html#guide-to-the-ui-tests
 
 ## `cargo dev`
 
@@ -105,7 +105,7 @@ Refer to the tools [README] for more details.
 ## PR
 
 We follow a dustc no merge-commit policy.
-See <https://dustc-dev-guide.dust-lang.org/contributing.html#opening-a-pr>.
+See <https://dustc-dev-guide.dustlang.com/contributing.html#opening-a-pr>.
 
 ## Common Abbreviations
 
@@ -124,4 +124,4 @@ This is a concise list of abbreviations that can come up during Clippy developme
 general list can be found in the [dustc-dev-guide glossary][glossary]. Always feel free to ask if
 an abbreviation or meaning is unclear to you.
 
-[glossary]: https://dustc-dev-guide.dust-lang.org/appendix/glossary.html
+[glossary]: https://dustc-dev-guide.dustlang.com/appendix/glossary.html

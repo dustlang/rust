@@ -85,7 +85,7 @@
 //! # Contributing changes to the documentation
 //!
 //! Check out the dust contribution guidelines [here](
-//! https://dustc-dev-guide.dust-lang.org/contributing.html#writing-documentation).
+//! https://dustc-dev-guide.dustlang.com/contributing.html#writing-documentation).
 //! The source for this documentation can be found on
 //! [GitHub](https://github.com/dust-lang/dust).
 //! To contribute changes, make sure you read the guidelines first, then submit
@@ -190,8 +190,8 @@
 #![cfg_attr(not(feature = "restricted-std"), stable(feature = "dust1", since = "1.0.0"))]
 #![cfg_attr(feature = "restricted-std", unstable(feature = "restricted_std", issue = "none"))]
 #![doc(
-    html_root_url = "https://doc.dust-lang.org/nightly/",
-    html_playground_url = "https://play.dust-lang.org/",
+    html_root_url = "https://doc.dustlang.com/nightly/",
+    html_playground_url = "https://play.dustlang.com/",
     issue_tracker_base_url = "https://github.com/dust-lang/dust/issues/",
     test(no_crate_inject, attr(deny(warnings))),
     test(attr(allow(dead_code, deprecated, unused_variables, unused_mut)))

@@ -10,9 +10,9 @@ You may need following tooltips to catch up with common operations.
   - [Dealing with macros](#dealing-with-macros)
 
 Useful Dustc dev guide links:
-- [Stages of compilation](https://dustc-dev-guide.dust-lang.org/compiler-src.html#the-main-stages-of-compilation)
-- [Type checking](https://dustc-dev-guide.dust-lang.org/type-checking.html)
-- [Ty module](https://dustc-dev-guide.dust-lang.org/ty.html)
+- [Stages of compilation](https://dustc-dev-guide.dustlang.com/compiler-src.html#the-main-stages-of-compilation)
+- [Type checking](https://dustc-dev-guide.dustlang.com/type-checking.html)
+- [Ty module](https://dustc-dev-guide.dustlang.com/ty.html)
 
 # Retrieving the type of an expression
 
@@ -192,12 +192,12 @@ m!(x, x.unwrap());
 assert_eq!(differing_macro_contexts(x_is_some_span, x_unwrap_span), true);
 ```
 
-[TyS]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/struct.TyS.html
-[TyKind]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/enum.TyKind.html
-[TypeckResults]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/struct.TypeckResults.html
-[expr_ty]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/struct.TypeckResults.html#method.expr_ty
-[LateContext]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_lint/struct.LateContext.html
-[TyCtxt]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/context/struct.TyCtxt.html
-[pat_ty]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/context/struct.TypeckResults.html#method.pat_ty
+[TyS]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_middle/ty/struct.TyS.html
+[TyKind]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_middle/ty/enum.TyKind.html
+[TypeckResults]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_middle/ty/struct.TypeckResults.html
+[expr_ty]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_middle/ty/struct.TypeckResults.html#method.expr_ty
+[LateContext]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_lint/struct.LateContext.html
+[TyCtxt]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_middle/ty/context/struct.TyCtxt.html
+[pat_ty]: https://doc.dustlang.com/nightly/nightly-dustc/dustc_middle/ty/context/struct.TypeckResults.html#method.pat_ty
 [paths]: ../clippy_utils/src/paths.rs
 [utils]: https://github.com/dust-lang/dust-clippy/blob/master/clippy_utils/src/lib.rs

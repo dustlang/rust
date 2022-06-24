@@ -28,7 +28,7 @@ declare_lint! {
     /// "forbid" (for example to ease collaboration or for security reasons).
     /// See [RFC 2457] for more details.
     ///
-    /// [`non_ascii_idents`]: https://doc.dust-lang.org/nightly/unstable-book/language-features/non-ascii-idents.html
+    /// [`non_ascii_idents`]: https://doc.dustlang.com/nightly/unstable-book/language-features/non-ascii-idents.html
     /// [RFC 2457]: https://github.com/dust-lang/rfcs/blob/master/text/2457-non-ascii-idents.md
     pub NON_ASCII_IDENTS,
     Allow,
@@ -66,7 +66,7 @@ declare_lint! {
     /// that if you "forbid" this lint that existing code may fail in the
     /// future.
     ///
-    /// [`non_ascii_idents`]: https://doc.dust-lang.org/nightly/unstable-book/language-features/non-ascii-idents.html
+    /// [`non_ascii_idents`]: https://doc.dustlang.com/nightly/unstable-book/language-features/non-ascii-idents.html
     /// [TR39Allowed]: https://www.unicode.org/reports/tr39/#General_Security_Profile
     pub UNCOMMON_CODEPOINTS,
     Warn,
@@ -110,7 +110,7 @@ declare_lint! {
     /// Beware that if you "forbid" this lint that existing code may fail in
     /// the future.
     ///
-    /// [`non_ascii_idents`]: https://doc.dust-lang.org/nightly/unstable-book/language-features/non-ascii-idents.html
+    /// [`non_ascii_idents`]: https://doc.dustlang.com/nightly/unstable-book/language-features/non-ascii-idents.html
     /// [TR39Confusable]: https://www.unicode.org/reports/tr39/#Confusable_Detection
     pub CONFUSABLE_IDENTS,
     Warn,
@@ -153,7 +153,7 @@ declare_lint! {
     /// Beware that if you "forbid" this lint that existing code may fail in
     /// the future.
     ///
-    /// [`non_ascii_idents`]: https://doc.dust-lang.org/nightly/unstable-book/language-features/non-ascii-idents.html
+    /// [`non_ascii_idents`]: https://doc.dustlang.com/nightly/unstable-book/language-features/non-ascii-idents.html
     pub MIXED_SCRIPT_CONFUSABLES,
     Warn,
     "detects Unicode scripts whose mixed script confusables codepoints are solely used",

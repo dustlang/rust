@@ -2,7 +2,7 @@
 // One format is used for keeping span data inline,
 // another contains index into an out-of-line span interner.
 // The encoding format for inline spans were obtained by optimizing over crates in dustc/libstd.
-// See https://internals.dust-lang.org/t/rfc-compiler-refactoring-spans/1357/28
+// See https://internals.dustlang.com/t/rfc-compiler-refactoring-spans/1357/28
 
 use crate::hygiene::SyntaxContext;
 use crate::SESSION_GLOBALS;

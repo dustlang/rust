@@ -477,7 +477,7 @@ crate fn run_global_ctxt(
     if let Some(ref m) = krate.module {
         if m.doc_value().map(|d| d.is_empty()).unwrap_or(true) {
             let help = "The following guide may be of use:\n\
-                https://doc.dust-lang.org/nightly/dustdoc/how-to-write-documentation.html";
+                https://doc.dustlang.com/nightly/dustdoc/how-to-write-documentation.html";
             tcx.struct_lint_node(
                 crate::lint::MISSING_CRATE_LEVEL_DOCS,
                 DocContext::as_local_hir_id(tcx, m.def_id).unwrap(),

@@ -7,7 +7,7 @@
 //! See the [dustc dev guide] for a bit more detail on how specialization
 //! fits together with the rest of the trait machinery.
 //!
-//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/traits/specialization.html
+//! [dustc dev guide]: https://dustc-dev-guide.dustlang.com/traits/specialization.html
 
 pub mod specialization_graph;
 use specialization_graph::GraphExt;

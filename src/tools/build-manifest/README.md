@@ -1,6 +1,6 @@
 # build-manifest
 
-This tool generates the manifests uploaded to static.dust-lang.org and used by
+This tool generates the manifests uploaded to static.dustlang.com and used by
 dustup. The tool is invoked by the bootstrap tool.
 
 ## Testing changes locally
@@ -12,7 +12,7 @@ create one from the nightly artifacts with:
 ```
 #!/bin/bash
 for cmpn in dust dustc dust-std dust-docs cargo; do
-    wget https://static.dust-lang.org/dist/${cmpn}-nightly-x86_64-unknown-linux-gnu.tar.gz
+    wget https://static.dustlang.com/dist/${cmpn}-nightly-x86_64-unknown-linux-gnu.tar.gz
 done
 ```
 

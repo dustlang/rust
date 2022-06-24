@@ -302,7 +302,7 @@ bench_sums! {
 }
 
 // Checks whether Skip<Zip<A,B>> is as fast as Zip<Skip<A>, Skip<B>>, from
-// https://users.dust-lang.org/t/performance-difference-between-iterator-zip-and-skip-order/15743
+// https://users.dustlang.com/t/performance-difference-between-iterator-zip-and-skip-order/15743
 #[bench]
 fn bench_zip_then_skip(b: &mut Bencher) {
     let v: Vec<_> = (0..100_000).collect();

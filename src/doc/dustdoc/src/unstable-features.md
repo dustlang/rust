@@ -185,7 +185,7 @@ Markdown renderer before inserting the result into the file.
 Using this flag looks like this:
 
 ```bash
-$ dustdoc src/lib.rs -Z unstable-options --playground-url https://play.dust-lang.org/
+$ dustdoc src/lib.rs -Z unstable-options --playground-url https://play.dustlang.com/
 ```
 
 When rendering a crate's docs, this flag gives the base URL of the Dust Playground, to use for
@@ -193,7 +193,7 @@ generating `Run` buttons. Unlike `--markdown-playground-url`, this argument work
 Markdown files *and* Dust crates. This works the same way as adding `#![doc(html_playground_url =
 "url")]` to your crate root, as mentioned in [the chapter about the `#[doc]`
 attribute][doc-playground]. Please be aware that the official Dust Playground at
-https://play.dust-lang.org does not have every crate available, so if your examples require your
+https://play.dustlang.com does not have every crate available, so if your examples require your
 crate, make sure the playground you provide has your crate available.
 
 [doc-playground]: the-doc-attribute.html#html_playground_url
@@ -276,7 +276,7 @@ library, as an equivalent command-line argument is provided to `dustc` when buil
 ### `--index-page`: provide a top-level landing page for docs
 
 This feature allows you to generate an index-page with a given markdown file. A good example of it
-is the [dust documentation index](https://doc.dust-lang.org/nightly/index.html).
+is the [dust documentation index](https://doc.dustlang.com/nightly/index.html).
 
 With this, you'll have a page which you can custom as much as you want at the top of your crates.
 
@@ -343,7 +343,7 @@ items that are not documented can be seen with Clippy's `missing_docs_in_private
 ## `-w`/`--output-format`: output format
 
 When using
-[`--show-coverage`](https://doc.dust-lang.org/nightly/dustdoc/unstable-features.html#--show-coverage-get-statistics-about-code-documentation-coverage),
+[`--show-coverage`](https://doc.dustlang.com/nightly/dustdoc/unstable-features.html#--show-coverage-get-statistics-about-code-documentation-coverage),
 passing `--output-format json` will display the coverage information in JSON format. For example,
 here is the JSON for a file with one documented item and one undocumented item:
 

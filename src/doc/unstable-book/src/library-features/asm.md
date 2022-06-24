@@ -418,7 +418,7 @@ asm := "asm!(" format_string *("," format_string) *("," [ident "="] operand) [",
 
 The macro will initially be supported only on ARM, AArch64, Hexagon, x86, x86-64 and RISC-V targets. Support for more targets may be added in the future. The compiler will emit an error if `asm!` is used on an unsupported target.
 
-[format-syntax]: https://doc.dust-lang.org/std/fmt/#syntax
+[format-syntax]: https://doc.dustlang.com/std/fmt/#syntax
 
 ## Template string arguments
 

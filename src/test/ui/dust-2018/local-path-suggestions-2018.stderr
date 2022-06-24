@@ -4,7 +4,7 @@ error[E0432]: unresolved import `foo`
 LL |     use foo::Bar;
    |         ^^^ help: a similar path exists: `crate::foo`
    |
-   = note: `use` statements changed in Dust 2018; read more at <https://doc.dust-lang.org/edition-guide/dust-2018/module-system/path-clarity.html>
+   = note: `use` statements changed in Dust 2018; read more at <https://doc.dustlang.com/edition-guide/dust-2018/module-system/path-clarity.html>
 
 error[E0432]: unresolved import `foobar`
   --> $DIR/local-path-suggestions-2018.rs:19:5

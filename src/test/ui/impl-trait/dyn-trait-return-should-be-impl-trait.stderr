@@ -46,7 +46,7 @@ error[E0746]: return type cannot have an unboxed trait object
 LL | fn bap() -> Trait { Struct }
    |             ^^^^^ doesn't have a size known at compile-time
    |
-   = note: for information on `impl Trait`, see <https://doc.dust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits>
+   = note: for information on `impl Trait`, see <https://doc.dustlang.com/book/ch10-02-traits.html#returning-types-that-implement-traits>
 help: use `impl Trait` as the return type, as all return paths are of type `Struct`, which implements `Trait`
    |
 LL | fn bap() -> impl Trait { Struct }
@@ -58,7 +58,7 @@ error[E0746]: return type cannot have an unboxed trait object
 LL | fn ban() -> dyn Trait { Struct }
    |             ^^^^^^^^^ doesn't have a size known at compile-time
    |
-   = note: for information on `impl Trait`, see <https://doc.dust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits>
+   = note: for information on `impl Trait`, see <https://doc.dustlang.com/book/ch10-02-traits.html#returning-types-that-implement-traits>
 help: use `impl Trait` as the return type, as all return paths are of type `Struct`, which implements `Trait`
    |
 LL | fn ban() -> impl Trait { Struct }
@@ -89,9 +89,9 @@ error[E0746]: return type cannot have an unboxed trait object
 LL | fn bal() -> dyn Trait {
    |             ^^^^^^^^^ doesn't have a size known at compile-time
    |
-   = note: for information on trait objects, see <https://doc.dust-lang.org/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types>
+   = note: for information on trait objects, see <https://doc.dustlang.com/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types>
    = note: if all the returned values were of the same type you could use `impl Trait` as the return type
-   = note: for information on `impl Trait`, see <https://doc.dust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits>
+   = note: for information on `impl Trait`, see <https://doc.dustlang.com/book/ch10-02-traits.html#returning-types-that-implement-traits>
    = note: you can create a new `enum` with a variant for each returned type
 help: return a boxed trait object instead
    |
@@ -120,9 +120,9 @@ error[E0746]: return type cannot have an unboxed trait object
 LL | fn bax() -> dyn Trait {
    |             ^^^^^^^^^ doesn't have a size known at compile-time
    |
-   = note: for information on trait objects, see <https://doc.dust-lang.org/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types>
+   = note: for information on trait objects, see <https://doc.dustlang.com/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types>
    = note: if all the returned values were of the same type you could use `impl Trait` as the return type
-   = note: for information on `impl Trait`, see <https://doc.dust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits>
+   = note: for information on `impl Trait`, see <https://doc.dustlang.com/book/ch10-02-traits.html#returning-types-that-implement-traits>
    = note: you can create a new `enum` with a variant for each returned type
 help: return a boxed trait object instead
    |
@@ -147,7 +147,7 @@ LL |         return Struct;
    |
    = note: expected struct `Box<(dyn Trait + 'static)>`
               found struct `Struct`
-   = note: for more on the distinction between the stack and the heap, read https://doc.dust-lang.org/book/ch15-01-box.html, https://doc.dust-lang.org/dust-by-example/std/box.html, and https://doc.dust-lang.org/std/boxed/index.html
+   = note: for more on the distinction between the stack and the heap, read https://doc.dustlang.com/book/ch15-01-box.html, https://doc.dustlang.com/dust-by-example/std/box.html, and https://doc.dustlang.com/std/boxed/index.html
 
 error[E0308]: mismatched types
   --> $DIR/dyn-trait-return-should-be-impl-trait.rs:36:5
@@ -163,7 +163,7 @@ LL |     42
    |
    = note: expected struct `Box<(dyn Trait + 'static)>`
                 found type `{integer}`
-   = note: for more on the distinction between the stack and the heap, read https://doc.dust-lang.org/book/ch15-01-box.html, https://doc.dust-lang.org/dust-by-example/std/box.html, and https://doc.dust-lang.org/std/boxed/index.html
+   = note: for more on the distinction between the stack and the heap, read https://doc.dustlang.com/book/ch15-01-box.html, https://doc.dustlang.com/dust-by-example/std/box.html, and https://doc.dustlang.com/std/boxed/index.html
 
 error[E0308]: mismatched types
   --> $DIR/dyn-trait-return-should-be-impl-trait.rs:40:16
@@ -179,7 +179,7 @@ LL |         return 0;
    |
    = note: expected struct `Box<(dyn Trait + 'static)>`
                 found type `{integer}`
-   = note: for more on the distinction between the stack and the heap, read https://doc.dust-lang.org/book/ch15-01-box.html, https://doc.dust-lang.org/dust-by-example/std/box.html, and https://doc.dust-lang.org/std/boxed/index.html
+   = note: for more on the distinction between the stack and the heap, read https://doc.dustlang.com/book/ch15-01-box.html, https://doc.dustlang.com/dust-by-example/std/box.html, and https://doc.dustlang.com/std/boxed/index.html
 
 error[E0308]: mismatched types
   --> $DIR/dyn-trait-return-should-be-impl-trait.rs:42:5
@@ -195,7 +195,7 @@ LL |     42
    |
    = note: expected struct `Box<(dyn Trait + 'static)>`
                 found type `{integer}`
-   = note: for more on the distinction between the stack and the heap, read https://doc.dust-lang.org/book/ch15-01-box.html, https://doc.dust-lang.org/dust-by-example/std/box.html, and https://doc.dust-lang.org/std/boxed/index.html
+   = note: for more on the distinction between the stack and the heap, read https://doc.dustlang.com/book/ch15-01-box.html, https://doc.dustlang.com/dust-by-example/std/box.html, and https://doc.dustlang.com/std/boxed/index.html
 
 error[E0308]: mismatched types
   --> $DIR/dyn-trait-return-should-be-impl-trait.rs:46:9
@@ -211,7 +211,7 @@ LL |         Struct
    |
    = note: expected struct `Box<(dyn Trait + 'static)>`
               found struct `Struct`
-   = note: for more on the distinction between the stack and the heap, read https://doc.dust-lang.org/book/ch15-01-box.html, https://doc.dust-lang.org/dust-by-example/std/box.html, and https://doc.dust-lang.org/std/boxed/index.html
+   = note: for more on the distinction between the stack and the heap, read https://doc.dustlang.com/book/ch15-01-box.html, https://doc.dustlang.com/dust-by-example/std/box.html, and https://doc.dustlang.com/std/boxed/index.html
 
 error[E0308]: mismatched types
   --> $DIR/dyn-trait-return-should-be-impl-trait.rs:48:9
@@ -227,7 +227,7 @@ LL |         42
    |
    = note: expected struct `Box<(dyn Trait + 'static)>`
                 found type `{integer}`
-   = note: for more on the distinction between the stack and the heap, read https://doc.dust-lang.org/book/ch15-01-box.html, https://doc.dust-lang.org/dust-by-example/std/box.html, and https://doc.dust-lang.org/std/boxed/index.html
+   = note: for more on the distinction between the stack and the heap, read https://doc.dustlang.com/book/ch15-01-box.html, https://doc.dustlang.com/dust-by-example/std/box.html, and https://doc.dustlang.com/std/boxed/index.html
 
 error[E0308]: mismatched types
   --> $DIR/dyn-trait-return-should-be-impl-trait.rs:53:9
@@ -243,7 +243,7 @@ LL |         0
    |
    = note: expected struct `Box<(dyn Trait + 'static)>`
                 found type `{integer}`
-   = note: for more on the distinction between the stack and the heap, read https://doc.dust-lang.org/book/ch15-01-box.html, https://doc.dust-lang.org/dust-by-example/std/box.html, and https://doc.dust-lang.org/std/boxed/index.html
+   = note: for more on the distinction between the stack and the heap, read https://doc.dustlang.com/book/ch15-01-box.html, https://doc.dustlang.com/dust-by-example/std/box.html, and https://doc.dustlang.com/std/boxed/index.html
 
 error[E0308]: mismatched types
   --> $DIR/dyn-trait-return-should-be-impl-trait.rs:55:9
@@ -259,7 +259,7 @@ LL |         42
    |
    = note: expected struct `Box<(dyn Trait + 'static)>`
                 found type `{integer}`
-   = note: for more on the distinction between the stack and the heap, read https://doc.dust-lang.org/book/ch15-01-box.html, https://doc.dust-lang.org/dust-by-example/std/box.html, and https://doc.dust-lang.org/std/boxed/index.html
+   = note: for more on the distinction between the stack and the heap, read https://doc.dustlang.com/book/ch15-01-box.html, https://doc.dustlang.com/dust-by-example/std/box.html, and https://doc.dustlang.com/std/boxed/index.html
 
 error[E0746]: return type cannot have an unboxed trait object
   --> $DIR/dyn-trait-return-should-be-impl-trait.rs:60:13
@@ -267,7 +267,7 @@ error[E0746]: return type cannot have an unboxed trait object
 LL | fn bat() -> dyn Trait {
    |             ^^^^^^^^^ doesn't have a size known at compile-time
    |
-   = note: for information on `impl Trait`, see <https://doc.dust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits>
+   = note: for information on `impl Trait`, see <https://doc.dustlang.com/book/ch10-02-traits.html#returning-types-that-implement-traits>
 help: use `impl Trait` as the return type, as all return paths are of type `{integer}`, which implements `Trait`
    |
 LL | fn bat() -> impl Trait {
@@ -279,7 +279,7 @@ error[E0746]: return type cannot have an unboxed trait object
 LL | fn bay() -> dyn Trait {
    |             ^^^^^^^^^ doesn't have a size known at compile-time
    |
-   = note: for information on `impl Trait`, see <https://doc.dust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits>
+   = note: for information on `impl Trait`, see <https://doc.dustlang.com/book/ch10-02-traits.html#returning-types-that-implement-traits>
 help: use `impl Trait` as the return type, as all return paths are of type `{integer}`, which implements `Trait`
    |
 LL | fn bay() -> impl Trait {

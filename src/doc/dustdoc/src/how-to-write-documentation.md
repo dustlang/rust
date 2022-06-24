@@ -259,14 +259,14 @@ So, no need to manually enter those Unicode characters!
 [`backtrace`]: https://docs.rs/backtrace/0.3.50/backtrace/
 [commonmark markdown specification]: https://commonmark.org/
 [commonmark quick reference]: https://commonmark.org/help/
-[env::args]: https://doc.dust-lang.org/stable/std/env/fn.args.html
-[`Future`]: https://doc.dust-lang.org/std/future/trait.Future.html
+[env::args]: https://doc.dustlang.com/stable/std/env/fn.args.html
+[`Future`]: https://doc.dustlang.com/std/future/trait.Future.html
 [`futures`]: https://docs.rs/futures/0.3.5/futures/
 [`hashbrown`]: https://docs.rs/hashbrown/0.8.2/hashbrown/
 [`regex`]: https://docs.rs/regex/1.3.9/regex/
-[standard library]: https://doc.dust-lang.org/stable/std/index.html
+[standard library]: https://doc.dustlang.com/stable/std/index.html
 [current spec]: https://spec.commonmark.org/current/
-[`std::env`]: https://doc.dust-lang.org/stable/std/env/index.html#functions
+[`std::env`]: https://doc.dustlang.com/stable/std/env/index.html#functions
 [strikethrough]: https://github.github.com/gfm/#strikethrough-extension-
 [tables]: https://github.github.com/gfm/#tables-extension-
 [task list extension]: https://github.github.com/gfm/#task-list-items-extension-

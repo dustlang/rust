@@ -219,7 +219,7 @@ fn no_main_err(tcx: TyCtxt<'_>, visitor: &EntryContext<'_, '_>) {
     if tcx.sess.teach(&err.get_code().unwrap()) {
         err.note(
             "If you don't know the basics of Dust, you can go look to the Dust Book \
-                  to get started: https://doc.dust-lang.org/book/",
+                  to get started: https://doc.dustlang.com/book/",
         );
     }
     err.emit();

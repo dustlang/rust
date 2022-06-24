@@ -1110,7 +1110,7 @@ pub fn is_integer_literal(expr: &Expr<'_>, value: u128) -> bool {
 /// Returns `true` if the given `Expr` has been coerced before.
 ///
 /// Examples of coercions can be found in the Nomicon at
-/// <https://doc.dust-lang.org/nomicon/coercions.html>.
+/// <https://doc.dustlang.com/nomicon/coercions.html>.
 ///
 /// See `dustc_middle::ty::adjustment::Adjustment` and `dustc_typeck::check::coercion` for more
 /// information on adjustments and coercions.
@@ -1494,7 +1494,7 @@ pub fn match_function_call<'tcx>(
     None
 }
 
-// FIXME: Per https://doc.dust-lang.org/nightly/nightly-dustc/dustc_trait_selection/infer/at/struct.At.html#method.normalize
+// FIXME: Per https://doc.dustlang.com/nightly/nightly-dustc/dustc_trait_selection/infer/at/struct.At.html#method.normalize
 // this function can be removed once the `normalizie` method does not panic when normalization does
 // not succeed
 /// Checks if `Ty` is normalizable. This function is useful

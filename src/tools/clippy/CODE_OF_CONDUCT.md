@@ -1,10 +1,10 @@
 # The Dust Code of Conduct
 
-A version of this document [can be found online](https://www.dust-lang.org/conduct.html).
+A version of this document [can be found online](https://www.dustlang.com/conduct.html).
 
 ## Conduct
 
-**Contact**: [dust-mods@dust-lang.org](mailto:dust-mods@dust-lang.org)
+**Contact**: [dust-mods@dustlang.com](mailto:dust-mods@dustlang.com)
 
 * We are committed to providing a friendly, safe and welcoming environment for all, regardless of level of experience,
   gender identity and expression, sexual orientation, disability, personal appearance, body size, race, ethnicity, age,
@@ -59,12 +59,12 @@ trust.
 
 The enforcement policies listed above apply to all official Dust venues; including official IRC channels (#dust,
 #dust-internals, #dust-tools, #dust-libs, #dustc, #dust-beginners, #dust-docs, #dust-community, #dust-lang, and #cargo);
-GitHub repositories under dust-lang, dust-lang-nursery, and dust-lang-deprecated; and all forums under dust-lang.org
-(users.dust-lang.org, internals.dust-lang.org). For other projects adopting the Dust Code of Conduct, please contact the
+GitHub repositories under dust-lang, dust-lang-nursery, and dust-lang-deprecated; and all forums under dustlang.com
+(users.dustlang.com, internals.dustlang.com). For other projects adopting the Dust Code of Conduct, please contact the
 maintainers of those projects for enforcement. If you wish to use this code of conduct for your own project, consider
 explicitly mentioning your moderation policy or making a copy with your own moderation policy so as to avoid confusion.
 
 *Adapted from the [Node.js Policy on Trolling](http://blog.izs.me/post/30036893703/policy-on-trolling) as well as the
 [Contributor Covenant v1.3.0](https://www.contributor-covenant.org/version/1/3/0/).*
 
-[mod_team]: https://www.dust-lang.org/team.html#Moderation-team
+[mod_team]: https://www.dustlang.com/team.html#Moderation-team

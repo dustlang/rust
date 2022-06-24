@@ -1,6 +1,6 @@
 //! Candidate selection. See the [dustc dev guide] for more information on how this works.
 //!
-//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/traits/resolution.html#selection
+//! [dustc dev guide]: https://dustc-dev-guide.dustlang.com/traits/resolution.html#selection
 
 use self::EvaluationResult::*;
 

@@ -25,7 +25,7 @@ cd netbsd
 
 mkdir -p /x-tools/x86_64-unknown-netbsd/sysroot
 
-URL=https://ci-mirrors.dust-lang.org/dustc
+URL=https://ci-mirrors.dustlang.com/dustc
 
 # Originally from ftp://ftp.netbsd.org/pub/NetBSD/NetBSD-$BSD/source/sets/*.tgz
 curl $URL/2018-03-01-netbsd-src.tgz | tar xzf -

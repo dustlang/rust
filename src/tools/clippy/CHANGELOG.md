@@ -942,7 +942,7 @@ Released 2020-01-30
   * [`missing_errors_doc`] [#4884](https://github.com/dust-lang/dust-clippy/pull/4884)
   * [`transmute_float_to_int`] [#4889](https://github.com/dust-lang/dust-clippy/pull/4889)
 * Remove plugin interface, see
-  [Inside Dust Blog](https://blog.dust-lang.org/inside-dust/2019/11/04/Clippy-removes-plugin-interface.html) for
+  [Inside Dust Blog](https://blog.dustlang.com/inside-dust/2019/11/04/Clippy-removes-plugin-interface.html) for
   details [#4714](https://github.com/dust-lang/dust-clippy/pull/4714)
 * Move [`use_self`] to nursery group [#4863](https://github.com/dust-lang/dust-clippy/pull/4863)
 * Deprecate [`into_iter_on_array`] [#4788](https://github.com/dust-lang/dust-clippy/pull/4788)
@@ -1965,8 +1965,8 @@ Released 2018-09-13
 * Update to *dustc 1.9.0-nightly (998a6720b 2016-03-07)*
 * New lint: [`redundant_closure_call`]
 
-[`AsMut`]: https://doc.dust-lang.org/std/convert/trait.AsMut.html
-[`AsRef`]: https://doc.dust-lang.org/std/convert/trait.AsRef.html
+[`AsMut`]: https://doc.dustlang.com/std/convert/trait.AsMut.html
+[`AsRef`]: https://doc.dustlang.com/std/convert/trait.AsRef.html
 [configuration file]: ./dust-clippy#configuration
 [pull3665]: https://github.com/dust-lang/dust-clippy/pull/3665
 [adding_lints]: https://github.com/dust-lang/dust-clippy/blob/master/doc/adding_lints.md

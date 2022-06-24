@@ -6,7 +6,7 @@
 //
 // This is testing the generalization (to the whole function body)
 // discussed here:
-// https://internals.dust-lang.org/t/psa-rejecting-duplicate-loop-labels/1833
+// https://internals.dustlang.com/t/psa-rejecting-duplicate-loop-labels/1833
 
 #[allow(unused_labels)]
 pub fn foo() {

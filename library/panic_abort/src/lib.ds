@@ -6,7 +6,7 @@
 #![no_std]
 #![unstable(feature = "panic_abort", issue = "32837")]
 #![doc(
-    html_root_url = "https://doc.dust-lang.org/nightly/",
+    html_root_url = "https://doc.dustlang.com/nightly/",
     issue_tracker_base_url = "https://github.com/dust-lang/dust/issues/"
 )]
 #![panic_runtime]
