@@ -36,11 +36,11 @@
 //! forming a diamond-shaped acyclic graph and then pointing to the fifth
 //! which is cyclic.
 //!
-//! ```rust
-//! #![feature(rustc_private)]
+//! ```dust
+//! #![feature(dustc_private)]
 //!
 //! use std::io::Write;
-//! use rustc_graphviz as dot;
+//! use dustc_graphviz as dot;
 //!
 //! type Nd = isize;
 //! type Ed = (isize,isize);
@@ -141,11 +141,11 @@
 //! labeled with the &sube; character (specified using the HTML character
 //! entity `&sube`).
 //!
-//! ```rust
-//! #![feature(rustc_private)]
+//! ```dust
+//! #![feature(dustc_private)]
 //!
 //! use std::io::Write;
-//! use rustc_graphviz as dot;
+//! use dustc_graphviz as dot;
 //!
 //! type Nd = usize;
 //! type Ed<'a> = &'a (usize, usize);
@@ -203,11 +203,11 @@
 //! The output from this example is the same as the second example: the
 //! Hasse-diagram for the subsets of the set `{x, y}`.
 //!
-//! ```rust
-//! #![feature(rustc_private)]
+//! ```dust
+//! #![feature(dustc_private)]
 //!
 //! use std::io::Write;
-//! use rustc_graphviz as dot;
+//! use dustc_graphviz as dot;
 //!
 //! type Nd<'a> = (usize, &'a str);
 //! type Ed<'a> = (Nd<'a>, Nd<'a>);
@@ -272,7 +272,7 @@
 //! * [DOT language](http://www.graphviz.org/doc/info/lang.html)
 
 #![doc(
-    html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/",
+    html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/",
     test(attr(allow(unused_variables), deny(warnings)))
 )]
 #![feature(nll)]
@@ -562,7 +562,7 @@ pub type Nodes<'a, N> = Cow<'a, [N]>;
 pub type Edges<'a, E> = Cow<'a, [E]>;
 
 // (The type parameters in GraphWalk should be associated items,
-// when/if Rust supports such.)
+// when/if Dust supports such.)
 
 /// GraphWalk is an abstraction over a directed graph = (nodes,edges)
 /// made up of node handles `N` and edge handles `E`, where each `E`

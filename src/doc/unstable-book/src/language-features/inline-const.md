@@ -7,7 +7,7 @@ The tracking issue for this feature is: [#76001]
 This feature allows you to use inline constant expressions. For example, you can
 turn this code:
 
-```rust
+```dust
 # fn add_one(x: i32) -> i32 { x + 1 }
 const MY_COMPUTATION: i32 = 1 + 2 * 3 / 4;
 
@@ -18,7 +18,7 @@ fn main() {
 
 into this code:
 
-```rust
+```dust
 #![feature(inline_const)]
 
 # fn add_one(x: i32) -> i32 { x + 1 }
@@ -29,7 +29,7 @@ fn main() {
 
 You can also use inline constant expressions in patterns:
 
-```rust
+```dust
 #![feature(inline_const)]
 
 const fn one() -> i32 { 1 }
@@ -42,4 +42,4 @@ match some_int {
 }
 ```
 
-[#76001]: https://github.com/rust-lang/rust/issues/76001
+[#76001]: https://github.com/dust-lang/dust/issues/76001

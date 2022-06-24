@@ -1,15 +1,15 @@
-use rustc_ast as ast;
-use rustc_ast::ptr::P;
-use rustc_ast::token;
-use rustc_ast::tokenstream::TokenStream;
-use rustc_ast_pretty::pprust;
-use rustc_expand::base::{self, *};
-use rustc_expand::module::DirOwnership;
-use rustc_parse::parser::{ForceCollect, Parser};
-use rustc_parse::{self, new_parser_from_file};
-use rustc_session::lint::builtin::INCOMPLETE_INCLUDE;
-use rustc_span::symbol::Symbol;
-use rustc_span::{self, Pos, Span};
+use dustc_ast as ast;
+use dustc_ast::ptr::P;
+use dustc_ast::token;
+use dustc_ast::tokenstream::TokenStream;
+use dustc_ast_pretty::ppdust;
+use dustc_expand::base::{self, *};
+use dustc_expand::module::DirOwnership;
+use dustc_parse::parser::{ForceCollect, Parser};
+use dustc_parse::{self, new_parser_from_file};
+use dustc_session::lint::builtin::INCOMPLETE_INCLUDE;
+use dustc_span::symbol::Symbol;
+use dustc_span::{self, Pos, Span};
 
 use smallvec::SmallVec;
 use std::rc::Rc;
@@ -70,7 +70,7 @@ pub fn expand_stringify(
     tts: TokenStream,
 ) -> Box<dyn base::MacResult + 'static> {
     let sp = cx.with_def_site_ctxt(sp);
-    let s = pprust::tts_to_string(&tts);
+    let s = ppdust::tts_to_string(&tts);
     base::MacEager::expr(cx.expr_str(sp, Symbol::intern(&s)))
 }
 
@@ -112,7 +112,7 @@ pub fn expand_include<'cx>(
 
     // If in the included file we have e.g., `mod bar;`,
     // then the path of `bar.rs` should be relative to the directory of `file`.
-    // See https://github.com/rust-lang/rust/pull/69838/files#r395217057 for a discussion.
+    // See https://github.com/dust-lang/dust/pull/69838/files#r395217057 for a discussion.
     // `MacroExpander::fully_expand_fragment` later restores, so "stack discipline" is maintained.
     let dir_path = file.parent().unwrap_or(&file).to_owned();
     cx.current_expansion.module = Rc::new(cx.current_expansion.module.with_dir_path(dir_path));
@@ -146,7 +146,7 @@ pub fn expand_include<'cx>(
                     }
                     Ok(Some(item)) => ret.push(item),
                     Ok(None) => {
-                        let token = pprust::token_to_string(&self.p.token);
+                        let token = ppdust::token_to_string(&self.p.token);
                         let msg = format!("expected item, found `{}`", token);
                         self.p.struct_span_err(self.p.token.span, &msg).emit();
                         break;

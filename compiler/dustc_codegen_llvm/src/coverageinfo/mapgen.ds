@@ -3,14 +3,14 @@ use crate::coverageinfo;
 use crate::llvm;
 
 use llvm::coverageinfo::CounterMappingRegion;
-use rustc_codegen_ssa::coverageinfo::map::{Counter, CounterExpression, FunctionCoverage};
-use rustc_codegen_ssa::traits::ConstMethods;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexSet};
-use rustc_hir::def_id::{DefId, DefIdSet, LOCAL_CRATE};
-use rustc_llvm::RustString;
-use rustc_middle::mir::coverage::CodeRegion;
-use rustc_middle::ty::{Instance, TyCtxt};
-use rustc_span::Symbol;
+use dustc_codegen_ssa::coverageinfo::map::{Counter, CounterExpression, FunctionCoverage};
+use dustc_codegen_ssa::traits::ConstMethods;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexSet};
+use dustc_hir::def_id::{DefId, DefIdSet, LOCAL_CRATE};
+use dustc_llvm::DustString;
+use dustc_middle::mir::coverage::CodeRegion;
+use dustc_middle::ty::{Instance, TyCtxt};
+use dustc_span::Symbol;
 
 use std::ffi::CString;
 
@@ -19,22 +19,22 @@ use tracing::debug;
 /// Generates and exports the Coverage Map.
 ///
 /// This Coverage Map complies with Coverage Mapping Format version 4 (zero-based encoded as 3),
-/// as defined at [LLVM Code Coverage Mapping Format](https://github.com/rust-lang/llvm-project/blob/rustc/11.0-2020-10-12/llvm/docs/CoverageMappingFormat.rst#llvm-code-coverage-mapping-format)
-/// and published in Rust's current (November 2020) fork of LLVM. This version is supported by the
-/// LLVM coverage tools (`llvm-profdata` and `llvm-cov`) bundled with Rust's fork of LLVM.
+/// as defined at [LLVM Code Coverage Mapping Format](https://github.com/dust-lang/llvm-project/blob/dustc/11.0-2020-10-12/llvm/docs/CoverageMappingFormat.rst#llvm-code-coverage-mapping-format)
+/// and published in Dust's current (November 2020) fork of LLVM. This version is supported by the
+/// LLVM coverage tools (`llvm-profdata` and `llvm-cov`) bundled with Dust's fork of LLVM.
 ///
-/// Consequently, Rust's bundled version of Clang also generates Coverage Maps compliant with
+/// Consequently, Dust's bundled version of Clang also generates Coverage Maps compliant with
 /// version 3. Clang's implementation of Coverage Map generation was referenced when implementing
-/// this Rust version, and though the format documentation is very explicit and detailed, some
+/// this Dust version, and though the format documentation is very explicit and detailed, some
 /// undocumented details in Clang's implementation (that may or may not be important) were also
-/// replicated for Rust's Coverage Map.
+/// replicated for Dust's Coverage Map.
 pub fn finalize<'ll, 'tcx>(cx: &CodegenCx<'ll, 'tcx>) {
     let tcx = cx.tcx;
     // Ensure LLVM supports Coverage Map Version 4 (encoded as a zero-based value: 3).
     // If not, the LLVM Version must be less than 11.
     let version = coverageinfo::mapping_version();
     if version != 3 {
-        tcx.sess.fatal("rustc option `-Z instrument-coverage` requires LLVM 11 or higher.");
+        tcx.sess.fatal("dustc option `-Z instrument-coverage` requires LLVM 11 or higher.");
     }
 
     debug!("Generating coverage map for CodegenUnit: `{}`", cx.codegen_unit.name());
@@ -115,7 +115,7 @@ impl CoverageMapGenerator {
         &mut self,
         expressions: Vec<CounterExpression>,
         counter_regions: impl Iterator<Item = (Counter, &'a CodeRegion)>,
-        coverage_mapping_buffer: &RustString,
+        coverage_mapping_buffer: &DustString,
     ) {
         let mut counter_regions = counter_regions.collect::<Vec<_>>();
         if counter_regions.is_empty() {
@@ -225,12 +225,12 @@ fn save_function_record(
         /*packed=*/ true,
     );
 
-    // At the present time, the coverage map for Rust assumes every instrumented function `is_used`.
+    // At the present time, the coverage map for Dust assumes every instrumented function `is_used`.
     // Note that Clang marks functions as "unused" in `CodeGenPGO::emitEmptyCounterMapping`. (See:
-    // https://github.com/rust-lang/llvm-project/blob/de02a75e398415bad4df27b4547c25b896c8bf3b/clang%2Flib%2FCodeGen%2FCodeGenPGO.cpp#L877-L878
+    // https://github.com/dust-lang/llvm-project/blob/de02a75e398415bad4df27b4547c25b896c8bf3b/clang%2Flib%2FCodeGen%2FCodeGenPGO.cpp#L877-L878
     // for example.)
     //
-    // It's not yet clear if or how this may be applied to Rust in the future, but the `is_used`
+    // It's not yet clear if or how this may be applied to Dust in the future, but the `is_used`
     // argument is available and handled similarly.
     let is_used = true;
     coverageinfo::save_func_record_to_mod(cx, func_name_hash, func_record_val, is_used);

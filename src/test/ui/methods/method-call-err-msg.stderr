@@ -76,4 +76,4 @@ LL |     fn three<T>(self, _: T, _: T, _: T) -> Foo { self }
 error: aborting due to 5 previous errors
 
 Some errors have detailed explanations: E0061, E0599.
-For more information about an error, try `rustc --explain E0061`.
+For more information about an error, try `dustc --explain E0061`.

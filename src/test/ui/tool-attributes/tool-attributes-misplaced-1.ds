@@ -1,18 +1,18 @@
-type A = rustfmt; //~ ERROR expected type, found tool module `rustfmt`
-type B = rustfmt::skip; //~ ERROR expected type, found tool attribute `rustfmt::skip`
+type A = dustfmt; //~ ERROR expected type, found tool module `dustfmt`
+type B = dustfmt::skip; //~ ERROR expected type, found tool attribute `dustfmt::skip`
 
-#[derive(rustfmt)] //~ ERROR cannot find derive macro `rustfmt` in this scope
-                   //~| ERROR cannot find derive macro `rustfmt` in this scope
+#[derive(dustfmt)] //~ ERROR cannot find derive macro `dustfmt` in this scope
+                   //~| ERROR cannot find derive macro `dustfmt` in this scope
 struct S;
 
 // Interpreted as an unstable custom attribute
-#[rustfmt] //~ ERROR cannot find attribute `rustfmt` in this scope
+#[dustfmt] //~ ERROR cannot find attribute `dustfmt` in this scope
 fn check() {}
 
-#[rustfmt::skip] // OK
+#[dustfmt::skip] // OK
 fn main() {
-    rustfmt; //~ ERROR expected value, found tool module `rustfmt`
-    rustfmt!(); //~ ERROR cannot find macro `rustfmt` in this scope
+    dustfmt; //~ ERROR expected value, found tool module `dustfmt`
+    dustfmt!(); //~ ERROR cannot find macro `dustfmt` in this scope
 
-    rustfmt::skip; //~ ERROR expected value, found tool attribute `rustfmt::skip`
+    dustfmt::skip; //~ ERROR expected value, found tool attribute `dustfmt::skip`
 }

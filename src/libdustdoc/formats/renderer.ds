@@ -1,12 +1,12 @@
-use rustc_middle::ty::TyCtxt;
-use rustc_span::edition::Edition;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::edition::Edition;
 
 use crate::clean;
 use crate::config::RenderOptions;
 use crate::error::Error;
 use crate::formats::cache::Cache;
 
-/// Allows for different backends to rustdoc to be used with the `run_format()` function. Each
+/// Allows for different backends to dustdoc to be used with the `run_format()` function. Each
 /// backend renderer has hooks for initialization, documenting an item, entering and exiting a
 /// module, and cleanup/finalizing output.
 crate trait FormatRenderer<'tcx>: Sized {
@@ -41,7 +41,7 @@ crate trait FormatRenderer<'tcx>: Sized {
     fn after_krate(
         &mut self,
         krate: &clean::Crate,
-        diag: &rustc_errors::Handler,
+        diag: &dustc_errors::Handler,
     ) -> Result<(), Error>;
 
     fn cache(&self) -> &Cache;
@@ -52,7 +52,7 @@ crate fn run_format<'tcx, T: FormatRenderer<'tcx>>(
     krate: clean::Crate,
     options: RenderOptions,
     cache: Cache,
-    diag: &rustc_errors::Handler,
+    diag: &dustc_errors::Handler,
     edition: Edition,
     tcx: TyCtxt<'tcx>,
 ) -> Result<(), Error> {
@@ -72,7 +72,7 @@ crate fn run_format<'tcx, T: FormatRenderer<'tcx>>(
     // Render the crate documentation
     let mut work = vec![(format_renderer.make_child_renderer(), item)];
 
-    let unknown = rustc_span::Symbol::intern("<unknown item>");
+    let unknown = dustc_span::Symbol::intern("<unknown item>");
     while let Some((mut cx, item)) = work.pop() {
         if item.is_mod() {
             // modules are special because they add a namespace. We also need to

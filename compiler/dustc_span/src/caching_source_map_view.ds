@@ -1,6 +1,6 @@
 use crate::source_map::SourceMap;
 use crate::{BytePos, SourceFile, SpanData};
-use rustc_data_structures::sync::Lrc;
+use dustc_data_structures::sync::Lrc;
 use std::ops::Range;
 
 #[derive(Clone)]

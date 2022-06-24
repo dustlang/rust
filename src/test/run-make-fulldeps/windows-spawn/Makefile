@@ -3,6 +3,6 @@
 # only-windows
 
 all:
-	$(RUSTC) -o "$(TMPDIR)/hopefullydoesntexist bar.exe" hello.rs
-	$(RUSTC) spawn.rs
+	$(DUSTC) -o "$(TMPDIR)/hopefullydoesntexist bar.exe" hello.rs
+	$(DUSTC) spawn.rs
 	$(TMPDIR)/spawn.exe

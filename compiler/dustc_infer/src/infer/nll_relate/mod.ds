@@ -10,7 +10,7 @@
 //!   variables. This is the case for NLL, because at NLL time types are fully
 //!   inferred up-to regions.
 //! - This code uses "universes" to handle higher-ranked regions and
-//!   not the leak-check. This is "more correct" than what rustc does
+//!   not the leak-check. This is "more correct" than what dustc does
 //!   and we are generally migrating in this direction, but NLL had to
 //!   get there first.
 //!
@@ -24,11 +24,11 @@
 use crate::infer::combine::ConstEquateRelation;
 use crate::infer::InferCtxt;
 use crate::infer::{ConstVarValue, ConstVariableValue};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_middle::ty::error::TypeError;
-use rustc_middle::ty::fold::{TypeFoldable, TypeVisitor};
-use rustc_middle::ty::relate::{self, Relate, RelateResult, TypeRelation};
-use rustc_middle::ty::{self, InferConst, Ty, TyCtxt};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_middle::ty::error::TypeError;
+use dustc_middle::ty::fold::{TypeFoldable, TypeVisitor};
+use dustc_middle::ty::relate::{self, Relate, RelateResult, TypeRelation};
+use dustc_middle::ty::{self, InferConst, Ty, TyCtxt};
 use std::fmt::Debug;
 use std::ops::ControlFlow;
 
@@ -259,7 +259,7 @@ where
         value_ty: Ty<'tcx>,
     ) -> Ty<'tcx> {
         use crate::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-        use rustc_span::DUMMY_SP;
+        use dustc_span::DUMMY_SP;
 
         match *value_ty.kind() {
             ty::Projection(other_projection_ty) => {

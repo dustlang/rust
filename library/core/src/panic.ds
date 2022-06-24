@@ -8,8 +8,8 @@ use crate::fmt;
 #[doc(hidden)]
 #[unstable(feature = "edition_panic", issue = "none", reason = "use panic!() instead")]
 #[allow_internal_unstable(core_panic)]
-#[rustc_diagnostic_item = "core_panic_2015_macro"]
-#[rustc_macro_transparency = "semitransparent"]
+#[dustc_diagnostic_item = "core_panic_2015_macro"]
+#[dustc_macro_transparency = "semitransparent"]
 pub macro panic_2015 {
     () => (
         $crate::panicking::panic("explicit panic")
@@ -28,8 +28,8 @@ pub macro panic_2015 {
 #[doc(hidden)]
 #[unstable(feature = "edition_panic", issue = "none", reason = "use panic!() instead")]
 #[allow_internal_unstable(core_panic)]
-#[rustc_diagnostic_item = "core_panic_2021_macro"]
-#[rustc_macro_transparency = "semitransparent"]
+#[dustc_diagnostic_item = "core_panic_2021_macro"]
+#[dustc_macro_transparency = "semitransparent"]
 pub macro panic_2021 {
     () => (
         $crate::panicking::panic("explicit panic")
@@ -259,7 +259,7 @@ impl<'a> Location<'a> {
     /// assert_ne!(this_location.column(), another_location.column());
     /// ```
     #[stable(feature = "track_caller", since = "1.46.0")]
-    #[rustc_const_unstable(feature = "const_caller_location", issue = "76156")]
+    #[dustc_const_unstable(feature = "const_caller_location", issue = "76156")]
     #[track_caller]
     pub const fn caller() -> &'static Location<'static> {
         crate::intrinsics::caller_location()
@@ -379,7 +379,7 @@ pub unsafe trait BoxMeUp {
     /// After this method got called, only some dummy default value is left in `self`.
     /// Calling this method twice, or calling `get` after calling this method, is an error.
     ///
-    /// The argument is borrowed because the panic runtime (`__rust_start_panic`) only
+    /// The argument is borrowed because the panic runtime (`__dust_start_panic`) only
     /// gets a borrowed `dyn BoxMeUp`.
     fn take_box(&mut self) -> *mut (dyn Any + Send);
 

@@ -1,16 +1,16 @@
-use rustc_attr as attr;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_middle::middle::cstore::NativeLib;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::parse::feature_err;
-use rustc_session::utils::NativeLibKind;
-use rustc_session::Session;
-use rustc_span::source_map::Span;
-use rustc_span::symbol::{kw, sym, Symbol};
-use rustc_target::spec::abi::Abi;
+use dustc_attr as attr;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_middle::middle::cstore::NativeLib;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::parse::feature_err;
+use dustc_session::utils::NativeLibKind;
+use dustc_session::Session;
+use dustc_span::source_map::Span;
+use dustc_span::symbol::{kw, sym, Symbol};
+use dustc_target::spec::abi::Abi;
 
 crate fn collect(tcx: TyCtxt<'_>) -> Vec<NativeLib> {
     let mut collector = Collector { tcx, libs: Vec::new() };
@@ -38,7 +38,7 @@ impl ItemLikeVisitor<'tcx> for Collector<'tcx> {
             _ => return,
         };
 
-        if abi == Abi::Rust || abi == Abi::RustIntrinsic || abi == Abi::PlatformIntrinsic {
+        if abi == Abi::Dust || abi == Abi::DustIntrinsic || abi == Abi::PlatformIntrinsic {
             return;
         }
 
@@ -172,7 +172,7 @@ impl Collector<'tcx> {
             feature_err(
                 &self.tcx.sess.parse_sess,
                 sym::static_nobundle,
-                span.unwrap_or(rustc_span::DUMMY_SP),
+                span.unwrap_or(dustc_span::DUMMY_SP),
                 "kind=\"static-nobundle\" is unstable",
             )
             .emit();
@@ -181,7 +181,7 @@ impl Collector<'tcx> {
             feature_err(
                 &self.tcx.sess.parse_sess,
                 sym::raw_dylib,
-                span.unwrap_or(rustc_span::DUMMY_SP),
+                span.unwrap_or(dustc_span::DUMMY_SP),
                 "kind=\"raw-dylib\" is unstable",
             )
             .emit();

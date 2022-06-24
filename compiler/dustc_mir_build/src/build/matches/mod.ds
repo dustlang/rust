@@ -11,18 +11,18 @@ use crate::build::ForGuard::{self, OutsideGuard, RefWithinGuard};
 use crate::build::{BlockAnd, BlockAndExtension, Builder};
 use crate::build::{GuardFrame, GuardFrameLocal, LocalsForNode};
 use crate::thir::{self, *};
-use rustc_data_structures::{
+use dustc_data_structures::{
     fx::{FxHashSet, FxIndexMap},
     stack::ensure_sufficient_stack,
 };
-use rustc_hir::HirId;
-use rustc_index::bit_set::BitSet;
-use rustc_middle::middle::region;
-use rustc_middle::mir::*;
-use rustc_middle::ty::{self, CanonicalUserTypeAnnotation, Ty};
-use rustc_span::symbol::Symbol;
-use rustc_span::Span;
-use rustc_target::abi::VariantIdx;
+use dustc_hir::HirId;
+use dustc_index::bit_set::BitSet;
+use dustc_middle::middle::region;
+use dustc_middle::mir::*;
+use dustc_middle::ty::{self, CanonicalUserTypeAnnotation, Ty};
+use dustc_span::symbol::Symbol;
+use dustc_span::Span;
+use dustc_target::abi::VariantIdx;
 use smallvec::{smallvec, SmallVec};
 
 // helper functions, broken out by category:
@@ -921,7 +921,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
     ///
     /// It might be surprising that the input can be non-exhaustive.
     /// Indeed, initially, it is not, because all matches are
-    /// exhaustive in Rust. But during processing we sometimes divide
+    /// exhaustive in Dust. But during processing we sometimes divide
     /// up the list of candidates and recurse with a non-exhaustive
     /// list. This is important to keep the size of the generated code
     /// under control. See [`Builder::test_candidates`] for more details.
@@ -1053,7 +1053,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
     ///
     /// For example, if we have something like this:
     ///
-    /// ```rust
+    /// ```dust
     /// ...
     /// Some(x) if cond1 => ...
     /// Some(x) => ...
@@ -1389,7 +1389,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
     /// with precisely the reachable arms being reachable - but that problem
     /// is trivially NP-complete:
     ///
-    /// ```rust
+    /// ```dust
     ///     match (var0, var1, var2, var3, ...) {
     ///         (true, _, _, false, true, ...) => false,
     ///         (_, true, true, false, _, ...) => false,
@@ -1407,7 +1407,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
     /// our simplistic treatment of constants and guards would make it occur
     /// in very common situations - for example [#29740]:
     ///
-    /// ```rust
+    /// ```dust
     /// match x {
     ///     "foo" if foo_guard => ...,
     ///     "bar" if bar_guard => ...,
@@ -1416,7 +1416,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
     /// }
     /// ```
     ///
-    /// [#29740]: https://github.com/rust-lang/rust/issues/29740
+    /// [#29740]: https://github.com/dust-lang/dust/issues/29740
     ///
     /// Here we first test the match-pair `x @ "foo"`, which is an [`Eq` test].
     ///
@@ -1698,7 +1698,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
                 .chain(&candidate.ascriptions),
         );
 
-        // rust-lang/rust#27282: The `autoref` business deserves some
+        // dust-lang/dust#27282: The `autoref` business deserves some
         // explanation here.
         //
         // The intent of the `autoref` flag is that when it is true,
@@ -1882,7 +1882,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
             // then all of the candidates for a single arm would be
             // bound in the same place, that would cause a case like:
             //
-            // ```rust
+            // ```dust
             // match (30, 2) {
             //     (mut x, 1) | (2, mut x) if { true } => { ... }
             //     ...                                 // ^^^^^^^ (this is `arm_block`)

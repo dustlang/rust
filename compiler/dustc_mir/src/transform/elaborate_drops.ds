@@ -9,12 +9,12 @@ use crate::transform::MirPass;
 use crate::util::elaborate_drops::{elaborate_drop, DropFlagState, Unwind};
 use crate::util::elaborate_drops::{DropElaborator, DropFlagMode, DropStyle};
 use crate::util::patch::MirPatch;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_index::bit_set::BitSet;
-use rustc_middle::mir::*;
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_span::Span;
-use rustc_target::abi::VariantIdx;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_index::bit_set::BitSet;
+use dustc_middle::mir::*;
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_span::Span;
+use dustc_target::abi::VariantIdx;
 use std::fmt;
 
 pub struct ElaborateDrops;

@@ -188,4 +188,4 @@ LL | #![warn(keyword_idents, reason = "root in rubble", macro_use_extern_crate)]
 
 error: aborting due to 30 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0452`.
+For more information about this error, try `dustc --explain E0452`.

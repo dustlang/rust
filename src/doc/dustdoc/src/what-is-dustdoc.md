@@ -1,7 +1,7 @@
-# What is rustdoc?
+# What is dustdoc?
 
-The standard Rust distribution ships with a tool called `rustdoc`. Its job is
-to generate documentation for Rust projects. On a fundamental level, Rustdoc
+The standard Dust distribution ships with a tool called `dustdoc`. Its job is
+to generate documentation for Dust projects. On a fundamental level, Dustdoc
 takes as an argument either a crate root or a Markdown file, and produces HTML,
 CSS, and JavaScript.
 
@@ -17,16 +17,16 @@ $ cd docs
 In `src/lib.rs`, Cargo has generated some sample code. Delete
 it and replace it with this:
 
-```rust
+```dust
 /// foo is a function
 fn foo() {}
 ```
 
-Let's run `rustdoc` on our code. To do so, we can call it with the path to
+Let's run `dustdoc` on our code. To do so, we can call it with the path to
 our crate root like this:
 
 ```bash
-$ rustdoc src/lib.rs
+$ dustdoc src/lib.rs
 ```
 
 This will create a new directory, `doc`, with a website inside! In our case,
@@ -34,35 +34,35 @@ the main page is located in `doc/lib/index.html`. If you open that up in
 a web browser, you will see a page with a search bar, and "Crate lib" at the
 top, with no contents.
 
-## Configuring rustdoc
+## Configuring dustdoc
 
 There are two problems with this: first, why does it
 think that our package is named "lib"? Second, why does it not have any
 contents?
 
-The first problem is due to `rustdoc` trying to be helpful; like `rustc`,
+The first problem is due to `dustdoc` trying to be helpful; like `dustc`,
 it assumes that our crate's name is the name of the file for the crate
 root. To fix this, we can pass in a command-line flag:
 
 ```bash
-$ rustdoc src/lib.rs --crate-name docs
+$ dustdoc src/lib.rs --crate-name docs
 ```
 
 Now, `doc/docs/index.html` will be generated, and the page says "Crate docs."
 
-For the second issue, it is because our function `foo` is not public; `rustdoc`
+For the second issue, it is because our function `foo` is not public; `dustdoc`
 defaults to generating documentation for only public functions. If we change
 our code...
 
-```rust
+```dust
 /// foo is a function
 pub fn foo() {}
 ```
 
-... and then re-run `rustdoc`:
+... and then re-run `dustdoc`:
 
 ```bash
-$ rustdoc src/lib.rs --crate-name docs
+$ dustdoc src/lib.rs --crate-name docs
 ```
 
 We now have some generated documentation. Open up `doc/docs/index.html` and
@@ -70,19 +70,19 @@ check it out! It should show a link to the `foo` function's page, which
 is located at `doc/docs/fn.foo.html`. On that page, you'll see the "foo is
 a function" we put inside the documentation comment in our crate.
 
-## Using rustdoc with Cargo
+## Using dustdoc with Cargo
 
-Cargo also has integration with `rustdoc` to make it easier to generate
-docs. Instead of the `rustdoc` command, we could have done this:
+Cargo also has integration with `dustdoc` to make it easier to generate
+docs. Instead of the `dustdoc` command, we could have done this:
 
 ```bash
 $ cargo doc
 ```
 
-Internally, this calls out to `rustdoc` like this:
+Internally, this calls out to `dustdoc` like this:
 
 ```bash
-$ rustdoc --crate-name docs src/lib.rs -o <path>/docs/target/doc -L
+$ dustdoc --crate-name docs src/lib.rs -o <path>/docs/target/doc -L
 dependency=<path>/docs/target/debug/deps
 ```
 
@@ -93,7 +93,7 @@ It generates the correct `--crate-name` for us, as well as pointing to
  - `-o` controls the *o*utput of our docs. Instead of a top-level
  `doc` directory, notice that Cargo puts generated documentation under
  `target`. That is the idiomatic place for generated files in Cargo projects.
- - `-L` flag helps rustdoc find the dependencies your code relies on.
+ - `-L` flag helps dustdoc find the dependencies your code relies on.
  If our project used dependencies, we would get documentation for them as well!
 
 ## Outer and inner documentation
@@ -107,8 +107,8 @@ because nothing comes before it: it is the root of the crate.
 So in order to document an entire crate, you need to use `//!` syntax.
 For example:
 
-``` rust
-//! This is my first rust crate
+``` dust
+//! This is my first dust crate
 ```
 
 When used in the crate root, it documents the item it is inside,
@@ -116,34 +116,34 @@ which is the crate itself.
 
 For more information about the `//!` syntax, see [the Book].
 
-[the Book]: https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#commenting-contained-items
+[the Book]: https://doc.dust-lang.org/book/ch14-02-publishing-to-crates-io.html#commenting-contained-items
 
 
 ## Using standalone Markdown files
 
-`rustdoc` can also generate HTML from standalone Markdown files. Let' s
+`dustdoc` can also generate HTML from standalone Markdown files. Let' s
 give it a try: create a `README.md` file with these contents:
 
 ````text
 # Docs
 
-This is a project to test out `rustdoc`.
+This is a project to test out `dustdoc`.
 
-[Here is a link!](https://www.rust-lang.org)
+[Here is a link!](https://www.dust-lang.org)
 
 ## Example
 
-```rust
+```dust
 fn foo() -> i32 {
     1 + 1
 }
 ```
 ````
 
-And call `rustdoc` on it:
+And call `dustdoc` on it:
 
 ```bash
-$ rustdoc README.md
+$ dustdoc README.md
 ```
 
 You will find an HTML file in `docs/doc/README.html` generated from its
@@ -153,5 +153,5 @@ Cargo currently does not understand standalone Markdown files, unfortunately.
 
 ## Summary
 
-This covers the simplest use-cases of `rustdoc`. The rest of this book will
-explain all of the options that `rustdoc` has, and how to use them.
+This covers the simplest use-cases of `dustdoc`. The rest of this book will
+explain all of the options that `dustdoc` has, and how to use them.

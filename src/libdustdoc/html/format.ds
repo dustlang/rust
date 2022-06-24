@@ -1,7 +1,7 @@
 //! HTML formatting module
 //!
 //! This module contains a large number of `fmt::Display` implementations for
-//! various types in `rustdoc::clean`. These implementations all currently
+//! various types in `dustdoc::clean`. These implementations all currently
 //! assume that HTML output is desired, although it may be possible to redesign
 //! them in the future to instead emit any format desired.
 
@@ -9,11 +9,11 @@ use std::borrow::Cow;
 use std::cell::Cell;
 use std::fmt;
 
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir as hir;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::def_id::{DefId, CRATE_DEF_INDEX};
-use rustc_target::spec::abi::Abi;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir as hir;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::def_id::{DefId, CRATE_DEF_INDEX};
+use dustc_target::spec::abi::Abi;
 
 use crate::clean::{self, utils::find_nearest_parent_module, PrimitiveType};
 use crate::formats::cache::Cache;
@@ -1107,14 +1107,14 @@ impl clean::Visibility {
         item_did: DefId,
         cache: &Cache,
     ) -> impl fmt::Display + 'tcx {
-        use rustc_span::symbol::kw;
+        use dustc_span::symbol::kw;
 
         let to_print = match self {
             clean::Public => "pub ".to_owned(),
             clean::Inherited => String::new(),
             clean::Visibility::Restricted(vis_did) => {
                 // FIXME(camelid): This may not work correctly if `item_did` is a module.
-                //                 However, rustdoc currently never displays a module's
+                //                 However, dustdoc currently never displays a module's
                 //                 visibility, so it shouldn't matter.
                 let parent_module = find_nearest_parent_module(tcx, item_did);
 
@@ -1269,7 +1269,7 @@ crate fn print_abi_with_space(abi: Abi) -> impl fmt::Display {
     display_fn(move |f| {
         let quot = if f.alternate() { "\"" } else { "&quot;" };
         match abi {
-            Abi::Rust => Ok(()),
+            Abi::Dust => Ok(()),
             abi => write!(f, "extern {0}{1}{0} ", quot, abi.name()),
         }
     })

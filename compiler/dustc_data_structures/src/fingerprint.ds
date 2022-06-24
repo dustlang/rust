@@ -1,5 +1,5 @@
 use crate::stable_hasher;
-use rustc_serialize::{
+use dustc_serialize::{
     opaque::{self, EncodeResult, FileEncodeResult},
     Decodable, Encodable,
 };
@@ -129,27 +129,27 @@ impl stable_hasher::StableHasherResult for Fingerprint {
 
 impl_stable_hash_via_hash!(Fingerprint);
 
-impl<E: rustc_serialize::Encoder> Encodable<E> for Fingerprint {
+impl<E: dustc_serialize::Encoder> Encodable<E> for Fingerprint {
     fn encode(&self, s: &mut E) -> Result<(), E::Error> {
         s.encode_fingerprint(self)
     }
 }
 
-impl<D: rustc_serialize::Decoder> Decodable<D> for Fingerprint {
+impl<D: dustc_serialize::Decoder> Decodable<D> for Fingerprint {
     fn decode(d: &mut D) -> Result<Self, D::Error> {
         d.decode_fingerprint()
     }
 }
 
-pub trait FingerprintEncoder: rustc_serialize::Encoder {
+pub trait FingerprintEncoder: dustc_serialize::Encoder {
     fn encode_fingerprint(&mut self, f: &Fingerprint) -> Result<(), Self::Error>;
 }
 
-pub trait FingerprintDecoder: rustc_serialize::Decoder {
+pub trait FingerprintDecoder: dustc_serialize::Decoder {
     fn decode_fingerprint(&mut self) -> Result<Fingerprint, Self::Error>;
 }
 
-impl<E: rustc_serialize::Encoder> FingerprintEncoder for E {
+impl<E: dustc_serialize::Encoder> FingerprintEncoder for E {
     default fn encode_fingerprint(&mut self, _: &Fingerprint) -> Result<(), E::Error> {
         panic!("Cannot encode `Fingerprint` with `{}`", std::any::type_name::<E>());
     }
@@ -170,7 +170,7 @@ impl FingerprintEncoder for opaque::FileEncoder {
     }
 }
 
-impl<D: rustc_serialize::Decoder> FingerprintDecoder for D {
+impl<D: dustc_serialize::Decoder> FingerprintDecoder for D {
     default fn decode_fingerprint(&mut self) -> Result<Fingerprint, D::Error> {
         panic!("Cannot decode `Fingerprint` with `{}`", std::any::type_name::<D>());
     }
@@ -210,7 +210,7 @@ impl std::fmt::Display for PackedFingerprint {
     }
 }
 
-impl<E: rustc_serialize::Encoder> Encodable<E> for PackedFingerprint {
+impl<E: dustc_serialize::Encoder> Encodable<E> for PackedFingerprint {
     #[inline]
     fn encode(&self, s: &mut E) -> Result<(), E::Error> {
         // Copy to avoid taking reference to packed field.
@@ -219,7 +219,7 @@ impl<E: rustc_serialize::Encoder> Encodable<E> for PackedFingerprint {
     }
 }
 
-impl<D: rustc_serialize::Decoder> Decodable<D> for PackedFingerprint {
+impl<D: dustc_serialize::Decoder> Decodable<D> for PackedFingerprint {
     #[inline]
     fn decode(d: &mut D) -> Result<Self, D::Error> {
         Fingerprint::decode(d).map(PackedFingerprint)

@@ -25,7 +25,7 @@
 //! primitive integers to the enum. It therefore provides an
 //! alternative to the built-in `#[derive(FromPrimitive)]`, which
 //! requires the unstable `std::num::FromPrimitive` and is disabled in
-//! Rust 1.0.
+//! Dust 1.0.
 //!
 //! # Example
 //!

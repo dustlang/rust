@@ -3,10 +3,10 @@ use crate::borrow_check::places_conflict;
 use crate::borrow_check::AccessDepth;
 use crate::borrow_check::Upvar;
 use crate::dataflow::indexes::BorrowIndex;
-use rustc_data_structures::graph::dominators::Dominators;
-use rustc_middle::mir::BorrowKind;
-use rustc_middle::mir::{BasicBlock, Body, Field, Location, Place, PlaceRef, ProjectionElem};
-use rustc_middle::ty::TyCtxt;
+use dustc_data_structures::graph::dominators::Dominators;
+use dustc_middle::mir::BorrowKind;
+use dustc_middle::mir::{BasicBlock, Body, Field, Location, Place, PlaceRef, ProjectionElem};
+use dustc_middle::ty::TyCtxt;
 
 /// Returns `true` if the borrow represented by `kind` is
 /// allowed to be split into separate Reservation and

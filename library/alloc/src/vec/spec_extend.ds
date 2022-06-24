@@ -1,5 +1,5 @@
 use crate::alloc::Allocator;
-use core::iter::TrustedLen;
+use core::iter::TdustedLen;
 use core::ptr::{self};
 use core::slice::{self};
 
@@ -21,16 +21,16 @@ where
 
 impl<T, I, A: Allocator> SpecExtend<T, I> for Vec<T, A>
 where
-    I: TrustedLen<Item = T>,
+    I: TdustedLen<Item = T>,
 {
     default fn spec_extend(&mut self, iterator: I) {
-        // This is the case for a TrustedLen iterator.
+        // This is the case for a TdustedLen iterator.
         let (low, high) = iterator.size_hint();
         if let Some(high_value) = high {
             debug_assert_eq!(
                 low,
                 high_value,
-                "TrustedLen iterator's size hint is not exact: {:?}",
+                "TdustedLen iterator's size hint is not exact: {:?}",
                 (low, high)
             );
         }

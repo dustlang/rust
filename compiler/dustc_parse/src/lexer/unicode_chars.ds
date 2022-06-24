@@ -3,10 +3,10 @@
 
 use super::StringReader;
 use crate::token;
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_span::{symbol::kw, BytePos, Pos, Span};
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_span::{symbol::kw, BytePos, Pos, Span};
 
-#[rustfmt::skip] // for line breaks
+#[dustfmt::skip] // for line breaks
 const UNICODE_ARRAY: &[(char, &str, char)] = &[
     (' ', "Line Separator", ' '),
     (' ', "Paragraph Separator", ' '),
@@ -299,8 +299,8 @@ const UNICODE_ARRAY: &[(char, &str, char)] = &[
 ];
 
 // FIXME: the lexer could be used to turn the ASCII version of unicode homoglyphs, instead of
-// keeping the substitution token in this table. Ideally, this should be inside `rustc_lexer`.
-// However, we should first remove compound tokens like `<<` from `rustc_lexer`, and then add
+// keeping the substitution token in this table. Ideally, this should be inside `dustc_lexer`.
+// However, we should first remove compound tokens like `<<` from `dustc_lexer`, and then add
 // fancier error recovery to it, as there will be less overall work to do this way.
 const ASCII_ARRAY: &[(char, &str, Option<token::TokenKind>)] = &[
     (' ', "Space", None),

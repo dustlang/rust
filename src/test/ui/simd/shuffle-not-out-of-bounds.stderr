@@ -73,4 +73,4 @@ LL | |          16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1));
 
 error: aborting due to 6 previous errors
 
-For more information about this error, try `rustc --explain E0511`.
+For more information about this error, try `dustc --explain E0511`.

@@ -2,7 +2,7 @@
 #![crate_type="rlib"]
 #![no_core]
 
-extern "rust-intrinsic" {
+extern "dust-intrinsic" {
     fn atomic_xadd<T>(dst: *mut T, src: T) -> T;
 }
 

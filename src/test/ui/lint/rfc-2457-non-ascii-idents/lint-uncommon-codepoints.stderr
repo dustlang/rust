@@ -19,7 +19,7 @@ LL | fn dĳkstra() {}
 error: identifier contains uncommon Unicode codepoints
   --> $DIR/lint-uncommon-codepoints.rs:9:9
    |
-LL |     let ㇻㇲㇳ = "rust";
+LL |     let ㇻㇲㇳ = "dust";
    |         ^^^^^^
 
 error: aborting due to 3 previous errors

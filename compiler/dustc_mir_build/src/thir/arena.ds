@@ -4,9 +4,9 @@ macro_rules! declare_arena {
     ([], [$($a:tt $name:ident: $ty:ty,)*]) => {
         #[derive(Default)]
         pub struct Arena<'thir, 'tcx> {
-            pub dropless: rustc_arena::DroplessArena,
-            drop: rustc_arena::DropArena,
-            $($name: rustc_arena::arena_for_type!($a[$ty]),)*
+            pub dropless: dustc_arena::DroplessArena,
+            drop: dustc_arena::DropArena,
+            $($name: dustc_arena::arena_for_type!($a[$ty]),)*
         }
 
         pub trait ArenaAllocatable<'thir, 'tcx, T = Self>: Sized {
@@ -38,8 +38,8 @@ macro_rules! declare_arena {
                     if !::std::mem::needs_drop::<Self>() {
                         return arena.dropless.alloc(self);
                     }
-                    match rustc_arena::which_arena_for_type!($a[&arena.$name]) {
-                        ::std::option::Option::<&rustc_arena::TypedArena<Self>>::Some(ty_arena) => {
+                    match dustc_arena::which_arena_for_type!($a[&arena.$name]) {
+                        ::std::option::Option::<&dustc_arena::TypedArena<Self>>::Some(ty_arena) => {
                             ty_arena.alloc(self)
                         }
                         ::std::option::Option::None => unsafe { arena.drop.alloc(self) },
@@ -54,8 +54,8 @@ macro_rules! declare_arena {
                     if !::std::mem::needs_drop::<Self>() {
                         return arena.dropless.alloc_from_iter(iter);
                     }
-                    match rustc_arena::which_arena_for_type!($a[&arena.$name]) {
-                        ::std::option::Option::<&rustc_arena::TypedArena<Self>>::Some(ty_arena) => {
+                    match dustc_arena::which_arena_for_type!($a[&arena.$name]) {
+                        ::std::option::Option::<&dustc_arena::TypedArena<Self>>::Some(ty_arena) => {
                             ty_arena.alloc_from_iter(iter)
                         }
                         ::std::option::Option::None => unsafe { arena.drop.alloc_from_iter(iter) },

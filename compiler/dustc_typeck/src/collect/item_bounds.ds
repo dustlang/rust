@@ -1,11 +1,11 @@
 use super::ItemCtxt;
 use crate::astconv::{AstConv, SizedByDefault};
-use rustc_hir as hir;
-use rustc_infer::traits::util;
-use rustc_middle::ty::subst::InternalSubsts;
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_span::def_id::DefId;
-use rustc_span::Span;
+use dustc_hir as hir;
+use dustc_infer::traits::util;
+use dustc_middle::ty::subst::InternalSubsts;
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_span::def_id::DefId;
+use dustc_span::Span;
 
 /// For associated types we include both bounds written on the type
 /// (`type X: Trait`) and predicates from the trait: `where Self::X: Trait`.

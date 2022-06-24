@@ -1,3 +1,3 @@
-For more information about how `librustdoc` works, see the [rustc dev guide].
+For more information about how `libdustdoc` works, see the [dustc dev guide].
 
-[rustc dev guide]: https://rustc-dev-guide.rust-lang.org/rustdoc.html
+[dustc dev guide]: https://dustc-dev-guide.dust-lang.org/dustdoc.html

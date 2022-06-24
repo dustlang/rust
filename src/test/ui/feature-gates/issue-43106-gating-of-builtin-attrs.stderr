@@ -186,7 +186,7 @@ warning: `#[macro_escape]` is a deprecated synonym for `#[macro_use]`
 LL | #[macro_escape]
    | ^^^^^^^^^^^^^^^
 
-warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/rust-lang/rust/pull/64675
+warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/dust-lang/dust/pull/64675
   --> $DIR/issue-43106-gating-of-builtin-attrs.rs:228:17
    |
 LL |     mod inner { #![plugin_registrar] }
@@ -194,31 +194,31 @@ LL |     mod inner { #![plugin_registrar] }
    |
    = note: `#[warn(deprecated)]` on by default
 
-warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/rust-lang/rust/pull/64675
+warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/dust-lang/dust/pull/64675
   --> $DIR/issue-43106-gating-of-builtin-attrs.rs:236:5
    |
 LL |     #[plugin_registrar] struct S;
    |     ^^^^^^^^^^^^^^^^^^^ help: may be removed in a future compiler version
 
-warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/rust-lang/rust/pull/64675
+warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/dust-lang/dust/pull/64675
   --> $DIR/issue-43106-gating-of-builtin-attrs.rs:241:5
    |
 LL |     #[plugin_registrar] type T = S;
    |     ^^^^^^^^^^^^^^^^^^^ help: may be removed in a future compiler version
 
-warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/rust-lang/rust/pull/64675
+warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/dust-lang/dust/pull/64675
   --> $DIR/issue-43106-gating-of-builtin-attrs.rs:246:5
    |
 LL |     #[plugin_registrar] impl S { }
    |     ^^^^^^^^^^^^^^^^^^^ help: may be removed in a future compiler version
 
-warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/rust-lang/rust/pull/64675
+warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/dust-lang/dust/pull/64675
   --> $DIR/issue-43106-gating-of-builtin-attrs.rs:223:1
    |
 LL | #[plugin_registrar]
    | ^^^^^^^^^^^^^^^^^^^ help: may be removed in a future compiler version
 
-warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/rust-lang/rust/pull/64675
+warning: use of deprecated attribute `plugin_registrar`: compiler plugins are deprecated. See https://github.com/dust-lang/dust/pull/64675
   --> $DIR/issue-43106-gating-of-builtin-attrs.rs:46:1
    |
 LL | #![plugin_registrar]
@@ -485,10 +485,10 @@ LL |     #[link_section = "1800"] impl S { }
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
 
-warning: the feature `rust1` has been stable since 1.0.0 and no longer requires an attribute to enable
+warning: the feature `dust1` has been stable since 1.0.0 and no longer requires an attribute to enable
   --> $DIR/issue-43106-gating-of-builtin-attrs.rs:96:12
    |
-LL | #![feature(rust1)]
+LL | #![feature(dust1)]
    |            ^^^^^
    |
    = note: `#[warn(stable_features)]` on by default

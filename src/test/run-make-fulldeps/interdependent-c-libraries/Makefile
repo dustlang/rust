@@ -1,6 +1,6 @@
 -include ../tools.mk
 
-# The rust crate foo will link to the native library foo, while the rust crate
+# The dust crate foo will link to the native library foo, while the dust crate
 # bar will link to the native library bar. There is also a dependency between
 # the native library bar to the natibe library foo.
 #
@@ -9,6 +9,6 @@
 # library will be stripped out, and the linkage will fail.
 
 all: $(call NATIVE_STATICLIB,foo) $(call NATIVE_STATICLIB,bar)
-	$(RUSTC) foo.rs
-	$(RUSTC) bar.rs
-	$(RUSTC) main.rs -Z print-link-args
+	$(DUSTC) foo.rs
+	$(DUSTC) bar.rs
+	$(DUSTC) main.rs -Z print-link-args

@@ -4,7 +4,7 @@ error[E0498]: malformed `plugin` attribute
 LL | #![plugin(empty_plugin(args))]
    |           ^^^^^^^^^^^^^^^^^^ malformed attribute
 
-warning: use of deprecated attribute `plugin`: compiler plugins are deprecated. See https://github.com/rust-lang/rust/pull/64675
+warning: use of deprecated attribute `plugin`: compiler plugins are deprecated. See https://github.com/dust-lang/dust/pull/64675
   --> $DIR/plugin-args.rs:5:1
    |
 LL | #![plugin(empty_plugin(args))]

@@ -1,7 +1,7 @@
 // compile-flags:-Zborrowck=mir
 // check-pass
 
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 trait Foo {
     type Bar;

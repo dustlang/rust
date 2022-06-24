@@ -31,35 +31,35 @@ use crate::traits::{self, ImplSource};
 use crate::ty::subst::{GenericArg, SubstsRef};
 use crate::ty::util::AlwaysRequiresDrop;
 use crate::ty::{self, AdtSizedConstraint, CrateInherentImpls, ParamEnvAnd, Ty, TyCtxt};
-use rustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexMap};
-use rustc_data_structures::stable_hasher::StableVec;
-use rustc_data_structures::steal::Steal;
-use rustc_data_structures::svh::Svh;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::{ErrorReported, Handler};
-use rustc_hir as hir;
-use rustc_hir::def::DefKind;
-use rustc_hir::def_id::{CrateNum, DefId, DefIdMap, DefIdSet, LocalDefId};
-use rustc_hir::lang_items::{LangItem, LanguageItems};
-use rustc_hir::{Crate, ItemLocalId, TraitCandidate};
-use rustc_index::{bit_set::FiniteBitSet, vec::IndexVec};
-use rustc_serialize::opaque;
-use rustc_session::config::{EntryFnType, OptLevel, OutputFilenames, SymbolManglingVersion};
-use rustc_session::utils::NativeLibKind;
-use rustc_session::CrateDisambiguator;
-use rustc_target::spec::PanicStrategy;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexMap};
+use dustc_data_structures::stable_hasher::StableVec;
+use dustc_data_structures::steal::Steal;
+use dustc_data_structures::svh::Svh;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::{ErrorReported, Handler};
+use dustc_hir as hir;
+use dustc_hir::def::DefKind;
+use dustc_hir::def_id::{CrateNum, DefId, DefIdMap, DefIdSet, LocalDefId};
+use dustc_hir::lang_items::{LangItem, LanguageItems};
+use dustc_hir::{Crate, ItemLocalId, TraitCandidate};
+use dustc_index::{bit_set::FiniteBitSet, vec::IndexVec};
+use dustc_serialize::opaque;
+use dustc_session::config::{EntryFnType, OptLevel, OutputFilenames, SymbolManglingVersion};
+use dustc_session::utils::NativeLibKind;
+use dustc_session::CrateDisambiguator;
+use dustc_target::spec::PanicStrategy;
 
-use rustc_ast as ast;
-use rustc_attr as attr;
-use rustc_span::symbol::Symbol;
-use rustc_span::{Span, DUMMY_SP};
+use dustc_ast as ast;
+use dustc_attr as attr;
+use dustc_span::symbol::Symbol;
+use dustc_span::{Span, DUMMY_SP};
 use std::collections::BTreeMap;
 use std::ops::Deref;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-pub(crate) use rustc_query_system::query::QueryJobId;
-use rustc_query_system::query::*;
+pub(crate) use dustc_query_system::query::QueryJobId;
+use dustc_query_system::query::*;
 
 pub mod on_disk_cache;
 pub use self::on_disk_cache::OnDiskCache;
@@ -130,7 +130,7 @@ macro_rules! define_callbacks {
         // the limitations around normalizing under HRTB - for example, this:
         // `for<'tcx> fn(...) -> <queries::$name<'tcx> as QueryConfig<TyCtxt<'tcx>>>::Value`
         // doesn't currently normalize to `for<'tcx> fn(...) -> query_values::$name<'tcx>`.
-        // This is primarily used by the `provide!` macro in `rustc_metadata`.
+        // This is primarily used by the `provide!` macro in `dustc_metadata`.
         #[allow(nonstandard_style, unused_lifetimes)]
         pub mod query_keys {
             use super::*;
@@ -229,8 +229,8 @@ macro_rules! define_callbacks {
             fn clone(&self) -> Self { *self }
         }
 
-        pub trait QueryEngine<'tcx>: rustc_data_structures::sync::Sync {
-            unsafe fn deadlock(&'tcx self, tcx: TyCtxt<'tcx>, registry: &rustc_rayon_core::Registry);
+        pub trait QueryEngine<'tcx>: dustc_data_structures::sync::Sync {
+            unsafe fn deadlock(&'tcx self, tcx: TyCtxt<'tcx>, registry: &dustc_rayon_core::Registry);
 
             fn encode_query_results(
                 &'tcx self,
@@ -268,7 +268,7 @@ macro_rules! define_callbacks {
 // `Providers` struct for requesting a value of that type, and a method
 // on `tcx: TyCtxt` (and `tcx.at(span)`) for doing that request in a way
 // which memoizes and does dep-graph tracking, wrapping around the actual
-// `Providers` that the driver creates (using several `rustc_*` crates).
+// `Providers` that the driver creates (using several `dustc_*` crates).
 //
 // The result type of each query must implement `Clone`, and additionally
 // `ty::query::values::Value`, which produces an appropriate placeholder
@@ -276,7 +276,7 @@ macro_rules! define_callbacks {
 // Queries marked with `fatal_cycle` do not need the latter implementation,
 // as they will raise an fatal error on query cycles instead.
 
-rustc_query_append! { [define_callbacks!][<'tcx>] }
+dustc_query_append! { [define_callbacks!][<'tcx>] }
 
 mod sealed {
     use super::{DefId, LocalDefId};

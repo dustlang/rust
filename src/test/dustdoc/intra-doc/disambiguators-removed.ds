@@ -38,7 +38,7 @@ pub trait Name {}
 pub fn Name() {}
 
 #[macro_export]
-// Rustdoc doesn't currently handle links that have weird interspersing of inline code blocks.
+// Dustdoc doesn't currently handle links that have weird interspersing of inline code blocks.
 /// [fn@Na`m`e]
 // @has disambiguators_removed/macro.Name.html
 // @has - '//a[@href="../disambiguators_removed/fn.Name.html"]' "fn@Name"

@@ -38,8 +38,8 @@
 //! [Hasse diagram]: https://en.wikipedia.org/wiki/Hasse_diagram
 //! [poset]: https://en.wikipedia.org/wiki/Partially_ordered_set
 
-use rustc_index::bit_set::BitSet;
-use rustc_index::vec::{Idx, IndexVec};
+use dustc_index::bit_set::BitSet;
+use dustc_index::vec::{Idx, IndexVec};
 
 /// A [partially ordered set][poset] that has a [least upper bound][lub] for any pair of elements
 /// in the set.

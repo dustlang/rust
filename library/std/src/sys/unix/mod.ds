@@ -130,7 +130,7 @@ pub fn init() {
                     if libc::open("/dev/null\0".as_ptr().cast(), libc::O_RDWR, 0) == -1 {
                         // If the stream is closed but we failed to reopen it, abort the
                         // process. Otherwise we wouldn't preserve the safety of
-                        // operations on the corresponding Rust object Stdin, Stdout, or
+                        // operations on the corresponding Dust object Stdin, Stdout, or
                         // Stderr.
                         libc::abort();
                     }

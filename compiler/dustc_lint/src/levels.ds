@@ -1,29 +1,29 @@
 use crate::context::{CheckLintNameResult, LintStore};
 use crate::late::unerased_lint_store;
-use rustc_ast as ast;
-use rustc_ast::unwrap_or;
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def_id::{CrateNum, DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_hir::{intravisit, HirId};
-use rustc_middle::hir::map::Map;
-use rustc_middle::lint::LevelAndSource;
-use rustc_middle::lint::LintDiagnosticBuilder;
-use rustc_middle::lint::{
+use dustc_ast as ast;
+use dustc_ast::unwrap_or;
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def_id::{CrateNum, DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_hir::{intravisit, HirId};
+use dustc_middle::hir::map::Map;
+use dustc_middle::lint::LevelAndSource;
+use dustc_middle::lint::LintDiagnosticBuilder;
+use dustc_middle::lint::{
     struct_lint_level, LintLevelMap, LintLevelSets, LintLevelSource, LintSet,
 };
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::lint::{
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::lint::{
     builtin::{self, FORBIDDEN_LINT_GROUPS},
     Level, Lint, LintId,
 };
-use rustc_session::parse::feature_err;
-use rustc_session::Session;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::{source_map::MultiSpan, Span, DUMMY_SP};
+use dustc_session::parse::feature_err;
+use dustc_session::Session;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::{source_map::MultiSpan, Span, DUMMY_SP};
 use tracing::debug;
 
 use std::cmp;
@@ -318,7 +318,7 @@ impl<'s> LintLevelsBuilder<'s> {
                             E0710,
                             "unknown tool name `{}` found in scoped lint: `{}`",
                             tool_ident.name,
-                            pprust::path_to_string(&meta_item.path),
+                            ppdust::path_to_string(&meta_item.path),
                         );
                         if sess.is_nightly_build() {
                             err.help(&format!(
@@ -574,11 +574,11 @@ impl<'s> LintLevelsBuilder<'s> {
 }
 
 fn is_known_lint_tool(m_item: Symbol, sess: &Session, attrs: &[ast::Attribute]) -> bool {
-    if [sym::clippy, sym::rustc, sym::rustdoc].contains(&m_item) {
+    if [sym::clippy, sym::dustc, sym::dustdoc].contains(&m_item) {
         return true;
     }
     // Look for registered tools
-    // NOTE: does no error handling; error handling is done by rustc_resolve.
+    // NOTE: does no error handling; error handling is done by dustc_resolve.
     sess.filter_by_name(attrs, sym::register_tool)
         .filter_map(|attr| attr.meta_item_list())
         .flat_map(std::convert::identity)

@@ -22,4 +22,4 @@ LL |         S(_, _) => {}
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0769`.
+For more information about this error, try `dustc --explain E0769`.

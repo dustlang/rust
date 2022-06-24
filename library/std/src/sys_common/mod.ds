@@ -110,7 +110,7 @@ pub trait FromInner<Inner> {
 
 /// Enqueues a procedure to run when the main thread exits.
 ///
-/// Currently these closures are only run once the main *Rust* thread exits.
+/// Currently these closures are only run once the main *Dust* thread exits.
 /// Once the `at_exit` handlers begin running, more may be enqueued, but not
 /// infinitely so. Eventually a handler registration will be forced to fail.
 ///

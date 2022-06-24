@@ -13,7 +13,7 @@ LL | #![feature(generic_associated_types)]
    |            ^^^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #44265 <https://github.com/rust-lang/rust/issues/44265> for more information
+   = note: see issue #44265 <https://github.com/dust-lang/dust/issues/44265> for more information
 
 error[E0106]: missing lifetime specifier
   --> $DIR/gat-trait-path-generic-type-arg.rs:11:18
@@ -29,4 +29,4 @@ LL |     type F<'a, T1> = &'a [u8];
 error: aborting due to 2 previous errors; 1 warning emitted
 
 Some errors have detailed explanations: E0106, E0403.
-For more information about an error, try `rustc --explain E0106`.
+For more information about an error, try `dustc --explain E0106`.

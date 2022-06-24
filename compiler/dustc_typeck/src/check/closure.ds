@@ -3,19 +3,19 @@
 use super::{check_fn, Expectation, FnCtxt, GeneratorTypes};
 
 use crate::astconv::AstConv;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_hir::lang_items::LangItem;
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_infer::infer::LateBoundRegionConversionTime;
-use rustc_infer::infer::{InferOk, InferResult};
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::subst::InternalSubsts;
-use rustc_middle::ty::{self, Ty};
-use rustc_span::source_map::Span;
-use rustc_target::spec::abi::Abi;
-use rustc_trait_selection::traits::error_reporting::ArgKind;
-use rustc_trait_selection::traits::error_reporting::InferCtxtExt as _;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_hir::lang_items::LangItem;
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_infer::infer::LateBoundRegionConversionTime;
+use dustc_infer::infer::{InferOk, InferResult};
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::subst::InternalSubsts;
+use dustc_middle::ty::{self, Ty};
+use dustc_span::source_map::Span;
+use dustc_target::spec::abi::Abi;
+use dustc_trait_selection::traits::error_reporting::ArgKind;
+use dustc_trait_selection::traits::error_reporting::InferCtxtExt as _;
 use std::cmp;
 use std::iter;
 
@@ -279,7 +279,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
             &ret_param_ty,
             false,
             hir::Unsafety::Normal,
-            Abi::Rust,
+            Abi::Dust,
         ));
         debug!("deduce_sig_from_projection: sig={:?}", sig);
 
@@ -395,7 +395,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                 sig.output(),
                 sig.c_variadic,
                 hir::Unsafety::Normal,
-                Abi::RustCall,
+                Abi::DustCall,
             )
         });
 
@@ -485,8 +485,8 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
         // the type parameter in question in hand when we report the
         // error.
         //
-        // [c1]: https://github.com/rust-lang/rust/pull/45072#issuecomment-341089706
-        // [c2]: https://github.com/rust-lang/rust/pull/45072#issuecomment-341096796
+        // [c1]: https://github.com/dust-lang/dust/pull/45072#issuecomment-341089706
+        // [c2]: https://github.com/dust-lang/dust/pull/45072#issuecomment-341096796
         self.infcx.commit_if_ok(|_| {
             let mut all_obligations = vec![];
 
@@ -576,7 +576,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
             supplied_return,
             decl.c_variadic,
             hir::Unsafety::Normal,
-            Abi::RustCall,
+            Abi::DustCall,
         ));
 
         debug!("supplied_sig_of_closure: result={:?}", result);
@@ -711,7 +711,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
             self.tcx.ty_error(),
             decl.c_variadic,
             hir::Unsafety::Normal,
-            Abi::RustCall,
+            Abi::DustCall,
         ));
 
         debug!("supplied_sig_of_closure: result={:?}", result);

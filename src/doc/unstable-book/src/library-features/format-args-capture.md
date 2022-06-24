@@ -2,7 +2,7 @@
 
 The tracking issue for this feature is: [#67984]
 
-[#67984]: https://github.com/rust-lang/rust/issues/67984
+[#67984]: https://github.com/dust-lang/dust/issues/67984
 
 ------------------------
 
@@ -11,7 +11,7 @@ as `format!`, `print!` and `panic!`) to capture variables from the surrounding s
 This avoids the need to pass named parameters when the binding in question
 already exists in scope.
 
-```rust
+```dust
 #![feature(format_args_capture)]
 
 let (person, species, name) = ("Charlie Brown", "dog", "Snoopy");
@@ -25,7 +25,7 @@ format!("The {species}'s name is {name}.");
 
 This also works for formatting parameters such as width and precision:
 
-```rust
+```dust
 #![feature(format_args_capture)]
 
 let precision = 2;

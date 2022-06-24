@@ -1,25 +1,25 @@
 //! A pass that annotates every item and method with its stability level,
 //! propagating default levels lexically from parent to children ast nodes.
 
-use rustc_ast::Attribute;
-use rustc_attr::{self as attr, ConstStability, Stability};
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::{DefId, LocalDefId, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::{FieldDef, Generics, HirId, Item, TraitRef, Ty, TyKind, Variant};
-use rustc_middle::hir::map::Map;
-use rustc_middle::middle::privacy::AccessLevels;
-use rustc_middle::middle::stability::{DeprecationEntry, Index};
-use rustc_middle::ty::{self, query::Providers, TyCtxt};
-use rustc_session::lint;
-use rustc_session::lint::builtin::{INEFFECTIVE_UNSTABLE_TRAIT_IMPL, USELESS_DEPRECATED};
-use rustc_session::parse::feature_err;
-use rustc_session::Session;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::{Span, DUMMY_SP};
+use dustc_ast::Attribute;
+use dustc_attr::{self as attr, ConstStability, Stability};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::{DefId, LocalDefId, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::{FieldDef, Generics, HirId, Item, TraitRef, Ty, TyKind, Variant};
+use dustc_middle::hir::map::Map;
+use dustc_middle::middle::privacy::AccessLevels;
+use dustc_middle::middle::stability::{DeprecationEntry, Index};
+use dustc_middle::ty::{self, query::Providers, TyCtxt};
+use dustc_session::lint;
+use dustc_session::lint::builtin::{INEFFECTIVE_UNSTABLE_TRAIT_IMPL, USELESS_DEPRECATED};
+use dustc_session::parse::feature_err;
+use dustc_session::Session;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::{Span, DUMMY_SP};
 
 use std::cmp::Ordering;
 use std::mem::replace;
@@ -125,7 +125,7 @@ impl<'a, 'tcx> Annotator<'a, 'tcx> {
                             *span,
                             "remove the unnecessary deprecation attribute",
                             String::new(),
-                            rustc_errors::Applicability::MachineApplicable,
+                            dustc_errors::Applicability::MachineApplicable,
                         )
                         .emit()
                 });
@@ -147,7 +147,7 @@ impl<'a, 'tcx> Annotator<'a, 'tcx> {
                 self.tcx
                     .sess
                     .struct_span_err(a.span, "`#[deprecated]` cannot be used in staged API")
-                    .span_label(a.span, "use `#[rustc_deprecated]` instead")
+                    .span_label(a.span, "use `#[dustc_deprecated]` instead")
                     .span_label(item_sp, "")
                     .emit();
             }
@@ -180,13 +180,13 @@ impl<'a, 'tcx> Annotator<'a, 'tcx> {
             }
         }
 
-        if let Some((rustc_attr::Deprecation { is_since_rustc_version: true, .. }, span)) = &depr {
+        if let Some((dustc_attr::Deprecation { is_since_dustc_version: true, .. }, span)) = &depr {
             if stab.is_none() {
                 struct_span_err!(
                     self.tcx.sess,
                     *span,
                     E0549,
-                    "rustc_deprecated attribute must be paired with \
+                    "dustc_deprecated attribute must be paired with \
                     either stable or unstable attribute"
                 )
                 .emit();
@@ -320,9 +320,9 @@ impl<'a, 'tcx> Annotator<'a, 'tcx> {
         let unstable_attrs = [
             sym::unstable,
             sym::stable,
-            sym::rustc_deprecated,
-            sym::rustc_const_unstable,
-            sym::rustc_const_stable,
+            sym::dustc_deprecated,
+            sym::dustc_const_unstable,
+            sym::dustc_const_stable,
         ];
         let mut has_error = false;
         for attr in attrs {
@@ -554,7 +554,7 @@ impl<'tcx> MissingStabilityAnnotations<'tcx> {
                 self.tcx.sess.span_err(
                     span,
                     "`#[stable]` const functions must also be either \
-                    `#[rustc_const_stable]` or `#[rustc_const_unstable]`",
+                    `#[dustc_const_stable]` or `#[dustc_const_unstable]`",
                 );
             }
         }
@@ -581,8 +581,8 @@ impl<'tcx> Visitor<'tcx> for MissingStabilityAnnotations<'tcx> {
             self.check_missing_stability(i.hir_id(), i.span);
         }
 
-        // Ensure `const fn` that are `stable` have one of `rustc_const_unstable` or
-        // `rustc_const_stable`.
+        // Ensure `const fn` that are `stable` have one of `dustc_const_unstable` or
+        // `dustc_const_stable`.
         if self.tcx.features().staged_api
             && matches!(&i.kind, hir::ItemKind::Fn(sig, ..) if sig.header.is_const())
         {
@@ -665,8 +665,8 @@ fn new_index(tcx: TyCtxt<'tcx>) -> Index<'tcx> {
 
         // If the `-Z force-unstable-if-unmarked` flag is passed then we provide
         // a parent stability annotation which indicates that this is private
-        // with the `rustc_private` feature. This is intended for use when
-        // compiling `librustc_*` crates themselves so we can leverage crates.io
+        // with the `dustc_private` feature. This is intended for use when
+        // compiling `libdustc_*` crates themselves so we can leverage crates.io
         // while maintaining the invariant that all sysroot crates are unstable
         // by default and are unable to be used.
         if tcx.sess.opts.debugging_opts.force_unstable_if_unmarked {
@@ -679,7 +679,7 @@ fn new_index(tcx: TyCtxt<'tcx>) -> Index<'tcx> {
                     issue: NonZeroU32::new(27812),
                     is_soft: false,
                 },
-                feature: sym::rustc_private,
+                feature: sym::dustc_private,
             });
             annotator.parent_stab = Some(stability);
         }
@@ -750,7 +750,7 @@ impl Visitor<'tcx> for Checker<'tcx> {
                     // If this impl block has an #[unstable] attribute, give an
                     // error if all involved types and traits are stable, because
                     // it will have no effect.
-                    // See: https://github.com/rust-lang/rust/issues/55436
+                    // See: https://github.com/dust-lang/dust/issues/55436
                     let attrs = self.tcx.hir().attrs(item.hir_id());
                     if let (Some((Stability { level: attr::Unstable { .. }, .. }, span)), _) =
                         attr::find_stability(&self.tcx.sess, attrs, item.span)
@@ -765,7 +765,7 @@ impl Visitor<'tcx> for Checker<'tcx> {
                                 span,
                                 |lint| lint
                                     .build("an `#[unstable]` annotation here has no effect")
-                                    .note("see issue #55436 <https://github.com/rust-lang/rust/issues/55436> for more information")
+                                    .note("see issue #55436 <https://github.com/dust-lang/dust/issues/55436> for more information")
                                     .emit()
                             );
                         }

@@ -4,19 +4,19 @@
 // ignore-wasm32-bare no libc to test ffi with
 // pretty-expanded FIXME #23616
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-mod rustrt {
+mod dustrt {
     extern crate libc;
 
-    #[link(name = "rust_test_helpers", kind = "static")]
+    #[link(name = "dust_test_helpers", kind = "static")]
     extern "C" {
-        pub fn rust_get_test_int() -> libc::intptr_t;
+        pub fn dust_get_test_int() -> libc::intptr_t;
     }
 }
 
 pub fn main() {
     unsafe {
-        rustrt::rust_get_test_int();
+        dustrt::dust_get_test_int();
     }
 }

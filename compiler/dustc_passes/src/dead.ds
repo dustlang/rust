@@ -2,20 +2,20 @@
 // closely. The idea is that all reachable symbols are live, codes called
 // from live codes are live, and everything else is dead.
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorOf, DefKind, Res};
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_hir::{Node, PatKind, TyKind};
-use rustc_middle::hir::map::Map;
-use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
-use rustc_middle::middle::privacy;
-use rustc_middle::ty::{self, DefIdTree, TyCtxt};
-use rustc_session::lint;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorOf, DefKind, Res};
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_hir::{Node, PatKind, TyKind};
+use dustc_middle::hir::map::Map;
+use dustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
+use dustc_middle::middle::privacy;
+use dustc_middle::ty::{self, DefIdTree, TyCtxt};
+use dustc_session::lint;
 
-use rustc_span::symbol::{sym, Symbol};
+use dustc_span::symbol::{sym, Symbol};
 
 // Any local node that may call something in its body block should be
 // explored. For example, if it's a live Node::Item that is a
@@ -255,7 +255,7 @@ impl<'tcx> Visitor<'tcx> for MarkSymbolVisitor<'tcx> {
         _: Symbol,
         _: &hir::Generics<'_>,
         _: hir::HirId,
-        _: rustc_span::Span,
+        _: dustc_span::Span,
     ) {
         let has_repr_c = self.repr_has_repr_c;
         let inherited_pub_visibility = self.inherited_pub_visibility;
@@ -569,7 +569,7 @@ impl DeadVisitor<'tcx> {
     fn warn_dead_code(
         &mut self,
         id: hir::HirId,
-        span: rustc_span::Span,
+        span: dustc_span::Span,
         name: Symbol,
         participle: &str,
     ) {

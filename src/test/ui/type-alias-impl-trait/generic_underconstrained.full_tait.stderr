@@ -11,7 +11,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error[E0277]: the trait bound `T: Trait` is not satisfied
   --> $DIR/generic_underconstrained.rs:13:31
@@ -29,4 +29,4 @@ LL | fn underconstrain<T: Trait>(_: T) -> Underconstrained<T> {
 
 error: aborting due to 2 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

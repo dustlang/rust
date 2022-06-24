@@ -1,5 +1,5 @@
 // run-pass
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
 extern crate libc;
 

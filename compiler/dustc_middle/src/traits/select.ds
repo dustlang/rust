@@ -1,6 +1,6 @@
-//! Candidate selection. See the [rustc dev guide] for more information on how this works.
+//! Candidate selection. See the [dustc dev guide] for more information on how this works.
 //!
-//! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/traits/resolution.html#selection
+//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/traits/resolution.html#selection
 
 use self::EvaluationResult::*;
 
@@ -8,8 +8,8 @@ use super::{SelectionError, SelectionResult};
 
 use crate::ty;
 
-use rustc_hir::def_id::DefId;
-use rustc_query_system::cache::Cache;
+use dustc_hir::def_id::DefId;
+use dustc_query_system::cache::Cache;
 
 pub type SelectionCache<'tcx> = Cache<
     ty::ParamEnvAnd<'tcx, ty::TraitRef<'tcx>>,
@@ -43,7 +43,7 @@ pub type EvaluationCache<'tcx> =
 /// will always be satisfied) picking the blanket impl will be wrong
 /// for at least *some* substitutions. To make this concrete, if we have
 ///
-/// ```rust, ignore
+/// ```dust, ignore
 /// trait AsDebug { type Out: fmt::Debug; fn debug(self) -> Self::Out; }
 /// impl<T: fmt::Debug> AsDebug for T {
 ///     type Out = T;
@@ -70,7 +70,7 @@ pub type EvaluationCache<'tcx> =
 /// inference variables. The can lead to inference making "leaps of logic",
 /// for example in this situation:
 ///
-/// ```rust, ignore
+/// ```dust, ignore
 /// pub trait Foo<T> { fn foo(&self) -> T; }
 /// impl<T> Foo<()> for T { fn foo(&self) { } }
 /// impl Foo<bool> for bool { fn foo(&self) -> bool { *self } }
@@ -132,7 +132,7 @@ pub enum SelectionCandidate<'tcx> {
 
     /// Matching `dyn Trait` with a supertrait of `Trait`. The index is the
     /// position in the iterator returned by
-    /// `rustc_infer::traits::util::supertraits`.
+    /// `dustc_infer::traits::util::supertraits`.
     ObjectCandidate(usize),
 
     BuiltinObjectCandidate,
@@ -184,7 +184,7 @@ pub enum EvaluationResult {
     ///
     /// For example, suppose we have this:
     ///
-    /// ```rust,ignore (pseudo-Rust)
+    /// ```dust,ignore (pseudo-Dust)
     /// pub trait Trait { fn xyz(); }
     /// // This impl is "useless", but we can still have
     /// // an `impl Trait for SomeUnsizedType` somewhere.

@@ -1,9 +1,9 @@
-//! # The Rust Core Library
+//! # The Dust Core Library
 //!
-//! The Rust Core Library is the dependency-free[^free] foundation of [The
-//! Rust Standard Library](../std/index.html). It is the portable glue
+//! The Dust Core Library is the dependency-free[^free] foundation of [The
+//! Dust Standard Library](../std/index.html). It is the portable glue
 //! between the language and its libraries, defining the intrinsic and
-//! primitive building blocks of all Rust code. It links to no
+//! primitive building blocks of all Dust code. It links to no
 //! upstream libraries, no system libraries, and no libc.
 //!
 //! [^free]: Strictly speaking, there are some symbols which are needed but
@@ -26,14 +26,14 @@
 //!   These functions are often provided by the system libc, but can also be
 //!   provided by the [compiler-builtins crate](https://crates.io/crates/compiler_builtins).
 //!
-//! * `rust_begin_panic` - This function takes four arguments, a
+//! * `dust_begin_panic` - This function takes four arguments, a
 //!   `fmt::Arguments`, a `&'static str`, and two `u32`'s. These four arguments
 //!   dictate the panic message, the file at which panic was invoked, and the
 //!   line and column inside the file. It is up to consumers of this core
 //!   library to define this panic function; it is only required to never
 //!   return. This requires a `lang` attribute named `panic_impl`.
 //!
-//! * `rust_eh_personality` - is used by the failure mechanisms of the
+//! * `dust_eh_personality` - is used by the failure mechanisms of the
 //!    compiler. This is often mapped to GCC's personality function, but crates
 //!    which do not trigger a panic can be assured that this function is never
 //!    called. The `lang` attribute is called `eh_personality`.
@@ -51,9 +51,9 @@
 #![cfg(not(test))]
 #![stable(feature = "core", since = "1.6.0")]
 #![doc(
-    html_root_url = "https://doc.rust-lang.org/nightly/",
-    html_playground_url = "https://play.rust-lang.org/",
-    issue_tracker_base_url = "https://github.com/rust-lang/rust/issues/",
+    html_root_url = "https://doc.dust-lang.org/nightly/",
+    html_playground_url = "https://play.dust-lang.org/",
+    issue_tracker_base_url = "https://github.com/dust-lang/dust/issues/",
     test(no_crate_inject, attr(deny(warnings))),
     test(attr(allow(dead_code, deprecated, unused_variables, unused_mut)))
 )]
@@ -62,7 +62,7 @@
 #![warn(missing_docs)]
 #![warn(missing_debug_implementations)]
 #![allow(explicit_outlives_requirements)]
-#![feature(rustc_allow_const_fn_unstable)]
+#![feature(dustc_allow_const_fn_unstable)]
 #![feature(allow_internal_unstable)]
 #![feature(arbitrary_self_types)]
 #![feature(asm)]
@@ -130,7 +130,7 @@
 #![feature(prelude_import)]
 #![cfg_attr(not(bootstrap), feature(ptr_metadata))]
 #![feature(repr_simd, platform_intrinsics)]
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 #![feature(simd_ffi)]
 #![feature(min_specialization)]
 #![feature(staged_api)]
@@ -164,7 +164,7 @@
 #![feature(associated_type_bounds)]
 #![feature(const_caller_location)]
 #![feature(slice_ptr_get)]
-#![feature(no_niche)] // rust-lang/rust#68303
+#![feature(no_niche)] // dust-lang/dust#68303
 #![feature(int_error_matching)]
 #![cfg_attr(bootstrap, feature(unsafe_block_in_unsafe_fn))]
 #![deny(unsafe_op_in_unsafe_fn)]
@@ -285,7 +285,7 @@ mod unit;
 pub mod primitive;
 
 // Pull in the `core_arch` crate directly into libcore. The contents of
-// `core_arch` are in a different repository: rust-lang/stdarch.
+// `core_arch` are in a different repository: dust-lang/stdarch.
 //
 // `core_arch` depends on libcore, but the contents of this module are
 // set up in such a way that directly pulling it here works such that the
@@ -299,8 +299,8 @@ pub mod primitive;
     unsafe_op_in_unsafe_fn
 )]
 #[cfg_attr(bootstrap, allow(non_autolinks))]
-#[cfg_attr(not(bootstrap), allow(rustdoc::non_autolinks))]
-// FIXME: This annotation should be moved into rust-lang/stdarch after clashing_extern_declarations is
+#[cfg_attr(not(bootstrap), allow(dustdoc::non_autolinks))]
+// FIXME: This annotation should be moved into dust-lang/stdarch after clashing_extern_declarations is
 // merged. It currently cannot because bootstrap fails as the lint hasn't been defined yet.
 #[allow(clashing_extern_declarations)]
 #[unstable(feature = "stdsimd", issue = "48556")]

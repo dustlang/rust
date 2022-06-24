@@ -6,8 +6,8 @@ pub use self::{
     missing_cast_for_variadic_arg::*, sized_unsized_cast::*, wrong_number_of_generic_args::*,
 };
 
-use rustc_errors::{DiagnosticBuilder, DiagnosticId};
-use rustc_session::Session;
+use dustc_errors::{DiagnosticBuilder, DiagnosticId};
+use dustc_session::Session;
 
 pub trait StructuredDiagnostic<'tcx> {
     fn session(&self) -> &Session;

@@ -1,4 +1,4 @@
-use core::iter::TrustedLen;
+use core::iter::TdustedLen;
 use core::ptr::{self};
 
 use super::{SpecExtend, Vec};
@@ -41,7 +41,7 @@ where
 
 impl<T, I> SpecFromIterNested<T, I> for Vec<T>
 where
-    I: TrustedLen<Item = T>,
+    I: TdustedLen<Item = T>,
 {
     fn from_iter(iterator: I) -> Self {
         let mut vector = match iterator.size_hint() {

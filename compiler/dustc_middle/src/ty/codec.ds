@@ -14,10 +14,10 @@ use crate::mir::{
 };
 use crate::ty::subst::SubstsRef;
 use crate::ty::{self, List, Ty, TyCtxt};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir::def_id::{CrateNum, DefId};
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
-use rustc_span::Span;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir::def_id::{CrateNum, DefId};
+use dustc_serialize::{Decodable, Decoder, Encodable, Encoder};
+use dustc_span::Span;
 use std::hash::Hash;
 use std::intrinsics;
 use std::marker::DiscriminantKind;
@@ -32,7 +32,7 @@ pub trait EncodableWithShorthand<'tcx, E: TyEncoder<'tcx>>: Copy + Eq + Hash {
     fn variant(&self) -> &Self::Variant;
 }
 
-#[allow(rustc::usage_of_ty_tykind)]
+#[allow(dustc::usage_of_ty_tykind)]
 impl<'tcx, E: TyEncoder<'tcx>> EncodableWithShorthand<'tcx, E> for Ty<'tcx> {
     type Variant = ty::TyKind<'tcx>;
 
@@ -208,7 +208,7 @@ where
 }
 
 impl<'tcx, D: TyDecoder<'tcx>> Decodable<D> for Ty<'tcx> {
-    #[allow(rustc::usage_of_ty_tykind)]
+    #[allow(dustc::usage_of_ty_tykind)]
     fn decode(decoder: &mut D) -> Result<Ty<'tcx>, D::Error> {
         // Handle shorthands first, if we have an usize > 0x80.
         if decoder.positioned_at_shorthand() {
@@ -433,7 +433,7 @@ macro_rules! impl_arena_allocatable_decoders {
     }
 }
 
-rustc_hir::arena_types!(impl_arena_allocatable_decoders, [], 'tcx);
+dustc_hir::arena_types!(impl_arena_allocatable_decoders, [], 'tcx);
 arena_types!(impl_arena_allocatable_decoders, [], 'tcx);
 
 #[macro_export]
@@ -441,7 +441,7 @@ macro_rules! implement_ty_decoder {
     ($DecoderName:ident <$($typaram:tt),*>) => {
         mod __ty_decoder_impl {
             use std::borrow::Cow;
-            use rustc_serialize::Decoder;
+            use dustc_serialize::Decoder;
 
             use super::$DecoderName;
 

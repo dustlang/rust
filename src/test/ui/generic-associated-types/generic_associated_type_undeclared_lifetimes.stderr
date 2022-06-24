@@ -32,4 +32,4 @@ LL |     fn iter<'undeclared, 'a>(&'a self) -> Self::Iter<'undeclared>;
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0261`.
+For more information about this error, try `dustc --explain E0261`.

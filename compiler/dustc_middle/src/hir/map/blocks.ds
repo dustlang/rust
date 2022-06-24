@@ -12,11 +12,11 @@
 //! for the `Code` associated with a particular NodeId.
 
 use crate::hir::map::Map;
-use rustc_hir as hir;
-use rustc_hir::intravisit::FnKind;
-use rustc_hir::{Expr, FnDecl, Node};
-use rustc_span::symbol::Ident;
-use rustc_span::Span;
+use dustc_hir as hir;
+use dustc_hir::intravisit::FnKind;
+use dustc_hir::{Expr, FnDecl, Node};
+use dustc_span::symbol::Ident;
+use dustc_span::Span;
 
 /// An FnLikeNode is a Node that is like a fn, in that it has a decl
 /// and a body (as well as a NodeId, a span, etc).

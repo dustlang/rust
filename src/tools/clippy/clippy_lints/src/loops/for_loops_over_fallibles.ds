@@ -1,8 +1,8 @@
 use super::FOR_LOOPS_OVER_FALLIBLES;
 use crate::utils::{is_type_diagnostic_item, snippet, span_lint_and_help};
-use rustc_hir::{Expr, Pat};
-use rustc_lint::LateContext;
-use rustc_span::symbol::sym;
+use dustc_hir::{Expr, Pat};
+use dustc_lint::LateContext;
+use dustc_span::symbol::sym;
 
 /// Checks for `for` loops over `Option`s and `Result`s.
 pub(super) fn check(cx: &LateContext<'_>, pat: &Pat<'_>, arg: &Expr<'_>) {

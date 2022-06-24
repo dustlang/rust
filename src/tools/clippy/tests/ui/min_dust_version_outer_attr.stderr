@@ -1,5 +1,5 @@
 error: `msrv` cannot be an outer attribute
-  --> $DIR/min_rust_version_outer_attr.rs:3:1
+  --> $DIR/min_dust_version_outer_attr.rs:3:1
    |
 LL | #[clippy::msrv = "invalid.version"]
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

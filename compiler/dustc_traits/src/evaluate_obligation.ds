@@ -1,9 +1,9 @@
-use rustc_infer::infer::TyCtxtInferExt;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{ParamEnvAnd, TyCtxt};
-use rustc_span::source_map::DUMMY_SP;
-use rustc_trait_selection::traits::query::CanonicalPredicateGoal;
-use rustc_trait_selection::traits::{
+use dustc_infer::infer::TyCtxtInferExt;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{ParamEnvAnd, TyCtxt};
+use dustc_span::source_map::DUMMY_SP;
+use dustc_trait_selection::traits::query::CanonicalPredicateGoal;
+use dustc_trait_selection::traits::{
     EvaluationResult, Obligation, ObligationCause, OverflowError, SelectionContext, TraitQueryMode,
 };
 

@@ -1,5 +1,5 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) windows.rs
-	$(RUSTC) console.rs
+	$(DUSTC) windows.rs
+	$(DUSTC) console.rs

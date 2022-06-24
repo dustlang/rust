@@ -12,13 +12,13 @@
 #![stable(feature = "proc_macro_lib", since = "1.15.0")]
 #![deny(missing_docs)]
 #![doc(
-    html_root_url = "https://doc.rust-lang.org/nightly/",
-    html_playground_url = "https://play.rust-lang.org/",
-    issue_tracker_base_url = "https://github.com/rust-lang/rust/issues/",
+    html_root_url = "https://doc.dust-lang.org/nightly/",
+    html_playground_url = "https://play.dust-lang.org/",
+    issue_tracker_base_url = "https://github.com/dust-lang/dust/issues/",
     test(no_crate_inject, attr(deny(warnings))),
     test(attr(allow(dead_code, deprecated, unused_variables, unused_mut)))
 )]
-#![feature(rustc_allow_const_fn_unstable)]
+#![feature(dustc_allow_const_fn_unstable)]
 #![feature(nll)]
 #![feature(staged_api)]
 #![feature(const_fn)]
@@ -30,7 +30,7 @@
 #![feature(negative_impls)]
 #![feature(auto_traits)]
 #![feature(restricted_std)]
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 #![feature(min_specialization)]
 #![recursion_limit = "256"]
 
@@ -55,9 +55,9 @@ use std::{error, fmt, iter, mem};
 /// The proc_macro crate is only intended for use inside the implementation of
 /// procedural macros. All the functions in this crate panic if invoked from
 /// outside of a procedural macro, such as from a build script or unit test or
-/// ordinary Rust binary.
+/// ordinary Dust binary.
 ///
-/// With consideration for Rust libraries that are designed to support both
+/// With consideration for Dust libraries that are designed to support both
 /// macro and non-macro use cases, `proc_macro::is_available()` provides a
 /// non-panicking way to detect whether the infrastructure required to use the
 /// API of proc_macro is presently available. Returns true if invoked from
@@ -265,7 +265,7 @@ pub mod token_stream {
 /// To quote `$` itself, use `$$`.
 #[unstable(feature = "proc_macro_quote", issue = "54722")]
 #[allow_internal_unstable(proc_macro_def_site)]
-#[rustc_builtin_macro]
+#[dustc_builtin_macro]
 pub macro quote($($t:tt)*) {
     /* compiler built-in */
 }
@@ -466,7 +466,7 @@ impl SourceFile {
     pub fn is_real(&self) -> bool {
         // This is a hack until intercrate spans are implemented and we can have real source files
         // for spans generated in external macros.
-        // https://github.com/rust-lang/rust/pull/43604#issuecomment-333334368
+        // https://github.com/dust-lang/dust/pull/43604#issuecomment-333334368
         self.0.is_real()
     }
 }
@@ -867,7 +867,7 @@ impl Ident {
     /// The `string` argument must be a valid identifier permitted by the
     /// language (including keywords, e.g. `self` or `fn`). Otherwise, the function will panic.
     ///
-    /// Note that `span`, currently in rustc, configures the hygiene information
+    /// Note that `span`, currently in dustc, configures the hygiene information
     /// for this identifier.
     ///
     /// As of this time `Span::call_site()` explicitly opts-in to "call-site" hygiene

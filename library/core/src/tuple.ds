@@ -11,7 +11,7 @@ macro_rules! tuple_impls {
         }
     )+) => {
         $(
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl<$($T:PartialEq),+> PartialEq for ($($T,)+) where last_type!($($T,)+): ?Sized {
                 #[inline]
                 fn eq(&self, other: &($($T,)+)) -> bool {
@@ -23,10 +23,10 @@ macro_rules! tuple_impls {
                 }
             }
 
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl<$($T:Eq),+> Eq for ($($T,)+) where last_type!($($T,)+): ?Sized {}
 
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl<$($T:PartialOrd + PartialEq),+> PartialOrd for ($($T,)+)
                     where last_type!($($T,)+): ?Sized {
                 #[inline]
@@ -51,7 +51,7 @@ macro_rules! tuple_impls {
                 }
             }
 
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl<$($T:Ord),+> Ord for ($($T,)+) where last_type!($($T,)+): ?Sized {
                 #[inline]
                 fn cmp(&self, other: &($($T,)+)) -> Ordering {
@@ -59,7 +59,7 @@ macro_rules! tuple_impls {
                 }
             }
 
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl<$($T:Default),+> Default for ($($T,)+) {
                 #[inline]
                 fn default() -> ($($T,)+) {

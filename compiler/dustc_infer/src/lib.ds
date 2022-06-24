@@ -2,17 +2,17 @@
 //!
 //! - **Type inference.** The type inference code can be found in the `infer` module;
 //!   this code handles low-level equality and subtyping operations. The
-//!   type check pass in the compiler is found in the `librustc_typeck` crate.
+//!   type check pass in the compiler is found in the `libdustc_typeck` crate.
 //!
-//! For more information about how rustc works, see the [rustc dev guide].
+//! For more information about how dustc works, see the [dustc dev guide].
 //!
-//! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/
+//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/
 //!
 //! # Note
 //!
 //! This API is completely unstable and subject to change.
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(bool_to_option)]
 #![feature(box_patterns)]
 #![feature(box_syntax)]
@@ -23,17 +23,17 @@
 #![feature(or_patterns)]
 #![feature(in_band_lifetimes)]
 #![feature(control_flow_enum)]
-#![recursion_limit = "512"] // For rustdoc
+#![recursion_limit = "512"] // For dustdoc
 
 #[macro_use]
-extern crate rustc_macros;
+extern crate dustc_macros;
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 #[macro_use]
-extern crate rustc_data_structures;
+extern crate dustc_data_structures;
 #[macro_use]
 extern crate tracing;
 #[macro_use]
-extern crate rustc_middle;
+extern crate dustc_middle;
 
 pub mod infer;
 pub mod traits;

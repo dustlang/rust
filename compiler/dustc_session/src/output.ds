@@ -1,9 +1,9 @@
 //! Related to out filenames of compilation (e.g. save analysis, binaries).
 use crate::config::{CrateType, Input, OutputFilenames, OutputType};
 use crate::Session;
-use rustc_ast as ast;
-use rustc_span::symbol::sym;
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_span::symbol::sym;
+use dustc_span::Span;
 use std::path::{Path, PathBuf};
 
 pub fn out_filename(
@@ -90,7 +90,7 @@ pub fn find_crate_name(sess: &Session, attrs: &[ast::Attribute], input: &Input) 
         }
     }
 
-    "rust_out".to_string()
+    "dust_out".to_string()
 }
 
 pub fn validate_crate_name(sess: &Session, s: &str, sp: Option<Span>) {
@@ -172,7 +172,7 @@ pub fn filename_for_input(
 ///
 /// It is CrateType::Executable for all platforms but iOS as there is no
 /// way to run iOS binaries anyway without jailbreaking and
-/// interaction with Rust code through static library is the only
+/// interaction with Dust code through static library is the only
 /// option for now
 pub fn default_output_for_target(sess: &Session) -> CrateType {
     if !sess.target.executables { CrateType::Staticlib } else { CrateType::Executable }

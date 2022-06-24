@@ -16,7 +16,7 @@ use std::lazy::SyncLazy;
 // across machines.
 //
 // Also note that we stick this in a global because there could be
-// multiple rustc instances in this process, and the jobserver is
+// multiple dustc instances in this process, and the jobserver is
 // per-process.
 static GLOBAL_CLIENT: SyncLazy<Client> = SyncLazy::new(|| unsafe {
     Client::from_env().unwrap_or_else(|| {

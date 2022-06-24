@@ -5,8 +5,8 @@ use std::lazy::SyncOnceCell;
 use std::{io, ops, str};
 
 use regex::Regex;
-use rustc_graphviz as dot;
-use rustc_middle::mir::{self, BasicBlock, Body, Location};
+use dustc_graphviz as dot;
+use dustc_middle::mir::{self, BasicBlock, Body, Location};
 
 use super::fmt::{DebugDiffWithAdapter, DebugWithAdapter, DebugWithContext};
 use super::{Analysis, Direction, Results, ResultsRefCursor, ResultsVisitor};

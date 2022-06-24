@@ -1,22 +1,22 @@
-//! A group of attributes that can be attached to Rust code in order
+//! A group of attributes that can be attached to Dust code in order
 //! to generate a clippy lint detecting said code automatically.
 
 use crate::utils::get_attr;
-use rustc_ast::ast::{LitFloatType, LitKind};
-use rustc_ast::walk_list;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir as hir;
-use rustc_hir::intravisit::{NestedVisitorMap, Visitor};
-use rustc_hir::{BindingAnnotation, Block, Expr, ExprKind, Pat, PatKind, QPath, Stmt, StmtKind, TyKind};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::hir::map::Map;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_ast::ast::{LitFloatType, LitKind};
+use dustc_ast::walk_list;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir as hir;
+use dustc_hir::intravisit::{NestedVisitorMap, Visitor};
+use dustc_hir::{BindingAnnotation, Block, Expr, ExprKind, Pat, PatKind, QPath, Stmt, StmtKind, TyKind};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::hir::map::Map;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Generates clippy code that detects the offending pattern
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // ./tests/ui/my_lint.rs
     /// fn foo() {
     ///     // detect the following pattern
@@ -32,7 +32,7 @@ declare_clippy_lint! {
     /// Running `TESTNAME=ui/my_lint cargo uitest` will produce
     /// a `./tests/ui/new_lint.stdout` file with the generated code:
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // ./tests/ui/new_lint.stdout
     /// if_chain! {
     ///     if let ExprKind::If(ref cond, ref then, None) = item.kind,

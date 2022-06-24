@@ -3,7 +3,7 @@
 // should-fail
 // no-system-llvm
 
-// #49723: rustdoc didn't add target features when extracting or running doctests
+// #49723: dustdoc didn't add target features when extracting or running doctests
 
 #![feature(doc_cfg)]
 

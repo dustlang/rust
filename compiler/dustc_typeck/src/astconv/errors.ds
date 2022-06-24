@@ -1,13 +1,13 @@
 use crate::astconv::AstConv;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::{pluralize, struct_span_err, Applicability};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_middle::ty;
-use rustc_session::parse::feature_err;
-use rustc_span::lev_distance::find_best_match_for_name;
-use rustc_span::symbol::{sym, Ident};
-use rustc_span::{Span, DUMMY_SP};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::{pluralize, struct_span_err, Applicability};
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_middle::ty;
+use dustc_session::parse::feature_err;
+use dustc_span::lev_distance::find_best_match_for_name;
+use dustc_span::symbol::{sym, Ident};
+use dustc_span::{Span, DUMMY_SP};
 
 use std::collections::BTreeSet;
 

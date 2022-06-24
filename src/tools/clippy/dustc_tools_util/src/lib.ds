@@ -10,7 +10,7 @@ macro_rules! get_version_info {
         let patch = env!("CARGO_PKG_VERSION_PATCH").parse::<u16>().unwrap();
         let crate_name = String::from(env!("CARGO_PKG_NAME"));
 
-        let host_compiler = option_env!("RUSTC_RELEASE_CHANNEL").map(str::to_string);
+        let host_compiler = option_env!("DUSTC_RELEASE_CHANNEL").map(str::to_string);
         let commit_hash = option_env!("GIT_HASH").map(str::to_string);
         let commit_date = option_env!("COMMIT_DATE").map(str::to_string);
 
@@ -104,17 +104,17 @@ pub fn get_channel() -> Option<String> {
     match env::var("CFG_RELEASE_CHANNEL") {
         Ok(channel) => Some(channel),
         Err(_) => {
-            // if that failed, try to ask rustc -V, do some parsing and find out
-            match std::process::Command::new("rustc")
+            // if that failed, try to ask dustc -V, do some parsing and find out
+            match std::process::Command::new("dustc")
                 .arg("-V")
                 .output()
                 .ok()
                 .and_then(|r| String::from_utf8(r.stdout).ok())
             {
-                Some(rustc_output) => {
-                    if rustc_output.contains("beta") {
+                Some(dustc_output) => {
+                    if dustc_output.contains("beta") {
                         Some(String::from("beta"))
-                    } else if rustc_output.contains("stable") {
+                    } else if dustc_output.contains("stable") {
                         Some(String::from("stable"))
                     } else {
                         // default to nightly if we fail to parse
@@ -138,7 +138,7 @@ mod test {
         assert_eq!(vi.major, 0);
         assert_eq!(vi.minor, 2);
         assert_eq!(vi.patch, 0);
-        assert_eq!(vi.crate_name, "rustc_tools_util");
+        assert_eq!(vi.crate_name, "dustc_tools_util");
         // hard to make positive tests for these since they will always change
         assert!(vi.commit_hash.is_none());
         assert!(vi.commit_date.is_none());
@@ -147,7 +147,7 @@ mod test {
     #[test]
     fn test_display_local() {
         let vi = get_version_info!();
-        assert_eq!(vi.to_string(), "rustc_tools_util 0.2.0");
+        assert_eq!(vi.to_string(), "dustc_tools_util 0.2.0");
     }
 
     #[test]
@@ -156,7 +156,7 @@ mod test {
         let s = format!("{:?}", vi);
         assert_eq!(
             s,
-            "VersionInfo { crate_name: \"rustc_tools_util\", major: 0, minor: 2, patch: 0 }"
+            "VersionInfo { crate_name: \"dustc_tools_util\", major: 0, minor: 2, patch: 0 }"
         );
     }
 }

@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_typeck"
+name = "dustc_typeck"
 version = "0.0.0"
 edition = "2018"
 
@@ -9,20 +9,20 @@ test = false
 doctest = false
 
 [dependencies]
-rustc_arena = { path = "../rustc_arena" }
+dustc_arena = { path = "../dustc_arena" }
 tracing = "0.1"
-rustc_macros = { path = "../rustc_macros" }
-rustc_middle = { path = "../rustc_middle" }
-rustc_attr = { path = "../rustc_attr" }
-rustc_data_structures = { path = "../rustc_data_structures" }
-rustc_errors = { path = "../rustc_errors" }
-rustc_hir = { path = "../rustc_hir" }
-rustc_hir_pretty = { path = "../rustc_hir_pretty" }
-rustc_target = { path = "../rustc_target" }
-rustc_session = { path = "../rustc_session" }
+dustc_macros = { path = "../dustc_macros" }
+dustc_middle = { path = "../dustc_middle" }
+dustc_attr = { path = "../dustc_attr" }
+dustc_data_structures = { path = "../dustc_data_structures" }
+dustc_errors = { path = "../dustc_errors" }
+dustc_hir = { path = "../dustc_hir" }
+dustc_hir_pretty = { path = "../dustc_hir_pretty" }
+dustc_target = { path = "../dustc_target" }
+dustc_session = { path = "../dustc_session" }
 smallvec = { version = "1.6.1", features = ["union", "may_dangle"] }
-rustc_ast = { path = "../rustc_ast" }
-rustc_span = { path = "../rustc_span" }
-rustc_index = { path = "../rustc_index" }
-rustc_infer = { path = "../rustc_infer" }
-rustc_trait_selection = { path = "../rustc_trait_selection" }
+dustc_ast = { path = "../dustc_ast" }
+dustc_span = { path = "../dustc_span" }
+dustc_index = { path = "../dustc_index" }
+dustc_infer = { path = "../dustc_infer" }
+dustc_trait_selection = { path = "../dustc_trait_selection" }

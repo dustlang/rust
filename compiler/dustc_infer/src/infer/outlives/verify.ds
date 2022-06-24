@@ -1,10 +1,10 @@
 use crate::infer::outlives::env::RegionBoundPairs;
 use crate::infer::{GenericKind, VerifyBound};
-use rustc_data_structures::captures::Captures;
-use rustc_data_structures::sso::SsoHashSet;
-use rustc_hir::def_id::DefId;
-use rustc_middle::ty::subst::{GenericArg, GenericArgKind, Subst};
-use rustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_data_structures::captures::Captures;
+use dustc_data_structures::sso::SsoHashSet;
+use dustc_hir::def_id::DefId;
+use dustc_middle::ty::subst::{GenericArg, GenericArgKind, Subst};
+use dustc_middle::ty::{self, Ty, TyCtxt};
 
 /// The `TypeOutlives` struct has the job of "lowering" a `T: 'a`
 /// obligation into a series of `'a: 'b` constraints and "verifys", as
@@ -53,7 +53,7 @@ impl<'cx, 'tcx> VerifyBoundCx<'cx, 'tcx> {
                 // HACK(eddyb) ignore lifetimes found shallowly in `substs`.
                 // This is inconsistent with `ty::Adt` (including all substs),
                 // but consistent with previous (accidental) behavior.
-                // See https://github.com/rust-lang/rust/issues/70917
+                // See https://github.com/dust-lang/dust/issues/70917
                 // for further background and discussion.
                 let mut bounds = substs
                     .iter()
@@ -274,7 +274,7 @@ impl<'cx, 'tcx> VerifyBoundCx<'cx, 'tcx> {
     /// Given a projection like `<T as Foo<'x>>::Bar`, returns any bounds
     /// declared in the trait definition. For example, if the trait were
     ///
-    /// ```rust
+    /// ```dust
     /// trait Foo<'a> {
     ///     type Bar: 'a;
     /// }
@@ -298,7 +298,7 @@ impl<'cx, 'tcx> VerifyBoundCx<'cx, 'tcx> {
     ///
     /// For example:
     ///
-    /// ```rust
+    /// ```dust
     /// trait Foo<'a> {
     ///     type Bar: 'a;
     /// }
@@ -313,7 +313,7 @@ impl<'cx, 'tcx> VerifyBoundCx<'cx, 'tcx> {
     ///
     /// It will not, however, work for higher-ranked bounds like:
     ///
-    /// ```rust
+    /// ```dust
     /// trait Foo<'a, 'b>
     /// where for<'x> <Self as Foo<'x, 'b>>::Bar: 'x
     /// {

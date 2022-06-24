@@ -1,9 +1,9 @@
 use std::collections::BTreeMap;
 use std::path::Path;
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_middle::ty::TyCtxt;
-use rustc_span::symbol::{sym, Symbol};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_middle::ty::TyCtxt;
+use dustc_span::symbol::{sym, Symbol};
 use serde::ser::{Serialize, SerializeStruct, Serializer};
 
 use crate::clean::types::{

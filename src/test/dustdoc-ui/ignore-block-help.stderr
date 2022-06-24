@@ -1,4 +1,4 @@
-warning: could not parse code block as Rust code
+warning: could not parse code block as Dust code
   --> $DIR/ignore-block-help.rs:3:5
    |
 LL |   /// ```ignore (to-prevent-tidy-error)
@@ -7,8 +7,8 @@ LL | | /// let heart = '❤️';
 LL | | /// ```
    | |_______^
    |
-   = note: error from rustc: character literal may only contain one codepoint
-help: `ignore` code blocks require valid Rust code for syntax highlighting. Mark blocks that do not contain Rust code as text
+   = note: error from dustc: character literal may only contain one codepoint
+help: `ignore` code blocks require valid Dust code for syntax highlighting. Mark blocks that do not contain Dust code as text
    |
 LL | /// ```text,ignore (to-prevent-tidy-error)
    |     ^^^^^^^^

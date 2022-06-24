@@ -4,26 +4,26 @@ use crate::utils::{
     span_lint, span_lint_and_help, span_lint_and_sugg, SpanlessEq,
 };
 use if_chain::if_chain;
-use rustc_ast::ast::{Crate as AstCrate, ItemKind, LitKind, ModKind, NodeId};
-use rustc_ast::visit::FnKind;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::DefId;
-use rustc_hir::hir_id::CRATE_HIR_ID;
-use rustc_hir::intravisit::{NestedVisitorMap, Visitor};
-use rustc_hir::{
+use dustc_ast::ast::{Crate as AstCrate, ItemKind, LitKind, ModKind, NodeId};
+use dustc_ast::visit::FnKind;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::DefId;
+use dustc_hir::hir_id::CRATE_HIR_ID;
+use dustc_hir::intravisit::{NestedVisitorMap, Visitor};
+use dustc_hir::{
     BinOpKind, Crate, Expr, ExprKind, HirId, Item, MutTy, Mutability, Node, Path, StmtKind, Ty, TyKind, UnOp,
 };
-use rustc_lint::{EarlyContext, EarlyLintPass, LateContext, LateLintPass};
-use rustc_middle::hir::map::Map;
-use rustc_middle::mir::interpret::ConstValue;
-use rustc_middle::ty;
-use rustc_session::{declare_lint_pass, declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::{Span, Spanned};
-use rustc_span::symbol::{Symbol, SymbolStr};
-use rustc_typeck::hir_ty_to_ty;
+use dustc_lint::{EarlyContext, EarlyLintPass, LateContext, LateLintPass};
+use dustc_middle::hir::map::Map;
+use dustc_middle::mir::interpret::ConstValue;
+use dustc_middle::ty;
+use dustc_session::{declare_lint_pass, declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::{Span, Spanned};
+use dustc_span::symbol::{Symbol, SymbolStr};
+use dustc_typeck::hir_ty_to_ty;
 
 use std::borrow::{Borrow, Cow};
 
@@ -51,7 +51,7 @@ declare_clippy_lint! {
     /// `declare_lint_pass!`, `impl_lint_pass!`, and `lint_array!` macros.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// declare_lint! { pub LINT_1, ... }
     /// declare_lint! { pub LINT_2, ... }
     /// declare_lint! { pub FORGOTTEN_LINT, ... }
@@ -75,12 +75,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// Bad:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// cx.span_lint(LINT_NAME, "message");
     /// ```
     ///
     /// Good:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// utils::span_lint(cx, LINT_NAME, "message");
     /// ```
     pub COMPILER_LINT_FUNCTIONS,
@@ -98,12 +98,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// Bad:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// expr.span.ctxt().outer().expn_data()
     /// ```
     ///
     /// Good:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// expr.span.ctxt().outer_expn_data()
     /// ```
     pub OUTER_EXPN_EXPN_DATA,
@@ -121,7 +121,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// Bad:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// 🍦🍦🍦🍦🍦
     /// ```
     pub PRODUCE_ICE,
@@ -139,12 +139,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// Bad:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// declare_lint! { pub COOL_LINT, nursery, "default lint description" }
     /// ```
     ///
     /// Good:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// declare_lint! { pub COOL_LINT, nursery, "a great new lint" }
     /// ```
     pub DEFAULT_LINT,
@@ -169,7 +169,7 @@ declare_clippy_lint! {
     ///
     /// *Example:**
     /// Bad:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// span_lint_and_then(cx, TEST_LINT, expr.span, lint_msg, |diag| {
     ///     diag.span_suggestion(
     ///         expr.span,
@@ -193,7 +193,7 @@ declare_clippy_lint! {
     /// ```
     ///
     /// Good:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// span_lint_and_sugg(
     ///     cx,
     ///     TEST_LINT,
@@ -223,12 +223,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// Bad:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// utils::match_type(cx, ty, &paths::VEC)
     /// ```
     ///
     /// Good:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// utils::is_type_diagnostic_item(cx, ty, sym::vec_type)
     /// ```
     pub MATCH_TYPE_ON_DIAGNOSTIC_ITEM,
@@ -262,12 +262,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// Bad:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// let _ = sym!(f32);
     /// ```
     ///
     /// Good:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// let _ = sym::f32;
     /// ```
     pub INTERNING_DEFINED_SYMBOL,
@@ -284,12 +284,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// Bad:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// symbol.as_str() == "clippy";
     /// ```
     ///
     /// Good:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// symbol == sym::clippy;
     /// ```
     pub UNNECESSARY_SYMBOL_STR,
@@ -402,7 +402,7 @@ impl<'tcx> LateLintPass<'tcx> for LintWithoutLintPass {
 
         for (lint_name, &lint_span) in &self.declared_lints {
             // When using the `declare_tool_lint!` macro, the original `lint_span`'s
-            // file points to "<rustc macros>".
+            // file points to "<dustc macros>".
             // `compiletest-rs` thinks that's an error in a different file and
             // just ignores it. This causes the test in compile-fail/lint_pass
             // not able to capture the error.
@@ -778,7 +778,7 @@ impl<'tcx> LateLintPass<'tcx> for MatchTypeOnDiagItem {
 }
 
 fn path_to_matched_type(cx: &LateContext<'_>, expr: &hir::Expr<'_>) -> Option<Vec<SymbolStr>> {
-    use rustc_hir::ItemKind;
+    use dustc_hir::ItemKind;
 
     match &expr.kind {
         ExprKind::AddrOf(.., expr) => return path_to_matched_type(cx, expr),

@@ -16,7 +16,7 @@ pub(crate) fn optimize_function<'tcx>(
     // The code_layout optimization is very cheap.
     self::code_layout::optimize_function(ctx, cold_blocks);
 
-    if tcx.sess.opts.optimize == rustc_session::config::OptLevel::No {
+    if tcx.sess.opts.optimize == dustc_session::config::OptLevel::No {
         return; // FIXME classify optimizations over opt levels
     }
 

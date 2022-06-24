@@ -30,12 +30,12 @@ use crate::SESSION_GLOBALS;
 use crate::{BytePos, CachingSourceMapView, ExpnIdCache, SourceFile, Span, DUMMY_SP};
 
 use crate::def_id::{CrateNum, DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::sync::{Lock, Lrc};
-use rustc_macros::HashStable_Generic;
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::sync::{Lock, Lrc};
+use dustc_macros::HashStable_Generic;
+use dustc_serialize::{Decodable, Decoder, Encodable, Encoder};
 use std::fmt;
 use std::hash::Hash;
 use std::thread::LocalKey;
@@ -472,7 +472,7 @@ impl SyntaxContext {
     /// context up one macro definition level. That is, if we have a nested macro
     /// definition as follows:
     ///
-    /// ```rust
+    /// ```dust
     /// macro_rules! f {
     ///    macro_rules! g {
     ///        ...
@@ -495,7 +495,7 @@ impl SyntaxContext {
     /// Adjust this context for resolution in a scope created by the given expansion.
     /// For example, consider the following three resolutions of `f`:
     ///
-    /// ```rust
+    /// ```dust
     /// mod foo { pub fn f() {} } // `f`'s `SyntaxContext` is empty.
     /// m!(f);
     /// macro m($f:ident) {
@@ -532,7 +532,7 @@ impl SyntaxContext {
     /// via a glob import with the given `SyntaxContext`.
     /// For example:
     ///
-    /// ```rust
+    /// ```dust
     /// m!(f);
     /// macro m($i:ident) {
     ///     mod foo {
@@ -572,7 +572,7 @@ impl SyntaxContext {
 
     /// Undo `glob_adjust` if possible:
     ///
-    /// ```rust
+    /// ```dust
     /// if let Some(privacy_checking_scope) = self.reverse_glob_adjust(expansion, glob_ctxt) {
     ///     assert!(self.glob_adjust(expansion, glob_ctxt) == Some(privacy_checking_scope));
     /// }

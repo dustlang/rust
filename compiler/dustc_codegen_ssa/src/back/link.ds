@@ -1,29 +1,29 @@
-use rustc_data_structures::fx::FxHashSet;
-use rustc_data_structures::temp_dir::MaybeTempDir;
-use rustc_errors::Handler;
-use rustc_fs_util::fix_windows_verbatim_for_gcc;
-use rustc_hir::def_id::CrateNum;
-use rustc_middle::middle::cstore::{EncodedMetadata, LibSource};
-use rustc_middle::middle::dependency_format::Linkage;
-use rustc_session::config::{self, CFGuard, CrateType, DebugInfo};
-use rustc_session::config::{OutputFilenames, OutputType, PrintRequest, SanitizerSet};
-use rustc_session::output::{check_file_is_writeable, invalid_output_for_target, out_filename};
-use rustc_session::search_paths::PathKind;
-use rustc_session::utils::NativeLibKind;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::temp_dir::MaybeTempDir;
+use dustc_errors::Handler;
+use dustc_fs_util::fix_windows_verbatim_for_gcc;
+use dustc_hir::def_id::CrateNum;
+use dustc_middle::middle::cstore::{EncodedMetadata, LibSource};
+use dustc_middle::middle::dependency_format::Linkage;
+use dustc_session::config::{self, CFGuard, CrateType, DebugInfo};
+use dustc_session::config::{OutputFilenames, OutputType, PrintRequest, SanitizerSet};
+use dustc_session::output::{check_file_is_writeable, invalid_output_for_target, out_filename};
+use dustc_session::search_paths::PathKind;
+use dustc_session::utils::NativeLibKind;
 /// For all the linkers we support, and information they might
 /// need out of the shared crate context before we get rid of it.
-use rustc_session::{filesearch, Session};
-use rustc_span::symbol::Symbol;
-use rustc_target::spec::crt_objects::{CrtObjects, CrtObjectsFallback};
-use rustc_target::spec::{LinkOutputKind, LinkerFlavor, LldFlavor, SplitDebuginfo};
-use rustc_target::spec::{PanicStrategy, RelocModel, RelroLevel, Target};
+use dustc_session::{filesearch, Session};
+use dustc_span::symbol::Symbol;
+use dustc_target::spec::crt_objects::{CrtObjects, CrtObjectsFallback};
+use dustc_target::spec::{LinkOutputKind, LinkerFlavor, LldFlavor, SplitDebuginfo};
+use dustc_target::spec::{PanicStrategy, RelocModel, RelroLevel, Target};
 
 use super::archive::ArchiveBuilder;
 use super::command::Command;
 use super::linker::{self, Linker};
 use super::rpath::{self, RPathConfig};
 use crate::{
-    looks_like_rust_object_file, CodegenResults, CompiledModule, CrateInfo, NativeLib,
+    looks_like_dust_object_file, CodegenResults, CompiledModule, CrateInfo, NativeLib,
     METADATA_FILENAME,
 };
 
@@ -79,7 +79,7 @@ pub fn link_binary<'a, B: ArchiveBuilder<'a>>(
 
         if outputs.outputs.should_link() {
             let tmpdir = TempFileBuilder::new()
-                .prefix("rustc")
+                .prefix("dustc")
                 .tempdir()
                 .unwrap_or_else(|err| sess.fatal(&format!("couldn't create a temp dir: {}", err)));
             let path = MaybeTempDir::new(tmpdir, sess.opts.cg.save_temps);
@@ -275,7 +275,7 @@ pub fn each_linked_rlib(
     Ok(())
 }
 
-/// We use a temp directory here to avoid races between concurrent rustc processes,
+/// We use a temp directory here to avoid races between concurrent dustc processes,
 /// such as builds in the same directory using the same filename for metadata while
 /// building an `.rlib` (stomping over one another), or writing an `.rmeta` into a
 /// directory being searched for `extern crate` (observing an incomplete file).
@@ -436,7 +436,7 @@ fn link_staticlib<'a, B: ArchiveBuilder<'a>>(
         ab.add_rlib(
             path,
             &name.as_str(),
-            are_upstream_rust_objects_already_included(sess)
+            are_upstream_dust_objects_already_included(sess)
                 && !ignored_for_lto(sess, &codegen_results.crate_info, cnum),
             skip_object_files,
         )
@@ -466,9 +466,9 @@ fn escape_stdout_stderr_string(s: &[u8]) -> String {
     })
 }
 
-const LLVM_DWP_EXECUTABLE: &'static str = "rust-llvm-dwp";
+const LLVM_DWP_EXECUTABLE: &'static str = "dust-llvm-dwp";
 
-/// Invoke `llvm-dwp` (shipped alongside rustc) to link `dwo` files from Split DWARF into a `dwp`
+/// Invoke `llvm-dwp` (shipped alongside dustc) to link `dwo` files from Split DWARF into a `dwp`
 /// file.
 fn link_dwarf_object<'a>(sess: &'a Session, executable_out_filename: &Path) {
     info!("preparing dwp to {}.dwp", executable_out_filename.to_str().unwrap());
@@ -564,7 +564,7 @@ fn link_natively<'a, B: ArchiveBuilder<'a>>(
 
     // Invoke the system linker
     info!("{:?}", &cmd);
-    let retry_on_segfault = env::var("RUSTC_RETRY_LINKER_ON_SEGFAULT").is_ok();
+    let retry_on_segfault = env::var("DUSTC_RETRY_LINKER_ON_SEGFAULT").is_ok();
     let mut prog;
     let mut i = 0;
     loop {
@@ -671,7 +671,7 @@ fn link_natively<'a, B: ArchiveBuilder<'a>>(
         // retry the linker invocation if the linker looks like it segfaulted.
         //
         // Gee that seems odd, normally segfaults are things we want to know
-        // about!  Unfortunately though in rust-lang/rust#38878 we're
+        // about!  Unfortunately though in dust-lang/dust#38878 we're
         // experiencing the linker segfaulting on Travis quite a bit which is
         // causing quite a bit of pain to land PRs when they spuriously fail
         // due to a segfault.
@@ -928,7 +928,7 @@ fn link_sanitizer_runtime(sess: &Session, linker: &mut dyn Linker, name: &str) {
             // LLVM will link to `@rpath/*.dylib`, so we need to specify an
             // rpath to the library as well (the rpath should be absolute, see
             // PR #41352 for details).
-            let filename = format!("rustc{}_rt.{}", channel, name);
+            let filename = format!("dustc{}_rt.{}", channel, name);
             let path = find_sanitizer_runtime(&sess, &filename);
             let rpath = path.to_str().expect("non-utf8 component in path");
             linker.args(&["-Wl,-rpath", "-Xlinker", rpath]);
@@ -939,7 +939,7 @@ fn link_sanitizer_runtime(sess: &Session, linker: &mut dyn Linker, name: &str) {
         | "x86_64-fuchsia"
         | "x86_64-unknown-freebsd"
         | "x86_64-unknown-linux-gnu" => {
-            let filename = format!("librustc{}_rt.{}.a", channel, name);
+            let filename = format!("libdustc{}_rt.{}.a", channel, name);
             let path = find_sanitizer_runtime(&sess, &filename).join(&filename);
             linker.link_whole_rlib(&path);
         }
@@ -999,7 +999,7 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
                     LinkerFlavor::Ld => "ld",
                     LinkerFlavor::Msvc => "link.exe",
                     LinkerFlavor::Lld(_) => "lld",
-                    LinkerFlavor::PtxLinker => "rust-ptx-linker",
+                    LinkerFlavor::PtxLinker => "dust-ptx-linker",
                 }),
                 flavor,
             )),
@@ -1020,7 +1020,7 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
                     LinkerFlavor::Ld
                 } else if stem == "link" || stem == "lld-link" {
                     LinkerFlavor::Msvc
-                } else if stem == "lld" || stem == "rust-lld" {
+                } else if stem == "lld" || stem == "dust-lld" {
                     LinkerFlavor::Lld(sess.target.lld_flavor)
                 } else {
                     // fall back to the value in the target spec
@@ -1316,8 +1316,8 @@ fn link_output_kind(sess: &Session, crate_type: CrateType) -> LinkOutputKind {
 // Returns true if linker is located within sysroot
 fn detect_self_contained_mingw(sess: &Session) -> bool {
     let (linker, _) = linker_and_flavor(&sess);
-    // Assume `-C linker=rust-lld` as self-contained mode
-    if linker == Path::new("rust-lld") {
+    // Assume `-C linker=dust-lld` as self-contained mode
+    if linker == Path::new("dust-lld") {
         return true;
     }
     let linker_with_extension = if cfg!(windows) && linker.extension().is_none() {
@@ -1345,7 +1345,7 @@ fn crt_objects_fallback(sess: &Session, crate_type: CrateType) -> bool {
     match sess.target.crt_objects_fallback {
         // FIXME: Find a better heuristic for "native musl toolchain is available",
         // based on host and linker path, for example.
-        // (https://github.com/rust-lang/rust/pull/71769#issuecomment-626330237).
+        // (https://github.com/dust-lang/dust/pull/71769#issuecomment-626330237).
         Some(CrtObjectsFallback::Musl) => sess.crt_static(Some(crate_type)),
         Some(CrtObjectsFallback::Mingw) => {
             sess.host == sess.target
@@ -1405,7 +1405,7 @@ fn add_link_script(cmd: &mut dyn Linker, sess: &Session, tmpdir: &Path, crate_ty
                 sess.fatal("can only use link script when linking with GNU-like linker");
             }
 
-            let file_name = ["rustc", &sess.target.llvm_target, "linkfile.ld"].join("-");
+            let file_name = ["dustc", &sess.target.llvm_target, "linkfile.ld"].join("-");
 
             let path = tmpdir.join(file_name);
             if let Err(e) = fs::write(&path, script) {
@@ -1517,17 +1517,17 @@ fn link_local_crate_native_libs_and_dependent_crate_libs<'a, B: ArchiveBuilder<'
     //
     // 1. The local object that LLVM just generated
     // 2. Local native libraries
-    // 3. Upstream rust libraries
+    // 3. Upstream dust libraries
     // 4. Upstream native libraries
     //
     // The rationale behind this ordering is that those items lower down in the
     // list can't depend on items higher up in the list. For example nothing can
     // depend on what we just generated (e.g., that'd be a circular dependency).
-    // Upstream rust libraries are not allowed to depend on our local native
+    // Upstream dust libraries are not allowed to depend on our local native
     // libraries as that would violate the structure of the DAG, in that
     // scenario they are required to link to them as well in a shared fashion.
     //
-    // Note that upstream rust libraries may contain native dependencies as
+    // Note that upstream dust libraries may contain native dependencies as
     // well, but they also can't depend on what we just started to add to the
     // link line. And finally upstream native libraries can't depend on anything
     // in this DAG so far because they're only dylibs and dylibs can only depend
@@ -1539,7 +1539,7 @@ fn link_local_crate_native_libs_and_dependent_crate_libs<'a, B: ArchiveBuilder<'
     if sess.opts.debugging_opts.link_native_libraries {
         add_local_native_libraries(cmd, sess, codegen_results);
     }
-    add_upstream_rust_crates::<B>(cmd, sess, codegen_results, crate_type, tmpdir);
+    add_upstream_dust_crates::<B>(cmd, sess, codegen_results, crate_type, tmpdir);
     if sess.opts.debugging_opts.link_native_libraries {
         add_upstream_native_libraries(cmd, sess, codegen_results, crate_type);
     }
@@ -1779,7 +1779,7 @@ fn linker_with_args<'a, B: ArchiveBuilder<'a>>(
 /// # Native library linking
 ///
 /// User-supplied library search paths (-L on the command line). These are the same paths used to
-/// find Rust crates, so some of them may have been added already by the previous crate linking
+/// find Dust crates, so some of them may have been added already by the previous crate linking
 /// code. This only allows them to be found at compile time so it is still entirely up to outside
 /// forces to make sure that library can be found at runtime.
 ///
@@ -1824,11 +1824,11 @@ fn add_local_native_libraries(
     }
 }
 
-/// # Rust Crate linking
+/// # Dust Crate linking
 ///
-/// Rust crates are not considered at all when creating an rlib output. All dependencies will be
+/// Dust crates are not considered at all when creating an rlib output. All dependencies will be
 /// linked when producing the final output (instead of the intermediate rlib version).
-fn add_upstream_rust_crates<'a, B: ArchiveBuilder<'a>>(
+fn add_upstream_dust_crates<'a, B: ArchiveBuilder<'a>>(
     cmd: &mut dyn Linker,
     sess: &'a Session,
     codegen_results: &CodegenResults,
@@ -1857,7 +1857,7 @@ fn add_upstream_rust_crates<'a, B: ArchiveBuilder<'a>>(
     // There's a few internal crates in the standard library (aka libcore and
     // libstd) which actually have a circular dependence upon one another. This
     // currently arises through "weak lang items" where libcore requires things
-    // like `rust_begin_unwind` but libstd ends up defining it. To get this
+    // like `dust_begin_unwind` but libstd ends up defining it. To get this
     // circular dependence to work correctly in all situations we'll need to be
     // sure to correctly apply the `--start-group` and `--end-group` options to
     // GNU linkers, otherwise if we don't use any other symbol from the standard
@@ -2003,7 +2003,7 @@ fn add_upstream_rust_crates<'a, B: ArchiveBuilder<'a>>(
             .iter()
             .any(|lib| lib.kind == NativeLibKind::StaticBundle && !relevant_lib(sess, lib));
 
-        if (!are_upstream_rust_objects_already_included(sess)
+        if (!are_upstream_dust_objects_already_included(sess)
             || ignored_for_lto(sess, &codegen_results.crate_info, cnum))
             && crate_type != CrateType::Dylib
             && !skip_native
@@ -2030,20 +2030,20 @@ fn add_upstream_rust_crates<'a, B: ArchiveBuilder<'a>>(
                 let canonical = f.replace("-", "_");
                 let canonical_name = name.replace("-", "_");
 
-                let is_rust_object =
-                    canonical.starts_with(&canonical_name) && looks_like_rust_object_file(&f);
+                let is_dust_object =
+                    canonical.starts_with(&canonical_name) && looks_like_dust_object_file(&f);
 
                 // If we've been requested to skip all native object files
-                // (those not generated by the rust compiler) then we can skip
+                // (those not generated by the dust compiler) then we can skip
                 // this file. See above for why we may want to do this.
-                let skip_because_cfg_say_so = skip_native && !is_rust_object;
+                let skip_because_cfg_say_so = skip_native && !is_dust_object;
 
-                // If we're performing LTO and this is a rust-generated object
+                // If we're performing LTO and this is a dust-generated object
                 // file, then we don't need the object file as it's part of the
                 // LTO module. Note that `#![no_builtins]` is excluded from LTO,
                 // though, so we let that object file slide.
-                let skip_because_lto = are_upstream_rust_objects_already_included(sess)
-                    && is_rust_object
+                let skip_because_lto = are_upstream_dust_objects_already_included(sess)
+                    && is_dust_object
                     && (sess.target.no_builtins
                         || !codegen_results.crate_info.is_no_builtins.contains(&cnum));
 
@@ -2085,7 +2085,7 @@ fn add_upstream_rust_crates<'a, B: ArchiveBuilder<'a>>(
             cmd.include_path(&fix_windows_verbatim_for_gcc(dir));
         }
         let filestem = cratepath.file_stem().unwrap().to_str().unwrap();
-        cmd.link_rust_dylib(
+        cmd.link_dust_dylib(
             Symbol::intern(&unlib(&sess.target, filestem)),
             parent.unwrap_or_else(|| Path::new("")),
         );
@@ -2152,7 +2152,7 @@ fn add_upstream_native_libraries(
                     }
                 }
                 // ignore statically included native libraries here as we've
-                // already included them when we included the rust library
+                // already included them when we included the dust library
                 // previously
                 NativeLibKind::StaticBundle => {}
                 NativeLibKind::RawDylib => {
@@ -2166,12 +2166,12 @@ fn add_upstream_native_libraries(
 
 fn relevant_lib(sess: &Session, lib: &NativeLib) -> bool {
     match lib.cfg {
-        Some(ref cfg) => rustc_attr::cfg_matches(cfg, &sess.parse_sess, None),
+        Some(ref cfg) => dustc_attr::cfg_matches(cfg, &sess.parse_sess, None),
         None => true,
     }
 }
 
-fn are_upstream_rust_objects_already_included(sess: &Session) -> bool {
+fn are_upstream_dust_objects_already_included(sess: &Session) -> bool {
     match sess.lto() {
         config::Lto::Fat => true,
         config::Lto::Thin => {
@@ -2229,7 +2229,7 @@ fn get_apple_sdk_root(sdk_name: &str) -> Result<String, String> {
     // (https://github.com/llvm/llvm-project/blob/
     // 296a80102a9b72c3eda80558fb78a3ed8849b341/clang/lib/Driver/ToolChains/Darwin.cpp#L1661-L1678)
     // to allow the SDK path to be set. (For clang, xcrun sets
-    // SDKROOT; for rustc, the user or build system can set it, or we
+    // SDKROOT; for dustc, the user or build system can set it, or we
     // can fall back to checking for xcrun on PATH.)
     if let Ok(sdkroot) = env::var("SDKROOT") {
         let p = Path::new(&sdkroot);

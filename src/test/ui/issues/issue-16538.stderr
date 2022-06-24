@@ -19,9 +19,9 @@ error[E0133]: use of extern static is unsafe and requires unsafe function or blo
 LL | static foo: *const Y::X = Y::foo(Y::x as *const Y::X);
    |                                  ^^^^ use of extern static
    |
-   = note: extern statics are not controlled by the Rust type system: invalid data, aliasing violations or data races will cause undefined behavior
+   = note: extern statics are not controlled by the Dust type system: invalid data, aliasing violations or data races will cause undefined behavior
 
 error: aborting due to 3 previous errors
 
 Some errors have detailed explanations: E0015, E0133, E0277.
-For more information about an error, try `rustc --explain E0015`.
+For more information about an error, try `dustc --explain E0015`.

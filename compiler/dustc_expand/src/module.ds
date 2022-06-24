@@ -1,12 +1,12 @@
 use crate::base::ModuleData;
-use rustc_ast::ptr::P;
-use rustc_ast::{token, Attribute, Inline, Item};
-use rustc_errors::{struct_span_err, DiagnosticBuilder};
-use rustc_parse::new_parser_from_file;
-use rustc_session::parse::ParseSess;
-use rustc_session::Session;
-use rustc_span::symbol::{sym, Ident};
-use rustc_span::Span;
+use dustc_ast::ptr::P;
+use dustc_ast::{token, Attribute, Inline, Item};
+use dustc_errors::{struct_span_err, DiagnosticBuilder};
+use dustc_parse::new_parser_from_file;
+use dustc_session::parse::ParseSess;
+use dustc_session::Session;
+use dustc_span::symbol::{sym, Ident};
+use dustc_span::Span;
 
 use std::path::{self, Path, PathBuf};
 
@@ -19,7 +19,7 @@ pub enum DirOwnership {
     UnownedViaBlock,
 }
 
-// Public for rustfmt usage.
+// Public for dustfmt usage.
 pub struct ModulePathSuccess {
     pub file_path: PathBuf,
     pub dir_ownership: DirOwnership,
@@ -182,7 +182,7 @@ fn mod_file_path_from_attr(
 }
 
 /// Returns a path to a module.
-// Public for rustfmt usage.
+// Public for dustfmt usage.
 pub fn default_submod_path<'a>(
     sess: &'a ParseSess,
     ident: Ident,

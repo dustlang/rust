@@ -1,5 +1,5 @@
 use super::{InlineAsmArch, InlineAsmType};
-use rustc_macros::HashStable_Generic;
+use dustc_macros::HashStable_Generic;
 
 def_reg_class! {
     Wasm WasmInlineAsmRegClass {

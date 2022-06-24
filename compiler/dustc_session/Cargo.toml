@@ -1,21 +1,21 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_session"
+name = "dustc_session"
 version = "0.0.0"
 edition = "2018"
 
 [dependencies]
 bitflags = "1.2.1"
 getopts = "0.2"
-rustc_macros = { path = "../rustc_macros" }
+dustc_macros = { path = "../dustc_macros" }
 tracing = "0.1"
-rustc_errors = { path = "../rustc_errors" }
-rustc_feature = { path = "../rustc_feature" }
-rustc_target = { path = "../rustc_target" }
-rustc_serialize = { path = "../rustc_serialize" }
-rustc_data_structures = { path = "../rustc_data_structures" }
-rustc_span = { path = "../rustc_span" }
-rustc_fs_util = { path = "../rustc_fs_util" }
+dustc_errors = { path = "../dustc_errors" }
+dustc_feature = { path = "../dustc_feature" }
+dustc_target = { path = "../dustc_target" }
+dustc_serialize = { path = "../dustc_serialize" }
+dustc_data_structures = { path = "../dustc_data_structures" }
+dustc_span = { path = "../dustc_span" }
+dustc_fs_util = { path = "../dustc_fs_util" }
 num_cpus = "1.0"
-rustc_ast = { path = "../rustc_ast" }
-rustc_lint_defs = { path = "../rustc_lint_defs" }
+dustc_ast = { path = "../dustc_ast" }
+dustc_lint_defs = { path = "../dustc_lint_defs" }

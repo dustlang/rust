@@ -1,22 +1,22 @@
 use crate::check::FnCtxt;
-use rustc_ast as ast;
+use dustc_ast as ast;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, DefKind, Res};
-use rustc_hir::pat_util::EnumerateAndAdjustIterator;
-use rustc_hir::{HirId, Pat, PatKind};
-use rustc_infer::infer;
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_middle::ty::subst::GenericArg;
-use rustc_middle::ty::{self, Adt, BindingMode, Ty, TypeFoldable};
-use rustc_span::hygiene::DesugaringKind;
-use rustc_span::lev_distance::find_best_match_for_name;
-use rustc_span::source_map::{Span, Spanned};
-use rustc_span::symbol::Ident;
-use rustc_span::{BytePos, DUMMY_SP};
-use rustc_trait_selection::traits::{ObligationCause, Pattern};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, DefKind, Res};
+use dustc_hir::pat_util::EnumerateAndAdjustIterator;
+use dustc_hir::{HirId, Pat, PatKind};
+use dustc_infer::infer;
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_middle::ty::subst::GenericArg;
+use dustc_middle::ty::{self, Adt, BindingMode, Ty, TypeFoldable};
+use dustc_span::hygiene::DesugaringKind;
+use dustc_span::lev_distance::find_best_match_for_name;
+use dustc_span::source_map::{Span, Spanned};
+use dustc_span::symbol::Ident;
+use dustc_span::{BytePos, DUMMY_SP};
+use dustc_trait_selection::traits::{ObligationCause, Pattern};
 use ty::VariantDef;
 
 use std::cmp;
@@ -31,7 +31,7 @@ this type has no compile-time size. Therefore, all accesses to trait types must 
 pointers. If you encounter this error you should try to avoid dereferencing the pointer.
 
 You can read more about trait objects in the Trait Objects section of the Reference: \
-https://doc.rust-lang.org/reference/types.html#trait-objects";
+https://doc.dust-lang.org/reference/types.html#trait-objects";
 
 /// Information about the expected type at the top level of type checking a pattern.
 ///
@@ -892,7 +892,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                     err.span_label(pat.span, "`fn` calls are not allowed in patterns");
                     err.help(
                         "for more information, visit \
-                              https://doc.rust-lang.org/book/ch18-00-patterns.html",
+                              https://doc.dust-lang.org/book/ch18-00-patterns.html",
                     );
                 }
                 _ => {
@@ -1301,7 +1301,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
         {
             let has_shorthand_field_name = field_patterns.iter().any(|field| field.is_shorthand);
             if has_shorthand_field_name {
-                let path = rustc_hir_pretty::to_string(rustc_hir_pretty::NO_ANN, |s| {
+                let path = dustc_hir_pretty::to_string(dustc_hir_pretty::NO_ANN, |s| {
                     s.print_qpath(qpath, false)
                 });
                 let mut err = struct_span_err!(
@@ -1450,7 +1450,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
         variant: &ty::VariantDef,
     ) -> Option<DiagnosticBuilder<'tcx>> {
         if let (CtorKind::Fn, PatKind::Struct(qpath, ..)) = (variant.ctor_kind, &pat.kind) {
-            let path = rustc_hir_pretty::to_string(rustc_hir_pretty::NO_ANN, |s| {
+            let path = dustc_hir_pretty::to_string(dustc_hir_pretty::NO_ANN, |s| {
                 s.print_qpath(qpath, false)
             });
             let mut err = struct_span_err!(
@@ -1501,7 +1501,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                             f
                         }
                     }
-                    Err(_) => rustc_hir_pretty::to_string(rustc_hir_pretty::NO_ANN, |s| {
+                    Err(_) => dustc_hir_pretty::to_string(dustc_hir_pretty::NO_ANN, |s| {
                         s.print_pat(field.pat)
                     }),
                 }

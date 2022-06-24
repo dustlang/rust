@@ -227,7 +227,7 @@ fn test_zip_trusted_random_access_composition() {
     assert_eq!(z1.next().unwrap(), (0, 0));
 
     let mut z2 = z1.zip(c);
-    fn assert_trusted_random_access<T: TrustedRandomAccess>(_a: &T) {}
+    fn assert_trusted_random_access<T: TdustedRandomAccess>(_a: &T) {}
     assert_trusted_random_access(&z2);
     assert_eq!(z2.next().unwrap(), ((1, 1), 1));
 }

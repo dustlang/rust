@@ -1,6 +1,6 @@
 # Lint levels
 
-In `rustc`, lints are divided into four *levels*:
+In `dustc`, lints are divided into four *levels*:
 
 1. allow
 2. warn
@@ -16,14 +16,14 @@ what these levels mean, and then we'll talk about configuration.
 These lints exist, but by default, do nothing. For example, consider this
 source:
 
-```rust
+```dust
 pub fn foo() {}
 ```
 
 Compiling this file produces no warnings:
 
 ```bash
-$ rustc lib.rs --crate-type=lib
+$ dustc lib.rs --crate-type=lib
 $
 ```
 
@@ -37,7 +37,7 @@ talk about later in this section.
 The 'warn' lint level will produce a warning if you violate the lint. For example,
 this code runs afoul of the `unused_variables` lint:
 
-```rust
+```dust
 pub fn foo() {
     let x = 5;
 }
@@ -46,7 +46,7 @@ pub fn foo() {
 This will produce this warning:
 
 ```bash
-$ rustc lib.rs --crate-type=lib
+$ dustc lib.rs --crate-type=lib
 warning: unused variable: `x`
  --> lib.rs:2:9
   |
@@ -62,14 +62,14 @@ warning: unused variable: `x`
 A 'deny' lint produces an error if you violate it. For example, this code
 runs into the `exceeding_bitshifts` lint.
 
-```rust,no_run
+```dust,no_run
 fn main() {
     100u8 << 10;
 }
 ```
 
 ```bash
-$ rustc main.rs
+$ dustc main.rs
 error: bitshift exceeds the type's number of bits
  --> main.rs:2:13
   |
@@ -91,7 +91,7 @@ This lint level gives you that.
 as 'deny' in that a lint at this level will produce an error, but unlike the
 'deny' level, the 'forbid' level can not be overridden to be anything lower
 than an error.  However, lint levels may still be capped with `--cap-lints`
-(see below) so `rustc --cap-lints warn` will make lints set to 'forbid' just
+(see below) so `dustc --cap-lints warn` will make lints set to 'forbid' just
 warn.
 
 ## Configuring warning levels
@@ -101,7 +101,7 @@ Remember our `missing_docs` example from the 'allow' lint level?
 ```bash
 $ cat lib.rs
 pub fn foo() {}
-$ rustc lib.rs --crate-type=lib
+$ dustc lib.rs --crate-type=lib
 $
 ```
 
@@ -117,7 +117,7 @@ The `-A`, `-W`, `-D`, and `-F` flags let you turn one or more lints
 into allowed, warning, deny, or forbid levels, like this:
 
 ```bash
-$ rustc lib.rs --crate-type=lib -W missing-docs
+$ dustc lib.rs --crate-type=lib -W missing-docs
 warning: missing documentation for crate
  --> lib.rs:1:1
   |
@@ -134,7 +134,7 @@ warning: missing documentation for a function
 ```
 
 ```bash
-$ rustc lib.rs --crate-type=lib -D missing-docs
+$ dustc lib.rs --crate-type=lib -D missing-docs
 error: missing documentation for crate
  --> lib.rs:1:1
   |
@@ -155,25 +155,25 @@ error: aborting due to 2 previous errors
 You can also pass each flag more than once for changing multiple lints:
 
 ```bash
-$ rustc lib.rs --crate-type=lib -D missing-docs -D unused-variables
+$ dustc lib.rs --crate-type=lib -D missing-docs -D unused-variables
 ```
 
 And of course, you can mix these four flags together:
 
 ```bash
-$ rustc lib.rs --crate-type=lib -D missing-docs -A unused-variables
+$ dustc lib.rs --crate-type=lib -D missing-docs -A unused-variables
 ```
 
 The order of these command line arguments is taken into account. The following allows the `unused-variables` lint, because it is the last argument for that lint:
 
 ```bash
-$ rustc lib.rs --crate-type=lib -D unused-variables -A unused-variables
+$ dustc lib.rs --crate-type=lib -D unused-variables -A unused-variables
 ```
 
 You can make use of this behavior by overriding the level of one specific lint out of a group of lints. The following example denies all the lints in the `unused` group, but explicitly allows the `unused-variables` lint in that group (forbid still trumps everything regardless of ordering):
 
 ```bash
-$ rustc lib.rs --crate-type=lib -D unused -A unused-variables
+$ dustc lib.rs --crate-type=lib -D unused -A unused-variables
 ```
 
 ### Via an attribute
@@ -185,7 +185,7 @@ $ cat lib.rs
 #![warn(missing_docs)]
 
 pub fn foo() {}
-$ rustc lib.rs --crate-type=lib
+$ dustc lib.rs --crate-type=lib
 warning: missing documentation for crate
  --> lib.rs:1:1
   |
@@ -211,7 +211,7 @@ All four, `warn`, `allow`, `deny`, and `forbid` all work this way.
 
 You can also pass in multiple lints per attribute:
 
-```rust
+```dust
 #![warn(missing_docs, unused_variables)]
 
 pub fn foo() {}
@@ -219,7 +219,7 @@ pub fn foo() {}
 
 And use multiple attributes together:
 
-```rust
+```dust
 #![warn(missing_docs)]
 #![deny(unused_variables)]
 
@@ -228,11 +228,11 @@ pub fn foo() {}
 
 ### Capping lints
 
-`rustc` supports a flag, `--cap-lints LEVEL` that sets the "lint cap level."
+`dustc` supports a flag, `--cap-lints LEVEL` that sets the "lint cap level."
 This is the maximum level for all lints. So for example, if we take our
 code sample from the "deny" lint level above:
 
-```rust,no_run
+```dust,no_run
 fn main() {
     100u8 << 10;
 }
@@ -241,7 +241,7 @@ fn main() {
 And we compile it, capping lints to warn:
 
 ```bash
-$ rustc lib.rs --cap-lints warn
+$ dustc lib.rs --cap-lints warn
 warning: bitshift exceeds the type's number of bits
  --> lib.rs:2:5
   |
@@ -260,7 +260,7 @@ warning: this expression will panic at run-time
 It now only warns, rather than errors. We can go further and allow all lints:
 
 ```bash
-$ rustc lib.rs --cap-lints allow
+$ dustc lib.rs --cap-lints allow
 $
 ```
 

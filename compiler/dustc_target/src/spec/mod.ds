@@ -1,27 +1,27 @@
-//! [Flexible target specification.](https://github.com/rust-lang/rfcs/pull/131)
+//! [Flexible target specification.](https://github.com/dust-lang/rfcs/pull/131)
 //!
-//! Rust targets a wide variety of usecases, and in the interest of flexibility,
+//! Dust targets a wide variety of usecases, and in the interest of flexibility,
 //! allows new target triples to be defined in configuration files. Most users
-//! will not need to care about these, but this is invaluable when porting Rust
+//! will not need to care about these, but this is invaluable when porting Dust
 //! to a new platform, and allows for an unprecedented level of control over how
 //! the compiler works.
 //!
 //! # Using custom targets
 //!
-//! A target triple, as passed via `rustc --target=TRIPLE`, will first be
+//! A target triple, as passed via `dustc --target=TRIPLE`, will first be
 //! compared against the list of built-in targets. This is to ease distributing
-//! rustc (no need for configuration files) and also to hold these built-in
+//! dustc (no need for configuration files) and also to hold these built-in
 //! targets as immutable and sacred. If `TRIPLE` is not one of the built-in
-//! targets, rustc will check if a file named `TRIPLE` exists. If it does, it
+//! targets, dustc will check if a file named `TRIPLE` exists. If it does, it
 //! will be loaded as the target configuration. If the file does not exist,
-//! rustc will search each directory in the environment variable
-//! `RUST_TARGET_PATH` for a file named `TRIPLE.json`. The first one found will
+//! dustc will search each directory in the environment variable
+//! `DUST_TARGET_PATH` for a file named `TRIPLE.json`. The first one found will
 //! be loaded. If no file is found in any of those directories, a fatal error
 //! will be given.
 //!
 //! Projects defining their own targets should use
 //! `--target=path/to/my-awesome-platform.json` instead of adding to
-//! `RUST_TARGET_PATH`.
+//! `DUST_TARGET_PATH`.
 //!
 //! # Defining a new target
 //!
@@ -30,15 +30,15 @@
 //! underscore in the field names should be replaced with a hyphen (`-`) in the
 //! JSON file. Some fields are required in every target specification, such as
 //! `llvm-target`, `target-endian`, `target-pointer-width`, `data-layout`,
-//! `arch`, and `os`. In general, options passed to rustc with `-C` override
+//! `arch`, and `os`. In general, options passed to dustc with `-C` override
 //! the target's settings, though `target-feature` and `link-args` will *add*
 //! to the list specified by the target, rather than replace.
 
 use crate::abi::Endian;
 use crate::spec::abi::{lookup as lookup_abi, Abi};
 use crate::spec::crt_objects::{CrtObjects, CrtObjectsFallback};
-use rustc_serialize::json::{Json, ToJson};
-use rustc_span::symbol::{sym, Symbol};
+use dustc_serialize::json::{Json, ToJson};
+use dustc_span::symbol::{sym, Symbol};
 use std::collections::BTreeMap;
 use std::convert::TryFrom;
 use std::ops::{Deref, DerefMut};
@@ -46,7 +46,7 @@ use std::path::{Path, PathBuf};
 use std::str::FromStr;
 use std::{fmt, io};
 
-use rustc_macros::HashStable_Generic;
+use dustc_macros::HashStable_Generic;
 
 pub mod abi;
 pub mod crt_objects;
@@ -464,7 +464,7 @@ pub enum SplitDebuginfo {
     ///
     /// * Windows - `*.pdb`
     /// * macOS - `*.dSYM` (run `dsymutil`)
-    /// * ELF - `*.dwp` (run `rust-llvm-dwp`)
+    /// * ELF - `*.dwp` (run `dust-llvm-dwp`)
     Packed,
 
     /// Split debug-information can be found in individual object files on the
@@ -551,10 +551,10 @@ pub enum StackProbeType {
     /// stack probes as the failure mode is the same as if no stack-probe option was specified in
     /// the first place.
     Inline,
-    /// Call `__rust_probestack` whenever stack needs to be probed.
+    /// Call `__dust_probestack` whenever stack needs to be probed.
     Call,
     /// Use inline option for LLVM versions later than specified in `min_llvm_version_for_inline`
-    /// and call `__rust_probestack` otherwise.
+    /// and call `__dust_probestack` otherwise.
     InlineOrCall { min_llvm_version_for_inline: (u32, u32, u32) },
 }
 
@@ -818,7 +818,7 @@ supported_targets! {
     ("aarch64_be-unknown-linux-gnu_ilp32", aarch64_be_unknown_linux_gnu_ilp32),
 }
 
-/// Everything `rustc` knows about how to compile for a specific target.
+/// Everything `dustc` knows about how to compile for a specific target.
 ///
 /// Every field here must be specified, and has no default value.
 #[derive(PartialEq, Clone, Debug)]
@@ -879,7 +879,7 @@ pub struct TargetOptions {
     /// Linker to invoke
     pub linker: Option<String>,
 
-    /// LLD flavor used if `lld` (or `rust-lld`) is specified as a linker
+    /// LLD flavor used if `lld` (or `dust-lld`) is specified as a linker
     /// without clarifying its flavor in any way.
     pub lld_flavor: LldFlavor,
 
@@ -901,9 +901,9 @@ pub struct TargetOptions {
     /// libraries that should be always be linked to, usually go here.
     pub late_link_args: LinkArgs,
     /// Linker arguments used in addition to `late_link_args` if at least one
-    /// Rust dependency is dynamically linked.
+    /// Dust dependency is dynamically linked.
     pub late_link_args_dynamic: LinkArgs,
-    /// Linker arguments used in addition to `late_link_args` if aall Rust
+    /// Linker arguments used in addition to `late_link_args` if aall Dust
     /// dependencies are statically linked.
     pub late_link_args_static: LinkArgs,
     /// Linker arguments that are unconditionally passed *after* any
@@ -1111,7 +1111,7 @@ pub struct TargetOptions {
     /// unwinders.
     pub requires_uwtable: bool,
 
-    /// Whether or not SIMD types are passed by reference in the Rust ABI,
+    /// Whether or not SIMD types are passed by reference in the Dust ABI,
     /// typically required if a target can be compiled with a mixed set of
     /// target features. This is `true` by default, and `false` for targets like
     /// wasm32 where the whole program either has simd or not.
@@ -1129,7 +1129,7 @@ pub struct TargetOptions {
     /// The MergeFunctions pass is generally useful, but some targets may need
     /// to opt out. The default is "aliases".
     ///
-    /// Workaround for: <https://github.com/rust-lang/rust/issues/57356>
+    /// Workaround for: <https://github.com/dust-lang/dust/issues/57356>
     pub merge_functions: MergeFunctions,
 
     /// Use platform dependent mcount function
@@ -1410,7 +1410,7 @@ impl Target {
                     match s.parse::<RelocModel>() {
                         Ok(relocation_model) => base.$key_name = relocation_model,
                         _ => return Some(Err(format!("'{}' is not a valid relocation model. \
-                                                      Run `rustc --print relocation-models` to \
+                                                      Run `dustc --print relocation-models` to \
                                                       see the list of supported values.", s))),
                     }
                     Some(Ok(()))
@@ -1422,7 +1422,7 @@ impl Target {
                     match s.parse::<CodeModel>() {
                         Ok(code_model) => base.$key_name = Some(code_model),
                         _ => return Some(Err(format!("'{}' is not a valid code model. \
-                                                      Run `rustc --print code-models` to \
+                                                      Run `dustc --print code-models` to \
                                                       see the list of supported values.", s))),
                     }
                     Some(Ok(()))
@@ -1434,7 +1434,7 @@ impl Target {
                     match s.parse::<TlsModel>() {
                         Ok(tls_model) => base.$key_name = tls_model,
                         _ => return Some(Err(format!("'{}' is not a valid TLS model. \
-                                                      Run `rustc --print tls-models` to \
+                                                      Run `dustc --print tls-models` to \
                                                       see the list of supported values.", s))),
                     }
                     Some(Ok(()))
@@ -1755,7 +1755,7 @@ impl Target {
         Ok(base)
     }
 
-    /// Search RUST_TARGET_PATH for a JSON file specifying the given target
+    /// Search DUST_TARGET_PATH for a JSON file specifying the given target
     /// triple. Note that it could also just be a bare filename already, so also
     /// check for that. If one of the hardcoded targets we know about, just
     /// return it directly.
@@ -1763,7 +1763,7 @@ impl Target {
     /// The error string could come from any of the APIs called, including
     /// filesystem access and JSON decoding.
     pub fn search(target_triple: &TargetTriple) -> Result<Target, String> {
-        use rustc_serialize::json;
+        use dustc_serialize::json;
         use std::env;
         use std::fs;
 
@@ -1780,14 +1780,14 @@ impl Target {
                     return Ok(t);
                 }
 
-                // search for a file named `target_triple`.json in RUST_TARGET_PATH
+                // search for a file named `target_triple`.json in DUST_TARGET_PATH
                 let path = {
                     let mut target = target_triple.to_string();
                     target.push_str(".json");
                     PathBuf::from(target)
                 };
 
-                let target_path = env::var_os("RUST_TARGET_PATH").unwrap_or_default();
+                let target_path = env::var_os("DUST_TARGET_PATH").unwrap_or_default();
 
                 // FIXME 16351: add a sane default search path?
 

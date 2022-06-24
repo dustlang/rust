@@ -1,13 +1,13 @@
 -include ../tools.mk
 
-# This test verifies that rustdoc doesn't ICE when it encounters an IO error
-# while generating files. Ideally this would be a rustdoc-ui test, so we could
+# This test verifies that dustdoc doesn't ICE when it encounters an IO error
+# while generating files. Ideally this would be a dustdoc-ui test, so we could
 # verify the error message as well.
 
 # ignore-windows
 # The test uses `chmod`.
 
-OUTPUT_DIR := "$(TMPDIR)/rustdoc-io-error"
+OUTPUT_DIR := "$(TMPDIR)/dustdoc-io-error"
 
 # This test operates by creating a temporary directory and modifying its
 # permissions so that it is not writable. We have to take special care to set
@@ -15,6 +15,6 @@ OUTPUT_DIR := "$(TMPDIR)/rustdoc-io-error"
 all:
 	mkdir -p $(OUTPUT_DIR)
 	chmod u-w $(OUTPUT_DIR)
-	-$(shell $(RUSTDOC) -o $(OUTPUT_DIR) foo.rs)
+	-$(shell $(DUSTDOC) -o $(OUTPUT_DIR) foo.rs)
 	chmod u+w $(OUTPUT_DIR)
 	exit $($(.SHELLSTATUS) -eq 1)

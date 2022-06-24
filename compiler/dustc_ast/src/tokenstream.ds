@@ -15,16 +15,16 @@
 
 use crate::token::{self, DelimToken, Token, TokenKind};
 
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::sync::{self, Lrc};
-use rustc_macros::HashStable_Generic;
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
-use rustc_span::{Span, DUMMY_SP};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::sync::{self, Lrc};
+use dustc_macros::HashStable_Generic;
+use dustc_serialize::{Decodable, Decoder, Encodable, Encoder};
+use dustc_span::{Span, DUMMY_SP};
 use smallvec::{smallvec, SmallVec};
 
 use std::{fmt, iter, mem};
 
-/// When the main Rust parser encounters a syntax-extension invocation, it
+/// When the main Dust parser encounters a syntax-extension invocation, it
 /// parses the arguments to the invocation as a token tree. This is a very
 /// loose structure, such that all sorts of different AST fragments can
 /// be passed to syntax extensions using a uniform type.
@@ -190,7 +190,7 @@ pub type TreeAndSpacing = (TokenTree, Spacing);
 
 // `TokenStream` is used a lot. Make sure it doesn't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
-rustc_data_structures::static_assert_size!(TokenStream, 8);
+dustc_data_structures::static_assert_size!(TokenStream, 8);
 
 #[derive(Clone, Copy, Debug, PartialEq, Encodable, Decodable)]
 pub enum Spacing {

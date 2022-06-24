@@ -104,4 +104,4 @@ LL |     Self::Baz: Clone, T: Clone
 
 error: aborting due to 8 previous errors
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

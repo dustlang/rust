@@ -12,4 +12,4 @@ LL | where 'x: 'y
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0700`.
+For more information about this error, try `dustc --explain E0700`.

@@ -14,61 +14,61 @@
 
 all:
 	# Building just baz
-	$(RUSTC) --crate-type=rlib  foo.rs
-	$(RUSTC) --crate-type=dylib bar1.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=dylib,rlib baz.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=bin baz.rs
+	$(DUSTC) --crate-type=rlib  foo.rs
+	$(DUSTC) --crate-type=dylib bar1.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=dylib,rlib baz.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=bin baz.rs
 	rm $(TMPDIR)/*
-	$(RUSTC) --crate-type=dylib foo.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=rlib  bar1.rs
-	$(RUSTC) --crate-type=dylib,rlib baz.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=bin baz.rs
+	$(DUSTC) --crate-type=dylib foo.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=rlib  bar1.rs
+	$(DUSTC) --crate-type=dylib,rlib baz.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=bin baz.rs
 	rm $(TMPDIR)/*
 	# Building baz2
-	$(RUSTC) --crate-type=rlib  foo.rs
-	$(RUSTC) --crate-type=dylib bar1.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=dylib bar2.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=dylib baz2.rs && exit 1 || exit 0
-	$(RUSTC) --crate-type=bin baz2.rs && exit 1 || exit 0
+	$(DUSTC) --crate-type=rlib  foo.rs
+	$(DUSTC) --crate-type=dylib bar1.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=dylib bar2.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=dylib baz2.rs && exit 1 || exit 0
+	$(DUSTC) --crate-type=bin baz2.rs && exit 1 || exit 0
 	rm $(TMPDIR)/*
-	$(RUSTC) --crate-type=rlib  foo.rs
-	$(RUSTC) --crate-type=rlib  bar1.rs
-	$(RUSTC) --crate-type=dylib bar2.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=dylib,rlib baz2.rs
-	$(RUSTC) --crate-type=bin baz2.rs
+	$(DUSTC) --crate-type=rlib  foo.rs
+	$(DUSTC) --crate-type=rlib  bar1.rs
+	$(DUSTC) --crate-type=dylib bar2.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=dylib,rlib baz2.rs
+	$(DUSTC) --crate-type=bin baz2.rs
 	rm $(TMPDIR)/*
-	$(RUSTC) --crate-type=rlib  foo.rs
-	$(RUSTC) --crate-type=dylib bar1.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=rlib  bar2.rs
-	$(RUSTC) --crate-type=dylib,rlib baz2.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=bin baz2.rs
+	$(DUSTC) --crate-type=rlib  foo.rs
+	$(DUSTC) --crate-type=dylib bar1.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=rlib  bar2.rs
+	$(DUSTC) --crate-type=dylib,rlib baz2.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=bin baz2.rs
 	rm $(TMPDIR)/*
-	$(RUSTC) --crate-type=rlib  foo.rs
-	$(RUSTC) --crate-type=rlib  bar1.rs
-	$(RUSTC) --crate-type=rlib  bar2.rs
-	$(RUSTC) --crate-type=dylib,rlib baz2.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=bin baz2.rs
+	$(DUSTC) --crate-type=rlib  foo.rs
+	$(DUSTC) --crate-type=rlib  bar1.rs
+	$(DUSTC) --crate-type=rlib  bar2.rs
+	$(DUSTC) --crate-type=dylib,rlib baz2.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=bin baz2.rs
 	rm $(TMPDIR)/*
-	$(RUSTC) --crate-type=dylib foo.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=rlib  bar1.rs
-	$(RUSTC) --crate-type=rlib  bar2.rs
-	$(RUSTC) --crate-type=dylib,rlib baz2.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=bin baz2.rs
+	$(DUSTC) --crate-type=dylib foo.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=rlib  bar1.rs
+	$(DUSTC) --crate-type=rlib  bar2.rs
+	$(DUSTC) --crate-type=dylib,rlib baz2.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=bin baz2.rs
 	rm $(TMPDIR)/*
-	$(RUSTC) --crate-type=dylib foo.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=dylib bar1.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=rlib  bar2.rs
-	$(RUSTC) --crate-type=dylib,rlib baz2.rs
-	$(RUSTC) --crate-type=bin baz2.rs
+	$(DUSTC) --crate-type=dylib foo.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=dylib bar1.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=rlib  bar2.rs
+	$(DUSTC) --crate-type=dylib,rlib baz2.rs
+	$(DUSTC) --crate-type=bin baz2.rs
 	rm $(TMPDIR)/*
-	$(RUSTC) --crate-type=dylib foo.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=rlib  bar1.rs
-	$(RUSTC) --crate-type=dylib bar2.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=dylib,rlib baz2.rs
-	$(RUSTC) --crate-type=bin baz2.rs
+	$(DUSTC) --crate-type=dylib foo.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=rlib  bar1.rs
+	$(DUSTC) --crate-type=dylib bar2.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=dylib,rlib baz2.rs
+	$(DUSTC) --crate-type=bin baz2.rs
 	rm $(TMPDIR)/*
-	$(RUSTC) --crate-type=dylib foo.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=dylib bar1.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=dylib bar2.rs -C prefer-dynamic
-	$(RUSTC) --crate-type=dylib,rlib baz2.rs
-	$(RUSTC) --crate-type=bin baz2.rs
+	$(DUSTC) --crate-type=dylib foo.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=dylib bar1.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=dylib bar2.rs -C prefer-dynamic
+	$(DUSTC) --crate-type=dylib,rlib baz2.rs
+	$(DUSTC) --crate-type=bin baz2.rs

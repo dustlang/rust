@@ -50,4 +50,4 @@ LL |     fn generic_in_child<'a, 'b, L: X<&'a Nested<M>>, M: 'b>() {
 error: aborting due to 6 previous errors
 
 Some errors have detailed explanations: E0309, E0310.
-For more information about an error, try `rustc --explain E0309`.
+For more information about an error, try `dustc --explain E0309`.

@@ -4,37 +4,37 @@ use crate::creader::CrateMetadataRef;
 use crate::rmeta::table::{FixedSizeEncoding, Table};
 use crate::rmeta::*;
 
-use rustc_ast as ast;
-use rustc_attr as attr;
-use rustc_data_structures::captures::Captures;
-use rustc_data_structures::fingerprint::{Fingerprint, FingerprintDecoder};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::svh::Svh;
-use rustc_data_structures::sync::{Lock, LockGuard, Lrc, OnceCell};
-use rustc_data_structures::unhash::UnhashMap;
-use rustc_errors::ErrorReported;
-use rustc_expand::base::{SyntaxExtension, SyntaxExtensionKind};
-use rustc_expand::proc_macro::{AttrProcMacro, BangProcMacro, ProcMacroDerive};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
-use rustc_hir::def_id::{CrateNum, DefId, DefIndex, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_hir::definitions::{DefKey, DefPath, DefPathData, DefPathHash};
-use rustc_hir::lang_items;
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_middle::hir::exports::Export;
-use rustc_middle::middle::cstore::{CrateSource, ExternCrate};
-use rustc_middle::middle::cstore::{ForeignModule, LinkagePreference, NativeLib};
-use rustc_middle::middle::exported_symbols::{ExportedSymbol, SymbolExportLevel};
-use rustc_middle::mir::interpret::{AllocDecodingSession, AllocDecodingState};
-use rustc_middle::mir::{self, Body, Promoted};
-use rustc_middle::ty::codec::TyDecoder;
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_serialize::{opaque, Decodable, Decoder};
-use rustc_session::Session;
-use rustc_span::hygiene::ExpnDataDecodeMode;
-use rustc_span::source_map::{respan, Spanned};
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::{self, hygiene::MacroKind, BytePos, ExpnId, Pos, Span, SyntaxContext, DUMMY_SP};
+use dustc_ast as ast;
+use dustc_attr as attr;
+use dustc_data_structures::captures::Captures;
+use dustc_data_structures::fingerprint::{Fingerprint, FingerprintDecoder};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::svh::Svh;
+use dustc_data_structures::sync::{Lock, LockGuard, Lrc, OnceCell};
+use dustc_data_structures::unhash::UnhashMap;
+use dustc_errors::ErrorReported;
+use dustc_expand::base::{SyntaxExtension, SyntaxExtensionKind};
+use dustc_expand::proc_macro::{AttrProcMacro, BangProcMacro, ProcMacroDerive};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
+use dustc_hir::def_id::{CrateNum, DefId, DefIndex, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_hir::definitions::{DefKey, DefPath, DefPathData, DefPathHash};
+use dustc_hir::lang_items;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_middle::hir::exports::Export;
+use dustc_middle::middle::cstore::{CrateSource, ExternCrate};
+use dustc_middle::middle::cstore::{ForeignModule, LinkagePreference, NativeLib};
+use dustc_middle::middle::exported_symbols::{ExportedSymbol, SymbolExportLevel};
+use dustc_middle::mir::interpret::{AllocDecodingSession, AllocDecodingState};
+use dustc_middle::mir::{self, Body, Promoted};
+use dustc_middle::ty::codec::TyDecoder;
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_serialize::{opaque, Decodable, Decoder};
+use dustc_session::Session;
+use dustc_span::hygiene::ExpnDataDecodeMode;
+use dustc_span::source_map::{respan, Spanned};
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::{self, hygiene::MacroKind, BytePos, ExpnId, Pos, Span, SyntaxContext, DUMMY_SP};
 
 use proc_macro::bridge::client::ProcMacro;
 use std::cell::Cell;
@@ -45,7 +45,7 @@ use std::path::Path;
 use tracing::debug;
 
 pub use cstore_impl::{provide, provide_extern};
-use rustc_span::hygiene::HygieneDecodeContext;
+use dustc_span::hygiene::HygieneDecodeContext;
 
 mod cstore_impl;
 
@@ -119,15 +119,15 @@ crate struct CrateMetadata {
     extern_crate: Lock<Option<ExternCrate>>,
 }
 
-/// Holds information about a rustc_span::SourceFile imported from another crate.
+/// Holds information about a dustc_span::SourceFile imported from another crate.
 /// See `imported_source_files()` for more information.
 struct ImportedSourceFile {
     /// This SourceFile's byte-offset within the source_map of its original crate
-    original_start_pos: rustc_span::BytePos,
+    original_start_pos: dustc_span::BytePos,
     /// The end of this SourceFile within the source_map of its original crate
-    original_end_pos: rustc_span::BytePos,
+    original_end_pos: dustc_span::BytePos,
     /// The imported SourceFile's representation within the local source_map
-    translated_source_file: Lrc<rustc_span::SourceFile>,
+    translated_source_file: Lrc<dustc_span::SourceFile>,
 }
 
 pub(super) struct DecodeContext<'a, 'tcx> {
@@ -329,7 +329,7 @@ impl<'a, 'tcx> TyDecoder<'tcx> for DecodeContext<'a, 'tcx> {
         if cnum == LOCAL_CRATE { self.cdata().cnum } else { self.cdata().cnum_map[cnum] }
     }
 
-    fn decode_alloc_id(&mut self) -> Result<rustc_middle::mir::interpret::AllocId, Self::Error> {
+    fn decode_alloc_id(&mut self) -> Result<dustc_middle::mir::interpret::AllocId, Self::Error> {
         if let Some(alloc_decoding_session) = self.alloc_decoding_session {
             alloc_decoding_session.decode_alloc_id(self)
         } else {
@@ -362,7 +362,7 @@ impl<'a, 'tcx> Decodable<DecodeContext<'a, 'tcx>> for SyntaxContext {
         let cdata = decoder.cdata();
         let sess = decoder.sess.unwrap();
         let cname = cdata.root.name;
-        rustc_span::hygiene::decode_syntax_context(decoder, &cdata.hygiene_context, |_, id| {
+        dustc_span::hygiene::decode_syntax_context(decoder, &cdata.hygiene_context, |_, id| {
             debug!("SpecializedDecoder<SyntaxContext>: decoding {}", id);
             Ok(cdata
                 .root
@@ -388,7 +388,7 @@ impl<'a, 'tcx> Decodable<DecodeContext<'a, 'tcx>> for ExpnId {
             }
         };
 
-        rustc_span::hygiene::decode_expn_id(
+        dustc_span::hygiene::decode_expn_id(
             decoder,
             ExpnDataDecodeMode::Metadata(get_ctxt),
             |_this, index| {
@@ -592,7 +592,7 @@ impl MetadataBlob {
         self.raw_bytes().starts_with(METADATA_HEADER)
     }
 
-    crate fn get_rustc_version(&self) -> String {
+    crate fn get_dustc_version(&self) -> String {
         Lazy::<String>::from_position(NonZeroUsize::new(METADATA_HEADER.len() + 4).unwrap())
             .decode(self)
     }
@@ -1605,40 +1605,40 @@ impl<'a, 'tcx> CrateMetadataRef<'a> {
     /// Proc macro crates don't currently export spans, so this function does not have
     /// to work for them.
     fn imported_source_files(&self, sess: &Session) -> &'a [ImportedSourceFile] {
-        // Translate the virtual `/rustc/$hash` prefix back to a real directory
+        // Translate the virtual `/dustc/$hash` prefix back to a real directory
         // that should hold actual sources, where possible.
         //
         // NOTE: if you update this, you might need to also update bootstrap's code for generating
-        // the `rust-src` component in `Src::run` in `src/bootstrap/dist.rs`.
-        let virtual_rust_source_base_dir = option_env!("CFG_VIRTUAL_RUST_SOURCE_BASE_DIR")
+        // the `dust-src` component in `Src::run` in `src/bootstrap/dist.rs`.
+        let virtual_dust_source_base_dir = option_env!("CFG_VIRTUAL_DUST_SOURCE_BASE_DIR")
             .map(Path::new)
             .filter(|_| {
                 // Only spend time on further checks if we have what to translate *to*.
-                sess.real_rust_source_base_dir.is_some()
+                sess.real_dust_source_base_dir.is_some()
             })
             .filter(|virtual_dir| {
-                // Don't translate away `/rustc/$hash` if we're still remapping to it,
-                // since that means we're still building `std`/`rustc` that need it,
+                // Don't translate away `/dustc/$hash` if we're still remapping to it,
+                // since that means we're still building `std`/`dustc` that need it,
                 // and we don't want the real path to leak into codegen/debuginfo.
                 !sess.opts.remap_path_prefix.iter().any(|(_from, to)| to == virtual_dir)
             });
-        let try_to_translate_virtual_to_real = |name: &mut rustc_span::FileName| {
+        let try_to_translate_virtual_to_real = |name: &mut dustc_span::FileName| {
             debug!(
                 "try_to_translate_virtual_to_real(name={:?}): \
-                 virtual_rust_source_base_dir={:?}, real_rust_source_base_dir={:?}",
-                name, virtual_rust_source_base_dir, sess.real_rust_source_base_dir,
+                 virtual_dust_source_base_dir={:?}, real_dust_source_base_dir={:?}",
+                name, virtual_dust_source_base_dir, sess.real_dust_source_base_dir,
             );
 
-            if let Some(virtual_dir) = virtual_rust_source_base_dir {
-                if let Some(real_dir) = &sess.real_rust_source_base_dir {
-                    if let rustc_span::FileName::Real(old_name) = name {
-                        if let rustc_span::RealFileName::Named(one_path) = old_name {
+            if let Some(virtual_dir) = virtual_dust_source_base_dir {
+                if let Some(real_dir) = &sess.real_dust_source_base_dir {
+                    if let dustc_span::FileName::Real(old_name) = name {
+                        if let dustc_span::RealFileName::Named(one_path) = old_name {
                             if let Ok(rest) = one_path.strip_prefix(virtual_dir) {
                                 let virtual_name = one_path.clone();
 
                                 // The std library crates are in
-                                // `$sysroot/lib/rustlib/src/rust/library`, whereas other crates
-                                // may be in `$sysroot/lib/rustlib/src/rust/` directly. So we
+                                // `$sysroot/lib/dustlib/src/dust/library`, whereas other crates
+                                // may be in `$sysroot/lib/dustlib/src/dust/` directly. So we
                                 // detect crates from the std libs and handle them specially.
                                 const STD_LIBS: &[&str] = &[
                                     "core",
@@ -1652,9 +1652,9 @@ impl<'a, 'tcx> CrateMetadataRef<'a> {
                                     "panic_unwind",
                                     "profiler_builtins",
                                     "rtstartup",
-                                    "rustc-std-workspace-core",
-                                    "rustc-std-workspace-alloc",
-                                    "rustc-std-workspace-std",
+                                    "dustc-std-workspace-core",
+                                    "dustc-std-workspace-alloc",
+                                    "dustc-std-workspace-std",
                                     "backtrace",
                                 ];
                                 let is_std_lib = STD_LIBS.iter().any(|l| rest.starts_with(l));
@@ -1670,7 +1670,7 @@ impl<'a, 'tcx> CrateMetadataRef<'a> {
                                     virtual_name.display(),
                                     new_path.display(),
                                 );
-                                let new_name = rustc_span::RealFileName::Devirtualized {
+                                let new_name = dustc_span::RealFileName::Devirtualized {
                                     local_path: new_path,
                                     virtual_name,
                                 };
@@ -1689,7 +1689,7 @@ impl<'a, 'tcx> CrateMetadataRef<'a> {
                 .map(|source_file_to_import| {
                     // We can't reuse an existing SourceFile, so allocate a new one
                     // containing the information we need.
-                    let rustc_span::SourceFile {
+                    let dustc_span::SourceFile {
                         mut name,
                         name_was_remapped,
                         src_hash,
@@ -1703,7 +1703,7 @@ impl<'a, 'tcx> CrateMetadataRef<'a> {
                         ..
                     } = source_file_to_import;
 
-                    // If this file's path has been remapped to `/rustc/$hash`,
+                    // If this file's path has been remapped to `/dustc/$hash`,
                     // we might be able to reverse that (also see comments above,
                     // on `try_to_translate_virtual_to_real`).
                     // FIXME(eddyb) we could check `name_was_remapped` here,
@@ -1904,7 +1904,7 @@ impl CrateMetadata {
 }
 
 // Cannot be implemented on 'ProcMacro', as libproc_macro
-// does not depend on librustc_ast
+// does not depend on libdustc_ast
 fn macro_kind(raw: &ProcMacro) -> MacroKind {
     match raw {
         ProcMacro::CustomDerive { .. } => MacroKind::Derive,

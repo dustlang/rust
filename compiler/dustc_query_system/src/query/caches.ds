@@ -1,10 +1,10 @@
 use crate::dep_graph::DepNodeIndex;
 use crate::query::plumbing::{QueryCacheStore, QueryLookup};
 
-use rustc_arena::TypedArena;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sharded::Sharded;
-use rustc_data_structures::sync::WorkerLocal;
+use dustc_arena::TypedArena;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::sharded::Sharded;
+use dustc_data_structures::sync::WorkerLocal;
 use std::default::Default;
 use std::fmt::Debug;
 use std::hash::Hash;

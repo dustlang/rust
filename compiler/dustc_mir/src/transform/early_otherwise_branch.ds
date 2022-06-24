@@ -1,6 +1,6 @@
 use crate::{transform::MirPass, util::patch::MirPatch};
-use rustc_middle::mir::*;
-use rustc_middle::ty::{Ty, TyCtxt};
+use dustc_middle::mir::*;
+use dustc_middle::ty::{Ty, TyCtxt};
 use std::fmt::Debug;
 
 use super::simplify::simplify_cfg;
@@ -268,7 +268,7 @@ impl<'a, 'tcx> Helper<'a, 'tcx> {
 
             // only allow optimization if the left and right of the tuple being matched are the same variants.
             // so the following should not optimize
-            //  ```rust
+            //  ```dust
             // let x: Option<()>;
             // let y: Option<()>;
             // match (x,y) {
@@ -289,7 +289,7 @@ impl<'a, 'tcx> Helper<'a, 'tcx> {
             // when the second place is a projection of the first one, it's not safe to calculate their discriminant values sequentially.
             // for example, this should not be optimized:
             //
-            // ```rust
+            // ```dust
             // enum E<'a> { Empty, Some(&'a E<'a>), }
             // let Some(Some(_)) = e;
             // ```

@@ -14,4 +14,4 @@ LL | fn print_x(_: &dyn Foo<Item=bool>, extra: &str) {
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0061`.
+For more information about this error, try `dustc --explain E0061`.

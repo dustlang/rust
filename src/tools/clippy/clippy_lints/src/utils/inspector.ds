@@ -1,18 +1,18 @@
 //! checks for attributes
 
 use crate::utils::get_attr;
-use rustc_ast::ast::{Attribute, InlineAsmTemplatePiece};
-use rustc_hir as hir;
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_session::Session;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_ast::ast::{Attribute, InlineAsmTemplatePiece};
+use dustc_hir as hir;
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_session::Session;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Dumps every ast/hir node which has the `#[clippy::dump]`
     /// attribute
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// #[clippy::dump]
     /// extern crate foo;
     /// ```
@@ -49,7 +49,7 @@ impl<'tcx> LateLintPass<'tcx> for DeepCodeInspector {
             hir::VisibilityKind::Crate(_) => println!("visible crate wide"),
             hir::VisibilityKind::Restricted { ref path, .. } => println!(
                 "visible in module `{}`",
-                rustc_hir_pretty::to_string(rustc_hir_pretty::NO_ANN, |s| s.print_path(path, false))
+                dustc_hir_pretty::to_string(dustc_hir_pretty::NO_ANN, |s| s.print_path(path, false))
             ),
             hir::VisibilityKind::Inherited => println!("visibility inherited from outer item"),
         }
@@ -377,7 +377,7 @@ fn print_item(cx: &LateContext<'_>, item: &hir::Item<'_>) {
         hir::VisibilityKind::Crate(_) => println!("visible crate wide"),
         hir::VisibilityKind::Restricted { ref path, .. } => println!(
             "visible in module `{}`",
-            rustc_hir_pretty::to_string(rustc_hir_pretty::NO_ANN, |s| s.print_path(path, false))
+            dustc_hir_pretty::to_string(dustc_hir_pretty::NO_ANN, |s| s.print_path(path, false))
         ),
         hir::VisibilityKind::Inherited => println!("visibility inherited from outer item"),
     }
@@ -470,7 +470,7 @@ fn print_pat(cx: &LateContext<'_>, pat: &hir::Pat<'_>, indent: usize) {
             println!(
                 "{}name: {}",
                 ind,
-                rustc_hir_pretty::to_string(rustc_hir_pretty::NO_ANN, |s| s.print_qpath(path, false))
+                dustc_hir_pretty::to_string(dustc_hir_pretty::NO_ANN, |s| s.print_qpath(path, false))
             );
             println!("{}ignore leftover fields: {}", ind, ignore);
             println!("{}fields:", ind);
@@ -487,7 +487,7 @@ fn print_pat(cx: &LateContext<'_>, pat: &hir::Pat<'_>, indent: usize) {
             println!(
                 "{}path: {}",
                 ind,
-                rustc_hir_pretty::to_string(rustc_hir_pretty::NO_ANN, |s| s.print_qpath(path, false))
+                dustc_hir_pretty::to_string(dustc_hir_pretty::NO_ANN, |s| s.print_qpath(path, false))
             );
             if let Some(dot_position) = opt_dots_position {
                 println!("{}dot position: {}", ind, dot_position);

@@ -11,22 +11,22 @@ use super::{
 use crate::infer::error_reporting::{TyCategory, TypeAnnotationNeeded as ErrorCode};
 use crate::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
 use crate::infer::{self, InferCtxt, TyCtxtInferExt};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder, ErrorReported};
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_hir::intravisit::Visitor;
-use rustc_hir::Node;
-use rustc_middle::mir::interpret::ErrorHandled;
-use rustc_middle::ty::error::ExpectedFound;
-use rustc_middle::ty::fold::TypeFolder;
-use rustc_middle::ty::{
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder, ErrorReported};
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_hir::intravisit::Visitor;
+use dustc_hir::Node;
+use dustc_middle::mir::interpret::ErrorHandled;
+use dustc_middle::ty::error::ExpectedFound;
+use dustc_middle::ty::fold::TypeFolder;
+use dustc_middle::ty::{
     self, fast_reject, AdtKind, SubtypePredicate, ToPolyTraitRef, ToPredicate, Ty, TyCtxt,
     TypeFoldable, WithConstness,
 };
-use rustc_session::DiagnosticMessageId;
-use rustc_span::symbol::{kw, sym};
-use rustc_span::{ExpnKind, MultiSpan, Span, DUMMY_SP};
+use dustc_session::DiagnosticMessageId;
+use dustc_span::symbol::{kw, sym};
+use dustc_span::{ExpnKind, MultiSpan, Span, DUMMY_SP};
 use std::fmt;
 
 use crate::traits::query::evaluate_obligation::InferCtxtExt as _;
@@ -34,7 +34,7 @@ use crate::traits::query::normalize::AtExt as _;
 use on_unimplemented::InferCtxtExt as _;
 use suggestions::InferCtxtExt as _;
 
-pub use rustc_infer::traits::error_reporting::*;
+pub use dustc_infer::traits::error_reporting::*;
 
 pub trait InferCtxtExt<'tcx> {
     fn report_fulfillment_errors(
@@ -372,7 +372,7 @@ impl<'a, 'tcx> InferCtxtExt<'tcx> for InferCtxt<'a, 'tcx> {
                             return;
                         }
                         if let Some(ref s) = label {
-                            // If it has a custom `#[rustc_on_unimplemented]`
+                            // If it has a custom `#[dustc_on_unimplemented]`
                             // error message, let's display it as the label!
                             err.span_label(span, s.as_str());
                             if !matches!(trait_ref.skip_binder().self_ty().kind(), ty::Param(_)) {
@@ -388,7 +388,7 @@ impl<'a, 'tcx> InferCtxtExt<'tcx> for InferCtxt<'a, 'tcx> {
                             err.span_label(span, &msg);
                         }
                         if let Some(ref s) = note {
-                            // If it has a custom `#[rustc_on_unimplemented]` note, let's display it
+                            // If it has a custom `#[dustc_on_unimplemented]` note, let's display it
                             err.note(s.as_str());
                         }
                         if let Some(ref s) = enclosing_scope {
@@ -428,7 +428,7 @@ impl<'a, 'tcx> InferCtxtExt<'tcx> for InferCtxt<'a, 'tcx> {
                             err.note(
                                 "all implementations of `Unsize` are provided \
                                 automatically by the compiler, see \
-                                <https://doc.rust-lang.org/stable/std/marker/trait.Unsize.html> \
+                                <https://doc.dust-lang.org/stable/std/marker/trait.Unsize.html> \
                                 for more information",
                             );
                         }
@@ -505,8 +505,8 @@ impl<'a, 'tcx> InferCtxtExt<'tcx> for InferCtxt<'a, 'tcx> {
                                 err.note(
                                     "the trait is implemented for `()`. \
                                      Possibly this error has been caused by changes to \
-                                     Rust's type-inference algorithm (see issue #48950 \
-                                     <https://github.com/rust-lang/rust/issues/48950> \
+                                     Dust's type-inference algorithm (see issue #48950 \
+                                     <https://github.com/dust-lang/dust/issues/48950> \
                                      for more information). Consider whether you meant to use \
                                      the type `()` here instead.",
                                 );
@@ -1346,7 +1346,7 @@ impl<'a, 'tcx> InferCtxtPrivExt<'tcx> for InferCtxt<'a, 'tcx> {
 
         // Sort before taking the `..end` range,
         // because the ordering of `impl_candidates` may not be deterministic:
-        // https://github.com/rust-lang/rust/pull/57475#issuecomment-455519507
+        // https://github.com/dust-lang/dust/pull/57475#issuecomment-455519507
         normalized_impl_candidates.sort();
 
         err.help(&format!(
@@ -1829,13 +1829,13 @@ impl<'a, 'tcx> InferCtxtPrivExt<'tcx> for InferCtxt<'a, 'tcx> {
 /// Look for type `param` in an ADT being used only through a reference to confirm that suggesting
 /// `param: ?Sized` would be a valid constraint.
 struct FindTypeParam {
-    param: rustc_span::Symbol,
+    param: dustc_span::Symbol,
     invalid_spans: Vec<Span>,
     nested: bool,
 }
 
 impl<'v> Visitor<'v> for FindTypeParam {
-    type Map = rustc_hir::intravisit::ErasedMap<'v>;
+    type Map = dustc_hir::intravisit::ErasedMap<'v>;
 
     fn nested_visit_map(&mut self) -> hir::intravisit::NestedVisitorMap<Self::Map> {
         hir::intravisit::NestedVisitorMap::None

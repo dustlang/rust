@@ -1,9 +1,9 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) rlib.rs
-	$(RUSTC) dylib.rs
-	$(RUSTC) rlib.rs --crate-type=dylib
-	$(RUSTC) dylib.rs
+	$(DUSTC) rlib.rs
+	$(DUSTC) dylib.rs
+	$(DUSTC) rlib.rs --crate-type=dylib
+	$(DUSTC) dylib.rs
 	$(call REMOVE_DYLIBS,rlib)
-	$(RUSTC) prog.rs && exit 1 || exit 0
+	$(DUSTC) prog.rs && exit 1 || exit 0

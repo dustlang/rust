@@ -1,11 +1,11 @@
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
-fn func<#[rustc_synthetic] T>(_: T) {}
+fn func<#[dustc_synthetic] T>(_: T) {}
 
 struct Foo;
 
 impl Foo {
-    pub fn func<#[rustc_synthetic] T>(_: T) {}
+    pub fn func<#[dustc_synthetic] T>(_: T) {}
 }
 
 struct Bar<S> {
@@ -13,7 +13,7 @@ struct Bar<S> {
 }
 
 impl<S> Bar<S> {
-    pub fn func<#[rustc_synthetic] T>(_: T) {}
+    pub fn func<#[dustc_synthetic] T>(_: T) {}
 }
 
 fn main() {

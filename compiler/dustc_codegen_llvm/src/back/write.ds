@@ -10,24 +10,24 @@ use crate::llvm_util;
 use crate::type_::Type;
 use crate::LlvmCodegenBackend;
 use crate::ModuleLlvm;
-use rustc_codegen_ssa::back::link::ensure_removed;
-use rustc_codegen_ssa::back::write::{
+use dustc_codegen_ssa::back::link::ensure_removed;
+use dustc_codegen_ssa::back::write::{
     BitcodeSection, CodegenContext, EmitObj, ModuleConfig, TargetMachineFactoryConfig,
     TargetMachineFactoryFn,
 };
-use rustc_codegen_ssa::traits::*;
-use rustc_codegen_ssa::{CompiledModule, ModuleCodegen};
-use rustc_data_structures::small_c_str::SmallCStr;
-use rustc_errors::{FatalError, Handler, Level};
-use rustc_fs_util::{link_or_copy, path_to_c_string};
-use rustc_hir::def_id::LOCAL_CRATE;
-use rustc_middle::bug;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::config::{self, Lto, OutputType, Passes, SanitizerSet, SwitchWithOptPath};
-use rustc_session::Session;
-use rustc_span::symbol::sym;
-use rustc_span::InnerSpan;
-use rustc_target::spec::{CodeModel, RelocModel, SplitDebuginfo};
+use dustc_codegen_ssa::traits::*;
+use dustc_codegen_ssa::{CompiledModule, ModuleCodegen};
+use dustc_data_structures::small_c_str::SmallCStr;
+use dustc_errors::{FatalError, Handler, Level};
+use dustc_fs_util::{link_or_copy, path_to_c_string};
+use dustc_hir::def_id::LOCAL_CRATE;
+use dustc_middle::bug;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::config::{self, Lto, OutputType, Passes, SanitizerSet, SwitchWithOptPath};
+use dustc_session::Session;
+use dustc_span::symbol::sym;
+use dustc_span::InnerSpan;
+use dustc_target::spec::{CodeModel, RelocModel, SplitDebuginfo};
 use tracing::debug;
 
 use libc::{c_char, c_int, c_uint, c_void, size_t};
@@ -39,7 +39,7 @@ use std::slice;
 use std::str;
 use std::sync::Arc;
 
-pub fn llvm_err(handler: &rustc_errors::Handler, msg: &str) -> FatalError {
+pub fn llvm_err(handler: &dustc_errors::Handler, msg: &str) -> FatalError {
     match llvm::last_error() {
         Some(err) => handler.fatal(&format!("{}: {}", msg, err)),
         None => handler.fatal(&msg),
@@ -47,7 +47,7 @@ pub fn llvm_err(handler: &rustc_errors::Handler, msg: &str) -> FatalError {
 }
 
 pub fn write_output_file(
-    handler: &rustc_errors::Handler,
+    handler: &dustc_errors::Handler,
     target: &'ll llvm::TargetMachine,
     pm: &llvm::PassManager<'ll>,
     m: &'ll llvm::Module,
@@ -59,7 +59,7 @@ pub fn write_output_file(
         let output_c = path_to_c_string(output);
         let result = if let Some(dwo_output) = dwo_output {
             let dwo_output_c = path_to_c_string(dwo_output);
-            llvm::LLVMRustWriteOutputFile(
+            llvm::LLVMDustWriteOutputFile(
                 target,
                 pm,
                 m,
@@ -68,7 +68,7 @@ pub fn write_output_file(
                 file_type,
             )
         } else {
-            llvm::LLVMRustWriteOutputFile(
+            llvm::LLVMDustWriteOutputFile(
                 target,
                 pm,
                 m,
@@ -198,7 +198,7 @@ pub fn target_machine_factory(
         let split_dwarf_file = CString::new(split_dwarf_file.to_str().unwrap()).unwrap();
 
         let tm = unsafe {
-            llvm::LLVMRustCreateTargetMachine(
+            llvm::LLVMDustCreateTargetMachine(
                 triple.as_ptr(),
                 cpu.as_ptr(),
                 features.as_ptr(),
@@ -256,7 +256,7 @@ impl<'a> DiagnosticHandlers<'a> {
     ) -> Self {
         let data = Box::into_raw(Box::new((cgcx, handler)));
         unsafe {
-            llvm::LLVMRustSetInlineAsmDiagnosticHandler(llcx, inline_asm_handler, data.cast());
+            llvm::LLVMDustSetInlineAsmDiagnosticHandler(llcx, inline_asm_handler, data.cast());
             llvm::LLVMContextSetDiagnosticHandler(llcx, diagnostic_handler, data.cast());
         }
         DiagnosticHandlers { data, llcx }
@@ -267,7 +267,7 @@ impl<'a> Drop for DiagnosticHandlers<'a> {
     fn drop(&mut self) {
         use std::ptr::null_mut;
         unsafe {
-            llvm::LLVMRustSetInlineAsmDiagnosticHandler(self.llcx, inline_asm_handler, null_mut());
+            llvm::LLVMDustSetInlineAsmDiagnosticHandler(self.llcx, inline_asm_handler, null_mut());
             llvm::LLVMContextSetDiagnosticHandler(self.llcx, diagnostic_handler, null_mut());
             drop(Box::from_raw(self.data));
         }
@@ -311,7 +311,7 @@ unsafe extern "C" fn inline_asm_handler(diag: &SMDiagnostic, user: *const c_void
     let mut num_ranges = ranges.len() / 2;
     let msg = llvm::build_string(|msg| {
         buffer = llvm::build_string(|buffer| {
-            have_source = llvm::LLVMRustUnpackSMDiagnostic(
+            have_source = llvm::LLVMDustUnpackSMDiagnostic(
                 diag,
                 msg,
                 buffer,
@@ -373,14 +373,14 @@ unsafe extern "C" fn diagnostic_handler(info: &DiagnosticInfo, user: *mut c_void
         }
         llvm::diagnostic::PGO(diagnostic_ref) | llvm::diagnostic::Linker(diagnostic_ref) => {
             let msg = llvm::build_string(|s| {
-                llvm::LLVMRustWriteDiagnosticInfoToString(diagnostic_ref, s)
+                llvm::LLVMDustWriteDiagnosticInfoToString(diagnostic_ref, s)
             })
             .expect("non-UTF8 diagnostic");
             diag_handler.warn(&msg);
         }
         llvm::diagnostic::Unsupported(diagnostic_ref) => {
             let msg = llvm::build_string(|s| {
-                llvm::LLVMRustWriteDiagnosticInfoToString(diagnostic_ref, s)
+                llvm::LLVMDustWriteDiagnosticInfoToString(diagnostic_ref, s)
             })
             .expect("non-UTF8 diagnostic");
             diag_handler.err(&msg);
@@ -458,7 +458,7 @@ pub(crate) unsafe fn optimize_with_new_llvm_pass_manager(
     // FIXME: NewPM uses an different and more explicit way to textually represent
     // pass pipelines. It would probably make sense to expose this, but it would
     // require a different format than the current -C passes.
-    llvm::LLVMRustOptimizeWithNewPassManager(
+    llvm::LLVMDustOptimizeWithNewPassManager(
         module.module_llvm.llmod(),
         &*module.module_llvm.tm,
         to_pass_builder_opt_level(opt_level),
@@ -531,12 +531,12 @@ pub(crate) unsafe fn optimize(
         {
             let find_pass = |pass_name: &str| {
                 let pass_name = SmallCStr::new(pass_name);
-                llvm::LLVMRustFindAndCreatePass(pass_name.as_ptr())
+                llvm::LLVMDustFindAndCreatePass(pass_name.as_ptr())
             };
 
             if config.verify_llvm_ir {
                 // Verification should run as the very first pass.
-                llvm::LLVMRustAddPass(fpm, find_pass("verify").unwrap());
+                llvm::LLVMDustAddPass(fpm, find_pass("verify").unwrap());
             }
 
             let mut extra_passes = Vec::new();
@@ -545,7 +545,7 @@ pub(crate) unsafe fn optimize(
             for pass_name in &config.passes {
                 if pass_name == "lint" {
                     // Linting should also be performed early, directly on the generated IR.
-                    llvm::LLVMRustAddPass(fpm, find_pass("lint").unwrap());
+                    llvm::LLVMDustAddPass(fpm, find_pass("lint").unwrap());
                     continue;
                 }
 
@@ -574,7 +574,7 @@ pub(crate) unsafe fn optimize(
                     || cgcx.lto == Lto::ThinLocal
                     || (cgcx.lto != Lto::Fat && cgcx.opts.cg.linker_plugin_lto.enabled());
                 with_llvm_pmb(llmod, &config, opt_level, prepare_for_thin_lto, &mut |b| {
-                    llvm::LLVMRustAddLastExtensionPasses(
+                    llvm::LLVMDustAddLastExtensionPasses(
                         b,
                         extra_passes.as_ptr(),
                         extra_passes.len() as size_t,
@@ -585,14 +585,14 @@ pub(crate) unsafe fn optimize(
 
                 have_name_anon_globals_pass = have_name_anon_globals_pass || prepare_for_thin_lto;
                 if using_thin_buffers && !prepare_for_thin_lto {
-                    llvm::LLVMRustAddPass(mpm, find_pass("name-anon-globals").unwrap());
+                    llvm::LLVMDustAddPass(mpm, find_pass("name-anon-globals").unwrap());
                     have_name_anon_globals_pass = true;
                 }
             } else {
                 // If we don't use the standard pipeline, directly populate the MPM
                 // with the extra passes.
                 for pass in extra_passes {
-                    llvm::LLVMRustAddPass(mpm, pass);
+                    llvm::LLVMDustAddPass(mpm, pass);
                 }
             }
 
@@ -622,7 +622,7 @@ pub(crate) unsafe fn optimize(
                 "LLVM_module_optimize_function_passes",
                 &module.name[..],
             );
-            llvm::LLVMRustRunFunctionPassManager(fpm, llmod);
+            llvm::LLVMDustRunFunctionPassManager(fpm, llmod);
         }
         {
             let _timer = cgcx.prof.extra_verbose_generic_activity(
@@ -641,20 +641,20 @@ pub(crate) unsafe fn optimize(
 unsafe fn add_sanitizer_passes(config: &ModuleConfig, passes: &mut Vec<&'static mut llvm::Pass>) {
     if config.sanitizer.contains(SanitizerSet::ADDRESS) {
         let recover = config.sanitizer_recover.contains(SanitizerSet::ADDRESS);
-        passes.push(llvm::LLVMRustCreateAddressSanitizerFunctionPass(recover));
-        passes.push(llvm::LLVMRustCreateModuleAddressSanitizerPass(recover));
+        passes.push(llvm::LLVMDustCreateAddressSanitizerFunctionPass(recover));
+        passes.push(llvm::LLVMDustCreateModuleAddressSanitizerPass(recover));
     }
     if config.sanitizer.contains(SanitizerSet::MEMORY) {
         let track_origins = config.sanitizer_memory_track_origins as c_int;
         let recover = config.sanitizer_recover.contains(SanitizerSet::MEMORY);
-        passes.push(llvm::LLVMRustCreateMemorySanitizerPass(track_origins, recover));
+        passes.push(llvm::LLVMDustCreateMemorySanitizerPass(track_origins, recover));
     }
     if config.sanitizer.contains(SanitizerSet::THREAD) {
-        passes.push(llvm::LLVMRustCreateThreadSanitizerPass());
+        passes.push(llvm::LLVMDustCreateThreadSanitizerPass());
     }
     if config.sanitizer.contains(SanitizerSet::HWADDRESS) {
         let recover = config.sanitizer_recover.contains(SanitizerSet::HWADDRESS);
-        passes.push(llvm::LLVMRustCreateHWAddressSanitizerPass(recover));
+        passes.push(llvm::LLVMDustCreateHWAddressSanitizerPass(recover));
     }
 }
 
@@ -721,7 +721,7 @@ pub(crate) unsafe fn codegen(
         {
             let cpm = llvm::LLVMCreatePassManager();
             llvm::LLVMAddAnalysisPasses(tm, cpm);
-            llvm::LLVMRustAddLibraryInfo(cpm, llmod, no_builtins);
+            llvm::LLVMDustAddLibraryInfo(cpm, llmod, no_builtins);
             f(cpm)
         }
 
@@ -788,7 +788,7 @@ pub(crate) unsafe fn codegen(
                 };
                 let mut cursor = io::Cursor::new(output);
 
-                let demangled = match rustc_demangle::try_demangle(input) {
+                let demangled = match dustc_demangle::try_demangle(input) {
                     Ok(d) => d,
                     Err(_) => return 0,
                 };
@@ -801,7 +801,7 @@ pub(crate) unsafe fn codegen(
                 cursor.position() as size_t
             }
 
-            let result = llvm::LLVMRustPrintModule(llmod, out_c.as_ptr(), demangle_callback);
+            let result = llvm::LLVMDustPrintModule(llmod, out_c.as_ptr(), demangle_callback);
             result.into_result().map_err(|()| {
                 let msg = format!("failed to write LLVM IR to {}", out.display());
                 llvm_err(diag_handler, &msg)
@@ -924,7 +924,7 @@ unsafe fn embed_bitcode(
     let llglobal = llvm::LLVMAddGlobal(
         llmod,
         common::val_ty(llconst),
-        "rustc.embedded.module\0".as_ptr().cast(),
+        "dustc.embedded.module\0".as_ptr().cast(),
     );
     llvm::LLVMSetInitializer(llglobal, llconst);
 
@@ -934,25 +934,25 @@ unsafe fn embed_bitcode(
 
     let section = if is_apple { "__LLVM,__bitcode\0" } else { ".llvmbc\0" };
     llvm::LLVMSetSection(llglobal, section.as_ptr().cast());
-    llvm::LLVMRustSetLinkage(llglobal, llvm::Linkage::PrivateLinkage);
+    llvm::LLVMDustSetLinkage(llglobal, llvm::Linkage::PrivateLinkage);
     llvm::LLVMSetGlobalConstant(llglobal, llvm::True);
 
     let llconst = common::bytes_in_context(llcx, cmdline.as_bytes());
     let llglobal = llvm::LLVMAddGlobal(
         llmod,
         common::val_ty(llconst),
-        "rustc.embedded.cmdline\0".as_ptr().cast(),
+        "dustc.embedded.cmdline\0".as_ptr().cast(),
     );
     llvm::LLVMSetInitializer(llglobal, llconst);
     let section = if is_apple { "__LLVM,__cmdline\0" } else { ".llvmcmd\0" };
     llvm::LLVMSetSection(llglobal, section.as_ptr().cast());
-    llvm::LLVMRustSetLinkage(llglobal, llvm::Linkage::PrivateLinkage);
+    llvm::LLVMDustSetLinkage(llglobal, llvm::Linkage::PrivateLinkage);
 
     // We're adding custom sections to the output object file, but we definitely
     // do not want these custom sections to make their way into the final linked
     // executable. The purpose of these custom sections is for tooling
     // surrounding object files to work with the LLVM IR, if necessary. For
-    // example rustc's own LTO will look for LLVM IR inside of the object file
+    // example dustc's own LTO will look for LLVM IR inside of the object file
     // in these sections by default.
     //
     // To handle this is a bit different depending on the object file format
@@ -988,13 +988,13 @@ unsafe fn embed_bitcode(
             .section .llvmbc,\"n\"
             .section .llvmcmd,\"n\"
         ";
-        llvm::LLVMRustAppendModuleInlineAsm(llmod, asm.as_ptr().cast(), asm.len());
+        llvm::LLVMDustAppendModuleInlineAsm(llmod, asm.as_ptr().cast(), asm.len());
     } else {
         let asm = "
             .section .llvmbc,\"e\"
             .section .llvmcmd,\"e\"
         ";
-        llvm::LLVMRustAppendModuleInlineAsm(llmod, asm.as_ptr().cast(), asm.len());
+        llvm::LLVMDustAppendModuleInlineAsm(llmod, asm.as_ptr().cast(), asm.len());
     }
 }
 
@@ -1016,7 +1016,7 @@ pub unsafe fn with_llvm_pmb(
     let pgo_gen_path = get_pgo_gen_path(config);
     let pgo_use_path = get_pgo_use_path(config);
 
-    llvm::LLVMRustConfigurePassManagerBuilder(
+    llvm::LLVMDustConfigurePassManagerBuilder(
         builder,
         opt_level,
         config.merge_functions,
@@ -1033,7 +1033,7 @@ pub unsafe fn with_llvm_pmb(
         llvm::LLVMPassManagerBuilderSetDisableUnrollLoops(builder, 1);
     }
 
-    llvm::LLVMRustAddBuilderLibraryInfo(builder, llmod, config.no_builtins);
+    llvm::LLVMDustAddBuilderLibraryInfo(builder, llmod, config.no_builtins);
 
     // Here we match what clang does (kinda). For O0 we only inline
     // always-inline functions (but don't add lifetime intrinsics), at O1 we
@@ -1053,10 +1053,10 @@ pub unsafe fn with_llvm_pmb(
             llvm::LLVMPassManagerBuilderUseInlinerWithThreshold(builder, 25);
         }
         (llvm::CodeGenOptLevel::None, ..) => {
-            llvm::LLVMRustAddAlwaysInlinePass(builder, config.emit_lifetime_markers);
+            llvm::LLVMDustAddAlwaysInlinePass(builder, config.emit_lifetime_markers);
         }
         (llvm::CodeGenOptLevel::Less, ..) => {
-            llvm::LLVMRustAddAlwaysInlinePass(builder, config.emit_lifetime_markers);
+            llvm::LLVMDustAddAlwaysInlinePass(builder, config.emit_lifetime_markers);
         }
         (llvm::CodeGenOptLevel::Default, ..) => {
             llvm::LLVMPassManagerBuilderUseInlinerWithThreshold(builder, 225);
@@ -1090,11 +1090,11 @@ fn create_msvc_imps(
         let i8p_ty = Type::i8p_llcx(llcx);
         let globals = base::iter_globals(llmod)
             .filter(|&val| {
-                llvm::LLVMRustGetLinkage(val) == llvm::Linkage::ExternalLinkage
+                llvm::LLVMDustGetLinkage(val) == llvm::Linkage::ExternalLinkage
                     && llvm::LLVMIsDeclaration(val) == 0
             })
             .filter_map(|val| {
-                // Exclude some symbols that we know are not Rust symbols.
+                // Exclude some symbols that we know are not Dust symbols.
                 let name = llvm::get_value_name(val);
                 if ignored(name) { None } else { Some((val, name)) }
             })
@@ -1109,7 +1109,7 @@ fn create_msvc_imps(
         for (imp_name, val) in globals {
             let imp = llvm::LLVMAddGlobal(llmod, i8p_ty, imp_name.as_ptr().cast());
             llvm::LLVMSetInitializer(imp, consts::ptrcast(val, i8p_ty));
-            llvm::LLVMRustSetLinkage(imp, llvm::Linkage::ExternalLinkage);
+            llvm::LLVMDustSetLinkage(imp, llvm::Linkage::ExternalLinkage);
         }
     }
 

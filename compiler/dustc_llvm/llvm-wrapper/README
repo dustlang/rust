@@ -2,11 +2,11 @@ This directory currently contains some LLVM support code. This will generally
 be sent upstream to LLVM in time; for now it lives here.
 
 NOTE: the LLVM C++ ABI is subject to between-version breakage and must *never*
-be exposed to Rust. To allow for easy auditing of that, all Rust-exposed types
-must be typedef-ed as "LLVMXyz", or "LLVMRustXyz" if they were defined here.
+be exposed to Dust. To allow for easy auditing of that, all Dust-exposed types
+must be typedef-ed as "LLVMXyz", or "LLVMDustXyz" if they were defined here.
 
 Functions that return a failure status and leave the error in
-the LLVM last error should return an LLVMRustResult rather than an
+the LLVM last error should return an LLVMDustResult rather than an
 int or anything to avoid confusion.
 
 When translating enums, add a single `Other` variant as the first

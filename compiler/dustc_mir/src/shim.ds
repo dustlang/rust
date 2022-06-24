@@ -1,16 +1,16 @@
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_hir::lang_items::LangItem;
-use rustc_middle::mir::*;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::subst::{InternalSubsts, Subst};
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_target::abi::VariantIdx;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_hir::lang_items::LangItem;
+use dustc_middle::mir::*;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::subst::{InternalSubsts, Subst};
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_target::abi::VariantIdx;
 
-use rustc_index::vec::{Idx, IndexVec};
+use dustc_index::vec::{Idx, IndexVec};
 
-use rustc_span::Span;
-use rustc_target::spec::abi::Abi;
+use dustc_span::Span;
+use dustc_target::spec::abi::Abi;
 
 use std::fmt;
 use std::iter;
@@ -854,7 +854,7 @@ fn build_call_shim<'tcx>(
     let mut body =
         new_body(MirSource::from_instance(instance), blocks, local_decls, sig.inputs().len(), span);
 
-    if let Abi::RustCall = sig.abi {
+    if let Abi::DustCall = sig.abi {
         body.spread_arg = Some(Local::new(sig.inputs().len()));
     }
 

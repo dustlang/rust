@@ -1,7 +1,7 @@
 import re
 
 
-class RustType(object):
+class DustType(object):
     OTHER = "Other"
     STRUCT = "Struct"
     TUPLE = "Tuple"
@@ -52,26 +52,26 @@ STD_REF_CELL_REGEX = re.compile(r"^(core::(\w+::)+)RefCell<.+>$")
 
 TUPLE_ITEM_REGEX = re.compile(r"__\d+$")
 
-ENCODED_ENUM_PREFIX = "RUST$ENCODED$ENUM$"
+ENCODED_ENUM_PREFIX = "DUST$ENCODED$ENUM$"
 ENUM_DISR_FIELD_NAME = "<<variant>>"
 
 STD_TYPE_TO_REGEX = {
-    RustType.STD_STRING: STD_STRING_REGEX,
-    RustType.STD_OS_STRING: STD_OS_STRING_REGEX,
-    RustType.STD_STR: STD_STR_REGEX,
-    RustType.STD_SLICE: STD_SLICE_REGEX,
-    RustType.STD_VEC: STD_VEC_REGEX,
-    RustType.STD_VEC_DEQUE: STD_VEC_DEQUE_REGEX,
-    RustType.STD_HASH_MAP: STD_HASH_MAP_REGEX,
-    RustType.STD_HASH_SET: STD_HASH_SET_REGEX,
-    RustType.STD_BTREE_SET: STD_BTREE_SET_REGEX,
-    RustType.STD_BTREE_MAP: STD_BTREE_MAP_REGEX,
-    RustType.STD_RC: STD_RC_REGEX,
-    RustType.STD_ARC: STD_ARC_REGEX,
-    RustType.STD_REF: STD_REF_REGEX,
-    RustType.STD_REF_MUT: STD_REF_MUT_REGEX,
-    RustType.STD_REF_CELL: STD_REF_CELL_REGEX,
-    RustType.STD_CELL: STD_CELL_REGEX,
+    DustType.STD_STRING: STD_STRING_REGEX,
+    DustType.STD_OS_STRING: STD_OS_STRING_REGEX,
+    DustType.STD_STR: STD_STR_REGEX,
+    DustType.STD_SLICE: STD_SLICE_REGEX,
+    DustType.STD_VEC: STD_VEC_REGEX,
+    DustType.STD_VEC_DEQUE: STD_VEC_DEQUE_REGEX,
+    DustType.STD_HASH_MAP: STD_HASH_MAP_REGEX,
+    DustType.STD_HASH_SET: STD_HASH_SET_REGEX,
+    DustType.STD_BTREE_SET: STD_BTREE_SET_REGEX,
+    DustType.STD_BTREE_MAP: STD_BTREE_MAP_REGEX,
+    DustType.STD_RC: STD_RC_REGEX,
+    DustType.STD_ARC: STD_ARC_REGEX,
+    DustType.STD_REF: STD_REF_REGEX,
+    DustType.STD_REF_MUT: STD_REF_MUT_REGEX,
+    DustType.STD_REF_CELL: STD_REF_CELL_REGEX,
+    DustType.STD_CELL: STD_CELL_REGEX,
 }
 
 def is_tuple_fields(fields):
@@ -81,33 +81,33 @@ def is_tuple_fields(fields):
 
 def classify_struct(name, fields):
     if len(fields) == 0:
-        return RustType.EMPTY
+        return DustType.EMPTY
 
     for ty, regex in STD_TYPE_TO_REGEX.items():
         if regex.match(name):
             return ty
 
     if fields[0].name == ENUM_DISR_FIELD_NAME:
-        return RustType.ENUM
+        return DustType.ENUM
 
     if is_tuple_fields(fields):
-        return RustType.TUPLE
+        return DustType.TUPLE
 
-    return RustType.STRUCT
+    return DustType.STRUCT
 
 
 def classify_union(fields):
     if len(fields) == 0:
-        return RustType.EMPTY
+        return DustType.EMPTY
 
     first_variant_name = fields[0].name
     if first_variant_name is None:
         if len(fields) == 1:
-            return RustType.SINGLETON_ENUM
+            return DustType.SINGLETON_ENUM
         else:
-            return RustType.REGULAR_ENUM
+            return DustType.REGULAR_ENUM
     elif first_variant_name.startswith(ENCODED_ENUM_PREFIX):
         assert len(fields) == 1
-        return RustType.COMPRESSED_ENUM
+        return DustType.COMPRESSED_ENUM
     else:
-        return RustType.REGULAR_UNION
+        return DustType.REGULAR_UNION

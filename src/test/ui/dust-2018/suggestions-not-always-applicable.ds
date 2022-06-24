@@ -1,11 +1,11 @@
 // aux-build:suggestions-not-always-applicable.rs
 // edition:2015
-// run-rustfix
-// rustfix-only-machine-applicable
+// run-dustfix
+// dustfix-only-machine-applicable
 // check-pass
 
-#![feature(rust_2018_preview)]
-#![warn(rust_2018_compatibility)]
+#![feature(dust_2018_preview)]
+#![warn(dust_2018_compatibility)]
 
 extern crate suggestions_not_always_applicable as foo;
 

@@ -7,18 +7,18 @@ use crate::type_of::LayoutLlvmExt;
 use crate::value::Value;
 use cstr::cstr;
 use libc::{c_char, c_uint};
-use rustc_codegen_ssa::common::{IntPredicate, RealPredicate, TypeKind};
-use rustc_codegen_ssa::mir::operand::{OperandRef, OperandValue};
-use rustc_codegen_ssa::mir::place::PlaceRef;
-use rustc_codegen_ssa::traits::*;
-use rustc_codegen_ssa::MemFlags;
-use rustc_data_structures::small_c_str::SmallCStr;
-use rustc_hir::def_id::DefId;
-use rustc_middle::ty::layout::TyAndLayout;
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_span::{sym, Span};
-use rustc_target::abi::{self, Align, Size};
-use rustc_target::spec::{HasTargetSpec, Target};
+use dustc_codegen_ssa::common::{IntPredicate, RealPredicate, TypeKind};
+use dustc_codegen_ssa::mir::operand::{OperandRef, OperandValue};
+use dustc_codegen_ssa::mir::place::PlaceRef;
+use dustc_codegen_ssa::traits::*;
+use dustc_codegen_ssa::MemFlags;
+use dustc_data_structures::small_c_str::SmallCStr;
+use dustc_hir::def_id::DefId;
+use dustc_middle::ty::layout::TyAndLayout;
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_span::{sym, Span};
+use dustc_target::abi::{self, Align, Size};
+use dustc_target::spec::{HasTargetSpec, Target};
 use std::borrow::Cow;
 use std::ffi::CStr;
 use std::ops::{Deref, Range};
@@ -206,7 +206,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
         let bundle = bundle.as_ref().map(|b| &*b.raw);
 
         unsafe {
-            llvm::LLVMRustBuildInvoke(
+            llvm::LLVMDustBuildInvoke(
                 self.llbuilder,
                 llfn,
                 args.as_ptr(),
@@ -260,7 +260,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
     fn fadd_fast(&mut self, lhs: &'ll Value, rhs: &'ll Value) -> &'ll Value {
         unsafe {
             let instr = llvm::LLVMBuildFAdd(self.llbuilder, lhs, rhs, UNNAMED);
-            llvm::LLVMRustSetHasUnsafeAlgebra(instr);
+            llvm::LLVMDustSetHasUnsafeAlgebra(instr);
             instr
         }
     }
@@ -268,7 +268,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
     fn fsub_fast(&mut self, lhs: &'ll Value, rhs: &'ll Value) -> &'ll Value {
         unsafe {
             let instr = llvm::LLVMBuildFSub(self.llbuilder, lhs, rhs, UNNAMED);
-            llvm::LLVMRustSetHasUnsafeAlgebra(instr);
+            llvm::LLVMDustSetHasUnsafeAlgebra(instr);
             instr
         }
     }
@@ -276,7 +276,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
     fn fmul_fast(&mut self, lhs: &'ll Value, rhs: &'ll Value) -> &'ll Value {
         unsafe {
             let instr = llvm::LLVMBuildFMul(self.llbuilder, lhs, rhs, UNNAMED);
-            llvm::LLVMRustSetHasUnsafeAlgebra(instr);
+            llvm::LLVMDustSetHasUnsafeAlgebra(instr);
             instr
         }
     }
@@ -284,7 +284,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
     fn fdiv_fast(&mut self, lhs: &'ll Value, rhs: &'ll Value) -> &'ll Value {
         unsafe {
             let instr = llvm::LLVMBuildFDiv(self.llbuilder, lhs, rhs, UNNAMED);
-            llvm::LLVMRustSetHasUnsafeAlgebra(instr);
+            llvm::LLVMDustSetHasUnsafeAlgebra(instr);
             instr
         }
     }
@@ -292,7 +292,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
     fn frem_fast(&mut self, lhs: &'ll Value, rhs: &'ll Value) -> &'ll Value {
         unsafe {
             let instr = llvm::LLVMBuildFRem(self.llbuilder, lhs, rhs, UNNAMED);
-            llvm::LLVMRustSetHasUnsafeAlgebra(instr);
+            llvm::LLVMDustSetHasUnsafeAlgebra(instr);
             instr
         }
     }
@@ -304,8 +304,8 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
         lhs: Self::Value,
         rhs: Self::Value,
     ) -> (Self::Value, Self::Value) {
-        use rustc_middle::ty::{Int, Uint};
-        use rustc_middle::ty::{IntTy::*, UintTy::*};
+        use dustc_middle::ty::{Int, Uint};
+        use dustc_middle::ty::{IntTy::*, UintTy::*};
 
         let new_kind = match ty.kind() {
             Int(t @ Isize) => Int(t.normalize(self.tcx.sess.target.pointer_width)),
@@ -422,11 +422,11 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
     fn atomic_load(
         &mut self,
         ptr: &'ll Value,
-        order: rustc_codegen_ssa::common::AtomicOrdering,
+        order: dustc_codegen_ssa::common::AtomicOrdering,
         size: Size,
     ) -> &'ll Value {
         unsafe {
-            let load = llvm::LLVMRustBuildAtomicLoad(
+            let load = llvm::LLVMDustBuildAtomicLoad(
                 self.llbuilder,
                 ptr,
                 UNNAMED,
@@ -612,13 +612,13 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
         &mut self,
         val: &'ll Value,
         ptr: &'ll Value,
-        order: rustc_codegen_ssa::common::AtomicOrdering,
+        order: dustc_codegen_ssa::common::AtomicOrdering,
         size: Size,
     ) {
         debug!("Store {:?} -> {:?}", val, ptr);
         let ptr = self.check_store(val, ptr);
         unsafe {
-            let store = llvm::LLVMRustBuildAtomicStore(
+            let store = llvm::LLVMDustBuildAtomicStore(
                 self.llbuilder,
                 val,
                 ptr,
@@ -814,7 +814,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
     }
 
     fn intcast(&mut self, val: &'ll Value, dest_ty: &'ll Type, is_signed: bool) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildIntCast(self.llbuilder, val, dest_ty, is_signed) }
+        unsafe { llvm::LLVMDustBuildIntCast(self.llbuilder, val, dest_ty, is_signed) }
     }
 
     fn pointercast(&mut self, val: &'ll Value, dest_ty: &'ll Type) -> &'ll Value {
@@ -853,7 +853,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
         let dst = self.pointercast(dst, self.type_i8p());
         let src = self.pointercast(src, self.type_i8p());
         unsafe {
-            llvm::LLVMRustBuildMemCpy(
+            llvm::LLVMDustBuildMemCpy(
                 self.llbuilder,
                 dst,
                 dst_align.bytes() as c_uint,
@@ -886,7 +886,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
         let dst = self.pointercast(dst, self.type_i8p());
         let src = self.pointercast(src, self.type_i8p());
         unsafe {
-            llvm::LLVMRustBuildMemMove(
+            llvm::LLVMDustBuildMemMove(
                 self.llbuilder,
                 dst,
                 dst_align.bytes() as c_uint,
@@ -909,7 +909,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
         let is_volatile = flags.contains(MemFlags::VOLATILE);
         let ptr = self.pointercast(ptr, self.type_i8p());
         unsafe {
-            llvm::LLVMRustBuildMemSet(
+            llvm::LLVMDustBuildMemSet(
                 self.llbuilder,
                 ptr,
                 align.bytes() as c_uint,
@@ -981,7 +981,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
     fn cleanup_pad(&mut self, parent: Option<&'ll Value>, args: &[&'ll Value]) -> Funclet<'ll> {
         let name = cstr!("cleanuppad");
         let ret = unsafe {
-            llvm::LLVMRustBuildCleanupPad(
+            llvm::LLVMDustBuildCleanupPad(
                 self.llbuilder,
                 parent,
                 args.len() as c_uint,
@@ -998,14 +998,14 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
         unwind: Option<&'ll BasicBlock>,
     ) -> &'ll Value {
         let ret =
-            unsafe { llvm::LLVMRustBuildCleanupRet(self.llbuilder, funclet.cleanuppad(), unwind) };
+            unsafe { llvm::LLVMDustBuildCleanupRet(self.llbuilder, funclet.cleanuppad(), unwind) };
         ret.expect("LLVM does not have support for cleanupret")
     }
 
     fn catch_pad(&mut self, parent: &'ll Value, args: &[&'ll Value]) -> Funclet<'ll> {
         let name = cstr!("catchpad");
         let ret = unsafe {
-            llvm::LLVMRustBuildCatchPad(
+            llvm::LLVMDustBuildCatchPad(
                 self.llbuilder,
                 parent,
                 args.len() as c_uint,
@@ -1024,7 +1024,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
     ) -> &'ll Value {
         let name = cstr!("catchswitch");
         let ret = unsafe {
-            llvm::LLVMRustBuildCatchSwitch(
+            llvm::LLVMDustBuildCatchSwitch(
                 self.llbuilder,
                 parent,
                 unwind,
@@ -1037,7 +1037,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
 
     fn add_handler(&mut self, catch_switch: &'ll Value, handler: &'ll BasicBlock) {
         unsafe {
-            llvm::LLVMRustAddHandler(catch_switch, handler);
+            llvm::LLVMDustAddHandler(catch_switch, handler);
         }
     }
 
@@ -1053,13 +1053,13 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
         dst: &'ll Value,
         cmp: &'ll Value,
         src: &'ll Value,
-        order: rustc_codegen_ssa::common::AtomicOrdering,
-        failure_order: rustc_codegen_ssa::common::AtomicOrdering,
+        order: dustc_codegen_ssa::common::AtomicOrdering,
+        failure_order: dustc_codegen_ssa::common::AtomicOrdering,
         weak: bool,
     ) -> &'ll Value {
         let weak = if weak { llvm::True } else { llvm::False };
         unsafe {
-            llvm::LLVMRustBuildAtomicCmpXchg(
+            llvm::LLVMDustBuildAtomicCmpXchg(
                 self.llbuilder,
                 dst,
                 cmp,
@@ -1072,10 +1072,10 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
     }
     fn atomic_rmw(
         &mut self,
-        op: rustc_codegen_ssa::common::AtomicRmwBinOp,
+        op: dustc_codegen_ssa::common::AtomicRmwBinOp,
         dst: &'ll Value,
         src: &'ll Value,
-        order: rustc_codegen_ssa::common::AtomicOrdering,
+        order: dustc_codegen_ssa::common::AtomicOrdering,
     ) -> &'ll Value {
         unsafe {
             llvm::LLVMBuildAtomicRMW(
@@ -1091,11 +1091,11 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
 
     fn atomic_fence(
         &mut self,
-        order: rustc_codegen_ssa::common::AtomicOrdering,
-        scope: rustc_codegen_ssa::common::SynchronizationScope,
+        order: dustc_codegen_ssa::common::AtomicOrdering,
+        scope: dustc_codegen_ssa::common::SynchronizationScope,
     ) {
         unsafe {
-            llvm::LLVMRustBuildAtomicFence(
+            llvm::LLVMDustBuildAtomicFence(
                 self.llbuilder,
                 AtomicOrdering::from_generic(order),
                 SynchronizationScope::from_generic(scope),
@@ -1133,12 +1133,12 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
             fn_name, hash, num_counters, index
         );
 
-        let llfn = unsafe { llvm::LLVMRustGetInstrProfIncrementIntrinsic(self.cx().llmod) };
+        let llfn = unsafe { llvm::LLVMDustGetInstrProfIncrementIntrinsic(self.cx().llmod) };
         let args = &[fn_name, hash, num_counters, index];
         let args = self.check_call("call", llfn, args);
 
         unsafe {
-            let _ = llvm::LLVMRustBuildCall(
+            let _ = llvm::LLVMDustBuildCall(
                 self.llbuilder,
                 llfn,
                 args.as_ptr() as *const &llvm::Value,
@@ -1161,7 +1161,7 @@ impl BuilderMethods<'a, 'tcx> for Builder<'a, 'll, 'tcx> {
         let bundle = bundle.as_ref().map(|b| &*b.raw);
 
         unsafe {
-            llvm::LLVMRustBuildCall(
+            llvm::LLVMDustBuildCall(
                 self.llbuilder,
                 llfn,
                 args.as_ptr() as *const &llvm::Value,
@@ -1202,16 +1202,16 @@ impl Builder<'a, 'll, 'tcx> {
 
     fn position_at_start(&mut self, llbb: &'ll BasicBlock) {
         unsafe {
-            llvm::LLVMRustPositionBuilderAtStart(self.llbuilder, llbb);
+            llvm::LLVMDustPositionBuilderAtStart(self.llbuilder, llbb);
         }
     }
 
     pub fn minnum(&mut self, lhs: &'ll Value, rhs: &'ll Value) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildMinNum(self.llbuilder, lhs, rhs) }
+        unsafe { llvm::LLVMDustBuildMinNum(self.llbuilder, lhs, rhs) }
     }
 
     pub fn maxnum(&mut self, lhs: &'ll Value, rhs: &'ll Value) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildMaxNum(self.llbuilder, lhs, rhs) }
+        unsafe { llvm::LLVMDustBuildMaxNum(self.llbuilder, lhs, rhs) }
     }
 
     pub fn insert_element(
@@ -1233,71 +1233,71 @@ impl Builder<'a, 'll, 'tcx> {
     }
 
     pub fn vector_reduce_fadd(&mut self, acc: &'ll Value, src: &'ll Value) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildVectorReduceFAdd(self.llbuilder, acc, src) }
+        unsafe { llvm::LLVMDustBuildVectorReduceFAdd(self.llbuilder, acc, src) }
     }
     pub fn vector_reduce_fmul(&mut self, acc: &'ll Value, src: &'ll Value) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildVectorReduceFMul(self.llbuilder, acc, src) }
+        unsafe { llvm::LLVMDustBuildVectorReduceFMul(self.llbuilder, acc, src) }
     }
     pub fn vector_reduce_fadd_fast(&mut self, acc: &'ll Value, src: &'ll Value) -> &'ll Value {
         unsafe {
-            let instr = llvm::LLVMRustBuildVectorReduceFAdd(self.llbuilder, acc, src);
-            llvm::LLVMRustSetHasUnsafeAlgebra(instr);
+            let instr = llvm::LLVMDustBuildVectorReduceFAdd(self.llbuilder, acc, src);
+            llvm::LLVMDustSetHasUnsafeAlgebra(instr);
             instr
         }
     }
     pub fn vector_reduce_fmul_fast(&mut self, acc: &'ll Value, src: &'ll Value) -> &'ll Value {
         unsafe {
-            let instr = llvm::LLVMRustBuildVectorReduceFMul(self.llbuilder, acc, src);
-            llvm::LLVMRustSetHasUnsafeAlgebra(instr);
+            let instr = llvm::LLVMDustBuildVectorReduceFMul(self.llbuilder, acc, src);
+            llvm::LLVMDustSetHasUnsafeAlgebra(instr);
             instr
         }
     }
     pub fn vector_reduce_add(&mut self, src: &'ll Value) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildVectorReduceAdd(self.llbuilder, src) }
+        unsafe { llvm::LLVMDustBuildVectorReduceAdd(self.llbuilder, src) }
     }
     pub fn vector_reduce_mul(&mut self, src: &'ll Value) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildVectorReduceMul(self.llbuilder, src) }
+        unsafe { llvm::LLVMDustBuildVectorReduceMul(self.llbuilder, src) }
     }
     pub fn vector_reduce_and(&mut self, src: &'ll Value) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildVectorReduceAnd(self.llbuilder, src) }
+        unsafe { llvm::LLVMDustBuildVectorReduceAnd(self.llbuilder, src) }
     }
     pub fn vector_reduce_or(&mut self, src: &'ll Value) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildVectorReduceOr(self.llbuilder, src) }
+        unsafe { llvm::LLVMDustBuildVectorReduceOr(self.llbuilder, src) }
     }
     pub fn vector_reduce_xor(&mut self, src: &'ll Value) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildVectorReduceXor(self.llbuilder, src) }
+        unsafe { llvm::LLVMDustBuildVectorReduceXor(self.llbuilder, src) }
     }
     pub fn vector_reduce_fmin(&mut self, src: &'ll Value) -> &'ll Value {
         unsafe {
-            llvm::LLVMRustBuildVectorReduceFMin(self.llbuilder, src, /*NoNaNs:*/ false)
+            llvm::LLVMDustBuildVectorReduceFMin(self.llbuilder, src, /*NoNaNs:*/ false)
         }
     }
     pub fn vector_reduce_fmax(&mut self, src: &'ll Value) -> &'ll Value {
         unsafe {
-            llvm::LLVMRustBuildVectorReduceFMax(self.llbuilder, src, /*NoNaNs:*/ false)
+            llvm::LLVMDustBuildVectorReduceFMax(self.llbuilder, src, /*NoNaNs:*/ false)
         }
     }
     pub fn vector_reduce_fmin_fast(&mut self, src: &'ll Value) -> &'ll Value {
         unsafe {
             let instr =
-                llvm::LLVMRustBuildVectorReduceFMin(self.llbuilder, src, /*NoNaNs:*/ true);
-            llvm::LLVMRustSetHasUnsafeAlgebra(instr);
+                llvm::LLVMDustBuildVectorReduceFMin(self.llbuilder, src, /*NoNaNs:*/ true);
+            llvm::LLVMDustSetHasUnsafeAlgebra(instr);
             instr
         }
     }
     pub fn vector_reduce_fmax_fast(&mut self, src: &'ll Value) -> &'ll Value {
         unsafe {
             let instr =
-                llvm::LLVMRustBuildVectorReduceFMax(self.llbuilder, src, /*NoNaNs:*/ true);
-            llvm::LLVMRustSetHasUnsafeAlgebra(instr);
+                llvm::LLVMDustBuildVectorReduceFMax(self.llbuilder, src, /*NoNaNs:*/ true);
+            llvm::LLVMDustSetHasUnsafeAlgebra(instr);
             instr
         }
     }
     pub fn vector_reduce_min(&mut self, src: &'ll Value, is_signed: bool) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildVectorReduceMin(self.llbuilder, src, is_signed) }
+        unsafe { llvm::LLVMDustBuildVectorReduceMin(self.llbuilder, src, is_signed) }
     }
     pub fn vector_reduce_max(&mut self, src: &'ll Value, is_signed: bool) -> &'ll Value {
-        unsafe { llvm::LLVMRustBuildVectorReduceMax(self.llbuilder, src, is_signed) }
+        unsafe { llvm::LLVMDustBuildVectorReduceMax(self.llbuilder, src, is_signed) }
     }
 
     pub fn add_clause(&mut self, landing_pad: &'ll Value, clause: &'ll Value) {
@@ -1308,7 +1308,7 @@ impl Builder<'a, 'll, 'tcx> {
 
     pub fn catch_ret(&mut self, funclet: &Funclet<'ll>, unwind: &'ll BasicBlock) -> &'ll Value {
         let ret =
-            unsafe { llvm::LLVMRustBuildCatchRet(self.llbuilder, funclet.cleanuppad(), unwind) };
+            unsafe { llvm::LLVMDustBuildCatchRet(self.llbuilder, funclet.cleanuppad(), unwind) };
         ret.expect("LLVM does not have support for catchret")
     }
 

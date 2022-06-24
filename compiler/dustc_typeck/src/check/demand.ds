@@ -1,17 +1,17 @@
 use crate::check::FnCtxt;
-use rustc_infer::infer::InferOk;
-use rustc_trait_selection::infer::InferCtxtExt as _;
-use rustc_trait_selection::traits::ObligationCause;
+use dustc_infer::infer::InferOk;
+use dustc_trait_selection::infer::InferCtxtExt as _;
+use dustc_trait_selection::traits::ObligationCause;
 
-use rustc_ast::util::parser::PREC_POSTFIX;
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{is_range_literal, Node};
-use rustc_middle::ty::adjustment::AllowTwoPhase;
-use rustc_middle::ty::{self, AssocItem, Ty, TypeAndMut};
-use rustc_span::symbol::sym;
-use rustc_span::Span;
+use dustc_ast::util::parser::PREC_POSTFIX;
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{is_range_literal, Node};
+use dustc_middle::ty::adjustment::AllowTwoPhase;
+use dustc_middle::ty::{self, AssocItem, Ty, TypeAndMut};
+use dustc_span::symbol::sym;
+use dustc_span::Span;
 
 use super::method::probe;
 
@@ -247,12 +247,12 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                     //
                     // FIXME (#46459 and #46460): ideally
                     // `std::convert::Into::into` and `std::borrow:ToOwned` would
-                    // also be `#[rustc_conversion_suggestion]`, if not for
+                    // also be `#[dustc_conversion_suggestion]`, if not for
                     // method-probing false-positives and -negatives (respectively).
                     //
                     // FIXME? Other potential candidate methods: `as_ref` and
                     // `as_mut`?
-                    .any(|a| self.sess().check_name(a, sym::rustc_conversion_suggestion))
+                    .any(|a| self.sess().check_name(a, sym::dustc_conversion_suggestion))
         });
 
         methods

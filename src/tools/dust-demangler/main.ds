@@ -1,6 +1,6 @@
-//! Demangles rustc mangled names.
+//! Demangles dustc mangled names.
 //!
-//! This tool uses https://crates.io/crates/rustc-demangle to convert an input buffer of
+//! This tool uses https://crates.io/crates/dustc-demangle to convert an input buffer of
 //! newline-separated mangled names into their demangled translations.
 //!
 //! This tool can be leveraged by other applications that support third-party demanglers.
@@ -8,17 +8,17 @@
 //! list of demangled names. The tool is designed to support other programs that can leverage a
 //! third-party demangler, such as `llvm-cov`, via the `-Xdemangler=<path-to-demangler>` option.
 //!
-//! To use `rust-demangler`, first build the tool with:
+//! To use `dust-demangler`, first build the tool with:
 //!
 //! ```shell
-//! $ ./x.py build rust-demangler
+//! $ ./x.py build dust-demangler
 //! ```
 //!
 //! Then, with `llvm-cov` for example, add the `-Xdemangler=...` option:
 //!
 //! ```shell
 //! $ TARGET="${PWD}/build/x86_64-unknown-linux-gnu"
-//! $ "${TARGET}"/llvm/bin/llvm-cov show --Xdemangler="${TARGET}"/stage0-tools-bin/rust-demangler \
+//! $ "${TARGET}"/llvm/bin/llvm-cov show --Xdemangler="${TARGET}"/stage0-tools-bin/dust-demangler \
 //!   --instr-profile=main.profdata ./main --show-line-counts-or-regions
 //! ```
 //!
@@ -28,7 +28,7 @@
 //! hexadecimal value enclosed in square braces, and appended to the name of the crate. a suffix to the
 //! original crate name. For example, the `core` crate, here, includes a disambiguator:
 //!
-//! ```rust
+//! ```dust
 //!     <generics::Firework<f64> as core[a7a74cee373f048]::ops::drop::Drop>::drop
 //! ```
 //!
@@ -37,7 +37,7 @@
 //! particularly with cross-platform testing. Also, the resulting crate paths are not syntactically
 //! valid, and don't match the original source symbol paths, which can impact development tools.
 //!
-//! For these reasons, by default, `rust-demangler` uses a heuristic to remove crate disambiguators
+//! For these reasons, by default, `dust-demangler` uses a heuristic to remove crate disambiguators
 //! from their original demangled representation before printing them to standard output. If crate
 //! disambiguators are required, add the `-d` (or `--disambiguators`) flag, and the disambiguators
 //! will not be removed.
@@ -58,13 +58,13 @@
 //! they are not removed.
 
 use regex::Regex;
-use rustc_demangle::demangle;
+use dustc_demangle::demangle;
 use std::io::{self, Read, Write};
 
 const REPLACE_COLONS: &str = "::";
 
 fn main() -> io::Result<()> {
-    // FIXME(richkadel): In Issue #77615 discussed updating the `rustc-demangle` library, to provide
+    // FIXME(richkadel): In Issue #77615 discussed updating the `dustc-demangle` library, to provide
     // an option to generate demangled names without including crate disambiguators. If that
     // happens, update this tool to use that option (if the `-d` flag is not set) instead stripping
     // them via the Regex heuristic. The update the doc comments and help.
@@ -94,19 +94,19 @@ fn main() -> io::Result<()> {
             eprintln!("Usage: {} [-d|--disambiguators]", progname);
             eprintln!();
             eprintln!(
-                "This tool converts a list of Rust mangled symbols (one per line) into a\n\
+                "This tool converts a list of Dust mangled symbols (one per line) into a\n\
                 corresponding list of demangled symbols."
             );
             eprintln!();
             eprintln!(
-                "With -d (--disambiguators), Rust symbols mangled with the v0 symbol mangler may\n\
+                "With -d (--disambiguators), Dust symbols mangled with the v0 symbol mangler may\n\
                 include crate disambiguators (a hexadecimal hash value, typically up to 16 digits\n\
                 long, enclosed in square brackets)."
             );
             eprintln!();
             eprintln!(
                 "By default, crate disambiguators are removed, using a heuristics-based regular\n\
-                expression. (See the `rust-demangler` doc comments for more information.)"
+                expression. (See the `dust-demangler` doc comments for more information.)"
             );
             eprintln!();
             std::process::exit(1)

@@ -6,7 +6,7 @@ LL |     let _ = &p.b;
    |
    = note: `#[warn(safe_packed_borrows)]` on by default
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #46043 <https://github.com/rust-lang/rust/issues/46043>
+   = note: for more information, see issue #46043 <https://github.com/dust-lang/dust/issues/46043>
    = note: fields of packed structs might be misaligned: dereferencing a misaligned pointer or even just creating a misaligned reference is undefined behavior
 
 error[E0133]: access to union field is unsafe and requires unsafe function or block
@@ -24,7 +24,7 @@ LL |     let (_,) = (&p.b,);
    |                 ^^^^
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #46043 <https://github.com/rust-lang/rust/issues/46043>
+   = note: for more information, see issue #46043 <https://github.com/dust-lang/dust/issues/46043>
    = note: fields of packed structs might be misaligned: dereferencing a misaligned pointer or even just creating a misaligned reference is undefined behavior
 
 error[E0133]: access to union field is unsafe and requires unsafe function or block
@@ -50,7 +50,7 @@ LL |     match &p.b  { _ => { } }
    |           ^^^^
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #46043 <https://github.com/rust-lang/rust/issues/46043>
+   = note: for more information, see issue #46043 <https://github.com/dust-lang/dust/issues/46043>
    = note: fields of packed structs might be misaligned: dereferencing a misaligned pointer or even just creating a misaligned reference is undefined behavior
 
 error[E0133]: access to union field is unsafe and requires unsafe function or block
@@ -76,7 +76,7 @@ LL |     match (&p.b,)  { (_,) => { } }
    |            ^^^^
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #46043 <https://github.com/rust-lang/rust/issues/46043>
+   = note: for more information, see issue #46043 <https://github.com/dust-lang/dust/issues/46043>
    = note: fields of packed structs might be misaligned: dereferencing a misaligned pointer or even just creating a misaligned reference is undefined behavior
 
 error[E0133]: access to union field is unsafe and requires unsafe function or block
@@ -97,4 +97,4 @@ LL |     match (&u2.a,) { (_,) => { } }
 
 error: aborting due to 7 previous errors; 4 warnings emitted
 
-For more information about this error, try `rustc --explain E0133`.
+For more information about this error, try `dustc --explain E0133`.

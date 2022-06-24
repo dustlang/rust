@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![allow(unused, clippy::needless_bool)]
 #![allow(clippy::if_same_then_else, clippy::single_match)]

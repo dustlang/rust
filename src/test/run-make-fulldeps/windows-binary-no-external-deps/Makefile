@@ -5,5 +5,5 @@
 PATH=$(SYSTEMROOT)/system32
 
 all:
-	$(RUSTC) hello.rs
+	$(DUSTC) hello.rs
 	$(TMPDIR)/hello.exe

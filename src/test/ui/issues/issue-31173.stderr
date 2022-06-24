@@ -32,4 +32,4 @@ LL | pub struct TakeWhile<I, P> {
 error: aborting due to 2 previous errors
 
 Some errors have detailed explanations: E0271, E0599.
-For more information about an error, try `rustc --explain E0271`.
+For more information about an error, try `dustc --explain E0271`.

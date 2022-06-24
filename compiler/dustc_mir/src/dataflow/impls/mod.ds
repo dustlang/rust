@@ -2,10 +2,10 @@
 //! bitvectors attached to each basic block, represented via a
 //! zero-sized structure.
 
-use rustc_index::bit_set::BitSet;
-use rustc_index::vec::Idx;
-use rustc_middle::mir::{self, Body, Location};
-use rustc_middle::ty::{self, TyCtxt};
+use dustc_index::bit_set::BitSet;
+use dustc_index::vec::Idx;
+use dustc_middle::mir::{self, Body, Location};
+use dustc_middle::ty::{self, TyCtxt};
 
 use super::MoveDataParamEnv;
 
@@ -39,7 +39,7 @@ pub use self::storage_liveness::{MaybeRequiresStorage, MaybeStorageLive};
 /// For example, in code like the following, we have corresponding
 /// dataflow information shown in the right-hand comments.
 ///
-/// ```rust
+/// ```dust
 /// struct S;
 /// fn foo(pred: bool) {                       // maybe-init:
 ///                                            // {}
@@ -92,7 +92,7 @@ impl<'a, 'tcx> HasMoveData<'tcx> for MaybeInitializedPlaces<'a, 'tcx> {
 /// For example, in code like the following, we have corresponding
 /// dataflow information shown in the right-hand comments.
 ///
-/// ```rust
+/// ```dust
 /// struct S;
 /// fn foo(pred: bool) {                       // maybe-uninit:
 ///                                            // {a, b, c, d}
@@ -157,7 +157,7 @@ impl<'a, 'tcx> HasMoveData<'tcx> for MaybeUninitializedPlaces<'a, 'tcx> {
 /// For example, in code like the following, we have corresponding
 /// dataflow information shown in the right-hand comments.
 ///
-/// ```rust
+/// ```dust
 /// struct S;
 /// fn foo(pred: bool) {                       // definite-init:
 ///                                            // {          }
@@ -212,7 +212,7 @@ impl<'a, 'tcx> HasMoveData<'tcx> for DefinitelyInitializedPlaces<'a, 'tcx> {
 /// For example, in code like the following, we have corresponding
 /// dataflow information shown in the right-hand comments.
 ///
-/// ```rust
+/// ```dust
 /// struct S;
 /// fn foo(pred: bool) {                       // ever-init:
 ///                                            // {          }

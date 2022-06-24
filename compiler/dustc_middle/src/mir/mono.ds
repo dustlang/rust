@@ -1,16 +1,16 @@
 use crate::dep_graph::{DepNode, WorkProduct, WorkProductId};
 use crate::ich::{NodeIdHashingMode, StableHashingContext};
 use crate::ty::{subst::InternalSubsts, Instance, InstanceDef, SymbolName, TyCtxt};
-use rustc_attr::InlineAttr;
-use rustc_data_structures::base_n;
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId, LOCAL_CRATE};
-use rustc_hir::{HirId, ItemId};
-use rustc_session::config::OptLevel;
-use rustc_span::source_map::Span;
-use rustc_span::symbol::Symbol;
+use dustc_attr::InlineAttr;
+use dustc_data_structures::base_n;
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_hir::def_id::{CrateNum, DefId, LocalDefId, LOCAL_CRATE};
+use dustc_hir::{HirId, ItemId};
+use dustc_session::config::OptLevel;
+use dustc_span::source_map::Span;
+use dustc_span::symbol::Symbol;
 use std::fmt;
 use std::hash::Hash;
 
@@ -418,7 +418,7 @@ impl CodegenUnitNameBuilder<'tcx> {
     /// ```
     ///
     /// The '.' before `<special-suffix>` makes sure that names with a special
-    /// suffix can never collide with a name built out of regular Rust
+    /// suffix can never collide with a name built out of regular Dust
     /// identifiers (e.g., module paths).
     pub fn build_cgu_name<I, C, S>(
         &mut self,
@@ -484,7 +484,7 @@ impl CodegenUnitNameBuilder<'tcx> {
 
         if let Some(special_suffix) = special_suffix {
             // We add a dot in here so it cannot clash with anything in a regular
-            // Rust identifier
+            // Dust identifier
             write!(cgu_name, ".{}", special_suffix).unwrap();
         }
 

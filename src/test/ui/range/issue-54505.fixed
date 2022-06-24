@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 // Regression test for #54505 - range borrowing suggestion had
 // incorrect syntax (missing parentheses).

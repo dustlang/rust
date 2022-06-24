@@ -1,4 +1,4 @@
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 #![deny(warnings)]
 
 use std::env;

@@ -45,7 +45,7 @@ pre {
 	scrollbar-color: rgba(36, 37, 39, 0.6) #d9d9d9;
 }
 
-.logo-container.rust-logo > img {
+.logo-container.dust-logo > img {
 	/* No need for a border in here! */
 }
 
@@ -157,8 +157,8 @@ pre {
 .content .fnname { color: #9a6e31; }
 .content span.keyword, .content a.keyword, .block a.current.keyword { color: #de5249; }
 
-pre.rust .comment { color: #8E908C; }
-pre.rust .doccomment { color: #4D4D4C; }
+pre.dust .comment { color: #8E908C; }
+pre.dust .doccomment { color: #4D4D4C; }
 
 nav:not(.sidebar) {
 	border-bottom-color: #e0e0e0;
@@ -242,14 +242,14 @@ tr.result span.primitive::after, tr.result span.keyword::after {
 .line-numbers :target { background-color: transparent; }
 
 /* Code highlighting */
-pre.rust .kw { color: #8959A8; }
-pre.rust .kw-2, pre.rust .prelude-ty { color: #4271AE; }
-pre.rust .number, pre.rust .string { color: #718C00; }
-pre.rust .self, pre.rust .bool-val, pre.rust .prelude-val,
-pre.rust .attribute, pre.rust .attribute .ident { color: #C82829; }
-pre.rust .macro, pre.rust .macro-nonterminal { color: #3E999F; }
-pre.rust .lifetime { color: #B76514; }
-pre.rust .question-mark {
+pre.dust .kw { color: #8959A8; }
+pre.dust .kw-2, pre.dust .prelude-ty { color: #4271AE; }
+pre.dust .number, pre.dust .string { color: #718C00; }
+pre.dust .self, pre.dust .bool-val, pre.dust .prelude-val,
+pre.dust .attribute, pre.dust .attribute .ident { color: #C82829; }
+pre.dust .macro, pre.dust .macro-nonterminal { color: #3E999F; }
+pre.dust .lifetime { color: #B76514; }
+pre.dust .question-mark {
 	color: #ff9011;
 }
 

@@ -8,7 +8,7 @@ use tracing::*;
 #[cfg(test)]
 mod tests;
 
-/// Conversion table from triple OS name to Rust SYSNAME
+/// Conversion table from triple OS name to Dust SYSNAME
 const OS_TABLE: &[(&str, &str)] = &[
     ("android", "android"),
     ("androideabi", "android"),

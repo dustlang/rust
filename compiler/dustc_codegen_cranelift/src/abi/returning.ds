@@ -2,8 +2,8 @@
 
 use crate::prelude::*;
 
-use rustc_middle::ty::layout::FnAbiExt;
-use rustc_target::abi::call::{ArgAbi, FnAbi, PassMode};
+use dustc_middle::ty::layout::FnAbiExt;
+use dustc_target::abi::call::{ArgAbi, FnAbi, PassMode};
 use smallvec::{smallvec, SmallVec};
 
 /// Can the given type be returned into an ssa var or does it need to be returned on the stack.
@@ -54,7 +54,7 @@ pub(crate) fn can_return_to_ssa_var<'tcx>(
 /// this adds an extra parameter pointing to where the return value needs to be stored.
 pub(super) fn codegen_return_param<'tcx>(
     fx: &mut FunctionCx<'_, '_, 'tcx>,
-    ssa_analyzed: &rustc_index::vec::IndexVec<Local, crate::analyze::SsaKind>,
+    ssa_analyzed: &dustc_index::vec::IndexVec<Local, crate::analyze::SsaKind>,
     block_params_iter: &mut impl Iterator<Item = Value>,
 ) -> CPlace<'tcx> {
     let (ret_place, ret_param): (_, SmallVec<[_; 2]>) = match fx.fn_abi.as_ref().unwrap().ret.mode {

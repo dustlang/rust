@@ -1,5 +1,5 @@
 // check-pass
-// run-rustfix
+// run-dustfix
 
 #![warn(ellipsis_inclusive_range_patterns)]
 

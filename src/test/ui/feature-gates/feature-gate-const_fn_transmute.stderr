@@ -4,7 +4,7 @@ error[E0658]: `transmute` is not allowed in constant functions
 LL | const fn transmute_fn() -> u32 { unsafe { mem::transmute(Foo(3)) } }
    |                                           ^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53605 <https://github.com/rust-lang/rust/issues/53605> for more information
+   = note: see issue #53605 <https://github.com/dust-lang/dust/issues/53605> for more information
    = help: add `#![feature(const_fn_transmute)]` to the crate attributes to enable
    = note: `transmute` is only allowed in constants and statics for now
 
@@ -14,7 +14,7 @@ error[E0658]: `transmute` is not allowed in constant functions
 LL | const fn transmute_fn_intrinsic() -> u32 { unsafe { std::intrinsics::transmute(Foo(3)) } }
    |                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53605 <https://github.com/rust-lang/rust/issues/53605> for more information
+   = note: see issue #53605 <https://github.com/dust-lang/dust/issues/53605> for more information
    = help: add `#![feature(const_fn_transmute)]` to the crate attributes to enable
    = note: `transmute` is only allowed in constants and statics for now
 
@@ -24,7 +24,7 @@ error[E0658]: `transmute` is not allowed in constant functions
 LL | const fn transmute_fn_core_intrinsic() -> u32 { unsafe { core::intrinsics::transmute(Foo(3)) } }
    |                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53605 <https://github.com/rust-lang/rust/issues/53605> for more information
+   = note: see issue #53605 <https://github.com/dust-lang/dust/issues/53605> for more information
    = help: add `#![feature(const_fn_transmute)]` to the crate attributes to enable
    = note: `transmute` is only allowed in constants and statics for now
 
@@ -34,7 +34,7 @@ error[E0658]: `transmute` is not allowed in constant functions
 LL | const unsafe fn unsafe_transmute_fn() -> u32 { mem::transmute(Foo(3)) }
    |                                                ^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53605 <https://github.com/rust-lang/rust/issues/53605> for more information
+   = note: see issue #53605 <https://github.com/dust-lang/dust/issues/53605> for more information
    = help: add `#![feature(const_fn_transmute)]` to the crate attributes to enable
    = note: `transmute` is only allowed in constants and statics for now
 
@@ -44,7 +44,7 @@ error[E0658]: `transmute` is not allowed in constant functions
 LL | const unsafe fn unsafe_transmute_fn_intrinsic() -> u32 { std::intrinsics::transmute(Foo(3)) }
    |                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53605 <https://github.com/rust-lang/rust/issues/53605> for more information
+   = note: see issue #53605 <https://github.com/dust-lang/dust/issues/53605> for more information
    = help: add `#![feature(const_fn_transmute)]` to the crate attributes to enable
    = note: `transmute` is only allowed in constants and statics for now
 
@@ -54,7 +54,7 @@ error[E0658]: `transmute` is not allowed in constant functions
 LL | const unsafe fn unsafe_transmute_fn_core_intrinsic() -> u32 { core::intrinsics::transmute(Foo(3)) }
    |                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53605 <https://github.com/rust-lang/rust/issues/53605> for more information
+   = note: see issue #53605 <https://github.com/dust-lang/dust/issues/53605> for more information
    = help: add `#![feature(const_fn_transmute)]` to the crate attributes to enable
    = note: `transmute` is only allowed in constants and statics for now
 
@@ -64,7 +64,7 @@ error[E0658]: `transmute` is not allowed in constant functions
 LL | const fn safe_transmute_fn() -> u32 { mem::transmute(Foo(3)) }
    |                                       ^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53605 <https://github.com/rust-lang/rust/issues/53605> for more information
+   = note: see issue #53605 <https://github.com/dust-lang/dust/issues/53605> for more information
    = help: add `#![feature(const_fn_transmute)]` to the crate attributes to enable
    = note: `transmute` is only allowed in constants and statics for now
 
@@ -74,7 +74,7 @@ error[E0658]: `transmute` is not allowed in constant functions
 LL | const fn safe_transmute_fn_intrinsic() -> u32 { std::intrinsics::transmute(Foo(3)) }
    |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53605 <https://github.com/rust-lang/rust/issues/53605> for more information
+   = note: see issue #53605 <https://github.com/dust-lang/dust/issues/53605> for more information
    = help: add `#![feature(const_fn_transmute)]` to the crate attributes to enable
    = note: `transmute` is only allowed in constants and statics for now
 
@@ -84,7 +84,7 @@ error[E0658]: `transmute` is not allowed in constant functions
 LL | const fn safe_transmute_fn_core_intrinsic() -> u32 { core::intrinsics::transmute(Foo(3)) }
    |                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53605 <https://github.com/rust-lang/rust/issues/53605> for more information
+   = note: see issue #53605 <https://github.com/dust-lang/dust/issues/53605> for more information
    = help: add `#![feature(const_fn_transmute)]` to the crate attributes to enable
    = note: `transmute` is only allowed in constants and statics for now
 
@@ -115,4 +115,4 @@ LL | const fn safe_transmute_fn_core_intrinsic() -> u32 { core::intrinsics::tran
 error: aborting due to 12 previous errors
 
 Some errors have detailed explanations: E0133, E0658.
-For more information about an error, try `rustc --explain E0133`.
+For more information about an error, try `dustc --explain E0133`.

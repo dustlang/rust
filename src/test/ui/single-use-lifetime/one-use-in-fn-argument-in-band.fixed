@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![feature(in_band_lifetimes)]
 #![deny(single_use_lifetimes)]

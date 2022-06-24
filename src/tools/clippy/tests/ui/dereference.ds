@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![allow(unused_variables, clippy::many_single_char_names, clippy::clone_double_ref)]
 #![warn(clippy::explicit_deref_methods)]

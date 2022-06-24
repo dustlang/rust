@@ -4,7 +4,7 @@
 // ignore-windows - this is a unix-specific test
 // ignore-emscripten no processes
 // ignore-sgx no processes
-#![feature(process_exec, rustc_private)]
+#![feature(process_exec, dustc_private)]
 
 extern crate libc;
 

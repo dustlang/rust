@@ -17,7 +17,7 @@ LL | #![feature(generic_associated_types)]
    |            ^^^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #44265 <https://github.com/rust-lang/rust/issues/44265> for more information
+   = note: see issue #44265 <https://github.com/dust-lang/dust/issues/44265> for more information
 
 warning: trait objects without an explicit `dyn` are deprecated
   --> $DIR/gat-trait-path-parenthesised-args.rs:10:29
@@ -65,4 +65,4 @@ LL |   type Y<'a>;
 
 error: aborting due to 4 previous errors; 2 warnings emitted
 
-For more information about this error, try `rustc --explain E0107`.
+For more information about this error, try `dustc --explain E0107`.

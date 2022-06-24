@@ -1,6 +1,6 @@
 //! Windows-specific extensions to general I/O primitives.
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 use crate::fs;
 use crate::io;
@@ -11,18 +11,18 @@ use crate::sys::c;
 use crate::sys_common::{self, AsInner, FromInner, IntoInner};
 
 /// Raw HANDLEs.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub type RawHandle = raw::HANDLE;
 
 /// Raw SOCKETs.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub type RawSocket = raw::SOCKET;
 
 /// Extracts raw handles.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait AsRawHandle {
     /// Extracts the raw handle, without taking any ownership.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn as_raw_handle(&self) -> RawHandle;
 }
 
@@ -57,7 +57,7 @@ pub trait IntoRawHandle {
     fn into_raw_handle(self) -> RawHandle;
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl AsRawHandle for fs::File {
     fn as_raw_handle(&self) -> RawHandle {
         self.as_inner().handle().raw() as RawHandle
@@ -122,10 +122,10 @@ impl IntoRawHandle for fs::File {
 }
 
 /// Extracts raw sockets.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait AsRawSocket {
     /// Extracts the underlying raw socket from this object.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn as_raw_socket(&self) -> RawSocket;
 }
 
@@ -159,19 +159,19 @@ pub trait IntoRawSocket {
     fn into_raw_socket(self) -> RawSocket;
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl AsRawSocket for net::TcpStream {
     fn as_raw_socket(&self) -> RawSocket {
         *self.as_inner().socket().as_inner()
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl AsRawSocket for net::TcpListener {
     fn as_raw_socket(&self) -> RawSocket {
         *self.as_inner().socket().as_inner()
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl AsRawSocket for net::UdpSocket {
     fn as_raw_socket(&self) -> RawSocket {
         *self.as_inner().socket().as_inner()

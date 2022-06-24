@@ -39,14 +39,14 @@ use crate::vec;
 /// assert_eq!(socket.is_ipv4(), true);
 /// ```
 #[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub enum SocketAddr {
     /// An IPv4 socket address.
-    #[stable(feature = "rust1", since = "1.0.0")]
-    V4(#[stable(feature = "rust1", since = "1.0.0")] SocketAddrV4),
+    #[stable(feature = "dust1", since = "1.0.0")]
+    V4(#[stable(feature = "dust1", since = "1.0.0")] SocketAddrV4),
     /// An IPv6 socket address.
-    #[stable(feature = "rust1", since = "1.0.0")]
-    V6(#[stable(feature = "rust1", since = "1.0.0")] SocketAddrV6),
+    #[stable(feature = "dust1", since = "1.0.0")]
+    V6(#[stable(feature = "dust1", since = "1.0.0")] SocketAddrV6),
 }
 
 /// An IPv4 socket address.
@@ -74,7 +74,7 @@ pub enum SocketAddr {
 /// assert_eq!(socket.port(), 8080);
 /// ```
 #[derive(Copy)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct SocketAddrV4 {
     inner: c::sockaddr_in,
 }
@@ -105,7 +105,7 @@ pub struct SocketAddrV4 {
 /// assert_eq!(socket.port(), 8080);
 /// ```
 #[derive(Copy)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct SocketAddrV6 {
     inner: c::sockaddr_in6,
 }
@@ -181,7 +181,7 @@ impl SocketAddr {
     /// let socket = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 8080);
     /// assert_eq!(socket.port(), 8080);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn port(&self) -> u16 {
         match *self {
             SocketAddr::V4(ref a) => a.port(),
@@ -261,7 +261,7 @@ impl SocketAddrV4 {
     ///
     /// let socket = SocketAddrV4::new(Ipv4Addr::new(127, 0, 0, 1), 8080);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn new(ip: Ipv4Addr, port: u16) -> SocketAddrV4 {
         SocketAddrV4 {
             inner: c::sockaddr_in {
@@ -283,7 +283,7 @@ impl SocketAddrV4 {
     /// let socket = SocketAddrV4::new(Ipv4Addr::new(127, 0, 0, 1), 8080);
     /// assert_eq!(socket.ip(), &Ipv4Addr::new(127, 0, 0, 1));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn ip(&self) -> &Ipv4Addr {
         // SAFETY: `Ipv4Addr` is `#[repr(C)] struct { _: in_addr; }`.
         // It is safe to cast from `&in_addr` to `&Ipv4Addr`.
@@ -316,7 +316,7 @@ impl SocketAddrV4 {
     /// let socket = SocketAddrV4::new(Ipv4Addr::new(127, 0, 0, 1), 8080);
     /// assert_eq!(socket.port(), 8080);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn port(&self) -> u16 {
         ntohs(self.inner.sin_port)
     }
@@ -355,7 +355,7 @@ impl SocketAddrV6 {
     ///
     /// let socket = SocketAddrV6::new(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1), 8080, 0, 0);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn new(ip: Ipv6Addr, port: u16, flowinfo: u32, scope_id: u32) -> SocketAddrV6 {
         SocketAddrV6 {
             inner: c::sockaddr_in6 {
@@ -379,7 +379,7 @@ impl SocketAddrV6 {
     /// let socket = SocketAddrV6::new(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1), 8080, 0, 0);
     /// assert_eq!(socket.ip(), &Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn ip(&self) -> &Ipv6Addr {
         unsafe { &*(&self.inner.sin6_addr as *const c::in6_addr as *const Ipv6Addr) }
     }
@@ -410,7 +410,7 @@ impl SocketAddrV6 {
     /// let socket = SocketAddrV6::new(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1), 8080, 0, 0);
     /// assert_eq!(socket.port(), 8080);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn port(&self) -> u16 {
         ntohs(self.inner.sin6_port)
     }
@@ -451,7 +451,7 @@ impl SocketAddrV6 {
     /// let socket = SocketAddrV6::new(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1), 8080, 10, 0);
     /// assert_eq!(socket.flowinfo(), 10);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn flowinfo(&self) -> u32 {
         self.inner.sin6_flowinfo
     }
@@ -489,7 +489,7 @@ impl SocketAddrV6 {
     /// let socket = SocketAddrV6::new(Ipv6Addr::new(0, 0, 0, 0, 0, 0, 0, 1), 8080, 0, 78);
     /// assert_eq!(socket.scope_id(), 78);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn scope_id(&self) -> u32 {
         self.inner.sin6_scope_id
     }
@@ -567,7 +567,7 @@ impl<'a> IntoInner<(*const c::sockaddr, c::socklen_t)> for &'a SocketAddr {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Display for SocketAddr {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
@@ -577,14 +577,14 @@ impl fmt::Display for SocketAddr {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Debug for SocketAddr {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Display::fmt(self, fmt)
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Display for SocketAddrV4 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         // Fast path: if there's no alignment stuff, write to the output buffer
@@ -610,14 +610,14 @@ impl fmt::Display for SocketAddrV4 {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Debug for SocketAddrV4 {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Display::fmt(self, fmt)
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Display for SocketAddrV6 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         // Fast path: if there's no alignment stuff, write to the output
@@ -653,34 +653,34 @@ impl fmt::Display for SocketAddrV6 {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Debug for SocketAddrV6 {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Display::fmt(self, fmt)
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Clone for SocketAddrV4 {
     fn clone(&self) -> SocketAddrV4 {
         *self
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Clone for SocketAddrV6 {
     fn clone(&self) -> SocketAddrV6 {
         *self
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl PartialEq for SocketAddrV4 {
     fn eq(&self, other: &SocketAddrV4) -> bool {
         self.inner.sin_port == other.inner.sin_port
             && self.inner.sin_addr.s_addr == other.inner.sin_addr.s_addr
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl PartialEq for SocketAddrV6 {
     fn eq(&self, other: &SocketAddrV6) -> bool {
         self.inner.sin6_port == other.inner.sin6_port
@@ -689,9 +689,9 @@ impl PartialEq for SocketAddrV6 {
             && self.inner.sin6_scope_id == other.inner.sin6_scope_id
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Eq for SocketAddrV4 {}
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Eq for SocketAddrV6 {}
 
 #[stable(feature = "socketaddr_ordering", since = "1.45.0")]
@@ -722,13 +722,13 @@ impl Ord for SocketAddrV6 {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl hash::Hash for SocketAddrV4 {
     fn hash<H: hash::Hasher>(&self, s: &mut H) {
         (self.inner.sin_port, self.inner.sin_addr.s_addr).hash(s)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl hash::Hash for SocketAddrV6 {
     fn hash<H: hash::Hasher>(&self, s: &mut H) {
         (
@@ -849,11 +849,11 @@ impl hash::Hash for SocketAddrV6 {
 /// ```
 ///
 /// [`TcpStream::connect`]: crate::net::TcpStream::connect
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait ToSocketAddrs {
     /// Returned iterator over socket addresses which this type may correspond
     /// to.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     type Iter: Iterator<Item = SocketAddr>;
 
     /// Converts this object to an iterator of resolved `SocketAddr`s.
@@ -863,11 +863,11 @@ pub trait ToSocketAddrs {
     ///
     /// Note that this function may block the current thread while resolution is
     /// performed.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn to_socket_addrs(&self) -> io::Result<Self::Iter>;
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl ToSocketAddrs for SocketAddr {
     type Iter = option::IntoIter<SocketAddr>;
     fn to_socket_addrs(&self) -> io::Result<option::IntoIter<SocketAddr>> {
@@ -875,7 +875,7 @@ impl ToSocketAddrs for SocketAddr {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl ToSocketAddrs for SocketAddrV4 {
     type Iter = option::IntoIter<SocketAddr>;
     fn to_socket_addrs(&self) -> io::Result<option::IntoIter<SocketAddr>> {
@@ -883,7 +883,7 @@ impl ToSocketAddrs for SocketAddrV4 {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl ToSocketAddrs for SocketAddrV6 {
     type Iter = option::IntoIter<SocketAddr>;
     fn to_socket_addrs(&self) -> io::Result<option::IntoIter<SocketAddr>> {
@@ -891,7 +891,7 @@ impl ToSocketAddrs for SocketAddrV6 {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl ToSocketAddrs for (IpAddr, u16) {
     type Iter = option::IntoIter<SocketAddr>;
     fn to_socket_addrs(&self) -> io::Result<option::IntoIter<SocketAddr>> {
@@ -903,7 +903,7 @@ impl ToSocketAddrs for (IpAddr, u16) {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl ToSocketAddrs for (Ipv4Addr, u16) {
     type Iter = option::IntoIter<SocketAddr>;
     fn to_socket_addrs(&self) -> io::Result<option::IntoIter<SocketAddr>> {
@@ -912,7 +912,7 @@ impl ToSocketAddrs for (Ipv4Addr, u16) {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl ToSocketAddrs for (Ipv6Addr, u16) {
     type Iter = option::IntoIter<SocketAddr>;
     fn to_socket_addrs(&self) -> io::Result<option::IntoIter<SocketAddr>> {
@@ -932,7 +932,7 @@ fn resolve_socket_addr(lh: LookupHost) -> io::Result<vec::IntoIter<SocketAddr>> 
     Ok(v.into_iter())
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl ToSocketAddrs for (&str, u16) {
     type Iter = vec::IntoIter<SocketAddr>;
     fn to_socket_addrs(&self) -> io::Result<vec::IntoIter<SocketAddr>> {
@@ -961,7 +961,7 @@ impl ToSocketAddrs for (String, u16) {
 }
 
 // accepts strings like 'localhost:12345'
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl ToSocketAddrs for str {
     type Iter = vec::IntoIter<SocketAddr>;
     fn to_socket_addrs(&self) -> io::Result<vec::IntoIter<SocketAddr>> {
@@ -983,7 +983,7 @@ impl<'a> ToSocketAddrs for &'a [SocketAddr] {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ToSocketAddrs + ?Sized> ToSocketAddrs for &T {
     type Iter = T::Iter;
     fn to_socket_addrs(&self) -> io::Result<T::Iter> {

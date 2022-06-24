@@ -7,33 +7,33 @@
 // These functions are used in the unit tests for C ABI calls.
 
 uint32_t
-rust_dbg_extern_identity_u32(uint32_t u) {
+dust_dbg_extern_identity_u32(uint32_t u) {
     return u;
 }
 
 uint64_t
-rust_dbg_extern_identity_u64(uint64_t u) {
+dust_dbg_extern_identity_u64(uint64_t u) {
     return u;
 }
 
 double
-rust_dbg_extern_identity_double(double u) {
+dust_dbg_extern_identity_double(double u) {
     return u;
 }
 
 char
-rust_dbg_extern_identity_u8(char u) {
+dust_dbg_extern_identity_u8(char u) {
     return u;
 }
 
 typedef void *(*dbg_callback)(void*);
 
 void *
-rust_dbg_call(dbg_callback cb, void *data) {
+dust_dbg_call(dbg_callback cb, void *data) {
     return cb(data);
 }
 
-void rust_dbg_do_nothing() { }
+void dust_dbg_do_nothing() { }
 
 struct TwoU8s {
     uint8_t one;
@@ -41,7 +41,7 @@ struct TwoU8s {
 };
 
 struct TwoU8s
-rust_dbg_extern_return_TwoU8s() {
+dust_dbg_extern_return_TwoU8s() {
     struct TwoU8s s;
     s.one = 10;
     s.two = 20;
@@ -49,7 +49,7 @@ rust_dbg_extern_return_TwoU8s() {
 }
 
 struct TwoU8s
-rust_dbg_extern_identity_TwoU8s(struct TwoU8s u) {
+dust_dbg_extern_identity_TwoU8s(struct TwoU8s u) {
     return u;
 }
 
@@ -59,7 +59,7 @@ struct TwoU16s {
 };
 
 struct TwoU16s
-rust_dbg_extern_return_TwoU16s() {
+dust_dbg_extern_return_TwoU16s() {
     struct TwoU16s s;
     s.one = 10;
     s.two = 20;
@@ -67,7 +67,7 @@ rust_dbg_extern_return_TwoU16s() {
 }
 
 struct TwoU16s
-rust_dbg_extern_identity_TwoU16s(struct TwoU16s u) {
+dust_dbg_extern_identity_TwoU16s(struct TwoU16s u) {
     return u;
 }
 
@@ -77,7 +77,7 @@ struct TwoU32s {
 };
 
 struct TwoU32s
-rust_dbg_extern_return_TwoU32s() {
+dust_dbg_extern_return_TwoU32s() {
     struct TwoU32s s;
     s.one = 10;
     s.two = 20;
@@ -85,7 +85,7 @@ rust_dbg_extern_return_TwoU32s() {
 }
 
 struct TwoU32s
-rust_dbg_extern_identity_TwoU32s(struct TwoU32s u) {
+dust_dbg_extern_identity_TwoU32s(struct TwoU32s u) {
     return u;
 }
 
@@ -95,7 +95,7 @@ struct TwoU64s {
 };
 
 struct TwoU64s
-rust_dbg_extern_return_TwoU64s() {
+dust_dbg_extern_return_TwoU64s() {
     struct TwoU64s s;
     s.one = 10;
     s.two = 20;
@@ -103,7 +103,7 @@ rust_dbg_extern_return_TwoU64s() {
 }
 
 struct TwoU64s
-rust_dbg_extern_identity_TwoU64s(struct TwoU64s u) {
+dust_dbg_extern_identity_TwoU64s(struct TwoU64s u) {
     return u;
 }
 
@@ -113,7 +113,7 @@ struct TwoDoubles {
 };
 
 struct TwoDoubles
-rust_dbg_extern_identity_TwoDoubles(struct TwoDoubles u) {
+dust_dbg_extern_identity_TwoDoubles(struct TwoDoubles u) {
     return u;
 }
 
@@ -132,7 +132,7 @@ struct Empty {
 };
 
 void
-rust_dbg_extern_empty_struct(struct ManyInts v1, struct Empty e, struct ManyInts v2) {
+dust_dbg_extern_empty_struct(struct ManyInts v1, struct Empty e, struct ManyInts v2) {
     assert(v1.arg1 == v2.arg1 + 1);
     assert(v1.arg2 == v2.arg2 + 1);
     assert(v1.arg3 == v2.arg3 + 1);
@@ -144,12 +144,12 @@ rust_dbg_extern_empty_struct(struct ManyInts v1, struct Empty e, struct ManyInts
 #endif
 
 intptr_t
-rust_get_test_int() {
+dust_get_test_int() {
   return 1;
 }
 
 char *
-rust_get_null_ptr() {
+dust_get_null_ptr() {
     return 0;
 }
 
@@ -181,7 +181,7 @@ struct char_char_float {
 };
 
 struct quad
-rust_dbg_abi_1(struct quad q) {
+dust_dbg_abi_1(struct quad q) {
     struct quad qq = { q.c + 1,
                        q.d - 1,
                        q.a + 1,
@@ -190,7 +190,7 @@ rust_dbg_abi_1(struct quad q) {
 }
 
 struct floats
-rust_dbg_abi_2(struct floats f) {
+dust_dbg_abi_2(struct floats f) {
     struct floats ff = { f.c + 1.0,
                          0xff,
                          f.a - 1.0 };
@@ -198,7 +198,7 @@ rust_dbg_abi_2(struct floats f) {
 }
 
 struct char_char_double
-rust_dbg_abi_3(struct char_char_double a) {
+dust_dbg_abi_3(struct char_char_double a) {
     struct char_char_double ccd = { a.a + 1,
                                     a.b - 1,
                                     a.c + 1.0 };
@@ -206,7 +206,7 @@ rust_dbg_abi_3(struct char_char_double a) {
 }
 
 struct char_char_float
-rust_dbg_abi_4(struct char_char_float a) {
+dust_dbg_abi_4(struct char_char_float a) {
     struct char_char_float ccd = { a.a + 1,
                                    a.b - 1,
                                    a.c + 1.0 };
@@ -215,11 +215,11 @@ rust_dbg_abi_4(struct char_char_float a) {
 
 
 int
-rust_dbg_static_mut = 3;
+dust_dbg_static_mut = 3;
 
 void
-rust_dbg_static_mut_check_four() {
-    assert(rust_dbg_static_mut == 4);
+dust_dbg_static_mut_check_four() {
+    assert(dust_dbg_static_mut == 4);
 }
 
 struct S {
@@ -270,7 +270,7 @@ float get_c_exhaust_sysv64_ints(
 // Calculates the average of `(x + y) / n` where x: i64, y: f64. There must be exactly n pairs
 // passed as variadic arguments. There are two versions of this function: the
 // variadic one, and the one that takes a `va_list`.
-double rust_valist_interesting_average(uint64_t n, va_list pairs) {
+double dust_valist_interesting_average(uint64_t n, va_list pairs) {
     double sum = 0.0;
     int i;
     for(i = 0; i < n; i += 1) {
@@ -280,16 +280,16 @@ double rust_valist_interesting_average(uint64_t n, va_list pairs) {
     return sum / n;
 }
 
-double rust_interesting_average(uint64_t n, ...) {
+double dust_interesting_average(uint64_t n, ...) {
     double sum;
     va_list pairs;
     va_start(pairs, n);
-    sum = rust_valist_interesting_average(n, pairs);
+    sum = dust_valist_interesting_average(n, pairs);
     va_end(pairs);
     return sum;
 }
 
-int32_t rust_int8_to_int32(int8_t x) {
+int32_t dust_int8_to_int32(int8_t x) {
     return (int32_t)x;
 }
 
@@ -341,7 +341,7 @@ struct U8TaggedEnumOptionU64 {
 };
 
 struct U8TaggedEnumOptionU64
-rust_dbg_new_some_u64(uint64_t some) {
+dust_dbg_new_some_u64(uint64_t some) {
     struct U8TaggedEnumOptionU64 r = {
         .tag = OPTION_TAG_SOME,
         .some = some,
@@ -350,7 +350,7 @@ rust_dbg_new_some_u64(uint64_t some) {
 }
 
 struct U8TaggedEnumOptionU64
-rust_dbg_new_none_u64(void) {
+dust_dbg_new_none_u64(void) {
     struct U8TaggedEnumOptionU64 r = {
         .tag = OPTION_TAG_NONE,
     };
@@ -358,7 +358,7 @@ rust_dbg_new_none_u64(void) {
 }
 
 int32_t
-rust_dbg_unpack_option_u64(struct U8TaggedEnumOptionU64 o, uint64_t *into) {
+dust_dbg_unpack_option_u64(struct U8TaggedEnumOptionU64 o, uint64_t *into) {
     assert(into);
     switch (o.tag) {
     case OPTION_TAG_SOME:
@@ -383,7 +383,7 @@ struct U8TaggedEnumOptionU64U64 {
 };
 
 struct U8TaggedEnumOptionU64U64
-rust_dbg_new_some_u64u64(uint64_t a, uint64_t b) {
+dust_dbg_new_some_u64u64(uint64_t a, uint64_t b) {
     struct U8TaggedEnumOptionU64U64 r = {
         .tag = OPTION_TAG_SOME,
         .some = { .a = a, .b = b },
@@ -392,7 +392,7 @@ rust_dbg_new_some_u64u64(uint64_t a, uint64_t b) {
 }
 
 struct U8TaggedEnumOptionU64U64
-rust_dbg_new_none_u64u64(void) {
+dust_dbg_new_none_u64u64(void) {
     struct U8TaggedEnumOptionU64U64 r = {
         .tag = OPTION_TAG_NONE,
     };
@@ -400,7 +400,7 @@ rust_dbg_new_none_u64u64(void) {
 }
 
 int32_t
-rust_dbg_unpack_option_u64u64(struct U8TaggedEnumOptionU64U64 o, uint64_t *a, uint64_t *b) {
+dust_dbg_unpack_option_u64u64(struct U8TaggedEnumOptionU64U64 o, uint64_t *a, uint64_t *b) {
     assert(a);
     assert(b);
     switch (o.tag) {

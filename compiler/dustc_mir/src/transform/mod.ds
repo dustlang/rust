@@ -1,16 +1,16 @@
 use crate::{shim, util};
 use required_consts::RequiredConstsVisitor;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_data_structures::steal::Steal;
-use rustc_hir as hir;
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId, LOCAL_CRATE};
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_index::vec::IndexVec;
-use rustc_middle::mir::visit::Visitor as _;
-use rustc_middle::mir::{traversal, Body, ConstQualifs, MirPhase, Promoted};
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{self, TyCtxt, TypeFoldable};
-use rustc_span::{Span, Symbol};
+use dustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::steal::Steal;
+use dustc_hir as hir;
+use dustc_hir::def_id::{CrateNum, DefId, LocalDefId, LOCAL_CRATE};
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_index::vec::IndexVec;
+use dustc_middle::mir::visit::Visitor as _;
+use dustc_middle::mir::{traversal, Body, ConstQualifs, MirPhase, Promoted};
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{self, TyCtxt, TypeFoldable};
+use dustc_span::{Span, Symbol};
 use std::borrow::Cow;
 
 pub mod add_call_guards;
@@ -45,7 +45,7 @@ pub mod remove_noop_landing_pads;
 pub mod remove_storage_markers;
 pub mod remove_unneeded_drops;
 pub mod required_consts;
-pub mod rustc_peek;
+pub mod dustc_peek;
 pub mod simplify;
 pub mod simplify_branches;
 pub mod simplify_comparison_integral;
@@ -54,7 +54,7 @@ pub mod uninhabited_enum_branching;
 pub mod unreachable_prop;
 pub mod validate;
 
-pub use rustc_middle::mir::MirSource;
+pub use dustc_middle::mir::MirSource;
 
 pub(crate) fn provide(providers: &mut Providers) {
     self::check_unsafety::provide(providers);
@@ -277,7 +277,7 @@ fn mir_const<'tcx>(
             &function_item_references::FunctionItemReferences,
             // What we need to do constant evaluation.
             &simplify::SimplifyCfg::new("initial"),
-            &rustc_peek::SanityCheck,
+            &dustc_peek::SanityCheck,
         ]],
     );
     tcx.alloc_steal_mir(body)
@@ -381,12 +381,12 @@ fn inner_mir_for_ctfe(tcx: TyCtxt<'_>, def: ty::WithOptConstParam<LocalDefId>) -
         // Technically we want to not run on regular const items, but oli-obk doesn't know how to
         // conveniently detect that at this point without looking at the HIR.
         hir::ConstContext::Const => {
-            #[rustfmt::skip]
+            #[dustfmt::skip]
             let optimizations: &[&dyn MirPass<'_>] = &[
                 &const_prop::ConstProp,
             ];
 
-            #[rustfmt::skip]
+            #[dustfmt::skip]
             run_passes(
                 tcx,
                 &mut body,
@@ -423,7 +423,7 @@ fn mir_drops_elaborated_and_const_checked<'tcx>(
     }
 
     let hir_id = tcx.hir().local_def_id_to_hir_id(def.did);
-    use rustc_middle::hir::map::blocks::FnLikeNode;
+    use dustc_middle::hir::map::blocks::FnLikeNode;
     let is_fn_like = FnLikeNode::from_node(tcx.hir().get(hir_id)).is_some();
     if is_fn_like {
         let did = def.did.to_def_id();
@@ -532,7 +532,7 @@ fn run_optimization_passes<'tcx>(tcx: TyCtxt<'tcx>, body: &mut Body<'tcx>) {
 
     // End of pass declarations, now actually run the passes.
     // Generator Lowering
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     run_passes(
         tcx,
         body,
@@ -547,7 +547,7 @@ fn run_optimization_passes<'tcx>(tcx: TyCtxt<'tcx>, body: &mut Body<'tcx>) {
     );
 
     // Main optimization passes
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     run_passes(
         tcx,
         body,

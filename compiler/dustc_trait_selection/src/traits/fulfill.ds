@@ -1,14 +1,14 @@
 use crate::infer::{InferCtxt, TyOrConstInferVar};
-use rustc_data_structures::obligation_forest::ProcessResult;
-use rustc_data_structures::obligation_forest::{Error, ForestObligation, Outcome};
-use rustc_data_structures::obligation_forest::{ObligationForest, ObligationProcessor};
-use rustc_errors::ErrorReported;
-use rustc_infer::traits::{TraitEngine, TraitEngineExt as _, TraitObligation};
-use rustc_middle::mir::interpret::ErrorHandled;
-use rustc_middle::ty::error::ExpectedFound;
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::ToPredicate;
-use rustc_middle::ty::{self, Binder, Const, Ty, TypeFoldable};
+use dustc_data_structures::obligation_forest::ProcessResult;
+use dustc_data_structures::obligation_forest::{Error, ForestObligation, Outcome};
+use dustc_data_structures::obligation_forest::{ObligationForest, ObligationProcessor};
+use dustc_errors::ErrorReported;
+use dustc_infer::traits::{TraitEngine, TraitEngineExt as _, TraitObligation};
+use dustc_middle::mir::interpret::ErrorHandled;
+use dustc_middle::ty::error::ExpectedFound;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::ToPredicate;
+use dustc_middle::ty::{self, Binder, Const, Ty, TypeFoldable};
 use std::marker::PhantomData;
 
 use super::const_evaluatable;

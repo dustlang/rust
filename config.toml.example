@@ -1,6 +1,6 @@
-# Sample TOML configuration file for building Rust.
+# Sample TOML configuration file for building Dust.
 #
-# To configure rustbuild, copy this file to the directory from which you will be
+# To configure dustbuild, copy this file to the directory from which you will be
 # running the build, and name it config.toml.
 #
 # All options are commented out by default in this file, and they're commented
@@ -30,9 +30,9 @@ changelog-seen = 2
 # =============================================================================
 [llvm]
 
-# Whether to use Rust CI built LLVM instead of locally building it.
+# Whether to use Dust CI built LLVM instead of locally building it.
 #
-# Unless you're developing for a target where Rust CI doesn't build a compiler
+# Unless you're developing for a target where Dust CI doesn't build a compiler
 # toolchain or changing LLVM locally, you probably want to set this to true.
 #
 # This is false by default so that distributions don't unexpectedly download
@@ -78,7 +78,7 @@ changelog-seen = 2
 # this flag will indicate that this version check should not be done.
 #version-check = true
 
-# Link libstdc++ statically into the rustc_llvm instead of relying on a
+# Link libstdc++ statically into the dustc_llvm instead of relying on a
 # dynamic version to be available.
 #static-libstdcpp = false
 
@@ -86,19 +86,19 @@ changelog-seen = 2
 #ninja = true
 
 # LLVM targets to build support for.
-# Note: this is NOT related to Rust compilation targets. However, as Rust is
+# Note: this is NOT related to Dust compilation targets. However, as Dust is
 # dependent on LLVM for code generation, turning targets off here WILL lead to
-# the resulting rustc being unable to compile for the disabled architectures.
+# the resulting dustc being unable to compile for the disabled architectures.
 # Also worth pointing out is that, in case support for new targets are added to
-# LLVM, enabling them here doesn't mean Rust is automatically gaining said
+# LLVM, enabling them here doesn't mean Dust is automatically gaining said
 # support. You'll need to write a target specification at least, and most
-# likely, teach rustc about the C ABI of the target. Get in touch with the
-# Rust team and file an issue if you need assistance in porting!
+# likely, teach dustc about the C ABI of the target. Get in touch with the
+# Dust team and file an issue if you need assistance in porting!
 #targets = "AArch64;ARM;Hexagon;MSP430;Mips;NVPTX;PowerPC;RISCV;Sparc;SystemZ;WebAssembly;X86"
 
 # LLVM experimental targets to build support for. These targets are specified in
 # the same format as above, but since these targets are experimental, they are
-# not built by default and the experimental Rust compilation targets that depend
+# not built by default and the experimental Dust compilation targets that depend
 # on them will not work unless the user opts in to building them.
 #experimental-targets = "AVR"
 
@@ -107,7 +107,7 @@ changelog-seen = 2
 # increases the size of binaries and consequently the memory required by
 # each linker process.
 # If absent or 0, linker invocations are treated like any other job and
-# controlled by rustbuild's -j parameter.
+# controlled by dustbuild's -j parameter.
 #link-jobs = 0
 
 # When invoking `llvm-config` this configures whether the `--shared` argument is
@@ -115,9 +115,9 @@ changelog-seen = 2
 #link-shared = false
 
 # When building llvm, this configures what is being appended to the version.
-# The default is "-rust-$version-$channel", except for dev channel where rustc
+# The default is "-dust-$version-$channel", except for dev channel where dustc
 # version number is omitted. To use LLVM version as is, provide an empty string.
-#version-suffix = "-rust-dev"
+#version-suffix = "-dust-dev"
 
 # On MSVC you can compile LLVM with clang-cl, but the test suite doesn't pass
 # with clang-cl, so this is special in that it only compiles LLVM with clang-cl
@@ -192,18 +192,18 @@ changelog-seen = 2
 #build-dir = "build"
 
 # Instead of downloading the src/stage0.txt version of Cargo specified, use
-# this Cargo binary instead to build all Rust code
+# this Cargo binary instead to build all Dust code
 #cargo = "/path/to/bin/cargo"
 
 # Instead of downloading the src/stage0.txt version of the compiler
-# specified, use this rustc binary instead as the stage0 snapshot compiler.
-#rustc = "/path/to/bin/rustc"
+# specified, use this dustc binary instead as the stage0 snapshot compiler.
+#dustc = "/path/to/bin/dustc"
 
-# Instead of download the src/stage0.txt version of rustfmt specified,
-# use this rustfmt binary instead as the stage0 snapshot rustfmt.
-#rustfmt = "/path/to/bin/rustfmt"
+# Instead of download the src/stage0.txt version of dustfmt specified,
+# use this dustfmt binary instead as the stage0 snapshot dustfmt.
+#dustfmt = "/path/to/bin/dustfmt"
 
-# Flag to specify whether any documentation is built. If false, rustdoc and
+# Flag to specify whether any documentation is built. If false, dustdoc and
 # friends will still be compiled but they will not be used to generate any
 # documentation.
 #docs = true
@@ -221,7 +221,7 @@ changelog-seen = 2
 #submodules = true
 
 # Update git submodules only when the checked out commit in the submodules differs
-# from what is committed in the main rustc repo.
+# from what is committed in the main dustc repo.
 #fast-submodules = true
 
 # The path to (or name of) the GDB executable to use. This is only used for
@@ -233,7 +233,7 @@ changelog-seen = 2
 #nodejs = "node"
 
 # Python interpreter to use for various tasks throughout the build, notably
-# rustdoc tests, the lldb python interpreter, and some dist bits and pieces.
+# dustdoc tests, the lldb python interpreter, and some dist bits and pieces.
 #
 # Defaults to the Python interpreter used to execute x.py
 #python = "python"
@@ -242,19 +242,19 @@ changelog-seen = 2
 # set that all the Cargo.toml files create, instead of updating it.
 #locked-deps = false
 
-# Indicate whether the vendored sources are used for Rust dependencies or not
+# Indicate whether the vendored sources are used for Dust dependencies or not
 #vendor = false
 
-# Typically the build system will build the Rust compiler twice. The second
+# Typically the build system will build the Dust compiler twice. The second
 # compiler, however, will simply use its own libraries to link against. If you
 # would rather to perform a full bootstrap, compiling the compiler three times,
 # then you can set this option to true. You shouldn't ever need to set this
 # option to true.
 #full-bootstrap = false
 
-# Enable a build of the extended Rust tool set which is not only the compiler
+# Enable a build of the extended Dust tool set which is not only the compiler
 # but also tools such as Cargo. This will also produce "combined installers"
-# which are used to install Rust and Cargo together. This is disabled by
+# which are used to install Dust and Cargo together. This is disabled by
 # default. The `tools` option (immediately below) specifies which tools should
 # be built if `extended = true`.
 #extended = false
@@ -262,7 +262,7 @@ changelog-seen = 2
 # Installs chosen set of extended tools if `extended = true`. By default builds all.
 # If chosen tool failed to build the installation fails. If `extended = false`, this
 # option is ignored.
-#tools = ["cargo", "rls", "clippy", "rustfmt", "analysis", "src"]
+#tools = ["cargo", "rls", "clippy", "dustfmt", "analysis", "src"]
 
 # Verbosity level: 0 == not verbose, 1 == verbose, 2 == very verbose
 #verbose = 0
@@ -291,11 +291,11 @@ changelog-seen = 2
 # essentially skipping stage0 as the local compiler is recompiling itself again.
 #local-rebuild = false
 
-# Print out how long each rustbuild step took (mostly intended for CI and
+# Print out how long each dustbuild step took (mostly intended for CI and
 # tracking over time)
 #print-step-timings = false
 
-# Print out resource usage data for each rustbuild step, as defined by the Unix
+# Print out resource usage data for each dustbuild step, as defined by the Unix
 # struct rusage. (Note that this setting is completely unstable: the data it
 # captures, what platforms it supports, the format of its associated output, and
 # this setting's very existence, are all subject to change.)
@@ -314,7 +314,7 @@ changelog-seen = 2
 #sysconfdir = "/etc"
 
 # Where to install documentation in `prefix` above
-#docdir = "share/doc/rust"
+#docdir = "share/doc/dust"
 
 # Where to install binaries in `prefix` above
 #bindir = "bin"
@@ -336,9 +336,9 @@ changelog-seen = 2
 #localstatedir = "/var/lib"
 
 # =============================================================================
-# Options for compiling Rust code itself
+# Options for compiling Dust code itself
 # =============================================================================
-[rust]
+[dust]
 
 # Whether or not to optimize the compiler and standard library.
 # WARNING: Building with optimize = false is NOT SUPPORTED. Due to bootstrapping,
@@ -346,7 +346,7 @@ changelog-seen = 2
 # fail to build without this optimization (c.f. #65352).
 #optimize = true
 
-# Indicates that the build should be configured for debugging Rust. A
+# Indicates that the build should be configured for debugging Dust. A
 # `debug`-enabled compiler and standard library will be somewhat
 # slower (due to e.g. checking of debug assertions) but should remain
 # usable.
@@ -361,8 +361,8 @@ changelog-seen = 2
 #       facilities of debuggers like lldb and gdb. To recreate such an
 #       environment, explicitly set `optimize` to `false` and `debug`
 #       to `true`. In practice, everyone leaves `optimize` set to
-#       `true`, because an unoptimized rustc with debugging
-#       enabled becomes *unusably slow* (e.g. rust-lang/rust#24840
+#       `true`, because an unoptimized dustc with debugging
+#       enabled becomes *unusably slow* (e.g. dust-lang/dust#24840
 #       reported a 25x slowdown) and bootstrapping the supposed
 #       "maximally debuggable" environment (notably libstd) takes
 #       hours to build.
@@ -373,13 +373,13 @@ changelog-seen = 2
 # This is mostly useful for tools; if you have changes to `compiler/` they will be ignored.
 #
 # FIXME: currently, this also uses the downloaded compiler for stage0, but that causes unnecessary rebuilds.
-#download-rustc = false
+#download-dustc = false
 
 # Number of codegen units to use for each compiler invocation. A value of 0
 # means "the number of cores on this machine", and 1+ is passed through to the
 # compiler.
 #
-# Uses the rustc defaults: https://doc.rust-lang.org/rustc/codegen-options/index.html#codegen-units
+# Uses the dustc defaults: https://doc.dust-lang.org/dustc/codegen-options/index.html#codegen-units
 #codegen-units = if incremental { 256 } else { 16 }
 
 # Sets the number of codegen units to build the standard library with,
@@ -387,36 +387,36 @@ changelog-seen = 2
 #codegen-units-std = 1
 
 # Whether or not debug assertions are enabled for the compiler and standard
-# library. Debug assertions control the maximum log level used by rustc. When
+# library. Debug assertions control the maximum log level used by dustc. When
 # enabled calls to `trace!` and `debug!` macros are preserved in the compiled
 # binary, otherwise they are omitted.
 #
-# Defaults to rust.debug value
-#debug-assertions = rust.debug (boolean)
+# Defaults to dust.debug value
+#debug-assertions = dust.debug (boolean)
 
 # Whether or not debug assertions are enabled for the standard library.
 # Overrides the `debug-assertions` option, if defined.
 #
-# Defaults to rust.debug-assertions value
-#debug-assertions-std = rust.debug-assertions (boolean)
+# Defaults to dust.debug-assertions value
+#debug-assertions-std = dust.debug-assertions (boolean)
 
-# Whether or not to leave debug! and trace! calls in the rust binary.
+# Whether or not to leave debug! and trace! calls in the dust binary.
 # Overrides the `debug-assertions` option, if defined.
 #
-# Defaults to rust.debug-assertions value
+# Defaults to dust.debug-assertions value
 #
 # If you see a message from `tracing` saying
 # `max_level_info` is enabled and means logging won't be shown,
 # set this value to `true`.
-#debug-logging = rust.debug-assertions (boolean)
+#debug-logging = dust.debug-assertions (boolean)
 
-# Debuginfo level for most of Rust code, corresponds to the `-C debuginfo=N` option of `rustc`.
+# Debuginfo level for most of Dust code, corresponds to the `-C debuginfo=N` option of `dustc`.
 # `0` - no debug info
 # `1` - line tables only - sufficient to generate backtraces that include line
 #       information and inlined functions, set breakpoints at source code
 #       locations, and step through execution in a debugger.
 # `2` - full debug info with variable and type information
-# Can be overridden for specific subsets of Rust code (rustc, std or tools).
+# Can be overridden for specific subsets of Dust code (dustc, std or tools).
 # Debuginfo for tests run with compiletest is not controlled by this option
 # and needs to be enabled separately with `debuginfo-level-tests`.
 #
@@ -428,17 +428,17 @@ changelog-seen = 2
 
 # Debuginfo level for the compiler.
 #
-# Defaults to rust.debuginfo-level value
-#debuginfo-level-rustc = 0
+# Defaults to dust.debuginfo-level value
+#debuginfo-level-dustc = 0
 
 # Debuginfo level for the standard library.
 #
-# Defaults to rust.debuginfo-level value
+# Defaults to dust.debuginfo-level value
 #debuginfo-level-std = 0
 
 # Debuginfo level for the tools.
 #
-# Defaults to rust.debuginfo-level value
+# Defaults to dust.debuginfo-level value
 #debuginfo-level-tools = 0
 
 # Debuginfo level for the test suites run with compiletest.
@@ -453,13 +453,13 @@ changelog-seen = 2
 # to do so in that case.
 #run-dsymutil = false
 
-# Whether or not `panic!`s generate backtraces (RUST_BACKTRACE)
+# Whether or not `panic!`s generate backtraces (DUST_BACKTRACE)
 #backtrace = true
 
-# Whether to always use incremental compilation when building rustc
+# Whether to always use incremental compilation when building dustc
 #incremental = false
 
-# Build a multi-threaded rustc
+# Build a multi-threaded dustc
 # FIXME(#75760): Some UI tests fail when this option is enabled.
 #parallel-compiler = false
 
@@ -468,12 +468,12 @@ changelog-seen = 2
 # Note that this is not the linker used to link said compiler.
 #default-linker = "cc"
 
-# The "channel" for the Rust build to produce. The stable/beta channels only
+# The "channel" for the Dust build to produce. The stable/beta channels only
 # allow using stable features, whereas the nightly and dev channels allow using
 # nightly features
 #channel = "dev"
 
-# A descriptive string to be appended to `rustc --version` output, which is
+# A descriptive string to be appended to `dustc --version` output, which is
 # also used in places like debuginfo `DW_AT_producer`. This may be useful for
 # supplementary build information, like distro-specific package versions.
 #description = ""
@@ -481,7 +481,7 @@ changelog-seen = 2
 # The root location of the musl installation directory.
 #musl-root = "..."
 
-# By default the `rustc` executable is built with `-Wl,-rpath` flags on Unix
+# By default the `dustc` executable is built with `-Wl,-rpath` flags on Unix
 # platforms to ensure that the compiler is usable by default from the build
 # directory (as it links to a number of dynamic libraries). This may not be
 # desired in distributions, for example.
@@ -507,20 +507,20 @@ changelog-seen = 2
 # When creating source tarballs whether or not to create a source tarball.
 #dist-src = false
 
-# After building or testing extended tools (e.g. clippy and rustfmt), append the
+# After building or testing extended tools (e.g. clippy and dustfmt), append the
 # result (broken, compiling, testing) into this JSON file.
 #save-toolstates = "/path/to/toolstates.json"
 
-# This is an array of the codegen backends that will be compiled for the rustc
+# This is an array of the codegen backends that will be compiled for the dustc
 # that's being compiled. The default is to only build the LLVM codegen backend,
 # and currently the only standard options supported are `"llvm"` and `"cranelift"`.
 #codegen-backends = ["llvm"]
 
 # Indicates whether LLD will be compiled and made available in the sysroot for
-# rustc to execute.
+# dustc to execute.
 #lld = false
 
-# Indicates whether LLD will be used to link Rust crates during bootstrap on
+# Indicates whether LLD will be used to link Dust crates during bootstrap on
 # supported platforms. The LLD from the bootstrap distribution will be used
 # and not the LLD compiled during the bootstrap.
 #
@@ -549,11 +549,11 @@ changelog-seen = 2
 # instead of LLVM's default of 100.
 #thin-lto-import-instr-limit = 100
 
-# Map debuginfo paths to `/rust/$sha/...`, generally only set for releases
+# Map debuginfo paths to `/dust/$sha/...`, generally only set for releases
 #remap-debuginfo = false
 
 # Link the compiler against `jemalloc`, where on Linux and OSX it should
-# override the default allocator for rustc and LLVM.
+# override the default allocator for dustc and LLVM.
 #jemalloc = false
 
 # Run tests in various test suites with the "nll compare mode" in addition to
@@ -561,7 +561,7 @@ changelog-seen = 2
 # development of NLL
 #test-compare-mode = false
 
-# Use LLVM libunwind as the implementation for Rust's unwinder.
+# Use LLVM libunwind as the implementation for Dust's unwinder.
 # Accepted values are 'in-tree' (formerly true), 'system' or 'no' (formerly false).
 #llvm-libunwind = 'no'
 
@@ -569,7 +569,7 @@ changelog-seen = 2
 # This only applies from stage 1 onwards, and only for Windows targets.
 #control-flow-guard = false
 
-# Enable symbol-mangling-version v0. This can be helpful when profiling rustc,
+# Enable symbol-mangling-version v0. This can be helpful when profiling dustc,
 # as generics will be preserved in symbols (rather than erased into opaque T).
 #new-symbol-mangling = false
 
@@ -598,10 +598,10 @@ changelog-seen = 2
 # Note: an absolute path should be used, otherwise LLVM build will break.
 #ranlib = "ranlib"
 
-# Linker to be used to link Rust code. Note that the
+# Linker to be used to link Dust code. Note that the
 # default value is platform specific, and if not specified it may also depend on
 # what platform is crossing to what platform.
-# Setting this will override the `use-lld` option for Rust code when targeting MSVC.
+# Setting this will override the `use-lld` option for Dust code when targeting MSVC.
 #linker = "cc"
 
 # Path to the `llvm-config` binary of the installation of a custom LLVM to link
@@ -628,8 +628,8 @@ changelog-seen = 2
 #profiler = false
 
 # Force static or dynamic linkage of the standard library for this target. If
-# this target is a host for rustc, this will also affect the linkage of the
-# compiler itself. This is useful for building rustc on targets that normally
+# this target is a host for dustc, this will also affect the linkage of the
+# compiler itself. This is useful for building dustc on targets that normally
 # only use static libraries. If unset, the target's default linkage is used.
 #crt-static = false
 
@@ -654,7 +654,7 @@ changelog-seen = 2
 # =============================================================================
 # Distribution options
 #
-# These options are related to distribution, mostly for the Rust project itself.
+# These options are related to distribution, mostly for the Dust project itself.
 # You probably won't need to concern yourself with any of these options
 # =============================================================================
 [dist]
@@ -692,5 +692,5 @@ changelog-seen = 2
 #missing-tools = false
 
 # List of compression formats to use when generating dist tarballs. The list of
-# formats is provided to rust-installer, which must support all of them.
+# formats is provided to dust-installer, which must support all of them.
 #compression-formats = ["gz", "xz"]

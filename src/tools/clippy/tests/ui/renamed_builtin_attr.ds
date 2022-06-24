@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #[clippy::cyclomatic_complexity = "1"]
 fn main() {}

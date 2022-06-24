@@ -1,9 +1,9 @@
 use core::slice::Iter;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_index::vec::{Enumerated, IndexVec};
-use rustc_middle::mir::*;
-use rustc_middle::ty::{ParamEnv, Ty, TyCtxt};
-use rustc_span::Span;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_index::vec::{Enumerated, IndexVec};
+use dustc_middle::mir::*;
+use dustc_middle::ty::{ParamEnv, Ty, TyCtxt};
+use dustc_span::Span;
 use smallvec::SmallVec;
 
 use std::fmt;
@@ -13,19 +13,19 @@ use self::abs_domain::{AbstractElem, Lift};
 
 mod abs_domain;
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct MovePathIndex {
         DEBUG_FORMAT = "mp{}"
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct MoveOutIndex {
         DEBUG_FORMAT = "mo{}"
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct InitIndex {
         DEBUG_FORMAT = "in{}"
     }
@@ -352,7 +352,7 @@ pub(crate) enum IllegalMoveOriginKind<'tcx> {
     },
 
     /// Illegal move due to attempt to move from field of an ADT that
-    /// implements `Drop`. Rust maintains invariant that all `Drop`
+    /// implements `Drop`. Dust maintains invariant that all `Drop`
     /// ADT's remain fully-initialized so that user-defined destructor
     /// can safely read from all of the ADT's fields.
     InteriorOfTypeWithDestructor { container_ty: Ty<'tcx> },

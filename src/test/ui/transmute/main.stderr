@@ -35,4 +35,4 @@ LL |     let x: Foo = transmute(10);
 
 error: aborting due to 4 previous errors
 
-For more information about this error, try `rustc --explain E0512`.
+For more information about this error, try `dustc --explain E0512`.

@@ -1,12 +1,12 @@
-use rustc_data_structures::base_n;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir as hir;
-use rustc_hir::def_id::{CrateNum, DefId};
-use rustc_hir::definitions::{DefPathData, DisambiguatedDefPathData};
-use rustc_middle::ty::print::{Print, Printer};
-use rustc_middle::ty::subst::{GenericArg, GenericArgKind, Subst};
-use rustc_middle::ty::{self, FloatTy, Instance, IntTy, Ty, TyCtxt, TypeFoldable, UintTy};
-use rustc_target::spec::abi::Abi;
+use dustc_data_structures::base_n;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir as hir;
+use dustc_hir::def_id::{CrateNum, DefId};
+use dustc_hir::definitions::{DefPathData, DisambiguatedDefPathData};
+use dustc_middle::ty::print::{Print, Printer};
+use dustc_middle::ty::subst::{GenericArg, GenericArgKind, Subst};
+use dustc_middle::ty::{self, FloatTy, Instance, IntTy, Ty, TyCtxt, TypeFoldable, UintTy};
+use dustc_target::spec::abi::Abi;
 
 use std::fmt::Write;
 use std::ops::Range;
@@ -69,7 +69,7 @@ struct BinderLevel {
     /// Specifically, a `BrAnon(i)` lifetime has depth
     /// `lifetime_depths.start + i`, going away from the
     /// the root and towards its use site, as `i` increases.
-    /// This is used to flatten rustc's pairing of `BrAnon`
+    /// This is used to flatten dustc's pairing of `BrAnon`
     /// (intra-binder disambiguation) with a `DebruijnIndex`
     /// (binder addressing), to "true" de Bruijn indices,
     /// by subtracting the depth of a certain lifetime, from
@@ -439,7 +439,7 @@ impl Printer<'tcx> for SymbolMangler<'tcx> {
                         cx.push("U");
                     }
                     match sig.abi {
-                        Abi::Rust => {}
+                        Abi::Dust => {}
                         Abi::C { unwind: false } => cx.push("KC"),
                         abi => {
                             cx.push("K");

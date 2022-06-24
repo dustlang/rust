@@ -1,5 +1,5 @@
 //! Handles codegen of callees as well as other call-related
-//! things. Callees are a superset of normal rust values and sometimes
+//! things. Callees are a superset of normal dust values and sometimes
 //! have different representations. In particular, top-level fn items
 //! and methods are represented as just a fn ptr and not a full
 //! closure.
@@ -9,11 +9,11 @@ use crate::attributes;
 use crate::context::CodegenCx;
 use crate::llvm;
 use crate::value::Value;
-use rustc_codegen_ssa::traits::*;
+use dustc_codegen_ssa::traits::*;
 use tracing::debug;
 
-use rustc_middle::ty::layout::{FnAbiExt, HasTyCtxt};
-use rustc_middle::ty::{self, Instance, TypeFoldable};
+use dustc_middle::ty::layout::{FnAbiExt, HasTyCtxt};
+use dustc_middle::ty::{self, Instance, TypeFoldable};
 
 /// Codegens a reference to a fn/method item, monomorphizing and
 /// inlining as it goes.
@@ -109,7 +109,7 @@ pub fn get_fn(cx: &CodegenCx<'ll, 'tcx>, instance: Instance<'tcx>) -> &'ll Value
         // that the visibility we apply to the declaration is the same one that
         // has been applied to the definition (wherever that definition may be).
         unsafe {
-            llvm::LLVMRustSetLinkage(llfn, llvm::Linkage::ExternalLinkage);
+            llvm::LLVMDustSetLinkage(llfn, llvm::Linkage::ExternalLinkage);
 
             let is_generic = instance.substs.non_erasable_generics().next().is_some();
 
@@ -129,7 +129,7 @@ pub fn get_fn(cx: &CodegenCx<'ll, 'tcx>, instance: Instance<'tcx>) -> &'ll Value
                         if cx.tcx.is_unreachable_local_definition(instance_def_id)
                             || !cx.tcx.local_crate_exports_generics()
                         {
-                            llvm::LLVMRustSetVisibility(llfn, llvm::Visibility::Hidden);
+                            llvm::LLVMDustSetVisibility(llfn, llvm::Visibility::Hidden);
                         }
                     } else {
                         // This is a monomorphization of a generic function
@@ -143,14 +143,14 @@ pub fn get_fn(cx: &CodegenCx<'ll, 'tcx>, instance: Instance<'tcx>) -> &'ll Value
                             // (because it is a C library or an executable), it
                             // will have been declared `hidden`.
                             if !cx.tcx.local_crate_exports_generics() {
-                                llvm::LLVMRustSetVisibility(llfn, llvm::Visibility::Hidden);
+                                llvm::LLVMDustSetVisibility(llfn, llvm::Visibility::Hidden);
                             }
                         }
                     }
                 } else {
                     // When not sharing generics, all instances are in the same
                     // crate and have hidden visibility
-                    llvm::LLVMRustSetVisibility(llfn, llvm::Visibility::Hidden);
+                    llvm::LLVMDustSetVisibility(llfn, llvm::Visibility::Hidden);
                 }
             } else {
                 // This is a non-generic function
@@ -161,12 +161,12 @@ pub fn get_fn(cx: &CodegenCx<'ll, 'tcx>, instance: Instance<'tcx>) -> &'ll Value
                         // This is function that is defined in the local crate.
                         // If it is not reachable, it is hidden.
                         if !cx.tcx.is_reachable_non_generic(instance_def_id) {
-                            llvm::LLVMRustSetVisibility(llfn, llvm::Visibility::Hidden);
+                            llvm::LLVMDustSetVisibility(llfn, llvm::Visibility::Hidden);
                         }
                     } else {
                         // This is a function from an upstream crate that has
                         // been instantiated here. These are always hidden.
-                        llvm::LLVMRustSetVisibility(llfn, llvm::Visibility::Hidden);
+                        llvm::LLVMDustSetVisibility(llfn, llvm::Visibility::Hidden);
                     }
                 }
             }

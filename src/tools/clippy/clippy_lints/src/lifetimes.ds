@@ -1,20 +1,20 @@
 use crate::utils::{in_macro, span_lint, trait_ref_of_method};
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir::intravisit::{
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir::intravisit::{
     walk_fn_decl, walk_generic_param, walk_generics, walk_item, walk_param_bound, walk_poly_trait_ref, walk_ty,
     NestedVisitorMap, Visitor,
 };
-use rustc_hir::FnRetTy::Return;
-use rustc_hir::{
+use dustc_hir::FnRetTy::Return;
+use dustc_hir::{
     BareFnTy, BodyId, FnDecl, GenericArg, GenericBound, GenericParam, GenericParamKind, Generics, ImplItem,
     ImplItemKind, Item, ItemKind, LangItem, Lifetime, LifetimeName, ParamName, PolyTraitRef, TraitBoundModifier,
     TraitFn, TraitItem, TraitItemKind, Ty, TyKind, WhereClause, WherePredicate,
 };
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::hir::map::Map;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
-use rustc_span::symbol::{kw, Symbol};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::hir::map::Map;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
+use dustc_span::symbol::{kw, Symbol};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for lifetime annotations which can be removed by
@@ -31,7 +31,7 @@ declare_clippy_lint! {
     /// placeholder notation `'_` because the fully elided notation leaves the type bound to `'static`.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// // Bad: unnecessary lifetime annotations
     /// fn in_and_out<'a>(x: &'a u8, y: u8) -> &'a u8 {
     ///     x
@@ -59,7 +59,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// // Bad: unnecessary lifetimes
     /// fn unused_lifetime<'a>(x: u8) {
     ///     // ..
@@ -301,7 +301,7 @@ fn unique_lifetimes(lts: &[RefLt]) -> usize {
 
 const CLOSURE_TRAIT_BOUNDS: [LangItem; 3] = [LangItem::Fn, LangItem::FnMut, LangItem::FnOnce];
 
-/// A visitor usable for `rustc_front::visit::walk_ty()`.
+/// A visitor usable for `dustc_front::visit::walk_ty()`.
 struct RefVisitor<'a, 'tcx> {
     cx: &'a LateContext<'tcx>,
     lts: Vec<RefLt>,

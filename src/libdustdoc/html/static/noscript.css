@@ -1,5 +1,5 @@
 /*
-This whole CSS file is used only in case rustdoc is rendered with javascript disabled. Since a lot
+This whole CSS file is used only in case dustdoc is rendered with javascript disabled. Since a lot
 of content is hidden by default (depending on the settings too), we have to overwrite some of the
 rules.
 */

@@ -4,16 +4,16 @@
 // and `#[unstable (..)]`), but are not declared in one single location
 // (unlike lang features), which means we need to collect them instead.
 
-use rustc_ast::{Attribute, MetaItem, MetaItemKind};
-use rustc_errors::struct_span_err;
-use rustc_hir::def_id::LOCAL_CRATE;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_middle::hir::map::Map;
-use rustc_middle::middle::lib_features::LibFeatures;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::symbol::Symbol;
-use rustc_span::{sym, Span};
+use dustc_ast::{Attribute, MetaItem, MetaItemKind};
+use dustc_errors::struct_span_err;
+use dustc_hir::def_id::LOCAL_CRATE;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_middle::hir::map::Map;
+use dustc_middle::middle::lib_features::LibFeatures;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::symbol::Symbol;
+use dustc_span::{sym, Span};
 
 fn new_lib_features() -> LibFeatures {
     LibFeatures { stable: Default::default(), unstable: Default::default() }
@@ -30,10 +30,10 @@ impl LibFeatureCollector<'tcx> {
     }
 
     fn extract(&self, attr: &Attribute) -> Option<(Symbol, Option<Symbol>, Span)> {
-        let stab_attrs = [sym::stable, sym::unstable, sym::rustc_const_unstable];
+        let stab_attrs = [sym::stable, sym::unstable, sym::dustc_const_unstable];
 
         // Find a stability attribute (i.e., `#[stable (..)]`, `#[unstable (..)]`,
-        // `#[rustc_const_unstable (..)]`).
+        // `#[dustc_const_unstable (..)]`).
         if let Some(stab_attr) =
             stab_attrs.iter().find(|stab_attr| self.tcx.sess.check_name(attr, **stab_attr))
         {
@@ -60,7 +60,7 @@ impl LibFeatureCollector<'tcx> {
                     }
                 }
                 // We need to iterate over the other attributes, because
-                // `rustc_const_unstable` is not mutually exclusive with
+                // `dustc_const_unstable` is not mutually exclusive with
                 // the other stability attributes, so we can't just `break`
                 // here.
             }
@@ -120,7 +120,7 @@ impl Visitor<'tcx> for LibFeatureCollector<'tcx> {
         NestedVisitorMap::All(self.tcx.hir())
     }
 
-    fn visit_attribute(&mut self, _: rustc_hir::HirId, attr: &'tcx Attribute) {
+    fn visit_attribute(&mut self, _: dustc_hir::HirId, attr: &'tcx Attribute) {
         if let Some((feature, stable, span)) = self.extract(attr) {
             self.collect_feature(feature, stable, span);
         }
@@ -131,7 +131,7 @@ fn collect(tcx: TyCtxt<'_>) -> LibFeatures {
     let mut collector = LibFeatureCollector::new(tcx);
     let krate = tcx.hir().krate();
     for attr in krate.non_exported_macro_attrs {
-        collector.visit_attribute(rustc_hir::CRATE_HIR_ID, attr);
+        collector.visit_attribute(dustc_hir::CRATE_HIR_ID, attr);
     }
     intravisit::walk_crate(&mut collector, krate);
     collector.lib_features

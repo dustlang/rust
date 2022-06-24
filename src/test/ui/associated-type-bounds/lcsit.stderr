@@ -5,7 +5,7 @@ LL | #![feature(impl_trait_in_bindings)]
    |            ^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63065 <https://github.com/rust-lang/rust/issues/63065> for more information
+   = note: see issue #63065 <https://github.com/dust-lang/dust/issues/63065> for more information
 
 warning: 1 warning emitted
 

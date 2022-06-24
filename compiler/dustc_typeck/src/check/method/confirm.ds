@@ -4,16 +4,16 @@ use crate::astconv::{AstConv, CreateSubstsForGenericArgsCtxt, IsMethodCall};
 use crate::check::{callee, FnCtxt};
 use crate::hir::def_id::DefId;
 use crate::hir::GenericArg;
-use rustc_hir as hir;
-use rustc_infer::infer::{self, InferOk};
-use rustc_middle::traits::{ObligationCauseCode, UnifyReceiverContext};
-use rustc_middle::ty::adjustment::{Adjust, Adjustment, PointerCast};
-use rustc_middle::ty::adjustment::{AllowTwoPhase, AutoBorrow, AutoBorrowMutability};
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::subst::{self, Subst, SubstsRef};
-use rustc_middle::ty::{self, GenericParamDefKind, Ty};
-use rustc_span::Span;
-use rustc_trait_selection::traits;
+use dustc_hir as hir;
+use dustc_infer::infer::{self, InferOk};
+use dustc_middle::traits::{ObligationCauseCode, UnifyReceiverContext};
+use dustc_middle::ty::adjustment::{Adjust, Adjustment, PointerCast};
+use dustc_middle::ty::adjustment::{AllowTwoPhase, AutoBorrow, AutoBorrowMutability};
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::subst::{self, Subst, SubstsRef};
+use dustc_middle::ty::{self, GenericParamDefKind, Ty};
+use dustc_span::Span;
+use dustc_trait_selection::traits;
 
 use std::ops::Deref;
 
@@ -143,7 +143,7 @@ impl<'a, 'tcx> ConfirmContext<'a, 'tcx> {
             Some(n) => n,
             None => {
                 return self.tcx.ty_error_with_message(
-                    rustc_span::DUMMY_SP,
+                    dustc_span::DUMMY_SP,
                     &format!("failed autoderef {}", pick.autoderefs),
                 );
             }
@@ -505,7 +505,7 @@ impl<'a, 'tcx> ConfirmContext<'a, 'tcx> {
                                 if *p == obligation.predicate { Some(*span) } else { None }
                             },
                         )
-                        .unwrap_or(rustc_span::DUMMY_SP);
+                        .unwrap_or(dustc_span::DUMMY_SP);
                     Some((trait_pred, span))
                 }
                 _ => None,

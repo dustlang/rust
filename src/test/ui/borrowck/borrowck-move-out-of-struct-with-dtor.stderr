@@ -31,4 +31,4 @@ LL | fn move_in_fn_arg(S {f:_s}: S) {
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0509`.
+For more information about this error, try `dustc --explain E0509`.

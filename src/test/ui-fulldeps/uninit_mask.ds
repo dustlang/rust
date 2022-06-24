@@ -2,13 +2,13 @@
 // ignore-cross-compile
 // ignore-stage1
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_middle;
-extern crate rustc_target;
+extern crate dustc_middle;
+extern crate dustc_target;
 
-use rustc_middle::mir::interpret::InitMask;
-use rustc_target::abi::Size;
+use dustc_middle::mir::interpret::InitMask;
+use dustc_target::abi::Size;
 
 fn main() {
     let mut mask = InitMask::new(Size::from_bytes(500), false);

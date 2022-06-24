@@ -53,7 +53,7 @@ impl OptimizationDiagnostic<'ll> {
         let pass_name = super::build_string(|pass_name| {
             message = super::build_string(|message| {
                 filename = super::build_string(|filename| {
-                    super::LLVMRustUnpackOptimizationDiagnostic(
+                    super::LLVMDustUnpackOptimizationDiagnostic(
                         di,
                         pass_name,
                         &mut function,
@@ -101,7 +101,7 @@ impl InlineAsmDiagnostic<'ll> {
         let mut instruction = None;
         let mut level = super::DiagnosticLevel::Error;
 
-        super::LLVMRustUnpackInlineAsmDiagnostic(
+        super::LLVMDustUnpackInlineAsmDiagnostic(
             di,
             &mut level,
             &mut cookie,
@@ -127,7 +127,7 @@ pub enum Diagnostic<'ll> {
 impl Diagnostic<'ll> {
     pub unsafe fn unpack(di: &'ll DiagnosticInfo) -> Self {
         use super::DiagnosticKind as Dk;
-        let kind = super::LLVMRustGetDiagInfoKind(di);
+        let kind = super::LLVMDustGetDiagInfoKind(di);
 
         match kind {
             Dk::InlineAsm => InlineAsm(InlineAsmDiagnostic::unpack(di)),

@@ -1,12 +1,12 @@
 //! Check whether a type has (potentially) non-trivial drop glue.
 
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir::def_id::DefId;
-use rustc_middle::ty::subst::Subst;
-use rustc_middle::ty::util::{needs_drop_components, AlwaysRequiresDrop};
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_session::Limit;
-use rustc_span::DUMMY_SP;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir::def_id::DefId;
+use dustc_middle::ty::subst::Subst;
+use dustc_middle::ty::util::{needs_drop_components, AlwaysRequiresDrop};
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_session::Limit;
+use dustc_span::DUMMY_SP;
 
 type NeedsDropResult<T> = Result<T, AlwaysRequiresDrop>;
 

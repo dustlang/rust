@@ -1,7 +1,7 @@
 use crate::mir::mono::Linkage;
-use rustc_attr::{InlineAttr, InstructionSetAttr, OptimizeAttr};
-use rustc_session::config::SanitizerSet;
-use rustc_span::symbol::Symbol;
+use dustc_attr::{InlineAttr, InstructionSetAttr, OptimizeAttr};
+use dustc_session::config::SanitizerSet;
+use dustc_span::symbol::Symbol;
 
 #[derive(Clone, TyEncodable, TyDecodable, HashStable, Debug)]
 pub struct CodegenFnAttrs {
@@ -16,7 +16,7 @@ pub struct CodegenFnAttrs {
     /// The `#[link_name = "..."]` attribute, indicating a custom symbol an
     /// imported function should be imported as. Note that `export_name`
     /// probably isn't set when this is set, this is for foreign items while
-    /// `#[export_name]` is for Rust-defined functions.
+    /// `#[export_name]` is for Dust-defined functions.
     pub link_name: Option<Symbol>,
     /// The `#[link_ordinal = "..."]` attribute, indicating an ordinal an
     /// imported function has in the dynamic library. Note that this must not
@@ -46,26 +46,26 @@ bitflags! {
         /// `#[cold]`: a hint to LLVM that this function, when called, is never on
         /// the hot path.
         const COLD                      = 1 << 0;
-        /// `#[rustc_allocator]`: a hint to LLVM that the pointer returned from this
+        /// `#[dustc_allocator]`: a hint to LLVM that the pointer returned from this
         /// function is never null.
         const ALLOCATOR                 = 1 << 1;
         /// `#[unwind]`: an indicator that this function may unwind despite what
         /// its ABI signature may otherwise imply.
         const UNWIND                    = 1 << 2;
-        /// `#[rust_allocator_nounwind]`, an indicator that an imported FFI
+        /// `#[dust_allocator_nounwind]`, an indicator that an imported FFI
         /// function will never unwind. Probably obsolete by recent changes with
         /// #[unwind], but hasn't been removed/migrated yet
-        const RUSTC_ALLOCATOR_NOUNWIND  = 1 << 3;
+        const DUSTC_ALLOCATOR_NOUNWIND  = 1 << 3;
         /// `#[naked]`: an indicator to LLVM that no function prologue/epilogue
         /// should be generated.
         const NAKED                     = 1 << 4;
         /// `#[no_mangle]`: an indicator that the function's name should be the same
         /// as its symbol.
         const NO_MANGLE                 = 1 << 5;
-        /// `#[rustc_std_internal_symbol]`: an indicator that this symbol is a
+        /// `#[dustc_std_internal_symbol]`: an indicator that this symbol is a
         /// "weird symbol" for the standard library in that it has slightly
         /// different linkage, visibility, and reachability rules.
-        const RUSTC_STD_INTERNAL_SYMBOL = 1 << 6;
+        const DUSTC_STD_INTERNAL_SYMBOL = 1 << 6;
         /// `#[thread_local]`: indicates a static is actually a thread local
         /// piece of memory
         const THREAD_LOCAL              = 1 << 8;
@@ -83,7 +83,7 @@ bitflags! {
         /// #[ffi_const]: applies clang's `const` attribute to a foreign function
         /// declaration.
         const FFI_CONST                 = 1 << 13;
-        /// #[cmse_nonsecure_entry]: with a TrustZone-M extension, declare a
+        /// #[cmse_nonsecure_entry]: with a TdustZone-M extension, declare a
         /// function as an entry function from Non-Secure code.
         const CMSE_NONSECURE_ENTRY      = 1 << 14;
     }

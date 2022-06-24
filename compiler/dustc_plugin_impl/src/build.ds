@@ -1,12 +1,12 @@
-//! Used by `rustc` when compiling a plugin crate.
+//! Used by `dustc` when compiling a plugin crate.
 
-use rustc_hir as hir;
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId, LOCAL_CRATE};
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::symbol::sym;
-use rustc_span::Span;
+use dustc_hir as hir;
+use dustc_hir::def_id::{CrateNum, DefId, LocalDefId, LOCAL_CRATE};
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::symbol::sym;
+use dustc_span::Span;
 
 struct RegistrarFinder<'tcx> {
     tcx: TyCtxt<'tcx>,

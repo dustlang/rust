@@ -43,7 +43,7 @@ fn main() {
         panic!("Can't find Valgrind to run Valgrind tests");
     }
 
-    if !config.has_tidy && config.mode == Mode::Rustdoc {
+    if !config.has_tidy && config.mode == Mode::Dustdoc {
         eprintln!("warning: `tidy` is not installed; diffs will not be generated");
     }
 
@@ -55,9 +55,9 @@ pub fn parse_config(args: Vec<String>) -> Config {
     let mut opts = Options::new();
     opts.reqopt("", "compile-lib-path", "path to host shared libraries", "PATH")
         .reqopt("", "run-lib-path", "path to target shared libraries", "PATH")
-        .reqopt("", "rustc-path", "path to rustc to use for compiling", "PATH")
-        .optopt("", "rustdoc-path", "path to rustdoc to use for compiling", "PATH")
-        .optopt("", "rust-demangler-path", "path to rust-demangler to use in tests", "PATH")
+        .reqopt("", "dustc-path", "path to dustc to use for compiling", "PATH")
+        .optopt("", "dustdoc-path", "path to dustdoc to use for compiling", "PATH")
+        .optopt("", "dust-demangler-path", "path to dust-demangler to use in tests", "PATH")
         .reqopt("", "lldb-python", "path to python to use for doc tests", "PATH")
         .reqopt("", "docck-python", "path to python to use for doc tests", "PATH")
         .optopt("", "jsondocck-path", "path to jsondocck to use for doc tests", "PATH")
@@ -72,8 +72,8 @@ pub fn parse_config(args: Vec<String>) -> Config {
             "",
             "mode",
             "which sort of compile tests to run",
-            "run-pass-valgrind | pretty | debug-info | codegen | rustdoc \
-            | rustdoc-json | codegen-units | incremental | run-make | ui | js-doc-test | mir-opt | assembly",
+            "run-pass-valgrind | pretty | debug-info | codegen | dustdoc \
+            | dustdoc-json | codegen-units | incremental | run-make | ui | js-doc-test | mir-opt | assembly",
         )
         .reqopt(
             "",
@@ -96,8 +96,8 @@ pub fn parse_config(args: Vec<String>) -> Config {
              (eg. emulator, valgrind)",
             "PROGRAM",
         )
-        .optopt("", "host-rustcflags", "flags to pass to rustc for host", "FLAGS")
-        .optopt("", "target-rustcflags", "flags to pass to rustc for target", "FLAGS")
+        .optopt("", "host-dustcflags", "flags to pass to dustc for host", "FLAGS")
+        .optopt("", "target-dustcflags", "flags to pass to dustc for target", "FLAGS")
         .optflag("", "verbose", "run tests verbosely, showing all output")
         .optflag(
             "",
@@ -136,9 +136,9 @@ pub fn parse_config(args: Vec<String>) -> Config {
         )
         .optflag(
             "",
-            "rustfix-coverage",
-            "enable this to generate a Rustfix coverage file, which is saved in \
-                `./<build_base>/rustfix_missing_coverage.txt`",
+            "dustfix-coverage",
+            "enable this to generate a Dustfix coverage file, which is saved in \
+                `./<build_base>/dustfix_missing_coverage.txt`",
         )
         .optflag("h", "help", "show this message");
 
@@ -176,9 +176,9 @@ pub fn parse_config(args: Vec<String>) -> Config {
     let target = opt_str2(matches.opt_str("target"));
     let android_cross_path = opt_path(matches, "android-cross-path");
     let (cdb, cdb_version) = analyze_cdb(matches.opt_str("cdb"), &target);
-    let (gdb, gdb_version, gdb_native_rust) =
+    let (gdb, gdb_version, gdb_native_dust) =
         analyze_gdb(matches.opt_str("gdb"), &target, &android_cross_path);
-    let (lldb_version, lldb_native_rust) = matches
+    let (lldb_version, lldb_native_dust) = matches
         .opt_str("lldb-version")
         .as_deref()
         .and_then(extract_lldb_version)
@@ -196,7 +196,7 @@ pub fn parse_config(args: Vec<String>) -> Config {
     let src_base = opt_path(matches, "src-base");
     let run_ignored = matches.opt_present("ignored");
     let mode = matches.opt_str("mode").unwrap().parse().expect("invalid mode");
-    let has_tidy = if mode == Mode::Rustdoc {
+    let has_tidy = if mode == Mode::Dustdoc {
         Command::new("tidy")
             .arg("--version")
             .stdout(Stdio::null())
@@ -210,9 +210,9 @@ pub fn parse_config(args: Vec<String>) -> Config {
         bless: matches.opt_present("bless"),
         compile_lib_path: make_absolute(opt_path(matches, "compile-lib-path")),
         run_lib_path: make_absolute(opt_path(matches, "run-lib-path")),
-        rustc_path: opt_path(matches, "rustc-path"),
-        rustdoc_path: matches.opt_str("rustdoc-path").map(PathBuf::from),
-        rust_demangler_path: matches.opt_str("rust-demangler-path").map(PathBuf::from),
+        dustc_path: opt_path(matches, "dustc-path"),
+        dustdoc_path: matches.opt_str("dustdoc-path").map(PathBuf::from),
+        dust_demangler_path: matches.opt_str("dust-demangler-path").map(PathBuf::from),
         lldb_python: matches.opt_str("lldb-python").unwrap(),
         docck_python: matches.opt_str("docck-python").unwrap(),
         jsondocck_path: matches.opt_str("jsondocck-path"),
@@ -236,17 +236,17 @@ pub fn parse_config(args: Vec<String>) -> Config {
         }),
         logfile: matches.opt_str("logfile").map(|s| PathBuf::from(&s)),
         runtool: matches.opt_str("runtool"),
-        host_rustcflags: matches.opt_str("host-rustcflags"),
-        target_rustcflags: matches.opt_str("target-rustcflags"),
+        host_dustcflags: matches.opt_str("host-dustcflags"),
+        target_dustcflags: matches.opt_str("target-dustcflags"),
         target,
         host: opt_str2(matches.opt_str("host")),
         cdb,
         cdb_version,
         gdb,
         gdb_version,
-        gdb_native_rust,
+        gdb_native_dust,
         lldb_version,
-        lldb_native_rust,
+        lldb_native_dust,
         llvm_version,
         system_llvm: matches.opt_present("system-llvm"),
         android_cross_path,
@@ -261,7 +261,7 @@ pub fn parse_config(args: Vec<String>) -> Config {
         color,
         remote_test_client: matches.opt_str("remote-test-client").map(PathBuf::from),
         compare_mode: matches.opt_str("compare-mode").map(CompareMode::parse),
-        rustfix_coverage: matches.opt_present("rustfix-coverage"),
+        dustfix_coverage: matches.opt_present("dustfix-coverage"),
         has_tidy,
 
         cc: matches.opt_str("cc").unwrap(),
@@ -280,9 +280,9 @@ pub fn log_config(config: &Config) {
     logv(c, "configuration:".to_string());
     logv(c, format!("compile_lib_path: {:?}", config.compile_lib_path));
     logv(c, format!("run_lib_path: {:?}", config.run_lib_path));
-    logv(c, format!("rustc_path: {:?}", config.rustc_path.display()));
-    logv(c, format!("rustdoc_path: {:?}", config.rustdoc_path));
-    logv(c, format!("rust_demangler_path: {:?}", config.rust_demangler_path));
+    logv(c, format!("dustc_path: {:?}", config.dustc_path.display()));
+    logv(c, format!("dustdoc_path: {:?}", config.dustdoc_path));
+    logv(c, format!("dust_demangler_path: {:?}", config.dust_demangler_path));
     logv(c, format!("src_base: {:?}", config.src_base.display()));
     logv(c, format!("build_base: {:?}", config.build_base.display()));
     logv(c, format!("stage_id: {}", config.stage_id));
@@ -295,8 +295,8 @@ pub fn log_config(config: &Config) {
         format!("force_pass_mode: {}", opt_str(&config.force_pass_mode.map(|m| format!("{}", m))),),
     );
     logv(c, format!("runtool: {}", opt_str(&config.runtool)));
-    logv(c, format!("host-rustcflags: {}", opt_str(&config.host_rustcflags)));
-    logv(c, format!("target-rustcflags: {}", opt_str(&config.target_rustcflags)));
+    logv(c, format!("host-dustcflags: {}", opt_str(&config.host_dustcflags)));
+    logv(c, format!("target-dustcflags: {}", opt_str(&config.target_dustcflags)));
     logv(c, format!("target: {}", config.target));
     logv(c, format!("host: {}", config.host));
     logv(c, format!("android-cross-path: {:?}", config.android_cross_path.display()));
@@ -330,12 +330,12 @@ pub fn run_tests(config: Config) {
         let _ = fs::remove_dir_all("tmp/partitioning-tests");
     }
 
-    // If we want to collect rustfix coverage information,
+    // If we want to collect dustfix coverage information,
     // we first make sure that the coverage file does not exist.
     // It will be created later on.
-    if config.rustfix_coverage {
+    if config.dustfix_coverage {
         let mut coverage_file_path = config.build_base.clone();
-        coverage_file_path.push("rustfix_missing_coverage.txt");
+        coverage_file_path.push("dustfix_missing_coverage.txt");
         if coverage_file_path.exists() {
             if let Err(e) = fs::remove_file(&coverage_file_path) {
                 panic!("Could not delete {} due to {}", coverage_file_path.display(), e)
@@ -443,7 +443,7 @@ fn configure_gdb(config: &Config) -> Option<Config> {
         //
         // we should figure out how to lift this restriction! (run them all
         // on different ports allocated dynamically).
-        env::set_var("RUST_TEST_THREADS", "1");
+        env::set_var("DUST_TEST_THREADS", "1");
     }
 
     Some(Config { debugger: Some(Debugger::Gdb), ..config.clone() })
@@ -465,7 +465,7 @@ fn configure_lldb(config: &Config) -> Option<Config> {
     // Some older versions of LLDB seem to have problems with multiple
     // instances running in parallel, so only run one test thread at a
     // time.
-    env::set_var("RUST_TEST_THREADS", "1");
+    env::set_var("DUST_TEST_THREADS", "1");
 
     Some(Config { debugger: Some(Debugger::Lldb), ..config.clone() })
 }
@@ -480,7 +480,7 @@ pub fn test_opts(config: &Config) -> test::TestOpts {
         logfile: config.logfile.clone(),
         run_tests: true,
         bench_benchmarks: true,
-        nocapture: match env::var("RUST_TEST_NOCAPTURE") {
+        nocapture: match env::var("DUST_TEST_NOCAPTURE") {
             Ok(val) => &val != "0",
             Err(_) => false,
         },
@@ -503,14 +503,14 @@ pub fn make_tests(config: &Config, tests: &mut Vec<test::TestDescAndFn>) {
 
 /// Returns a stamp constructed from input files common to all test cases.
 fn common_inputs_stamp(config: &Config) -> Stamp {
-    let rust_src_dir = config.find_rust_src_root().expect("Could not find Rust source root");
+    let dust_src_dir = config.find_dust_src_root().expect("Could not find Dust source root");
 
-    let mut stamp = Stamp::from_path(&config.rustc_path);
+    let mut stamp = Stamp::from_path(&config.dustc_path);
 
     // Relevant pretty printer files
     let pretty_printer_files = [
-        "src/etc/rust_types.py",
-        "src/etc/gdb_load_rust_pretty_printers.py",
+        "src/etc/dust_types.py",
+        "src/etc/gdb_load_dust_pretty_printers.py",
         "src/etc/gdb_lookup.py",
         "src/etc/gdb_providers.py",
         "src/etc/lldb_batchmode.py",
@@ -518,19 +518,19 @@ fn common_inputs_stamp(config: &Config) -> Stamp {
         "src/etc/lldb_providers.py",
     ];
     for file in &pretty_printer_files {
-        let path = rust_src_dir.join(file);
+        let path = dust_src_dir.join(file);
         stamp.add_path(&path);
     }
 
     stamp.add_dir(&config.run_lib_path);
 
-    if let Some(ref rustdoc_path) = config.rustdoc_path {
-        stamp.add_path(&rustdoc_path);
-        stamp.add_path(&rust_src_dir.join("src/etc/htmldocck.py"));
+    if let Some(ref dustdoc_path) = config.dustdoc_path {
+        stamp.add_path(&dustdoc_path);
+        stamp.add_path(&dust_src_dir.join("src/etc/htmldocck.py"));
     }
 
     // Compiletest itself.
-    stamp.add_dir(&rust_src_dir.join("src/tools/compiletest/"));
+    stamp.add_dir(&dust_src_dir.join("src/tools/compiletest/"));
 
     stamp
 }
@@ -846,7 +846,7 @@ fn extract_cdb_version(full_version_line: &str) -> Option<[u16; 4]> {
     Some([major, minor, patch, build])
 }
 
-/// Returns (Path to GDB, GDB Version, GDB has Rust Support)
+/// Returns (Path to GDB, GDB Version, GDB has Dust Support)
 fn analyze_gdb(
     gdb: Option<String>,
     target: &str,
@@ -857,7 +857,7 @@ fn analyze_gdb(
     #[cfg(windows)]
     const GDB_FALLBACK: &str = "gdb.exe";
 
-    const MIN_GDB_WITH_RUST: u32 = 7011010;
+    const MIN_GDB_WITH_DUST: u32 = 7011010;
 
     let fallback_gdb = || {
         if is_android_gdb_target(target) {
@@ -890,9 +890,9 @@ fn analyze_gdb(
         None => return (None, None, false),
     };
 
-    let gdb_native_rust = version.map_or(false, |v| v >= MIN_GDB_WITH_RUST);
+    let gdb_native_dust = version.map_or(false, |v| v >= MIN_GDB_WITH_DUST);
 
-    (Some(gdb), version, gdb_native_rust)
+    (Some(gdb), version, gdb_native_dust)
 }
 
 fn extract_gdb_version(full_version_line: &str) -> Option<u32> {
@@ -941,7 +941,7 @@ fn extract_gdb_version(full_version_line: &str) -> Option<u32> {
     Some(((major * 1000) + minor) * 1000 + patch)
 }
 
-/// Returns (LLDB version, LLDB is rust-enabled)
+/// Returns (LLDB version, LLDB is dust-enabled)
 fn extract_lldb_version(full_version_line: &str) -> Option<(u32, bool)> {
     // Extract the major LLDB version from the given version string.
     // LLDB version strings are different for Apple and non-Apple platforms.
@@ -961,7 +961,7 @@ fn extract_lldb_version(full_version_line: &str) -> Option<(u32, bool)> {
     // written against Apple versions, we make a fake Apple version by
     // multiplying the first number by 100.  This is a hack, but
     // normally fine because the only non-Apple version we test is
-    // rust-enabled.
+    // dust-enabled.
 
     let full_version_line = full_version_line.trim();
 
@@ -970,12 +970,12 @@ fn extract_lldb_version(full_version_line: &str) -> Option<(u32, bool)> {
     {
         if let Some(idx) = apple_ver.find(not_a_digit) {
             let version: u32 = apple_ver[..idx].parse().unwrap();
-            return Some((version, full_version_line.contains("rust-enabled")));
+            return Some((version, full_version_line.contains("dust-enabled")));
         }
     } else if let Some(lldb_ver) = full_version_line.strip_prefix("lldb version ") {
         if let Some(idx) = lldb_ver.find(not_a_digit) {
             let version: u32 = lldb_ver[..idx].parse().unwrap();
-            return Some((version * 100, full_version_line.contains("rust-enabled")));
+            return Some((version * 100, full_version_line.contains("dust-enabled")));
         }
     }
     None

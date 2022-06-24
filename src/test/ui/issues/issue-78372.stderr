@@ -59,4 +59,4 @@ LL | impl<T> DispatchFromDyn<Smaht<U, MISC>> for T {}
 error: aborting due to 7 previous errors
 
 Some errors have detailed explanations: E0210, E0378, E0412, E0658.
-For more information about an error, try `rustc --explain E0210`.
+For more information about an error, try `dustc --explain E0210`.

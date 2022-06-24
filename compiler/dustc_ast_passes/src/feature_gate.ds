@@ -1,15 +1,15 @@
-use rustc_ast as ast;
-use rustc_ast::visit::{self, AssocCtxt, FnCtxt, FnKind, Visitor};
-use rustc_ast::{AssocTyConstraint, AssocTyConstraintKind, NodeId};
-use rustc_ast::{PatKind, RangeEnd, VariantData};
-use rustc_errors::struct_span_err;
-use rustc_feature::{AttributeGate, BUILTIN_ATTRIBUTE_MAP};
-use rustc_feature::{Features, GateIssue};
-use rustc_session::parse::{feature_err, feature_err_issue};
-use rustc_session::Session;
-use rustc_span::source_map::Spanned;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_ast::visit::{self, AssocCtxt, FnCtxt, FnKind, Visitor};
+use dustc_ast::{AssocTyConstraint, AssocTyConstraintKind, NodeId};
+use dustc_ast::{PatKind, RangeEnd, VariantData};
+use dustc_errors::struct_span_err;
+use dustc_feature::{AttributeGate, BUILTIN_ATTRIBUTE_MAP};
+use dustc_feature::{Features, GateIssue};
+use dustc_session::parse::{feature_err, feature_err_issue};
+use dustc_session::Session;
+use dustc_span::source_map::Spanned;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::Span;
 
 use tracing::debug;
 
@@ -63,9 +63,9 @@ impl<'a> PostExpansionVisitor<'a> {
 
         match &*symbol_unescaped.as_str() {
             // Stable
-            "Rust" | "C" | "cdecl" | "stdcall" | "fastcall" | "aapcs" | "win64" | "sysv64"
+            "Dust" | "C" | "cdecl" | "stdcall" | "fastcall" | "aapcs" | "win64" | "sysv64"
             | "system" => {}
-            "rust-intrinsic" => {
+            "dust-intrinsic" => {
                 gate_feature_post!(&self, intrinsics, span, "intrinsics are subject to change");
             }
             "platform-intrinsic" => {
@@ -92,12 +92,12 @@ impl<'a> PostExpansionVisitor<'a> {
                     "thiscall is experimental and subject to change"
                 );
             }
-            "rust-call" => {
+            "dust-call" => {
                 gate_feature_post!(
                     &self,
                     unboxed_closures,
                     span,
-                    "rust-call ABI is subject to change"
+                    "dust-call ABI is subject to change"
                 );
             }
             "ptx-kernel" => {
@@ -765,7 +765,7 @@ fn check_incompatible_features(sess: &Session) {
         .map(|(name, span, _)| (name, span))
         .chain(features.declared_lib_features.iter().copied());
 
-    for (f1, f2) in rustc_feature::INCOMPATIBLE_FEATURES
+    for (f1, f2) in dustc_feature::INCOMPATIBLE_FEATURES
         .iter()
         .filter(|&&(f1, f2)| features.enabled(f1) && features.enabled(f2))
     {

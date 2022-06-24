@@ -1,51 +1,51 @@
 error[E0734]: stability attributes may not be used outside of the standard library
-  --> $DIR/issue-43106-gating-of-rustc_deprecated.rs:7:1
+  --> $DIR/issue-43106-gating-of-dustc_deprecated.rs:7:1
    |
-LL | #![rustc_deprecated()]
+LL | #![dustc_deprecated()]
    | ^^^^^^^^^^^^^^^^^^^^^^
 
 error[E0734]: stability attributes may not be used outside of the standard library
-  --> $DIR/issue-43106-gating-of-rustc_deprecated.rs:10:1
+  --> $DIR/issue-43106-gating-of-dustc_deprecated.rs:10:1
    |
-LL | #[rustc_deprecated()]
+LL | #[dustc_deprecated()]
    | ^^^^^^^^^^^^^^^^^^^^^
 
 error[E0734]: stability attributes may not be used outside of the standard library
-  --> $DIR/issue-43106-gating-of-rustc_deprecated.rs:13:17
+  --> $DIR/issue-43106-gating-of-dustc_deprecated.rs:13:17
    |
-LL |     mod inner { #![rustc_deprecated()] }
+LL |     mod inner { #![dustc_deprecated()] }
    |                 ^^^^^^^^^^^^^^^^^^^^^^
 
 error[E0734]: stability attributes may not be used outside of the standard library
-  --> $DIR/issue-43106-gating-of-rustc_deprecated.rs:16:5
+  --> $DIR/issue-43106-gating-of-dustc_deprecated.rs:16:5
    |
-LL |     #[rustc_deprecated()] fn f() { }
+LL |     #[dustc_deprecated()] fn f() { }
    |     ^^^^^^^^^^^^^^^^^^^^^
 
 error[E0734]: stability attributes may not be used outside of the standard library
-  --> $DIR/issue-43106-gating-of-rustc_deprecated.rs:19:5
+  --> $DIR/issue-43106-gating-of-dustc_deprecated.rs:19:5
    |
-LL |     #[rustc_deprecated()] struct S;
+LL |     #[dustc_deprecated()] struct S;
    |     ^^^^^^^^^^^^^^^^^^^^^
 
 error[E0734]: stability attributes may not be used outside of the standard library
-  --> $DIR/issue-43106-gating-of-rustc_deprecated.rs:19:5
+  --> $DIR/issue-43106-gating-of-dustc_deprecated.rs:19:5
    |
-LL |     #[rustc_deprecated()] struct S;
+LL |     #[dustc_deprecated()] struct S;
    |     ^^^^^^^^^^^^^^^^^^^^^
 
 error[E0734]: stability attributes may not be used outside of the standard library
-  --> $DIR/issue-43106-gating-of-rustc_deprecated.rs:23:5
+  --> $DIR/issue-43106-gating-of-dustc_deprecated.rs:23:5
    |
-LL |     #[rustc_deprecated()] type T = S;
+LL |     #[dustc_deprecated()] type T = S;
    |     ^^^^^^^^^^^^^^^^^^^^^
 
 error[E0734]: stability attributes may not be used outside of the standard library
-  --> $DIR/issue-43106-gating-of-rustc_deprecated.rs:26:5
+  --> $DIR/issue-43106-gating-of-dustc_deprecated.rs:26:5
    |
-LL |     #[rustc_deprecated()] impl S { }
+LL |     #[dustc_deprecated()] impl S { }
    |     ^^^^^^^^^^^^^^^^^^^^^
 
 error: aborting due to 8 previous errors
 
-For more information about this error, try `rustc --explain E0734`.
+For more information about this error, try `dustc --explain E0734`.

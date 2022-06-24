@@ -8,4 +8,4 @@ LL | const CON : Box<i32> = box 0;
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0010`.
+For more information about this error, try `dustc --explain E0010`.

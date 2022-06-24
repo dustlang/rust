@@ -8,18 +8,18 @@ use crate::ty::query::TyCtxtAt;
 use crate::ty::subst::{GenericArgKind, Subst, SubstsRef};
 use crate::ty::TyKind::*;
 use crate::ty::{self, DefIdTree, List, Ty, TyCtxt, TypeFoldable};
-use rustc_apfloat::Float as _;
-use rustc_ast as ast;
-use rustc_attr::{self as attr, SignedInt, UnsignedInt};
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_errors::ErrorReported;
-use rustc_hir as hir;
-use rustc_hir::def::DefKind;
-use rustc_hir::def_id::DefId;
-use rustc_macros::HashStable;
-use rustc_span::{Span, DUMMY_SP};
-use rustc_target::abi::{Integer, Size, TargetDataLayout};
+use dustc_apfloat::Float as _;
+use dustc_ast as ast;
+use dustc_attr::{self as attr, SignedInt, UnsignedInt};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_errors::ErrorReported;
+use dustc_hir as hir;
+use dustc_hir::def::DefKind;
+use dustc_hir::def_id::DefId;
+use dustc_macros::HashStable;
+use dustc_span::{Span, DUMMY_SP};
+use dustc_target::abi::{Integer, Size, TargetDataLayout};
 use smallvec::SmallVec;
 use std::{cmp, fmt};
 
@@ -642,8 +642,8 @@ impl<'tcx> ty::TyS<'tcx> {
             }
             ty::Char => Some(std::char::MAX as u128),
             ty::Float(fty) => Some(match fty {
-                ty::FloatTy::F32 => rustc_apfloat::ieee::Single::INFINITY.to_bits(),
-                ty::FloatTy::F64 => rustc_apfloat::ieee::Double::INFINITY.to_bits(),
+                ty::FloatTy::F32 => dustc_apfloat::ieee::Single::INFINITY.to_bits(),
+                ty::FloatTy::F64 => dustc_apfloat::ieee::Double::INFINITY.to_bits(),
             }),
             _ => None,
         };
@@ -661,8 +661,8 @@ impl<'tcx> ty::TyS<'tcx> {
             }
             ty::Char => Some(0),
             ty::Float(fty) => Some(match fty {
-                ty::FloatTy::F32 => (-::rustc_apfloat::ieee::Single::INFINITY).to_bits(),
-                ty::FloatTy::F64 => (-::rustc_apfloat::ieee::Double::INFINITY).to_bits(),
+                ty::FloatTy::F32 => (-::dustc_apfloat::ieee::Single::INFINITY).to_bits(),
+                ty::FloatTy::F64 => (-::dustc_apfloat::ieee::Double::INFINITY).to_bits(),
             }),
             _ => None,
         };

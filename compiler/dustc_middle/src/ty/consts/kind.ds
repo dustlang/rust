@@ -6,14 +6,14 @@ use crate::mir::Promoted;
 use crate::ty::subst::{InternalSubsts, SubstsRef};
 use crate::ty::ParamEnv;
 use crate::ty::{self, TyCtxt, TypeFoldable};
-use rustc_errors::ErrorReported;
-use rustc_hir::def_id::DefId;
-use rustc_macros::HashStable;
-use rustc_target::abi::Size;
+use dustc_errors::ErrorReported;
+use dustc_hir::def_id::DefId;
+use dustc_macros::HashStable;
+use dustc_target::abi::Size;
 
 use super::ScalarInt;
 
-/// Represents a constant in Rust.
+/// Represents a constant in Dust.
 #[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord, TyEncodable, TyDecodable, Hash)]
 #[derive(HashStable)]
 pub enum ConstKind<'tcx> {

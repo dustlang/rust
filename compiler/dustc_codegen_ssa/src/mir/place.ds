@@ -6,12 +6,12 @@ use crate::glue;
 use crate::traits::*;
 use crate::MemFlags;
 
-use rustc_middle::mir;
-use rustc_middle::mir::tcx::PlaceTy;
-use rustc_middle::ty::layout::{HasTyCtxt, TyAndLayout};
-use rustc_middle::ty::{self, Ty};
-use rustc_target::abi::{Abi, Align, FieldsShape, Int, TagEncoding};
-use rustc_target::abi::{LayoutOf, VariantIdx, Variants};
+use dustc_middle::mir;
+use dustc_middle::mir::tcx::PlaceTy;
+use dustc_middle::ty::layout::{HasTyCtxt, TyAndLayout};
+use dustc_middle::ty::{self, Ty};
+use dustc_target::abi::{Abi, Align, FieldsShape, Int, TagEncoding};
+use dustc_target::abi::{LayoutOf, VariantIdx, Variants};
 
 #[derive(Copy, Clone, Debug)]
 pub struct PlaceRef<'tcx, V> {

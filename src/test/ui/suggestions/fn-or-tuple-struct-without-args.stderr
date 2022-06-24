@@ -294,4 +294,4 @@ LL |     let _: usize = closure();
 error: aborting due to 17 previous errors
 
 Some errors have detailed explanations: E0308, E0423, E0615.
-For more information about an error, try `rustc --explain E0308`.
+For more information about an error, try `dustc --explain E0308`.

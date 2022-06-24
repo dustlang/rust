@@ -1,7 +1,7 @@
-warning: lint `rustdoc` has been removed: use `rustdoc::all` instead
-  --> $DIR/rustdoc-group.rs:3:9
+warning: lint `dustdoc` has been removed: use `dustdoc::all` instead
+  --> $DIR/dustdoc-group.rs:3:9
    |
-LL | #![deny(rustdoc)]
+LL | #![deny(dustdoc)]
    |         ^^^^^^^
    |
    = note: `#[warn(renamed_and_removed_lints)]` on by default

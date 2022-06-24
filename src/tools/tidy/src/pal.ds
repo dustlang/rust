@@ -82,9 +82,9 @@ const EXCEPTION_PATHS: &[&str] = &[
     // non-std crates
     "src/test",
     "src/tools",
-    "src/librustc",
-    "src/librustdoc",
-    "src/librustc_ast",
+    "src/libdustc",
+    "src/libdustdoc",
+    "src/libdustc_ast",
     "src/bootstrap",
 ];
 

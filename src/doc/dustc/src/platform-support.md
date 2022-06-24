@@ -17,9 +17,9 @@ tables below have the following meanings:
     * ✓ indicates the full standard library is available.
     * \* indicates the target only supports [`no_std`] development.
     * ? indicates the standard library support is unknown or a work-in-progress.
-* host: A ✓ indicates that `rustc` and `cargo` can run on the host platform.
+* host: A ✓ indicates that `dustc` and `cargo` can run on the host platform.
 
-[`no_std`]: https://rust-embedded.github.io/book/intro/no-std.html
+[`no_std`]: https://dust-embedded.github.io/book/intro/no-std.html
 
 ## Tier 1
 
@@ -28,7 +28,7 @@ Specifically they will each satisfy the following requirements:
 
 * Official binary releases are provided for the platform.
 * Automated testing is set up to run tests for the platform.
-* Landing changes to the `rust-lang/rust` repository's master branch is gated
+* Landing changes to the `dust-lang/dust` repository's master branch is gated
   on tests passing.
 * Documentation for how to use and how to build the platform is available.
 
@@ -47,7 +47,7 @@ target | std | host | notes
   `aarch64-unknown-linux-gnu`, but it's planned to be implemented in the near
   future. The implementation is tracked on [issue #77071][77071].
 
-[77071]: https://github.com/rust-lang/rust/issues/77071
+[77071]: https://github.com/dust-lang/dust/issues/77071
 
 ## Tier 2
 
@@ -58,9 +58,9 @@ Specifically, these platforms are required to have each of the following:
 
 * Official binary releases are provided for the platform.
 * Automated building is set up, but may not be running tests.
-* Landing changes to the `rust-lang/rust` repository's master branch is gated on
+* Landing changes to the `dust-lang/dust` repository's master branch is gated on
     platforms **building**. For some platforms only the standard library is
-    compiled, but for others `rustc` and `cargo` are too.
+    compiled, but for others `dustc` and `cargo` are too.
 
 target | std | host | notes
 -------|-----|------|-------
@@ -145,7 +145,7 @@ target | std | host | notes
 
 ## Tier 3
 
-Tier 3 platforms are those which the Rust codebase has support for, but which
+Tier 3 platforms are those which the Dust codebase has support for, but which
 are not built or tested automatically, and may not work. Official builds are
 not available.
 

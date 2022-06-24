@@ -4,9 +4,9 @@
 
 // compile-flags:-Zborrowck=mir -Zverbose
 
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
-#[rustc_regions]
+#[dustc_regions]
 fn test() {
     expect_sig(|a, b| b); // ought to return `a`
     //~^ ERROR

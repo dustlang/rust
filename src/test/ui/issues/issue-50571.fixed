@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 trait Foo {
     fn foo(_: [i32; 2]) {}

@@ -1,6 +1,6 @@
-use rustc_hir::{Expr, ExprKind, MutTy, Mutability, TyKind, UnOp};
-use rustc_lint::LateContext;
-use rustc_middle::ty;
+use dustc_hir::{Expr, ExprKind, MutTy, Mutability, TyKind, UnOp};
+use dustc_lint::LateContext;
+use dustc_middle::ty;
 
 use if_chain::if_chain;
 

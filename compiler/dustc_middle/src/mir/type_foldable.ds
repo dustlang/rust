@@ -2,7 +2,7 @@
 
 use super::*;
 use crate::ty;
-use rustc_data_structures::functor::IdFunctor;
+use dustc_data_structures::functor::IdFunctor;
 
 TrivialTypeFoldableAndLiftImpls! {
     BlockTailInfo,

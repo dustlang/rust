@@ -13,7 +13,7 @@ mod def_id_forest;
 // `AdtDef`/`VariantDef`/`FieldDef` is visibly uninhabited.
 //
 // # Example
-// ```rust
+// ```dust
 // enum Void {}
 // mod a {
 //     pub mod b {
@@ -45,7 +45,7 @@ mod def_id_forest;
 // `Foo`.
 //
 // # Example
-// ```rust
+// ```dust
 // let foo_result: Result<T, Foo> = ... ;
 // let Ok(t) = foo_result;
 // ```
@@ -56,7 +56,7 @@ impl<'tcx> TyCtxt<'tcx> {
     /// Checks whether a type is visibly uninhabited from a particular module.
     ///
     /// # Example
-    /// ```rust
+    /// ```dust
     /// enum Void {}
     /// mod a {
     ///     pub mod b {
@@ -84,7 +84,7 @@ impl<'tcx> TyCtxt<'tcx> {
     /// contain `Foo`.
     ///
     /// # Example
-    /// ```rust
+    /// ```dust
     /// let foo_result: Result<T, Foo> = ... ;
     /// let Ok(t) = foo_result;
     /// ```

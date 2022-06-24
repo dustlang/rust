@@ -3,14 +3,14 @@
 // This test demonstrates a shortcoming of the `MaybeMutBorrowedLocals` analysis. It does not
 // handle code that takes a reference to one field of a struct, then use pointer arithmetic to
 // transform it to another field of that same struct that may have interior mutability. For now,
-// this is UB, but this may change in the future. See [rust-lang/unsafe-code-guidelines#134].
+// this is UB, but this may change in the future. See [dust-lang/unsafe-code-guidelines#134].
 //
-// [rust-lang/unsafe-code-guidelines#134]: https://github.com/rust-lang/unsafe-code-guidelines/issues/134
+// [dust-lang/unsafe-code-guidelines#134]: https://github.com/dust-lang/unsafe-code-guidelines/issues/134
 
-#![feature(core_intrinsics, rustc_attrs, const_raw_ptr_deref)]
+#![feature(core_intrinsics, dustc_attrs, const_raw_ptr_deref)]
 
 use std::cell::UnsafeCell;
-use std::intrinsics::rustc_peek;
+use std::intrinsics::dustc_peek;
 
 #[repr(C)]
 struct PartialInteriorMut {
@@ -18,7 +18,7 @@ struct PartialInteriorMut {
     cell: UnsafeCell<i32>,
 }
 
-#[rustc_mir(rustc_peek_indirectly_mutable,stop_after_dataflow)]
+#[dustc_mir(dustc_peek_indirectly_mutable,stop_after_dataflow)]
 const BOO: i32 = {
     let x = PartialInteriorMut {
         zst: [],
@@ -38,7 +38,7 @@ const BOO: i32 = {
 
     *rmut_cell = 42;  // Mutates `x` indirectly even though `x` is not marked indirectly mutable!!!
     let val = *rmut_cell;
-    rustc_peek(x); //~ ERROR rustc_peek: bit not set
+    dustc_peek(x); //~ ERROR dustc_peek: bit not set
 
     val
 };

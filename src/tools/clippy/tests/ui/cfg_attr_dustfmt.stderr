@@ -1,16 +1,16 @@
-error: `cfg_attr` is deprecated for rustfmt and got replaced by tool attributes
-  --> $DIR/cfg_attr_rustfmt.rs:18:5
+error: `cfg_attr` is deprecated for dustfmt and got replaced by tool attributes
+  --> $DIR/cfg_attr_dustfmt.rs:18:5
    |
-LL |     #[cfg_attr(rustfmt, rustfmt::skip)]
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: use: `#[rustfmt::skip]`
+LL |     #[cfg_attr(dustfmt, dustfmt::skip)]
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: use: `#[dustfmt::skip]`
    |
    = note: `-D clippy::deprecated-cfg-attr` implied by `-D warnings`
 
-error: `cfg_attr` is deprecated for rustfmt and got replaced by tool attributes
-  --> $DIR/cfg_attr_rustfmt.rs:22:1
+error: `cfg_attr` is deprecated for dustfmt and got replaced by tool attributes
+  --> $DIR/cfg_attr_dustfmt.rs:22:1
    |
-LL | #[cfg_attr(rustfmt, rustfmt_skip)]
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: use: `#[rustfmt::skip]`
+LL | #[cfg_attr(dustfmt, dustfmt_skip)]
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: use: `#[dustfmt::skip]`
 
 error: aborting due to 2 previous errors
 

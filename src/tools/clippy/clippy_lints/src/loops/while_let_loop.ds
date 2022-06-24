@@ -1,9 +1,9 @@
 use super::WHILE_LET_LOOP;
 use crate::utils::{snippet_with_applicability, span_lint_and_sugg};
-use rustc_errors::Applicability;
-use rustc_hir::{Block, Expr, ExprKind, MatchSource, StmtKind};
-use rustc_lint::{LateContext, LintContext};
-use rustc_middle::lint::in_external_macro;
+use dustc_errors::Applicability;
+use dustc_hir::{Block, Expr, ExprKind, MatchSource, StmtKind};
+use dustc_lint::{LateContext, LintContext};
+use dustc_middle::lint::in_external_macro;
 
 pub(super) fn check(cx: &LateContext<'tcx>, expr: &'tcx Expr<'_>, loop_block: &'tcx Block<'_>) {
     // extract the expression from the first statement (if any) in a block

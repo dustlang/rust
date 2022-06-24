@@ -2,14 +2,14 @@
 //! `Canonical<'tcx, T>`.
 //!
 //! For an overview of what canonicalization is and how it fits into
-//! rustc, check out the [chapter in the rustc dev guide][c].
+//! dustc, check out the [chapter in the dustc dev guide][c].
 //!
-//! [c]: https://rust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
+//! [c]: https://dust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
 
 use crate::infer::canonical::{Canonical, CanonicalVarValues};
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::subst::GenericArgKind;
-use rustc_middle::ty::{self, TyCtxt};
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::subst::GenericArgKind;
+use dustc_middle::ty::{self, TyCtxt};
 
 pub(super) trait CanonicalExt<'tcx, V> {
     /// Instantiate the wrapped value, replacing each canonical value

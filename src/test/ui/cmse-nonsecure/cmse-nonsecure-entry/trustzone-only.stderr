@@ -1,4 +1,4 @@
-error[E0775]: `#[cmse_nonsecure_entry]` is only valid for targets with the TrustZone-M extension
+error[E0775]: `#[cmse_nonsecure_entry]` is only valid for targets with the TdustZone-M extension
   --> $DIR/trustzone-only.rs:5:1
    |
 LL | #[cmse_nonsecure_entry]
@@ -6,4 +6,4 @@ LL | #[cmse_nonsecure_entry]
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0775`.
+For more information about this error, try `dustc --explain E0775`.

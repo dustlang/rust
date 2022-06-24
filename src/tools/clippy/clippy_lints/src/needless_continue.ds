@@ -2,7 +2,7 @@
 //!
 //! For example, the lint would catch
 //!
-//! ```rust
+//! ```dust
 //! let mut a = 1;
 //! let x = true;
 //!
@@ -19,7 +19,7 @@
 //!
 //! And suggest something like this:
 //!
-//! ```rust
+//! ```dust
 //! let mut a = 1;
 //! let x = true;
 //!
@@ -33,11 +33,11 @@
 //! ```
 //!
 //! This lint is **warn** by default.
-use rustc_ast::ast;
-use rustc_lint::{EarlyContext, EarlyLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::{original_sp, DUMMY_SP};
-use rustc_span::Span;
+use dustc_ast::ast;
+use dustc_lint::{EarlyContext, EarlyLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::{original_sp, DUMMY_SP};
+use dustc_span::Span;
 
 use crate::utils::{indent_of, snippet, snippet_block, span_lint_and_help};
 
@@ -56,7 +56,7 @@ declare_clippy_lint! {
     /// **Known problems:** None
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # fn condition() -> bool { false }
     /// # fn update_condition() {}
     /// # let x = false;
@@ -73,7 +73,7 @@ declare_clippy_lint! {
     ///
     /// Could be rewritten as
     ///
-    /// ```rust
+    /// ```dust
     /// # fn condition() -> bool { false }
     /// # fn update_condition() {}
     /// # let x = false;
@@ -88,7 +88,7 @@ declare_clippy_lint! {
     ///
     /// As another example, the following code
     ///
-    /// ```rust
+    /// ```dust
     /// # fn waiting() -> bool { false }
     /// loop {
     ///     if waiting() {
@@ -101,7 +101,7 @@ declare_clippy_lint! {
     /// ```
     /// Could be rewritten as
     ///
-    /// ```rust
+    /// ```dust
     /// # fn waiting() -> bool { false }
     /// loop {
     ///     if waiting() {
@@ -394,7 +394,7 @@ fn check_and_warn<'a>(cx: &EarlyContext<'_>, expr: &'a ast::Expr) {
 /// till a non-whitespace character is found.  e.g., the string. If no closing `}` is present, the
 /// string will be preserved.
 ///
-/// ```rust
+/// ```dust
 /// {
 ///     let x = 5;
 /// }
@@ -428,7 +428,7 @@ mod test {
     use super::erode_from_back;
 
     #[test]
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     fn test_erode_from_back() {
         let input = "\
 {
@@ -446,7 +446,7 @@ mod test {
     }
 
     #[test]
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     fn test_erode_from_back_no_brace() {
         let input = "\
 let x = 5;

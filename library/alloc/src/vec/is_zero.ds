@@ -1,6 +1,6 @@
 use crate::boxed::Box;
 
-#[rustc_specialization_trait]
+#[dustc_specialization_trait]
 pub(super) unsafe trait IsZero {
     /// Whether this value is zero
     fn is_zero(&self) -> bool;

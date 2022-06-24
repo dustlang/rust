@@ -51,4 +51,4 @@ LL | fn call4<'a, 'b>(a: &'a usize, b: &'b usize) {
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0491`.
+For more information about this error, try `dustc --explain E0491`.

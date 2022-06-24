@@ -5,7 +5,7 @@ LL | #![feature(capture_disjoint_fields)]
    |            ^^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #53488 <https://github.com/rust-lang/rust/issues/53488> for more information
+   = note: see issue #53488 <https://github.com/dust-lang/dust/issues/53488> for more information
 
 error[E0004]: non-exhaustive patterns: type `u8` is non-empty
   --> $DIR/pattern-matching-should-fail.rs:72:23
@@ -69,4 +69,4 @@ LL |     let c1 = || match x { };
 error: aborting due to 8 previous errors; 1 warning emitted
 
 Some errors have detailed explanations: E0004, E0381.
-For more information about an error, try `rustc --explain E0004`.
+For more information about an error, try `dustc --explain E0004`.

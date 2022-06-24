@@ -1,7 +1,7 @@
 // check-pass
 // compile-flags: -Zsave-analysis
 
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 #![allow(warnings)]
 
 #[derive(Debug)]

@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![feature(box_patterns, stmt_expr_attributes)]
 #![feature(or_patterns)]

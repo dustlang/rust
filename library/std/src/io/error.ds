@@ -15,7 +15,7 @@ use crate::sys;
 /// This typedef is generally used to avoid writing out [`io::Error`] directly and
 /// is otherwise a direct mapping to [`Result`].
 ///
-/// While usual Rust style is to import types directly, aliases of [`Result`]
+/// While usual Dust style is to import types directly, aliases of [`Result`]
 /// often are not, to make it easier to distinguish between them. [`Result`] is
 /// generally assumed to be [`std::result::Result`][`Result`], and so users of this alias
 /// will generally use `io::Result` instead of shadowing the [prelude]'s import
@@ -41,7 +41,7 @@ use crate::sys;
 ///     Ok(buffer)
 /// }
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub type Result<T> = result::Result<T, Error>;
 
 /// The error type for I/O operations of the [`Read`], [`Write`], [`Seek`], and
@@ -54,12 +54,12 @@ pub type Result<T> = result::Result<T, Error>;
 /// [`Read`]: crate::io::Read
 /// [`Write`]: crate::io::Write
 /// [`Seek`]: crate::io::Seek
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Error {
     repr: Repr,
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Debug for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Debug::fmt(&self.repr, f)
@@ -87,48 +87,48 @@ struct Custom {
 ///
 /// [`io::Error`]: Error
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[allow(deprecated)]
 #[non_exhaustive]
 pub enum ErrorKind {
     /// An entity was not found, often a file.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     NotFound,
     /// The operation lacked the necessary privileges to complete.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     PermissionDenied,
     /// The connection was refused by the remote server.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     ConnectionRefused,
     /// The connection was reset by the remote server.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     ConnectionReset,
     /// The connection was aborted (terminated) by the remote server.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     ConnectionAborted,
     /// The network operation failed because it was not connected yet.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     NotConnected,
     /// A socket address could not be bound because the address is already in
     /// use elsewhere.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     AddrInUse,
     /// A nonexistent interface was requested or the requested address was not
     /// local.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     AddrNotAvailable,
     /// The operation failed because a pipe was closed.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     BrokenPipe,
     /// An entity already exists, often a file.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     AlreadyExists,
     /// The operation needs to block to complete, but the blocking operation was
     /// requested to not occur.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     WouldBlock,
     /// A parameter was incorrect.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     InvalidInput,
     /// Data not valid for the operation were encountered.
     ///
@@ -143,7 +143,7 @@ pub enum ErrorKind {
     #[stable(feature = "io_invalid_data", since = "1.2.0")]
     InvalidData,
     /// The I/O operation's timeout expired, causing it to be canceled.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     TimedOut,
     /// An error returned when an operation could not be completed because a
     /// call to [`write`] returned [`Ok(0)`].
@@ -154,12 +154,12 @@ pub enum ErrorKind {
     ///
     /// [`write`]: crate::io::Write::write
     /// [`Ok(0)`]: Ok
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     WriteZero,
     /// This operation was interrupted.
     ///
     /// Interrupted operations can typically be retried.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     Interrupted,
     /// Any I/O error not part of this list.
     ///
@@ -167,7 +167,7 @@ pub enum ErrorKind {
     /// [`ErrorKind`] variant in the future. It is not recommended to match
     /// an error against `Other` and to expect any additional characteristics,
     /// e.g., a specific [`Error::raw_os_error`] return value.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     Other,
 
     /// An error returned when an operation could not be completed because an
@@ -247,7 +247,7 @@ impl Error {
     /// // errors can also be created from other errors
     /// let custom_error2 = Error::new(ErrorKind::Interrupted, custom_error);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn new<E>(kind: ErrorKind, error: E) -> Error
     where
         E: Into<Box<dyn error::Error + Send + Sync>>,
@@ -272,7 +272,7 @@ impl Error {
     ///
     /// println!("last OS error: {:?}", Error::last_os_error());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn last_os_error() -> Error {
         Error::from_raw_os_error(sys::os::errno() as i32)
     }
@@ -302,7 +302,7 @@ impl Error {
     /// assert_eq!(error.kind(), io::ErrorKind::InvalidInput);
     /// # }
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn from_raw_os_error(code: i32) -> Error {
         Error { repr: Repr::Os(code) }
     }
@@ -336,7 +336,7 @@ impl Error {
     ///     print_os_error(&Error::new(ErrorKind::Other, "oh no!"));
     /// }
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn raw_os_error(&self) -> Option<i32> {
         match self.repr {
             Repr::Os(i) => Some(i),
@@ -506,7 +506,7 @@ impl Error {
     ///     print_error(Error::new(ErrorKind::AddrInUse, "oh no!"));
     /// }
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn kind(&self) -> ErrorKind {
         match self.repr {
             Repr::Os(code) => sys::decode_error_kind(code),
@@ -531,7 +531,7 @@ impl fmt::Debug for Repr {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Display for Error {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self.repr {
@@ -545,7 +545,7 @@ impl fmt::Display for Error {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl error::Error for Error {
     #[allow(deprecated, deprecated_in_future)]
     fn description(&self) -> &str {

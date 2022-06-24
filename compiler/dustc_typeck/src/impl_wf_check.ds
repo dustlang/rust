@@ -11,14 +11,14 @@
 use crate::constrained_generic_params as cgp;
 use min_specialization::check_min_specialization;
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{self, TyCtxt, TypeFoldable};
-use rustc_span::Span;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{self, TyCtxt, TypeFoldable};
+use dustc_span::Span;
 
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 
@@ -38,7 +38,7 @@ mod min_specialization;
 ///
 /// Example:
 ///
-/// ```rust,ignore (pseudo-Rust)
+/// ```dust,ignore (pseudo-Dust)
 /// impl<T> Trait<Foo> for Bar { ... }
 /// //   ^ T does not appear in `Foo` or `Bar`, error!
 ///

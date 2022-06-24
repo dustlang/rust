@@ -7,7 +7,7 @@ set -e
 export CG_CLIF_DISPLAY_CG_TIME=1
 export CG_CLIF_INCR_CACHE_DISABLED=1
 
-export HOST_TRIPLE=$(rustc -vV | grep host | cut -d: -f2 | tr -d " ")
+export HOST_TRIPLE=$(dustc -vV | grep host | cut -d: -f2 | tr -d " ")
 export TARGET_TRIPLE=${TARGET_TRIPLE:-$HOST_TRIPLE}
 
 export RUN_WRAPPER=''
@@ -16,7 +16,7 @@ if [[ "$HOST_TRIPLE" != "$TARGET_TRIPLE" ]]; then
    export JIT_SUPPORTED=0
    if [[ "$TARGET_TRIPLE" == "aarch64-unknown-linux-gnu" ]]; then
       # We are cross-compiling for aarch64. Use the correct linker and run tests in qemu.
-      export RUSTFLAGS='-Clinker=aarch64-linux-gnu-gcc '$RUSTFLAGS
+      export DUSTFLAGS='-Clinker=aarch64-linux-gnu-gcc '$DUSTFLAGS
       export RUN_WRAPPER='qemu-aarch64 -L /usr/aarch64-linux-gnu'
    elif [[ "$TARGET_TRIPLE" == "x86_64-pc-windows-gnu" ]]; then
       # We are cross-compiling for Windows. Run tests in wine.

@@ -1,8 +1,8 @@
 use std::convert::TryFrom;
 
-use rustc_middle::mir::interpret::{InterpResult, Pointer, PointerArithmetic, Scalar};
-use rustc_middle::ty::{self, Instance, Ty};
-use rustc_target::abi::{Align, LayoutOf, Size};
+use dustc_middle::mir::interpret::{InterpResult, Pointer, PointerArithmetic, Scalar};
+use dustc_middle::ty::{self, Instance, Ty};
+use dustc_target::abi::{Align, LayoutOf, Size};
 
 use super::util::ensure_monomorphic_enough;
 use super::{FnVal, InterpCx, Machine, MemoryKind};
@@ -30,7 +30,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
         if let Some(&vtable) = self.vtables.get(&(ty, poly_trait_ref)) {
             // This means we guarantee that there are no duplicate vtables, we will
             // always use the same vtable for the same (Type, Trait) combination.
-            // That's not what happens in rustc, but emulating per-crate deduplication
+            // That's not what happens in dustc, but emulating per-crate deduplication
             // does not sound like it actually makes anything any better.
             return Ok(vtable);
         }
@@ -54,7 +54,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
         let ptr_align = tcx.data_layout.pointer_align.abi;
         // /////////////////////////////////////////////////////////////////////////////////////////
         // If you touch this code, be sure to also make the corresponding changes to
-        // `get_vtable` in `rust_codegen_llvm/meth.rs`.
+        // `get_vtable` in `dust_codegen_llvm/meth.rs`.
         // /////////////////////////////////////////////////////////////////////////////////////////
         let vtable_size = ptr_size * u64::try_from(methods.len()).unwrap().checked_add(3).unwrap();
         let vtable = self.memory.allocate(vtable_size, ptr_align, MemoryKind::Vtable);

@@ -1,7 +1,7 @@
 error: non-ASCII character in byte constant
   --> $DIR/key-value-non-ascii.rs:3:19
    |
-LL | #[rustc_dummy = b"ﬃ.rs"]
+LL | #[dustc_dummy = b"ﬃ.rs"]
    |                   ^
    |                   |
    |                   byte constant must be ASCII

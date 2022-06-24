@@ -5,7 +5,7 @@ LL | #![feature(impl_trait_in_bindings)]
    |            ^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63065 <https://github.com/rust-lang/rust/issues/63065> for more information
+   = note: see issue #63065 <https://github.com/dust-lang/dust/issues/63065> for more information
 
 error[E0271]: type mismatch resolving `<Foo<()> as FooLike>::Output == <T as impl_trait::Trait>::Assoc`
   --> $DIR/bound-normalization-fail.rs:27:32
@@ -42,4 +42,4 @@ LL |     fn foo2_fail<'a, T: Trait<'a, Assoc = ()>>() -> impl FooLike<Output=T::
 error: aborting due to 3 previous errors; 1 warning emitted
 
 Some errors have detailed explanations: E0271, E0760.
-For more information about an error, try `rustc --explain E0271`.
+For more information about an error, try `dustc --explain E0271`.

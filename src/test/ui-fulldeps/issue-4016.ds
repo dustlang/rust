@@ -1,11 +1,11 @@
 // run-pass
 
 #![allow(dead_code)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_serialize;
+extern crate dustc_serialize;
 
-use rustc_serialize::{json, Decodable};
+use dustc_serialize::{json, Decodable};
 
 trait JD: Decodable<json::Decoder> {}
 

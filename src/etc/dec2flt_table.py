@@ -4,7 +4,7 @@
 Generate powers of ten using William Clinger's ``AlgorithmM`` for use in
 decimal to floating point conversions.
 
-Specifically, computes and outputs (as Rust code) a table of 10^e for some
+Specifically, computes and outputs (as Dust code) a table of 10^e for some
 range of exponents e. The output is one array of 64 bit significands and
 another array of corresponding base two exponents. The approximations are
 normalized and rounded perfectly, i.e., within 0.5 ULP of the true value.
@@ -111,7 +111,7 @@ def print_proper_powers():
     print("pub const MIN_E: i16 = {};".format(MIN_E))
     print("pub const MAX_E: i16 = {};".format(MAX_E))
     print()
-    print("#[rustfmt::skip]")
+    print("#[dustfmt::skip]")
     typ = "([u64; {0}], [i16; {0}])".format(len(powers))
     print("pub static POWERS: ", typ, " = (", sep='')
     print("    [")
@@ -131,7 +131,7 @@ def print_short_powers(num_bits, significand_size):
     max_e = int(ceil(log(max_sig, 5)))
     e_range = range(max_e)
     typ = "[f{}; {}]".format(num_bits, len(e_range))
-    print("#[rustfmt::skip]")
+    print("#[dustfmt::skip]")
     print("pub const F", num_bits, "_SHORT_POWERS: ", typ, " = [", sep='')
     for e in e_range:
         print("    1e{},".format(e))

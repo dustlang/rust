@@ -5,8 +5,8 @@
 //! The user adds annotations to the crate of the following form:
 //!
 //! ```
-//! #![rustc_partition_reused(module="spike", cfg="rpass2")]
-//! #![rustc_partition_codegened(module="spike-x", cfg="rpass2")]
+//! #![dustc_partition_reused(module="spike", cfg="rpass2")]
+//! #![dustc_partition_codegened(module="spike-x", cfg="rpass2")]
 //! ```
 //!
 //! The first indicates (in the cfg `rpass2`) that `spike.o` will be
@@ -17,16 +17,16 @@
 //! the HIR doesn't change as a result of the annotations, which might
 //! perturb the reuse results.
 //!
-//! `#![rustc_expected_cgu_reuse(module="spike", cfg="rpass2", kind="post-lto")]
+//! `#![dustc_expected_cgu_reuse(module="spike", cfg="rpass2", kind="post-lto")]
 //! allows for doing a more fine-grained check to see if pre- or post-lto data
 //! was re-used.
 
-use rustc_ast as ast;
-use rustc_hir::def_id::LOCAL_CRATE;
-use rustc_middle::mir::mono::CodegenUnitNameBuilder;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::cgu_reuse_tracker::*;
-use rustc_span::symbol::{sym, Symbol};
+use dustc_ast as ast;
+use dustc_hir::def_id::LOCAL_CRATE;
+use dustc_middle::mir::mono::CodegenUnitNameBuilder;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::cgu_reuse_tracker::*;
+use dustc_span::symbol::{sym, Symbol};
 use std::collections::BTreeSet;
 
 pub fn assert_module_sources(tcx: TyCtxt<'_>) {
@@ -44,7 +44,7 @@ pub fn assert_module_sources(tcx: TyCtxt<'_>) {
 
         let ams = AssertModuleSource { tcx, available_cgus };
 
-        for attr in tcx.hir().attrs(rustc_hir::CRATE_HIR_ID) {
+        for attr in tcx.hir().attrs(dustc_hir::CRATE_HIR_ID) {
             ams.check_attr(attr);
         }
     })
@@ -58,11 +58,11 @@ struct AssertModuleSource<'tcx> {
 impl AssertModuleSource<'tcx> {
     fn check_attr(&self, attr: &ast::Attribute) {
         let (expected_reuse, comp_kind) =
-            if self.tcx.sess.check_name(attr, sym::rustc_partition_reused) {
+            if self.tcx.sess.check_name(attr, sym::dustc_partition_reused) {
                 (CguReuse::PreLto, ComparisonKind::AtLeast)
-            } else if self.tcx.sess.check_name(attr, sym::rustc_partition_codegened) {
+            } else if self.tcx.sess.check_name(attr, sym::dustc_partition_codegened) {
                 (CguReuse::No, ComparisonKind::Exact)
-            } else if self.tcx.sess.check_name(attr, sym::rustc_expected_cgu_reuse) {
+            } else if self.tcx.sess.check_name(attr, sym::dustc_expected_cgu_reuse) {
                 match self.field(attr, sym::kind) {
                     sym::no => (CguReuse::No, ComparisonKind::Exact),
                     sym::pre_dash_lto => (CguReuse::PreLto, ComparisonKind::Exact),

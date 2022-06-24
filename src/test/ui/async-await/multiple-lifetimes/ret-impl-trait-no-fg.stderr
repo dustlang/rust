@@ -40,4 +40,4 @@ LL | async fn async_ret_impl_trait<'a, 'b>(a: &'a u8, b: &'b u8) -> impl Trait<'
 
 error: aborting due to 5 previous errors
 
-For more information about this error, try `rustc --explain E0700`.
+For more information about this error, try `dustc --explain E0700`.

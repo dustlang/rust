@@ -6,30 +6,30 @@ cd "$(dirname "$0")/../"
 ./build.sh
 source build/config.sh
 
-echo "[TEST] Bootstrap of rustc"
-git clone https://github.com/rust-lang/rust.git || true
-pushd rust
+echo "[TEST] Bootstrap of dustc"
+git clone https://github.com/dust-lang/dust.git || true
+pushd dust
 git fetch
 git checkout -- .
-git checkout "$(rustc -V | cut -d' ' -f3 | tr -d '(')"
+git checkout "$(dustc -V | cut -d' ' -f3 | tr -d '(')"
 
 git apply - <<EOF
 diff --git a/Cargo.toml b/Cargo.toml
 index 5bd1147cad5..10d68a2ff14 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -111,5 +111,7 @@ rustc-std-workspace-std = { path = 'library/rustc-std-workspace-std' }
- rustc-std-workspace-alloc = { path = 'library/rustc-std-workspace-alloc' }
- rustc-std-workspace-std = { path = 'library/rustc-std-workspace-std' }
+@@ -111,5 +111,7 @@ dustc-std-workspace-std = { path = 'library/dustc-std-workspace-std' }
+ dustc-std-workspace-alloc = { path = 'library/dustc-std-workspace-alloc' }
+ dustc-std-workspace-std = { path = 'library/dustc-std-workspace-std' }
  
 +compiler_builtins = { path = "../build_sysroot/compiler-builtins" }
 +
- [patch."https://github.com/rust-lang/rust-clippy"]
+ [patch."https://github.com/dust-lang/dust-clippy"]
  clippy_lints = { path = "src/tools/clippy/clippy_lints" }
-diff --git a/compiler/rustc_data_structures/Cargo.toml b/compiler/rustc_data_structures/Cargo.toml
+diff --git a/compiler/dustc_data_structures/Cargo.toml b/compiler/dustc_data_structures/Cargo.toml
 index 23e689fcae7..5f077b765b6 100644
---- a/compiler/rustc_data_structures/Cargo.toml
-+++ b/compiler/rustc_data_structures/Cargo.toml
+--- a/compiler/dustc_data_structures/Cargo.toml
++++ b/compiler/dustc_data_structures/Cargo.toml
 @@ -32,7 +32,6 @@ tempfile = "3.0.5"
 
  [dependencies.parking_lot]
@@ -46,8 +46,8 @@ index d95b5b7f17f..00b6f0e3635 100644
  
  [dependencies]
  core = { path = "../core" }
--compiler_builtins = { version = "0.1.39", features = ['rustc-dep-of-std'] }
-+compiler_builtins = { version = "0.1.39", features = ['rustc-dep-of-std', 'no-asm'] }
+-compiler_builtins = { version = "0.1.39", features = ['dustc-dep-of-std'] }
++compiler_builtins = { version = "0.1.39", features = ['dustc-dep-of-std', 'no-asm'] }
  
  [dev-dependencies]
  rand = "0.7"
@@ -58,18 +58,18 @@ cat > config.toml <<EOF
 ninja = false
 
 [build]
-rustc = "$(pwd)/../build/bin/cg_clif"
-cargo = "$(rustup which cargo)"
+dustc = "$(pwd)/../build/bin/cg_clif"
+cargo = "$(dustup which cargo)"
 full-bootstrap = true
 local-rebuild = true
 
-[rust]
+[dust]
 codegen-backends = ["cranelift"]
 EOF
 
-rm -r compiler/rustc_codegen_cranelift/{Cargo.*,src}
-cp ../Cargo.* compiler/rustc_codegen_cranelift/
-cp -r ../src compiler/rustc_codegen_cranelift/src
+rm -r compiler/dustc_codegen_cranelift/{Cargo.*,src}
+cp ../Cargo.* compiler/dustc_codegen_cranelift/
+cp -r ../src compiler/dustc_codegen_cranelift/src
 
 ./x.py build --stage 1 library/std
 popd

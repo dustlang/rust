@@ -23,19 +23,19 @@ pub fn target() -> Target {
         // The following symbols are needed by libunwind, which is linked after
         // libstd. Make sure they're included in the link.
         "-u",
-        "__rust_abort",
+        "__dust_abort",
         "-u",
-        "__rust_c_alloc",
+        "__dust_c_alloc",
         "-u",
-        "__rust_c_dealloc",
+        "__dust_c_dealloc",
         "-u",
-        "__rust_print_err",
+        "__dust_print_err",
         "-u",
-        "__rust_rwlock_rdlock",
+        "__dust_rwlock_rdlock",
         "-u",
-        "__rust_rwlock_unlock",
+        "__dust_rwlock_unlock",
         "-u",
-        "__rust_rwlock_wrlock",
+        "__dust_rwlock_wrlock",
     ];
 
     const EXPORT_SYMBOLS: &[&str] = &[
@@ -62,7 +62,7 @@ pub fn target() -> Target {
         dynamic_linking: false,
         executables: true,
         linker_is_gnu: true,
-        linker: Some("rust-lld".to_owned()),
+        linker: Some("dust-lld".to_owned()),
         max_atomic_width: Some(64),
         panic_strategy: PanicStrategy::Unwind,
         cpu: "x86-64".into(),

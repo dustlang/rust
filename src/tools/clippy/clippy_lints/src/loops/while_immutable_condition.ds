@@ -3,12 +3,12 @@ use crate::consts::constant;
 use crate::utils::span_lint_and_then;
 use crate::utils::usage::mutated_variables;
 use if_chain::if_chain;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
-use rustc_hir::{def_id, Expr, ExprKind, HirId, QPath};
-use rustc_lint::LateContext;
-use rustc_middle::hir::map::Map;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
+use dustc_hir::{def_id, Expr, ExprKind, HirId, QPath};
+use dustc_lint::LateContext;
+use dustc_middle::hir::map::Map;
 use std::iter::Iterator;
 
 pub(super) fn check<'tcx>(cx: &LateContext<'tcx>, cond: &'tcx Expr<'_>, expr: &'tcx Expr<'_>) {

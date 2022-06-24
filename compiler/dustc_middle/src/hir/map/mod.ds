@@ -2,21 +2,21 @@ use self::collector::NodeCollector;
 
 use crate::hir::{Owner, OwnerNodes};
 use crate::ty::TyCtxt;
-use rustc_ast as ast;
-use rustc_data_structures::svh::Svh;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_hir::definitions::{DefKey, DefPath, Definitions};
-use rustc_hir::intravisit;
-use rustc_hir::intravisit::Visitor;
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_hir::*;
-use rustc_index::vec::IndexVec;
-use rustc_span::hygiene::MacroKind;
-use rustc_span::source_map::Spanned;
-use rustc_span::symbol::{kw, Ident, Symbol};
-use rustc_span::Span;
-use rustc_target::spec::abi::Abi;
+use dustc_ast as ast;
+use dustc_data_structures::svh::Svh;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::{CrateNum, DefId, LocalDefId, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_hir::definitions::{DefKey, DefPath, Definitions};
+use dustc_hir::intravisit;
+use dustc_hir::intravisit::Visitor;
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_hir::*;
+use dustc_index::vec::IndexVec;
+use dustc_span::hygiene::MacroKind;
+use dustc_span::source_map::Spanned;
+use dustc_span::symbol::{kw, Ident, Symbol};
+use dustc_span::Span;
+use dustc_target::spec::abi::Abi;
 
 pub mod blocks;
 mod collector;
@@ -386,7 +386,7 @@ impl<'hir> Map<'hir> {
     pub fn body_param_names(&self, id: BodyId) -> impl Iterator<Item = Ident> + 'hir {
         self.body(id).params.iter().map(|arg| match arg.pat.kind {
             PatKind::Binding(_, _, ident, _) => ident,
-            _ => Ident::new(kw::Empty, rustc_span::DUMMY_SP),
+            _ => Ident::new(kw::Empty, dustc_span::DUMMY_SP),
         })
     }
 

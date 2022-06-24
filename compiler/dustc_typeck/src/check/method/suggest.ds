@@ -2,25 +2,25 @@
 //! found or is otherwise invalid.
 
 use crate::check::FnCtxt;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Namespace, Res};
-use rustc_hir::def_id::{DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_hir::intravisit;
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{ExprKind, Node, QPath};
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_middle::ty::fast_reject::simplify_type;
-use rustc_middle::ty::print::with_crate_prefix;
-use rustc_middle::ty::{
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Namespace, Res};
+use dustc_hir::def_id::{DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_hir::intravisit;
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{ExprKind, Node, QPath};
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_middle::ty::fast_reject::simplify_type;
+use dustc_middle::ty::print::with_crate_prefix;
+use dustc_middle::ty::{
     self, ToPolyTraitRef, ToPredicate, Ty, TyCtxt, TypeFoldable, WithConstness,
 };
-use rustc_span::lev_distance;
-use rustc_span::symbol::{kw, sym, Ident};
-use rustc_span::{source_map, FileName, Span};
-use rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
-use rustc_trait_selection::traits::Obligation;
+use dustc_span::lev_distance;
+use dustc_span::symbol::{kw, sym, Ident};
+use dustc_span::{source_map, FileName, Span};
+use dustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
+use dustc_trait_selection::traits::Obligation;
 
 use std::cmp::Ordering;
 use std::iter;
@@ -416,7 +416,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                         if let ty::RawPtr(_) = &actual.kind() {
                             err.note(
                                 "try using `<*const T>::as_ref()` to get a reference to the \
-                                      type behind the pointer: https://doc.rust-lang.org/std/\
+                                      type behind the pointer: https://doc.dust-lang.org/std/\
                                       primitive.pointer.html#method.as_ref",
                             );
                             err.note(

@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![warn(clippy::deref_addrof)]
 
 fn get_number() -> usize {
@@ -30,7 +30,7 @@ fn main() {
 
     let b = a;
 
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     let b = a;
 
     let b = &a;
@@ -38,14 +38,14 @@ fn main() {
     let b = *aref;
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 macro_rules! m {
     ($visitor: expr) => {
         $visitor
     };
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 macro_rules! m_mut {
     ($visitor: expr) => {
         $visitor

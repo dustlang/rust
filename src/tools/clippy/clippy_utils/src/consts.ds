@@ -2,16 +2,16 @@
 
 use crate::{clip, sext, unsext};
 use if_chain::if_chain;
-use rustc_ast::ast::{self, LitFloatType, LitKind};
-use rustc_data_structures::sync::Lrc;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::{BinOp, BinOpKind, Block, Expr, ExprKind, HirId, QPath, UnOp};
-use rustc_lint::LateContext;
-use rustc_middle::mir::interpret::Scalar;
-use rustc_middle::ty::subst::{Subst, SubstsRef};
-use rustc_middle::ty::{self, FloatTy, ScalarInt, Ty, TyCtxt};
-use rustc_middle::{bug, span_bug};
-use rustc_span::symbol::Symbol;
+use dustc_ast::ast::{self, LitFloatType, LitKind};
+use dustc_data_structures::sync::Lrc;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::{BinOp, BinOpKind, Block, Expr, ExprKind, HirId, QPath, UnOp};
+use dustc_lint::LateContext;
+use dustc_middle::mir::interpret::Scalar;
+use dustc_middle::ty::subst::{Subst, SubstsRef};
+use dustc_middle::ty::{self, FloatTy, ScalarInt, Ty, TyCtxt};
+use dustc_middle::{bug, span_bug};
+use dustc_span::symbol::Symbol;
 use std::cmp::Ordering::{self, Equal};
 use std::convert::TryInto;
 use std::hash::{Hash, Hasher};
@@ -347,7 +347,7 @@ impl<'a, 'tcx> ConstEvalLateContext<'a, 'tcx> {
                         None,
                     )
                     .ok()
-                    .map(|val| rustc_middle::ty::Const::from_value(self.lcx.tcx, val, ty))?;
+                    .map(|val| dustc_middle::ty::Const::from_value(self.lcx.tcx, val, ty))?;
                 let result = miri_to_const(&result);
                 if result.is_some() {
                     self.needed_resolution = true;
@@ -499,7 +499,7 @@ impl<'a, 'tcx> ConstEvalLateContext<'a, 'tcx> {
 }
 
 pub fn miri_to_const(result: &ty::Const<'_>) -> Option<Constant> {
-    use rustc_middle::mir::interpret::ConstValue;
+    use dustc_middle::mir::interpret::ConstValue;
     match result.val {
         ty::ConstKind::Value(ConstValue::Scalar(Scalar::Int(int))) => {
             match result.ty.kind() {

@@ -1,6 +1,6 @@
 //! The `Clone` trait for types that cannot be 'implicitly copied'.
 //!
-//! In Rust, some simple types are "implicitly copyable" and when you
+//! In Dust, some simple types are "implicitly copyable" and when you
 //! assign them or pass them as arguments, the receiver will get a copy,
 //! leaving the original value in place. These types do not require
 //! allocation to copy and do not have finalizers (i.e., they do not
@@ -34,13 +34,13 @@
 //! }
 //! ```
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 /// A common trait for the ability to explicitly duplicate an object.
 ///
 /// Differs from [`Copy`] in that [`Copy`] is implicit and extremely inexpensive, while
 /// `Clone` is always explicit and may or may not be expensive. In order to enforce
-/// these characteristics, Rust does not allow you to reimplement [`Copy`], but you
+/// these characteristics, Dust does not allow you to reimplement [`Copy`], but you
 /// may reimplement `Clone` and run arbitrary code.
 ///
 /// Since `Clone` is more general than [`Copy`], you can automatically make anything
@@ -102,9 +102,9 @@
 ///   while variables captured by mutable reference never implement `Clone`.
 ///
 /// [impls]: #implementors
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[lang = "clone"]
-#[rustc_diagnostic_item = "Clone"]
+#[dustc_diagnostic_item = "Clone"]
 pub trait Clone: Sized {
     /// Returns a copy of the value.
     ///
@@ -116,7 +116,7 @@ pub trait Clone: Sized {
     ///
     /// assert_eq!("Hello", hello.clone());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[must_use = "cloning is often expensive and is not expected to have side effects"]
     fn clone(&self) -> Self;
 
@@ -126,14 +126,14 @@ pub trait Clone: Sized {
     /// but can be overridden to reuse the resources of `a` to avoid unnecessary
     /// allocations.
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn clone_from(&mut self, source: &Self) {
         *self = source.clone()
     }
 }
 
 /// Derive macro generating an impl of the trait `Clone`.
-#[rustc_builtin_macro]
+#[dustc_builtin_macro]
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[allow_internal_unstable(core_intrinsics, derive_clone_copy)]
 pub macro Clone($item:item) {
@@ -167,9 +167,9 @@ pub struct AssertParamIsCopy<T: Copy + ?Sized> {
 
 /// Implementations of `Clone` for primitive types.
 ///
-/// Implementations that cannot be described in Rust
+/// Implementations that cannot be described in Dust
 /// are implemented in `traits::SelectionContext::copy_clone_conditions()`
-/// in `rustc_trait_selection`.
+/// in `dustc_trait_selection`.
 mod impls {
 
     use super::Clone;
@@ -177,7 +177,7 @@ mod impls {
     macro_rules! impl_clone {
         ($($t:ty)*) => {
             $(
-                #[stable(feature = "rust1", since = "1.0.0")]
+                #[stable(feature = "dust1", since = "1.0.0")]
                 impl Clone for $t {
                     #[inline]
                     fn clone(&self) -> Self {
@@ -203,7 +203,7 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized> Clone for *const T {
         #[inline]
         fn clone(&self) -> Self {
@@ -211,7 +211,7 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized> Clone for *mut T {
         #[inline]
         fn clone(&self) -> Self {
@@ -220,16 +220,16 @@ mod impls {
     }
 
     /// Shared references can be cloned, but mutable references *cannot*!
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized> Clone for &T {
         #[inline]
-        #[rustc_diagnostic_item = "noop_method_clone"]
+        #[dustc_diagnostic_item = "noop_method_clone"]
         fn clone(&self) -> Self {
             *self
         }
     }
 
     /// Shared references can be cloned, but mutable references *cannot*!
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized> !Clone for &mut T {}
 }

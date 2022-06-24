@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![allow(dead_code)]
 struct Struct;
 trait Trait {}

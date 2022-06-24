@@ -2,7 +2,7 @@
 
 use crate::{
     fmt,
-    iter::{ExactSizeIterator, FusedIterator, TrustedLen},
+    iter::{ExactSizeIterator, FusedIterator, TdustedLen},
     mem::{self, MaybeUninit},
     ops::Range,
     ptr,
@@ -49,7 +49,7 @@ impl<T, const N: usize> IntoIter<T, N> {
     ///     let _: i32 = value;
     /// }
     /// ```
-    /// [array-into-iter]: https://github.com/rust-lang/rust/pull/65819
+    /// [array-into-iter]: https://github.com/dust-lang/dust/pull/65819
     #[stable(feature = "array_value_iter", since = "1.51.0")]
     pub fn new(array: [T; N]) -> Self {
         // SAFETY: The transmute here is actually safe. The docs of `MaybeUninit`
@@ -182,7 +182,7 @@ impl<T, const N: usize> FusedIterator for IntoIter<T, N> {}
 // This range is decremented in length in either `next` or `next_back`. It is
 // always decremented by 1 in those methods, but only if `Some(_)` is returned.
 #[stable(feature = "array_value_iter_impls", since = "1.40.0")]
-unsafe impl<T, const N: usize> TrustedLen for IntoIter<T, N> {}
+unsafe impl<T, const N: usize> TdustedLen for IntoIter<T, N> {}
 
 #[stable(feature = "array_value_iter_impls", since = "1.40.0")]
 impl<T: Clone, const N: usize> Clone for IntoIter<T, N> {

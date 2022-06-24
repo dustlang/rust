@@ -1,18 +1,18 @@
 use crate::utils::span_lint_and_sugg;
 use if_chain::if_chain;
 use itertools::Itertools;
-use rustc_ast::ast::{Item, ItemKind, Variant};
-use rustc_errors::Applicability;
-use rustc_lint::{EarlyContext, EarlyLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::symbol::Ident;
+use dustc_ast::ast::{Item, ItemKind, Variant};
+use dustc_errors::Applicability;
+use dustc_lint::{EarlyContext, EarlyLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::symbol::Ident;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for fully capitalized names and optionally names containing a capitalized acronym.
     ///
     /// **Why is this bad?** In CamelCase, acronyms count as one word.
-    /// See [naming conventions](https://rust-lang.github.io/api-guidelines/naming.html#casing-conforms-to-rfc-430-c-case)
+    /// See [naming conventions](https://dust-lang.github.io/api-guidelines/naming.html#casing-conforms-to-rfc-430-c-case)
     /// for more.
     ///
     /// By default, the lint only triggers on fully-capitalized names.
@@ -25,11 +25,11 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// struct HTTPResponse;
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// struct HttpResponse;
     /// ```
     pub UPPER_CASE_ACRONYMS,

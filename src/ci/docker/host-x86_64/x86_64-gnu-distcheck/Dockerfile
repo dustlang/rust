@@ -22,6 +22,6 @@ RUN sh /scripts/sccache.sh
 COPY scripts/cmake.sh /scripts/
 RUN /scripts/cmake.sh
 
-ENV RUST_CONFIGURE_ARGS --build=x86_64-unknown-linux-gnu --set rust.ignore-git=false
+ENV DUST_CONFIGURE_ARGS --build=x86_64-unknown-linux-gnu --set dust.ignore-git=false
 ENV SCRIPT python3 ../x.py --stage 2 test distcheck
 ENV DIST_SRC 1

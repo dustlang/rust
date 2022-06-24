@@ -1,6 +1,6 @@
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_middle::ty::{self, Ty};
-use rustc_span::{self, Span};
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_middle::ty::{self, Ty};
+use dustc_span::{self, Span};
 
 use super::Expectation::*;
 use super::FnCtxt;

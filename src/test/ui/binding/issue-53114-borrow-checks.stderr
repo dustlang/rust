@@ -62,4 +62,4 @@ LL |     if let (_, _) = mm { }
 
 error: aborting due to 6 previous errors
 
-For more information about this error, try `rustc --explain E0382`.
+For more information about this error, try `dustc --explain E0382`.

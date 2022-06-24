@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 // The output for humans should just highlight the whole span without showing
 // the suggested replacement, but we also want to test that suggested
@@ -7,7 +7,7 @@
 // test of the JSON error format.
 
 #![feature(custom_inner_attributes)]
-#![rustfmt::skip]
+#![dustfmt::skip]
 
 #![deny(clippy::unused_unit)]
 #![allow(dead_code)]
@@ -24,7 +24,7 @@ impl Unitter {
 }
 
 impl Into<()> for Unitter {
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     fn into(self) {
         
     }
@@ -59,7 +59,7 @@ fn main() {
     return;
 }
 
-// https://github.com/rust-lang/rust-clippy/issues/4076
+// https://github.com/dust-lang/dust-clippy/issues/4076
 fn foo() {
     macro_rules! foo {
         (recv($r:expr) -> $res:pat => $body:expr) => {
@@ -72,11 +72,11 @@ fn foo() {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn test(){}
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn test2(){}
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn test3(){}

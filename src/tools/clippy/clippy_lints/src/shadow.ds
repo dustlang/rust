@@ -1,21 +1,21 @@
 use crate::utils::{contains_name, higher, iter_input_pats, snippet, span_lint_and_then};
-use rustc_hir::intravisit::FnKind;
-use rustc_hir::{
+use dustc_hir::intravisit::FnKind;
+use dustc_hir::{
     Block, Body, Expr, ExprKind, FnDecl, Guard, HirId, Local, MutTy, Pat, PatKind, Path, QPath, StmtKind, Ty, TyKind,
     UnOp,
 };
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
-use rustc_span::symbol::Symbol;
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
+use dustc_span::symbol::Symbol;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for bindings that shadow other bindings already in
     /// scope, while just changing reference level or mutability.
     ///
-    /// **Why is this bad?** Not much, in fact it's a very common pattern in Rust
+    /// **Why is this bad?** Not much, in fact it's a very common pattern in Dust
     /// code. Still, some may opt to avoid it in their code base, they can set this
     /// lint to `Warn`.
     ///
@@ -23,7 +23,7 @@ declare_clippy_lint! {
     /// currently only catches very simple patterns.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let x = 1;
     /// // Bad
     /// let x = &x;
@@ -40,7 +40,7 @@ declare_clippy_lint! {
     /// **What it does:** Checks for bindings that shadow other bindings already in
     /// scope, while reusing the original value.
     ///
-    /// **Why is this bad?** Not too much, in fact it's a common pattern in Rust
+    /// **Why is this bad?** Not too much, in fact it's a common pattern in Dust
     /// code. Still, some argue that name shadowing like this hurts readability,
     /// because a value may be bound to different things depending on position in
     /// the code.
@@ -49,12 +49,12 @@ declare_clippy_lint! {
     /// currently only catches very simple patterns.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x = 2;
     /// let x = x + 1;
     /// ```
     /// use different variable name:
-    /// ```rust
+    /// ```dust
     /// let x = 2;
     /// let y = x + 1;
     /// ```
@@ -79,7 +79,7 @@ declare_clippy_lint! {
     /// for this lint.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let y = 1;
     /// # let z = 2;
     /// let x = y;

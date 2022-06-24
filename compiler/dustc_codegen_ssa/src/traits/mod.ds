@@ -1,7 +1,7 @@
-//! Interface of a Rust codegen backend
+//! Interface of a Dust codegen backend
 //!
 //! This crate defines all the traits that have to be implemented by a codegen backend in order to
-//! use the backend-agnostic codegen code in `rustc_codegen_ssa`.
+//! use the backend-agnostic codegen code in `dustc_codegen_ssa`.
 //!
 //! The interface is designed around two backend-specific data structures, the codegen context and
 //! the builder. The codegen context is supposed to be read-only after its creation and during the
@@ -44,8 +44,8 @@ pub use self::type_::{
 };
 pub use self::write::{ModuleBufferMethods, ThinBufferMethods, WriteBackendMethods};
 
-use rustc_middle::ty::layout::{HasParamEnv, HasTyCtxt};
-use rustc_target::spec::HasTargetSpec;
+use dustc_middle::ty::layout::{HasParamEnv, HasTyCtxt};
+use dustc_target::spec::HasTargetSpec;
 
 use std::fmt;
 

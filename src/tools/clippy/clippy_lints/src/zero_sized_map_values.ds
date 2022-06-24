@@ -1,11 +1,11 @@
 use if_chain::if_chain;
-use rustc_hir::{self as hir, HirId, ItemKind, Node};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty::{Adt, Ty};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::sym;
-use rustc_target::abi::LayoutOf as _;
-use rustc_typeck::hir_ty_to_ty;
+use dustc_hir::{self as hir, HirId, ItemKind, Node};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty::{Adt, Ty};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::sym;
+use dustc_target::abi::LayoutOf as _;
+use dustc_typeck::hir_ty_to_ty;
 
 use crate::utils::{is_normalizable, is_type_diagnostic_item, match_type, paths, span_lint_and_help};
 
@@ -22,14 +22,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # use std::collections::HashMap;
     /// fn unique_words(text: &str) -> HashMap<&str, ()> {
     ///     todo!();
     /// }
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// # use std::collections::HashSet;
     /// fn unique_words(text: &str) -> HashSet<&str> {
     ///     todo!();

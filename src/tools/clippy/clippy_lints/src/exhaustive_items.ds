@@ -1,10 +1,10 @@
 use crate::utils::{indent_of, span_lint_and_then};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{Item, ItemKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::sym;
+use dustc_errors::Applicability;
+use dustc_hir::{Item, ItemKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::sym;
 
 declare_clippy_lint! {
     /// **What it does:** Warns on any exported `enum`s that are not tagged `#[non_exhaustive]`
@@ -17,14 +17,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// enum Foo {
     ///     Bar,
     ///     Baz
     /// }
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// #[non_exhaustive]
     /// enum Foo {
     ///     Bar,
@@ -47,14 +47,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// struct Foo {
     ///     bar: u8,
     ///     baz: String,
     /// }
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// #[non_exhaustive]
     /// struct Foo {
     ///     bar: u8,

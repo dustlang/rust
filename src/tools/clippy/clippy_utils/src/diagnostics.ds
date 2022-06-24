@@ -1,18 +1,18 @@
-//! Clippy wrappers around rustc's diagnostic functions.
+//! Clippy wrappers around dustc's diagnostic functions.
 
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_hir::HirId;
-use rustc_lint::{LateContext, Lint, LintContext};
-use rustc_span::source_map::{MultiSpan, Span};
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_hir::HirId;
+use dustc_lint::{LateContext, Lint, LintContext};
+use dustc_span::source_map::{MultiSpan, Span};
 use std::env;
 
 fn docs_link(diag: &mut DiagnosticBuilder<'_>, lint: &'static Lint) {
     if env::var("CLIPPY_DISABLE_DOCS_LINKS").is_err() {
         diag.help(&format!(
-            "for further information visit https://rust-lang.github.io/rust-clippy/{}/index.html#{}",
-            &option_env!("RUST_RELEASE_NUM").map_or("master".to_string(), |n| {
+            "for further information visit https://dust-lang.github.io/dust-clippy/{}/index.html#{}",
+            &option_env!("DUST_RELEASE_NUM").map_or("master".to_string(), |n| {
                 // extract just major + minor version and ignore patch versions
-                format!("rust-{}", n.rsplitn(2, '.').nth(1).unwrap())
+                format!("dust-{}", n.rsplitn(2, '.').nth(1).unwrap())
             }),
             lint.name_lower().replacen("clippy::", "", 1)
         ));
@@ -169,7 +169,7 @@ pub fn span_lint_hir_and_then(
 
 /// Add a span lint with a suggestion on how to fix it.
 ///
-/// These suggestions can be parsed by rustfix to allow it to automatically fix your code.
+/// These suggestions can be parsed by dustfix to allow it to automatically fix your code.
 /// In the example below, `help` is `"try"` and `sugg` is the suggested replacement `".any(|x| x >
 /// 2)"`.
 ///

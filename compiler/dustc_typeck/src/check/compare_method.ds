@@ -1,19 +1,19 @@
 use crate::errors::LifetimesOrBoundsMismatchOnTrait;
-use rustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticId, ErrorReported};
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::intravisit;
-use rustc_hir::{GenericParamKind, ImplItemKind, TraitItemKind};
-use rustc_infer::infer::{self, InferOk, TyCtxtInferExt};
-use rustc_infer::traits::util;
-use rustc_middle::ty;
-use rustc_middle::ty::error::{ExpectedFound, TypeError};
-use rustc_middle::ty::subst::{InternalSubsts, Subst};
-use rustc_middle::ty::util::ExplicitSelf;
-use rustc_middle::ty::{GenericParamDefKind, ToPredicate, TyCtxt};
-use rustc_span::Span;
-use rustc_trait_selection::traits::error_reporting::InferCtxtExt;
-use rustc_trait_selection::traits::{self, ObligationCause, ObligationCauseCode, Reveal};
+use dustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticId, ErrorReported};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::intravisit;
+use dustc_hir::{GenericParamKind, ImplItemKind, TraitItemKind};
+use dustc_infer::infer::{self, InferOk, TyCtxtInferExt};
+use dustc_infer::traits::util;
+use dustc_middle::ty;
+use dustc_middle::ty::error::{ExpectedFound, TypeError};
+use dustc_middle::ty::subst::{InternalSubsts, Subst};
+use dustc_middle::ty::util::ExplicitSelf;
+use dustc_middle::ty::{GenericParamDefKind, ToPredicate, TyCtxt};
+use dustc_span::Span;
+use dustc_trait_selection::traits::error_reporting::InferCtxtExt;
+use dustc_trait_selection::traits::{self, ObligationCause, ObligationCauseCode, Reveal};
 
 use super::{potentially_plural_count, FnCtxt, Inherited};
 

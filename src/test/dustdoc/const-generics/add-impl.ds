@@ -5,7 +5,7 @@
 
 use std::ops::Add;
 
-// @has foo/struct.Simd.html '//pre[@class="rust struct"]' 'pub struct Simd<T, const WIDTH: usize>'
+// @has foo/struct.Simd.html '//pre[@class="dust struct"]' 'pub struct Simd<T, const WIDTH: usize>'
 pub struct Simd<T, const WIDTH: usize> {
     inner: T,
 }

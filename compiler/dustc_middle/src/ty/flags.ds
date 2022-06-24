@@ -15,7 +15,7 @@ impl FlagComputation {
         FlagComputation { flags: TypeFlags::empty(), outer_exclusive_binder: ty::INNERMOST }
     }
 
-    #[allow(rustc::usage_of_ty_tykind)]
+    #[allow(dustc::usage_of_ty_tykind)]
     pub fn for_kind(kind: &ty::TyKind<'_>) -> FlagComputation {
         let mut result = FlagComputation::new();
         result.add_kind(kind);
@@ -72,7 +72,7 @@ impl FlagComputation {
         } // otherwise, this binder captures nothing
     }
 
-    #[allow(rustc::usage_of_ty_tykind)]
+    #[allow(dustc::usage_of_ty_tykind)]
     fn add_kind(&mut self, kind: &ty::TyKind<'_>) {
         match kind {
             &ty::Bool

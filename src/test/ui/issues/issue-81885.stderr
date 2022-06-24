@@ -12,4 +12,4 @@ LL |     const TEST5: fn() -> _ = 42;
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0121`.
+For more information about this error, try `dustc --explain E0121`.

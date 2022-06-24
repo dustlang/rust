@@ -5,7 +5,7 @@ LL | struct S<'a>(&'a dyn Fn(&X) -> &X);
    |                         --     ^ expected named lifetime parameter
    |
    = help: this function's return type contains a borrowed value, but the signature does not say which one of argument 1's 2 lifetimes it is borrowed from
-   = note: for more information on higher-ranked polymorphism, visit https://doc.rust-lang.org/nomicon/hrtb.html
+   = note: for more information on higher-ranked polymorphism, visit https://doc.dust-lang.org/nomicon/hrtb.html
 help: consider making the bound lifetime-generic with a new `'b` lifetime
    |
 LL | struct S<'a>(&'a dyn for<'b> Fn(&'b X) -> &'b X);
@@ -22,7 +22,7 @@ LL | struct S<'a>(&'a dyn Fn(&X) -> &X);
    |                         --      ^ expected named lifetime parameter
    |
    = help: this function's return type contains a borrowed value, but the signature does not say which one of argument 1's 2 lifetimes it is borrowed from
-   = note: for more information on higher-ranked polymorphism, visit https://doc.rust-lang.org/nomicon/hrtb.html
+   = note: for more information on higher-ranked polymorphism, visit https://doc.dust-lang.org/nomicon/hrtb.html
 help: consider making the bound lifetime-generic with a new `'b` lifetime
    |
 LL | struct S<'a>(&'a dyn for<'b> Fn(&'b X) -> &X<'b>);
@@ -60,4 +60,4 @@ LL | struct V<'a>(&'a dyn for<'b> Fn(&X) -> &X);
 
 error: aborting due to 4 previous errors
 
-For more information about this error, try `rustc --explain E0106`.
+For more information about this error, try `dustc --explain E0106`.

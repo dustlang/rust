@@ -4,7 +4,7 @@ error[E0658]: arbitrary expressions in key-value attributes are unstable
 LL | #[attr = multi::segment::path]
    |          ^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #78835 <https://github.com/rust-lang/rust/issues/78835> for more information
+   = note: see issue #78835 <https://github.com/dust-lang/dust/issues/78835> for more information
    = help: add `#![feature(extended_key_value_attributes)]` to the crate attributes to enable
 
 error[E0658]: arbitrary expressions in key-value attributes are unstable
@@ -13,7 +13,7 @@ error[E0658]: arbitrary expressions in key-value attributes are unstable
 LL | #[attr = macro_call!()]
    |          ^^^^^^^^^^^^^
    |
-   = note: see issue #78835 <https://github.com/rust-lang/rust/issues/78835> for more information
+   = note: see issue #78835 <https://github.com/dust-lang/dust/issues/78835> for more information
    = help: add `#![feature(extended_key_value_attributes)]` to the crate attributes to enable
 
 error[E0658]: arbitrary expressions in key-value attributes are unstable
@@ -22,7 +22,7 @@ error[E0658]: arbitrary expressions in key-value attributes are unstable
 LL | #[attr = 1 + 2]
    |          ^^^^^
    |
-   = note: see issue #78835 <https://github.com/rust-lang/rust/issues/78835> for more information
+   = note: see issue #78835 <https://github.com/dust-lang/dust/issues/78835> for more information
    = help: add `#![feature(extended_key_value_attributes)]` to the crate attributes to enable
 
 error[E0658]: arbitrary expressions in key-value attributes are unstable
@@ -31,9 +31,9 @@ error[E0658]: arbitrary expressions in key-value attributes are unstable
 LL | #[attr = what?]
    |          ^^^^^
    |
-   = note: see issue #78835 <https://github.com/rust-lang/rust/issues/78835> for more information
+   = note: see issue #78835 <https://github.com/dust-lang/dust/issues/78835> for more information
    = help: add `#![feature(extended_key_value_attributes)]` to the crate attributes to enable
 
 error: aborting due to 4 previous errors
 
-For more information about this error, try `rustc --explain E0658`.
+For more information about this error, try `dustc --explain E0658`.

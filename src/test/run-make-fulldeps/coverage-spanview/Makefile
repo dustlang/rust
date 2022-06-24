@@ -11,10 +11,10 @@ define SPANVIEW_HEADER
 <!--
 
 Preview this file as rendered HTML from the github source at:
-https://htmlpreview.github.io/?https://github.com/rust-lang/rust/blob/master/src/test/run-make-fulldeps/coverage-spanview/expected_mir_dump.%s/%s
+https://htmlpreview.github.io/?https://github.com/dust-lang/dust/blob/master/src/test/run-make-fulldeps/coverage-spanview/expected_mir_dump.%s/%s
 
 For revisions in Pull Requests (PR):
-  * Replace "rust-lang" with the github PR author
+  * Replace "dust-lang" with the github PR author
   * Replace "master" with the PR branch name
 
 -->
@@ -26,7 +26,7 @@ all: $(patsubst $(SOURCEDIR)/lib/%.rs,%,$(wildcard $(SOURCEDIR)/lib/*.rs)) $(pat
 # Ensure there are no `expected` results for tests that may have been removed or renamed
 .PHONY: clear_expected_if_blessed
 clear_expected_if_blessed:
-ifdef RUSTC_BLESS_TEST
+ifdef DUSTC_BLESS_TEST
 	rm -rf expected_mir_dump.*/
 endif
 
@@ -37,7 +37,7 @@ endif
 
 %: $(SOURCEDIR)/lib/%.rs
 	# Compile the test library with coverage instrumentation
-	$(RUSTC) $(SOURCEDIR)/lib/$@.rs \
+	$(DUSTC) $(SOURCEDIR)/lib/$@.rs \
 			$$( sed -nE 's#^// compile-flags:(.*)#\1# p' $(SOURCEDIR)/lib/$@.rs) \
 			--crate-type rlib \
 			-Ztrim-diagnostic-paths=no \
@@ -54,7 +54,7 @@ endif
 		mv "$$path".modified "$$path"; \
 	done && true # for/done ends in non-zero status
 
-ifdef RUSTC_BLESS_TEST
+ifdef DUSTC_BLESS_TEST
 	mkdir -p expected_mir_dump.$@
 	cp "$(TMPDIR)"/mir_dump.$@/*InstrumentCoverage.0.html expected_mir_dump.$@/
 else
@@ -67,7 +67,7 @@ endif
 
 %: $(SOURCEDIR)/%.rs
 	# Compile the test program with coverage instrumentation
-	$(RUSTC) $(SOURCEDIR)/$@.rs \
+	$(DUSTC) $(SOURCEDIR)/$@.rs \
 			$$( sed -nE 's#^// compile-flags:(.*)#\1# p' $(SOURCEDIR)/$@.rs) \
 			-L "$(TMPDIR)" \
 			-Ztrim-diagnostic-paths=no \
@@ -84,7 +84,7 @@ endif
 		mv "$$path".modified "$$path"; \
 	done && true # for/done ends in non-zero status
 
-ifdef RUSTC_BLESS_TEST
+ifdef DUSTC_BLESS_TEST
 	mkdir -p expected_mir_dump.$@
 	cp "$(TMPDIR)"/mir_dump.$@/*InstrumentCoverage.0.html expected_mir_dump.$@/
 else

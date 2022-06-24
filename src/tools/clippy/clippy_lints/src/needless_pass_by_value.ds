@@ -4,22 +4,22 @@ use crate::utils::{
     snippet_opt, span_lint_and_then,
 };
 use if_chain::if_chain;
-use rustc_ast::ast::Attribute;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_hir::intravisit::FnKind;
-use rustc_hir::{BindingAnnotation, Body, FnDecl, GenericArg, HirId, Impl, ItemKind, Node, PatKind, QPath, TyKind};
-use rustc_infer::infer::TyCtxtInferExt;
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::mir::FakeReadCause;
-use rustc_middle::ty::{self, TypeFoldable};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::symbol::kw;
-use rustc_span::{sym, Span};
-use rustc_target::spec::abi::Abi;
-use rustc_trait_selection::traits;
-use rustc_trait_selection::traits::misc::can_type_implement_copy;
-use rustc_typeck::expr_use_visitor as euv;
+use dustc_ast::ast::Attribute;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_hir::intravisit::FnKind;
+use dustc_hir::{BindingAnnotation, Body, FnDecl, GenericArg, HirId, Impl, ItemKind, Node, PatKind, QPath, TyKind};
+use dustc_infer::infer::TyCtxtInferExt;
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::mir::FakeReadCause;
+use dustc_middle::ty::{self, TypeFoldable};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::symbol::kw;
+use dustc_span::{sym, Span};
+use dustc_target::spec::abi::Abi;
+use dustc_trait_selection::traits;
+use dustc_trait_selection::traits::misc::can_type_implement_copy;
+use dustc_typeck::expr_use_visitor as euv;
 use std::borrow::Cow;
 
 declare_clippy_lint! {
@@ -37,13 +37,13 @@ declare_clippy_lint! {
     /// (by using `Borrow` trait, for example), depending on how the function is used.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// fn foo(v: Vec<i32>) {
     ///     assert_eq!(v.len(), 42);
     /// }
     /// ```
     /// should be
-    /// ```rust
+    /// ```dust
     /// fn foo(v: &[i32]) {
     ///     assert_eq!(v.len(), 42);
     /// }
@@ -83,7 +83,7 @@ impl<'tcx> LateLintPass<'tcx> for NeedlessPassByValue {
         match kind {
             FnKind::ItemFn(.., header, _) => {
                 let attrs = cx.tcx.hir().attrs(hir_id);
-                if header.abi != Abi::Rust || requires_exact_signature(attrs) {
+                if header.abi != Abi::Dust || requires_exact_signature(attrs) {
                     return;
                 }
             },
@@ -335,5 +335,5 @@ impl<'tcx> euv::Delegate<'tcx> for MovedVariablesCtxt {
 
     fn mutate(&mut self, _: &euv::PlaceWithHirId<'tcx>, _: HirId) {}
 
-    fn fake_read(&mut self, _: rustc_typeck::expr_use_visitor::Place<'tcx>, _: FakeReadCause, _: HirId) { }
+    fn fake_read(&mut self, _: dustc_typeck::expr_use_visitor::Place<'tcx>, _: FakeReadCause, _: HirId) { }
 }

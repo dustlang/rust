@@ -96,7 +96,7 @@ fn skip_search<const SOR: usize, const OFFSETS: usize>(
 
 pub const UNICODE_VERSION: (u8, u8, u8) = (13, 0, 0);
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub mod alphabetic {
     static SHORT_OFFSET_RUNS: [u32; 52] = [
         706, 33559113, 868226669, 947920662, 1157637302, 1306536960, 1310732293, 1398813696,
@@ -170,7 +170,7 @@ pub mod alphabetic {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub mod case_ignorable {
     static SHORT_OFFSET_RUNS: [u32; 32] = [
         688, 44045149, 555751186, 559947709, 794831996, 866136069, 891330581, 916497656, 920692236,
@@ -220,7 +220,7 @@ pub mod case_ignorable {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub mod cased {
     static SHORT_OFFSET_RUNS: [u32; 19] = [
         4256, 115348384, 136322176, 144711446, 163587254, 320875520, 325101120, 358656816,
@@ -249,7 +249,7 @@ pub mod cased {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub mod cc {
     static SHORT_OFFSET_RUNS: [u32; 1] = [
         1114272,
@@ -266,7 +266,7 @@ pub mod cc {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub mod grapheme_extend {
     static SHORT_OFFSET_RUNS: [u32; 31] = [
         768, 2098307, 6292881, 10490717, 513808146, 518004748, 723528943, 731918378, 744531567,
@@ -310,7 +310,7 @@ pub mod grapheme_extend {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub mod lowercase {
     static BITSET_CHUNKS_MAP: [u8; 123] = [
         13, 16, 0, 0, 8, 0, 0, 11, 12, 9, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -410,7 +410,7 @@ pub mod lowercase {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub mod n {
     static SHORT_OFFSET_RUNS: [u32; 38] = [
         1632, 18876774, 31461440, 102765417, 111154926, 115349830, 132128880, 165684320, 186656630,
@@ -441,7 +441,7 @@ pub mod n {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub mod uppercase {
     static BITSET_CHUNKS_MAP: [u8; 125] = [
         12, 15, 5, 5, 0, 5, 5, 2, 4, 11, 5, 14, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
@@ -529,7 +529,7 @@ pub mod uppercase {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub mod white_space {
     static SHORT_OFFSET_RUNS: [u32; 4] = [
         5760, 18882560, 23080960, 40972289,
@@ -546,7 +546,7 @@ pub mod white_space {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub mod conversions {
     pub fn to_lower(c: char) -> [char; 3] {
         if c.is_ascii() {

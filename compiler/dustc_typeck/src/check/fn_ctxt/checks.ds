@@ -8,19 +8,19 @@ use crate::check::{
     LocalTy, Needs, TupleArgumentsFlag,
 };
 
-use rustc_ast as ast;
-use rustc_errors::{Applicability, DiagnosticBuilder, DiagnosticId};
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::DefId;
-use rustc_hir::{ExprKind, Node, QPath};
-use rustc_middle::ty::adjustment::AllowTwoPhase;
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::{self, Ty};
-use rustc_session::Session;
-use rustc_span::symbol::{sym, Ident};
-use rustc_span::{self, MultiSpan, Span};
-use rustc_trait_selection::traits::{self, ObligationCauseCode, StatementAsExpression};
+use dustc_ast as ast;
+use dustc_errors::{Applicability, DiagnosticBuilder, DiagnosticId};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::DefId;
+use dustc_hir::{ExprKind, Node, QPath};
+use dustc_middle::ty::adjustment::AllowTwoPhase;
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::{self, Ty};
+use dustc_session::Session;
+use dustc_span::symbol::{sym, Ident};
+use dustc_span::{self, MultiSpan, Span};
+use dustc_trait_selection::traits::{self, ObligationCauseCode, StatementAsExpression};
 
 use crate::structured_errors::StructuredDiagnostic;
 use std::slice;
@@ -719,15 +719,15 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
         ty
     }
 
-    pub(in super::super) fn check_rustc_args_require_const(
+    pub(in super::super) fn check_dustc_args_require_const(
         &self,
         def_id: DefId,
         hir_id: hir::HirId,
         span: Span,
     ) {
         // We're only interested in functions tagged with
-        // #[rustc_args_required_const], so ignore anything that's not.
-        if !self.tcx.has_attr(def_id, sym::rustc_args_required_const) {
+        // #[dustc_args_required_const], so ignore anything that's not.
+        if !self.tcx.has_attr(def_id, sym::dustc_args_required_const) {
             return;
         }
 
@@ -811,7 +811,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     /// if false { return 0i32; } else { 1u32 }
     /// //                               ^^^^ point at this instead of the whole `if` expression
     /// ```
-    fn get_expr_coercion_span(&self, expr: &hir::Expr<'_>) -> rustc_span::Span {
+    fn get_expr_coercion_span(&self, expr: &hir::Expr<'_>) -> dustc_span::Span {
         let check_in_progress = |elem: &hir::Expr<'_>| {
             self.in_progress_typeck_results
                 .and_then(|typeck_results| typeck_results.borrow().node_type_opt(elem.hir_id))

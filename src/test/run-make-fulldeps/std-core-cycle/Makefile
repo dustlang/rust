@@ -11,6 +11,6 @@ endif
 endif
 
 all:
-	$(RUSTC) bar.rs
-	$(RUSTC) foo.rs $(FLAGS)
-	$(RUSTC) foo.rs $(FLAGS) -C panic=abort
+	$(DUSTC) bar.rs
+	$(DUSTC) foo.rs $(FLAGS)
+	$(DUSTC) foo.rs $(FLAGS) -C panic=abort

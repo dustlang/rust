@@ -1,5 +1,5 @@
 #!/bin/sh
 set -ex
 
-groupadd -r rustbuild && useradd -m -r -g rustbuild rustbuild
-mkdir /x-tools && chown rustbuild:rustbuild /x-tools
+groupadd -r dustbuild && useradd -m -r -g dustbuild dustbuild
+mkdir /x-tools && chown dustbuild:dustbuild /x-tools

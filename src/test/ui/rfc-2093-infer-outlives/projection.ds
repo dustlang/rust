@@ -1,7 +1,7 @@
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
-#[rustc_outlives]
-struct Foo<'a, T: Iterator> { //~ ERROR rustc_outlives
+#[dustc_outlives]
+struct Foo<'a, T: Iterator> { //~ ERROR dustc_outlives
     bar: &'a T::Item
 }
 

@@ -33,7 +33,7 @@ LL |   fn foo2<T: Default>() {
 LL |       let _: T = Default::default();
 LL | /     (|| {
 LL | |
-LL | |         let call: extern "rust-call" fn(_, _) = Fn::call;
+LL | |         let call: extern "dust-call" fn(_, _) = Fn::call;
 LL | |         call(&|| {}, ());
 LL | |
 LL | |     })();

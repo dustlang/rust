@@ -1,19 +1,19 @@
 use either::Either;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_hir::{AsyncGeneratorKind, GeneratorKind};
-use rustc_index::vec::Idx;
-use rustc_middle::mir::{
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_hir::{AsyncGeneratorKind, GeneratorKind};
+use dustc_index::vec::Idx;
+use dustc_middle::mir::{
     self, AggregateKind, BindingForm, BorrowKind, ClearCrossCrate, ConstraintCategory,
     FakeReadCause, Local, LocalDecl, LocalInfo, LocalKind, Location, Operand, Place, PlaceRef,
     ProjectionElem, Rvalue, Statement, StatementKind, Terminator, TerminatorKind, VarBindingForm,
 };
-use rustc_middle::ty::{self, suggest_constraining_type_param, Ty, TypeFoldable};
-use rustc_span::source_map::DesugaringKind;
-use rustc_span::symbol::sym;
-use rustc_span::{Span, DUMMY_SP};
+use dustc_middle::ty::{self, suggest_constraining_type_param, Ty, TypeFoldable};
+use dustc_span::source_map::DesugaringKind;
+use dustc_span::symbol::sym;
+use dustc_span::{Span, DUMMY_SP};
 
 use crate::dataflow::drop_flag_effects;
 use crate::dataflow::indexes::{MoveOutIndex, MovePathIndex};
@@ -1021,7 +1021,7 @@ impl<'cx, 'tcx> MirBorrowckCtxt<'cx, 'tcx> {
                     functions can only return borrows to data passed as arguments",
             );
             err.note(
-                "to learn more, visit <https://doc.rust-lang.org/book/ch04-02-\
+                "to learn more, visit <https://doc.dust-lang.org/book/ch04-02-\
                     references-and-borrowing.html#dangling-references>",
             );
 
@@ -1720,7 +1720,7 @@ impl<'cx, 'tcx> MirBorrowckCtxt<'cx, 'tcx> {
 
     /// Describe the reason for the fake borrow that was assigned to `place`.
     fn classify_immutable_section(&self, place: Place<'tcx>) -> Option<&'static str> {
-        use rustc_middle::mir::visit::Visitor;
+        use dustc_middle::mir::visit::Visitor;
         struct FakeReadCauseFinder<'tcx> {
             place: Place<'tcx>,
             cause: Option<FakeReadCause>,
@@ -2002,8 +2002,8 @@ impl<'cx, 'tcx> MirBorrowckCtxt<'cx, 'tcx> {
                 for (index, argument) in sig.inputs().skip_binder().iter().enumerate() {
                     if let ty::Ref(argument_region, _, _) = argument.kind() {
                         if argument_region == return_region {
-                            // Need to use the `rustc_middle::ty` types to compare against the
-                            // `return_region`. Then use the `rustc_hir` type to get only
+                            // Need to use the `dustc_middle::ty` types to compare against the
+                            // `return_region`. Then use the `dustc_hir` type to get only
                             // the lifetime span.
                             if let hir::TyKind::Rptr(lifetime, _) = &fn_decl.inputs[index].kind {
                                 // With access to the lifetime, we can get
@@ -2149,7 +2149,7 @@ impl<'tcx> AnnotatedBorrowFnSignature<'tcx> {
                     "argument and return type have the same lifetime due to lifetime elision rules",
                 );
                 diag.note(
-                    "to learn more, visit <https://doc.rust-lang.org/book/ch10-03-\
+                    "to learn more, visit <https://doc.dust-lang.org/book/ch10-03-\
                      lifetime-syntax.html#lifetime-elision>",
                 );
 

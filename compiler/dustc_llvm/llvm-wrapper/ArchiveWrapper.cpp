@@ -7,26 +7,26 @@
 using namespace llvm;
 using namespace llvm::object;
 
-struct RustArchiveMember {
+struct DustArchiveMember {
   const char *Filename;
   const char *Name;
   Archive::Child Child;
 
-  RustArchiveMember()
+  DustArchiveMember()
       : Filename(nullptr), Name(nullptr),
         Child(nullptr, nullptr, nullptr)
   {
   }
-  ~RustArchiveMember() {}
+  ~DustArchiveMember() {}
 };
 
-struct RustArchiveIterator {
+struct DustArchiveIterator {
   bool First;
   Archive::child_iterator Cur;
   Archive::child_iterator End;
   std::unique_ptr<Error> Err;
 
-  RustArchiveIterator(Archive::child_iterator Cur, Archive::child_iterator End,
+  DustArchiveIterator(Archive::child_iterator Cur, Archive::child_iterator End,
       std::unique_ptr<Error> Err)
     : First(true),
       Cur(Cur),
@@ -34,39 +34,39 @@ struct RustArchiveIterator {
       Err(std::move(Err)) {}
 };
 
-enum class LLVMRustArchiveKind {
+enum class LLVMDustArchiveKind {
   GNU,
   BSD,
   DARWIN,
   COFF,
 };
 
-static Archive::Kind fromRust(LLVMRustArchiveKind Kind) {
+static Archive::Kind fromDust(LLVMDustArchiveKind Kind) {
   switch (Kind) {
-  case LLVMRustArchiveKind::GNU:
+  case LLVMDustArchiveKind::GNU:
     return Archive::K_GNU;
-  case LLVMRustArchiveKind::BSD:
+  case LLVMDustArchiveKind::BSD:
     return Archive::K_BSD;
-  case LLVMRustArchiveKind::DARWIN:
+  case LLVMDustArchiveKind::DARWIN:
     return Archive::K_DARWIN;
-  case LLVMRustArchiveKind::COFF:
+  case LLVMDustArchiveKind::COFF:
     return Archive::K_COFF;
   default:
     report_fatal_error("Bad ArchiveKind.");
   }
 }
 
-typedef OwningBinary<Archive> *LLVMRustArchiveRef;
-typedef RustArchiveMember *LLVMRustArchiveMemberRef;
-typedef Archive::Child *LLVMRustArchiveChildRef;
-typedef Archive::Child const *LLVMRustArchiveChildConstRef;
-typedef RustArchiveIterator *LLVMRustArchiveIteratorRef;
+typedef OwningBinary<Archive> *LLVMDustArchiveRef;
+typedef DustArchiveMember *LLVMDustArchiveMemberRef;
+typedef Archive::Child *LLVMDustArchiveChildRef;
+typedef Archive::Child const *LLVMDustArchiveChildConstRef;
+typedef DustArchiveIterator *LLVMDustArchiveIteratorRef;
 
-extern "C" LLVMRustArchiveRef LLVMRustOpenArchive(char *Path) {
+extern "C" LLVMDustArchiveRef LLVMDustOpenArchive(char *Path) {
   ErrorOr<std::unique_ptr<MemoryBuffer>> BufOr =
       MemoryBuffer::getFile(Path, -1, false);
   if (!BufOr) {
-    LLVMRustSetLastError(BufOr.getError().message().c_str());
+    LLVMDustSetLastError(BufOr.getError().message().c_str());
     return nullptr;
   }
 
@@ -74,7 +74,7 @@ extern "C" LLVMRustArchiveRef LLVMRustOpenArchive(char *Path) {
       Archive::create(BufOr.get()->getMemBufferRef());
 
   if (!ArchiveOr) {
-    LLVMRustSetLastError(toString(ArchiveOr.takeError()).c_str());
+    LLVMDustSetLastError(toString(ArchiveOr.takeError()).c_str());
     return nullptr;
   }
 
@@ -84,13 +84,13 @@ extern "C" LLVMRustArchiveRef LLVMRustOpenArchive(char *Path) {
   return Ret;
 }
 
-extern "C" void LLVMRustDestroyArchive(LLVMRustArchiveRef RustArchive) {
-  delete RustArchive;
+extern "C" void LLVMDustDestroyArchive(LLVMDustArchiveRef DustArchive) {
+  delete DustArchive;
 }
 
-extern "C" LLVMRustArchiveIteratorRef
-LLVMRustArchiveIteratorNew(LLVMRustArchiveRef RustArchive) {
-  Archive *Archive = RustArchive->getBinary();
+extern "C" LLVMDustArchiveIteratorRef
+LLVMDustArchiveIteratorNew(LLVMDustArchiveRef DustArchive) {
+  Archive *Archive = DustArchive->getBinary();
 #if LLVM_VERSION_GE(10, 0)
   std::unique_ptr<Error> Err = std::make_unique<Error>(Error::success());
 #else
@@ -98,15 +98,15 @@ LLVMRustArchiveIteratorNew(LLVMRustArchiveRef RustArchive) {
 #endif
   auto Cur = Archive->child_begin(*Err);
   if (*Err) {
-    LLVMRustSetLastError(toString(std::move(*Err)).c_str());
+    LLVMDustSetLastError(toString(std::move(*Err)).c_str());
     return nullptr;
   }
   auto End = Archive->child_end();
-  return new RustArchiveIterator(Cur, End, std::move(Err));
+  return new DustArchiveIterator(Cur, End, std::move(Err));
 }
 
-extern "C" LLVMRustArchiveChildConstRef
-LLVMRustArchiveIteratorNext(LLVMRustArchiveIteratorRef RAI) {
+extern "C" LLVMDustArchiveChildConstRef
+LLVMDustArchiveIteratorNext(LLVMDustArchiveIteratorRef RAI) {
   if (RAI->Cur == RAI->End)
     return nullptr;
 
@@ -119,7 +119,7 @@ LLVMRustArchiveIteratorNext(LLVMRustArchiveIteratorRef RAI) {
   if (!RAI->First) {
     ++RAI->Cur;
     if (*RAI->Err) {
-      LLVMRustSetLastError(toString(std::move(*RAI->Err)).c_str());
+      LLVMDustSetLastError(toString(std::move(*RAI->Err)).c_str());
       return nullptr;
     }
   } else {
@@ -135,22 +135,22 @@ LLVMRustArchiveIteratorNext(LLVMRustArchiveIteratorRef RAI) {
   return Ret;
 }
 
-extern "C" void LLVMRustArchiveChildFree(LLVMRustArchiveChildRef Child) {
+extern "C" void LLVMDustArchiveChildFree(LLVMDustArchiveChildRef Child) {
   delete Child;
 }
 
-extern "C" void LLVMRustArchiveIteratorFree(LLVMRustArchiveIteratorRef RAI) {
+extern "C" void LLVMDustArchiveIteratorFree(LLVMDustArchiveIteratorRef RAI) {
   delete RAI;
 }
 
 extern "C" const char *
-LLVMRustArchiveChildName(LLVMRustArchiveChildConstRef Child, size_t *Size) {
+LLVMDustArchiveChildName(LLVMDustArchiveChildConstRef Child, size_t *Size) {
   Expected<StringRef> NameOrErr = Child->getName();
   if (!NameOrErr) {
-    // rustc_codegen_llvm currently doesn't use this error string, but it might be
+    // dustc_codegen_llvm currently doesn't use this error string, but it might be
     // useful in the future, and in the mean time this tells LLVM that the
     // error was not ignored and that it shouldn't abort the process.
-    LLVMRustSetLastError(toString(NameOrErr.takeError()).c_str());
+    LLVMDustSetLastError(toString(NameOrErr.takeError()).c_str());
     return nullptr;
   }
   StringRef Name = NameOrErr.get();
@@ -158,12 +158,12 @@ LLVMRustArchiveChildName(LLVMRustArchiveChildConstRef Child, size_t *Size) {
   return Name.data();
 }
 
-extern "C" const char *LLVMRustArchiveChildData(LLVMRustArchiveChildRef Child,
+extern "C" const char *LLVMDustArchiveChildData(LLVMDustArchiveChildRef Child,
                                                 size_t *Size) {
   StringRef Buf;
   Expected<StringRef> BufOrErr = Child->getBuffer();
   if (!BufOrErr) {
-    LLVMRustSetLastError(toString(BufOrErr.takeError()).c_str());
+    LLVMDustSetLastError(toString(BufOrErr.takeError()).c_str());
     return nullptr;
   }
   Buf = BufOrErr.get();
@@ -171,10 +171,10 @@ extern "C" const char *LLVMRustArchiveChildData(LLVMRustArchiveChildRef Child,
   return Buf.data();
 }
 
-extern "C" LLVMRustArchiveMemberRef
-LLVMRustArchiveMemberNew(char *Filename, char *Name,
-                         LLVMRustArchiveChildRef Child) {
-  RustArchiveMember *Member = new RustArchiveMember;
+extern "C" LLVMDustArchiveMemberRef
+LLVMDustArchiveMemberNew(char *Filename, char *Name,
+                         LLVMDustArchiveChildRef Child) {
+  DustArchiveMember *Member = new DustArchiveMember;
   Member->Filename = Filename;
   Member->Name = Name;
   if (Child)
@@ -182,17 +182,17 @@ LLVMRustArchiveMemberNew(char *Filename, char *Name,
   return Member;
 }
 
-extern "C" void LLVMRustArchiveMemberFree(LLVMRustArchiveMemberRef Member) {
+extern "C" void LLVMDustArchiveMemberFree(LLVMDustArchiveMemberRef Member) {
   delete Member;
 }
 
-extern "C" LLVMRustResult
-LLVMRustWriteArchive(char *Dst, size_t NumMembers,
-                     const LLVMRustArchiveMemberRef *NewMembers,
-                     bool WriteSymbtab, LLVMRustArchiveKind RustKind) {
+extern "C" LLVMDustResult
+LLVMDustWriteArchive(char *Dst, size_t NumMembers,
+                     const LLVMDustArchiveMemberRef *NewMembers,
+                     bool WriteSymbtab, LLVMDustArchiveKind DustKind) {
 
   std::vector<NewArchiveMember> Members;
-  auto Kind = fromRust(RustKind);
+  auto Kind = fromDust(DustKind);
 
   for (size_t I = 0; I < NumMembers; I++) {
     auto Member = NewMembers[I];
@@ -201,8 +201,8 @@ LLVMRustWriteArchive(char *Dst, size_t NumMembers,
       Expected<NewArchiveMember> MOrErr =
           NewArchiveMember::getFile(Member->Filename, true);
       if (!MOrErr) {
-        LLVMRustSetLastError(toString(MOrErr.takeError()).c_str());
-        return LLVMRustResult::Failure;
+        LLVMDustSetLastError(toString(MOrErr.takeError()).c_str());
+        return LLVMDustResult::Failure;
       }
       MOrErr->MemberName = sys::path::filename(MOrErr->MemberName);
       Members.push_back(std::move(*MOrErr));
@@ -210,8 +210,8 @@ LLVMRustWriteArchive(char *Dst, size_t NumMembers,
       Expected<NewArchiveMember> MOrErr =
           NewArchiveMember::getOldMember(Member->Child, true);
       if (!MOrErr) {
-        LLVMRustSetLastError(toString(MOrErr.takeError()).c_str());
-        return LLVMRustResult::Failure;
+        LLVMDustSetLastError(toString(MOrErr.takeError()).c_str());
+        return LLVMDustResult::Failure;
       }
       Members.push_back(std::move(*MOrErr));
     }
@@ -219,8 +219,8 @@ LLVMRustWriteArchive(char *Dst, size_t NumMembers,
 
   auto Result = writeArchive(Dst, Members, WriteSymbtab, Kind, true, false);
   if (!Result)
-    return LLVMRustResult::Success;
-  LLVMRustSetLastError(toString(std::move(Result)).c_str());
+    return LLVMDustResult::Success;
+  LLVMDustSetLastError(toString(std::move(Result)).c_str());
 
-  return LLVMRustResult::Failure;
+  return LLVMDustResult::Failure;
 }

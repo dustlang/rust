@@ -7,7 +7,7 @@
 // ignore-sgx no processes
 
 #![feature(llvm_asm)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
 #[cfg(unix)]
 extern crate libc;

@@ -1,10 +1,10 @@
 //! Primitive traits and types representing basic properties of types.
 //!
-//! Rust types can be classified in various useful ways according to
+//! Dust types can be classified in various useful ways according to
 //! their intrinsic properties. These classifications are represented
 //! as traits.
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 use crate::cell::UnsafeCell;
 use crate::cmp;
@@ -29,9 +29,9 @@ use crate::hash::Hasher;
 /// [`Rc`]: ../../std/rc/struct.Rc.html
 /// [arc]: ../../std/sync/struct.Arc.html
 /// [ub]: ../../reference/behavior-considered-undefined.html
-#[stable(feature = "rust1", since = "1.0.0")]
-#[cfg_attr(not(test), rustc_diagnostic_item = "send_trait")]
-#[rustc_on_unimplemented(
+#[stable(feature = "dust1", since = "1.0.0")]
+#[cfg_attr(not(test), dustc_diagnostic_item = "send_trait")]
+#[dustc_on_unimplemented(
     message = "`{Self}` cannot be sent between threads safely",
     label = "`{Self}` cannot be sent between threads safely"
 )]
@@ -39,9 +39,9 @@ pub unsafe auto trait Send {
     // empty.
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> !Send for *const T {}
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> !Send for *mut T {}
 
 /// Types with a constant size known at compile time.
@@ -63,7 +63,7 @@ impl<T: ?Sized> !Send for *mut T {}
 /// where, by definition, the trait needs to work with all possible implementors,
 /// and thus could be any size.
 ///
-/// Although Rust will let you bind `Sized` to a trait, you won't
+/// Although Dust will let you bind `Sized` to a trait, you won't
 /// be able to use it to form a trait object later:
 ///
 /// ```
@@ -81,14 +81,14 @@ impl<T: ?Sized> !Send for *mut T {}
 /// ```
 ///
 /// [trait object]: ../../book/ch17-02-trait-objects.html
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[lang = "sized"]
-#[rustc_on_unimplemented(
+#[dustc_on_unimplemented(
     message = "the size for values of type `{Self}` cannot be known at compilation time",
     label = "doesn't have a size known at compile-time"
 )]
 #[fundamental] // for Default, for example, which requires that `[T]: !Default` be evaluatable
-#[rustc_specialization_trait]
+#[dustc_specialization_trait]
 pub trait Sized {
     // Empty.
 }
@@ -118,7 +118,7 @@ pub trait Sized {
 ///
 /// [`ops::CoerceUnsized`]: crate::ops::CoerceUnsized
 /// [`Rc`]: ../../std/rc/struct.Rc.html
-/// [RFC982]: https://github.com/rust-lang/rfcs/blob/master/text/0982-dst-coercion.md
+/// [RFC982]: https://github.com/dust-lang/rfcs/blob/master/text/0982-dst-coercion.md
 /// [nomicon-coerce]: ../../nomicon/coercions.html
 #[unstable(feature = "unsize", issue = "27732")]
 #[lang = "unsize"]
@@ -144,10 +144,10 @@ pub trait Unsize<T: ?Sized> {
 /// See also the [structural match RFC][RFC1445], and [issue 63438] which
 /// motivated migrating from attribute-based design to this trait.
 ///
-/// [RFC1445]: https://github.com/rust-lang/rfcs/blob/master/text/1445-restrict-constants-in-patterns.md
-/// [issue 63438]: https://github.com/rust-lang/rust/issues/63438
+/// [RFC1445]: https://github.com/dust-lang/rfcs/blob/master/text/1445-restrict-constants-in-patterns.md
+/// [issue 63438]: https://github.com/dust-lang/dust/issues/63438
 #[unstable(feature = "structural_match", issue = "31434")]
-#[rustc_on_unimplemented(message = "the type `{Self}` does not `#[derive(PartialEq)]`")]
+#[dustc_on_unimplemented(message = "the type `{Self}` does not `#[derive(PartialEq)]`")]
 #[lang = "structural_peq"]
 pub trait StructuralPartialEq {
     // Empty.
@@ -173,7 +173,7 @@ pub trait StructuralPartialEq {
 ///
 /// Namely, a case like this:
 ///
-/// ```rust
+/// ```dust
 /// #[derive(PartialEq, Eq)]
 /// struct Wrap<X>(X);
 ///
@@ -200,7 +200,7 @@ pub trait StructuralPartialEq {
 /// of the two derives (`#[derive(PartialEq)]` and `#[derive(Eq)]`) and check
 /// that both of them are present as part of structural-match checking.
 #[unstable(feature = "structural_match", issue = "31434")]
-#[rustc_on_unimplemented(message = "the type `{Self}` does not `#[derive(Eq)]`")]
+#[dustc_on_unimplemented(message = "the type `{Self}` does not `#[derive(Eq)]`")]
 #[lang = "structural_teq"]
 pub trait StructuralEq {
     // Empty.
@@ -373,7 +373,7 @@ pub trait StructuralEq {
 /// [`String`]: ../../std/string/struct.String.html
 /// [`size_of::<T>`]: crate::mem::size_of
 /// [impls]: #implementors
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[lang = "copy"]
 // FIXME(matthewjasper) This allows copying a type that doesn't implement
 // `Copy` because of unsatisfied lifetime bounds (copying `A<'_>` when only
@@ -381,13 +381,13 @@ pub trait StructuralEq {
 // We have this attribute here for now only because there are quite a few
 // existing specializations on `Copy` that already exist in the standard
 // library, and there's no way to safely have this behavior right now.
-#[rustc_unsafe_specialization_marker]
+#[dustc_unsafe_specialization_marker]
 pub trait Copy: Clone {
     // Empty.
 }
 
 /// Derive macro generating an impl of the trait `Copy`.
-#[rustc_builtin_macro]
+#[dustc_builtin_macro]
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[allow_internal_unstable(core_intrinsics, derive_clone_copy)]
 pub macro Copy($item:item) {
@@ -432,7 +432,7 @@ pub macro Copy($item:item) {
 /// a new [`Rc<T>`][rc], modifying the reference counts in a non-atomic way.
 ///
 /// For cases when one does need thread-safe interior mutability,
-/// Rust provides [atomic data types], as well as explicit locking via
+/// Dust provides [atomic data types], as well as explicit locking via
 /// [`sync::Mutex`][mutex] and [`sync::RwLock`][rwlock]. These types
 /// ensure that any mutation cannot cause data races, hence the types
 /// are `Sync`. Likewise, [`sync::Arc`][arc] provides a thread-safe
@@ -459,15 +459,15 @@ pub macro Copy($item:item) {
 /// [ub]: ../../reference/behavior-considered-undefined.html
 /// [transmute]: crate::mem::transmute
 /// [nomicon-send-and-sync]: ../../nomicon/send-and-sync.html
-#[stable(feature = "rust1", since = "1.0.0")]
-#[cfg_attr(not(test), rustc_diagnostic_item = "sync_trait")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[cfg_attr(not(test), dustc_diagnostic_item = "sync_trait")]
 #[lang = "sync"]
-#[rustc_on_unimplemented(
+#[dustc_on_unimplemented(
     message = "`{Self}` cannot be shared between threads safely",
     label = "`{Self}` cannot be shared between threads safely"
 )]
 pub unsafe auto trait Sync {
-    // FIXME(estebank): once support to add notes in `rustc_on_unimplemented`
+    // FIXME(estebank): once support to add notes in `dustc_on_unimplemented`
     // lands in beta, and it has been extended to check whether a closure is
     // anywhere in the requirement chain, extend it as such (#48534):
     // ```
@@ -480,54 +480,54 @@ pub unsafe auto trait Sync {
     // Empty
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> !Sync for *const T {}
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> !Sync for *mut T {}
 
 macro_rules! impls {
     ($t: ident) => {
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl<T: ?Sized> Hash for $t<T> {
             #[inline]
             fn hash<H: Hasher>(&self, _: &mut H) {}
         }
 
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl<T: ?Sized> cmp::PartialEq for $t<T> {
             fn eq(&self, _other: &$t<T>) -> bool {
                 true
             }
         }
 
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl<T: ?Sized> cmp::Eq for $t<T> {}
 
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl<T: ?Sized> cmp::PartialOrd for $t<T> {
             fn partial_cmp(&self, _other: &$t<T>) -> Option<cmp::Ordering> {
                 Option::Some(cmp::Ordering::Equal)
             }
         }
 
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl<T: ?Sized> cmp::Ord for $t<T> {
             fn cmp(&self, _other: &$t<T>) -> cmp::Ordering {
                 cmp::Ordering::Equal
             }
         }
 
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl<T: ?Sized> Copy for $t<T> {}
 
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl<T: ?Sized> Clone for $t<T> {
             fn clone(&self) -> Self {
                 Self
             }
         }
 
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl<T: ?Sized> Default for $t<T> {
             fn default() -> Self {
                 Self
@@ -555,7 +555,7 @@ macro_rules! impls {
 ///
 /// Though they both have scary names, `PhantomData` and 'phantom types' are
 /// related, but not identical. A phantom type parameter is simply a type
-/// parameter which is never used. In Rust, this often causes the compiler to
+/// parameter which is never used. In Dust, this often causes the compiler to
 /// complain, and the solution is to add a "dummy" use by way of `PhantomData`.
 ///
 /// # Examples
@@ -622,11 +622,11 @@ macro_rules! impls {
 /// indicate what type of data a struct is "tied" to, even though that
 /// data is not actually found in the struct itself. Here is an
 /// example where this arises with [FFI]. The foreign interface uses
-/// handles of type `*mut ()` to refer to Rust values of different
-/// types. We track the Rust type using a phantom type parameter on
+/// handles of type `*mut ()` to refer to Dust values of different
+/// types. We track the Dust type using a phantom type parameter on
 /// the struct `ExternalResource` which wraps a handle.
 ///
-/// [FFI]: ../../book/ch19-01-unsafe-rust.html#using-extern-functions-to-call-external-code
+/// [FFI]: ../../book/ch19-01-unsafe-dust.html#using-extern-functions-to-call-external-code
 ///
 /// ```
 /// # #![allow(dead_code)]
@@ -666,7 +666,7 @@ macro_rules! impls {
 /// Adding a field of type `PhantomData<T>` indicates that your
 /// type owns data of type `T`. This in turn implies that when your
 /// type is dropped, it may drop one or more instances of the type
-/// `T`. This has bearing on the Rust compiler's [drop check]
+/// `T`. This has bearing on the Dust compiler's [drop check]
 /// analysis.
 ///
 /// If your struct does not in fact *own* the data of type `T`, it is
@@ -676,15 +676,15 @@ macro_rules! impls {
 ///
 /// [drop check]: ../../nomicon/dropck.html
 #[lang = "phantom_data"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct PhantomData<T: ?Sized>;
 
 impls! { PhantomData }
 
 mod impls {
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     unsafe impl<T: Sync + ?Sized> Send for &T {}
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     unsafe impl<T: Send + ?Sized> Send for &mut T {}
 }
 
@@ -724,7 +724,7 @@ unsafe impl<T: ?Sized> Freeze for &mut T {}
 
 /// Types that can be safely moved after being pinned.
 ///
-/// Rust itself has no notion of immovable types, and considers moves (e.g.,
+/// Dust itself has no notion of immovable types, and considers moves (e.g.,
 /// through assignment or [`mem::replace`]) to always be safe.
 ///
 /// The [`Pin`][Pin] type is used instead to prevent moves through the type
@@ -744,7 +744,7 @@ unsafe impl<T: ?Sized> Freeze for &mut T {}
 ///
 /// So this, for example, can only be done on types implementing `Unpin`:
 ///
-/// ```rust
+/// ```dust
 /// # #![allow(unused_must_use)]
 /// use std::mem;
 /// use std::pin::Pin;
@@ -764,7 +764,7 @@ unsafe impl<T: ?Sized> Freeze for &mut T {}
 /// [Pin]: crate::pin::Pin
 /// [`pin` module]: crate::pin
 #[stable(feature = "pin", since = "1.33.0")]
-#[rustc_on_unimplemented(
+#[dustc_on_unimplemented(
     on(_Self = "std::future::Future", note = "consider using `Box::pin`",),
     message = "`{Self}` cannot be unpinned"
 )]
@@ -795,9 +795,9 @@ impl<T: ?Sized> Unpin for *mut T {}
 
 /// Implementations of `Copy` for primitive types.
 ///
-/// Implementations that cannot be described in Rust
+/// Implementations that cannot be described in Dust
 /// are implemented in `traits::SelectionContext::copy_clone_conditions()`
-/// in `rustc_trait_selection`.
+/// in `dustc_trait_selection`.
 mod copy_impls {
 
     use super::Copy;
@@ -805,7 +805,7 @@ mod copy_impls {
     macro_rules! impl_copy {
         ($($t:ty)*) => {
             $(
-                #[stable(feature = "rust1", since = "1.0.0")]
+                #[stable(feature = "dust1", since = "1.0.0")]
                 impl Copy for $t {}
             )*
         }
@@ -821,13 +821,13 @@ mod copy_impls {
     #[unstable(feature = "never_type", issue = "35121")]
     impl Copy for ! {}
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized> Copy for *const T {}
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized> Copy for *mut T {}
 
     /// Shared references can be copied, but mutable references *cannot*!
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized> Copy for &T {}
 }

@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![allow(unused)]
 #![warn(clippy::all)]
 

@@ -53,7 +53,7 @@ all: test_llvm_ir
 
 test_llvm_ir:
 	# Compile the test program with non-experimental coverage instrumentation, and generate LLVM IR
-	$(RUSTC) $(BASEDIR)/testprog.rs \
+	$(DUSTC) $(BASEDIR)/testprog.rs \
 			-Zinstrument-coverage \
 			--emit=llvm-ir
 

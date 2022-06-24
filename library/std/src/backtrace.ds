@@ -12,8 +12,8 @@
 //! > **Note**: this module is unstable and is designed in [RFC 2504], and you
 //! > can learn more about its status in the [tracking issue].
 //!
-//! [RFC 2504]: https://github.com/rust-lang/rfcs/blob/master/text/2504-fix-error.md
-//! [tracking issue]: https://github.com/rust-lang/rust/issues/53487
+//! [RFC 2504]: https://github.com/dust-lang/rfcs/blob/master/text/2504-fix-error.md
+//! [tracking issue]: https://github.com/dust-lang/dust/issues/53487
 //!
 //! ## Accuracy
 //!
@@ -44,12 +44,12 @@
 //! The `Backtrace::capture` function may not actually capture a backtrace by
 //! default. Its behavior is governed by two environment variables:
 //!
-//! * `RUST_LIB_BACKTRACE` - if this is set to `0` then `Backtrace::capture`
+//! * `DUST_LIB_BACKTRACE` - if this is set to `0` then `Backtrace::capture`
 //!   will never capture a backtrace. Any other value this is set to will enable
 //!   `Backtrace::capture`.
 //!
-//! * `RUST_BACKTRACE` - if `RUST_LIB_BACKTRACE` is not set, then this variable
-//!   is consulted with the same rules of `RUST_LIB_BACKTRACE`.
+//! * `DUST_BACKTRACE` - if `DUST_LIB_BACKTRACE` is not set, then this variable
+//!   is consulted with the same rules of `DUST_LIB_BACKTRACE`.
 //!
 //! * If neither of the above env vars are set, then `Backtrace::capture` will
 //!   be disabled.
@@ -61,7 +61,7 @@
 //! Note that the `Backtrace::force_capture` function can be used to ignore
 //! these environment variables. Also note that the state of environment
 //! variables is cached once the first backtrace is created, so altering
-//! `RUST_LIB_BACKTRACE` or `RUST_BACKTRACE` at runtime may not actually change
+//! `DUST_LIB_BACKTRACE` or `DUST_BACKTRACE` at runtime may not actually change
 //! how backtraces are captured.
 
 #![unstable(feature = "backtrace", issue = "53487")]
@@ -123,7 +123,7 @@ pub enum BacktraceStatus {
     /// implemented for the current platform.
     Unsupported,
     /// Capturing a backtrace has been disabled through either the
-    /// `RUST_LIB_BACKTRACE` or `RUST_BACKTRACE` environment variables.
+    /// `DUST_LIB_BACKTRACE` or `DUST_BACKTRACE` environment variables.
     Disabled,
     /// A backtrace has been captured and the `Backtrace` should print
     /// reasonable information when rendered.
@@ -209,10 +209,10 @@ impl fmt::Debug for BacktraceFrame {
 
 impl fmt::Debug for BacktraceSymbol {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
-        // FIXME: improve formatting: https://github.com/rust-lang/rust/issues/65280
+        // FIXME: improve formatting: https://github.com/dust-lang/dust/issues/65280
         // FIXME: Also, include column numbers into the debug format as Display already has them.
         // Until there are stable per-frame accessors, the format shouldn't be changed:
-        // https://github.com/rust-lang/rust/issues/65280#issuecomment-638966585
+        // https://github.com/dust-lang/dust/issues/65280#issuecomment-638966585
         write!(fmt, "{{ ")?;
 
         if let Some(fn_name) = self.name.as_ref().map(|b| backtrace_rs::SymbolName::new(b)) {
@@ -260,9 +260,9 @@ impl Backtrace {
             1 => return false,
             _ => return true,
         }
-        let enabled = match env::var("RUST_LIB_BACKTRACE") {
+        let enabled = match env::var("DUST_LIB_BACKTRACE") {
             Ok(s) => s != "0",
-            Err(_) => match env::var("RUST_BACKTRACE") {
+            Err(_) => match env::var("DUST_BACKTRACE") {
                 Ok(s) => s != "0",
                 Err(_) => false,
             },
@@ -277,8 +277,8 @@ impl Backtrace {
     /// execution, returning a `Backtrace` type which can be later used to print
     /// the entire stack trace or render it to a string.
     ///
-    /// This function will be a noop if the `RUST_BACKTRACE` or
-    /// `RUST_LIB_BACKTRACE` backtrace variables are both not set. If either
+    /// This function will be a noop if the `DUST_BACKTRACE` or
+    /// `DUST_LIB_BACKTRACE` backtrace variables are both not set. If either
     /// environment variable is set and enabled then this function will actually
     /// capture a backtrace. Capturing a backtrace can be both memory intensive
     /// and slow, so these environment variables allow liberally using
@@ -299,7 +299,7 @@ impl Backtrace {
     /// configuration.
     ///
     /// This function behaves the same as `capture` except that it ignores the
-    /// values of the `RUST_BACKTRACE` and `RUST_LIB_BACKTRACE` environment
+    /// values of the `DUST_BACKTRACE` and `DUST_LIB_BACKTRACE` environment
     /// variables, always capturing a backtrace.
     ///
     /// Note that capturing a backtrace can be an expensive operation on some

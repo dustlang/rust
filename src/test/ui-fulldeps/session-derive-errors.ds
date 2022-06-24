@@ -1,23 +1,23 @@
 // check-fail
 // Tests error conditions for specifying diagnostics using #[derive(SessionDiagnostic)]
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 #![crate_type = "lib"]
 
-extern crate rustc_span;
-use rustc_span::Span;
-use rustc_span::symbol::Ident;
+extern crate dustc_span;
+use dustc_span::Span;
+use dustc_span::symbol::Ident;
 
-extern crate rustc_macros;
-use rustc_macros::SessionDiagnostic;
+extern crate dustc_macros;
+use dustc_macros::SessionDiagnostic;
 
-extern crate rustc_middle;
-use rustc_middle::ty::Ty;
+extern crate dustc_middle;
+use dustc_middle::ty::Ty;
 
-extern crate rustc_errors;
-use rustc_errors::Applicability;
+extern crate dustc_errors;
+use dustc_errors::Applicability;
 
-extern crate rustc_session;
+extern crate dustc_session;
 
 #[derive(SessionDiagnostic)]
 #[message = "Hello, world!"]

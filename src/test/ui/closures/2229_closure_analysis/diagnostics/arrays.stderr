@@ -5,7 +5,7 @@ LL | #![feature(capture_disjoint_fields)]
    |            ^^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #53488 <https://github.com/rust-lang/rust/issues/53488> for more information
+   = note: see issue #53488 <https://github.com/dust-lang/dust/issues/53488> for more information
 
 error[E0503]: cannot use `arr` because it was mutably borrowed
   --> $DIR/arrays.rs:15:5
@@ -108,4 +108,4 @@ LL |     c();
 error: aborting due to 7 previous errors; 1 warning emitted
 
 Some errors have detailed explanations: E0502, E0503, E0506.
-For more information about an error, try `rustc --explain E0502`.
+For more information about an error, try `dustc --explain E0502`.

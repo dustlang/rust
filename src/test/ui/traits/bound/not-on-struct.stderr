@@ -165,4 +165,4 @@ LL | fn g() -> Trait + 'static {
 error: aborting due to 11 previous errors
 
 Some errors have detailed explanations: E0226, E0404.
-For more information about an error, try `rustc --explain E0226`.
+For more information about an error, try `dustc --explain E0226`.

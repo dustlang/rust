@@ -1,21 +1,21 @@
 //! The MIR is built from some typed high-level IR
 //! (THIR). This section defines the THIR along with a trait for
 //! accessing it. The intention is to allow MIR construction to be
-//! unit-tested and separated from the Rust source and compiler data
+//! unit-tested and separated from the Dust source and compiler data
 //! structures.
 
-use rustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_middle::infer::canonical::Canonical;
-use rustc_middle::middle::region;
-use rustc_middle::mir::{BinOp, BorrowKind, FakeReadCause, Field, UnOp};
-use rustc_middle::ty::adjustment::PointerCast;
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::{AdtDef, Const, Ty, UpvarSubsts, UserType};
-use rustc_span::Span;
-use rustc_target::abi::VariantIdx;
-use rustc_target::asm::InlineAsmRegOrRegClass;
+use dustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_middle::infer::canonical::Canonical;
+use dustc_middle::middle::region;
+use dustc_middle::mir::{BinOp, BorrowKind, FakeReadCause, Field, UnOp};
+use dustc_middle::ty::adjustment::PointerCast;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::{AdtDef, Const, Ty, UpvarSubsts, UserType};
+use dustc_span::Span;
+use dustc_target::abi::VariantIdx;
+use dustc_target::asm::InlineAsmRegOrRegClass;
 
 crate mod constant;
 
@@ -95,7 +95,7 @@ pub enum StmtKind<'thir, 'tcx> {
 
 // `Expr` is used a lot. Make sure it doesn't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
-rustc_data_structures::static_assert_size!(Expr<'_, '_>, 144);
+dustc_data_structures::static_assert_size!(Expr<'_, '_>, 144);
 
 /// The Thir trait implementor lowers their expressions (`&'tcx H::Expr`)
 /// into instances of this `Expr` enum. This lowering can be done

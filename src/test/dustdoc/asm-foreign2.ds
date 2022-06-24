@@ -1,5 +1,5 @@
 // only-aarch64
-// Make sure rustdoc accepts options(att_syntax) asm! on non-x86 targets.
+// Make sure dustdoc accepts options(att_syntax) asm! on non-x86 targets.
 
 #![feature(asm)]
 

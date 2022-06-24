@@ -2,11 +2,11 @@
 
 use crate::utils::{camel_case, is_present_in_source};
 use crate::utils::{span_lint, span_lint_and_help};
-use rustc_ast::ast::{EnumDef, Item, ItemKind, VisibilityKind};
-use rustc_lint::{EarlyContext, EarlyLintPass, Lint};
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::Span;
-use rustc_span::symbol::Symbol;
+use dustc_ast::ast::{EnumDef, Item, ItemKind, VisibilityKind};
+use dustc_lint::{EarlyContext, EarlyLintPass, Lint};
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::Span;
+use dustc_span::symbol::Symbol;
 
 declare_clippy_lint! {
     /// **What it does:** Detects enumeration variants that are prefixed or suffixed
@@ -18,7 +18,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// enum Cake {
     ///     BlackForestCake,
     ///     HummingbirdCake,
@@ -26,7 +26,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     /// Could be written as:
-    /// ```rust
+    /// ```dust
     /// enum Cake {
     ///     BlackForest,
     ///     Hummingbird,
@@ -48,7 +48,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// pub enum Cake {
     ///     BlackForestCake,
     ///     HummingbirdCake,
@@ -56,7 +56,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     /// Could be written as:
-    /// ```rust
+    /// ```dust
     /// pub enum Cake {
     ///     BlackForest,
     ///     Hummingbird,
@@ -77,13 +77,13 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// mod cake {
     ///     struct BlackForestCake;
     /// }
     /// ```
     /// Could be written as:
-    /// ```rust
+    /// ```dust
     /// mod cake {
     ///     struct BlackForest;
     /// }

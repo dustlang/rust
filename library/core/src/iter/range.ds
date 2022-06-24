@@ -3,7 +3,7 @@ use crate::convert::TryFrom;
 use crate::mem;
 use crate::ops::{self, Try};
 
-use super::{FusedIterator, TrustedLen};
+use super::{FusedIterator, TdustedLen};
 
 /// Objects that have a notion of *successor* and *predecessor* operations.
 ///
@@ -13,7 +13,7 @@ use super::{FusedIterator, TrustedLen};
 /// # Safety
 ///
 /// This trait is `unsafe` because its implementation must be correct for
-/// the safety of `unsafe trait TrustedLen` implementations, and the results
+/// the safety of `unsafe trait TdustedLen` implementations, and the results
 /// of using this trait can otherwise be trusted by `unsafe` code to be correct
 /// and fulfill the listed obligations.
 #[unstable(feature = "step_trait", reason = "recently redesigned", issue = "42168")]
@@ -201,7 +201,7 @@ macro_rules! step_identical_methods {
 
         #[inline]
         #[allow(arithmetic_overflow)]
-        #[rustc_inherit_overflow_checks]
+        #[dustc_inherit_overflow_checks]
         fn forward(start: Self, n: usize) -> Self {
             // In debug builds, trigger a panic on overflow.
             // This should optimize completely out in release builds.
@@ -214,7 +214,7 @@ macro_rules! step_identical_methods {
 
         #[inline]
         #[allow(arithmetic_overflow)]
-        #[rustc_inherit_overflow_checks]
+        #[dustc_inherit_overflow_checks]
         fn backward(start: Self, n: usize) -> Self {
             // In debug builds, trigger a panic on overflow.
             // This should optimize completely out in release builds.
@@ -488,7 +488,7 @@ unsafe impl Step for char {
 
 macro_rules! range_exact_iter_impl {
     ($($t:ty)*) => ($(
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl ExactSizeIterator for ops::Range<$t> { }
     )*)
 }
@@ -500,7 +500,7 @@ macro_rules! range_incl_exact_iter_impl {
     )*)
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A: Step> Iterator for ops::Range<A> {
     type Item = A;
 
@@ -568,7 +568,7 @@ range_exact_iter_impl! {
     isize i8 i16
 
     // These are incorect per the reasoning above,
-    // but removing them would be a breaking change as they were stabilized in Rust 1.0.0.
+    // but removing them would be a breaking change as they were stabilized in Dust 1.0.0.
     // So e.g. `(0..66_000_u32).len()` for example will compile without error or warnings
     // on 16-bit platforms, but continue to give a wrong result.
     u32
@@ -579,14 +579,14 @@ range_incl_exact_iter_impl! {
     i8
 
     // These are incorect per the reasoning above,
-    // but removing them would be a breaking change as they were stabilized in Rust 1.26.0.
+    // but removing them would be a breaking change as they were stabilized in Dust 1.26.0.
     // So e.g. `(0..=u16::MAX).len()` for example will compile without error or warnings
     // on 16-bit platforms, but continue to give a wrong result.
     u16
     i16
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A: Step> DoubleEndedIterator for ops::Range<A> {
     #[inline]
     fn next_back(&mut self) -> Option<A> {
@@ -615,12 +615,12 @@ impl<A: Step> DoubleEndedIterator for ops::Range<A> {
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A: Step> TrustedLen for ops::Range<A> {}
+unsafe impl<A: Step> TdustedLen for ops::Range<A> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A: Step> FusedIterator for ops::Range<A> {}
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A: Step> Iterator for ops::RangeFrom<A> {
     type Item = A;
 
@@ -647,7 +647,7 @@ impl<A: Step> Iterator for ops::RangeFrom<A> {
 impl<A: Step> FusedIterator for ops::RangeFrom<A> {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A: Step> TrustedLen for ops::RangeFrom<A> {}
+unsafe impl<A: Step> TdustedLen for ops::RangeFrom<A> {}
 
 #[stable(feature = "inclusive_range", since = "1.26.0")]
 impl<A: Step> Iterator for ops::RangeInclusive<A> {
@@ -859,7 +859,7 @@ impl<A: Step> DoubleEndedIterator for ops::RangeInclusive<A> {
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A: Step> TrustedLen for ops::RangeInclusive<A> {}
+unsafe impl<A: Step> TdustedLen for ops::RangeInclusive<A> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A: Step> FusedIterator for ops::RangeInclusive<A> {}

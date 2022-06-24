@@ -1,10 +1,10 @@
 use crate::consts::{constant, Constant};
 use crate::utils::{sext, span_lint_and_then};
 use if_chain::if_chain;
-use rustc_hir::{BinOpKind, Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty::{self};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{BinOpKind, Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty::{self};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 use std::fmt::Display;
 
 declare_clippy_lint! {
@@ -15,12 +15,12 @@ declare_clippy_lint! {
     /// If you interop with different languages it might be beneficial
     /// to double check all places that use modulo arithmetic.
     ///
-    /// For example, in Rust `17 % -3 = 2`, but in Python `17 % -3 = -1`.
+    /// For example, in Dust `17 % -3 = 2`, but in Python `17 % -3 = -1`.
     ///
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x = -17 % 3;
     /// ```
     pub MODULO_ARITHMETIC,

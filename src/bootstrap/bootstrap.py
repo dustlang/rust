@@ -169,9 +169,9 @@ def require(cmd, exit=True):
         sys.exit(1)
 
 
-def stage0_data(rust_root):
+def stage0_data(dust_root):
     """Build a dictionary from stage0.txt"""
-    nightlies = os.path.join(rust_root, "src/stage0.txt")
+    nightlies = os.path.join(dust_root, "src/stage0.txt")
     with open(nightlies, 'r') as nightlies:
         lines = [line.rstrip() for line in nightlies
                  if not line.startswith("#")]
@@ -189,12 +189,12 @@ def format_build_time(duration):
 
 def default_build_triple(verbose):
     """Build triple as in LLVM"""
-    # If the user already has a host build triple with an existing `rustc`
+    # If the user already has a host build triple with an existing `dustc`
     # install, use their preference. This fixes most issues with Windows builds
     # being detected as GNU instead of MSVC.
     default_encoding = sys.getdefaultencoding()
     try:
-        version = subprocess.check_output(["rustc", "--version", "--verbose"],
+        version = subprocess.check_output(["dustc", "--version", "--verbose"],
                 stderr=subprocess.DEVNULL)
         version = version.decode(default_encoding)
         host = next(x for x in version.split('\n') if x.startswith("host: "))
@@ -204,7 +204,7 @@ def default_build_triple(verbose):
         return triple
     except Exception as e:
         if verbose:
-            print("rustup not detected: {}".format(e))
+            print("dustup not detected: {}".format(e))
             print("falling back to auto-detect")
 
     required = sys.platform != 'win32'
@@ -364,86 +364,86 @@ def output(filepath):
     os.rename(tmp, filepath)
 
 
-class RustBuild(object):
-    """Provide all the methods required to build Rust"""
+class DustBuild(object):
+    """Provide all the methods required to build Dust"""
     def __init__(self):
         self.date = ''
         self._download_url = ''
-        self.rustc_channel = ''
-        self.rustfmt_channel = ''
+        self.dustc_channel = ''
+        self.dustfmt_channel = ''
         self.build = ''
         self.build_dir = ''
         self.clean = False
         self.config_toml = ''
-        self.rust_root = ''
+        self.dust_root = ''
         self.use_locked_deps = ''
         self.use_vendored_sources = ''
         self.verbose = False
         self.git_version = None
         self.nix_deps_dir = None
-        self.rustc_commit = None
+        self.dustc_commit = None
 
     def download_stage0(self):
-        """Fetch the build system for Rust, written in Rust
+        """Fetch the build system for Dust, written in Dust
 
         This method will build a cache directory, then it will fetch the
-        tarball which has the stage0 compiler used to then bootstrap the Rust
+        tarball which has the stage0 compiler used to then bootstrap the Dust
         compiler itself.
 
         Each downloaded tarball is extracted, after that, the script
         will move all the content to the right place.
         """
-        rustc_channel = self.rustc_channel
-        rustfmt_channel = self.rustfmt_channel
+        dustc_channel = self.dustc_channel
+        dustfmt_channel = self.dustfmt_channel
 
-        if self.rustc().startswith(self.bin_root()) and \
-                (not os.path.exists(self.rustc()) or
-                 self.program_out_of_date(self.rustc_stamp(), self.date + str(self.rustc_commit))):
+        if self.dustc().startswith(self.bin_root()) and \
+                (not os.path.exists(self.dustc()) or
+                 self.program_out_of_date(self.dustc_stamp(), self.date + str(self.dustc_commit))):
             if os.path.exists(self.bin_root()):
                 shutil.rmtree(self.bin_root())
-            download_rustc = self.rustc_commit is not None
+            download_dustc = self.dustc_commit is not None
             tarball_suffix = '.tar.xz' if support_xz() else '.tar.gz'
-            filename = "rust-std-{}-{}{}".format(
-                rustc_channel, self.build, tarball_suffix)
-            pattern = "rust-std-{}".format(self.build)
-            self._download_component_helper(filename, pattern, tarball_suffix, download_rustc)
-            filename = "rustc-{}-{}{}".format(rustc_channel, self.build,
+            filename = "dust-std-{}-{}{}".format(
+                dustc_channel, self.build, tarball_suffix)
+            pattern = "dust-std-{}".format(self.build)
+            self._download_component_helper(filename, pattern, tarball_suffix, download_dustc)
+            filename = "dustc-{}-{}{}".format(dustc_channel, self.build,
                                               tarball_suffix)
-            self._download_component_helper(filename, "rustc", tarball_suffix, download_rustc)
-            filename = "cargo-{}-{}{}".format(rustc_channel, self.build,
+            self._download_component_helper(filename, "dustc", tarball_suffix, download_dustc)
+            filename = "cargo-{}-{}{}".format(dustc_channel, self.build,
                                               tarball_suffix)
             self._download_component_helper(filename, "cargo", tarball_suffix)
-            if self.rustc_commit is not None:
-                filename = "rustc-dev-{}-{}{}".format(rustc_channel, self.build, tarball_suffix)
+            if self.dustc_commit is not None:
+                filename = "dustc-dev-{}-{}{}".format(dustc_channel, self.build, tarball_suffix)
                 self._download_component_helper(
-                    filename, "rustc-dev", tarball_suffix, download_rustc
+                    filename, "dustc-dev", tarball_suffix, download_dustc
                 )
 
-            self.fix_bin_or_dylib("{}/bin/rustc".format(self.bin_root()))
-            self.fix_bin_or_dylib("{}/bin/rustdoc".format(self.bin_root()))
+            self.fix_bin_or_dylib("{}/bin/dustc".format(self.bin_root()))
+            self.fix_bin_or_dylib("{}/bin/dustdoc".format(self.bin_root()))
             self.fix_bin_or_dylib("{}/bin/cargo".format(self.bin_root()))
             lib_dir = "{}/lib".format(self.bin_root())
             for lib in os.listdir(lib_dir):
                 if lib.endswith(".so"):
                     self.fix_bin_or_dylib(os.path.join(lib_dir, lib), rpath_libz=True)
-            with output(self.rustc_stamp()) as rust_stamp:
-                rust_stamp.write(self.date + str(self.rustc_commit))
+            with output(self.dustc_stamp()) as dust_stamp:
+                dust_stamp.write(self.date + str(self.dustc_commit))
 
-        if self.rustfmt() and self.rustfmt().startswith(self.bin_root()) and (
-            not os.path.exists(self.rustfmt())
-            or self.program_out_of_date(self.rustfmt_stamp(), self.rustfmt_channel)
+        if self.dustfmt() and self.dustfmt().startswith(self.bin_root()) and (
+            not os.path.exists(self.dustfmt())
+            or self.program_out_of_date(self.dustfmt_stamp(), self.dustfmt_channel)
         ):
-            if rustfmt_channel:
+            if dustfmt_channel:
                 tarball_suffix = '.tar.xz' if support_xz() else '.tar.gz'
-                [channel, date] = rustfmt_channel.split('-', 1)
-                filename = "rustfmt-{}-{}{}".format(channel, self.build, tarball_suffix)
+                [channel, date] = dustfmt_channel.split('-', 1)
+                filename = "dustfmt-{}-{}{}".format(channel, self.build, tarball_suffix)
                 self._download_component_helper(
-                    filename, "rustfmt-preview", tarball_suffix, key=date
+                    filename, "dustfmt-preview", tarball_suffix, key=date
                 )
-                self.fix_bin_or_dylib("{}/bin/rustfmt".format(self.bin_root()))
+                self.fix_bin_or_dylib("{}/bin/dustfmt".format(self.bin_root()))
                 self.fix_bin_or_dylib("{}/bin/cargo-fmt".format(self.bin_root()))
-                with output(self.rustfmt_stamp()) as rustfmt_stamp:
-                    rustfmt_stamp.write(self.rustfmt_channel)
+                with output(self.dustfmt_stamp()) as dustfmt_stamp:
+                    dustfmt_stamp.write(self.dustfmt_channel)
 
         if self.downloading_llvm():
             # We want the most recent LLVM submodule update to avoid downloading
@@ -481,7 +481,7 @@ class RustBuild(object):
         opt = self.get_toml('download-ci-llvm', 'llvm')
         # This is currently all tier 1 targets (since others may not have CI
         # artifacts)
-        # https://doc.rust-lang.org/rustc/platform-support.html#tier-1
+        # https://doc.dust-lang.org/dustc/platform-support.html#tier-1
         supported_platforms = [
             "aarch64-unknown-linux-gnu",
             "i686-pc-windows-gnu",
@@ -496,50 +496,50 @@ class RustBuild(object):
             or (opt == "if-available" and self.build in supported_platforms)
 
     def _download_component_helper(
-        self, filename, pattern, tarball_suffix, download_rustc=False, key=None
+        self, filename, pattern, tarball_suffix, download_dustc=False, key=None
     ):
         if key is None:
-            if download_rustc:
-                key = self.rustc_commit
+            if download_dustc:
+                key = self.dustc_commit
             else:
                 key = self.date
         cache_dst = os.path.join(self.build_dir, "cache")
-        rustc_cache = os.path.join(cache_dst, key)
-        if not os.path.exists(rustc_cache):
-            os.makedirs(rustc_cache)
+        dustc_cache = os.path.join(cache_dst, key)
+        if not os.path.exists(dustc_cache):
+            os.makedirs(dustc_cache)
 
-        if download_rustc:
-            url = "https://ci-artifacts.rust-lang.org/rustc-builds/{}".format(self.rustc_commit)
+        if download_dustc:
+            url = "https://ci-artifacts.dust-lang.org/dustc-builds/{}".format(self.dustc_commit)
         else:
             url = "{}/dist/{}".format(self._download_url, key)
-        tarball = os.path.join(rustc_cache, filename)
+        tarball = os.path.join(dustc_cache, filename)
         if not os.path.exists(tarball):
-            do_verify = not download_rustc
+            do_verify = not download_dustc
             get("{}/{}".format(url, filename), tarball, verbose=self.verbose, do_verify=do_verify)
         unpack(tarball, tarball_suffix, self.bin_root(), match=pattern, verbose=self.verbose)
 
     def _download_ci_llvm(self, llvm_sha, llvm_assertions):
         cache_prefix = "llvm-{}-{}".format(llvm_sha, llvm_assertions)
         cache_dst = os.path.join(self.build_dir, "cache")
-        rustc_cache = os.path.join(cache_dst, cache_prefix)
-        if not os.path.exists(rustc_cache):
-            os.makedirs(rustc_cache)
+        dustc_cache = os.path.join(cache_dst, cache_prefix)
+        if not os.path.exists(dustc_cache):
+            os.makedirs(dustc_cache)
 
-        url = "https://ci-artifacts.rust-lang.org/rustc-builds/{}".format(llvm_sha)
+        url = "https://ci-artifacts.dust-lang.org/dustc-builds/{}".format(llvm_sha)
         if llvm_assertions:
-            url = url.replace('rustc-builds', 'rustc-builds-alt')
+            url = url.replace('dustc-builds', 'dustc-builds-alt')
         # ci-artifacts are only stored as .xz, not .gz
         if not support_xz():
             print("error: XZ support is required to download LLVM")
             print("help: consider disabling `download-ci-llvm` or using python3")
             exit(1)
         tarball_suffix = '.tar.xz'
-        filename = "rust-dev-nightly-" + self.build + tarball_suffix
-        tarball = os.path.join(rustc_cache, filename)
+        filename = "dust-dev-nightly-" + self.build + tarball_suffix
+        tarball = os.path.join(dustc_cache, filename)
         if not os.path.exists(tarball):
             get("{}/{}".format(url, filename), tarball, verbose=self.verbose, do_verify=False)
         unpack(tarball, tarball_suffix, self.llvm_root(),
-                match="rust-dev",
+                match="dust-dev",
                 verbose=self.verbose)
 
     def fix_bin_or_dylib(self, fname, rpath_libz=False):
@@ -636,9 +636,9 @@ class RustBuild(object):
             return
 
     # Return the stage1 compiler to download, if any.
-    def maybe_download_rustc(self):
-        # If `download-rustc` is not set, default to rebuilding.
-        if self.get_toml("download-rustc", section="rust") != "true":
+    def maybe_download_dustc(self):
+        # If `download-dustc` is not set, default to rebuilding.
+        if self.get_toml("download-dustc", section="dust") != "true":
             return None
 
         # Handle running from a directory other than the top level
@@ -654,34 +654,34 @@ class RustBuild(object):
         # Warn if there were changes to the compiler since the ancestor commit.
         status = subprocess.call(["git", "diff-index", "--quiet", commit, "--", compiler])
         if status != 0:
-            print("warning: `download-rustc` is enabled, but there are changes to compiler/")
+            print("warning: `download-dustc` is enabled, but there are changes to compiler/")
 
         return commit
 
-    def rustc_stamp(self):
-        """Return the path for .rustc-stamp
+    def dustc_stamp(self):
+        """Return the path for .dustc-stamp
 
-        >>> rb = RustBuild()
+        >>> rb = DustBuild()
         >>> rb.build_dir = "build"
-        >>> rb.rustc_stamp() == os.path.join("build", "stage0", ".rustc-stamp")
+        >>> rb.dustc_stamp() == os.path.join("build", "stage0", ".dustc-stamp")
         True
         """
-        return os.path.join(self.bin_root(), '.rustc-stamp')
+        return os.path.join(self.bin_root(), '.dustc-stamp')
 
-    def rustfmt_stamp(self):
-        """Return the path for .rustfmt-stamp
+    def dustfmt_stamp(self):
+        """Return the path for .dustfmt-stamp
 
-        >>> rb = RustBuild()
+        >>> rb = DustBuild()
         >>> rb.build_dir = "build"
-        >>> rb.rustfmt_stamp() == os.path.join("build", "stage0", ".rustfmt-stamp")
+        >>> rb.dustfmt_stamp() == os.path.join("build", "stage0", ".dustfmt-stamp")
         True
         """
-        return os.path.join(self.bin_root(), '.rustfmt-stamp')
+        return os.path.join(self.bin_root(), '.dustfmt-stamp')
 
     def llvm_stamp(self):
-        """Return the path for .rustfmt-stamp
+        """Return the path for .dustfmt-stamp
 
-        >>> rb = RustBuild()
+        >>> rb = DustBuild()
         >>> rb.build_dir = "build"
         >>> rb.llvm_stamp() == os.path.join("build", "ci-llvm", ".llvm-stamp")
         True
@@ -699,7 +699,7 @@ class RustBuild(object):
     def bin_root(self):
         """Return the binary root directory
 
-        >>> rb = RustBuild()
+        >>> rb = DustBuild()
         >>> rb.build_dir = "build"
         >>> rb.bin_root() == os.path.join("build", "stage0")
         True
@@ -715,7 +715,7 @@ class RustBuild(object):
     def llvm_root(self):
         """Return the CI LLVM root directory
 
-        >>> rb = RustBuild()
+        >>> rb = DustBuild()
         >>> rb.build_dir = "build"
         >>> rb.llvm_root() == os.path.join("build", "ci-llvm")
         True
@@ -731,7 +731,7 @@ class RustBuild(object):
     def get_toml(self, key, section=None):
         """Returns the value of the given key in config.toml, otherwise returns None
 
-        >>> rb = RustBuild()
+        >>> rb = DustBuild()
         >>> rb.config_toml = 'key1 = "value1"\\nkey2 = "value2"'
         >>> rb.get_toml("key2")
         'value2'
@@ -773,23 +773,23 @@ class RustBuild(object):
         """Return config path for cargo"""
         return self.program_config('cargo')
 
-    def rustc(self):
-        """Return config path for rustc"""
-        return self.program_config('rustc')
+    def dustc(self):
+        """Return config path for dustc"""
+        return self.program_config('dustc')
 
-    def rustfmt(self):
-        """Return config path for rustfmt"""
-        if not self.rustfmt_channel:
+    def dustfmt(self):
+        """Return config path for dustfmt"""
+        if not self.dustfmt_channel:
             return None
-        return self.program_config('rustfmt')
+        return self.program_config('dustfmt')
 
     def program_config(self, program):
         """Return config path for the given program
 
-        >>> rb = RustBuild()
-        >>> rb.config_toml = 'rustc = "rustc"\\n'
-        >>> rb.program_config('rustc')
-        'rustc'
+        >>> rb = DustBuild()
+        >>> rb.config_toml = 'dustc = "dustc"\\n'
+        >>> rb.program_config('dustc')
+        'dustc'
         >>> rb.config_toml = ''
         >>> cargo_path = rb.program_config('cargo')
         >>> cargo_path.rstrip(".exe") == os.path.join(rb.bin_root(),
@@ -806,13 +806,13 @@ class RustBuild(object):
     def get_string(line):
         """Return the value between double quotes
 
-        >>> RustBuild.get_string('    "devel"   ')
+        >>> DustBuild.get_string('    "devel"   ')
         'devel'
-        >>> RustBuild.get_string("    'devel'   ")
+        >>> DustBuild.get_string("    'devel'   ")
         'devel'
-        >>> RustBuild.get_string('devel') is None
+        >>> DustBuild.get_string('devel') is None
         True
-        >>> RustBuild.get_string('    "devel   ')
+        >>> DustBuild.get_string('    "devel   ')
         ''
         """
         start = line.find('"')
@@ -835,7 +835,7 @@ class RustBuild(object):
     def bootstrap_binary(self):
         """Return the path of the bootstrap binary
 
-        >>> rb = RustBuild()
+        >>> rb = DustBuild()
         >>> rb.build_dir = "build"
         >>> rb.bootstrap_binary() == os.path.join("build", "bootstrap",
         ... "debug", "bootstrap")
@@ -850,11 +850,11 @@ class RustBuild(object):
             shutil.rmtree(build_dir)
         env = os.environ.copy()
         # `CARGO_BUILD_TARGET` breaks bootstrap build.
-        # See also: <https://github.com/rust-lang/rust/issues/70208>.
+        # See also: <https://github.com/dust-lang/dust/issues/70208>.
         if "CARGO_BUILD_TARGET" in env:
             del env["CARGO_BUILD_TARGET"]
         env["CARGO_TARGET_DIR"] = build_dir
-        env["RUSTC"] = self.rustc()
+        env["DUSTC"] = self.dustc()
         env["LD_LIBRARY_PATH"] = os.path.join(self.bin_root(), "lib") + \
             (os.pathsep + env["LD_LIBRARY_PATH"]) \
             if "LD_LIBRARY_PATH" in env else ""
@@ -864,9 +864,9 @@ class RustBuild(object):
         env["LIBRARY_PATH"] = os.path.join(self.bin_root(), "lib") + \
             (os.pathsep + env["LIBRARY_PATH"]) \
             if "LIBRARY_PATH" in env else ""
-        # preserve existing RUSTFLAGS
-        env.setdefault("RUSTFLAGS", "")
-        env["RUSTFLAGS"] += " -Cdebuginfo=2"
+        # preserve existing DUSTFLAGS
+        env.setdefault("DUSTFLAGS", "")
+        env["DUSTFLAGS"] += " -Cdebuginfo=2"
 
         build_section = "target.{}".format(self.build)
         target_features = []
@@ -875,14 +875,14 @@ class RustBuild(object):
         elif self.get_toml("crt-static", build_section) == "false":
             target_features += ["-crt-static"]
         if target_features:
-            env["RUSTFLAGS"] += " -C target-feature=" + (",".join(target_features))
+            env["DUSTFLAGS"] += " -C target-feature=" + (",".join(target_features))
         target_linker = self.get_toml("linker", build_section)
         if target_linker is not None:
-            env["RUSTFLAGS"] += " -C linker=" + target_linker
+            env["DUSTFLAGS"] += " -C linker=" + target_linker
         # cfg(bootstrap): Add `-Wsemicolon_in_expressions_from_macros` after the next beta bump
-        env["RUSTFLAGS"] += " -Wrust_2018_idioms -Wunused_lifetimes"
-        if self.get_toml("deny-warnings", "rust") != "false":
-            env["RUSTFLAGS"] += " -Dwarnings"
+        env["DUSTFLAGS"] += " -Wdust_2018_idioms -Wunused_lifetimes"
+        if self.get_toml("deny-warnings", "dust") != "false":
+            env["DUSTFLAGS"] += " -Dwarnings"
 
         env["PATH"] = os.path.join(self.bin_root(), "bin") + \
             os.pathsep + env["PATH"]
@@ -890,7 +890,7 @@ class RustBuild(object):
             raise Exception("no cargo executable found at `{}`".format(
                 self.cargo()))
         args = [self.cargo(), "build", "--manifest-path",
-                os.path.join(self.rust_root, "src/bootstrap/Cargo.toml")]
+                os.path.join(self.dust_root, "src/bootstrap/Cargo.toml")]
         for _ in range(1, self.verbose):
             args.append("--verbose")
         if self.use_locked_deps:
@@ -913,14 +913,14 @@ class RustBuild(object):
     def check_submodule(self, module, slow_submodules):
         if not slow_submodules:
             checked_out = subprocess.Popen(["git", "rev-parse", "HEAD"],
-                                           cwd=os.path.join(self.rust_root, module),
+                                           cwd=os.path.join(self.dust_root, module),
                                            stdout=subprocess.PIPE)
             return checked_out
         else:
             return None
 
     def update_submodule(self, module, checked_out, recorded_submodules):
-        module_path = os.path.join(self.rust_root, module)
+        module_path = os.path.join(self.dust_root, module)
 
         if checked_out is not None:
             default_encoding = sys.getdefaultencoding()
@@ -931,13 +931,13 @@ class RustBuild(object):
         print("Updating submodule", module)
 
         run(["git", "submodule", "-q", "sync", module],
-            cwd=self.rust_root, verbose=self.verbose)
+            cwd=self.dust_root, verbose=self.verbose)
 
         update_args = ["git", "submodule", "update", "--init", "--recursive"]
         if self.git_version >= distutils.version.LooseVersion("2.11.0"):
             update_args.append("--progress")
         update_args.append(module)
-        run(update_args, cwd=self.rust_root, verbose=self.verbose, exception=True)
+        run(update_args, cwd=self.dust_root, verbose=self.verbose, exception=True)
 
         run(["git", "reset", "-q", "--hard"],
             cwd=module_path, verbose=self.verbose)
@@ -946,7 +946,7 @@ class RustBuild(object):
 
     def update_submodules(self):
         """Update submodules"""
-        if (not os.path.exists(os.path.join(self.rust_root, ".git"))) or \
+        if (not os.path.exists(os.path.join(self.dust_root, ".git"))) or \
                 self.get_toml('submodules') == "false":
             return
 
@@ -965,15 +965,15 @@ class RustBuild(object):
         default_encoding = sys.getdefaultencoding()
         submodules = [s.split(' ', 1)[1] for s in subprocess.check_output(
             ["git", "config", "--file",
-             os.path.join(self.rust_root, ".gitmodules"),
+             os.path.join(self.dust_root, ".gitmodules"),
              "--get-regexp", "path"]
         ).decode(default_encoding).splitlines()]
         filtered_submodules = []
         submodules_names = []
-        llvm_checked_out = os.path.exists(os.path.join(self.rust_root, "src/llvm-project/.git"))
+        llvm_checked_out = os.path.exists(os.path.join(self.dust_root, "src/llvm-project/.git"))
         external_llvm_provided = self.get_toml('llvm-config') or self.downloading_llvm()
-        llvm_needed = not self.get_toml('codegen-backends', 'rust') \
-            or "llvm" in self.get_toml('codegen-backends', 'rust')
+        llvm_needed = not self.get_toml('codegen-backends', 'dust') \
+            or "llvm" in self.get_toml('codegen-backends', 'dust')
         for module in submodules:
             if module.endswith("llvm-project"):
                 # Don't sync the llvm-project submodule if an external LLVM was
@@ -988,7 +988,7 @@ class RustBuild(object):
             filtered_submodules.append((module, check))
             submodules_names.append(module)
         recorded = subprocess.Popen(["git", "ls-tree", "HEAD"] + submodules_names,
-                                    cwd=self.rust_root, stdout=subprocess.PIPE)
+                                    cwd=self.dust_root, stdout=subprocess.PIPE)
         recorded = recorded.communicate()[0].decode(default_encoding).strip().splitlines()
         recorded_submodules = {}
         for data in recorded:
@@ -1000,21 +1000,21 @@ class RustBuild(object):
 
     def set_normal_environment(self):
         """Set download URL for normal environment"""
-        if 'RUSTUP_DIST_SERVER' in os.environ:
-            self._download_url = os.environ['RUSTUP_DIST_SERVER']
+        if 'DUSTUP_DIST_SERVER' in os.environ:
+            self._download_url = os.environ['DUSTUP_DIST_SERVER']
         else:
-            self._download_url = 'https://static.rust-lang.org'
+            self._download_url = 'https://static.dust-lang.org'
 
     def set_dev_environment(self):
         """Set download URL for development environment"""
-        if 'RUSTUP_DEV_DIST_SERVER' in os.environ:
-            self._download_url = os.environ['RUSTUP_DEV_DIST_SERVER']
+        if 'DUSTUP_DEV_DIST_SERVER' in os.environ:
+            self._download_url = os.environ['DUSTUP_DEV_DIST_SERVER']
         else:
-            self._download_url = 'https://dev-static.rust-lang.org'
+            self._download_url = 'https://dev-static.dust-lang.org'
 
     def check_vendored_status(self):
         """Check that vendoring is configured properly"""
-        vendor_dir = os.path.join(self.rust_root, 'vendor')
+        vendor_dir = os.path.join(self.dust_root, 'vendor')
         if 'SUDO_USER' in os.environ and not self.use_vendored_sources:
             if os.environ.get('USER') != os.environ['SUDO_USER']:
                 self.use_vendored_sources = True
@@ -1038,24 +1038,24 @@ class RustBuild(object):
                     "\n"
                     "[source.vendored-sources]\n"
                     "directory = '{}/vendor'\n"
-                    .format(self.rust_root))
+                    .format(self.dust_root))
         else:
             if os.path.exists('.cargo'):
                 shutil.rmtree('.cargo')
 
     def ensure_vendored(self):
         """Ensure that the vendored sources are available if needed"""
-        vendor_dir = os.path.join(self.rust_root, 'vendor')
+        vendor_dir = os.path.join(self.dust_root, 'vendor')
         # Note that this does not handle updating the vendored dependencies if
-        # the rust git repository is updated. Normal development usually does
+        # the dust git repository is updated. Normal development usually does
         # not use vendoring, so hopefully this isn't too much of a problem.
         if self.use_vendored_sources and not os.path.exists(vendor_dir):
             run([
                 self.cargo(),
                 "vendor",
-                "--sync=./src/tools/rust-analyzer/Cargo.toml",
-                "--sync=./compiler/rustc_codegen_cranelift/Cargo.toml",
-            ], verbose=self.verbose, cwd=self.rust_root)
+                "--sync=./src/tools/dust-analyzer/Cargo.toml",
+                "--sync=./compiler/dustc_codegen_cranelift/Cargo.toml",
+            ], verbose=self.verbose, cwd=self.dust_root)
 
 
 def bootstrap(help_triggered):
@@ -1068,7 +1068,7 @@ def bootstrap(help_triggered):
         print("      command. See src/bootstrap/README.md for help with common")
         print("      commands.")
 
-    parser = argparse.ArgumentParser(description='Build rust')
+    parser = argparse.ArgumentParser(description='Build dust')
     parser.add_argument('--config')
     parser.add_argument('--build')
     parser.add_argument('--clean', action='store_true')
@@ -1078,20 +1078,20 @@ def bootstrap(help_triggered):
     args, _ = parser.parse_known_args(args)
 
     # Configure initial bootstrap
-    build = RustBuild()
-    build.rust_root = os.path.abspath(os.path.join(__file__, '../../..'))
+    build = DustBuild()
+    build.dust_root = os.path.abspath(os.path.join(__file__, '../../..'))
     build.verbose = args.verbose
     build.clean = args.clean
 
-    # Read from `RUST_BOOTSTRAP_CONFIG`, then `--config`, then fallback to `config.toml` (if it
+    # Read from `DUST_BOOTSTRAP_CONFIG`, then `--config`, then fallback to `config.toml` (if it
     # exists).
-    toml_path = os.getenv('RUST_BOOTSTRAP_CONFIG') or args.config
+    toml_path = os.getenv('DUST_BOOTSTRAP_CONFIG') or args.config
     if not toml_path and os.path.exists('config.toml'):
         toml_path = 'config.toml'
 
     if toml_path:
         if not os.path.exists(toml_path):
-            toml_path = os.path.join(build.rust_root, toml_path)
+            toml_path = os.path.join(build.dust_root, toml_path)
 
         with open(toml_path) as config:
             build.config_toml = config.read()
@@ -1099,7 +1099,7 @@ def bootstrap(help_triggered):
     profile = build.get_toml('profile')
     if profile is not None:
         include_file = 'config.{}.toml'.format(profile)
-        include_dir = os.path.join(build.rust_root, 'src', 'bootstrap', 'defaults')
+        include_dir = os.path.join(build.dust_root, 'src', 'bootstrap', 'defaults')
         include_path = os.path.join(include_dir, include_file)
         # HACK: This works because `build.get_toml()` returns the first match it finds for a
         # specific key, so appending our defaults at the end allows the user to override them
@@ -1117,14 +1117,14 @@ def bootstrap(help_triggered):
     build.check_vendored_status()
 
     build_dir = build.get_toml('build-dir', 'build') or 'build'
-    build.build_dir = os.path.abspath(build_dir.replace("$ROOT", build.rust_root))
+    build.build_dir = os.path.abspath(build_dir.replace("$ROOT", build.dust_root))
 
-    data = stage0_data(build.rust_root)
+    data = stage0_data(build.dust_root)
     build.date = data['date']
-    build.rustc_channel = data['rustc']
+    build.dustc_channel = data['dustc']
 
-    if "rustfmt" in data:
-        build.rustfmt_channel = data['rustfmt']
+    if "dustfmt" in data:
+        build.dustfmt_channel = data['dustfmt']
 
     if 'dev' in data:
         build.set_dev_environment()
@@ -1135,13 +1135,13 @@ def bootstrap(help_triggered):
     build.update_submodules()
 
     # Fetch/build the bootstrap
-    build.rustc_commit = build.maybe_download_rustc()
-    if build.rustc_commit is not None:
+    build.dustc_commit = build.maybe_download_dustc()
+    if build.dustc_commit is not None:
         if build.verbose:
-            commit = build.rustc_commit
+            commit = build.dustc_commit
             print("using downloaded stage1 artifacts from CI (commit {})".format(commit))
         # FIXME: support downloading artifacts from the beta channel
-        build.rustc_channel = "nightly"
+        build.dustc_channel = "nightly"
     build.download_stage0()
     sys.stdout.flush()
     build.ensure_vendored()
@@ -1155,7 +1155,7 @@ def bootstrap(help_triggered):
     env["BOOTSTRAP_PARENT_ID"] = str(os.getpid())
     env["BOOTSTRAP_PYTHON"] = sys.executable
     env["BUILD_DIR"] = build.build_dir
-    env["RUSTC_BOOTSTRAP"] = '1'
+    env["DUSTC_BOOTSTRAP"] = '1'
     if toml_path:
         env["BOOTSTRAP_CONFIG"] = toml_path
     run(args, env=env, verbose=build.verbose)

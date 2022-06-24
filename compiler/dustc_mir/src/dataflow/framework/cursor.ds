@@ -3,9 +3,9 @@
 use std::borrow::Borrow;
 use std::cmp::Ordering;
 
-use rustc_index::bit_set::BitSet;
-use rustc_index::vec::Idx;
-use rustc_middle::mir::{self, BasicBlock, Location};
+use dustc_index::bit_set::BitSet;
+use dustc_index::vec::Idx;
+use dustc_middle::mir::{self, BasicBlock, Location};
 
 use super::{Analysis, Direction, Effect, EffectIndex, Results};
 
@@ -169,7 +169,7 @@ where
 
         let block_data = &self.body[target.block];
         let next_effect = if A::Direction::is_forward() {
-            #[rustfmt::skip]
+            #[dustfmt::skip]
             self.pos.curr_effect_index.map_or_else(
                 || Effect::Before.at_index(0),
                 EffectIndex::next_in_forward_order,

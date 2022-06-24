@@ -1,18 +1,18 @@
 // Code that generates a test runner to run all the tests in a crate
 
-use rustc_ast as ast;
-use rustc_ast::entry::EntryPointType;
-use rustc_ast::mut_visit::{ExpectOne, *};
-use rustc_ast::ptr::P;
-use rustc_ast::{attr, ModKind};
-use rustc_expand::base::{ExtCtxt, ResolverExpand};
-use rustc_expand::expand::{AstFragment, ExpansionConfig};
-use rustc_feature::Features;
-use rustc_session::Session;
-use rustc_span::hygiene::{AstPass, SyntaxContext, Transparency};
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::{Span, DUMMY_SP};
-use rustc_target::spec::PanicStrategy;
+use dustc_ast as ast;
+use dustc_ast::entry::EntryPointType;
+use dustc_ast::mut_visit::{ExpectOne, *};
+use dustc_ast::ptr::P;
+use dustc_ast::{attr, ModKind};
+use dustc_expand::base::{ExtCtxt, ResolverExpand};
+use dustc_expand::expand::{AstFragment, ExpansionConfig};
+use dustc_feature::Features;
+use dustc_session::Session;
+use dustc_span::hygiene::{AstPass, SyntaxContext, Transparency};
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::{Span, DUMMY_SP};
+use dustc_target::spec::PanicStrategy;
 use smallvec::{smallvec, SmallVec};
 use tracing::debug;
 
@@ -135,8 +135,8 @@ impl<'a> MutVisitor for TestHarnessGenerator<'a> {
     }
 }
 
-// Beware, this is duplicated in librustc_passes/entry.rs (with
-// `rustc_hir::Item`), so make sure to keep them in sync.
+// Beware, this is duplicated in libdustc_passes/entry.rs (with
+// `dustc_hir::Item`), so make sure to keep them in sync.
 fn entry_point_type(sess: &Session, item: &ast::Item, depth: usize) -> EntryPointType {
     match item.kind {
         ast::ItemKind::Fn(..) => {
@@ -220,7 +220,7 @@ fn generate_test_harness(
     let expn_id = ext_cx.resolver.expansion_for_ast_pass(
         DUMMY_SP,
         AstPass::TestHarness,
-        &[sym::main, sym::test, sym::rustc_attrs],
+        &[sym::main, sym::test, sym::dustc_attrs],
         None,
     );
     let def_site = DUMMY_SP.with_def_site_ctxt(expn_id);
@@ -356,12 +356,12 @@ fn mk_tests_slice(cx: &TestCtxt<'_>, sp: Span) -> P<ast::Expr> {
 }
 
 fn is_test_case(sess: &Session, i: &ast::Item) -> bool {
-    sess.contains_name(&i.attrs, sym::rustc_test_marker)
+    sess.contains_name(&i.attrs, sym::dustc_test_marker)
 }
 
 fn get_test_runner(
     sess: &Session,
-    sd: &rustc_errors::Handler,
+    sd: &dustc_errors::Handler,
     krate: &ast::Crate,
 ) -> Option<ast::Path> {
     let test_attr = sess.find_by_name(&krate.attrs, sym::test_runner)?;

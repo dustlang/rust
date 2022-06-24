@@ -3,5 +3,5 @@
 
 // pp-exact
 
-#[rustfmt::r#final(final)]
+#[dustfmt::r#final(final)]
 fn main() { }

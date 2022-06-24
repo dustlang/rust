@@ -10,17 +10,17 @@ use crate::infer::RegionRelations;
 use crate::infer::RegionVariableOrigin;
 use crate::infer::RegionckMode;
 use crate::infer::SubregionOrigin;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_data_structures::graph::implementation::{
+use dustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::graph::implementation::{
     Direction, Graph, NodeIndex, INCOMING, OUTGOING,
 };
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_middle::ty::{ReEarlyBound, ReEmpty, ReErased, ReFree, ReStatic};
-use rustc_middle::ty::{ReLateBound, RePlaceholder, ReVar};
-use rustc_middle::ty::{Region, RegionVid};
-use rustc_span::Span;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_middle::ty::{ReEarlyBound, ReEmpty, ReErased, ReFree, ReStatic};
+use dustc_middle::ty::{ReLateBound, RePlaceholder, ReVar};
+use dustc_middle::ty::{Region, RegionVid};
+use dustc_span::Span;
 use std::fmt;
 
 /// This function performs lexical region resolution given a complete

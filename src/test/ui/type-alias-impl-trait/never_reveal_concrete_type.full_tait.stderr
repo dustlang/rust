@@ -5,7 +5,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error[E0308]: mismatched types
   --> $DIR/never_reveal_concrete_type.rs:16:27
@@ -30,4 +30,4 @@ LL |     let _ = x as &'static str;
 error: aborting due to 2 previous errors; 1 warning emitted
 
 Some errors have detailed explanations: E0308, E0605.
-For more information about an error, try `rustc --explain E0308`.
+For more information about an error, try `dustc --explain E0308`.

@@ -2,18 +2,18 @@
 
 use std::collections::VecDeque;
 
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_index::vec::IndexVec;
-use rustc_infer::infer::NllRegionVariableOrigin;
-use rustc_middle::mir::{
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_index::vec::IndexVec;
+use dustc_infer::infer::NllRegionVariableOrigin;
+use dustc_middle::mir::{
     Body, CastKind, ConstraintCategory, FakeReadCause, Local, Location, Operand, Place, Rvalue,
     Statement, StatementKind, TerminatorKind,
 };
-use rustc_middle::ty::adjustment::PointerCast;
-use rustc_middle::ty::{self, RegionVid, TyCtxt};
-use rustc_span::symbol::Symbol;
-use rustc_span::Span;
+use dustc_middle::ty::adjustment::PointerCast;
+use dustc_middle::ty::{self, RegionVid, TyCtxt};
+use dustc_span::symbol::Symbol;
+use dustc_span::Span;
 
 use crate::borrow_check::{
     borrow_set::BorrowData, nll::ConstraintDescription, region_infer::Cause, MirBorrowckCtxt,
@@ -279,7 +279,7 @@ impl<'cx, 'tcx> MirBorrowckCtxt<'cx, 'tcx> {
     ///   - first half is the kind of write, if any, being performed
     ///   - second half is the place being accessed
     ///
-    /// [d]: https://rust-lang.github.io/rfcs/2094-nll.html#leveraging-intuition-framing-errors-in-terms-of-points
+    /// [d]: https://dust-lang.github.io/rfcs/2094-nll.html#leveraging-intuition-framing-errors-in-terms-of-points
     pub(in crate::borrow_check) fn explain_why_borrow_contains_point(
         &self,
         location: Location,

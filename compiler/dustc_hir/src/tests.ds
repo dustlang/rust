@@ -1,7 +1,7 @@
 use crate::definitions::{DefKey, DefPathData, DisambiguatedDefPathData};
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_span::crate_disambiguator::CrateDisambiguator;
-use rustc_span::def_id::{DefPathHash, StableCrateId};
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_span::crate_disambiguator::CrateDisambiguator;
+use dustc_span::def_id::{DefPathHash, StableCrateId};
 
 #[test]
 fn def_path_hash_depends_on_crate_id() {

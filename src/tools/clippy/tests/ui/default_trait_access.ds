@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![allow(unused_imports)]
 #![deny(clippy::default_trait_access)]

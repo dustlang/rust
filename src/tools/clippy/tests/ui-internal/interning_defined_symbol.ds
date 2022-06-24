@@ -1,14 +1,14 @@
-// run-rustfix
+// run-dustfix
 #![deny(clippy::internal)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_span;
+extern crate dustc_span;
 
-use rustc_span::symbol::Symbol;
+use dustc_span::symbol::Symbol;
 
 macro_rules! sym {
     ($tt:tt) => {
-        rustc_span::symbol::Symbol::intern(stringify!($tt))
+        dustc_span::symbol::Symbol::intern(stringify!($tt))
     };
 }
 

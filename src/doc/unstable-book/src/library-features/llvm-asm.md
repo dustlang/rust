@@ -2,15 +2,15 @@
 
 The tracking issue for this feature is: [#70173]
 
-[#70173]: https://github.com/rust-lang/rust/issues/70173
+[#70173]: https://github.com/dust-lang/dust/issues/70173
 
 ------------------------
 
 For extremely low-level manipulations and performance reasons, one
-might wish to control the CPU directly. Rust supports using inline
+might wish to control the CPU directly. Dust supports using inline
 assembly to do this via the `llvm_asm!` macro.
 
-```rust,ignore (pseudo-code)
+```dust,ignore (pseudo-code)
 llvm_asm!(assembly template
    : output operands
    : input operands
@@ -30,7 +30,7 @@ crate to allow) and of course requires an `unsafe` block.
 The `assembly template` is the only required parameter and must be a
 literal string (i.e. `""`)
 
-```rust
+```dust
 #![feature(llvm_asm)]
 
 #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
@@ -56,7 +56,7 @@ fn main() {
 Output operands, input operands, clobbers and options are all optional
 but you must add the right number of `:` if you skip them:
 
-```rust
+```dust
 # #![feature(llvm_asm)]
 # #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 # fn main() { unsafe {
@@ -72,7 +72,7 @@ llvm_asm!("xor %eax, %eax"
 
 Whitespace also doesn't matter:
 
-```rust
+```dust
 # #![feature(llvm_asm)]
 # #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 # fn main() { unsafe {
@@ -88,7 +88,7 @@ Input and output operands follow the same format: `:
 "constraints1"(expr1), "constraints2"(expr2), ..."`. Output operand
 expressions must be mutable place, or not yet assigned:
 
-```rust
+```dust
 # #![feature(llvm_asm)]
 # #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 fn add(a: i32, b: i32) -> i32 {
@@ -115,7 +115,7 @@ you want, and you are required to put the specific size of the
 operand. This is useful for very low level programming, where
 which register you use is important:
 
-```rust
+```dust
 # #![feature(llvm_asm)]
 # #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 # unsafe fn read_byte_in(port: u16) -> u8 {
@@ -132,7 +132,7 @@ different values so we use the clobbers list to indicate to the
 compiler not to assume any values loaded into those registers will
 stay valid.
 
-```rust
+```dust
 # #![feature(llvm_asm)]
 # #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 # fn main() { unsafe {
@@ -153,7 +153,7 @@ memory, `memory` should also be specified.
 
 ## Options
 
-The last section, `options` is specific to Rust. The format is comma
+The last section, `options` is specific to Dust. The format is comma
 separated literal strings (i.e. `:"foo", "bar", "baz"`). It's used to
 specify some extra info about the inline assembly:
 
@@ -166,7 +166,7 @@ Current valid options are:
    the compiler to insert its usual stack alignment code
 3. `intel` - use intel syntax instead of the default AT&T.
 
-```rust
+```dust
 # #![feature(llvm_asm)]
 # #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 # fn main() {

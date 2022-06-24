@@ -16,8 +16,8 @@
 use crate::ast::*;
 use crate::token;
 
-use rustc_span::symbol::{Ident, Symbol};
-use rustc_span::Span;
+use dustc_span::symbol::{Ident, Symbol};
+use dustc_span::Span;
 
 #[derive(Copy, Clone, PartialEq)]
 pub enum AssocCtxt {

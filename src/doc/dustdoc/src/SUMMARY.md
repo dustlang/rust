@@ -1,6 +1,6 @@
-# The Rustdoc Book
+# The Dustdoc Book
 
-- [What is rustdoc?](what-is-rustdoc.md)
+- [What is dustdoc?](what-is-dustdoc.md)
 - [How to write documentation](how-to-write-documentation.md)
 - [What to include (and exclude)](what-to-include.md)
 - [Command-line arguments](command-line-arguments.md)

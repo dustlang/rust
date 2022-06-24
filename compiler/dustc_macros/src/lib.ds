@@ -1,5 +1,5 @@
 #![feature(proc_macro_diagnostic)]
-#![allow(rustc::default_hash_types)]
+#![allow(dustc::default_hash_types)]
 #![recursion_limit = "128"]
 
 use synstructure::decl_derive;
@@ -15,8 +15,8 @@ mod symbols;
 mod type_foldable;
 
 #[proc_macro]
-pub fn rustc_queries(input: TokenStream) -> TokenStream {
-    query::rustc_queries(input)
+pub fn dustc_queries(input: TokenStream) -> TokenStream {
+    query::dustc_queries(input)
 }
 
 #[proc_macro]

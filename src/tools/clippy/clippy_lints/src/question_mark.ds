@@ -1,10 +1,10 @@
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::{def, BindingAnnotation, Block, Expr, ExprKind, MatchSource, PatKind, StmtKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::sym;
+use dustc_errors::Applicability;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::{def, BindingAnnotation, Block, Expr, ExprKind, MatchSource, PatKind, StmtKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::sym;
 
 use crate::utils::sugg::Sugg;
 use crate::utils::{

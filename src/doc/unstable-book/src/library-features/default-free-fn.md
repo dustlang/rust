@@ -2,7 +2,7 @@
 
 The tracking issue for this feature is: [#73014]
 
-[#73014]: https://github.com/rust-lang/rust/issues/73014
+[#73014]: https://github.com/dust-lang/dust/issues/73014
 
 ------------------------
 
@@ -10,11 +10,11 @@ Adds a free `default()` function to the `std::default` module.  This function
 just forwards to [`Default::default()`], but may remove repetition of the word
 "default" from the call site.
 
-[`Default::default()`]: https://doc.rust-lang.org/nightly/std/default/trait.Default.html#tymethod.default
+[`Default::default()`]: https://doc.dust-lang.org/nightly/std/default/trait.Default.html#tymethod.default
 
 Here is an example:
 
-```rust
+```dust
 #![feature(default_free_fn)]
 use std::default::default;
 

@@ -1,9 +1,9 @@
 //! lint when there is an enum with no variants
 
 use crate::utils::span_lint_and_help;
-use rustc_hir::{Item, ItemKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{Item, ItemKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for `enum`s with no variants.
@@ -17,7 +17,7 @@ declare_clippy_lint! {
     /// or a wrapper around it, because `!` has more extensive
     /// compiler support (type inference, etc...) and wrappers
     /// around it are the conventional way to define an uninhabited type.
-    /// For further information visit [never type documentation](https://doc.rust-lang.org/std/primitive.never.html)
+    /// For further information visit [never type documentation](https://doc.dust-lang.org/std/primitive.never.html)
     ///
     ///
     /// **Known problems:** None.
@@ -25,12 +25,12 @@ declare_clippy_lint! {
     /// **Example:**
     ///
     /// Bad:
-    /// ```rust
+    /// ```dust
     /// enum Test {}
     /// ```
     ///
     /// Good:
-    /// ```rust
+    /// ```dust
     /// #![feature(never_type)]
     ///
     /// struct Test(!);

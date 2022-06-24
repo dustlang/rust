@@ -12,20 +12,20 @@
 //! initialization and can otherwise silence errors, if
 //! move analysis runs after promotion on broken MIR.
 
-use rustc_ast::LitKind;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_middle::mir::traversal::ReversePostorder;
-use rustc_middle::mir::visit::{MutVisitor, MutatingUseContext, PlaceContext, Visitor};
-use rustc_middle::mir::*;
-use rustc_middle::ty::cast::CastTy;
-use rustc_middle::ty::subst::InternalSubsts;
-use rustc_middle::ty::{self, List, TyCtxt, TypeFoldable};
-use rustc_span::symbol::sym;
-use rustc_span::Span;
+use dustc_ast::LitKind;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_middle::mir::traversal::ReversePostorder;
+use dustc_middle::mir::visit::{MutVisitor, MutatingUseContext, PlaceContext, Visitor};
+use dustc_middle::mir::*;
+use dustc_middle::ty::cast::CastTy;
+use dustc_middle::ty::subst::InternalSubsts;
+use dustc_middle::ty::{self, List, TyCtxt, TypeFoldable};
+use dustc_span::symbol::sym;
+use dustc_span::Span;
 
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_target::spec::abi::Abi;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_target::spec::abi::Abi;
 
 use std::cell::Cell;
 use std::{cmp, iter, mem};
@@ -37,7 +37,7 @@ use crate::transform::MirPass;
 /// A `MirPass` for promotion.
 ///
 /// Promotion is the extraction of promotable temps into separate MIR bodies. This pass also emits
-/// errors when promotion of `#[rustc_args_required_const]` arguments fails.
+/// errors when promotion of `#[dustc_args_required_const]` arguments fails.
 ///
 /// After this pass is run, `promoted_fragments` will hold the MIR body corresponding to each
 /// newly created `Constant`.
@@ -103,7 +103,7 @@ pub enum Candidate {
     Ref(Location),
 
     /// Currently applied to function calls where the callee has the unstable
-    /// `#[rustc_args_required_const]` attribute as well as the SIMD shuffle
+    /// `#[dustc_args_required_const]` attribute as well as the SIMD shuffle
     /// intrinsic. The intrinsic requires the arguments are indeed constant and
     /// the attribute currently provides the semantic requirement that arguments
     /// must be constant.
@@ -134,7 +134,7 @@ impl Candidate {
 
 fn args_required_const(tcx: TyCtxt<'_>, def_id: DefId) -> Option<Vec<usize>> {
     let attrs = tcx.get_attrs(def_id);
-    let attr = attrs.iter().find(|a| tcx.sess.check_name(a, sym::rustc_args_required_const))?;
+    let attr = attrs.iter().find(|a| tcx.sess.check_name(a, sym::dustc_args_required_const))?;
     let mut ret = vec![];
     for meta in attr.meta_item_list()? {
         match meta.literal()?.kind {
@@ -221,9 +221,9 @@ impl<'tcx> Visitor<'tcx> for Collector<'_, 'tcx> {
             TerminatorKind::Call { ref func, .. } => {
                 if let ty::FnDef(def_id, _) = *func.ty(self.ccx.body, self.ccx.tcx).kind() {
                     let fn_sig = self.ccx.tcx.fn_sig(def_id);
-                    if let Abi::RustIntrinsic | Abi::PlatformIntrinsic = fn_sig.abi() {
+                    if let Abi::DustIntrinsic | Abi::PlatformIntrinsic = fn_sig.abi() {
                         let name = self.ccx.tcx.item_name(def_id);
-                        // FIXME(eddyb) use `#[rustc_args_required_const(2)]` for shuffles.
+                        // FIXME(eddyb) use `#[dustc_args_required_const(2)]` for shuffles.
                         if name.as_str().starts_with("simd_shuffle") {
                             self.candidates
                                 .push(Candidate::Argument { bb: location.block, index: 2 });
@@ -274,9 +274,9 @@ struct Validator<'a, 'tcx> {
     temps: &'a IndexVec<Local, TempState>,
 
     /// Explicit promotion happens e.g. for constant arguments declared via
-    /// `rustc_args_required_const`.
+    /// `dustc_args_required_const`.
     /// Implicit promotion has almost the same rules, except that disallows `const fn`
-    /// except for those marked `#[rustc_promotable]`. This is to avoid changing
+    /// except for those marked `#[dustc_promotable]`. This is to avoid changing
     /// a legitimate run-time operation into a failing compile-time operation
     /// e.g. due to addresses being compared inside the function.
     explicit: bool,
@@ -432,7 +432,7 @@ impl<'tcx> Validator<'_, 'tcx> {
                         let mut promotable = false;
                         // We need to make sure this is a `Deref` of a local with no further projections.
                         // Discussion can be found at
-                        // https://github.com/rust-lang/rust/pull/74945#discussion_r463063247
+                        // https://github.com/dust-lang/dust/pull/74945#discussion_r463063247
                         if let Some(local) = place_base.as_local() {
                             // This is a special treatment for cases like *&STATIC where STATIC is a
                             // global static variable.
@@ -750,7 +750,7 @@ impl<'tcx> Validator<'_, 'tcx> {
         let fn_ty = callee.ty(self.body, self.tcx);
 
         // When doing explicit promotion and inside const/static items, we promote all (eligible) function calls.
-        // Everywhere else, we require `#[rustc_promotable]` on the callee.
+        // Everywhere else, we require `#[dustc_promotable]` on the callee.
         let promote_all_const_fn = self.explicit
             || matches!(
                 self.const_kind,
@@ -759,7 +759,7 @@ impl<'tcx> Validator<'_, 'tcx> {
         if !promote_all_const_fn {
             if let ty::FnDef(def_id, _) = *fn_ty.kind() {
                 // Never promote runtime `const fn` calls of
-                // functions without `#[rustc_promotable]`.
+                // functions without `#[dustc_promotable]`.
                 if !self.tcx.is_promotable_const_fn(def_id) {
                     return Err(Unpromotable);
                 }
@@ -802,7 +802,7 @@ pub fn validate_candidates(
             validator.explicit = candidate.forces_explicit_promotion();
 
             // FIXME(eddyb) also emit the errors for shuffle indices
-            // and `#[rustc_args_required_const]` arguments here.
+            // and `#[dustc_args_required_const]` arguments here.
 
             let is_promotable = validator.validate_candidate(candidate).is_ok();
 

@@ -1,9 +1,9 @@
 use crate::utils::{eager_or_lazy, usage};
 use crate::utils::{is_type_diagnostic_item, snippet, span_lint_and_sugg};
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_lint::LateContext;
-use rustc_span::sym;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_lint::LateContext;
+use dustc_span::sym;
 
 use super::UNNECESSARY_LAZY_EVALUATIONS;
 

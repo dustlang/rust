@@ -3,12 +3,12 @@ use crate::utils::{
 };
 use crate::utils::{higher, sugg};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::hir::map::Map;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::hir::map::Map;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for `a = a op b` or `a = b commutative_op a`
@@ -20,7 +20,7 @@ declare_clippy_lint! {
     /// implementations that differ from the regular `Op` impl.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let mut a = 5;
     /// let b = 0;
     /// // ...
@@ -47,7 +47,7 @@ declare_clippy_lint! {
     /// written as `a = a op a op b` as it's less confusing.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let mut a = 5;
     /// let b = 2;
     /// // ...
@@ -232,7 +232,7 @@ fn lint_misrefactored_assign_op(
 
 #[must_use]
 fn is_commutative(op: hir::BinOpKind) -> bool {
-    use rustc_hir::BinOpKind::{
+    use dustc_hir::BinOpKind::{
         Add, And, BitAnd, BitOr, BitXor, Div, Eq, Ge, Gt, Le, Lt, Mul, Ne, Or, Rem, Shl, Shr, Sub,
     };
     match op {

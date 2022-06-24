@@ -1,5 +1,5 @@
 #![feature(unboxed_closures)]
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 // Test for projection cache. We should be able to project distinct
 // lifetimes from `foo` as we reinstantiate it multiple times, but not
@@ -46,5 +46,5 @@ fn transmute<'a,'b>(x: &'a u32, y: &'b u32) -> (&'a u32, &'b u32) {
    //[krisskross]~^ ERROR lifetime mismatch [E0623]
 }
 
-#[rustc_error]
-fn main() { } //[ok,oneuse]~ ERROR fatal error triggered by #[rustc_error]
+#[dustc_error]
+fn main() { } //[ok,oneuse]~ ERROR fatal error triggered by #[dustc_error]

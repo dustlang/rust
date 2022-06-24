@@ -3,7 +3,7 @@
 #![allow(dead_code)]
 #![warn(clippy::doc_markdown)]
 #![feature(custom_inner_attributes)]
-#![rustfmt::skip]
+#![dustfmt::skip]
 
 /// The foo_bar function does _nothing_. See also foo::bar. (note the dot there)
 /// Markdown is _weird_. I mean _really weird_. This \_ is ok. So is `_`. But not Foo::some_fun
@@ -15,12 +15,12 @@ fn foo_bar() {
 }
 
 /// That one tests multiline ticks.
-/// ```rust
+/// ```dust
 /// foo_bar FOO_BAR
 /// _foo bar_
 /// ```
 ///
-/// ~~~rust
+/// ~~~dust
 /// foo_bar FOO_BAR
 /// _foo bar_
 /// ~~~
@@ -73,7 +73,7 @@ fn test_allowed() {
 }
 
 /// This test has [a link_with_underscores][chunked-example] inside it. See #823.
-/// See also [the issue tracker](https://github.com/rust-lang/rust-clippy/search?q=clippy::doc_markdown&type=Issues)
+/// See also [the issue tracker](https://github.com/dust-lang/dust-clippy/search?q=clippy::doc_markdown&type=Issues)
 /// on GitHub (which is a camel-cased word, but is OK). And here is another [inline link][inline_link].
 /// It can also be [inline_link2].
 ///
@@ -117,7 +117,7 @@ fn issue900() {
 /// but you might want to hide the return type or have it conditionally change.
 /// Boxing can achieve both.
 ///
-/// [iterator]: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
+/// [iterator]: https://doc.dust-lang.org/stable/std/iter/trait.Iterator.html
 /// [helper_types]: ../helper_types/index.html
 /// be_sure_we_got_to_the_end_of_it
 fn issue883() {
@@ -126,7 +126,7 @@ fn issue883() {
 /// `foo_bar
 /// baz_quz`
 /// [foo
-/// bar](https://doc.rust-lang.org/stable/std/iter/trait.IteratorFooBar.html)
+/// bar](https://doc.dust-lang.org/stable/std/iter/trait.IteratorFooBar.html)
 fn multiline() {
 }
 
@@ -165,7 +165,7 @@ fn four_quotes() {
 /// See [NIST SP 800-56A, revision 2].
 ///
 /// [NIST SP 800-56A, revision 2]:
-///     https://github.com/rust-lang/rust-clippy/issues/902#issuecomment-261919419
+///     https://github.com/dust-lang/dust-clippy/issues/902#issuecomment-261919419
 fn issue_902_comment() {}
 
 #[cfg_attr(feature = "a", doc = " ```")]

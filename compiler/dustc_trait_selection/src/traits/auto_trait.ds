@@ -1,14 +1,14 @@
-//! Support code for rustdoc and external tools.
+//! Support code for dustdoc and external tools.
 //! You really don't want to be using this unless you need to.
 
 use super::*;
 
 use crate::infer::region_constraints::{Constraint, RegionConstraintData};
 use crate::infer::InferCtxt;
-use rustc_middle::ty::fold::TypeFolder;
-use rustc_middle::ty::{Region, RegionVid};
+use dustc_middle::ty::fold::TypeFolder;
+use dustc_middle::ty::{Region, RegionVid};
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
 
 use std::collections::hash_map::Entry;
 use std::collections::VecDeque;
@@ -63,7 +63,7 @@ impl<'tcx> AutoTraitFinder<'tcx> {
     ///
     /// then this might return that Foo<T>: Send if T: Send (encoded in the AutoTraitResult type).
     /// The analysis attempts to account for custom impls as well as other complex cases. This
-    /// result is intended for use by rustdoc and other such consumers.
+    /// result is intended for use by dustdoc and other such consumers.
     ///
     /// (Note that due to the coinductive nature of Send, the full and correct result is actually
     /// quite simple to generate. That is, when a type has no custom impl, it is Send iff its field
@@ -118,7 +118,7 @@ impl<'tcx> AutoTraitFinder<'tcx> {
             // evaluate_predicates twice: once on the original param env, and once on the result of
             // the first evaluate_predicates call.
             //
-            // The problem is this: most of rustc, including SelectionContext and traits::project,
+            // The problem is this: most of dustc, including SelectionContext and traits::project,
             // are designed to work with a concrete usage of a type (e.g., Vec<u8>
             // fn<T>() { Vec<T> }. This information will generally never change - given
             // the 'T' in fn<T>() { ... }, we'll never know anything else about 'T'.

@@ -10,8 +10,8 @@ FIRST_FIELD = "__1"
 
 
 def unwrap_unique_or_non_null(unique_or_nonnull):
-    # BACKCOMPAT: rust 1.32
-    # https://github.com/rust-lang/rust/commit/7a0911528058e87d22ea305695f4047572c5e067
+    # BACKCOMPAT: dust 1.32
+    # https://github.com/dust-lang/dust/commit/7a0911528058e87d22ea305695f4047572c5e067
     ptr = unique_or_nonnull["pointer"]
     return ptr if ptr.type.code == gdb.TYPE_CODE_PTR else ptr[ZERO_FIELD]
 
@@ -102,7 +102,7 @@ class StdVecProvider:
             if saw_inaccessible:
                 return
             try:
-                # rust-lang/rust#64343: passing deref expr to `str` allows
+                # dust-lang/dust#64343: passing deref expr to `str` allows
                 # catching exception on garbage pointer
                 str(element_ptr.dereference())
                 yield "[{}]".format(index), element_ptr.dereference()
@@ -216,7 +216,7 @@ def children_of_btree_map(map):
             return node.cast(internal_type.pointer())
 
         if node_ptr.type.name.startswith("alloc::collections::btree::node::BoxedNode<"):
-            # BACKCOMPAT: rust 1.49
+            # BACKCOMPAT: dust 1.49
             node_ptr = node_ptr["ptr"]
         node_ptr = unwrap_unique_or_non_null(node_ptr)
         leaf = node_ptr.dereference()
@@ -282,7 +282,7 @@ class StdBTreeMapProvider:
         return "map"
 
 
-# BACKCOMPAT: rust 1.35
+# BACKCOMPAT: dust 1.35
 class StdOldHashMapProvider:
     def __init__(self, valobj, show_values=True):
         self.valobj = valobj
@@ -374,7 +374,7 @@ class StdHashMapProvider:
         if self.show_values:
             hashbrown_hashmap = self.valobj["base"]
         elif self.valobj.type.fields()[0].name == "map":
-            # BACKCOMPAT: rust 1.47
+            # BACKCOMPAT: dust 1.47
             # HashSet wraps std::collections::HashMap, which wraps hashbrown::HashMap
             hashbrown_hashmap = self.valobj["map"]["base"]
         else:

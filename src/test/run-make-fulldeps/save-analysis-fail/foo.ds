@@ -1,14 +1,14 @@
 #![crate_name = "test"]
 #![feature(box_syntax)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_graphviz;
-// A simple rust project
+extern crate dustc_graphviz;
+// A simple dust project
 
 extern crate krate2;
 extern crate krate2 as krate3;
 
-use rustc_graphviz::RenderOption;
+use dustc_graphviz::RenderOption;
 use std::cell::RefCell;
 use std::collections::{HashMap, HashSet};
 use std::io::Write;

@@ -9,13 +9,13 @@ crate mod macro_rules;
 crate mod quoted;
 crate mod transcribe;
 
-use rustc_ast::token::{self, NonterminalKind, Token, TokenKind};
-use rustc_ast::tokenstream::DelimSpan;
+use dustc_ast::token::{self, NonterminalKind, Token, TokenKind};
+use dustc_ast::tokenstream::DelimSpan;
 
-use rustc_span::symbol::Ident;
-use rustc_span::Span;
+use dustc_span::symbol::Ident;
+use dustc_span::Span;
 
-use rustc_data_structures::sync::Lrc;
+use dustc_data_structures::sync::Lrc;
 
 /// Contains the sub-token-trees of a "delimited" token tree, such as the contents of `(`. Note
 /// that the delimiter itself might be `NoDelim`.

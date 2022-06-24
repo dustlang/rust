@@ -3,7 +3,7 @@
 use crate::ops;
 use crate::ptr;
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T, I> ops::Index<I> for [T]
 where
     I: SliceIndex<[T]>,
@@ -16,7 +16,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T, I> ops::IndexMut<I> for [T]
 where
     I: SliceIndex<[T]>,
@@ -88,13 +88,13 @@ mod private_slice_index {
 /// Implementations of this trait have to promise that if the argument
 /// to `get_(mut_)unchecked` is a safe reference, then so is the result.
 #[stable(feature = "slice_get_slice", since = "1.28.0")]
-#[rustc_on_unimplemented(
+#[dustc_on_unimplemented(
     on(T = "str", label = "string indices are ranges of `usize`",),
     on(
         all(any(T = "str", T = "&str", T = "std::string::String"), _Self = "{integer}"),
         note = "you can use `.chars().nth()` or `.bytes().nth()`\n\
                 for more information, see chapter 8 in The Book: \
-                <https://doc.rust-lang.org/book/ch08-02-strings.html#indexing-into-strings>"
+                <https://doc.dust-lang.org/book/ch08-02-strings.html#indexing-into-strings>"
     ),
     message = "the type `{T}` cannot be indexed by `{Self}`",
     label = "slice indices are of type `usize` or ranges of `usize`"
@@ -119,7 +119,7 @@ pub unsafe trait SliceIndex<T: ?Sized>: private_slice_index::Sealed {
     /// Calling this method with an out-of-bounds index or a dangling `slice` pointer
     /// is *[undefined behavior]* even if the resulting reference is not used.
     ///
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
     #[unstable(feature = "slice_index_methods", issue = "none")]
     unsafe fn get_unchecked(self, slice: *const T) -> *const Self::Output;
 
@@ -128,7 +128,7 @@ pub unsafe trait SliceIndex<T: ?Sized>: private_slice_index::Sealed {
     /// Calling this method with an out-of-bounds index or a dangling `slice` pointer
     /// is *[undefined behavior]* even if the resulting reference is not used.
     ///
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
     #[unstable(feature = "slice_index_methods", issue = "none")]
     unsafe fn get_unchecked_mut(self, slice: *mut T) -> *mut Self::Output;
 

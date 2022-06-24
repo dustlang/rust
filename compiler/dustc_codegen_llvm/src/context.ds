@@ -9,21 +9,21 @@ use crate::type_::Type;
 use crate::value::Value;
 
 use cstr::cstr;
-use rustc_codegen_ssa::base::wants_msvc_seh;
-use rustc_codegen_ssa::traits::*;
-use rustc_data_structures::base_n;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::small_c_str::SmallCStr;
-use rustc_middle::bug;
-use rustc_middle::mir::mono::CodegenUnit;
-use rustc_middle::ty::layout::{HasParamEnv, LayoutError, TyAndLayout};
-use rustc_middle::ty::{self, Instance, Ty, TyCtxt};
-use rustc_session::config::{CFGuard, CrateType, DebugInfo};
-use rustc_session::Session;
-use rustc_span::source_map::{Span, DUMMY_SP};
-use rustc_span::symbol::Symbol;
-use rustc_target::abi::{HasDataLayout, LayoutOf, PointeeInfo, Size, TargetDataLayout, VariantIdx};
-use rustc_target::spec::{HasTargetSpec, RelocModel, Target, TlsModel};
+use dustc_codegen_ssa::base::wants_msvc_seh;
+use dustc_codegen_ssa::traits::*;
+use dustc_data_structures::base_n;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::small_c_str::SmallCStr;
+use dustc_middle::bug;
+use dustc_middle::mir::mono::CodegenUnit;
+use dustc_middle::ty::layout::{HasParamEnv, LayoutError, TyAndLayout};
+use dustc_middle::ty::{self, Instance, Ty, TyCtxt};
+use dustc_session::config::{CFGuard, CrateType, DebugInfo};
+use dustc_session::Session;
+use dustc_span::source_map::{Span, DUMMY_SP};
+use dustc_span::symbol::Symbol;
+use dustc_target::abi::{HasDataLayout, LayoutOf, PointeeInfo, Size, TargetDataLayout, VariantIdx};
+use dustc_target::spec::{HasTargetSpec, RelocModel, Target, TlsModel};
 
 use std::cell::{Cell, RefCell};
 use std::ffi::CStr;
@@ -84,7 +84,7 @@ pub struct CodegenCx<'ll, 'tcx> {
 
     eh_personality: Cell<Option<&'ll Value>>,
     eh_catch_typeinfo: Cell<Option<&'ll Value>>,
-    pub rust_try_fn: Cell<Option<&'ll Value>>,
+    pub dust_try_fn: Cell<Option<&'ll Value>>,
 
     intrinsics: RefCell<FxHashMap<&'static str, &'ll Value>>,
 
@@ -131,8 +131,8 @@ pub unsafe fn create_module(
     // Ensure the data-layout values hardcoded remain the defaults.
     if sess.target.is_builtin {
         let tm = crate::back::write::create_informational_target_machine(tcx.sess);
-        llvm::LLVMRustSetDataLayoutFromTargetMachine(llmod, tm);
-        llvm::LLVMRustDisposeTargetMachine(tm);
+        llvm::LLVMDustSetDataLayoutFromTargetMachine(llmod, tm);
+        llvm::LLVMDustDisposeTargetMachine(tm);
 
         let llvm_data_layout = llvm::LLVMGetDataLayoutStr(llmod);
         let llvm_data_layout = str::from_utf8(CStr::from_ptr(llvm_data_layout).to_bytes())
@@ -140,7 +140,7 @@ pub unsafe fn create_module(
 
         // Unfortunately LLVM target specs change over time, and right now we
         // don't have proper support to work with any more than one
-        // `data_layout` than the one that is in the rust-lang/rust repo. If
+        // `data_layout` than the one that is in the dust-lang/dust repo. If
         // this compiler is configured against a custom LLVM, we may have a
         // differing data layout, even though we should update our own to use
         // that one.
@@ -149,7 +149,7 @@ pub unsafe fn create_module(
         // disable this check entirely as we may be configured with something
         // that has a different target layout.
         //
-        // Unsure if this will actually cause breakage when rustc is configured
+        // Unsure if this will actually cause breakage when dustc is configured
         // as such.
         //
         // FIXME(#34960)
@@ -171,14 +171,14 @@ pub unsafe fn create_module(
     llvm::LLVMSetDataLayout(llmod, data_layout.as_ptr());
 
     let llvm_target = SmallCStr::new(&sess.target.llvm_target);
-    llvm::LLVMRustSetNormalizedTarget(llmod, llvm_target.as_ptr());
+    llvm::LLVMDustSetNormalizedTarget(llmod, llvm_target.as_ptr());
 
     if sess.relocation_model() == RelocModel::Pic {
-        llvm::LLVMRustSetModulePICLevel(llmod);
+        llvm::LLVMDustSetModulePICLevel(llmod);
         // PIE is potentially more effective than PIC, but can only be used in executables.
         // If all our outputs are executables, then we can relax PIC to PIE.
         if sess.crate_types().iter().all(|ty| *ty == CrateType::Executable) {
-            llvm::LLVMRustSetModulePIELevel(llmod);
+            llvm::LLVMDustSetModulePIELevel(llmod);
         }
     }
 
@@ -187,13 +187,13 @@ pub unsafe fn create_module(
     // longer jumps) if a larger code model is used with a smaller one.
     //
     // See https://reviews.llvm.org/D52322 and https://reviews.llvm.org/D52323.
-    llvm::LLVMRustSetModuleCodeModel(llmod, to_llvm_code_model(sess.code_model()));
+    llvm::LLVMDustSetModuleCodeModel(llmod, to_llvm_code_model(sess.code_model()));
 
     // If skipping the PLT is enabled, we need to add some module metadata
     // to ensure intrinsic calls don't use it.
     if !sess.needs_plt() {
         let avoid_plt = "RtLibUseGOT\0".as_ptr().cast();
-        llvm::LLVMRustAddModuleFlag(llmod, avoid_plt, 1);
+        llvm::LLVMDustAddModuleFlag(llmod, avoid_plt, 1);
     }
 
     // Control Flow Guard is currently only supported by the MSVC linker on Windows.
@@ -202,11 +202,11 @@ pub unsafe fn create_module(
             CFGuard::Disabled => {}
             CFGuard::NoChecks => {
                 // Set `cfguard=1` module flag to emit metadata only.
-                llvm::LLVMRustAddModuleFlag(llmod, "cfguard\0".as_ptr() as *const _, 1)
+                llvm::LLVMDustAddModuleFlag(llmod, "cfguard\0".as_ptr() as *const _, 1)
             }
             CFGuard::Checks => {
                 // Set `cfguard=2` module flag to emit metadata and checks.
-                llvm::LLVMRustAddModuleFlag(llmod, "cfguard\0".as_ptr() as *const _, 2)
+                llvm::LLVMDustAddModuleFlag(llmod, "cfguard\0".as_ptr() as *const _, 2)
             }
         }
     }
@@ -245,7 +245,7 @@ impl<'ll, 'tcx> CodegenCx<'ll, 'tcx> {
         //
         // * If an object file will never be included in a dynamic library,
         //   there's no need to attach the dllexport attribute. Most object
-        //   files in Rust are not destined to become part of a dll as binaries
+        //   files in Dust are not destined to become part of a dll as binaries
         //   are statically linked by default.
         // * If the compiler is emitting both an rlib and a dylib, the same
         //   source object file is currently used but with MSVC this may be less
@@ -270,7 +270,7 @@ impl<'ll, 'tcx> CodegenCx<'ll, 'tcx> {
         // For now the compiler takes the perf hit (I do not have any numbers to
         // this effect) by marking very little as `dllimport` and praying the
         // linker will take care of everything. Fixing this problem will likely
-        // require adding a few attributes to Rust itself (feature gated at the
+        // require adding a few attributes to Dust itself (feature gated at the
         // start) and then strongly recommending static linkage on Windows!
         let use_dll_storage_attrs = tcx.sess.target.is_like_windows;
 
@@ -320,7 +320,7 @@ impl<'ll, 'tcx> CodegenCx<'ll, 'tcx> {
             dbg_cx,
             eh_personality: Cell::new(None),
             eh_catch_typeinfo: Cell::new(None),
-            rust_try_fn: Cell::new(None),
+            dust_try_fn: Cell::new(None),
             intrinsics: Default::default(),
             local_gen_sym_counter: Cell::new(0),
         }
@@ -370,7 +370,7 @@ impl MiscMethods<'tcx> for CodegenCx<'ll, 'tcx> {
         // injecting a dependency on the `_Unwind_Resume` symbol for resuming
         // an "exception", but for MSVC we want to force SEH. This means that we
         // can't actually have the personality function be our standard
-        // `rust_eh_personality` function, but rather we wired it up to the
+        // `dust_eh_personality` function, but rather we wired it up to the
         // CRT's custom personality function, which forces LLVM to consider
         // landing pads as "landing pads for SEH".
         if let Some(llpersonality) = self.eh_personality.get() {
@@ -392,7 +392,7 @@ impl MiscMethods<'tcx> for CodegenCx<'ll, 'tcx> {
                 let name = if wants_msvc_seh(self.sess()) {
                     "__CxxFrameHandler3"
                 } else {
-                    "rust_eh_personality"
+                    "dust_eh_personality"
                 };
                 let fty = self.type_variadic_func(&[], self.type_i32());
                 self.declare_cfn(name, llvm::UnnamedAddr::Global, fty)
@@ -437,7 +437,7 @@ impl MiscMethods<'tcx> for CodegenCx<'ll, 'tcx> {
         unsafe {
             let g = llvm::LLVMAddGlobal(self.llmod, self.val_ty(array), name.as_ptr());
             llvm::LLVMSetInitializer(g, array);
-            llvm::LLVMRustSetLinkage(g, llvm::Linkage::AppendingLinkage);
+            llvm::LLVMDustSetLinkage(g, llvm::Linkage::AppendingLinkage);
             llvm::LLVMSetSection(g, section.as_ptr());
         }
     }
@@ -734,7 +734,7 @@ impl CodegenCx<'b, 'tcx> {
             _ => {
                 let ty = self
                     .type_struct(&[self.type_ptr_to(self.type_isize()), self.type_i8p()], false);
-                self.declare_global("rust_eh_catch_typeinfo", ty)
+                self.declare_global("dust_eh_catch_typeinfo", ty)
             }
         };
         let eh_catch_typeinfo = self.const_bitcast(eh_catch_typeinfo, self.type_i8p());

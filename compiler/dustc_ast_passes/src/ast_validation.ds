@@ -7,24 +7,24 @@
 // or type checking or some other kind of complex analysis.
 
 use itertools::{Either, Itertools};
-use rustc_ast::ptr::P;
-use rustc_ast::visit::{self, AssocCtxt, FnCtxt, FnKind, Visitor};
-use rustc_ast::walk_list;
-use rustc_ast::*;
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::{error_code, pluralize, struct_span_err, Applicability};
-use rustc_parse::validate_attr;
-use rustc_session::lint::builtin::PATTERNS_IN_FNS_WITHOUT_BODY;
-use rustc_session::lint::{BuiltinLintDiagnostics, LintBuffer};
-use rustc_session::Session;
-use rustc_span::symbol::{kw, sym, Ident};
-use rustc_span::Span;
+use dustc_ast::ptr::P;
+use dustc_ast::visit::{self, AssocCtxt, FnCtxt, FnKind, Visitor};
+use dustc_ast::walk_list;
+use dustc_ast::*;
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::{error_code, pluralize, struct_span_err, Applicability};
+use dustc_parse::validate_attr;
+use dustc_session::lint::builtin::PATTERNS_IN_FNS_WITHOUT_BODY;
+use dustc_session::lint::{BuiltinLintDiagnostics, LintBuffer};
+use dustc_session::Session;
+use dustc_span::symbol::{kw, sym, Ident};
+use dustc_span::Span;
 use std::mem;
 use std::ops::DerefMut;
 
 const MORE_EXTERN: &str =
-    "for more information, visit https://doc.rust-lang.org/std/keyword.extern.html";
+    "for more information, visit https://doc.dust-lang.org/std/keyword.extern.html";
 
 /// Is `self` allowed semantically as the first parameter in an `FnDecl`?
 enum SelfSemantic {
@@ -179,7 +179,7 @@ impl<'a> AstValidator<'a> {
         }
     }
 
-    fn err_handler(&self) -> &rustc_errors::Handler {
+    fn err_handler(&self) -> &dustc_errors::Handler {
         &self.session.diagnostic()
     }
 
@@ -262,7 +262,7 @@ impl<'a> AstValidator<'a> {
                     &format!("`?Trait` is not permitted in {}", where_),
                 );
                 if is_trait {
-                    let path_str = pprust::path_to_string(&poly.trait_ref.path);
+                    let path_str = ppdust::path_to_string(&poly.trait_ref.path);
                     err.note(&format!("traits are `?{}` by default", path_str));
                 }
                 err.emit();
@@ -276,7 +276,7 @@ impl<'a> AstValidator<'a> {
     // FIXME: do we want to allow `expr -> pattern` conversion to create path expressions?
     // That means making this work:
     //
-    // ```rust,ignore (FIXME)
+    // ```dust,ignore (FIXME)
     // struct S;
     // macro_rules! m {
     //     ($a:expr) => {
@@ -360,7 +360,7 @@ impl<'a> AstValidator<'a> {
             .flat_map(|i| i.attrs.as_ref())
             .filter(|attr| {
                 let arr = [sym::allow, sym::cfg, sym::cfg_attr, sym::deny, sym::forbid, sym::warn];
-                !arr.contains(&attr.name_or_empty()) && rustc_attr::is_builtin_attr(attr)
+                !arr.contains(&attr.name_or_empty()) && dustc_attr::is_builtin_attr(attr)
             })
             .for_each(|attr| {
                 if attr.is_doc_comment() {
@@ -651,7 +651,7 @@ impl<'a> AstValidator<'a> {
         // Lifetimes always come first.
         let lt_sugg = data.args.iter().filter_map(|arg| match arg {
             AngleBracketedArg::Arg(lt @ GenericArg::Lifetime(_)) => {
-                Some(pprust::to_string(|s| s.print_generic_arg(lt)))
+                Some(ppdust::to_string(|s| s.print_generic_arg(lt)))
             }
             _ => None,
         });
@@ -659,13 +659,13 @@ impl<'a> AstValidator<'a> {
             AngleBracketedArg::Arg(GenericArg::Lifetime(_)) | AngleBracketedArg::Constraint(_) => {
                 None
             }
-            AngleBracketedArg::Arg(arg) => Some(pprust::to_string(|s| s.print_generic_arg(arg))),
+            AngleBracketedArg::Arg(arg) => Some(ppdust::to_string(|s| s.print_generic_arg(arg))),
         });
         // Constraints always come last.
         let constraint_sugg = data.args.iter().filter_map(|a| match a {
             AngleBracketedArg::Arg(_) => None,
             AngleBracketedArg::Constraint(c) => {
-                Some(pprust::to_string(|s| s.print_assoc_constraint(c)))
+                Some(ppdust::to_string(|s| s.print_assoc_constraint(c)))
             }
         });
         format!(
@@ -719,7 +719,7 @@ impl<'a> AstValidator<'a> {
 /// which is lifetimes, then types and then consts. (`<'a, T, const N: usize>`)
 fn validate_generic_param_order(
     sess: &Session,
-    handler: &rustc_errors::Handler,
+    handler: &dustc_errors::Handler,
     generics: &[GenericParam],
     span: Span,
 ) {
@@ -734,7 +734,7 @@ fn validate_generic_param_order(
             GenericParamKind::Lifetime => (ParamKindOrd::Lifetime, ident),
             GenericParamKind::Type { default: _ } => (ParamKindOrd::Type, ident),
             GenericParamKind::Const { ref ty, kw_span: _, default: _ } => {
-                let ty = pprust::ty_to_string(ty);
+                let ty = ppdust::ty_to_string(ty);
                 let unordered = sess.features_untracked().const_generics;
                 (ParamKindOrd::Const { unordered }, Some(format!("const {}: {}", param.ident, ty)))
             }
@@ -764,13 +764,13 @@ fn validate_generic_param_order(
             if let Some(bounds) = bounds {
                 if !bounds.is_empty() {
                     ordered_params += ": ";
-                    ordered_params += &pprust::bounds_to_string(&bounds);
+                    ordered_params += &ppdust::bounds_to_string(&bounds);
                 }
             }
             match kind {
                 GenericParamKind::Type { default: Some(default) } => {
                     ordered_params += " = ";
-                    ordered_params += &pprust::ty_to_string(default);
+                    ordered_params += &ppdust::ty_to_string(default);
                 }
                 GenericParamKind::Type { default: None } => (),
                 GenericParamKind::Lifetime => (),
@@ -1402,7 +1402,7 @@ fn deny_equality_constraints(
                                     let gen_args = args.as_ref().map(|p| (**p).clone());
                                     // Build `<Bar = RhsTy>`.
                                     let arg = AngleBracketedArg::Constraint(AssocTyConstraint {
-                                        id: rustc_ast::node_id::DUMMY_NODE_ID,
+                                        id: dustc_ast::node_id::DUMMY_NODE_ID,
                                         ident: *ident,
                                         gen_args,
                                         kind: AssocTyConstraintKind::Equality {
@@ -1436,7 +1436,7 @@ fn deny_equality_constraints(
                                         format!(
                                             "{}: {}",
                                             param,
-                                            pprust::path_to_string(&assoc_path)
+                                            ppdust::path_to_string(&assoc_path)
                                         ),
                                         Applicability::MaybeIncorrect,
                                     );
@@ -1451,7 +1451,7 @@ fn deny_equality_constraints(
         }
     }
     err.note(
-        "see issue #20041 <https://github.com/rust-lang/rust/issues/20041> for more information",
+        "see issue #20041 <https://github.com/dust-lang/dust/issues/20041> for more information",
     );
     err.emit();
 }

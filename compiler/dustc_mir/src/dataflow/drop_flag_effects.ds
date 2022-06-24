@@ -1,7 +1,7 @@
 use crate::util::elaborate_drops::DropFlagState;
-use rustc_middle::mir::{self, Body, Location};
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_target::abi::VariantIdx;
+use dustc_middle::mir::{self, Body, Location};
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_target::abi::VariantIdx;
 
 use super::indexes::MovePathIndex;
 use super::move_paths::{InitKind, LookupResult, MoveData};

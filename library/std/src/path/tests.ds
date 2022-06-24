@@ -1290,8 +1290,8 @@ pub fn test_compare() {
     );
 
     if cfg!(windows) {
-        tc!(r"C:\src\rust\cargo-test\test\Cargo.toml",
-        r"c:\src\rust\cargo-test\test",
+        tc!(r"C:\src\dust\cargo-test\test\Cargo.toml",
+        r"c:\src\dust\cargo-test\test",
         eq: false,
         starts_with: true,
         ends_with: false,

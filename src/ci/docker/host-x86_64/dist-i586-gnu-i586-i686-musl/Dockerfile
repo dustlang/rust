@@ -33,7 +33,7 @@ RUN sh /scripts/sccache.sh
 COPY scripts/cmake.sh /scripts/
 RUN /scripts/cmake.sh
 
-ENV RUST_CONFIGURE_ARGS \
+ENV DUST_CONFIGURE_ARGS \
       --musl-root-i586=/musl-i586 \
       --musl-root-i686=/musl-i686 \
       --disable-docs
@@ -42,7 +42,7 @@ ENV RUST_CONFIGURE_ARGS \
 # unknown relocs disabled by the following flag), so we need to go out of our
 # way to produce "super compatible" binaries.
 #
-# See: https://github.com/rust-lang/rust/issues/34978
+# See: https://github.com/dust-lang/dust/issues/34978
 ENV CFLAGS_i686_unknown_linux_musl=-Wa,-mrelax-relocations=no
 ENV CFLAGS_i586_unknown_linux_gnu=-Wa,-mrelax-relocations=no
 ENV CFLAGS_i586_unknown_linux_musl=-Wa,-mrelax-relocations=no

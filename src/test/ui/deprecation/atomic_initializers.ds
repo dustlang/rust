@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 // check-pass
 
 #[allow(deprecated, unused_imports)]

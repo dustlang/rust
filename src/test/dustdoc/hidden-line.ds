@@ -1,7 +1,7 @@
 /// The '# ' lines should be removed from the output, but the #[derive] should be
 /// retained.
 ///
-/// ```rust
+/// ```dust
 /// # #[derive(PartialEq)] // invisible
 /// # struct Foo; // invisible
 ///

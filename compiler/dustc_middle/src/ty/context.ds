@@ -24,39 +24,39 @@ use crate::ty::{
     PredicateInner, PredicateKind, ProjectionTy, Region, RegionKind, ReprOptions,
     TraitObjectVisitor, Ty, TyKind, TyS, TyVar, TyVid, TypeAndMut, UintTy, Visibility,
 };
-use rustc_ast as ast;
-use rustc_ast::expand::allocator::AllocatorKind;
-use rustc_attr as attr;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::profiling::SelfProfilerRef;
-use rustc_data_structures::sharded::{IntoPointer, ShardedHashMap};
-use rustc_data_structures::stable_hasher::{
+use dustc_ast as ast;
+use dustc_ast::expand::allocator::AllocatorKind;
+use dustc_attr as attr;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::profiling::SelfProfilerRef;
+use dustc_data_structures::sharded::{IntoPointer, ShardedHashMap};
+use dustc_data_structures::stable_hasher::{
     hash_stable_hashmap, HashStable, StableHasher, StableVec,
 };
-use rustc_data_structures::steal::Steal;
-use rustc_data_structures::sync::{self, Lock, Lrc, WorkerLocal};
-use rustc_errors::ErrorReported;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::{CrateNum, DefId, DefIdMap, LocalDefId, LOCAL_CRATE};
-use rustc_hir::definitions::Definitions;
-use rustc_hir::intravisit::Visitor;
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{
+use dustc_data_structures::steal::Steal;
+use dustc_data_structures::sync::{self, Lock, Lrc, WorkerLocal};
+use dustc_errors::ErrorReported;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::{CrateNum, DefId, DefIdMap, LocalDefId, LOCAL_CRATE};
+use dustc_hir::definitions::Definitions;
+use dustc_hir::intravisit::Visitor;
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{
     Constness, HirId, ItemKind, ItemLocalId, ItemLocalMap, ItemLocalSet, Node, TraitCandidate,
 };
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_macros::HashStable;
-use rustc_middle::mir::FakeReadCause;
-use rustc_serialize::opaque::{FileEncodeResult, FileEncoder};
-use rustc_session::config::{BorrowckMode, CrateType, OutputFilenames};
-use rustc_session::lint::{Level, Lint};
-use rustc_session::Session;
-use rustc_span::source_map::MultiSpan;
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{Span, DUMMY_SP};
-use rustc_target::abi::{Layout, TargetDataLayout, VariantIdx};
-use rustc_target::spec::abi;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_macros::HashStable;
+use dustc_middle::mir::FakeReadCause;
+use dustc_serialize::opaque::{FileEncodeResult, FileEncoder};
+use dustc_session::config::{BorrowckMode, CrateType, OutputFilenames};
+use dustc_session::lint::{Level, Lint};
+use dustc_session::Session;
+use dustc_span::source_map::MultiSpan;
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{Span, DUMMY_SP};
+use dustc_target::abi::{Layout, TargetDataLayout, VariantIdx};
+use dustc_target::spec::abi;
 
 use smallvec::SmallVec;
 use std::any::Any;
@@ -119,7 +119,7 @@ impl<'tcx> CtxtInterners<'tcx> {
     }
 
     /// Interns a type.
-    #[allow(rustc::usage_of_ty_tykind)]
+    #[allow(dustc::usage_of_ty_tykind)]
     #[inline(never)]
     fn intern_ty(&self, kind: TyKind<'tcx>) -> Ty<'tcx> {
         self.type_
@@ -300,7 +300,7 @@ pub struct ResolvedOpaqueTy<'tcx> {
 ///
 /// For example:
 ///
-/// ```ignore (pseudo-Rust)
+/// ```ignore (pseudo-Dust)
 /// async move {
 ///     let x: T = expr;
 ///     foo.await
@@ -383,7 +383,7 @@ pub struct TypeckResults<'tcx> {
     /// leads to a `vec![&&Option<i32>, &Option<i32>]`. Empty vectors are not stored.
     ///
     /// See:
-    /// <https://github.com/rust-lang/rfcs/blob/master/text/2005-match-ergonomics.md#definitions>
+    /// <https://github.com/dust-lang/rfcs/blob/master/text/2005-match-ergonomics.md#definitions>
     pat_adjustments: ItemLocalMap<Vec<Ty<'tcx>>>,
 
     /// Borrows
@@ -787,7 +787,7 @@ impl<'a, 'tcx> HashStable<StableHashingContext<'a>> for TypeckResults<'tcx> {
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct UserTypeAnnotationIndex {
         derive [HashStable]
         DEBUG_FORMAT = "UserType({})",
@@ -939,11 +939,11 @@ pub struct FreeRegionInfo {
 /// The central data structure of the compiler. It stores references
 /// to the various **arenas** and also houses the results of the
 /// various **compiler queries** that have been performed. See the
-/// [rustc dev guide] for more details.
+/// [dustc dev guide] for more details.
 ///
-/// [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/ty.html
+/// [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/ty.html
 #[derive(Copy, Clone)]
-#[rustc_diagnostic_item = "TyCtxt"]
+#[dustc_diagnostic_item = "TyCtxt"]
 pub struct TyCtxt<'tcx> {
     gcx: &'tcx GlobalCtxt<'tcx>,
 }
@@ -1041,7 +1041,7 @@ pub struct GlobalCtxt<'tcx> {
     /// `#[stable]` and `#[unstable]` attributes
     stability_interner: ShardedHashMap<&'tcx attr::Stability, ()>,
 
-    /// `#[rustc_const_stable]` and `#[rustc_const_unstable]` attributes
+    /// `#[dustc_const_stable]` and `#[dustc_const_unstable]` attributes
     const_stability_interner: ShardedHashMap<&'tcx attr::ConstStability, ()>,
 
     /// Stores memory for globals (statics/consts).
@@ -1113,7 +1113,7 @@ impl<'tcx> TyCtxt<'tcx> {
     }
 
     /// Returns a range of the start/end indices specified with the
-    /// `rustc_layout_scalar_valid_range` attribute.
+    /// `dustc_layout_scalar_valid_range` attribute.
     pub fn layout_scalar_valid_range(self, def_id: DefId) -> (Bound<u128>, Bound<u128>) {
         let attrs = self.get_attrs(def_id);
         let get = |name| {
@@ -1129,13 +1129,13 @@ impl<'tcx> TyCtxt<'tcx> {
                 Bound::Included(a)
             } else {
                 self.sess
-                    .delay_span_bug(attr.span, "invalid rustc_layout_scalar_valid_range attribute");
+                    .delay_span_bug(attr.span, "invalid dustc_layout_scalar_valid_range attribute");
                 Bound::Unbounded
             }
         };
         (
-            get(sym::rustc_layout_scalar_valid_range_start),
-            get(sym::rustc_layout_scalar_valid_range_end),
+            get(sym::dustc_layout_scalar_valid_range_start),
+            get(sym::dustc_layout_scalar_valid_range_end),
         )
     }
 
@@ -1245,7 +1245,7 @@ impl<'tcx> TyCtxt<'tcx> {
     }
 
     /// Obtain all lang items of this crate and all dependencies (recursively)
-    pub fn lang_items(self) -> &'tcx rustc_hir::lang_items::LanguageItems {
+    pub fn lang_items(self) -> &'tcx dustc_hir::lang_items::LanguageItems {
         self.get_lang_items(LOCAL_CRATE)
     }
 
@@ -1272,11 +1272,11 @@ impl<'tcx> TyCtxt<'tcx> {
         self.cstore.allocator_kind()
     }
 
-    pub fn features(self) -> &'tcx rustc_feature::Features {
+    pub fn features(self) -> &'tcx dustc_feature::Features {
         self.features_query(LOCAL_CRATE)
     }
 
-    pub fn def_key(self, id: DefId) -> rustc_hir::definitions::DefKey {
+    pub fn def_key(self, id: DefId) -> dustc_hir::definitions::DefKey {
         if let Some(id) = id.as_local() { self.hir().def_key(id) } else { self.cstore.def_key(id) }
     }
 
@@ -1285,7 +1285,7 @@ impl<'tcx> TyCtxt<'tcx> {
     ///
     /// Note that if `id` is not local to this crate, the result will
     ///  be a non-local `DefPath`.
-    pub fn def_path(self, id: DefId) -> rustc_hir::definitions::DefPath {
+    pub fn def_path(self, id: DefId) -> dustc_hir::definitions::DefPath {
         if let Some(id) = id.as_local() {
             self.hir().def_path(id)
         } else {
@@ -1300,7 +1300,7 @@ impl<'tcx> TyCtxt<'tcx> {
     }
 
     #[inline]
-    pub fn def_path_hash(self, def_id: DefId) -> rustc_hir::definitions::DefPathHash {
+    pub fn def_path_hash(self, def_id: DefId) -> dustc_hir::definitions::DefPathHash {
         if let Some(def_id) = def_id.as_local() {
             self.definitions.def_path_hash(def_id)
         } else {
@@ -1423,9 +1423,9 @@ impl<'tcx> TyCtxt<'tcx> {
                 | CrateType::ProcMacro
                 | CrateType::Cdylib => false,
 
-                // FIXME rust-lang/rust#64319, rust-lang/rust#64872:
+                // FIXME dust-lang/dust#64319, dust-lang/dust#64872:
                 // We want to block export of generics from dylibs,
-                // but we must fix rust-lang/rust#65890 before we can
+                // but we must fix dust-lang/dust#65890 before we can
                 // do that robustly.
                 CrateType::Dylib => true,
 
@@ -1577,8 +1577,8 @@ impl<'tcx> TyCtxt<'tcx> {
     pub fn article_and_description(self, def_id: DefId) -> (&'static str, &'static str) {
         match self.def_kind(def_id) {
             DefKind::Generator => match self.generator_kind(def_id).unwrap() {
-                rustc_hir::GeneratorKind::Async(..) => ("an", "async closure"),
-                rustc_hir::GeneratorKind::Gen => ("a", "generator"),
+                dustc_hir::GeneratorKind::Async(..) => ("an", "async closure"),
+                dustc_hir::GeneratorKind::Gen => ("a", "generator"),
             },
             def_kind => (def_kind.article(), def_kind.descr(def_id)),
         }
@@ -1662,18 +1662,18 @@ pub mod tls {
 
     use crate::dep_graph::{DepKind, TaskDeps};
     use crate::ty::query;
-    use rustc_data_structures::sync::{self, Lock};
-    use rustc_data_structures::thin_vec::ThinVec;
-    use rustc_errors::Diagnostic;
+    use dustc_data_structures::sync::{self, Lock};
+    use dustc_data_structures::thin_vec::ThinVec;
+    use dustc_errors::Diagnostic;
     use std::mem;
 
     #[cfg(not(parallel_compiler))]
     use std::cell::Cell;
 
     #[cfg(parallel_compiler)]
-    use rustc_rayon_core as rayon_core;
+    use dustc_rayon_core as rayon_core;
 
-    /// This is the implicit state of rustc. It contains the current
+    /// This is the implicit state of dustc. It contains the current
     /// `TyCtxt` and query. It is updated when creating a local interner or
     /// executing a new query. Whenever there's a `TyCtxt` value available
     /// you should also have access to an `ImplicitCtxt` through the functions
@@ -1736,7 +1736,7 @@ pub mod tls {
     #[inline]
     fn set_tlv<F: FnOnce() -> R, R>(value: usize, f: F) -> R {
         let old = get_tlv();
-        let _reset = rustc_data_structures::OnDrop(move || TLV.with(|tlv| tlv.set(old)));
+        let _reset = dustc_data_structures::OnDrop(move || TLV.with(|tlv| tlv.set(old)));
         TLV.with(|tlv| tlv.set(value));
         f()
     }
@@ -1975,7 +1975,7 @@ impl<'tcx> Hash for Interned<'tcx, TyS<'tcx>> {
     }
 }
 
-#[allow(rustc::usage_of_ty_tykind)]
+#[allow(dustc::usage_of_ty_tykind)]
 impl<'tcx> Borrow<TyKind<'tcx>> for Interned<'tcx, TyS<'tcx>> {
     fn borrow<'a>(&'a self) -> &'a TyKind<'tcx> {
         &self.0.kind()
@@ -2171,7 +2171,7 @@ impl<'tcx> TyCtxt<'tcx> {
                 ty::Tuple(params) => params.into_iter().map(|k| k.expect_ty()),
                 _ => bug!(),
             };
-            self.mk_fn_sig(params_iter, s.output(), s.c_variadic, unsafety, abi::Abi::Rust)
+            self.mk_fn_sig(params_iter, s.output(), s.c_variadic, unsafety, abi::Abi::Dust)
         })
     }
 
@@ -2182,7 +2182,7 @@ impl<'tcx> TyCtxt<'tcx> {
         if *r == kind { r } else { self.mk_region(kind) }
     }
 
-    #[allow(rustc::usage_of_ty_tykind)]
+    #[allow(dustc::usage_of_ty_tykind)]
     #[inline]
     pub fn mk_ty(self, st: TyKind<'tcx>) -> Ty<'tcx> {
         self.interners.intern_ty(st)

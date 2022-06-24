@@ -1,9 +1,9 @@
 //! Lazily compute the reverse control-flow graph for the MIR.
 
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::sync::OnceCell;
-use rustc_index::vec::IndexVec;
-use rustc_serialize as serialize;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::sync::OnceCell;
+use dustc_index::vec::IndexVec;
+use dustc_serialize as serialize;
 use smallvec::SmallVec;
 
 use crate::mir::{BasicBlock, BasicBlockData};

@@ -1,10 +1,10 @@
 use smallvec::smallvec;
 
 use crate::traits::{Obligation, ObligationCause, PredicateObligation};
-use rustc_data_structures::fx::{FxHashSet, FxIndexSet};
-use rustc_middle::ty::outlives::Component;
-use rustc_middle::ty::{self, ToPredicate, TyCtxt, WithConstness};
-use rustc_span::symbol::Ident;
+use dustc_data_structures::fx::{FxHashSet, FxIndexSet};
+use dustc_middle::ty::outlives::Component;
+use dustc_middle::ty::{self, ToPredicate, TyCtxt, WithConstness};
+use dustc_span::symbol::Ident;
 
 pub fn anonymize_predicate<'tcx>(
     tcx: TyCtxt<'tcx>,

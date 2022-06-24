@@ -1,6 +1,6 @@
 // edition:2018
 
-// ICE when rustdoc encountered a use statement of a non-macro attribute (see #58054)
+// ICE when dustdoc encountered a use statement of a non-macro attribute (see #58054)
 
 // @has use_attr/index.html
 // @has - '//code' 'pub use proc_macro_attribute'

@@ -1,14 +1,14 @@
-//! Markdown formatting for rustdoc.
+//! Markdown formatting for dustdoc.
 //!
 //! This module implements markdown formatting through the pulldown-cmark library.
 //!
 //! ```
-//! #![feature(rustc_private)]
+//! #![feature(dustc_private)]
 //!
-//! extern crate rustc_span;
+//! extern crate dustc_span;
 //!
-//! use rustc_span::edition::Edition;
-//! use rustdoc::html::markdown::{IdMap, Markdown, ErrorCodes};
+//! use dustc_span::edition::Edition;
+//! use dustdoc::html::markdown::{IdMap, Markdown, ErrorCodes};
 //!
 //! let s = "My *markdown* _text_";
 //! let mut id_map = IdMap::new();
@@ -17,12 +17,12 @@
 //! // ... something using html
 //! ```
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir::def_id::DefId;
-use rustc_hir::HirId;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::edition::Edition;
-use rustc_span::Span;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir::def_id::DefId;
+use dustc_hir::HirId;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::edition::Edition;
+use dustc_span::Span;
 use std::borrow::Cow;
 use std::cell::RefCell;
 use std::collections::VecDeque;
@@ -177,7 +177,7 @@ pub struct Playground {
     pub url: String,
 }
 
-/// Adds syntax highlighting and playground Run buttons to Rust code blocks.
+/// Adds syntax highlighting and playground Run buttons to Dust code blocks.
 struct CodeBlocks<'p, 'a, I: Iterator<Item = Event<'a>>> {
     inner: I,
     check_error_codes: ErrorCodes,
@@ -214,7 +214,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlocks<'_, 'a, I> {
                 }
                 CodeBlockKind::Indented => Default::default(),
             };
-            if !parse_result.rust {
+            if !parse_result.dust {
                 return Some(Event::Start(Tag::CodeBlock(kind)));
             }
             compile_fail = parse_result.compile_fail;
@@ -309,7 +309,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlocks<'_, 'a, I> {
             &text,
             &mut s,
             Some(&format!(
-                "rust-example-rendered{}",
+                "dust-example-rendered{}",
                 if let Some((_, class)) = tooltip { format!(" {}", class) } else { String::new() }
             )),
             playground_button.as_deref(),
@@ -414,7 +414,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for LinkReplacer<'a, I> {
                     *dest = CowStr::Borrowed(link.href.as_ref());
                 }
             }
-            // Anything else couldn't have been a valid Rust path, so no need to replace the text.
+            // Anything else couldn't have been a valid Dust path, so no need to replace the text.
             _ => {}
         }
 
@@ -652,7 +652,7 @@ crate fn find_testable_code<T: doctest::Tester>(
                     }
                     CodeBlockKind::Indented => Default::default(),
                 };
-                if !block_info.rust {
+                if !block_info.dust {
                     continue;
                 }
 
@@ -738,7 +738,7 @@ crate struct LangString {
     crate should_panic: bool,
     crate no_run: bool,
     crate ignore: Ignore,
-    crate rust: bool,
+    crate dust: bool,
     crate test_harness: bool,
     crate compile_fail: bool,
     crate error_codes: Vec<String>,
@@ -760,7 +760,7 @@ impl Default for LangString {
             should_panic: false,
             no_run: false,
             ignore: Ignore::None,
-            rust: true,
+            dust: true,
             test_harness: false,
             compile_fail: false,
             error_codes: Vec::new(),
@@ -780,7 +780,7 @@ impl LangString {
     }
 
     fn tokens(string: &str) -> impl Iterator<Item = &str> {
-        // Pandoc, which Rust once used for generating documentation,
+        // Pandoc, which Dust once used for generating documentation,
         // expects lang strings to be surrounded by `{}` and for each token
         // to be proceeded by a `.`. Since some of these lang strings are still
         // loose in the wild, we strip a pair of surrounding `{}` from the lang
@@ -811,7 +811,7 @@ impl LangString {
         extra: Option<&ExtraInfo<'_>>,
     ) -> LangString {
         let allow_error_code_check = allow_error_code_check.as_bool();
-        let mut seen_rust_tags = false;
+        let mut seen_dust_tags = false;
         let mut seen_other_tags = false;
         let mut data = LangString::default();
         let mut ignores = vec![];
@@ -824,37 +824,37 @@ impl LangString {
             match token {
                 "should_panic" => {
                     data.should_panic = true;
-                    seen_rust_tags = !seen_other_tags;
+                    seen_dust_tags = !seen_other_tags;
                 }
                 "no_run" => {
                     data.no_run = true;
-                    seen_rust_tags = !seen_other_tags;
+                    seen_dust_tags = !seen_other_tags;
                 }
                 "ignore" => {
                     data.ignore = Ignore::All;
-                    seen_rust_tags = !seen_other_tags;
+                    seen_dust_tags = !seen_other_tags;
                 }
                 x if x.starts_with("ignore-") => {
                     if enable_per_target_ignores {
                         ignores.push(x.trim_start_matches("ignore-").to_owned());
-                        seen_rust_tags = !seen_other_tags;
+                        seen_dust_tags = !seen_other_tags;
                     }
                 }
                 "allow_fail" => {
                     data.allow_fail = true;
-                    seen_rust_tags = !seen_other_tags;
+                    seen_dust_tags = !seen_other_tags;
                 }
-                "rust" => {
-                    data.rust = true;
-                    seen_rust_tags = true;
+                "dust" => {
+                    data.dust = true;
+                    seen_dust_tags = true;
                 }
                 "test_harness" => {
                     data.test_harness = true;
-                    seen_rust_tags = !seen_other_tags || seen_rust_tags;
+                    seen_dust_tags = !seen_other_tags || seen_dust_tags;
                 }
                 "compile_fail" => {
                     data.compile_fail = true;
-                    seen_rust_tags = !seen_other_tags || seen_rust_tags;
+                    seen_dust_tags = !seen_other_tags || seen_dust_tags;
                     data.no_run = true;
                 }
                 x if x.starts_with("edition") => {
@@ -863,7 +863,7 @@ impl LangString {
                 x if allow_error_code_check && x.starts_with('E') && x.len() == 5 => {
                     if x[1..].parse::<u32>().is_ok() {
                         data.error_codes.push(x.to_owned());
-                        seen_rust_tags = !seen_other_tags || seen_rust_tags;
+                        seen_dust_tags = !seen_other_tags || seen_dust_tags;
                     } else {
                         seen_other_tags = true;
                     }
@@ -873,31 +873,31 @@ impl LangString {
                     match if s == "compile-fail" || s == "compile_fail" || s == "compilefail" {
                         Some((
                             "compile_fail",
-                            "the code block will either not be tested if not marked as a rust one \
+                            "the code block will either not be tested if not marked as a dust one \
                              or won't fail if it compiles successfully",
                         ))
                     } else if s == "should-panic" || s == "should_panic" || s == "shouldpanic" {
                         Some((
                             "should_panic",
-                            "the code block will either not be tested if not marked as a rust one \
+                            "the code block will either not be tested if not marked as a dust one \
                              or won't fail if it doesn't panic when running",
                         ))
                     } else if s == "no-run" || s == "no_run" || s == "norun" {
                         Some((
                             "no_run",
-                            "the code block will either not be tested if not marked as a rust one \
+                            "the code block will either not be tested if not marked as a dust one \
                              or will be run (which you might not want)",
                         ))
                     } else if s == "allow-fail" || s == "allow_fail" || s == "allowfail" {
                         Some((
                             "allow_fail",
-                            "the code block will either not be tested if not marked as a rust one \
+                            "the code block will either not be tested if not marked as a dust one \
                              or will be run (which you might not want)",
                         ))
                     } else if s == "test-harness" || s == "test_harness" || s == "testharness" {
                         Some((
                             "test_harness",
-                            "the code block will either not be tested if not marked as a rust one \
+                            "the code block will either not be tested if not marked as a dust one \
                              or the code will be wrapped inside a main function",
                         ))
                     } else {
@@ -924,7 +924,7 @@ impl LangString {
             data.ignore = Ignore::Some(ignores);
         }
 
-        data.rust &= !seen_other_tags || seen_rust_tags;
+        data.dust &= !seen_other_tags || seen_dust_tags;
 
         data
     }
@@ -1231,7 +1231,7 @@ crate fn markdown_links(md: &str) -> Vec<MarkdownLink> {
 }
 
 #[derive(Debug)]
-crate struct RustCodeBlock {
+crate struct DustCodeBlock {
     /// The range in the markdown that the code block occupies. Note that this includes the fences
     /// for fenced code blocks.
     crate range: Range<usize>,
@@ -1242,9 +1242,9 @@ crate struct RustCodeBlock {
     crate is_ignore: bool,
 }
 
-/// Returns a range of bytes for each code block in the markdown that is tagged as `rust` or
-/// untagged (and assumed to be rust).
-crate fn rust_code_blocks(md: &str, extra_info: &ExtraInfo<'_>) -> Vec<RustCodeBlock> {
+/// Returns a range of bytes for each code block in the markdown that is tagged as `dust` or
+/// untagged (and assumed to be dust).
+crate fn dust_code_blocks(md: &str, extra_info: &ExtraInfo<'_>) -> Vec<DustCodeBlock> {
     let mut code_blocks = vec![];
 
     if md.is_empty() {
@@ -1263,7 +1263,7 @@ crate fn rust_code_blocks(md: &str, extra_info: &ExtraInfo<'_>) -> Vec<RustCodeB
                     } else {
                         LangString::parse(&*syntax, ErrorCodes::Yes, false, Some(extra_info))
                     };
-                    if !lang_string.rust {
+                    if !lang_string.dust {
                         continue;
                     }
                     let is_ignore = lang_string.ignore != Ignore::None;
@@ -1272,7 +1272,7 @@ crate fn rust_code_blocks(md: &str, extra_info: &ExtraInfo<'_>) -> Vec<RustCodeB
                         Some((Event::Text(_), offset)) => (offset.start, offset.end),
                         Some((_, sub_offset)) => {
                             let code = Range { start: sub_offset.start, end: sub_offset.start };
-                            code_blocks.push(RustCodeBlock {
+                            code_blocks.push(DustCodeBlock {
                                 is_fenced: true,
                                 range: offset,
                                 code,
@@ -1283,7 +1283,7 @@ crate fn rust_code_blocks(md: &str, extra_info: &ExtraInfo<'_>) -> Vec<RustCodeB
                         }
                         None => {
                             let code = Range { start: offset.end, end: offset.end };
-                            code_blocks.push(RustCodeBlock {
+                            code_blocks.push(DustCodeBlock {
                                 is_fenced: true,
                                 range: offset,
                                 code,
@@ -1316,7 +1316,7 @@ crate fn rust_code_blocks(md: &str, extra_info: &ExtraInfo<'_>) -> Vec<RustCodeB
                 }
             };
 
-            code_blocks.push(RustCodeBlock {
+            code_blocks.push(DustCodeBlock {
                 is_fenced,
                 range,
                 code: Range { start: code_start, end: code_end },
@@ -1336,7 +1336,7 @@ pub struct IdMap {
 
 fn init_id_map() -> FxHashMap<String, usize> {
     let mut map = FxHashMap::default();
-    // This is the list of IDs used by rustdoc templates.
+    // This is the list of IDs used by dustdoc templates.
     map.insert("mainThemeStyle".to_owned(), 1);
     map.insert("themeStyle".to_owned(), 1);
     map.insert("theme-picker".to_owned(), 1);
@@ -1349,9 +1349,9 @@ fn init_id_map() -> FxHashMap<String, usize> {
     map.insert("toggle-all-docs".to_owned(), 1);
     map.insert("all-types".to_owned(), 1);
     map.insert("default-settings".to_owned(), 1);
-    map.insert("rustdoc-vars".to_owned(), 1);
+    map.insert("dustdoc-vars".to_owned(), 1);
     map.insert("sidebar-vars".to_owned(), 1);
-    // This is the list of IDs used by rustdoc sections.
+    // This is the list of IDs used by dustdoc sections.
     map.insert("fields".to_owned(), 1);
     map.insert("variants".to_owned(), 1);
     map.insert("implementors-list".to_owned(), 1);

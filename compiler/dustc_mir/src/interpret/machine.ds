@@ -6,11 +6,11 @@ use std::borrow::{Borrow, Cow};
 use std::fmt::Debug;
 use std::hash::Hash;
 
-use rustc_middle::mir;
-use rustc_middle::ty::{self, Ty};
-use rustc_span::def_id::DefId;
-use rustc_target::abi::Size;
-use rustc_target::spec::abi::Abi;
+use dustc_middle::mir;
+use dustc_middle::ty::{self, Ty};
+use dustc_span::def_id::DefId;
+use dustc_target::abi::Size;
+use dustc_target::spec::abi::Abi;
 
 use super::{
     AllocId, Allocation, AllocationExtra, CheckInAllocMsg, Frame, ImmTy, InterpCx, InterpResult,
@@ -148,7 +148,7 @@ pub trait Machine<'mir, 'tcx>: Sized {
     /// just proceed (which usually means this hook did all the work that the
     /// called function should usually have done). In the latter case, it is
     /// this hook's responsibility to advance the instruction pointer!
-    /// (This is to support functions like `__rust_maybe_catch_panic` that neither find a MIR
+    /// (This is to support functions like `__dust_maybe_catch_panic` that neither find a MIR
     /// nor just jump to `ret`, but instead push their own stack frame.)
     /// Passing `dest`and `ret` in the same `Option` proved very annoying when only one of them
     /// was used.
@@ -390,7 +390,7 @@ pub macro compile_time_machine(<$mir: lifetime, $tcx: lifetime>) {
     type ExtraFnVal = !;
 
     type MemoryMap =
-        rustc_data_structures::fx::FxHashMap<AllocId, (MemoryKind<Self::MemoryKind>, Allocation)>;
+        dustc_data_structures::fx::FxHashMap<AllocId, (MemoryKind<Self::MemoryKind>, Allocation)>;
     const GLOBAL_KIND: Option<Self::MemoryKind> = None; // no copying of globals from `tcx` to machine memory
 
     type AllocExtra = ();

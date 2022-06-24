@@ -1,11 +1,11 @@
 // run-pass
 
 #![allow(dead_code)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_serialize;
+extern crate dustc_serialize;
 
-use rustc_serialize::{json, Decodable, Encodable};
+use dustc_serialize::{json, Decodable, Encodable};
 use std::fmt::Display;
 
 pub trait Entity: Decodable<json::Decoder> + for<'a> Encodable<json::Encoder<'a>> + Sized {

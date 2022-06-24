@@ -1,5 +1,5 @@
 # We use Debian 6 (glibc 2.11, kernel 2.6.32) as a common base for other
-# distros that still need Rust support: RHEL 6 (glibc 2.12, kernel 2.6.32) and
+# distros that still need Dust support: RHEL 6 (glibc 2.12, kernel 2.6.32) and
 # SLES 11 SP4 (glibc 2.11, kernel 3.0).
 FROM debian:6
 
@@ -34,15 +34,15 @@ RUN apt-get update && \
       xz-utils \
       zlib1g-dev
 
-ENV PATH=/rustroot/bin:$PATH
-ENV LD_LIBRARY_PATH=/rustroot/lib64:/rustroot/lib32:/rustroot/lib
-ENV PKG_CONFIG_PATH=/rustroot/lib/pkgconfig
+ENV PATH=/dustroot/bin:$PATH
+ENV LD_LIBRARY_PATH=/dustroot/lib64:/dustroot/lib32:/dustroot/lib
+ENV PKG_CONFIG_PATH=/dustroot/lib/pkgconfig
 WORKDIR /tmp
 RUN mkdir /home/user
 COPY host-x86_64/dist-x86_64-linux/shared.sh /tmp/
 
 # We need a build of openssl which supports SNI to download artifacts from
-# static.rust-lang.org. This'll be used to link into libcurl below (and used
+# static.dust-lang.org. This'll be used to link into libcurl below (and used
 # later as well), so build a copy of OpenSSL with dynamic libraries into our
 # generic root.
 COPY host-x86_64/dist-x86_64-linux/build-openssl.sh /tmp/
@@ -58,9 +58,9 @@ COPY host-x86_64/dist-x86_64-linux/build-curl.sh /tmp/
 RUN ./build-curl.sh && apt-get remove -y curl
 
 # binutils < 2.22 has a bug where the 32-bit executables it generates
-# immediately segfault in Rust, so we need to install our own binutils.
+# immediately segfault in Dust, so we need to install our own binutils.
 #
-# See https://github.com/rust-lang/rust/issues/20440 for more info
+# See https://github.com/dust-lang/dust/issues/20440 for more info
 COPY host-x86_64/dist-x86_64-linux/build-binutils.sh /tmp/
 RUN ./build-binutils.sh
 
@@ -89,14 +89,14 @@ RUN sh /scripts/sccache.sh
 
 ENV HOSTS=i686-unknown-linux-gnu
 
-ENV RUST_CONFIGURE_ARGS \
+ENV DUST_CONFIGURE_ARGS \
       --enable-full-tools \
       --enable-sanitizers \
       --enable-profiler \
       --set target.i686-unknown-linux-gnu.linker=clang \
       --build=i686-unknown-linux-gnu \
       --set llvm.ninja=false \
-      --set rust.jemalloc
+      --set dust.jemalloc
 ENV SCRIPT python2.7 ../x.py dist --build $HOSTS --host $HOSTS --target $HOSTS
 ENV CARGO_TARGET_I686_UNKNOWN_LINUX_GNU_LINKER=clang
 

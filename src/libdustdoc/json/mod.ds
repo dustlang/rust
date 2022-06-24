@@ -1,7 +1,7 @@
-//! Rustdoc's JSON backend
+//! Dustdoc's JSON backend
 //!
 //! This module contains the logic for rendering a crate as JSON rather than the normal static HTML
-//! output. See [the RFC](https://github.com/rust-lang/rfcs/pull/2963) and the [`types`] module
+//! output. See [the RFC](https://github.com/dust-lang/rfcs/pull/2963) and the [`types`] module
 //! docs for usage and details.
 
 mod conversions;
@@ -11,12 +11,12 @@ use std::fs::File;
 use std::path::PathBuf;
 use std::rc::Rc;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::Session;
-use rustc_span::edition::Edition;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::Session;
+use dustc_span::edition::Edition;
 
-use rustdoc_json_types as types;
+use dustdoc_json_types as types;
 
 use crate::clean;
 use crate::config::RenderOptions;
@@ -42,7 +42,7 @@ impl JsonRenderer<'tcx> {
         self.tcx.sess
     }
 
-    fn get_trait_implementors(&mut self, id: rustc_span::def_id::DefId) -> Vec<types::Id> {
+    fn get_trait_implementors(&mut self, id: dustc_span::def_id::DefId) -> Vec<types::Id> {
         Rc::clone(&self.cache)
             .implementors
             .get(&id)
@@ -59,7 +59,7 @@ impl JsonRenderer<'tcx> {
             .unwrap_or_default()
     }
 
-    fn get_impls(&mut self, id: rustc_span::def_id::DefId) -> Vec<types::Id> {
+    fn get_impls(&mut self, id: dustc_span::def_id::DefId) -> Vec<types::Id> {
         Rc::clone(&self.cache)
             .impls
             .get(&id)
@@ -203,14 +203,14 @@ impl<'tcx> FormatRenderer<'tcx> for JsonRenderer<'tcx> {
     fn after_krate(
         &mut self,
         _krate: &clean::Crate,
-        _diag: &rustc_errors::Handler,
+        _diag: &dustc_errors::Handler,
     ) -> Result<(), Error> {
         debug!("Done with crate");
         let mut index = (*self.index).clone().into_inner();
         index.extend(self.get_trait_items());
         // This needs to be the default HashMap for compatibility with the public interface for
-        // rustdoc-json
-        #[allow(rustc::default_hash_types)]
+        // dustdoc-json
+        #[allow(dustc::default_hash_types)]
         let output = types::Crate {
             root: types::Id(String::from("0:0")),
             crate_version: self.cache.crate_version.clone(),

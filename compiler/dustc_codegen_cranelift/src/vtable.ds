@@ -1,6 +1,6 @@
 //! Codegen vtables and vtable accesses.
 //!
-//! See librustc_codegen_llvm/meth.rs for reference
+//! See libdustc_codegen_llvm/meth.rs for reference
 // FIXME dedup this logic between miri, cg_llvm and cg_clif
 
 use crate::prelude::*;
@@ -170,12 +170,12 @@ fn write_usize(tcx: TyCtxt<'_>, buf: &mut [u8], idx: usize, num: u64) {
     let target = &mut buf[idx * pointer_size..(idx + 1) * pointer_size];
 
     match tcx.data_layout.endian {
-        rustc_target::abi::Endian::Little => match pointer_size {
+        dustc_target::abi::Endian::Little => match pointer_size {
             4 => target.copy_from_slice(&(num as u32).to_le_bytes()),
             8 => target.copy_from_slice(&(num as u64).to_le_bytes()),
             _ => todo!("pointer size {} is not yet supported", pointer_size),
         },
-        rustc_target::abi::Endian::Big => match pointer_size {
+        dustc_target::abi::Endian::Big => match pointer_size {
             4 => target.copy_from_slice(&(num as u32).to_be_bytes()),
             8 => target.copy_from_slice(&(num as u64).to_be_bytes()),
             _ => todo!("pointer size {} is not yet supported", pointer_size),

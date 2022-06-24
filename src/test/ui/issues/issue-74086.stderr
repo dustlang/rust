@@ -6,4 +6,4 @@ LL |     static BUG: fn(_) -> u8 = |_| 8;
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0121`.
+For more information about this error, try `dustc --explain E0121`.

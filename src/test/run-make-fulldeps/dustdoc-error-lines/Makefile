@@ -4,7 +4,7 @@
 # the string constant we would expect to see.
 
 all:
-	$(RUSTDOC) --test input.rs > $(TMPDIR)/output || true
+	$(DUSTDOC) --test input.rs > $(TMPDIR)/output || true
 	$(CGREP) 'input.rs - foo (line 5)' < $(TMPDIR)/output
 	$(CGREP) 'input.rs:7:15' < $(TMPDIR)/output
 	$(CGREP) 'input.rs - bar (line 15)' < $(TMPDIR)/output

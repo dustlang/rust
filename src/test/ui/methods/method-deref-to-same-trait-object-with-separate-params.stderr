@@ -5,7 +5,7 @@ LL | #![feature(unsized_locals, unsized_fn_params)]
    |            ^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #48055 <https://github.com/rust-lang/rust/issues/48055> for more information
+   = note: see issue #48055 <https://github.com/dust-lang/dust/issues/48055> for more information
 
 error[E0308]: mismatched types
   --> $DIR/method-deref-to-same-trait-object-with-separate-params.rs:87:24
@@ -84,4 +84,4 @@ LL |     let _seetype: () = z;
 error: aborting due to 6 previous errors; 1 warning emitted
 
 Some errors have detailed explanations: E0034, E0308.
-For more information about an error, try `rustc --explain E0034`.
+For more information about an error, try `dustc --explain E0034`.

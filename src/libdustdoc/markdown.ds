@@ -2,8 +2,8 @@ use std::fs::{create_dir_all, read_to_string, File};
 use std::io::prelude::*;
 use std::path::Path;
 
-use rustc_span::edition::Edition;
-use rustc_span::source_map::DUMMY_SP;
+use dustc_span::edition::Edition;
+use dustc_span::source_map::DUMMY_SP;
 
 use crate::config::{Options, RenderOptions};
 use crate::doctest::{Collector, TestOptions};
@@ -79,13 +79,13 @@ crate fn render<P: AsRef<Path>>(
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="rustdoc">
+    <meta name="generator" content="dustdoc">
     <title>{title}</title>
 
     {css}
     {in_header}
 </head>
-<body class="rustdoc">
+<body class="dustdoc">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -134,7 +134,7 @@ crate fn test(mut options: Options) -> Result<(), String> {
 
     find_testable_code(&input_str, &mut collector, codes, options.enable_per_target_ignores, None);
 
-    options.test_args.insert(0, "rustdoctest".to_string());
+    options.test_args.insert(0, "dustdoctest".to_string());
     testing::test_main(
         &options.test_args,
         collector.tests,

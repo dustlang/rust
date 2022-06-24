@@ -1,14 +1,14 @@
 use crate::tests::{matches_codepattern, string_to_crate};
 
-use rustc_ast as ast;
-use rustc_ast::mut_visit::MutVisitor;
-use rustc_ast_pretty::pprust;
-use rustc_span::symbol::Ident;
-use rustc_span::with_default_session_globals;
+use dustc_ast as ast;
+use dustc_ast::mut_visit::MutVisitor;
+use dustc_ast_pretty::ppdust;
+use dustc_span::symbol::Ident;
+use dustc_span::with_default_session_globals;
 
 // This version doesn't care about getting comments or doc-strings in.
 fn print_crate_items(krate: &ast::Crate) -> String {
-    krate.items.iter().map(|i| pprust::item_to_string(i)).collect::<Vec<_>>().join(" ")
+    krate.items.iter().map(|i| ppdust::item_to_string(i)).collect::<Vec<_>>().join(" ")
 }
 
 // Change every identifier to "zz".

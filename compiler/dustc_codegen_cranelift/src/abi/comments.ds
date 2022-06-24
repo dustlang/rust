@@ -3,8 +3,8 @@
 
 use std::borrow::Cow;
 
-use rustc_middle::mir;
-use rustc_target::abi::call::PassMode;
+use dustc_middle::mir;
+use dustc_target::abi::call::PassMode;
 
 use cranelift_codegen::entity::EntityRef;
 
@@ -71,7 +71,7 @@ pub(super) fn add_local_place_comments<'tcx>(
     local: Local,
 ) {
     let TyAndLayout { ty, layout } = place.layout();
-    let rustc_target::abi::Layout { size, align, abi: _, variants: _, fields: _, largest_niche: _ } =
+    let dustc_target::abi::Layout { size, align, abi: _, variants: _, fields: _, largest_niche: _ } =
         layout;
 
     let (kind, extra) = match *place.inner() {

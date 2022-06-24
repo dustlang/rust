@@ -57,21 +57,21 @@ use crate::traits::{
     StatementAsExpression,
 };
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::{pluralize, struct_span_err};
-use rustc_errors::{Applicability, DiagnosticBuilder, DiagnosticStyledString};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{Item, ItemKind, Node};
-use rustc_middle::ty::error::TypeError;
-use rustc_middle::ty::{
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::{pluralize, struct_span_err};
+use dustc_errors::{Applicability, DiagnosticBuilder, DiagnosticStyledString};
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{Item, ItemKind, Node};
+use dustc_middle::ty::error::TypeError;
+use dustc_middle::ty::{
     self,
     subst::{Subst, SubstsRef},
     Region, Ty, TyCtxt, TypeFoldable,
 };
-use rustc_span::{sym, BytePos, DesugaringKind, Pos, Span};
-use rustc_target::spec::abi;
+use dustc_span::{sym, BytePos, DesugaringKind, Pos, Span};
+use dustc_target::spec::abi;
 use std::ops::ControlFlow;
 use std::{cmp, fmt};
 
@@ -481,7 +481,7 @@ impl<'a, 'tcx> InferCtxt<'a, 'tcx> {
         terr: &TypeError<'tcx>,
     ) {
         use hir::def_id::CrateNum;
-        use rustc_hir::definitions::DisambiguatedDefPathData;
+        use dustc_hir::definitions::DisambiguatedDefPathData;
         use ty::print::Printer;
         use ty::subst::GenericArg;
 
@@ -998,7 +998,7 @@ impl<'a, 'tcx> InferCtxt<'a, 'tcx> {
         sig2: &ty::PolyFnSig<'tcx>,
     ) -> (DiagnosticStyledString, DiagnosticStyledString) {
         let get_lifetimes = |sig| {
-            use rustc_hir::def::Namespace;
+            use dustc_hir::def::Namespace;
             let mut s = String::new();
             let (_, (sig, reg)) = ty::print::FmtPrinter::new(self.tcx, &mut s, Namespace::TypeNS)
                 .name_all_regions(sig)
@@ -1023,10 +1023,10 @@ impl<'a, 'tcx> InferCtxt<'a, 'tcx> {
 
         // unsafe extern "C" for<'a> fn(&'a T) -> &'a T
         //        ^^^^^^^^^^
-        if sig1.abi != abi::Abi::Rust {
+        if sig1.abi != abi::Abi::Dust {
             values.0.push(format!("extern {} ", sig1.abi), sig1.abi != sig2.abi);
         }
-        if sig2.abi != abi::Abi::Rust {
+        if sig2.abi != abi::Abi::Dust {
             values.1.push(format!("extern {} ", sig2.abi), sig1.abi != sig2.abi);
         }
 
@@ -1684,7 +1684,7 @@ impl<'a, 'tcx> InferCtxt<'a, 'tcx> {
 
         // In some (most?) cases cause.body_id points to actual body, but in some cases
         // it's a actual definition. According to the comments (e.g. in
-        // librustc_typeck/check/compare_method.rs:compare_predicate_entailment) the latter
+        // libdustc_typeck/check/compare_method.rs:compare_predicate_entailment) the latter
         // is relied upon by some other code. This might (or might not) need cleanup.
         let body_owner_def_id =
             self.tcx.hir().opt_local_def_id(cause.body_id).unwrap_or_else(|| {

@@ -1,9 +1,9 @@
 use crate::utils::{match_def_path, paths, span_lint, span_lint_and_help};
 use if_chain::if_chain;
-use rustc_hir::{BinOpKind, Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{BinOpKind, Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for comparisons with an address of a function item.
@@ -16,7 +16,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// type F = fn();
     /// fn a() {}
     /// let f: F = a;
@@ -41,7 +41,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// let a: Rc<dyn Trait> = ...
     /// let b: Rc<dyn Trait> = ...
     /// if Rc::ptr_eq(&a, &b) {

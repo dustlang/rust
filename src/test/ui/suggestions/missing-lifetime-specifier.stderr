@@ -313,4 +313,4 @@ LL |     static f: RefCell<HashMap<i32, Vec<Vec<&Tar<'static, 'k, i32>>>>> = Ref
 error: aborting due to 22 previous errors
 
 Some errors have detailed explanations: E0106, E0107.
-For more information about an error, try `rustc --explain E0106`.
+For more information about an error, try `dustc --explain E0106`.

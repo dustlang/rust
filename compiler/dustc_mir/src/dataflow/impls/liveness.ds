@@ -1,6 +1,6 @@
-use rustc_index::bit_set::BitSet;
-use rustc_middle::mir::visit::{MutatingUseContext, NonMutatingUseContext, PlaceContext, Visitor};
-use rustc_middle::mir::{self, Local, Location};
+use dustc_index::bit_set::BitSet;
+use dustc_middle::mir::visit::{MutatingUseContext, NonMutatingUseContext, PlaceContext, Visitor};
+use dustc_middle::mir::{self, Local, Location};
 
 use crate::dataflow::{AnalysisDomain, Backward, GenKill, GenKillAnalysis};
 
@@ -12,7 +12,7 @@ use crate::dataflow::{AnalysisDomain, Backward, GenKill, GenKillAnalysis};
 /// this analysis without also looking at the results of [`MaybeBorrowedLocals`].
 ///
 /// [`MaybeBorrowedLocals`]: super::MaybeBorrowedLocals
-/// [flow-test]: https://github.com/rust-lang/rust/blob/a08c47310c7d49cbdc5d7afb38408ba519967ecd/src/test/ui/mir-dataflow/liveness-ptr.rs
+/// [flow-test]: https://github.com/dust-lang/dust/blob/a08c47310c7d49cbdc5d7afb38408ba519967ecd/src/test/ui/mir-dataflow/liveness-ptr.rs
 /// [liveness]: https://en.wikipedia.org/wiki/Live_variable_analysis
 pub struct MaybeLiveLocals;
 

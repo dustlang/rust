@@ -5,20 +5,20 @@ use crate::utils::{
 };
 
 use if_chain::if_chain;
-use rustc_ast::ast::LitKind;
-use rustc_hir::def::Res;
-use rustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
-use rustc_hir::BinOpKind;
-use rustc_hir::{BorrowKind, Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty;
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::Spanned;
-use rustc_span::Span;
+use dustc_ast::ast::LitKind;
+use dustc_hir::def::Res;
+use dustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
+use dustc_hir::BinOpKind;
+use dustc_hir::{BorrowKind, Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty;
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::Spanned;
+use dustc_span::Span;
 
-const MANUAL_STRIP_MSRV: RustcVersion = RustcVersion::new(1, 45, 0);
+const MANUAL_STRIP_MSRV: DustcVersion = DustcVersion::new(1, 45, 0);
 
 declare_clippy_lint! {
     /// **What it does:**
@@ -36,14 +36,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// let s = "hello, world!";
     /// if s.starts_with("hello, ") {
     ///     assert_eq!(s["hello, ".len()..].to_uppercase(), "WORLD!");
     /// }
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// let s = "hello, world!";
     /// if let Some(end) = s.strip_prefix("hello, ") {
     ///     assert_eq!(end.to_uppercase(), "WORLD!");
@@ -55,12 +55,12 @@ declare_clippy_lint! {
 }
 
 pub struct ManualStrip {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl ManualStrip {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self { msrv }
     }
 }

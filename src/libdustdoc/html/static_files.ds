@@ -7,8 +7,8 @@
 //! minifier to run on them. All other files are included as `&'static [u8]` so they can be
 //! directly written to a `Write` handle.
 
-/// The file contents of the main `rustdoc.css` file, responsible for the core layout of the page.
-crate static RUSTDOC_CSS: &str = include_str!("static/rustdoc.css");
+/// The file contents of the main `dustdoc.css` file, responsible for the core layout of the page.
+crate static DUSTDOC_CSS: &str = include_str!("static/dustdoc.css");
 
 /// The file contents of `settings.css`, responsible for the items on the settings page.
 crate static SETTINGS_CSS: &str = include_str!("static/settings.css");
@@ -51,12 +51,12 @@ crate static LICENSE_APACHE: &[u8] = include_bytes!("static/LICENSE-APACHE.txt")
 /// The contents of `LICENSE-MIT.txt`, the text of the MIT License.
 crate static LICENSE_MIT: &[u8] = include_bytes!("static/LICENSE-MIT.txt");
 
-/// The contents of `rust-logo.png`, the default icon of the documentation.
-crate static RUST_LOGO: &[u8] = include_bytes!("static/rust-logo.png");
+/// The contents of `dust-logo.png`, the default icon of the documentation.
+crate static DUST_LOGO: &[u8] = include_bytes!("static/dust-logo.png");
 /// The default documentation favicons (SVG and PNG fallbacks)
-crate static RUST_FAVICON_SVG: &[u8] = include_bytes!("static/favicon.svg");
-crate static RUST_FAVICON_PNG_16: &[u8] = include_bytes!("static/favicon-16x16.png");
-crate static RUST_FAVICON_PNG_32: &[u8] = include_bytes!("static/favicon-32x32.png");
+crate static DUST_FAVICON_SVG: &[u8] = include_bytes!("static/favicon.svg");
+crate static DUST_FAVICON_PNG_16: &[u8] = include_bytes!("static/favicon-16x16.png");
+crate static DUST_FAVICON_PNG_32: &[u8] = include_bytes!("static/favicon-32x32.png");
 
 /// The built-in themes given to every documentation site.
 crate mod themes {
@@ -117,7 +117,7 @@ crate mod source_code_pro {
     crate static LICENSE: &[u8] = include_bytes!("static/SourceCodePro-LICENSE.txt");
 }
 
-/// Files related to the sidebar in rustdoc sources.
+/// Files related to the sidebar in dustdoc sources.
 crate mod sidebar {
     /// File script to handle sidebar.
     crate static SOURCE_SCRIPT: &str = include_str!("static/source-script.js");

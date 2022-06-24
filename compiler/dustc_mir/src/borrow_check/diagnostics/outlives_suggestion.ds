@@ -3,9 +3,9 @@
 
 use std::collections::BTreeMap;
 
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::DiagnosticBuilder;
-use rustc_middle::ty::RegionVid;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::DiagnosticBuilder;
+use dustc_middle::ty::RegionVid;
 use tracing::debug;
 
 use smallvec::SmallVec;

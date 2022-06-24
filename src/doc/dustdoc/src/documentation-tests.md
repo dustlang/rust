@@ -1,11 +1,11 @@
 # Documentation tests
 
-`rustdoc` supports executing your documentation examples as tests. This makes sure
+`dustdoc` supports executing your documentation examples as tests. This makes sure
 that examples within your documentation are up to date and working.
 
 The basic idea is this:
 
-```rust,no_run
+```dust,no_run
 /// # Examples
 ///
 /// ```
@@ -15,13 +15,13 @@ The basic idea is this:
 ```
 
 The triple backticks start and end code blocks. If this were in a file named `foo.rs`,
-running `rustdoc --test foo.rs` will extract this example, and then run it as a test.
+running `dustdoc --test foo.rs` will extract this example, and then run it as a test.
 
-Please note that by default, if no language is set for the block code, rustdoc
-assumes it is Rust code. So the following:
+Please note that by default, if no language is set for the block code, dustdoc
+assumes it is Dust code. So the following:
 
 ``````markdown
-```rust
+```dust
 let x = 5;
 ```
 ``````
@@ -41,9 +41,9 @@ There's some subtlety though! Read on for more details.
 Like regular unit tests, regular doctests are considered to "pass"
 if they compile and run without panicking.
 So if you want to demonstrate that some computation gives a certain result,
-the `assert!` family of macros works the same as other Rust code:
+the `assert!` family of macros works the same as other Dust code:
 
-```rust
+```dust
 let foo = "foo";
 assert_eq!(foo, "foo");
 ```
@@ -55,8 +55,8 @@ the code panics and the doctest fails.
 
 In the example above, you'll note something strange: there's no `main`
 function! Forcing you to write `main` for every example, no matter how small,
-adds friction and clutters the output. So `rustdoc` processes your examples
-slightly before running them. Here's the full algorithm `rustdoc` uses to
+adds friction and clutters the output. So `dustdoc` processes your examples
+slightly before running them. Here's the full algorithm `dustdoc` uses to
 preprocess examples:
 
 1. Some common `allow` attributes are inserted, including
@@ -79,7 +79,7 @@ Sometimes, you need some setup code, or other things that would distract
 from your example, but are important to make the tests work. Consider
 an example block that looks like this:
 
-```rust,no_run
+```dust,no_run
 /// ```
 /// /// Some documentation.
 /// # fn foo() {} // this function will be hidden
@@ -90,7 +90,7 @@ an example block that looks like this:
 
 It will render like this:
 
-```rust
+```dust
 /// Some documentation.
 # fn foo() {}
 println!("Hello, World!");
@@ -108,7 +108,7 @@ documentation.
 
 For example, imagine that we wanted to document this code:
 
-```rust
+```dust
 let x = 5;
 let y = 6;
 println!("{}", x + y);
@@ -118,7 +118,7 @@ We might want the documentation to end up looking like this:
 
 > First, we set `x` to five:
 >
-> ```rust
+> ```dust
 > let x = 5;
 > # let y = 6;
 > # println!("{}", x + y);
@@ -126,7 +126,7 @@ We might want the documentation to end up looking like this:
 >
 > Next, we set `y` to six:
 >
-> ```rust
+> ```dust
 > # let x = 5;
 > let y = 6;
 > # println!("{}", x + y);
@@ -134,7 +134,7 @@ We might want the documentation to end up looking like this:
 >
 > Finally, we print the sum of `x` and `y`:
 >
-> ```rust
+> ```dust
 > # let x = 5;
 > # let y = 6;
 > println!("{}", x + y);
@@ -179,7 +179,7 @@ The `#`-hiding of lines can be prevented by using two consecutive hashes
 otherwise caused hiding. If we have a string literal like the following,
 which has a line that starts with a `#`:
 
-```rust
+```dust
 let s = "foo
 ## bar # baz";
 ```
@@ -198,7 +198,7 @@ When writing an example, it is rarely useful to include a complete error
 handling, as it would add significant amounts of boilerplate code. Instead, you
 may want the following:
 
-```rust,no_run
+```dust,no_run
 /// ```
 /// use std::io;
 /// let mut input = String::new();
@@ -213,7 +213,7 @@ return anything, so this will give a mismatched types error.
 You can get around this limitation by manually adding a `main` that returns
 `Result<T, E>`, because `Result<T, E>` implements the `Termination` trait:
 
-```rust,no_run
+```dust,no_run
 /// A doc test using ?
 ///
 /// ```
@@ -231,7 +231,7 @@ You can get around this limitation by manually adding a `main` that returns
 Together with the `# ` from the section above, you arrive at a solution that
 appears to the reader as the initial idea but works with doc tests:
 
-```rust,no_run
+```dust,no_run
 /// ```
 /// use std::io;
 /// # fn main() -> io::Result<()> {
@@ -246,7 +246,7 @@ appears to the reader as the initial idea but works with doc tests:
 As of version 1.34.0, one can also omit the `fn main()`, but you will have to
 disambiguate the error type:
 
-```rust,no_run
+```dust,no_run
 /// ```
 /// use std::io;
 /// let mut input = String::new();
@@ -259,13 +259,13 @@ disambiguate the error type:
 This is an unfortunate consequence of the `?` operator adding an implicit
 conversion, so type inference fails because the type is not unique. Please note
 that you must write the `(())` in one sequence without intermediate whitespace
-so that `rustdoc` understands you want an implicit `Result`-returning function.
+so that `dustdoc` understands you want an implicit `Result`-returning function.
 
 ## Documenting macros
 
 Here’s an example of documenting a macro:
 
-```rust
+```dust
 /// Panic with a given message unless an expression evaluates to true.
 ///
 /// # Examples
@@ -297,32 +297,32 @@ we can add the `#[macro_use]` attribute. Second, we’ll need to add our own
 
 ## Attributes
 
-There are a few annotations that are useful to help `rustdoc` do the right
+There are a few annotations that are useful to help `dustdoc` do the right
 thing when testing your code:
 
-```rust
+```dust
 /// ```ignore
 /// fn foo() {
 /// ```
 # fn foo() {}
 ```
 
-The `ignore` directive tells Rust to ignore your code. This is almost never
+The `ignore` directive tells Dust to ignore your code. This is almost never
 what you want, as it's the most generic. Instead, consider annotating it
 with `text` if it's not code, or using `#`s to get a working example that
 only shows the part you care about.
 
-```rust
+```dust
 /// ```should_panic
 /// assert!(false);
 /// ```
 # fn foo() {}
 ```
 
-`should_panic` tells `rustdoc` that the code should compile correctly, but
+`should_panic` tells `dustdoc` that the code should compile correctly, but
 not actually pass as a test.
 
-```rust
+```dust
 /// ```no_run
 /// loop {
 ///     println!("Hello, world");
@@ -343,9 +343,9 @@ environment that has no network access.
 /// ```
 ```
 
-`compile_fail` tells `rustdoc` that the compilation should fail. If it
+`compile_fail` tells `dustdoc` that the compilation should fail. If it
 compiles, then the test will fail. However please note that code failing
-with the current Rust release may work in a future release, as new features
+with the current Dust release may work in a future release, as new features
 are added.
 
 ```text
@@ -360,8 +360,8 @@ are added.
 /// ```
 ```
 
-`edition2018` tells `rustdoc` that the code sample should be compiled using
-the 2018 edition of Rust. Similarly, you can specify `edition2015` to compile
+`edition2018` tells `dustdoc` that the code sample should be compiled using
+the 2018 edition of Dust. Similarly, you can specify `edition2015` to compile
 the code with the 2015 edition.
 
 ## Syntax reference
@@ -370,7 +370,7 @@ The *exact* syntax for code blocks, including the edge cases, can be found
 in the [Fenced Code Blocks](https://spec.commonmark.org/0.29/#fenced-code-blocks)
 section of the CommonMark specification.
 
-Rustdoc also accepts *indented* code blocks as an alternative to fenced
+Dustdoc also accepts *indented* code blocks as an alternative to fenced
 code blocks: instead of surrounding your code with three backticks, you
 can indent each line by four or more spaces.
 
@@ -384,26 +384,26 @@ These, too, are documented in the CommonMark specification, in the
 section.
 
 However, it's preferable to use fenced code blocks over indented code blocks.
-Not only are fenced code blocks considered more idiomatic for Rust code,
+Not only are fenced code blocks considered more idiomatic for Dust code,
 but there is no way to use directives such as `ignore` or `should_panic` with
 indented code blocks.
 
 ### Include items only when collecting doctests
 
-Rustdoc's documentation tests can do some things that regular unit tests can't, so it can
+Dustdoc's documentation tests can do some things that regular unit tests can't, so it can
 sometimes be useful to extend your doctests with samples that wouldn't otherwise need to be in
-documentation. To this end, Rustdoc allows you to have certain items only appear when it's
+documentation. To this end, Dustdoc allows you to have certain items only appear when it's
 collecting doctests, so you can utilize doctest functionality without forcing the test to appear in
 docs, or to find an arbitrary private item to include it on.
 
-When compiling a crate for use in doctests (with `--test` option), `rustdoc` will set `#[cfg(doctest)]`.
+When compiling a crate for use in doctests (with `--test` option), `dustdoc` will set `#[cfg(doctest)]`.
 Note that they will still link against only the public items of your crate; if you need to test
 private items, you need to write a unit test.
 
 In this example, we're adding doctests that we know won't compile, to verify that our struct can
 only take in valid data:
 
-```rust
+```dust
 /// We have a struct here. Remember it doesn't accept negative numbers!
 pub struct MyStruct(pub usize);
 
@@ -415,15 +415,15 @@ pub struct MyStructOnlyTakesUsize;
 ```
 
 Note that the struct `MyStructOnlyTakesUsize` here isn't actually part of your public crate
-API. The use of `#[cfg(doctest)]` makes sure that this struct only exists while `rustdoc` is
-collecting doctests. This means that its doctest is executed when `--test` is passed to rustdoc,
+API. The use of `#[cfg(doctest)]` makes sure that this struct only exists while `dustdoc` is
+collecting doctests. This means that its doctest is executed when `--test` is passed to dustdoc,
 but is hidden from the public documentation.
 
 Another possible use of `#[cfg(doctest)]` is to test doctests that are included in your README file
 without including it in your main documentation. For example, you could write this into your
 `lib.rs` to test your README as part of your doctests:
 
-```rust,no_run
+```dust,no_run
 #![feature(external_doc)]
 
 #[doc(include = "../README.md")]

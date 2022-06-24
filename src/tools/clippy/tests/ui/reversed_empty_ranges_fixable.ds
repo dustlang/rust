@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![warn(clippy::reversed_empty_ranges)]
 
 const ANSWER: i32 = 42;

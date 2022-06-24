@@ -32,7 +32,7 @@
 //! assert_eq!(bytes, b"foo");
 //! ```
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use crate::sys_common::os_str_bytes::*;

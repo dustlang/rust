@@ -1,10 +1,10 @@
-use rustc_errors::Applicability;
-use rustc_hir::{self as hir, def_id::DefId, GenericArg, QPath, TyKind};
-use rustc_lint::LateContext;
-use rustc_middle::ty::TypeFoldable;
-use rustc_span::symbol::sym;
-use rustc_target::abi::LayoutOf;
-use rustc_typeck::hir_ty_to_ty;
+use dustc_errors::Applicability;
+use dustc_hir::{self as hir, def_id::DefId, GenericArg, QPath, TyKind};
+use dustc_lint::LateContext;
+use dustc_middle::ty::TypeFoldable;
+use dustc_span::symbol::sym;
+use dustc_target::abi::LayoutOf;
+use dustc_typeck::hir_ty_to_ty;
 
 use if_chain::if_chain;
 

@@ -7,9 +7,9 @@
 #![crate_type = "lib"]
 #![feature(c_unwind)]
 
-// CHECK: @rust_item_that_can_unwind() unnamed_addr #0 {
+// CHECK: @dust_item_that_can_unwind() unnamed_addr #0 {
 #[no_mangle]
-pub extern "C-unwind" fn rust_item_that_can_unwind() {
+pub extern "C-unwind" fn dust_item_that_can_unwind() {
 }
 
 // Now, make sure that the LLVM attributes for this functions are correct.  First, make

@@ -1,16 +1,16 @@
 use std::collections::hash_map::Entry;
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir::def::DefKind;
-use rustc_hir::def_id::{DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_hir::definitions::DefPathDataName;
-use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
-use rustc_middle::middle::exported_symbols::SymbolExportLevel;
-use rustc_middle::mir::mono::{CodegenUnit, CodegenUnitNameBuilder, Linkage, Visibility};
-use rustc_middle::mir::mono::{InstantiationMode, MonoItem};
-use rustc_middle::ty::print::characteristic_def_id_of_type;
-use rustc_middle::ty::{self, DefIdTree, InstanceDef, TyCtxt};
-use rustc_span::symbol::Symbol;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir::def::DefKind;
+use dustc_hir::def_id::{DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_hir::definitions::DefPathDataName;
+use dustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
+use dustc_middle::middle::exported_symbols::SymbolExportLevel;
+use dustc_middle::mir::mono::{CodegenUnit, CodegenUnitNameBuilder, Linkage, Visibility};
+use dustc_middle::mir::mono::{InstantiationMode, MonoItem};
+use dustc_middle::ty::print::characteristic_def_id_of_type;
+use dustc_middle::ty::{self, DefIdTree, InstanceDef, TyCtxt};
+use dustc_span::symbol::Symbol;
 
 use super::PartitioningCx;
 use crate::monomorphize::collector::InliningMap;
@@ -505,11 +505,11 @@ fn mono_item_visibility(
         //   for allocator symbols. Allocators are a little weird in their
         //   implementation, but the idea is that the compiler, at the last
         //   minute, defines an allocator with an injected object file. The
-        //   `alloc` crate references these symbols (`__rust_alloc`) and the
+        //   `alloc` crate references these symbols (`__dust_alloc`) and the
         //   definition doesn't get hooked up until a linked crate artifact is
         //   generated.
         //
-        //   The symbols synthesized by the compiler (`__rust_alloc`) are thin
+        //   The symbols synthesized by the compiler (`__dust_alloc`) are thin
         //   veneers around the actual implementation, some other symbol which
         //   implements the same ABI. These symbols (things like `__rg_alloc`,
         //   `__rdl_alloc`, `__rde_alloc`, etc), are all tagged with "std
@@ -522,7 +522,7 @@ fn mono_item_visibility(
         //   LLVM internalize them as this decision is left up to the linker to
         //   omit them, so prevent them from being internalized.
         let attrs = tcx.codegen_fn_attrs(def_id);
-        if attrs.flags.contains(CodegenFnAttrFlags::RUSTC_STD_INTERNAL_SYMBOL) {
+        if attrs.flags.contains(CodegenFnAttrFlags::DUSTC_STD_INTERNAL_SYMBOL) {
             *can_be_internalized = false;
         }
 

@@ -1,14 +1,14 @@
 use crate::utils::{meets_msrv, snippet_opt, span_lint_and_then};
 use if_chain::if_chain;
-use rustc_ast::ast::{Attribute, Item, ItemKind, FieldDef, Variant, VariantData, VisibilityKind};
-use rustc_attr as attr;
-use rustc_errors::Applicability;
-use rustc_lint::{EarlyContext, EarlyLintPass};
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::{sym, Span};
+use dustc_ast::ast::{Attribute, Item, ItemKind, FieldDef, Variant, VariantData, VisibilityKind};
+use dustc_attr as attr;
+use dustc_errors::Applicability;
+use dustc_lint::{EarlyContext, EarlyLintPass};
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::{sym, Span};
 
-const MANUAL_NON_EXHAUSTIVE_MSRV: RustcVersion = RustcVersion::new(1, 40, 0);
+const MANUAL_NON_EXHAUSTIVE_MSRV: DustcVersion = DustcVersion::new(1, 40, 0);
 
 declare_clippy_lint! {
     /// **What it does:** Checks for manual implementations of the non-exhaustive pattern.
@@ -20,7 +20,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// struct S {
     ///     pub a: i32,
     ///     pub b: i32,
@@ -37,7 +37,7 @@ declare_clippy_lint! {
     /// struct T(pub i32, pub i32, ());
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// #[non_exhaustive]
     /// struct S {
     ///     pub a: i32,
@@ -60,12 +60,12 @@ declare_clippy_lint! {
 
 #[derive(Clone)]
 pub struct ManualNonExhaustive {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl ManualNonExhaustive {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self { msrv }
     }
 }

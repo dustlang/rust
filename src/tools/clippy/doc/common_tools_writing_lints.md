@@ -9,10 +9,10 @@ You may need following tooltips to catch up with common operations.
   - [Checking if a type defines a method](#checking-if-a-type-defines-a-method)
   - [Dealing with macros](#dealing-with-macros)
 
-Useful Rustc dev guide links:
-- [Stages of compilation](https://rustc-dev-guide.rust-lang.org/compiler-src.html#the-main-stages-of-compilation)
-- [Type checking](https://rustc-dev-guide.rust-lang.org/type-checking.html)
-- [Ty module](https://rustc-dev-guide.rust-lang.org/ty.html)
+Useful Dustc dev guide links:
+- [Stages of compilation](https://dustc-dev-guide.dust-lang.org/compiler-src.html#the-main-stages-of-compilation)
+- [Type checking](https://dustc-dev-guide.dust-lang.org/type-checking.html)
+- [Ty module](https://dustc-dev-guide.dust-lang.org/ty.html)
 
 # Retrieving the type of an expression
 
@@ -27,7 +27,7 @@ This operation is performed using the [`expr_ty()`][expr_ty] method from the [`T
 that gives you access to the underlying structure [`TyS`][TyS].
 
 Example of use:
-```rust
+```dust
 impl LateLintPass<'_> for MyStructLint {
     fn check_expr(&mut self, cx: &LateContext<'_>, expr: &Expr<'_>) {
         // Get type of `expr`
@@ -57,7 +57,7 @@ Two noticeable items here:
 
 Starting with an `expr`, you can check whether it is calling a specific method `some_method`:
 
-```rust
+```dust
 impl LateLintPass<'_> for MyStructLint {
     fn check_expr(&mut self, cx: &LateContext<'tcx>, expr: &'tcx hir::Expr<'_>) {
         if_chain! {
@@ -77,7 +77,7 @@ impl LateLintPass<'_> for MyStructLint {
 
 There are two ways to do this, depending if the target trait is part of lang items.
 
-```rust
+```dust
 use clippy_utils::{implements_trait, match_trait_method, paths};
 
 impl LateLintPass<'_> for MyStructLint {
@@ -105,13 +105,13 @@ impl LateLintPass<'_> for MyStructLint {
 
 A list of defined paths for Clippy can be found in [paths.rs][paths]
 
-We access lang items through the type context `tcx`. `tcx` is of type [`TyCtxt`][TyCtxt] and is defined in the `rustc_middle` crate.
+We access lang items through the type context `tcx`. `tcx` is of type [`TyCtxt`][TyCtxt] and is defined in the `dustc_middle` crate.
 
 # Checking if a type defines a specific method
 
 To check if our type defines a method called `some_method`:
 
-```rust
+```dust
 use clippy_utils::{is_type_diagnostic_item, return_ty};
 
 impl<'tcx> LateLintPass<'tcx> for MyTypeImpl {
@@ -141,7 +141,7 @@ There are several helpers in [`clippy_utils`][utils] to deal with macros:
 
 You may want to use this for example to not start linting in any macro.
 
-```rust
+```dust
 macro_rules! foo {
     ($param:expr) => {
         match $param {
@@ -161,7 +161,7 @@ assert_eq!(in_macro(match_span), true);
 
 You may want to use it for example to not start linting in macros from other crates
 
-```rust
+```dust
 #[macro_use]
 extern crate a_crate_with_macros;
 
@@ -174,7 +174,7 @@ assert_eq!(in_external_macro(cx.sess(), match_span), true);
 
 - `differing_macro_contexts()`: returns true if the two given spans are not from the same context
 
-```rust
+```dust
 macro_rules! m {
     ($a:expr, $b:expr) => {
         if $a.is_some() {
@@ -192,12 +192,12 @@ m!(x, x.unwrap());
 assert_eq!(differing_macro_contexts(x_is_some_span, x_unwrap_span), true);
 ```
 
-[TyS]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/struct.TyS.html
-[TyKind]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/enum.TyKind.html
-[TypeckResults]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/struct.TypeckResults.html
-[expr_ty]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/struct.TypeckResults.html#method.expr_ty
-[LateContext]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_lint/struct.LateContext.html
-[TyCtxt]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/context/struct.TyCtxt.html
-[pat_ty]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty/context/struct.TypeckResults.html#method.pat_ty
+[TyS]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/struct.TyS.html
+[TyKind]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/enum.TyKind.html
+[TypeckResults]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/struct.TypeckResults.html
+[expr_ty]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/struct.TypeckResults.html#method.expr_ty
+[LateContext]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_lint/struct.LateContext.html
+[TyCtxt]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/context/struct.TyCtxt.html
+[pat_ty]: https://doc.dust-lang.org/nightly/nightly-dustc/dustc_middle/ty/context/struct.TypeckResults.html#method.pat_ty
 [paths]: ../clippy_utils/src/paths.rs
-[utils]: https://github.com/rust-lang/rust-clippy/blob/master/clippy_utils/src/lib.rs
+[utils]: https://github.com/dust-lang/dust-clippy/blob/master/clippy_utils/src/lib.rs

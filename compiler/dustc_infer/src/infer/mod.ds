@@ -8,29 +8,29 @@ pub(crate) use self::undo_log::{InferCtxtUndoLogs, Snapshot, UndoLog};
 
 use crate::traits::{self, ObligationCause, PredicateObligations, TraitEngine};
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::sync::Lrc;
-use rustc_data_structures::undo_log::Rollback;
-use rustc_data_structures::unify as ut;
-use rustc_errors::DiagnosticBuilder;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_middle::infer::canonical::{Canonical, CanonicalVarValues};
-use rustc_middle::infer::unify_key::{ConstVarValue, ConstVariableValue};
-use rustc_middle::infer::unify_key::{ConstVariableOrigin, ConstVariableOriginKind, ToType};
-use rustc_middle::mir;
-use rustc_middle::mir::interpret::EvalToConstValueResult;
-use rustc_middle::traits::select;
-use rustc_middle::ty::error::{ExpectedFound, TypeError, UnconstrainedNumeric};
-use rustc_middle::ty::fold::{TypeFoldable, TypeFolder};
-use rustc_middle::ty::relate::RelateResult;
-use rustc_middle::ty::subst::{GenericArg, GenericArgKind, InternalSubsts, SubstsRef};
-pub use rustc_middle::ty::IntVarValue;
-use rustc_middle::ty::{self, GenericParamDefKind, InferConst, Ty, TyCtxt};
-use rustc_middle::ty::{ConstVid, FloatVid, IntVid, TyVid};
-use rustc_session::config::BorrowckMode;
-use rustc_span::symbol::Symbol;
-use rustc_span::Span;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::sync::Lrc;
+use dustc_data_structures::undo_log::Rollback;
+use dustc_data_structures::unify as ut;
+use dustc_errors::DiagnosticBuilder;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_middle::infer::canonical::{Canonical, CanonicalVarValues};
+use dustc_middle::infer::unify_key::{ConstVarValue, ConstVariableValue};
+use dustc_middle::infer::unify_key::{ConstVariableOrigin, ConstVariableOriginKind, ToType};
+use dustc_middle::mir;
+use dustc_middle::mir::interpret::EvalToConstValueResult;
+use dustc_middle::traits::select;
+use dustc_middle::ty::error::{ExpectedFound, TypeError, UnconstrainedNumeric};
+use dustc_middle::ty::fold::{TypeFoldable, TypeFolder};
+use dustc_middle::ty::relate::RelateResult;
+use dustc_middle::ty::subst::{GenericArg, GenericArgKind, InternalSubsts, SubstsRef};
+pub use dustc_middle::ty::IntVarValue;
+use dustc_middle::ty::{self, GenericParamDefKind, InferConst, Ty, TyCtxt};
+use dustc_middle::ty::{ConstVid, FloatVid, IntVid, TyVid};
+use dustc_session::config::BorrowckMode;
+use dustc_span::symbol::Symbol;
+use dustc_span::Span;
 
 use std::cell::{Cell, Ref, RefCell};
 use std::collections::BTreeMap;
@@ -68,7 +68,7 @@ pub mod type_variable;
 mod undo_log;
 
 use crate::infer::canonical::OriginalQueryValues;
-pub use rustc_middle::infer::unify_key;
+pub use dustc_middle::infer::unify_key;
 
 #[must_use]
 #[derive(Debug)]
@@ -547,7 +547,7 @@ impl TyCtxtInferExt<'tcx> for TyCtxt<'tcx> {
 }
 
 impl<'tcx> InferCtxtBuilder<'tcx> {
-    /// Used only by `rustc_typeck` during body type-checking/inference,
+    /// Used only by `dustc_typeck` during body type-checking/inference,
     /// will initialize `in_progress_typeck_results` with fresh `TypeckResults`.
     pub fn with_fresh_in_progress_typeck_results(mut self, table_owner: LocalDefId) -> Self {
         self.fresh_typeck_results = Some(RefCell::new(ty::TypeckResults::new(table_owner)));
@@ -653,8 +653,8 @@ impl<'a, 'tcx> InferCtxt<'a, 'tcx> {
     }
 
     pub fn type_is_unconstrained_numeric(&'a self, ty: Ty<'_>) -> UnconstrainedNumeric {
-        use rustc_middle::ty::error::UnconstrainedNumeric::Neither;
-        use rustc_middle::ty::error::UnconstrainedNumeric::{UnconstrainedFloat, UnconstrainedInt};
+        use dustc_middle::ty::error::UnconstrainedNumeric::Neither;
+        use dustc_middle::ty::error::UnconstrainedNumeric::{UnconstrainedFloat, UnconstrainedInt};
         match *ty.kind() {
             ty::Infer(ty::IntVar(vid)) => {
                 if self.inner.borrow_mut().int_unification_table().probe_value(vid).is_some() {
@@ -719,7 +719,7 @@ impl<'a, 'tcx> InferCtxt<'a, 'tcx> {
     /// potentially leaving "dangling type variables" behind.
     /// In such cases, an assertion will fail when attempting to
     /// register obligations, within a snapshot. Very useful, much
-    /// better than grovelling through megabytes of `RUSTC_LOG` output.
+    /// better than grovelling through megabytes of `DUSTC_LOG` output.
     ///
     /// HOWEVER, in some cases the flag is unhelpful. In particular, we
     /// sometimes create a "mini-fulfilment-cx" in which we enroll
@@ -1769,7 +1769,7 @@ impl RegionVariableOrigin {
             | EarlyBoundRegion(a, ..)
             | LateBoundRegion(a, ..)
             | UpvarRegion(_, a) => a,
-            BoundRegionInCoherence(_) => rustc_span::DUMMY_SP,
+            BoundRegionInCoherence(_) => dustc_span::DUMMY_SP,
             Nll(..) => bug!("NLL variable used with `span`"),
         }
     }

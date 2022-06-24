@@ -1,11 +1,11 @@
 use std::borrow::Cow;
 use std::convert::TryFrom;
 
-use rustc_middle::ty::layout::TyAndLayout;
-use rustc_middle::ty::Instance;
-use rustc_middle::{mir, ty};
-use rustc_target::abi::{self, LayoutOf as _};
-use rustc_target::spec::abi::Abi;
+use dustc_middle::ty::layout::TyAndLayout;
+use dustc_middle::ty::Instance;
+use dustc_middle::{mir, ty};
+use dustc_target::abi::{self, LayoutOf as _};
+use dustc_target::spec::abi::Abi;
 
 use super::{
     FnVal, ImmTy, InterpCx, InterpResult, MPlaceTy, Machine, OpTy, PlaceTy, StackPopCleanup,
@@ -16,7 +16,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
         &mut self,
         terminator: &mir::Terminator<'tcx>,
     ) -> InterpResult<'tcx> {
-        use rustc_middle::mir::TerminatorKind::*;
+        use dustc_middle::mir::TerminatorKind::*;
         match terminator.kind {
             Return => {
                 self.pop_stack_frame(/* unwinding */ false)?
@@ -150,7 +150,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
     }
 
     fn check_argument_compat(
-        rust_abi: bool,
+        dust_abi: bool,
         caller: TyAndLayout<'tcx>,
         callee: TyAndLayout<'tcx>,
     ) -> bool {
@@ -158,7 +158,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
             // No question
             return true;
         }
-        if !rust_abi {
+        if !dust_abi {
             // Don't risk anything
             return false;
         }
@@ -182,11 +182,11 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
     /// Pass a single argument, checking the types for compatibility.
     fn pass_argument(
         &mut self,
-        rust_abi: bool,
+        dust_abi: bool,
         caller_arg: &mut impl Iterator<Item = OpTy<'tcx, M::PointerTag>>,
         callee_arg: &PlaceTy<'tcx, M::PointerTag>,
     ) -> InterpResult<'tcx> {
-        if rust_abi && callee_arg.layout.is_zst() {
+        if dust_abi && callee_arg.layout.is_zst() {
             // Nothing to do.
             trace!("Skipping callee ZST");
             return Ok(());
@@ -194,11 +194,11 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
         let caller_arg = caller_arg.next().ok_or_else(|| {
             err_ub_format!("calling a function with fewer arguments than it requires")
         })?;
-        if rust_abi {
+        if dust_abi {
             assert!(!caller_arg.layout.is_zst(), "ZSTs must have been already filtered out");
         }
         // Now, check
-        if !Self::check_argument_compat(rust_abi, caller_arg.layout, callee_arg.layout) {
+        if !Self::check_argument_compat(dust_abi, caller_arg.layout, callee_arg.layout) {
             throw_ub_format!(
                 "calling a function with argument of type {:?} passing data of type {:?}",
                 callee_arg.layout.ty,
@@ -233,16 +233,16 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
                 let instance_ty = instance.ty(*self.tcx, self.param_env);
                 match instance_ty.kind() {
                     ty::FnDef(..) => instance_ty.fn_sig(*self.tcx).abi(),
-                    ty::Closure(..) => Abi::RustCall,
-                    ty::Generator(..) => Abi::Rust,
+                    ty::Closure(..) => Abi::DustCall,
+                    ty::Generator(..) => Abi::Dust,
                     _ => span_bug!(self.cur_span(), "unexpected callee ty: {:?}", instance_ty),
                 }
             };
             let normalize_abi = |abi| match abi {
-                Abi::Rust | Abi::RustCall | Abi::RustIntrinsic | Abi::PlatformIntrinsic =>
+                Abi::Dust | Abi::DustCall | Abi::DustIntrinsic | Abi::PlatformIntrinsic =>
                 // These are all the same ABI, really.
                 {
-                    Abi::Rust
+                    Abi::Dust
                 }
                 abi => abi,
             };
@@ -257,7 +257,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
 
         match instance.def {
             ty::InstanceDef::Intrinsic(..) => {
-                assert!(caller_abi == Abi::RustIntrinsic || caller_abi == Abi::PlatformIntrinsic);
+                assert!(caller_abi == Abi::DustIntrinsic || caller_abi == Abi::PlatformIntrinsic);
                 M::call_intrinsic(self, instance, args, ret, unwind)
             }
             ty::InstanceDef::VtableShim(..)
@@ -303,20 +303,20 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
                     );
 
                     // Figure out how to pass which arguments.
-                    // The Rust ABI is special: ZST get skipped.
-                    let rust_abi = match caller_abi {
-                        Abi::Rust | Abi::RustCall => true,
+                    // The Dust ABI is special: ZST get skipped.
+                    let dust_abi = match caller_abi {
+                        Abi::Dust | Abi::DustCall => true,
                         _ => false,
                     };
                     // We have two iterators: Where the arguments come from,
                     // and where they go to.
 
-                    // For where they come from: If the ABI is RustCall, we untuple the
+                    // For where they come from: If the ABI is DustCall, we untuple the
                     // last incoming argument.  These two iterators do not have the same type,
                     // so to keep the code paths uniform we accept an allocation
-                    // (for RustCall ABI only).
+                    // (for DustCall ABI only).
                     let caller_args: Cow<'_, [OpTy<'tcx, M::PointerTag>]> =
-                        if caller_abi == Abi::RustCall && !args.is_empty() {
+                        if caller_abi == Abi::DustCall && !args.is_empty() {
                             // Untuple
                             let (untuple_arg, args) = args.split_last().unwrap();
                             trace!("eval_fn_call: Will pass last argument by untupling");
@@ -336,7 +336,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
                         };
                     // Skip ZSTs
                     let mut caller_iter =
-                        caller_args.iter().filter(|op| !rust_abi || !op.layout.is_zst()).copied();
+                        caller_args.iter().filter(|op| !dust_abi || !op.layout.is_zst()).copied();
 
                     // Now we have to spread them out across the callee's locals,
                     // taking into account the `spread_arg`.  If we could write
@@ -349,11 +349,11 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
                             // Must be a tuple
                             for i in 0..dest.layout.fields.count() {
                                 let dest = self.place_field(&dest, i)?;
-                                self.pass_argument(rust_abi, &mut caller_iter, &dest)?;
+                                self.pass_argument(dust_abi, &mut caller_iter, &dest)?;
                             }
                         } else {
                             // Normal argument
-                            self.pass_argument(rust_abi, &mut caller_iter, &dest)?;
+                            self.pass_argument(dust_abi, &mut caller_iter, &dest)?;
                         }
                     }
                     // Now we should have no more caller args
@@ -364,7 +364,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
                     if let Some((caller_ret, _)) = ret {
                         let callee_ret = self.eval_place(mir::Place::return_place())?;
                         if !Self::check_argument_compat(
-                            rust_abi,
+                            dust_abi,
                             caller_ret.layout,
                             callee_ret.layout,
                         ) {
@@ -397,7 +397,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
                 // We have to implement all "object safe receivers".  Currently we
                 // support built-in pointers `(&, &mut, Box)` as well as unsized-self.  We do
                 // not yet support custom self types.
-                // Also see `compiler/rustc_codegen_llvm/src/abi.rs` and `compiler/rustc_codegen_ssa/src/mir/block.rs`.
+                // Also see `compiler/dustc_codegen_llvm/src/abi.rs` and `compiler/dustc_codegen_ssa/src/mir/block.rs`.
                 let receiver_place = match args[0].layout.ty.builtin_deref(true) {
                     Some(_) => {
                         // Built-in pointer.
@@ -438,7 +438,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
         trace!("drop_in_place: {:?},\n  {:?}, {:?}", *place, place.layout.ty, instance);
         // We take the address of the object.  This may well be unaligned, which is fine
         // for us here.  However, unaligned accesses will probably make the actual drop
-        // implementation fail -- a problem shared by rustc.
+        // implementation fail -- a problem shared by dustc.
         let place = self.force_allocation(place)?;
 
         let (instance, place) = match place.layout.ty.kind() {
@@ -459,7 +459,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
 
         self.eval_fn_call(
             FnVal::Instance(instance),
-            Abi::Rust,
+            Abi::Dust,
             &[arg.into()],
             Some((&dest.into(), target)),
             unwind,

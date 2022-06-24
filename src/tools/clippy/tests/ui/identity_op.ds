@@ -9,7 +9,7 @@ const ZERO: i64 = 0;
     clippy::double_parens
 )]
 #[warn(clippy::identity_op)]
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn main() {
     let x = 0;
 

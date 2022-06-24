@@ -6,4 +6,4 @@ LL |             n = if n % 2 == 0 { n/2 } else { 3*n + 1 };
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0080`.
+For more information about this error, try `dustc --explain E0080`.

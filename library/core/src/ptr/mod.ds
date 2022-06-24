@@ -18,7 +18,7 @@
 //! * A [null] pointer is *never* valid, not even for accesses of [size zero][zst].
 //! * For a pointer to be valid, it is necessary, but not always sufficient, that the pointer
 //!   be *dereferenceable*: the memory range of the given size starting at the pointer must all be
-//!   within the bounds of a single allocated object. Note that in Rust,
+//!   within the bounds of a single allocated object. Note that in Dust,
 //!   every (stack-allocated) variable is considered a separate allocated object.
 //! * Even for operations of [size zero][zst], the pointer must not be pointing to deallocated
 //!   memory, i.e., deallocation makes pointers invalid even for zero-sized operations. However,
@@ -56,13 +56,13 @@
 //! [`NonNull::dangling`] in such cases.
 //!
 //! [aliasing]: ../../nomicon/aliasing.html
-//! [book]: ../../book/ch19-01-unsafe-rust.html#dereferencing-a-raw-pointer
+//! [book]: ../../book/ch19-01-unsafe-dust.html#dereferencing-a-raw-pointer
 //! [ub]: ../../reference/behavior-considered-undefined.html
 //! [zst]: ../../nomicon/exotic-sizes.html#zero-sized-types-zsts
 //! [atomic operations]: crate::sync::atomic
 //! [`offset`]: pointer::offset
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 use crate::cmp::Ordering;
 use crate::fmt;
@@ -70,15 +70,15 @@ use crate::hash;
 use crate::intrinsics::{self, abort, is_aligned_and_not_null};
 use crate::mem::{self, MaybeUninit};
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[doc(inline)]
 pub use crate::intrinsics::copy_nonoverlapping;
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[doc(inline)]
 pub use crate::intrinsics::copy;
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[doc(inline)]
 pub use crate::intrinsics::write_bytes;
 
@@ -203,9 +203,9 @@ pub unsafe fn drop_in_place<T: ?Sized>(to_drop: *mut T) {
 /// assert!(p.is_null());
 /// ```
 #[inline(always)]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_promotable]
-#[rustc_const_stable(feature = "const_ptr_null", since = "1.32.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_promotable]
+#[dustc_const_stable(feature = "const_ptr_null", since = "1.32.0")]
 pub const fn null<T>() -> *const T {
     0 as *const T
 }
@@ -221,9 +221,9 @@ pub const fn null<T>() -> *const T {
 /// assert!(p.is_null());
 /// ```
 #[inline(always)]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_promotable]
-#[rustc_const_stable(feature = "const_ptr_null", since = "1.32.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_promotable]
+#[dustc_const_stable(feature = "const_ptr_null", since = "1.32.0")]
 pub const fn null_mut<T>() -> *mut T {
     0 as *mut T
 }
@@ -231,8 +231,8 @@ pub const fn null_mut<T>() -> *mut T {
 #[cfg(bootstrap)]
 #[repr(C)]
 pub(crate) union Repr<T> {
-    pub(crate) rust: *const [T],
-    rust_mut: *mut [T],
+    pub(crate) dust: *const [T],
+    dust_mut: *mut [T],
     pub(crate) raw: FatPtr<T>,
 }
 
@@ -266,7 +266,7 @@ impl<T> Copy for FatPtr<T> {}
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```dust
 /// use std::ptr;
 ///
 /// // create a slice pointer when starting out with a pointer to the first element
@@ -277,14 +277,14 @@ impl<T> Copy for FatPtr<T> {}
 /// ```
 #[inline]
 #[stable(feature = "slice_from_raw_parts", since = "1.42.0")]
-#[rustc_const_unstable(feature = "const_slice_from_raw_parts", issue = "67456")]
+#[dustc_const_unstable(feature = "const_slice_from_raw_parts", issue = "67456")]
 pub const fn slice_from_raw_parts<T>(data: *const T, len: usize) -> *const [T] {
     #[cfg(bootstrap)]
     {
         // SAFETY: Accessing the value from the `Repr` union is safe since *const [T]
         // and FatPtr have the same memory layouts. Only std can make this
         // guarantee.
-        unsafe { Repr { raw: FatPtr { data, len } }.rust }
+        unsafe { Repr { raw: FatPtr { data, len } }.dust }
     }
     #[cfg(not(bootstrap))]
     from_raw_parts(data.cast(), len)
@@ -302,7 +302,7 @@ pub const fn slice_from_raw_parts<T>(data: *const T, len: usize) -> *const [T] {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```dust
 /// use std::ptr;
 ///
 /// let x = &mut [5, 6, 7];
@@ -317,13 +317,13 @@ pub const fn slice_from_raw_parts<T>(data: *const T, len: usize) -> *const [T] {
 /// ```
 #[inline]
 #[stable(feature = "slice_from_raw_parts", since = "1.42.0")]
-#[rustc_const_unstable(feature = "const_slice_from_raw_parts", issue = "67456")]
+#[dustc_const_unstable(feature = "const_slice_from_raw_parts", issue = "67456")]
 pub const fn slice_from_raw_parts_mut<T>(data: *mut T, len: usize) -> *mut [T] {
     #[cfg(bootstrap)]
     {
         // SAFETY: Accessing the value from the `Repr` union is safe since *mut [T]
         // and FatPtr have the same memory layouts
-        unsafe { Repr { raw: FatPtr { data, len } }.rust_mut }
+        unsafe { Repr { raw: FatPtr { data, len } }.dust_mut }
     }
     #[cfg(not(bootstrap))]
     from_raw_parts_mut(data.cast(), len)
@@ -393,8 +393,8 @@ pub const fn slice_from_raw_parts_mut<T>(data: *mut T, len: usize) -> *mut [T] {
 /// }
 /// ```
 #[inline]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_const_unstable(feature = "const_swap", issue = "83163")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_const_unstable(feature = "const_swap", issue = "83163")]
 pub const unsafe fn swap<T>(x: *mut T, y: *mut T) {
     // Give ourselves some scratch space to work with.
     // We do not have to worry about drops: `MaybeUninit` does nothing when dropped.
@@ -452,7 +452,7 @@ pub const unsafe fn swap<T>(x: *mut T, y: *mut T) {
 /// ```
 #[inline]
 #[stable(feature = "swap_nonoverlapping", since = "1.27.0")]
-#[rustc_const_unstable(feature = "const_swap", issue = "83163")]
+#[dustc_const_unstable(feature = "const_swap", issue = "83163")]
 pub const unsafe fn swap_nonoverlapping<T>(x: *mut T, y: *mut T, count: usize) {
     let x = x as *mut u8;
     let y = y as *mut u8;
@@ -463,7 +463,7 @@ pub const unsafe fn swap_nonoverlapping<T>(x: *mut T, y: *mut T, count: usize) {
 }
 
 #[inline]
-#[rustc_const_unstable(feature = "const_swap", issue = "83163")]
+#[dustc_const_unstable(feature = "const_swap", issue = "83163")]
 pub(crate) const unsafe fn swap_nonoverlapping_one<T>(x: *mut T, y: *mut T) {
     // For types smaller than the block optimization below,
     // just swap directly to avoid pessimizing codegen.
@@ -482,7 +482,7 @@ pub(crate) const unsafe fn swap_nonoverlapping_one<T>(x: *mut T, y: *mut T) {
 }
 
 #[inline]
-#[rustc_const_unstable(feature = "const_swap", issue = "83163")]
+#[dustc_const_unstable(feature = "const_swap", issue = "83163")]
 const unsafe fn swap_nonoverlapping_bytes(x: *mut u8, y: *mut u8, len: usize) {
     // The approach here is to utilize simd to swap x & y efficiently. Testing reveals
     // that swapping either 32 bytes or 64 bytes at a time is most efficient for Intel
@@ -571,20 +571,20 @@ const unsafe fn swap_nonoverlapping_bytes(x: *mut u8, y: *mut u8, len: usize) {
 /// ```
 /// use std::ptr;
 ///
-/// let mut rust = vec!['b', 'u', 's', 't'];
+/// let mut dust = vec!['b', 'u', 's', 't'];
 ///
 /// // `mem::replace` would have the same effect without requiring the unsafe
 /// // block.
 /// let b = unsafe {
-///     ptr::replace(&mut rust[0], 'r')
+///     ptr::replace(&mut dust[0], 'r')
 /// };
 ///
 /// assert_eq!(b, 'b');
-/// assert_eq!(rust, &['r', 'u', 's', 't']);
+/// assert_eq!(dust, &['r', 'u', 's', 't']);
 /// ```
 #[inline]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_const_unstable(feature = "const_replace", issue = "83164")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_const_unstable(feature = "const_replace", issue = "83164")]
 pub const unsafe fn replace<T>(dst: *mut T, mut src: T) -> T {
     // SAFETY: the caller must guarantee that `dst` is valid to be
     // cast to a mutable reference (valid for writes, aligned, initialized),
@@ -702,8 +702,8 @@ pub const unsafe fn replace<T>(dst: *mut T, mut src: T) -> T {
 ///
 /// [valid]: self#safety
 #[inline]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_const_unstable(feature = "const_ptr_read", issue = "80377")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_const_unstable(feature = "const_ptr_read", issue = "80377")]
 pub const unsafe fn read<T>(src: *const T) -> T {
     let mut tmp = MaybeUninit::<T>::uninit();
     // SAFETY: the caller must guarantee that `src` is valid for reads.
@@ -802,7 +802,7 @@ pub const unsafe fn read<T>(src: *const T) -> T {
 /// ```
 #[inline]
 #[stable(feature = "ptr_unaligned", since = "1.17.0")]
-#[rustc_const_unstable(feature = "const_ptr_read", issue = "80377")]
+#[dustc_const_unstable(feature = "const_ptr_read", issue = "80377")]
 pub const unsafe fn read_unaligned<T>(src: *const T) -> T {
     let mut tmp = MaybeUninit::<T>::uninit();
     // SAFETY: the caller must guarantee that `src` is valid for reads.
@@ -897,8 +897,8 @@ pub const unsafe fn read_unaligned<T>(src: *const T) -> T {
 /// assert_eq!(bar, "foo");
 /// ```
 #[inline]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_const_unstable(feature = "const_ptr_write", issue = "none")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_const_unstable(feature = "const_ptr_write", issue = "none")]
 pub const unsafe fn write<T>(dst: *mut T, src: T) {
     // SAFETY: the caller must guarantee that `dst` is valid for writes.
     // `dst` cannot overlap `src` because the caller has mutable access
@@ -995,7 +995,7 @@ pub const unsafe fn write<T>(dst: *mut T, src: T) {
 /// ```
 #[inline]
 #[stable(feature = "ptr_unaligned", since = "1.17.0")]
-#[rustc_const_unstable(feature = "const_ptr_write", issue = "none")]
+#[dustc_const_unstable(feature = "const_ptr_write", issue = "none")]
 pub const unsafe fn write_unaligned<T>(dst: *mut T, src: T) {
     // SAFETY: the caller must guarantee that `dst` is valid for writes.
     // `dst` cannot overlap `src` because the caller has mutable access
@@ -1016,7 +1016,7 @@ pub const unsafe fn write_unaligned<T>(dst: *mut T, src: T) {
 ///
 /// # Notes
 ///
-/// Rust does not currently have a rigorously and formally defined memory model,
+/// Dust does not currently have a rigorously and formally defined memory model,
 /// so the precise semantics of what "volatile" means here is subject to change
 /// over time. That being said, the semantics will almost always end up pretty
 /// similar to [C11's definition of volatile][c11].
@@ -1094,7 +1094,7 @@ pub unsafe fn read_volatile<T>(src: *const T) -> T {
 ///
 /// # Notes
 ///
-/// Rust does not currently have a rigorously and formally defined memory model,
+/// Dust does not currently have a rigorously and formally defined memory model,
 /// so the precise semantics of what "volatile" means here is subject to change
 /// over time. That being said, the semantics will almost always end up pretty
 /// similar to [C11's definition of volatile][c11].
@@ -1454,7 +1454,7 @@ macro_rules! fnptr_impls_safety_abi {
                 // so that the address space of the source function pointer
                 // is preserved in the final function pointer.
                 //
-                // https://github.com/avr-rust/rust/issues/143
+                // https://github.com/avr-dust/dust/issues/143
                 fmt::Pointer::fmt(&(*self as usize as *const ()), f)
             }
         }
@@ -1466,7 +1466,7 @@ macro_rules! fnptr_impls_safety_abi {
                 // so that the address space of the source function pointer
                 // is preserved in the final function pointer.
                 //
-                // https://github.com/avr-rust/rust/issues/143
+                // https://github.com/avr-dust/dust/issues/143
                 fmt::Pointer::fmt(&(*self as usize as *const ()), f)
             }
         }
@@ -1475,18 +1475,18 @@ macro_rules! fnptr_impls_safety_abi {
 
 macro_rules! fnptr_impls_args {
     ($($Arg: ident),+) => {
-        fnptr_impls_safety_abi! { extern "Rust" fn($($Arg),+) -> Ret, $($Arg),+ }
+        fnptr_impls_safety_abi! { extern "Dust" fn($($Arg),+) -> Ret, $($Arg),+ }
         fnptr_impls_safety_abi! { extern "C" fn($($Arg),+) -> Ret, $($Arg),+ }
         fnptr_impls_safety_abi! { extern "C" fn($($Arg),+ , ...) -> Ret, $($Arg),+ }
-        fnptr_impls_safety_abi! { unsafe extern "Rust" fn($($Arg),+) -> Ret, $($Arg),+ }
+        fnptr_impls_safety_abi! { unsafe extern "Dust" fn($($Arg),+) -> Ret, $($Arg),+ }
         fnptr_impls_safety_abi! { unsafe extern "C" fn($($Arg),+) -> Ret, $($Arg),+ }
         fnptr_impls_safety_abi! { unsafe extern "C" fn($($Arg),+ , ...) -> Ret, $($Arg),+ }
     };
     () => {
         // No variadic functions with 0 parameters
-        fnptr_impls_safety_abi! { extern "Rust" fn() -> Ret, }
+        fnptr_impls_safety_abi! { extern "Dust" fn() -> Ret, }
         fnptr_impls_safety_abi! { extern "C" fn() -> Ret, }
-        fnptr_impls_safety_abi! { unsafe extern "Rust" fn() -> Ret, }
+        fnptr_impls_safety_abi! { unsafe extern "Dust" fn() -> Ret, }
         fnptr_impls_safety_abi! { unsafe extern "C" fn() -> Ret, }
     };
 }
@@ -1531,7 +1531,7 @@ fnptr_impls_args! { A, B, C, D, E, F, G, H, I, J, K, L }
 /// assert_eq!(unsafe { raw_f2.read_unaligned() }, 2);
 /// ```
 #[stable(feature = "raw_ref_macros", since = "1.51.0")]
-#[rustc_macro_transparency = "semitransparent"]
+#[dustc_macro_transparency = "semitransparent"]
 #[allow_internal_unstable(raw_ref_op)]
 pub macro addr_of($place:expr) {
     &raw const $place
@@ -1564,7 +1564,7 @@ pub macro addr_of($place:expr) {
 /// assert_eq!({packed.f2}, 42); // `{...}` forces copying the field instead of creating a reference.
 /// ```
 #[stable(feature = "raw_ref_macros", since = "1.51.0")]
-#[rustc_macro_transparency = "semitransparent"]
+#[dustc_macro_transparency = "semitransparent"]
 #[allow_internal_unstable(raw_ref_op)]
 pub macro addr_of_mut($place:expr) {
     &raw mut $place

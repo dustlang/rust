@@ -1,11 +1,11 @@
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 trait Trait<'x, T> where T: 'x {
     type Type;
 }
 
-#[rustc_outlives]
-struct Foo<'a, A, B> where A: Trait<'a, B> //~ ERROR rustc_outlives
+#[dustc_outlives]
+struct Foo<'a, A, B> where A: Trait<'a, B> //~ ERROR dustc_outlives
 {
     foo: <A as Trait<'a, B>>::Type
 }

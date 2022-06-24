@@ -3,10 +3,10 @@
 use crate::ast::{self, Lit, LitKind};
 use crate::token::{self, Token};
 
-use rustc_lexer::unescape::{unescape_byte, unescape_char};
-use rustc_lexer::unescape::{unescape_byte_literal, unescape_literal, Mode};
-use rustc_span::symbol::{kw, sym, Symbol};
-use rustc_span::Span;
+use dustc_lexer::unescape::{unescape_byte, unescape_char};
+use dustc_lexer::unescape::{unescape_byte_literal, unescape_literal, Mode};
+use dustc_span::symbol::{kw, sym, Symbol};
+use dustc_span::Span;
 
 use std::ascii;
 use tracing::debug;

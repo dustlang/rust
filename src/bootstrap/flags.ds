@@ -1,4 +1,4 @@
-//! Command-line interface of the rustbuild build system.
+//! Command-line interface of the dustbuild build system.
 //!
 //! This module implements the command-line parsing of the build system which
 //! has various flags to configure how it's run.
@@ -56,7 +56,7 @@ pub struct Flags {
     pub incremental: bool,
     pub exclude: Vec<PathBuf>,
     pub include_default_paths: bool,
-    pub rustc_error_format: Option<String>,
+    pub dustc_error_format: Option<String>,
     pub json_output: bool,
     pub dry_run: bool,
     pub color: Color,
@@ -69,8 +69,8 @@ pub struct Flags {
 
     pub llvm_skip_rebuild: Option<bool>,
 
-    pub rust_profile_use: Option<String>,
-    pub rust_profile_generate: Option<String>,
+    pub dust_profile_use: Option<String>,
+    pub dust_profile_generate: Option<String>,
 }
 
 pub enum Subcommand {
@@ -104,10 +104,10 @@ pub enum Subcommand {
         compare_mode: Option<String>,
         pass: Option<String>,
         test_args: Vec<String>,
-        rustc_args: Vec<String>,
+        dustc_args: Vec<String>,
         fail_fast: bool,
         doc_tests: DocTests,
-        rustfix_coverage: bool,
+        dustfix_coverage: bool,
     },
     Bench {
         paths: Vec<PathBuf>,
@@ -145,9 +145,9 @@ Usage: x.py <subcommand> [options] [<paths>...]
 Subcommands:
     build, b    Compile either the compiler or libraries
     check, c    Compile either the compiler or libraries, using cargo check
-    clippy      Run clippy (uses rustup/cargo-installed clippy binary)
+    clippy      Run clippy (uses dustup/cargo-installed clippy binary)
     fix         Run cargo fix
-    fmt         Run rustfmt
+    fmt         Run dustfmt
     test, t     Build and run some test suites
     bench       Build and run some benchmarks
     doc         Build documentation
@@ -180,7 +180,7 @@ To learn more about a subcommand, run `./x.py <subcommand> -h`",
             "",
             "stage",
             "stage to build (indicates compiler to use/test, e.g., stage 0 uses the \
-             bootstrap compiler, stage 1 the stage 0 rustc artifacts, etc.)",
+             bootstrap compiler, stage 1 the stage 0 dustc artifacts, etc.)",
             "N",
         );
         opts.optmulti(
@@ -197,7 +197,7 @@ To learn more about a subcommand, run `./x.py <subcommand> -h`",
             (pass multiple times to keep e.g., both stages 0 and 1)",
             "N",
         );
-        opts.optopt("", "src", "path to the root of the rust checkout", "DIR");
+        opts.optopt("", "src", "path to the root of the dust checkout", "DIR");
         let j_msg = format!(
             "number of jobs to run in parallel; \
              defaults to {} (this host's logical CPU count)",
@@ -211,9 +211,9 @@ To learn more about a subcommand, run `./x.py <subcommand> -h`",
             "if value is deny, will deny warnings, otherwise use default",
             "VALUE",
         );
-        opts.optopt("", "error-format", "rustc error format", "FORMAT");
+        opts.optopt("", "error-format", "dustc error format", "FORMAT");
         opts.optflag("", "json-output", "use message-format=json");
-        opts.optopt("", "color", "whether to use color in cargo and rustc output", "STYLE");
+        opts.optopt("", "color", "whether to use color in cargo and dustc output", "STYLE");
         opts.optopt(
             "",
             "llvm-skip-rebuild",
@@ -222,8 +222,8 @@ To learn more about a subcommand, run `./x.py <subcommand> -h`",
              VALUE overrides the skip-rebuild option in config.toml.",
             "VALUE",
         );
-        opts.optopt("", "rust-profile-generate", "rustc error format", "FORMAT");
-        opts.optopt("", "rust-profile-use", "rustc error format", "FORMAT");
+        opts.optopt("", "dust-profile-generate", "dustc error format", "FORMAT");
+        opts.optopt("", "dust-profile-use", "dustc error format", "FORMAT");
 
         // We can't use getopt to parse the options until we have completed specifying which
         // options are valid, but under the current implementation, some options are conditional on
@@ -269,12 +269,12 @@ To learn more about a subcommand, run `./x.py <subcommand> -h`",
                     "",
                     "test-args",
                     "extra arguments to be passed for the test tool being used \
-                        (e.g. libtest, compiletest or rustdoc)",
+                        (e.g. libtest, compiletest or dustdoc)",
                     "ARGS",
                 );
                 opts.optmulti(
                     "",
-                    "rustc-args",
+                    "dustc-args",
                     "extra options to pass the compiler when running tests",
                     "ARGS",
                 );
@@ -295,9 +295,9 @@ To learn more about a subcommand, run `./x.py <subcommand> -h`",
                 );
                 opts.optflag(
                     "",
-                    "rustfix-coverage",
-                    "enable this to generate a Rustfix coverage file, which is saved in \
-                        `/<build_base>/rustfix_missing_coverage.txt`",
+                    "dustfix-coverage",
+                    "enable this to generate a Dustfix coverage file, which is saved in \
+                        `/<build_base>/dustfix_missing_coverage.txt`",
                 );
             }
             "check" | "c" => {
@@ -416,7 +416,7 @@ Arguments:
         ./x.py check library/core
         ./x.py check library/core library/proc_macro
 
-    If no arguments are passed then the complete artifacts are compiled: std, test, and rustc. Note
+    If no arguments are passed then the complete artifacts are compiled: std, test, and dustc. Note
     also that since we use `cargo check`, by default this will automatically enable incremental
     compilation, so there's no need to pass it separately, though it won't hurt. We also completely
     ignore the stage passed, as there's no way to compile in non-stage 0 without actually building
@@ -469,7 +469,7 @@ Arguments:
         ./x.py test src/test/ui --bless
         ./x.py test src/test/ui --compare-mode nll
 
-    Note that `test src/test/* --stage N` does NOT depend on `build compiler/rustc --stage N`;
+    Note that `test src/test/* --stage N` does NOT depend on `build compiler/dustc --stage N`;
     just like `build library/std --stage N` it tests the compiler produced by the previous
     stage.
 
@@ -557,9 +557,9 @@ Arguments:
                 compare_mode: matches.opt_str("compare-mode"),
                 pass: matches.opt_str("pass"),
                 test_args: matches.opt_strs("test-args"),
-                rustc_args: matches.opt_strs("rustc-args"),
+                dustc_args: matches.opt_strs("dustc-args"),
                 fail_fast: !matches.opt_present("no-fail-fast"),
-                rustfix_coverage: matches.opt_present("rustfix-coverage"),
+                dustfix_coverage: matches.opt_present("dustfix-coverage"),
                 doc_tests: if matches.opt_present("doc") {
                     DocTests::Only
                 } else if matches.opt_present("no-doc") {
@@ -627,7 +627,7 @@ Arguments:
             stage: matches.opt_str("stage").map(|j| j.parse().expect("`stage` should be a number")),
             dry_run: matches.opt_present("dry-run"),
             on_fail: matches.opt_str("on-fail"),
-            rustc_error_format: matches.opt_str("error-format"),
+            dustc_error_format: matches.opt_str("error-format"),
             json_output: matches.opt_present("json-output"),
             keep_stage: matches
                 .opt_strs("keep-stage")
@@ -675,8 +675,8 @@ Arguments:
             color: matches
                 .opt_get_default("color", Color::Auto)
                 .expect("`color` should be `always`, `never`, or `auto`"),
-            rust_profile_use: matches.opt_str("rust-profile-use"),
-            rust_profile_generate: matches.opt_str("rust-profile-generate"),
+            dust_profile_use: matches.opt_str("dust-profile-use"),
+            dust_profile_generate: matches.opt_str("dust-profile-generate"),
         }
     }
 }
@@ -691,10 +691,10 @@ impl Subcommand {
         }
     }
 
-    pub fn rustc_args(&self) -> Vec<&str> {
+    pub fn dustc_args(&self) -> Vec<&str> {
         match *self {
-            Subcommand::Test { ref rustc_args, .. } => {
-                rustc_args.iter().flat_map(|s| s.split_whitespace()).collect()
+            Subcommand::Test { ref dustc_args, .. } => {
+                dustc_args.iter().flat_map(|s| s.split_whitespace()).collect()
             }
             _ => Vec::new(),
         }
@@ -721,9 +721,9 @@ impl Subcommand {
         }
     }
 
-    pub fn rustfix_coverage(&self) -> bool {
+    pub fn dustfix_coverage(&self) -> bool {
         match *self {
-            Subcommand::Test { rustfix_coverage, .. } => rustfix_coverage,
+            Subcommand::Test { dustfix_coverage, .. } => dustfix_coverage,
             _ => false,
         }
     }

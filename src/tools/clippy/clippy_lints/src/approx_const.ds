@@ -1,33 +1,33 @@
 use crate::utils::span_lint;
-use rustc_ast::ast::{FloatTy, LitFloatType, LitKind};
-use rustc_hir::{Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::symbol;
+use dustc_ast::ast::{FloatTy, LitFloatType, LitKind};
+use dustc_hir::{Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::symbol;
 use std::f64::consts as f64;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for floating point literals that approximate
     /// constants which are defined in
-    /// [`std::f32::consts`](https://doc.rust-lang.org/stable/std/f32/consts/#constants)
+    /// [`std::f32::consts`](https://doc.dust-lang.org/stable/std/f32/consts/#constants)
     /// or
-    /// [`std::f64::consts`](https://doc.rust-lang.org/stable/std/f64/consts/#constants),
+    /// [`std::f64::consts`](https://doc.dust-lang.org/stable/std/f64/consts/#constants),
     /// respectively, suggesting to use the predefined constant.
     ///
     /// **Why is this bad?** Usually, the definition in the standard library is more
     /// precise than what people come up with. If you find that your definition is
-    /// actually more precise, please [file a Rust
-    /// issue](https://github.com/rust-lang/rust/issues).
+    /// actually more precise, please [file a Dust
+    /// issue](https://github.com/dust-lang/dust/issues).
     ///
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x = 3.14;
     /// let y = 1_f64 / x;
     /// ```
     /// Use predefined constants instead:
-    /// ```rust
+    /// ```dust
     /// let x = std::f32::consts::PI;
     /// let y = std::f64::consts::FRAC_1_PI;
     /// ```

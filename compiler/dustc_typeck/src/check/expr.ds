@@ -5,7 +5,7 @@
 use crate::astconv::AstConv as _;
 use crate::check::cast;
 use crate::check::coercion::CoerceMany;
-use crate::check::fatally_break_rust;
+use crate::check::fatally_break_dust;
 use crate::check::method::{probe, MethodError, SelfSource};
 use crate::check::report_unexpected_variant_res;
 use crate::check::BreakableCtxt;
@@ -22,30 +22,30 @@ use crate::errors::{
 use crate::type_error_struct;
 
 use crate::errors::{AddressOfTemporaryTaken, ReturnStmtOutsideOfFnBody, StructExprNonExhaustive};
-use rustc_ast as ast;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_errors::ErrorReported;
-use rustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder, DiagnosticId};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, DefKind, Res};
-use rustc_hir::def_id::DefId;
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{ExprKind, QPath};
-use rustc_infer::infer;
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_middle::ty;
-use rustc_middle::ty::adjustment::{Adjust, Adjustment, AllowTwoPhase};
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::Ty;
-use rustc_middle::ty::TypeFoldable;
-use rustc_middle::ty::{AdtKind, Visibility};
-use rustc_span::edition::LATEST_STABLE_EDITION;
-use rustc_span::hygiene::DesugaringKind;
-use rustc_span::lev_distance::find_best_match_for_name;
-use rustc_span::source_map::Span;
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_trait_selection::traits::{self, ObligationCauseCode};
+use dustc_ast as ast;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stack::ensure_sufficient_stack;
+use dustc_errors::ErrorReported;
+use dustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder, DiagnosticId};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, DefKind, Res};
+use dustc_hir::def_id::DefId;
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{ExprKind, QPath};
+use dustc_infer::infer;
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_middle::ty;
+use dustc_middle::ty::adjustment::{Adjust, Adjustment, AllowTwoPhase};
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::Ty;
+use dustc_middle::ty::TypeFoldable;
+use dustc_middle::ty::{AdtKind, Visibility};
+use dustc_span::edition::LATEST_STABLE_EDITION;
+use dustc_span::hygiene::DesugaringKind;
+use dustc_span::lev_distance::find_best_match_for_name;
+use dustc_span::source_map::Span;
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_trait_selection::traits::{self, ObligationCauseCode};
 
 impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     fn check_expr_eq_type(&self, expr: &'tcx hir::Expr<'tcx>, expected: Ty<'tcx>) {
@@ -151,7 +151,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     /// If an expression has any sub-expressions that result in a type error,
     /// inspecting that expression's type with `ty.references_error()` will return
     /// true. Likewise, if an expression is known to diverge, inspecting its
-    /// type with `ty::type_is_bot` will return true (n.b.: since Rust is
+    /// type with `ty::type_is_bot` will return true (n.b.: since Dust is
     /// strict, _|_ can appear in the type of an expression that does not,
     /// itself, diverge: for example, fn() -> _|_.)
     /// Note that inspecting a type's structure *directly* may expose the fact
@@ -480,10 +480,10 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
             let fn_sig = ty.fn_sig(tcx);
             if !tcx.features().unsized_fn_params {
                 // We want to remove some Sized bounds from std functions,
-                // but don't want to expose the removal to stable Rust.
+                // but don't want to expose the removal to stable Dust.
                 // i.e., we don't want to allow
                 //
-                // ```rust
+                // ```dust
                 // drop as fn(str);
                 // ```
                 //
@@ -651,11 +651,11 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
             if let Some(e) = expr_opt {
                 self.check_expr_with_hint(e, err);
 
-                // ... except when we try to 'break rust;'.
+                // ... except when we try to 'break dust;'.
                 // ICE this expression in particular (see #43162).
                 if let ExprKind::Path(QPath::Resolved(_, path)) = e.kind {
-                    if path.segments.len() == 1 && path.segments[0].ident.name == sym::rust {
-                        fatally_break_rust(self.tcx.sess);
+                    if path.segments.len() == 1 && path.segments[0].ident.name == sym::dust {
+                        fatally_break_dust(self.tcx.sess);
                     }
                 }
             }
@@ -1731,11 +1731,11 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
         }
 
         if field.name == kw::Await {
-            // We know by construction that `<expr>.await` is either on Rust 2015
+            // We know by construction that `<expr>.await` is either on Dust 2015
             // or results in `ExprKind::Await`. Suggest switching the edition to 2018.
-            err.note("to `.await` a `Future`, switch to Rust 2018 or later");
+            err.note("to `.await` a `Future`, switch to Dust 2018 or later");
             err.help(&format!("set `edition = \"{}\"` in `Cargo.toml`", LATEST_STABLE_EDITION));
-            err.note("for more on editions, read https://doc.rust-lang.org/edition-guide");
+            err.note("for more on editions, read https://doc.dust-lang.org/edition-guide");
         }
 
         err.emit();

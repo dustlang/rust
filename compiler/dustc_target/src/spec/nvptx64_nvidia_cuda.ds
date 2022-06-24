@@ -13,7 +13,7 @@ pub fn target() -> Target {
             vendor: "nvidia".to_string(),
             linker_flavor: LinkerFlavor::PtxLinker,
             // The linker can be installed from `crates.io`.
-            linker: Some("rust-ptx-linker".to_string()),
+            linker: Some("dust-ptx-linker".to_string()),
 
             // With `ptx-linker` approach, it can be later overridden via link flags.
             cpu: "sm_30".to_string(),

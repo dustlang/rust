@@ -15,4 +15,4 @@ LL | fn test_ref(x: &u32) -> impl std::future::Future<Output = u32> + '_ {
 error: aborting due to 2 previous errors
 
 Some errors have detailed explanations: E0277, E0425.
-For more information about an error, try `rustc --explain E0277`.
+For more information about an error, try `dustc --explain E0277`.

@@ -1,13 +1,13 @@
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::profiling::QueryInvocationId;
-use rustc_data_structures::sharded::{self, Sharded};
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::sync::{AtomicU32, AtomicU64, Lock, LockGuard, Lrc, Ordering};
-use rustc_data_structures::unlikely;
-use rustc_errors::Diagnostic;
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_serialize::{Encodable, Encoder};
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::profiling::QueryInvocationId;
+use dustc_data_structures::sharded::{self, Sharded};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::sync::{AtomicU32, AtomicU64, Lock, LockGuard, Lrc, Ordering};
+use dustc_data_structures::unlikely;
+use dustc_errors::Diagnostic;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_serialize::{Encodable, Encoder};
 
 use parking_lot::{Condvar, Mutex};
 use smallvec::{smallvec, SmallVec};
@@ -37,7 +37,7 @@ pub struct DepGraph<K: DepKind> {
     virtual_dep_node_index: Lrc<AtomicU32>,
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct DepNodeIndex { .. }
 }
 
@@ -215,7 +215,7 @@ impl<K: DepKind> DepGraph<K> {
     /// what state they have access to. In particular, we want to
     /// prevent implicit 'leaks' of tracked state into the task (which
     /// could then be read without generating correct edges in the
-    /// dep-graph -- see the [rustc dev guide] for more details on
+    /// dep-graph -- see the [dustc dev guide] for more details on
     /// the dep-graph). To this end, the task function gets exactly two
     /// pieces of state: the context `cx` and an argument `arg`. Both
     /// of these bits of state must be of some type that implements
@@ -235,7 +235,7 @@ impl<K: DepKind> DepGraph<K> {
     /// - If you need 3+ arguments, use a tuple for the
     ///   `arg` parameter.
     ///
-    /// [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/incremental-compilation.html
+    /// [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/incremental-compilation.html
     pub fn with_task<Ctxt: HasDepContext<DepKind = K>, A, R>(
         &self,
         key: DepNode<K>,
@@ -1041,7 +1041,7 @@ impl<E: Encoder, K: DepKind + Encodable<E>> Encodable<E> for DepGraph<K> {
         let node_count = data.hybrid_indices.len();
         let edge_count = self.edge_count(&data);
 
-        // `rustc_middle::ty::query::OnDiskCache` expects nodes to be encoded in `DepNodeIndex`
+        // `dustc_middle::ty::query::OnDiskCache` expects nodes to be encoded in `DepNodeIndex`
         // order. The edges in `edge_list_data` don't need to be in a particular order, as long as
         // each node references its edges as a contiguous range within it. Therefore, we can encode
         // `edge_list_data` directly from `unshared_edges`. It meets the above requirements, as
@@ -1198,21 +1198,21 @@ pub struct WorkProduct {
 // those bits to encode which index type it contains.
 
 // Index type for `NewDepNodeData`.
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     struct NewDepNodeIndex {
         MAX = 0x7FFF_FFFF
     }
 }
 
 // Index type for `RedDepNodeData`.
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     struct RedDepNodeIndex {
         MAX = 0x7FFF_FFFF
     }
 }
 
 // Index type for `LightGreenDepNodeData`.
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     struct LightGreenDepNodeIndex {
         MAX = 0x7FFF_FFFF
     }
@@ -1291,7 +1291,7 @@ impl From<CompressedHybridIndex> for HybridIndex {
 }
 
 // Index type for `DepNodeData`'s edges.
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     struct EdgeIndex { .. }
 }
 
@@ -1456,10 +1456,10 @@ impl<K: DepKind> CurrentDepGraph<K> {
         nanos.hash(&mut stable_hasher);
 
         let forbidden_edge = if cfg!(debug_assertions) {
-            match env::var("RUST_FORBID_DEP_GRAPH_EDGE") {
+            match env::var("DUST_FORBID_DEP_GRAPH_EDGE") {
                 Ok(s) => match EdgeFilter::new(&s) {
                     Ok(f) => Some(f),
-                    Err(err) => panic!("RUST_FORBID_DEP_GRAPH_EDGE invalid: {}", err),
+                    Err(err) => panic!("DUST_FORBID_DEP_GRAPH_EDGE invalid: {}", err),
                 },
                 Err(_) => None,
             }
@@ -1476,7 +1476,7 @@ impl<K: DepKind> CurrentDepGraph<K> {
         // structures during full incremental builds, where they aren't used.
         //
         // These estimates are based on the distribution of node and edge counts
-        // seen in rustc-perf benchmarks, adjusted somewhat to account for the
+        // seen in dustc-perf benchmarks, adjusted somewhat to account for the
         // fact that these benchmarks aren't perfectly representative.
         //
         // FIXME Use a collection type that doesn't copy node and edge data and

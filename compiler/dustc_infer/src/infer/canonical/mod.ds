@@ -17,19 +17,19 @@
 //! `instantiate_query_result` method.
 //!
 //! For a more detailed look at what is happening here, check
-//! out the [chapter in the rustc dev guide][c].
+//! out the [chapter in the dustc dev guide][c].
 //!
-//! [c]: https://rust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
+//! [c]: https://dust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
 
 use crate::infer::{ConstVariableOrigin, ConstVariableOriginKind};
 use crate::infer::{InferCtxt, RegionVariableOrigin, TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_index::vec::IndexVec;
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::subst::GenericArg;
-use rustc_middle::ty::{self, BoundVar, List};
-use rustc_span::source_map::Span;
+use dustc_index::vec::IndexVec;
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::subst::GenericArg;
+use dustc_middle::ty::{self, BoundVar, List};
+use dustc_span::source_map::Span;
 
-pub use rustc_middle::infer::canonical::*;
+pub use dustc_middle::infer::canonical::*;
 use substitute::CanonicalExt;
 
 mod canonicalizer;

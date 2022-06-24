@@ -1,11 +1,11 @@
 // failure-status: 101
-// rustc-env:RUST_BACKTRACE=0
+// dustc-env:DUST_BACKTRACE=0
 // normalize-stderr-test "note: .*\n\n" -> ""
-// normalize-stderr-test "thread 'rustc' panicked.*\n" -> ""
+// normalize-stderr-test "thread 'dustc' panicked.*\n" -> ""
 
 // compile-flags: --crate-type=rlib
 
-// Regression test for https://github.com/rust-lang/rust/issues/78450
+// Regression test for https://github.com/dust-lang/dust/issues/78450
 
 #![feature(min_type_alias_impl_trait)]
 #![no_std]

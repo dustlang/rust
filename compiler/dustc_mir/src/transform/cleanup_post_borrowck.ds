@@ -11,18 +11,18 @@
 //! temporaries read by [`ForMatchGuard`] reads, and `DeleteFakeBorrows`
 //! deletes the initialization of those temporaries.
 //!
-//! [`AscribeUserType`]: rustc_middle::mir::StatementKind::AscribeUserType
-//! [`Shallow`]: rustc_middle::mir::BorrowKind::Shallow
-//! [`FakeRead`]: rustc_middle::mir::StatementKind::FakeRead
-//! [`Assign`]: rustc_middle::mir::StatementKind::Assign
-//! [`ForMatchGuard`]: rustc_middle::mir::FakeReadCause::ForMatchGuard
-//! [`Nop`]: rustc_middle::mir::StatementKind::Nop
+//! [`AscribeUserType`]: dustc_middle::mir::StatementKind::AscribeUserType
+//! [`Shallow`]: dustc_middle::mir::BorrowKind::Shallow
+//! [`FakeRead`]: dustc_middle::mir::StatementKind::FakeRead
+//! [`Assign`]: dustc_middle::mir::StatementKind::Assign
+//! [`ForMatchGuard`]: dustc_middle::mir::FakeReadCause::ForMatchGuard
+//! [`Nop`]: dustc_middle::mir::StatementKind::Nop
 
 use crate::transform::MirPass;
-use rustc_middle::mir::visit::MutVisitor;
-use rustc_middle::mir::{Body, BorrowKind, Location, Rvalue};
-use rustc_middle::mir::{Statement, StatementKind};
-use rustc_middle::ty::TyCtxt;
+use dustc_middle::mir::visit::MutVisitor;
+use dustc_middle::mir::{Body, BorrowKind, Location, Rvalue};
+use dustc_middle::mir::{Statement, StatementKind};
+use dustc_middle::ty::TyCtxt;
 
 pub struct CleanupNonCodegenStatements;
 

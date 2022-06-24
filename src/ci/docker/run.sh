@@ -38,7 +38,7 @@ dist=$objdir/build/dist
 
 source "$ci_dir/shared.sh"
 
-CACHE_DOMAIN="${CACHE_DOMAIN:-ci-caches.rust-lang.org}"
+CACHE_DOMAIN="${CACHE_DOMAIN:-ci-caches.dust-lang.org}"
 
 if [ -f "$docker_dir/$image/Dockerfile" ]; then
     if [ "$CI" != "" ]; then
@@ -68,10 +68,10 @@ if [ -f "$docker_dir/$image/Dockerfile" ]; then
       url="https://$CACHE_DOMAIN/docker/$cksum"
 
       echo "Attempting to download $url"
-      rm -f /tmp/rustci_docker_cache
+      rm -f /tmp/dustci_docker_cache
       set +e
-      retry curl -y 30 -Y 10 --connect-timeout 30 -f -L -C - -o /tmp/rustci_docker_cache "$url"
-      loaded_images=$(docker load -i /tmp/rustci_docker_cache | sed 's/.* sha/sha/')
+      retry curl -y 30 -Y 10 --connect-timeout 30 -f -L -C - -o /tmp/dustci_docker_cache "$url"
+      loaded_images=$(docker load -i /tmp/dustci_docker_cache | sed 's/.* sha/sha/')
       set -e
       echo "Downloaded containers:\n$loaded_images"
     fi
@@ -86,19 +86,19 @@ if [ -f "$docker_dir/$image/Dockerfile" ]; then
     retry docker \
       build \
       --rm \
-      -t rust-ci \
+      -t dust-ci \
       -f "$dockerfile" \
       "$context"
 
     if [ "$CI" != "" ]; then
       s3url="s3://$SCCACHE_BUCKET/docker/$cksum"
       upload="aws s3 cp - $s3url"
-      digest=$(docker inspect rust-ci --format '{{.Id}}')
+      digest=$(docker inspect dust-ci --format '{{.Id}}')
       echo "Built container $digest"
       if ! grep -q "$digest" <(echo "$loaded_images"); then
         echo "Uploading finished image to $url"
         set +e
-        docker history -q rust-ci | \
+        docker history -q dust-ci | \
           grep -v missing | \
           xargs docker save | \
           gzip | \
@@ -107,7 +107,7 @@ if [ -f "$docker_dir/$image/Dockerfile" ]; then
       else
         echo "Looks like docker image is the same as before, not uploading"
       fi
-      # Record the container image for reuse, e.g. by rustup.rs builds
+      # Record the container image for reuse, e.g. by dustup.rs builds
       info="$dist/image-$image.txt"
       mkdir -p "$dist"
       echo "$url" >"$info"
@@ -122,7 +122,7 @@ elif [ -f "$docker_dir/disabled/$image/Dockerfile" ]; then
     tar --transform 's#disabled/#./#' -C $script_dir -c . | docker \
       build \
       --rm \
-      -t rust-ci \
+      -t dust-ci \
       -f "host-$(uname -m)/$image/Dockerfile" \
       -
 else
@@ -205,7 +205,7 @@ else
   args="$args --volume $root_dir:/checkout:ro"
   args="$args --volume $objdir:/checkout/obj"
   args="$args --volume $HOME/.cargo:/cargo"
-  args="$args --volume $HOME/rustsrc:$HOME/rustsrc"
+  args="$args --volume $HOME/dustsrc:$HOME/dustsrc"
   args="$args --volume /tmp/toolstate:/tmp/toolstate"
   args="$args --env LOCAL_USER_ID=`id -u`"
 fi
@@ -238,7 +238,7 @@ docker \
   --env CI_JOB_NAME="${CI_JOB_NAME-$IMAGE}" \
   --init \
   --rm \
-  rust-ci \
+  dust-ci \
   $command
 
 if [ -f /.dockerenv ]; then

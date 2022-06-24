@@ -4,25 +4,25 @@
 //! conflicts between multiple such attributes attached to the same
 //! item.
 
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::TyCtxt;
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::TyCtxt;
 
-use rustc_ast::{Attribute, Lit, LitKind, NestedMetaItem};
-use rustc_errors::{pluralize, struct_span_err};
-use rustc_hir as hir;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::{
+use dustc_ast::{Attribute, Lit, LitKind, NestedMetaItem};
+use dustc_errors::{pluralize, struct_span_err};
+use dustc_hir as hir;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::{
     self, FnSig, ForeignItem, ForeignItemKind, HirId, Item, ItemKind, TraitItem, CRATE_HIR_ID,
 };
-use rustc_hir::{MethodKind, Target};
-use rustc_session::lint::builtin::{
+use dustc_hir::{MethodKind, Target};
+use dustc_session::lint::builtin::{
     CONFLICTING_REPR_HINTS, INVALID_DOC_ATTRIBUTES, UNUSED_ATTRIBUTES,
 };
-use rustc_session::parse::feature_err;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::{Span, DUMMY_SP};
+use dustc_session::parse::feature_err;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::{Span, DUMMY_SP};
 
 pub(crate) fn target_from_impl_item<'tcx>(
     tcx: TyCtxt<'tcx>,
@@ -85,20 +85,20 @@ impl CheckAttrVisitor<'tcx> {
                 self.check_no_link(hir_id, &attr, span, target)
             } else if self.tcx.sess.check_name(attr, sym::export_name) {
                 self.check_export_name(hir_id, &attr, span, target)
-            } else if self.tcx.sess.check_name(attr, sym::rustc_args_required_const) {
-                self.check_rustc_args_required_const(&attr, span, target, item)
-            } else if self.tcx.sess.check_name(attr, sym::rustc_layout_scalar_valid_range_start) {
-                self.check_rustc_layout_scalar_valid_range(&attr, span, target)
-            } else if self.tcx.sess.check_name(attr, sym::rustc_layout_scalar_valid_range_end) {
-                self.check_rustc_layout_scalar_valid_range(&attr, span, target)
+            } else if self.tcx.sess.check_name(attr, sym::dustc_args_required_const) {
+                self.check_dustc_args_required_const(&attr, span, target, item)
+            } else if self.tcx.sess.check_name(attr, sym::dustc_layout_scalar_valid_range_start) {
+                self.check_dustc_layout_scalar_valid_range(&attr, span, target)
+            } else if self.tcx.sess.check_name(attr, sym::dustc_layout_scalar_valid_range_end) {
+                self.check_dustc_layout_scalar_valid_range(&attr, span, target)
             } else if self.tcx.sess.check_name(attr, sym::allow_internal_unstable) {
                 self.check_allow_internal_unstable(hir_id, &attr, span, target, &attrs)
-            } else if self.tcx.sess.check_name(attr, sym::rustc_allow_const_fn_unstable) {
-                self.check_rustc_allow_const_fn_unstable(hir_id, &attr, span, target)
+            } else if self.tcx.sess.check_name(attr, sym::dustc_allow_const_fn_unstable) {
+                self.check_dustc_allow_const_fn_unstable(hir_id, &attr, span, target)
             } else if self.tcx.sess.check_name(attr, sym::naked) {
                 self.check_naked(hir_id, attr, span, target)
-            } else if self.tcx.sess.check_name(attr, sym::rustc_legacy_const_generics) {
-                self.check_rustc_legacy_const_generics(&attr, span, target, item)
+            } else if self.tcx.sess.check_name(attr, sym::dustc_legacy_const_generics) {
+                self.check_dustc_legacy_const_generics(&attr, span, target, item)
             } else {
                 // lint-only checks
                 if self.tcx.sess.check_name(attr, sym::cold) {
@@ -138,7 +138,7 @@ impl CheckAttrVisitor<'tcx> {
                  a future release!",
             )
             .note(
-                "see issue #80564 <https://github.com/rust-lang/rust/issues/80564> \
+                "see issue #80564 <https://github.com/dust-lang/dust/issues/80564> \
                  for more information",
             )
             .emit();
@@ -154,7 +154,7 @@ impl CheckAttrVisitor<'tcx> {
                  a future release!",
                 )
                 .note(
-                    "see issue #80564 <https://github.com/rust-lang/rust/issues/80564> \
+                    "see issue #80564 <https://github.com/dust-lang/dust/issues/80564> \
                  for more information",
                 )
                 .emit();
@@ -186,7 +186,7 @@ impl CheckAttrVisitor<'tcx> {
                              a future release!",
                         )
                         .note(
-                            "see issue #65833 <https://github.com/rust-lang/rust/issues/65833> \
+                            "see issue #65833 <https://github.com/dust-lang/dust/issues/65833> \
                              for more information",
                         )
                         .emit();
@@ -499,7 +499,7 @@ impl CheckAttrVisitor<'tcx> {
                 return false;
             }
         }
-        if !rustc_lexer::is_ident(&doc_keyword) {
+        if !dustc_lexer::is_ident(&doc_keyword) {
             self.tcx
                 .sess
                 .struct_span_err(
@@ -573,7 +573,7 @@ impl CheckAttrVisitor<'tcx> {
 
                         // no_default_passes: deprecated
                         // passes: deprecated
-                        // plugins: removed, but rustdoc warns about it itself
+                        // plugins: removed, but dustdoc warns about it itself
                         sym::alias
                         | sym::cfg
                         | sym::hidden
@@ -603,7 +603,7 @@ impl CheckAttrVisitor<'tcx> {
                                 |lint| {
                                     let msg = format!(
                                         "unknown `doc` attribute `{}`",
-                                        rustc_ast_pretty::pprust::path_to_string(&i_meta.path),
+                                        dustc_ast_pretty::ppdust::path_to_string(&i_meta.path),
                                     );
                                     lint.build(&msg).emit();
                                 },
@@ -756,8 +756,8 @@ impl CheckAttrVisitor<'tcx> {
         }
     }
 
-    /// Checks if `#[rustc_args_required_const]` is applied to a function and has a valid argument.
-    fn check_rustc_args_required_const(
+    /// Checks if `#[dustc_args_required_const]` is applied to a function and has a valid argument.
+    fn check_dustc_args_required_const(
         &self,
         attr: &Attribute,
         span: &Span,
@@ -829,7 +829,7 @@ impl CheckAttrVisitor<'tcx> {
         }
     }
 
-    fn check_rustc_layout_scalar_valid_range(
+    fn check_dustc_layout_scalar_valid_range(
         &self,
         attr: &Attribute,
         span: &Span,
@@ -860,8 +860,8 @@ impl CheckAttrVisitor<'tcx> {
         }
     }
 
-    /// Checks if `#[rustc_legacy_const_generics]` is applied to a function and has a valid argument.
-    fn check_rustc_legacy_const_generics(
+    /// Checks if `#[dustc_legacy_const_generics]` is applied to a function and has a valid argument.
+    fn check_dustc_legacy_const_generics(
         &self,
         attr: &Attribute,
         span: &Span,
@@ -900,7 +900,7 @@ impl CheckAttrVisitor<'tcx> {
                         .sess
                         .struct_span_err(
                             attr.span,
-                            "#[rustc_legacy_const_generics] functions must \
+                            "#[dustc_legacy_const_generics] functions must \
                              only have const generics",
                         )
                         .span_label(param.span, "non-const generic parameter")
@@ -915,7 +915,7 @@ impl CheckAttrVisitor<'tcx> {
                 .sess
                 .struct_span_err(
                     attr.span,
-                    "#[rustc_legacy_const_generics] must have one index for each generic parameter",
+                    "#[dustc_legacy_const_generics] must have one index for each generic parameter",
                 )
                 .span_label(generics.span, "generic parameters")
                 .emit();
@@ -1159,7 +1159,7 @@ impl CheckAttrVisitor<'tcx> {
                 hint_spans.collect::<Vec<Span>>(),
                 |lint| {
                     lint.build("conflicting representation hints")
-                        .code(rustc_errors::error_code!(E0566))
+                        .code(dustc_errors::error_code!(E0566))
                         .emit();
                 },
             );
@@ -1224,7 +1224,7 @@ impl CheckAttrVisitor<'tcx> {
 
     /// Outputs an error for `#[allow_internal_unstable]` which can only be applied to macros.
     /// (Allows proc_macro functions)
-    fn check_rustc_allow_const_fn_unstable(
+    fn check_dustc_allow_const_fn_unstable(
         &self,
         hir_id: HirId,
         attr: &Attribute,

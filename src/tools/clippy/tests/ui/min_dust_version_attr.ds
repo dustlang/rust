@@ -68,7 +68,7 @@ impl Into<FromOverInto> for String {
 pub fn filter_map_next() {
     let a = ["1", "lol", "3", "NaN", "5"];
 
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     let _: Option<u32> = vec![1, 2, 3, 4, 5, 6]
         .into_iter()
         .filter_map(|x| {

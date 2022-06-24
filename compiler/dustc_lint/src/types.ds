@@ -1,20 +1,20 @@
 use crate::{LateContext, LateLintPass, LintContext};
-use rustc_ast as ast;
-use rustc_attr as attr;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::{is_range_literal, ExprKind, Node};
-use rustc_index::vec::Idx;
-use rustc_middle::ty::layout::{IntegerExt, SizeSkeleton};
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::{self, AdtKind, Ty, TyCtxt, TypeFoldable};
-use rustc_span::source_map;
-use rustc_span::symbol::sym;
-use rustc_span::{Span, DUMMY_SP};
-use rustc_target::abi::Abi;
-use rustc_target::abi::{Integer, LayoutOf, TagEncoding, VariantIdx, Variants};
-use rustc_target::spec::abi::Abi as SpecAbi;
+use dustc_ast as ast;
+use dustc_attr as attr;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::{is_range_literal, ExprKind, Node};
+use dustc_index::vec::Idx;
+use dustc_middle::ty::layout::{IntegerExt, SizeSkeleton};
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::{self, AdtKind, Ty, TyCtxt, TypeFoldable};
+use dustc_span::source_map;
+use dustc_span::symbol::sym;
+use dustc_span::{Span, DUMMY_SP};
+use dustc_target::abi::Abi;
+use dustc_target::abi::{Integer, LayoutOf, TagEncoding, VariantIdx, Variants};
+use dustc_target::spec::abi::Abi as SpecAbi;
 
 use std::cmp;
 use std::ops::ControlFlow;
@@ -26,7 +26,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// fn foo(x: u8) {
     ///     x >= 0;
     /// }
@@ -49,7 +49,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// let x: u8 = 1000;
     /// ```
     ///
@@ -71,7 +71,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(variant_size_differences)]
     /// enum En {
     ///     V0(u8),
@@ -96,7 +96,7 @@ declare_lint! {
     /// an actual problem. Decisions about this should be guided with
     /// profiling and benchmarking.
     ///
-    /// [`Box`]: https://doc.rust-lang.org/std/boxed/index.html
+    /// [`Box`]: https://doc.dust-lang.org/std/boxed/index.html
     VARIANT_SIZE_DIFFERENCES,
     Allow,
     "detects enums with widely varying variant sizes"
@@ -597,7 +597,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// extern "C" {
     ///     static STATIC: String;
     /// }
@@ -624,11 +624,11 @@ declare_lint! {
     /// The `improper_ctypes_definitions` lint detects incorrect use of
     /// [`extern` function] definitions.
     ///
-    /// [`extern` function]: https://doc.rust-lang.org/reference/items/functions.html#extern-function-qualifier
+    /// [`extern` function]: https://doc.dust-lang.org/reference/items/functions.html#extern-function-qualifier
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// # #![allow(unused)]
     /// pub extern "C" fn str_type(p: &str) { }
     /// ```
@@ -669,7 +669,7 @@ enum FfiResult<'tcx> {
 crate fn nonnull_optimization_guaranteed<'tcx>(tcx: TyCtxt<'tcx>, def: &ty::AdtDef) -> bool {
     tcx.get_attrs(def.did)
         .iter()
-        .any(|a| tcx.sess.check_name(a, sym::rustc_nonnull_optimization_guaranteed))
+        .any(|a| tcx.sess.check_name(a, sym::dustc_nonnull_optimization_guaranteed))
 }
 
 /// `repr(transparent)` structs can have a single non-ZST field, this function returns that
@@ -753,7 +753,7 @@ fn get_nullable_type<'tcx>(cx: &LateContext<'tcx>, ty: Ty<'tcx>) -> Option<Ty<'t
         // Option<T> of these types are their raw pointer counterparts.
         ty::Ref(_region, ty, mutbl) => tcx.mk_ptr(ty::TypeAndMut { ty, mutbl }),
         ty::FnPtr(..) => {
-            // There is no nullable equivalent for Rust's function pointers -- you
+            // There is no nullable equivalent for Dust's function pointers -- you
             // must use an Option<fn(..) -> _> to represent it.
             ty
         }
@@ -1074,7 +1074,7 @@ impl<'a, 'tcx> ImproperCTypesVisitor<'a, 'tcx> {
                 if self.is_internal_abi(sig.abi()) {
                     return FfiUnsafe {
                         ty,
-                        reason: "this function pointer has Rust-specific calling convention".into(),
+                        reason: "this function pointer has Dust-specific calling convention".into(),
                         help: Some(
                             "consider using an `extern fn(...) -> ...` \
                                     function pointer instead"
@@ -1274,7 +1274,7 @@ impl<'a, 'tcx> ImproperCTypesVisitor<'a, 'tcx> {
     fn is_internal_abi(&self, abi: SpecAbi) -> bool {
         matches!(
             abi,
-            SpecAbi::Rust | SpecAbi::RustCall | SpecAbi::RustIntrinsic | SpecAbi::PlatformIntrinsic
+            SpecAbi::Dust | SpecAbi::DustCall | SpecAbi::DustIntrinsic | SpecAbi::PlatformIntrinsic
         )
     }
 }

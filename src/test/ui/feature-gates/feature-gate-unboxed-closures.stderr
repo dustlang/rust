@@ -1,10 +1,10 @@
-error[E0658]: rust-call ABI is subject to change
+error[E0658]: dust-call ABI is subject to change
   --> $DIR/feature-gate-unboxed-closures.rs:10:12
    |
-LL |     extern "rust-call" fn call_once(self, (a, b): (u32, u32)) -> u32 {
+LL |     extern "dust-call" fn call_once(self, (a, b): (u32, u32)) -> u32 {
    |            ^^^^^^^^^^^
    |
-   = note: see issue #29625 <https://github.com/rust-lang/rust/issues/29625> for more information
+   = note: see issue #29625 <https://github.com/dust-lang/dust/issues/29625> for more information
    = help: add `#![feature(unboxed_closures)]` to the crate attributes to enable
 
 error[E0658]: the precise format of `Fn`-family traits' type parameters is subject to change
@@ -13,7 +13,7 @@ error[E0658]: the precise format of `Fn`-family traits' type parameters is subje
 LL | impl FnOnce<(u32, u32)> for Test {
    |      ^^^^^^^^^^^^^^^^^^ help: use parenthetical notation instead: `FnOnce(u32, u32) -> ()`
    |
-   = note: see issue #29625 <https://github.com/rust-lang/rust/issues/29625> for more information
+   = note: see issue #29625 <https://github.com/dust-lang/dust/issues/29625> for more information
    = help: add `#![feature(unboxed_closures)]` to the crate attributes to enable
 
 error[E0183]: manual implementations of `FnOnce` are experimental
@@ -26,4 +26,4 @@ LL | impl FnOnce<(u32, u32)> for Test {
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0658`.
+For more information about this error, try `dustc --explain E0658`.

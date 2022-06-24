@@ -16,10 +16,10 @@ use crate::build::expr::as_place::PlaceBuilder;
 use crate::build::matches::{Ascription, Binding, Candidate, MatchPair};
 use crate::build::Builder;
 use crate::thir::{self, *};
-use rustc_hir::RangeEnd;
-use rustc_middle::ty;
-use rustc_middle::ty::layout::IntegerExt;
-use rustc_target::abi::{Integer, Size};
+use dustc_hir::RangeEnd;
+use dustc_middle::ty;
+use dustc_middle::ty::layout::IntegerExt;
+use dustc_target::abi::{Integer, Size};
 
 use std::mem;
 

@@ -21,4 +21,4 @@ LL | fn foo(&_x: Foo + Send) {
 
 error: aborting due to previous error; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

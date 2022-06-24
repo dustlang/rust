@@ -13,4 +13,4 @@ LL | fn func<'a, T: std::ops::Mul<Output = &T>>(a: &'a [T]) -> impl Iterator<Ite
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0369`.
+For more information about this error, try `dustc --explain E0369`.

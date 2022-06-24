@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![warn(clippy::or_fun_call)]
 #![allow(dead_code)]
@@ -90,7 +90,7 @@ fn or_fun_call() {
 
 struct Foo(u8);
 struct Bar(String, Duration);
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn test_or_with_ctors() {
     let opt = Some(1);
     let opt_opt = Some(Some(1));

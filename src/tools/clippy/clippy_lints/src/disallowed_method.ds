@@ -1,10 +1,10 @@
 use crate::utils::{fn_def_id, span_lint};
 
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir::Expr;
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::Symbol;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir::Expr;
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::Symbol;
 
 declare_clippy_lint! {
     /// **What it does:** Denies the configured methods and functions in clippy.toml
@@ -29,7 +29,7 @@ declare_clippy_lint! {
     /// disallowed-methods = ["alloc::vec::Vec::leak", "std::time::Instant::now"]
     /// ```
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Example code where clippy issues a warning
     /// let xs = vec![1, 2, 3, 4];
     /// xs.leak(); // Vec::leak is disallowed in the config.
@@ -38,7 +38,7 @@ declare_clippy_lint! {
     /// ```
     ///
     /// Use instead:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Example code which does not raise clippy warning
     /// let mut xs = Vec::new(); // Vec::new is _not_ disallowed in the config.
     /// xs.push(123); // Vec::push is _not_ disallowed in the config.

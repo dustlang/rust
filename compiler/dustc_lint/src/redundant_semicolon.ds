@@ -1,7 +1,7 @@
 use crate::{EarlyContext, EarlyLintPass, LintContext};
-use rustc_ast::{Block, StmtKind};
-use rustc_errors::Applicability;
-use rustc_span::Span;
+use dustc_ast::{Block, StmtKind};
+use dustc_errors::Applicability;
+use dustc_span::Span;
 
 declare_lint! {
     /// The `redundant_semicolons` lint detects unnecessary trailing
@@ -9,7 +9,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let _ = 123;;
     /// ```
     ///
@@ -44,7 +44,7 @@ fn maybe_lint_redundant_semis(cx: &EarlyContext<'_>, seq: &mut Option<(Span, boo
     if let Some((span, multiple)) = seq.take() {
         // FIXME: Find a better way of ignoring the trailing
         // semicolon from macro expansion
-        if span == rustc_span::DUMMY_SP {
+        if span == dustc_span::DUMMY_SP {
             return;
         }
 

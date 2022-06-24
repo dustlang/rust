@@ -5,7 +5,7 @@
 use crate::cmp::{self, Ordering};
 use crate::ops::{ControlFlow, Try};
 
-use super::super::TrustedRandomAccess;
+use super::super::TdustedRandomAccess;
 use super::super::{Chain, Cloned, Copied, Cycle, Enumerate, Filter, FilterMap, Fuse};
 use super::super::{FlatMap, Flatten};
 use super::super::{FromIterator, Intersperse, IntersperseWith, Product, Sum, Zip};
@@ -23,8 +23,8 @@ fn _assert_is_object_safe(_: &dyn Iterator<Item = ()>) {}
 ///
 /// [module-level documentation]: crate::iter
 /// [impl]: crate::iter#implementing-iterator
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_on_unimplemented(
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_on_unimplemented(
     on(
         _Self = "[std::ops::Range<Idx>; 1]",
         label = "if you meant to iterate between two values, remove the square brackets",
@@ -93,11 +93,11 @@ fn _assert_is_object_safe(_: &dyn Iterator<Item = ()>) {}
     message = "`{Self}` is not an iterator"
 )]
 #[doc(spotlight)]
-#[rustc_diagnostic_item = "Iterator"]
+#[dustc_diagnostic_item = "Iterator"]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub trait Iterator {
     /// The type of the elements being iterated over.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     type Item;
 
     /// Advances the iterator and returns the next value.
@@ -131,7 +131,7 @@ pub trait Iterator {
     /// assert_eq!(None, iter.next());
     /// ```
     #[lang = "next"]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn next(&mut self) -> Option<Self::Item>;
 
     /// Returns the bounds on the remaining length of the iterator.
@@ -201,7 +201,7 @@ pub trait Iterator {
     /// assert_eq!((usize::MAX, None), iter.size_hint());
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn size_hint(&self) -> (usize, Option<usize>) {
         (0, None)
     }
@@ -238,14 +238,14 @@ pub trait Iterator {
     /// assert_eq!(a.iter().count(), 5);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn count(self) -> usize
     where
         Self: Sized,
     {
         self.fold(
             0,
-            #[rustc_inherit_overflow_checks]
+            #[dustc_inherit_overflow_checks]
             |count, _| count + 1,
         )
     }
@@ -268,7 +268,7 @@ pub trait Iterator {
     /// assert_eq!(a.iter().last(), Some(&5));
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn last(self) -> Option<Self::Item>
     where
         Self: Sized,
@@ -359,7 +359,7 @@ pub trait Iterator {
     /// assert_eq!(a.iter().nth(10), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn nth(&mut self, n: usize) -> Option<Self::Item> {
         self.advance_by(n).ok()?;
         self.next()
@@ -481,7 +481,7 @@ pub trait Iterator {
     /// [`once`]: crate::iter::once
     /// [`OsStr`]: ../../std/ffi/struct.OsStr.html
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn chain<U>(self, other: U) -> Chain<Self, U::IntoIter>
     where
         Self: Sized,
@@ -557,7 +557,7 @@ pub trait Iterator {
     /// [`enumerate`]: Iterator::enumerate
     /// [`next`]: Iterator::next
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn zip<U>(self, other: U) -> Zip<Self, U::IntoIter>
     where
         Self: Sized,
@@ -708,7 +708,7 @@ pub trait Iterator {
     /// // don't do this:
     /// (0..5).map(|x| println!("{}", x));
     ///
-    /// // it won't even execute, as it is lazy. Rust will warn you about this.
+    /// // it won't even execute, as it is lazy. Dust will warn you about this.
     ///
     /// // Instead, use for:
     /// for x in 0..5 {
@@ -716,7 +716,7 @@ pub trait Iterator {
     /// }
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn map<B, F>(self, f: F) -> Map<Self, F>
     where
         Self: Sized,
@@ -836,7 +836,7 @@ pub trait Iterator {
     ///
     /// Note that `iter.filter(f).next()` is equivalent to `iter.find(f)`.
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn filter<P>(self, predicate: P) -> Filter<Self, P>
     where
         Self: Sized,
@@ -881,7 +881,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn filter_map<B, F>(self, f: F) -> FilterMap<Self, F>
     where
         Self: Sized,
@@ -928,7 +928,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn enumerate(self) -> Enumerate<Self>
     where
         Self: Sized,
@@ -977,7 +977,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn peekable(self) -> Peekable<Self>
     where
         Self: Sized,
@@ -1041,7 +1041,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn skip_while<P>(self, predicate: P) -> SkipWhile<Self, P>
     where
         Self: Sized,
@@ -1122,7 +1122,7 @@ pub trait Iterator {
     /// The `3` is no longer there, because it was consumed in order to see if
     /// the iteration should stop, but wasn't placed back into the iterator.
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn take_while<P>(self, predicate: P) -> TakeWhile<Self, P>
     where
         Self: Sized,
@@ -1244,7 +1244,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn skip(self, n: usize) -> Skip<Self>
     where
         Self: Sized,
@@ -1290,7 +1290,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn take(self, n: usize) -> Take<Self>
     where
         Self: Sized,
@@ -1334,7 +1334,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn scan<St, B, F>(self, initial_state: St, f: F) -> Scan<Self, St, F>
     where
         Self: Sized,
@@ -1374,7 +1374,7 @@ pub trait Iterator {
     /// assert_eq!(merged, "alphabetagamma");
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn flat_map<U, F>(self, f: F) -> FlatMap<Self, U, F>
     where
         Self: Sized,
@@ -1509,7 +1509,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn fuse(self) -> Fuse<Self>
     where
         Self: Sized,
@@ -1593,7 +1593,7 @@ pub trait Iterator {
     /// Sum: 3
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn inspect<F>(self, f: F) -> Inspect<Self, F>
     where
         Self: Sized,
@@ -1638,7 +1638,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), Some(&3));
     /// assert_eq!(iter.next(), None);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn by_ref(&mut self) -> &mut Self
     where
         Self: Sized,
@@ -1755,7 +1755,7 @@ pub trait Iterator {
     /// [`String`]: ../../std/string/struct.String.html
     /// [`char`]: type@char
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[must_use = "if you really need to exhaust the iterator, consider `.for_each(drop)` instead"]
     fn collect<B: FromIterator<Self::Item>>(self) -> B
     where
@@ -1789,7 +1789,7 @@ pub trait Iterator {
     /// assert_eq!(even, vec![2]);
     /// assert_eq!(odd, vec![1, 3]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn partition<B, F>(self, f: F) -> (B, B)
     where
         Self: Sized,
@@ -2112,7 +2112,7 @@ pub trait Iterator {
     #[doc(alias = "reduce")]
     #[doc(alias = "inject")]
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn fold<B, F>(mut self, init: B, mut f: F) -> B
     where
         Self: Sized,
@@ -2206,7 +2206,7 @@ pub trait Iterator {
     /// ```
     #[doc(alias = "every")]
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn all<F>(&mut self, f: F) -> bool
     where
         Self: Sized,
@@ -2259,7 +2259,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), Some(&2));
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn any<F>(&mut self, f: F) -> bool
     where
         Self: Sized,
@@ -2319,7 +2319,7 @@ pub trait Iterator {
     ///
     /// Note that `iter.find(f)` is equivalent to `iter.filter(f).next()`.
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn find<P>(&mut self, predicate: P) -> Option<Self::Item>
     where
         Self: Sized,
@@ -2464,7 +2464,7 @@ pub trait Iterator {
     ///
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn position<P>(&mut self, predicate: P) -> Option<usize>
     where
         Self: Sized,
@@ -2474,7 +2474,7 @@ pub trait Iterator {
         fn check<T>(
             mut predicate: impl FnMut(T) -> bool,
         ) -> impl FnMut(usize, T) -> ControlFlow<usize, usize> {
-            #[rustc_inherit_overflow_checks]
+            #[dustc_inherit_overflow_checks]
             move |i, x| {
                 if predicate(x) { ControlFlow::Break(i) } else { ControlFlow::Continue(i + 1) }
             }
@@ -2521,7 +2521,7 @@ pub trait Iterator {
     /// assert_eq!(iter.next(), Some(&1));
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn rposition<P>(&mut self, predicate: P) -> Option<usize>
     where
         P: FnMut(Self::Item) -> bool,
@@ -2560,7 +2560,7 @@ pub trait Iterator {
     /// assert_eq!(b.iter().max(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn max(self) -> Option<Self::Item>
     where
         Self: Sized,
@@ -2586,7 +2586,7 @@ pub trait Iterator {
     /// assert_eq!(b.iter().min(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn min(self) -> Option<Self::Item>
     where
         Self: Sized,
@@ -2738,7 +2738,7 @@ pub trait Iterator {
     /// ```
     #[inline]
     #[doc(alias = "reverse")]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn rev(self) -> Rev<Self>
     where
         Self: Sized + DoubleEndedIterator,
@@ -2768,7 +2768,7 @@ pub trait Iterator {
     /// assert_eq!(left, [1, 3]);
     /// assert_eq!(right, [2, 4]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn unzip<A, B, FromA, FromB>(self) -> (FromA, FromB)
     where
         FromA: Default + Extend<A>,
@@ -2850,7 +2850,7 @@ pub trait Iterator {
     /// assert_eq!(v_cloned, vec![1, 2, 3]);
     /// assert_eq!(v_map, vec![1, 2, 3]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn cloned<'a, T: 'a>(self) -> Cloned<Self>
     where
         Self: Sized + Iterator<Item = &'a T>,
@@ -2882,7 +2882,7 @@ pub trait Iterator {
     /// assert_eq!(it.next(), Some(&3));
     /// assert_eq!(it.next(), Some(&1));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     fn cycle(self) -> Cycle<Self>
     where
@@ -3378,7 +3378,7 @@ pub trait Iterator {
         self.map(f).is_sorted()
     }
 
-    /// See [TrustedRandomAccess]
+    /// See [TdustedRandomAccess]
     // The unusual name is to avoid name collisions in method resolution
     // see #76479.
     #[inline]
@@ -3386,13 +3386,13 @@ pub trait Iterator {
     #[unstable(feature = "trusted_random_access", issue = "none")]
     unsafe fn __iterator_get_unchecked(&mut self, _idx: usize) -> Self::Item
     where
-        Self: TrustedRandomAccess,
+        Self: TdustedRandomAccess,
     {
         unreachable!("Always specialized");
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I: Iterator + ?Sized> Iterator for &mut I {
     type Item = I::Item;
     fn next(&mut self) -> Option<I::Item> {

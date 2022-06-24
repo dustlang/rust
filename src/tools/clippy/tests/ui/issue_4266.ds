@@ -28,7 +28,7 @@ impl Foo {
     pub async fn foo(&mut self) {}
 }
 
-// rust-lang/rust#61115
+// dust-lang/dust#61115
 // ok
 async fn print(s: &str) {
     println!("{}", s);

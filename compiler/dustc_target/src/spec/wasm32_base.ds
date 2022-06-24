@@ -38,19 +38,19 @@ pub fn options() -> TargetOptions {
     // mechanism of knowing, however, which symbols are intended to be imported
     // from the environment and which are intended to be imported from other
     // objects linked elsewhere. This is a coarse approximation but is sure to
-    // hide some bugs and frustrate someone at some point, so we should ideally
+    // hide some bugs and fdustrate someone at some point, so we should ideally
     // work towards a world where we can explicitly list symbols that are
     // supposed to be imported and have all other symbols generate errors if
     // they remain undefined.
     arg("--allow-undefined");
 
-    // Rust code should never have warnings, and warnings are often
+    // Dust code should never have warnings, and warnings are often
     // indicative of bugs, let's prevent them.
     arg("--fatal-warnings");
 
     // LLD only implements C++-like demangling, which doesn't match our own
     // mangling scheme. Tell LLD to not demangle anything and leave it up to
-    // us to demangle these symbols later. Currently rustc does not perform
+    // us to demangle these symbols later. Currently dustc does not perform
     // further demangling, but tools like twiggy and wasm-bindgen are intended
     // to do so.
     arg("--no-demangle");
@@ -97,8 +97,8 @@ pub fn options() -> TargetOptions {
         // arguments just yet
         limit_rdylib_exports: false,
 
-        // we use the LLD shipped with the Rust toolchain by default
-        linker: Some("rust-lld".to_owned()),
+        // we use the LLD shipped with the Dust toolchain by default
+        linker: Some("dust-lld".to_owned()),
         lld_flavor: LldFlavor::Wasm,
 
         // No need for indirection here, simd types can always be passed by

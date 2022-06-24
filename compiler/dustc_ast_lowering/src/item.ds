@@ -2,19 +2,19 @@ use super::{AnonymousLifetimeMode, LoweringContext, ParamMode};
 use super::{ImplTraitContext, ImplTraitPosition};
 use crate::Arena;
 
-use rustc_ast::node_id::NodeMap;
-use rustc_ast::ptr::P;
-use rustc_ast::visit::{self, AssocCtxt, FnCtxt, FnKind, Visitor};
-use rustc_ast::*;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::LocalDefId;
-use rustc_span::source_map::{respan, DesugaringKind};
-use rustc_span::symbol::{kw, sym, Ident};
-use rustc_span::Span;
-use rustc_target::spec::abi;
+use dustc_ast::node_id::NodeMap;
+use dustc_ast::ptr::P;
+use dustc_ast::visit::{self, AssocCtxt, FnCtxt, FnKind, Visitor};
+use dustc_ast::*;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::LocalDefId;
+use dustc_span::source_map::{respan, DesugaringKind};
+use dustc_span::symbol::{kw, sym, Ident};
+use dustc_span::Span;
+use dustc_target::spec::abi;
 use smallvec::{smallvec, SmallVec};
 use tracing::debug;
 
@@ -643,7 +643,7 @@ impl<'hir> LoweringContext<'_, 'hir> {
                 // of the list stem to "private" most of the time, but
                 // not for "restricted" paths. The key thing is that
                 // we don't want it to stay as `pub` (with no caveats)
-                // because that affects rustdoc and also the lints
+                // because that affects dustdoc and also the lints
                 // about `pub` items. But we can't *always* make it
                 // private -- particularly not for restricted paths --
                 // because it contains node-ids that would then be
@@ -1135,7 +1135,7 @@ impl<'hir> LoweringContext<'_, 'hir> {
             // };`. The key point is that we wish to drop all the
             // let-bound variables and temporaries created in the body
             // (and its tail expression!) before we drop the
-            // parameters (c.f. rust-lang/rust#64512).
+            // parameters (c.f. dust-lang/dust#64512).
             for (index, parameter) in decl.inputs.iter().enumerate() {
                 let parameter = this.lower_param(parameter);
                 let span = parameter.pat.span;
@@ -1151,10 +1151,10 @@ impl<'hir> LoweringContext<'_, 'hir> {
                     ) => (ident, true),
                     // For `ref mut` or wildcard arguments, we can't reuse the binding, but
                     // we can keep the same name for the parameter.
-                    // This lets rustdoc render it correctly in documentation.
+                    // This lets dustdoc render it correctly in documentation.
                     hir::PatKind::Binding(_, _, ident, _) => (ident, false),
                     hir::PatKind::Wild => {
-                        (Ident::with_dummy_span(rustc_span::symbol::kw::Underscore), false)
+                        (Ident::with_dummy_span(dustc_span::symbol::kw::Underscore), false)
                     }
                     _ => {
                         // Replace the ident for bindings that aren't simple.
@@ -1326,13 +1326,13 @@ impl<'hir> LoweringContext<'_, 'hir> {
     pub(super) fn lower_abi(&mut self, abi: StrLit) -> abi::Abi {
         abi::lookup(&abi.symbol_unescaped.as_str()).unwrap_or_else(|| {
             self.error_on_invalid_abi(abi);
-            abi::Abi::Rust
+            abi::Abi::Dust
         })
     }
 
     pub(super) fn lower_extern(&mut self, ext: Extern, span: Span, id: NodeId) -> abi::Abi {
         match ext {
-            Extern::None => abi::Abi::Rust,
+            Extern::None => abi::Abi::Dust,
             Extern::Implicit => {
                 self.maybe_lint_missing_abi(span, id, abi::Abi::C { unwind: false });
                 abi::Abi::C { unwind: false }

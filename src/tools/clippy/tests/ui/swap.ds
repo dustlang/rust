@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![warn(clippy::all)]
 #![allow(
@@ -66,7 +66,7 @@ fn vec() {
     foo.swap(0, 1);
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn main() {
     field();
     array();

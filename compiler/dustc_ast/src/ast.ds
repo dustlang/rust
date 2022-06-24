@@ -1,4 +1,4 @@
-//! The Rust abstract syntax tree module.
+//! The Dust abstract syntax tree module.
 //!
 //! This module contains common structures forming the language AST.
 //! Two main entities in the module are [`Item`] (which represents an AST element with
@@ -6,9 +6,9 @@
 //! information specific to the type of the item).
 //!
 //! Other module items worth mentioning:
-//! - [`Ty`] and [`TyKind`]: A parsed Rust type.
-//! - [`Expr`] and [`ExprKind`]: A parsed Rust expression.
-//! - [`Pat`] and [`PatKind`]: A parsed Rust pattern. Patterns are often dual to expressions.
+//! - [`Ty`] and [`TyKind`]: A parsed Dust type.
+//! - [`Expr`] and [`ExprKind`]: A parsed Dust expression.
+//! - [`Pat`] and [`PatKind`]: A parsed Dust pattern. Patterns are often dual to expressions.
 //! - [`Stmt`] and [`StmtKind`]: An executable action that does not return a value.
 //! - [`FnDecl`], [`FnHeader`] and [`Param`]: Metadata associated with a function declaration.
 //! - [`Generics`], [`GenericParam`], [`WhereClause`]: Metadata associated with generic parameters.
@@ -26,15 +26,15 @@ use crate::ptr::P;
 use crate::token::{self, CommentKind, DelimToken, Token};
 use crate::tokenstream::{DelimSpan, LazyTokenStream, TokenStream, TokenTree};
 
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_data_structures::sync::Lrc;
-use rustc_data_structures::thin_vec::ThinVec;
-use rustc_macros::HashStable_Generic;
-use rustc_serialize::{self, Decoder, Encoder};
-use rustc_span::source_map::{respan, Spanned};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{Span, DUMMY_SP};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::stack::ensure_sufficient_stack;
+use dustc_data_structures::sync::Lrc;
+use dustc_data_structures::thin_vec::ThinVec;
+use dustc_macros::HashStable_Generic;
+use dustc_serialize::{self, Decoder, Encoder};
+use dustc_span::source_map::{respan, Spanned};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{Span, DUMMY_SP};
 
 use std::cmp::Ordering;
 use std::convert::TryFrom;
@@ -46,7 +46,7 @@ mod tests;
 /// A "Label" is an identifier of some point in sources,
 /// e.g. in the following code:
 ///
-/// ```rust
+/// ```dust
 /// 'outer: loop {
 ///     break 'outer;
 /// }
@@ -84,7 +84,7 @@ impl fmt::Display for Lifetime {
     }
 }
 
-/// A "Path" is essentially Rust's notion of a name.
+/// A "Path" is essentially Dust's notion of a name.
 ///
 /// It's represented as a sequence of identifiers,
 /// along with a bunch of supporting information.
@@ -521,7 +521,7 @@ pub enum NestedMetaItem {
 
 /// A spanned compile-time attribute item.
 ///
-/// E.g., `#[test]`, `#[derive(..)]`, `#[rustfmt::skip]` or `#[feature = "foo"]`.
+/// E.g., `#[test]`, `#[derive(..)]`, `#[dustfmt::skip]` or `#[feature = "foo"]`.
 #[derive(Clone, Encodable, Decodable, Debug, HashStable_Generic)]
 pub struct MetaItem {
     pub path: Path,
@@ -1082,7 +1082,7 @@ pub struct Expr {
 
 // `Expr` is used a lot. Make sure it doesn't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
-rustc_data_structures::static_assert_size!(Expr, 104);
+dustc_data_structures::static_assert_size!(Expr, 104);
 
 impl Expr {
     /// Returns `true` if this expression would be valid somewhere that expects a value;
@@ -2268,7 +2268,7 @@ pub enum Const {
 }
 
 /// Item defaultness.
-/// For details see the [RFC #2532](https://github.com/rust-lang/rfcs/pull/2532).
+/// For details see the [RFC #2532](https://github.com/dust-lang/rfcs/pull/2532).
 #[derive(Copy, Clone, PartialEq, Encodable, Decodable, Debug, HashStable_Generic)]
 pub enum Defaultness {
     Default(Span),
@@ -2336,7 +2336,7 @@ pub enum ModKind {
 #[derive(Clone, Encodable, Decodable, Debug)]
 pub struct ForeignMod {
     /// `unsafe` keyword accepted syntactically for macro DSLs, but not
-    /// semantically by Rust.
+    /// semantically by Dust.
     pub unsafety: Unsafe,
     pub abi: Option<StrLit>,
     pub items: Vec<P<ForeignItem>>,
@@ -2420,20 +2420,20 @@ pub enum AttrStyle {
     Inner,
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct AttrId {
         ENCODABLE = custom
         DEBUG_FORMAT = "AttrId({})"
     }
 }
 
-impl<S: Encoder> rustc_serialize::Encodable<S> for AttrId {
+impl<S: Encoder> dustc_serialize::Encodable<S> for AttrId {
     fn encode(&self, s: &mut S) -> Result<(), S::Error> {
         s.emit_unit()
     }
 }
 
-impl<D: Decoder> rustc_serialize::Decodable<D> for AttrId {
+impl<D: Decoder> dustc_serialize::Decodable<D> for AttrId {
     fn decode(d: &mut D) -> Result<AttrId, D::Error> {
         d.read_nil().map(|_| crate::attr::mk_attr_id())
     }
@@ -2725,7 +2725,7 @@ pub enum ItemKind {
     ///
     /// E.g., `mod foo;` or `mod foo { .. }`.
     /// `unsafe` keyword on modules is accepted syntactically for macro DSLs, but not
-    /// semantically by Rust.
+    /// semantically by Dust.
     Mod(Unsafe, ModKind),
     /// An external module (`extern`).
     ///
@@ -2771,7 +2771,7 @@ pub enum ItemKind {
 }
 
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
-rustc_data_structures::static_assert_size!(ItemKind, 112);
+dustc_data_structures::static_assert_size!(ItemKind, 112);
 
 impl ItemKind {
     pub fn article(&self) -> &str {
@@ -2845,7 +2845,7 @@ pub enum AssocItemKind {
 }
 
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
-rustc_data_structures::static_assert_size!(AssocItemKind, 72);
+dustc_data_structures::static_assert_size!(AssocItemKind, 72);
 
 impl AssocItemKind {
     pub fn defaultness(&self) -> Defaultness {
@@ -2897,7 +2897,7 @@ pub enum ForeignItemKind {
 }
 
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
-rustc_data_structures::static_assert_size!(ForeignItemKind, 72);
+dustc_data_structures::static_assert_size!(ForeignItemKind, 72);
 
 impl From<ForeignItemKind> for ItemKind {
     fn from(foreign_item_kind: ForeignItemKind) -> ItemKind {

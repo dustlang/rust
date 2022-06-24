@@ -1,4 +1,4 @@
-mod rustfmt {}
+mod dustfmt {}
 
-#[rustfmt::skip] //~ ERROR failed to resolve: could not find `skip` in `rustfmt`
+#[dustfmt::skip] //~ ERROR failed to resolve: could not find `skip` in `dustfmt`
 fn main() {}

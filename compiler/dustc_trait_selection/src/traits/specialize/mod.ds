@@ -4,10 +4,10 @@
 //! At the moment, this implementation support only the simple "chain" rule:
 //! If any two impls overlap, one must be a strict subset of the other.
 //!
-//! See the [rustc dev guide] for a bit more detail on how specialization
+//! See the [dustc dev guide] for a bit more detail on how specialization
 //! fits together with the rest of the trait machinery.
 //!
-//! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/traits/specialization.html
+//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/traits/specialization.html
 
 pub mod specialization_graph;
 use specialization_graph::GraphExt;
@@ -15,15 +15,15 @@ use specialization_graph::GraphExt;
 use crate::infer::{InferCtxt, InferOk, TyCtxtInferExt};
 use crate::traits::select::IntercrateAmbiguityCause;
 use crate::traits::{self, coherence, FutureCompatOverlapErrorKind, ObligationCause, TraitEngine};
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::struct_span_err;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_middle::lint::LintDiagnosticBuilder;
-use rustc_middle::ty::subst::{InternalSubsts, Subst, SubstsRef};
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_session::lint::builtin::COHERENCE_LEAK_CHECK;
-use rustc_session::lint::builtin::ORDER_DEPENDENT_TRAIT_OBJECTS;
-use rustc_span::DUMMY_SP;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::struct_span_err;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_middle::lint::LintDiagnosticBuilder;
+use dustc_middle::ty::subst::{InternalSubsts, Subst, SubstsRef};
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_session::lint::builtin::COHERENCE_LEAK_CHECK;
+use dustc_session::lint::builtin::ORDER_DEPENDENT_TRAIT_OBJECTS;
+use dustc_span::DUMMY_SP;
 
 use super::util::impl_trait_ref_and_oblig;
 use super::{FulfillmentContext, SelectionContext};
@@ -52,7 +52,7 @@ pub struct OverlapError {
 ///
 /// For example, consider the following scenario:
 ///
-/// ```rust
+/// ```dust
 /// trait Foo { ... }
 /// impl<T, U> Foo for (T, U) { ... }  // target impl
 /// impl<V> Foo for (V, V) { ... }     // source impl
@@ -64,7 +64,7 @@ pub struct OverlapError {
 /// where-clauses add some trickiness here, because they can be used to "define"
 /// an argument indirectly:
 ///
-/// ```rust
+/// ```dust
 /// impl<'a, I, T: 'a> Iterator for Cloned<I>
 ///    where I: Iterator<Item = &'a T>, T: Clone
 /// ```

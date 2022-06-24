@@ -1,10 +1,10 @@
 use crate::{LateContext, LateLintPass, LintContext};
-use rustc_ast as ast;
-use rustc_errors::{pluralize, Applicability};
-use rustc_hir as hir;
-use rustc_middle::ty;
-use rustc_parse_format::{ParseMode, Parser, Piece};
-use rustc_span::{sym, symbol::kw, InnerSpan, Span, Symbol};
+use dustc_ast as ast;
+use dustc_errors::{pluralize, Applicability};
+use dustc_hir as hir;
+use dustc_middle::ty;
+use dustc_parse_format::{ParseMode, Parser, Piece};
+use dustc_span::{sym, symbol::kw, InnerSpan, Span, Symbol};
 
 declare_lint! {
     /// The `non_fmt_panic` lint detects `panic!(..)` invocations where the first
@@ -12,7 +12,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// panic!("{}");
     /// panic!(123);
     /// ```
@@ -21,12 +21,12 @@ declare_lint! {
     ///
     /// ### Explanation
     ///
-    /// In Rust 2018 and earlier, `panic!(x)` directly uses `x` as the message.
+    /// In Dust 2018 and earlier, `panic!(x)` directly uses `x` as the message.
     /// That means that `panic!("{}")` panics with the message `"{}"` instead
     /// of using it as a formatting string, and `panic!(123)` will panic with
     /// an `i32` as message.
     ///
-    /// Rust 2021 always interprets the first argument as format string.
+    /// Dust 2021 always interprets the first argument as format string.
     NON_FMT_PANIC,
     Warn,
     "detect single-argument panic!() invocations in which the argument is not a format string",
@@ -87,7 +87,7 @@ fn check_panic<'tcx>(cx: &LateContext<'tcx>, f: &'tcx hir::Expr<'tcx>, arg: &'tc
 
     cx.struct_span_lint(NON_FMT_PANIC, arg_span, |lint| {
         let mut l = lint.build("panic message is not a string literal");
-        l.note("this is no longer accepted in Rust 2021");
+        l.note("this is no longer accepted in Dust 2021");
         if !span.contains(arg_span) {
             // No clue where this argument is coming from.
             l.emit();
@@ -172,7 +172,7 @@ fn check_panic_str<'tcx>(
                 1 => "panic message contains an unused formatting placeholder",
                 _ => "panic message contains unused formatting placeholders",
             });
-            l.note("this message is not used as a format string when given without arguments, but will be in Rust 2021");
+            l.note("this message is not used as a format string when given without arguments, but will be in Dust 2021");
             if span.contains(arg.span) {
                 l.span_suggestion(
                     arg.span.shrink_to_hi(),
@@ -203,7 +203,7 @@ fn check_panic_str<'tcx>(
         };
         cx.struct_span_lint(NON_FMT_PANIC, brace_spans.unwrap_or_else(|| vec![span]), |lint| {
             let mut l = lint.build(msg);
-            l.note("this message is not used as a format string, but will be in Rust 2021");
+            l.note("this message is not used as a format string, but will be in Dust 2021");
             if span.contains(arg.span) {
                 l.span_suggestion(
                     arg.span.shrink_to_lo(),

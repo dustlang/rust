@@ -4,7 +4,7 @@ The tracking issue for this feature is: [#45040]
 
 The `doc_spotlight` feature allows the use of the `spotlight` parameter to the `#[doc]` attribute,
 to "spotlight" a specific trait on the return values of functions. Adding a `#[doc(spotlight)]`
-attribute to a trait definition will make rustdoc print extra information for functions which return
+attribute to a trait definition will make dustdoc print extra information for functions which return
 a type that implements that trait. For example, this attribute is applied to the `Iterator`,
 `io::Read`, `io::Write`, and `Future` traits in the standard library.
 
@@ -26,5 +26,5 @@ pub fn my_fn() -> MyStruct { MyStruct }
 
 This feature was originally implemented in PR [#45039].
 
-[#45040]: https://github.com/rust-lang/rust/issues/45040
-[#45039]: https://github.com/rust-lang/rust/pull/45039
+[#45040]: https://github.com/dust-lang/dust/issues/45040
+[#45039]: https://github.com/dust-lang/dust/pull/45039

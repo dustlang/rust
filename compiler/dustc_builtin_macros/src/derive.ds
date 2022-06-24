@@ -1,13 +1,13 @@
 use crate::cfg_eval::cfg_eval;
 
-use rustc_ast::{self as ast, token, ItemKind, MetaItemKind, NestedMetaItem, StmtKind};
-use rustc_errors::{struct_span_err, Applicability};
-use rustc_expand::base::{Annotatable, ExpandResult, ExtCtxt, Indeterminate, MultiItemModifier};
-use rustc_feature::AttributeTemplate;
-use rustc_parse::validate_attr;
-use rustc_session::Session;
-use rustc_span::symbol::sym;
-use rustc_span::Span;
+use dustc_ast::{self as ast, token, ItemKind, MetaItemKind, NestedMetaItem, StmtKind};
+use dustc_errors::{struct_span_err, Applicability};
+use dustc_expand::base::{Annotatable, ExpandResult, ExtCtxt, Indeterminate, MultiItemModifier};
+use dustc_feature::AttributeTemplate;
+use dustc_parse::validate_attr;
+use dustc_session::Session;
+use dustc_span::symbol::sym;
+use dustc_span::Span;
 
 crate struct Expander;
 
@@ -84,7 +84,7 @@ fn report_bad_target(sess: &Session, item: &Annotatable, span: Span) -> bool {
 
 fn report_unexpected_literal(sess: &Session, lit: &ast::Lit) {
     let help_msg = match lit.token.kind {
-        token::Str if rustc_lexer::is_ident(&lit.token.symbol.as_str()) => {
+        token::Str if dustc_lexer::is_ident(&lit.token.symbol.as_str()) => {
             format!("try using `#[derive({})]`", lit.token.symbol)
         }
         _ => "for example, write `#[derive(Debug)]` for `Debug`".to_string(),

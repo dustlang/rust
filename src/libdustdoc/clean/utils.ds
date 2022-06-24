@@ -7,20 +7,20 @@ use crate::clean::{
 };
 use crate::core::DocContext;
 
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_middle::mir::interpret::ConstValue;
-use rustc_middle::ty::subst::{GenericArgKind, SubstsRef};
-use rustc_middle::ty::{self, DefIdTree, TyCtxt};
-use rustc_span::symbol::{kw, sym, Symbol};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_middle::mir::interpret::ConstValue;
+use dustc_middle::ty::subst::{GenericArgKind, SubstsRef};
+use dustc_middle::ty::{self, DefIdTree, TyCtxt};
+use dustc_span::symbol::{kw, sym, Symbol};
 use std::mem;
 
 crate fn krate(cx: &mut DocContext<'_>) -> Crate {
     use crate::visit_lib::LibEmbargoVisitor;
 
     let krate = cx.tcx.hir().krate();
-    let module = crate::visit_ast::RustdocVisitor::new(cx).visit(krate);
+    let module = crate::visit_ast::DustdocVisitor::new(cx).visit(krate);
 
     cx.cache.deref_trait_did = cx.tcx.lang_items().deref_trait();
     cx.cache.deref_mut_trait_did = cx.tcx.lang_items().deref_mut_trait();
@@ -34,8 +34,8 @@ crate fn krate(cx: &mut DocContext<'_>) -> Crate {
     }
     externs.sort_by(|&(a, _), &(b, _)| a.cmp(&b));
 
-    // Clean the crate, translating the entire librustc_ast AST to one that is
-    // understood by rustdoc.
+    // Clean the crate, translating the entire libdustc_ast AST to one that is
+    // understood by dustdoc.
     let mut module = module.clean(cx);
 
     match *module.kind {
@@ -234,7 +234,7 @@ crate trait ToSource {
     fn to_src(&self, cx: &DocContext<'_>) -> String;
 }
 
-impl ToSource for rustc_span::Span {
+impl ToSource for dustc_span::Span {
     fn to_src(&self, cx: &DocContext<'_>) -> String {
         debug!("converting span {:?} to snippet", self);
         let sn = match cx.sess().source_map().span_to_snippet(*self) {
@@ -247,7 +247,7 @@ impl ToSource for rustc_span::Span {
 }
 
 crate fn name_from_pat(p: &hir::Pat<'_>) -> Symbol {
-    use rustc_hir::*;
+    use dustc_hir::*;
     debug!("trying to get a name from pattern: {:?}", p);
 
     Symbol::intern(&match p.kind {
@@ -398,7 +398,7 @@ crate fn print_const_expr(tcx: TyCtxt<'_>, body: hir::BodyId) -> String {
         None
     };
 
-    snippet.unwrap_or_else(|| rustc_hir_pretty::id_to_string(&hir, body.hir_id))
+    snippet.unwrap_or_else(|| dustc_hir_pretty::id_to_string(&hir, body.hir_id))
 }
 
 /// Given a type Path, resolve it to a Type using the TyCtxt
@@ -528,6 +528,6 @@ crate fn find_nearest_parent_module(tcx: TyCtxt<'_>, def_id: DefId) -> Option<De
 crate fn has_doc_flag(attrs: ty::Attributes<'_>, flag: Symbol) -> bool {
     attrs.iter().any(|attr| {
         attr.has_name(sym::doc)
-            && attr.meta_item_list().map_or(false, |l| rustc_attr::list_contains_name(&l, flag))
+            && attr.meta_item_list().map_or(false, |l| dustc_attr::list_contains_name(&l, flag))
     })
 }

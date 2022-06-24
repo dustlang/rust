@@ -7,7 +7,7 @@
 # only way that `foo.c` will successfully compile.
 
 all:
-	$(RUSTC) foo.rs --crate-type=rlib
-	$(RUSTC) bar.rs --crate-type=staticlib -C lto -L. -o $(TMPDIR)/libbar.a
+	$(DUSTC) foo.rs --crate-type=rlib
+	$(DUSTC) bar.rs --crate-type=staticlib -C lto -L. -o $(TMPDIR)/libbar.a
 	$(CC) foo.c $(TMPDIR)/libbar.a $(EXTRACFLAGS) $(call OUT_EXE,foo)
 	$(call RUN,foo)

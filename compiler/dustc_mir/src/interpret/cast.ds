@@ -1,14 +1,14 @@
 use std::convert::TryFrom;
 
-use rustc_apfloat::ieee::{Double, Single};
-use rustc_apfloat::{Float, FloatConvert};
-use rustc_middle::mir::interpret::{InterpResult, PointerArithmetic, Scalar};
-use rustc_middle::mir::CastKind;
-use rustc_middle::ty::adjustment::PointerCast;
-use rustc_middle::ty::layout::{IntegerExt, TyAndLayout};
-use rustc_middle::ty::{self, FloatTy, Ty, TypeAndMut};
-use rustc_span::symbol::sym;
-use rustc_target::abi::{Integer, LayoutOf, Variants};
+use dustc_apfloat::ieee::{Double, Single};
+use dustc_apfloat::{Float, FloatConvert};
+use dustc_middle::mir::interpret::{InterpResult, PointerArithmetic, Scalar};
+use dustc_middle::mir::CastKind;
+use dustc_middle::ty::adjustment::PointerCast;
+use dustc_middle::ty::layout::{IntegerExt, TyAndLayout};
+use dustc_middle::ty::{self, FloatTy, Ty, TypeAndMut};
+use dustc_span::symbol::sym;
+use dustc_target::abi::{Integer, LayoutOf, Variants};
 
 use super::{
     util::ensure_monomorphic_enough, FnVal, ImmTy, Immediate, InterpCx, Machine, OpTy, PlaceTy,
@@ -22,7 +22,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
         cast_ty: Ty<'tcx>,
         dest: &PlaceTy<'tcx, M::PointerTag>,
     ) -> InterpResult<'tcx> {
-        use rustc_middle::mir::CastKind::*;
+        use dustc_middle::mir::CastKind::*;
         // FIXME: In which cases should we trigger UB when the source is uninit?
         match cast_kind {
             Pointer(PointerCast::Unsize) => {
@@ -49,7 +49,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
                         // All reifications must be monomorphic, bail out otherwise.
                         ensure_monomorphic_enough(*self.tcx, src.layout.ty)?;
 
-                        if self.tcx.has_attr(def_id, sym::rustc_args_required_const) {
+                        if self.tcx.has_attr(def_id, sym::dustc_args_required_const) {
                             span_bug!(
                                 self.cur_span(),
                                 "reifying a fn ptr that requires const arguments"
@@ -110,7 +110,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
         src: &ImmTy<'tcx, M::PointerTag>,
         cast_ty: Ty<'tcx>,
     ) -> InterpResult<'tcx, Immediate<M::PointerTag>> {
-        use rustc_middle::ty::TyKind::*;
+        use dustc_middle::ty::TyKind::*;
         trace!("Casting {:?}: {:?} to {:?}", *src, src.layout.ty, cast_ty);
 
         match src.layout.ty.kind() {
@@ -197,7 +197,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
         let signed = src_layout.abi.is_signed(); // Also asserts that abi is `Scalar`.
         let v = if signed { self.sign_extend(v, src_layout) } else { v };
         trace!("cast_from_scalar: {}, {} -> {}", v, src_layout.ty, cast_ty);
-        use rustc_middle::ty::TyKind::*;
+        use dustc_middle::ty::TyKind::*;
         match *cast_ty.kind() {
             Int(_) | Uint(_) | RawPtr(_) => {
                 let size = match *cast_ty.kind() {
@@ -220,7 +220,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
                 Scalar::from_u32(u8::try_from(v).unwrap().into())
             }
 
-            // Casts to bool are not permitted by rustc, no need to handle them here.
+            // Casts to bool are not permitted by dustc, no need to handle them here.
             _ => span_bug!(self.cur_span(), "invalid int to {:?} cast", cast_ty),
         }
     }
@@ -229,13 +229,13 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
     where
         F: Float + Into<Scalar<M::PointerTag>> + FloatConvert<Single> + FloatConvert<Double>,
     {
-        use rustc_middle::ty::TyKind::*;
+        use dustc_middle::ty::TyKind::*;
         match *dest_ty.kind() {
             // float -> uint
             Uint(t) => {
                 let size = Integer::from_uint_ty(self, t).size();
                 // `to_u128` is a saturating cast, which is what we need
-                // (https://doc.rust-lang.org/nightly/nightly-rustc/rustc_apfloat/trait.Float.html#method.to_i128_r).
+                // (https://doc.dust-lang.org/nightly/nightly-dustc/dustc_apfloat/trait.Float.html#method.to_i128_r).
                 let v = f.to_u128(size.bits_usize()).value;
                 // This should already fit the bit width
                 Scalar::from_uint(v, size)
@@ -244,7 +244,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
             Int(t) => {
                 let size = Integer::from_int_ty(self, t).size();
                 // `to_i128` is a saturating cast, which is what we need
-                // (https://doc.rust-lang.org/nightly/nightly-rustc/rustc_apfloat/trait.Float.html#method.to_i128_r).
+                // (https://doc.dust-lang.org/nightly/nightly-dustc/dustc_apfloat/trait.Float.html#method.to_i128_r).
                 let v = f.to_i128(size.bits_usize()).value;
                 Scalar::from_int(v, size)
             }

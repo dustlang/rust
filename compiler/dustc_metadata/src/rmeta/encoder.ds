@@ -1,38 +1,38 @@
 use crate::rmeta::table::{FixedSizeEncoding, TableBuilder};
 use crate::rmeta::*;
 
-use rustc_data_structures::fingerprint::{Fingerprint, FingerprintEncoder};
-use rustc_data_structures::fx::{FxHashMap, FxIndexSet};
-use rustc_data_structures::stable_hasher::StableHasher;
-use rustc_data_structures::sync::{join, par_iter, Lrc, ParallelIterator};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorOf, DefKind};
-use rustc_hir::def_id::{
+use dustc_data_structures::fingerprint::{Fingerprint, FingerprintEncoder};
+use dustc_data_structures::fx::{FxHashMap, FxIndexSet};
+use dustc_data_structures::stable_hasher::StableHasher;
+use dustc_data_structures::sync::{join, par_iter, Lrc, ParallelIterator};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorOf, DefKind};
+use dustc_hir::def_id::{
     CrateNum, DefId, DefIndex, LocalDefId, CRATE_DEF_ID, CRATE_DEF_INDEX, LOCAL_CRATE,
 };
-use rustc_hir::definitions::DefPathData;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_hir::lang_items;
-use rustc_hir::{AnonConst, GenericParamKind};
-use rustc_index::bit_set::GrowableBitSet;
-use rustc_index::vec::Idx;
-use rustc_middle::hir::map::Map;
-use rustc_middle::middle::cstore::{EncodedMetadata, ForeignModule, LinkagePreference, NativeLib};
-use rustc_middle::middle::dependency_format::Linkage;
-use rustc_middle::middle::exported_symbols::{
+use dustc_hir::definitions::DefPathData;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_hir::lang_items;
+use dustc_hir::{AnonConst, GenericParamKind};
+use dustc_index::bit_set::GrowableBitSet;
+use dustc_index::vec::Idx;
+use dustc_middle::hir::map::Map;
+use dustc_middle::middle::cstore::{EncodedMetadata, ForeignModule, LinkagePreference, NativeLib};
+use dustc_middle::middle::dependency_format::Linkage;
+use dustc_middle::middle::exported_symbols::{
     metadata_symbol_name, ExportedSymbol, SymbolExportLevel,
 };
-use rustc_middle::mir::interpret;
-use rustc_middle::traits::specialization_graph;
-use rustc_middle::ty::codec::TyEncoder;
-use rustc_middle::ty::{self, SymbolName, Ty, TyCtxt};
-use rustc_serialize::{opaque, Encodable, Encoder};
-use rustc_session::config::CrateType;
-use rustc_span::hygiene::{ExpnDataEncodeMode, HygieneEncodeContext, MacroKind};
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::{self, ExternalSource, FileName, SourceFile, Span, SyntaxContext};
-use rustc_target::abi::VariantIdx;
+use dustc_middle::mir::interpret;
+use dustc_middle::traits::specialization_graph;
+use dustc_middle::ty::codec::TyEncoder;
+use dustc_middle::ty::{self, SymbolName, Ty, TyCtxt};
+use dustc_serialize::{opaque, Encodable, Encoder};
+use dustc_session::config::CrateType;
+use dustc_span::hygiene::{ExpnDataEncodeMode, HygieneEncodeContext, MacroKind};
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::{self, ExternalSource, FileName, SourceFile, Span, SyntaxContext};
+use dustc_target::abi::VariantIdx;
 use std::hash::Hash;
 use std::num::NonZeroUsize;
 use std::path::Path;
@@ -41,7 +41,7 @@ use tracing::{debug, trace};
 pub(super) struct EncodeContext<'a, 'tcx> {
     opaque: opaque::Encoder,
     tcx: TyCtxt<'tcx>,
-    feat: &'tcx rustc_feature::Features,
+    feat: &'tcx dustc_feature::Features,
 
     tables: TableBuilders<'tcx>,
 
@@ -167,13 +167,13 @@ impl<'a, 'tcx> Encodable<EncodeContext<'a, 'tcx>> for DefIndex {
 
 impl<'a, 'tcx> Encodable<EncodeContext<'a, 'tcx>> for SyntaxContext {
     fn encode(&self, s: &mut EncodeContext<'a, 'tcx>) -> opaque::EncodeResult {
-        rustc_span::hygiene::raw_encode_syntax_context(*self, &s.hygiene_ctxt, s)
+        dustc_span::hygiene::raw_encode_syntax_context(*self, &s.hygiene_ctxt, s)
     }
 }
 
 impl<'a, 'tcx> Encodable<EncodeContext<'a, 'tcx>> for ExpnId {
     fn encode(&self, s: &mut EncodeContext<'a, 'tcx>) -> opaque::EncodeResult {
-        rustc_span::hygiene::raw_encode_expn_id(
+        dustc_span::hygiene::raw_encode_expn_id(
             *self,
             &s.hygiene_ctxt,
             ExpnDataEncodeMode::Metadata,
@@ -184,7 +184,7 @@ impl<'a, 'tcx> Encodable<EncodeContext<'a, 'tcx>> for ExpnId {
 
 impl<'a, 'tcx> Encodable<EncodeContext<'a, 'tcx>> for Span {
     fn encode(&self, s: &mut EncodeContext<'a, 'tcx>) -> opaque::EncodeResult {
-        if *self == rustc_span::DUMMY_SP {
+        if *self == dustc_span::DUMMY_SP {
             return TAG_INVALID_SPAN.encode(s);
         }
 
@@ -288,7 +288,7 @@ impl<'a, 'tcx> Encodable<EncodeContext<'a, 'tcx>> for Span {
         // limited surface that proc-macros can expose.
         //
         // IMPORTANT: If this is ever changed, be sure to update
-        // `rustc_span::hygiene::raw_encode_expn_id` to handle
+        // `dustc_span::hygiene::raw_encode_expn_id` to handle
         // encoding `ExpnData` for proc-macro crates.
         if s.is_proc_macro {
             SyntaxContext::root().encode(s)?;
@@ -330,7 +330,7 @@ impl<'a, 'tcx> TyEncoder<'tcx> for EncodeContext<'a, 'tcx> {
 
     fn encode_alloc_id(
         &mut self,
-        alloc_id: &rustc_middle::mir::interpret::AllocId,
+        alloc_id: &dustc_middle::mir::interpret::AllocId,
     ) -> Result<(), Self::Error> {
         let (index, _) = self.interpret_allocs.insert_full(*alloc_id);
 
@@ -468,7 +468,7 @@ impl<'a, 'tcx> EncodeContext<'a, 'tcx> {
         }
     }
 
-    fn encode_source_map(&mut self) -> Lazy<[rustc_span::SourceFile]> {
+    fn encode_source_map(&mut self) -> Lazy<[dustc_span::SourceFile]> {
         let source_map = self.tcx.sess.source_map();
         let all_source_files = source_map.files();
 
@@ -1119,7 +1119,7 @@ impl EncodeContext<'a, 'tcx> {
 
         match trait_item.kind {
             ty::AssocKind::Const => {
-                let rendered = rustc_hir_pretty::to_string(
+                let rendered = dustc_hir_pretty::to_string(
                     &(&self.tcx.hir() as &dyn intravisit::Map<'_>),
                     |s| s.print_trait_item(ast_item),
                 );
@@ -1315,7 +1315,7 @@ impl EncodeContext<'a, 'tcx> {
     fn encode_rendered_const_for_body(&mut self, body_id: hir::BodyId) -> Lazy<RenderedConst> {
         let hir = self.tcx.hir();
         let body = hir.body(body_id);
-        let rendered = rustc_hir_pretty::to_string(&(&hir as &dyn intravisit::Map<'_>), |s| {
+        let rendered = dustc_hir_pretty::to_string(&(&hir as &dyn intravisit::Map<'_>), |s| {
             s.print_expr(&body.value)
         });
         let rendered_const = &RenderedConst(rendered);
@@ -2091,8 +2091,8 @@ fn encode_metadata_impl(tcx: TyCtxt<'_>) -> EncodedMetadata {
         hygiene_ctxt: &hygiene_ctxt,
     };
 
-    // Encode the rustc version string in a predictable location.
-    rustc_version().encode(&mut ecx).unwrap();
+    // Encode the dustc version string in a predictable location.
+    dustc_version().encode(&mut ecx).unwrap();
 
     // Encode all the entries and extra information in the crate,
     // culminating in the `CrateRoot` which points to all of it.

@@ -1,12 +1,12 @@
 #![allow(non_camel_case_types)]
 
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_hir::LangItem;
-use rustc_middle::ty::{Ty, TyCtxt};
-use rustc_session::Session;
-use rustc_span::Span;
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_hir::LangItem;
+use dustc_middle::ty::{Ty, TyCtxt};
+use dustc_session::Session;
+use dustc_span::Span;
 
 use crate::base;
 use crate::traits::BuilderMethods;
@@ -108,7 +108,7 @@ pub enum TypeKind {
 //            implementation for CGUs.
 mod temp_stable_hash_impls {
     use crate::ModuleCodegen;
-    use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
+    use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
 
     impl<HCX, M> HashStable<HCX> for ModuleCodegen<M> {
         fn hash_stable(&self, _: &mut HCX, _: &mut StableHasher) {

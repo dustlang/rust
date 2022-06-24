@@ -2,16 +2,16 @@
 //! types in no particular order.
 
 use crate::ich::{NodeIdHashingMode, StableHashingContext};
-use rustc_attr as attr;
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher, ToStableHashKey};
-use rustc_hir as hir;
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId, CRATE_DEF_INDEX};
-use rustc_hir::definitions::DefPathHash;
+use dustc_attr as attr;
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher, ToStableHashKey};
+use dustc_hir as hir;
+use dustc_hir::def_id::{CrateNum, DefId, LocalDefId, CRATE_DEF_INDEX};
+use dustc_hir::definitions::DefPathHash;
 use smallvec::SmallVec;
 use std::mem;
 
-impl<'ctx> rustc_hir::HashStableContext for StableHashingContext<'ctx> {
+impl<'ctx> dustc_hir::HashStableContext for StableHashingContext<'ctx> {
     #[inline]
     fn hash_hir_id(&mut self, hir_id: hir::HirId, hasher: &mut StableHasher) {
         let hcx = self;

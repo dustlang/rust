@@ -1,4 +1,4 @@
-use rustc_span::symbol::{sym, Symbol};
+use dustc_span::symbol::{sym, Symbol};
 
 #[derive(Clone, Copy)]
 pub enum AllocatorKind {

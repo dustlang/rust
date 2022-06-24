@@ -1,11 +1,11 @@
 use crate::utils::{is_type_diagnostic_item, method_chain_args, return_ty, span_lint_and_then};
 use if_chain::if_chain;
-use rustc_hir as hir;
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::{sym, Span};
+use dustc_hir as hir;
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::{sym, Span};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for functions of type Result that contain `expect()` or `unwrap()`
@@ -16,7 +16,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// Before:
-    /// ```rust
+    /// ```dust
     /// fn divisible_by_3(i_str: String) -> Result<(), String> {
     ///     let i = i_str
     ///         .parse::<i32>()
@@ -31,7 +31,7 @@ declare_clippy_lint! {
     /// ```
     ///
     /// After:
-    /// ```rust
+    /// ```dust
     /// fn divisible_by_3(i_str: String) -> Result<(), String> {
     ///     let i = i_str
     ///         .parse::<i32>()
@@ -66,8 +66,8 @@ impl<'tcx> LateLintPass<'tcx> for UnwrapInResult {
     }
 }
 
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::{Expr, ImplItemKind};
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::{Expr, ImplItemKind};
 
 struct FindExpectUnwrap<'a, 'tcx> {
     lcx: &'a LateContext<'tcx>,

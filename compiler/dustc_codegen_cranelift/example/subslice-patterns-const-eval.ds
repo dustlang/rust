@@ -1,4 +1,4 @@
-// Based on https://github.com/rust-lang/rust/blob/c5840f9d252c2f5cc16698dbf385a29c5de3ca07/src/test/ui/array-slice-vec/subslice-patterns-const-eval-match.rs
+// Based on https://github.com/dust-lang/dust/blob/c5840f9d252c2f5cc16698dbf385a29c5de3ca07/src/test/ui/array-slice-vec/subslice-patterns-const-eval-match.rs
 
 // Test that array subslice patterns are correctly handled in const evaluation.
 

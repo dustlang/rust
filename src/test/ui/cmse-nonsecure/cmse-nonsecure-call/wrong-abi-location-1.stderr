@@ -6,4 +6,4 @@ LL | pub extern "C-cmse-nonsecure-call" fn test() {} //~ ERROR [E0781]
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0781`.
+For more information about this error, try `dustc --explain E0781`.

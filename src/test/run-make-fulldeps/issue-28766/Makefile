@@ -1,5 +1,5 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) -O foo.rs
-	$(RUSTC) -O -L $(TMPDIR) main.rs
+	$(DUSTC) -O foo.rs
+	$(DUSTC) -O -L $(TMPDIR) main.rs

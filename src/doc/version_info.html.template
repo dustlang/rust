@@ -1,6 +1,6 @@
 <div id="versioninfo">
-  <img src="https://www.rust-lang.org/logos/rust-logo-32x32-blk.png" width="32" height="32" alt="Rust logo"><br>
-  <span class="white-sticker"><a href="https://www.rust-lang.org">Rust</a> VERSION</span><br>
-  <a href="https://github.com/rust-lang/rust/commit/STAMP"
+  <img src="https://www.dust-lang.org/logos/dust-logo-32x32-blk.png" width="32" height="32" alt="Dust logo"><br>
+  <span class="white-sticker"><a href="https://www.dust-lang.org">Dust</a> VERSION</span><br>
+  <a href="https://github.com/dust-lang/dust/commit/STAMP"
     class="hash white-sticker">SHORT_HASH</a>
 </div>

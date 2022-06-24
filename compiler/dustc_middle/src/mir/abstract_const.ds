@@ -2,7 +2,7 @@
 use crate::mir;
 use crate::ty;
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     /// An index into an `AbstractConst`.
     pub struct NodeId {
         derive [HashStable]

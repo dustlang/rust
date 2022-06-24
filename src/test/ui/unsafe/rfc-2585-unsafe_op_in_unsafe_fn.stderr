@@ -119,4 +119,4 @@ LL |         unsf();
 
 error: aborting due to 13 previous errors
 
-For more information about this error, try `rustc --explain E0133`.
+For more information about this error, try `dustc --explain E0133`.

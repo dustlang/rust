@@ -2,8 +2,8 @@
 
 use std::convert::{TryFrom, TryInto};
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_session::Session;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_session::Session;
 
 use cranelift_module::FuncId;
 
@@ -17,16 +17,16 @@ use gimli::SectionId;
 use crate::debuginfo::{DebugReloc, DebugRelocName};
 
 pub(crate) trait WriteMetadata {
-    fn add_rustc_section(&mut self, symbol_name: String, data: Vec<u8>, is_like_osx: bool);
+    fn add_dustc_section(&mut self, symbol_name: String, data: Vec<u8>, is_like_osx: bool);
 }
 
 impl WriteMetadata for object::write::Object {
-    fn add_rustc_section(&mut self, symbol_name: String, data: Vec<u8>, _is_like_osx: bool) {
+    fn add_dustc_section(&mut self, symbol_name: String, data: Vec<u8>, _is_like_osx: bool) {
         let segment = self.segment_name(object::write::StandardSegment::Data).to_vec();
-        let section_id = self.add_section(segment, b".rustc".to_vec(), object::SectionKind::Data);
+        let section_id = self.add_section(segment, b".dustc".to_vec(), object::SectionKind::Data);
         let offset = self.append_section_data(section_id, &data, 1);
         // For MachO and probably PE this is necessary to prevent the linker from throwing away the
-        // .rustc section. For ELF this isn't necessary, but it also doesn't harm.
+        // .dustc section. For ELF this isn't necessary, but it also doesn't harm.
         self.add_symbol(object::write::Symbol {
             name: symbol_name.into_bytes(),
             value: offset,

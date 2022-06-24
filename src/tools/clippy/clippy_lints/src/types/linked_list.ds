@@ -1,5 +1,5 @@
-use rustc_hir::{self as hir, def_id::DefId};
-use rustc_lint::LateContext;
+use dustc_hir::{self as hir, def_id::DefId};
+use dustc_lint::LateContext;
 
 use crate::utils::{match_def_path, paths, span_lint_and_help};
 

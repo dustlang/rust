@@ -1,10 +1,10 @@
 [package]
 name = "clippy-mini-macro-test"
 version = "0.2.0"
-authors = ["The Rust Clippy Developers"]
+authors = ["The Dust Clippy Developers"]
 license = "MIT OR Apache-2.0"
 description = "A macro to test clippy's procedural macro checks"
-repository = "https://github.com/rust-lang/rust-clippy"
+repository = "https://github.com/dust-lang/dust-clippy"
 edition = "2018"
 
 [lib]

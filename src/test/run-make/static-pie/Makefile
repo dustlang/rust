@@ -6,7 +6,7 @@
 # $ ./x.py test --target x86_64-unknown-linux-musl src/test/run-make/static-pie
 
 all:
-	$(RUSTC) --target $(TARGET) -C target-feature=+crt-static test-aslr.rs
+	$(DUSTC) --target $(TARGET) -C target-feature=+crt-static test-aslr.rs
 	# Check that no dynamic interpreter is set
 	! readelf -l $(call RUN_BINFILE,test-aslr) | $(CGREP) INTERP
 	# Check that we have a dynamic executable

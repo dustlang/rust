@@ -17,4 +17,4 @@ LL |         Enum::A(_) if { let y = &mut x; *y = Enum::B(false); false } => 1,
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0510`.
+For more information about this error, try `dustc --explain E0510`.

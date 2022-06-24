@@ -2,18 +2,18 @@
 //! the `clean` types but with some fields removed or stringified to simplify the output and not
 //! expose unstable compiler internals.
 
-#![allow(rustc::default_hash_types)]
+#![allow(dustc::default_hash_types)]
 
 use std::convert::From;
 
-use rustc_ast::ast;
-use rustc_hir::def::CtorKind;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::def_id::{DefId, CRATE_DEF_INDEX};
-use rustc_span::symbol::Symbol;
-use rustc_span::Pos;
+use dustc_ast::ast;
+use dustc_hir::def::CtorKind;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::def_id::{DefId, CRATE_DEF_INDEX};
+use dustc_span::symbol::Symbol;
+use dustc_span::Pos;
 
-use rustdoc_json_types::*;
+use dustdoc_json_types::*;
 
 use crate::clean;
 use crate::clean::utils::print_const_expr;
@@ -46,7 +46,7 @@ impl JsonRenderer<'_> {
             attrs: attrs
                 .other_attrs
                 .iter()
-                .map(rustc_ast_pretty::pprust::attribute_to_string)
+                .map(dustc_ast_pretty::ppdust::attribute_to_string)
                 .collect(),
             deprecation: deprecation.map(from_deprecation),
             inner,
@@ -55,13 +55,13 @@ impl JsonRenderer<'_> {
 
     fn convert_span(&self, span: clean::Span) -> Option<Span> {
         match span.filename(self.sess()) {
-            rustc_span::FileName::Real(name) => {
+            dustc_span::FileName::Real(name) => {
                 let hi = span.hi(self.sess());
                 let lo = span.lo(self.sess());
                 Some(Span {
                     filename: match name {
-                        rustc_span::RealFileName::Named(path) => path,
-                        rustc_span::RealFileName::Devirtualized { local_path, virtual_name: _ } => {
+                        dustc_span::RealFileName::Named(path) => path,
+                        dustc_span::RealFileName::Devirtualized { local_path, virtual_name: _ } => {
                             local_path
                         }
                     },
@@ -87,9 +87,9 @@ impl JsonRenderer<'_> {
     }
 }
 
-crate fn from_deprecation(deprecation: rustc_attr::Deprecation) -> Deprecation {
-    #[rustfmt::skip]
-    let rustc_attr::Deprecation { since, note, is_since_rustc_version: _, suggestion: _ } = deprecation;
+crate fn from_deprecation(deprecation: dustc_attr::Deprecation) -> Deprecation {
+    #[dustfmt::skip]
+    let dustc_attr::Deprecation { since, note, is_since_dustc_version: _, suggestion: _ } = deprecation;
     Deprecation { since: since.map(|s| s.to_string()), note: note.map(|s| s.to_string()) }
 }
 
@@ -229,18 +229,18 @@ crate fn from_ctor_kind(struct_type: CtorKind) -> StructType {
     }
 }
 
-crate fn from_fn_header(header: &rustc_hir::FnHeader) -> HashSet<Qualifiers> {
+crate fn from_fn_header(header: &dustc_hir::FnHeader) -> HashSet<Qualifiers> {
     let mut v = HashSet::new();
 
-    if let rustc_hir::Unsafety::Unsafe = header.unsafety {
+    if let dustc_hir::Unsafety::Unsafe = header.unsafety {
         v.insert(Qualifiers::Unsafe);
     }
 
-    if let rustc_hir::IsAsync::Async = header.asyncness {
+    if let dustc_hir::IsAsync::Async = header.asyncness {
         v.insert(Qualifiers::Async);
     }
 
-    if let rustc_hir::Constness::Const = header.constness {
+    if let dustc_hir::Constness::Const = header.constness {
         v.insert(Qualifiers::Const);
     }
 
@@ -323,8 +323,8 @@ impl From<clean::GenericBound> for GenericBound {
     }
 }
 
-crate fn from_trait_bound_modifier(modifier: rustc_hir::TraitBoundModifier) -> TraitBoundModifier {
-    use rustc_hir::TraitBoundModifier::*;
+crate fn from_trait_bound_modifier(modifier: dustc_hir::TraitBoundModifier) -> TraitBoundModifier {
+    use dustc_hir::TraitBoundModifier::*;
     match modifier {
         None => TraitBoundModifier::None,
         Maybe => TraitBoundModifier::Maybe,
@@ -375,7 +375,7 @@ impl From<clean::BareFunctionDecl> for FunctionPointer {
     fn from(bare_decl: clean::BareFunctionDecl) -> Self {
         let clean::BareFunctionDecl { unsafety, generic_params, decl, abi } = bare_decl;
         FunctionPointer {
-            header: if let rustc_hir::Unsafety::Unsafe = unsafety {
+            header: if let dustc_hir::Unsafety::Unsafe = unsafety {
                 let mut hs = HashSet::new();
                 hs.insert(Qualifiers::Unsafe);
                 hs
@@ -412,7 +412,7 @@ impl From<clean::Trait> for Trait {
         let clean::Trait { unsafety, items, generics, bounds, is_auto } = trait_;
         Trait {
             is_auto,
-            is_unsafe: unsafety == rustc_hir::Unsafety::Unsafe,
+            is_unsafe: unsafety == dustc_hir::Unsafety::Unsafe,
             items: ids(items),
             generics: generics.into(),
             bounds: bounds.into_iter().map(Into::into).collect(),
@@ -435,7 +435,7 @@ impl From<clean::Impl> for Impl {
             blanket_impl,
         } = impl_;
         Impl {
-            is_unsafe: unsafety == rustc_hir::Unsafety::Unsafe,
+            is_unsafe: unsafety == dustc_hir::Unsafety::Unsafe,
             generics: generics.into(),
             provided_trait_methods: provided_trait_methods
                 .into_iter()
@@ -527,8 +527,8 @@ impl From<clean::ProcMacro> for ProcMacro {
     }
 }
 
-crate fn from_macro_kind(kind: rustc_span::hygiene::MacroKind) -> MacroKind {
-    use rustc_span::hygiene::MacroKind::*;
+crate fn from_macro_kind(kind: dustc_span::hygiene::MacroKind) -> MacroKind {
+    use dustc_span::hygiene::MacroKind::*;
     match kind {
         Bang => MacroKind::Bang,
         Attr => MacroKind::Attr,

@@ -78,4 +78,4 @@ LL |             llvm_asm!("nop" : : "r"(x), "r"(x) );
 error: aborting due to 7 previous errors
 
 Some errors have detailed explanations: E0381, E0382, E0384, E0503, E0506.
-For more information about an error, try `rustc --explain E0381`.
+For more information about an error, try `dustc --explain E0381`.

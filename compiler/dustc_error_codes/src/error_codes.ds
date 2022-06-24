@@ -5,7 +5,7 @@
 // /!\ IMPORTANT /!\
 //
 // Error messages' format must follow the RFC 1567 available here:
-// https://github.com/rust-lang/rfcs/pull/1567
+// https://github.com/dust-lang/rfcs/pull/1567
 
 register_diagnostics! {
 E0001: include_str!("./error_codes/E0001.md"),
@@ -605,10 +605,10 @@ E0781: include_str!("./error_codes/E0781.md"),
     // two dependencies have same (crate-name, disambiguator) but different SVH
     E0523,
 //  E0526, // shuffle indices are not constant
-//  E0540, // multiple rustc_deprecated attributes
+//  E0540, // multiple dustc_deprecated attributes
     E0544, // multiple stability levels
 //  E0548, // replaced with a generic attribute input check
-    E0553, // multiple rustc_const_unstable attributes
+    E0553, // multiple dustc_const_unstable attributes
 //  E0555, // replaced with a generic attribute input check
 //  E0558, // replaced with a generic attribute input check
 //  E0563, // cannot determine a type for this `impl Trait` removed in 6383de15
@@ -619,8 +619,8 @@ E0781: include_str!("./error_codes/E0781.md"),
 //  E0612, // merged into E0609
 //  E0613, // Removed (merged with E0609)
     E0625, // thread-local statics cannot be accessed at compile-time
-    E0629, // missing 'feature' (rustc_const_unstable)
-    // rustc_const_unstable attribute must be paired with stable/unstable
+    E0629, // missing 'feature' (dustc_const_unstable)
+    // dustc_const_unstable attribute must be paired with stable/unstable
     // attribute
     E0630,
     E0632, // cannot provide explicit generic arguments when `impl Trait` is
@@ -633,11 +633,11 @@ E0781: include_str!("./error_codes/E0781.md"),
 //  E0707, // multiple elided lifetimes used in arguments of `async fn`
 //  E0709, // multiple different lifetimes used in arguments of `async fn`
     E0711, // a feature has been declared with conflicting stability attributes
-    E0717, // rustc_promotable without stability attribute
+    E0717, // dustc_promotable without stability attribute
 //  E0721, // `await` keyword
     E0722, // Malformed `#[optimize]` attribute
     E0726, // non-explicit (not `'_`) elided lifetime in unsupported position
-//  E0738, // Removed; errored on `#[track_caller] fn`s in `extern "Rust" { ... }`.
+//  E0738, // Removed; errored on `#[track_caller] fn`s in `extern "Dust" { ... }`.
     E0757, // `#[ffi_const]` functions cannot be `#[ffi_pure]`
     E0772, // `'static' obligation coming from `impl dyn Trait {}` or `impl Foo for dyn Bar {}`.
 }

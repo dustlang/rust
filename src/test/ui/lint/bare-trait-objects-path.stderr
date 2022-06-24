@@ -26,4 +26,4 @@ LL |     Dyn::CONST;
 
 error: aborting due to previous error; 3 warnings emitted
 
-For more information about this error, try `rustc --explain E0223`.
+For more information about this error, try `dustc --explain E0223`.

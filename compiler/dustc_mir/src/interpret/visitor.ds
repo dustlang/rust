@@ -1,10 +1,10 @@
 //! Visitor for a run-time value with a given layout: Traverse enums, structs and other compound
 //! types until we arrive at the leaves, with custom handling for primitive types.
 
-use rustc_middle::mir::interpret::InterpResult;
-use rustc_middle::ty;
-use rustc_middle::ty::layout::TyAndLayout;
-use rustc_target::abi::{FieldsShape, VariantIdx, Variants};
+use dustc_middle::mir::interpret::InterpResult;
+use dustc_middle::ty;
+use dustc_middle::ty::layout::TyAndLayout;
+use dustc_target::abi::{FieldsShape, VariantIdx, Variants};
 
 use std::num::NonZeroUsize;
 

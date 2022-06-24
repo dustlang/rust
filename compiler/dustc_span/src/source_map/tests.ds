@@ -1,6 +1,6 @@
 use super::*;
 
-use rustc_data_structures::sync::Lrc;
+use dustc_data_structures::sync::Lrc;
 
 fn init_source_map() -> SourceMap {
     let sm = SourceMap::new(FilePathMapping::empty());

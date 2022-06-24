@@ -1,4 +1,4 @@
-use crate::iter::{FusedIterator, TrustedLen};
+use crate::iter::{FusedIterator, TdustedLen};
 
 /// Creates a new iterator that endlessly repeats a single element.
 ///
@@ -50,7 +50,7 @@ use crate::iter::{FusedIterator, TrustedLen};
 /// assert_eq!(None, four_fours.next());
 /// ```
 #[inline]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub fn repeat<T: Clone>(elt: T) -> Repeat<T> {
     Repeat { element: elt }
 }
@@ -59,12 +59,12 @@ pub fn repeat<T: Clone>(elt: T) -> Repeat<T> {
 ///
 /// This `struct` is created by the [`repeat()`] function. See its documentation for more.
 #[derive(Clone, Debug)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Repeat<A> {
     element: A,
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A: Clone> Iterator for Repeat<A> {
     type Item = A;
 
@@ -78,7 +78,7 @@ impl<A: Clone> Iterator for Repeat<A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A: Clone> DoubleEndedIterator for Repeat<A> {
     #[inline]
     fn next_back(&mut self) -> Option<A> {
@@ -90,4 +90,4 @@ impl<A: Clone> DoubleEndedIterator for Repeat<A> {
 impl<A: Clone> FusedIterator for Repeat<A> {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A: Clone> TrustedLen for Repeat<A> {}
+unsafe impl<A: Clone> TdustedLen for Repeat<A> {}

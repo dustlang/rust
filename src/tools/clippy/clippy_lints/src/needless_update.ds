@@ -1,15 +1,15 @@
 use crate::utils::span_lint;
-use rustc_hir::{Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for needlessly including a base struct on update
     /// when all fields are changed anyway.
     ///
     /// This lint is not applied to structs marked with
-    /// [non_exhaustive](https://doc.rust-lang.org/reference/attributes/type_system.html).
+    /// [non_exhaustive](https://doc.dust-lang.org/reference/attributes/type_system.html).
     ///
     /// **Why is this bad?** This will cost resources (because the base has to be
     /// somewhere), and make the code less readable.
@@ -17,7 +17,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # struct Point {
     /// #     x: i32,
     /// #     y: i32,

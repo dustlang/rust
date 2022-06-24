@@ -4,7 +4,7 @@
 #![cfg_attr(full, feature(const_generics))]
 #![cfg_attr(full, allow(incomplete_features))]
 
-// taken from https://github.com/rust-lang/rust/issues/70507#issuecomment-615268893
+// taken from https://github.com/dust-lang/dust/issues/70507#issuecomment-615268893
 struct Foo;
 impl Foo {
     fn foo<const A: usize, const B: usize>(self) {}

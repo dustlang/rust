@@ -1,11 +1,11 @@
 use crate::utils::{higher, span_lint};
-use rustc_hir as hir;
-use rustc_hir::intravisit;
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::hir::map::Map;
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir as hir;
+use dustc_hir::intravisit;
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::hir::map::Map;
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for instances of `mut mut` references.
@@ -17,7 +17,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let mut y = 1;
     /// let x = &mut &mut y;
     /// ```
@@ -34,7 +34,7 @@ impl<'tcx> LateLintPass<'tcx> for MutMut {
     }
 
     fn check_ty(&mut self, cx: &LateContext<'tcx>, ty: &'tcx hir::Ty<'_>) {
-        use rustc_hir::intravisit::Visitor;
+        use dustc_hir::intravisit::Visitor;
 
         MutVisitor { cx }.visit_ty(ty);
     }
@@ -54,7 +54,7 @@ impl<'a, 'tcx> intravisit::Visitor<'tcx> for MutVisitor<'a, 'tcx> {
 
         if let Some((_, arg, body, _)) = higher::for_loop(expr) {
             // A `for` loop lowers to:
-            // ```rust
+            // ```dust
             // match ::std::iter::Iterator::next(&mut iter) {
             // //                                ^^^^
             // ```

@@ -3,10 +3,10 @@ use crate::utils::{
     get_parent_expr, is_type_diagnostic_item, match_type, paths, snippet_with_applicability, span_lint_and_sugg,
 };
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_lint::LateContext;
-use rustc_span::sym;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_lint::LateContext;
+use dustc_span::sym;
 
 use super::GET_UNWRAP;
 

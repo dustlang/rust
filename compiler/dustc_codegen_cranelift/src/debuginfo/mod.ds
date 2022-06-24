@@ -6,7 +6,7 @@ mod unwind;
 
 use crate::prelude::*;
 
-use rustc_index::vec::IndexVec;
+use dustc_index::vec::IndexVec;
 
 use cranelift_codegen::entity::EntityRef;
 use cranelift_codegen::ir::{LabelValueLoc, StackSlots, ValueLabel, ValueLoc};
@@ -23,7 +23,7 @@ pub(crate) use emit::{DebugReloc, DebugRelocName};
 pub(crate) use unwind::UnwindContext;
 
 fn target_endian(tcx: TyCtxt<'_>) -> RunTimeEndian {
-    use rustc_target::abi::Endian;
+    use dustc_target::abi::Endian;
 
     match tcx.data_layout.endian {
         Endian::Big => RunTimeEndian::Big,
@@ -63,7 +63,7 @@ impl<'tcx> DebugContext<'tcx> {
 
         // FIXME: how to get version when building out of tree?
         // Normally this would use option_env!("CFG_VERSION").
-        let producer = format!("cg_clif (rustc {})", "unknown version");
+        let producer = format!("cg_clif (dustc {})", "unknown version");
         let comp_dir = tcx.sess.working_dir.0.to_string_lossy().into_owned();
         let (name, file_info) = match tcx.sess.local_crate_source_file.clone() {
             Some(path) => {
@@ -91,7 +91,7 @@ impl<'tcx> DebugContext<'tcx> {
             let root = dwarf.unit.root();
             let root = dwarf.unit.get_mut(root);
             root.set(gimli::DW_AT_producer, AttributeValue::StringRef(dwarf.strings.add(producer)));
-            root.set(gimli::DW_AT_language, AttributeValue::Language(gimli::DW_LANG_Rust));
+            root.set(gimli::DW_AT_language, AttributeValue::Language(gimli::DW_LANG_Dust));
             root.set(gimli::DW_AT_name, AttributeValue::StringRef(name));
             root.set(gimli::DW_AT_comp_dir, AttributeValue::StringRef(comp_dir));
             root.set(gimli::DW_AT_low_pc, AttributeValue::Address(Address::Constant(0)));
@@ -143,7 +143,7 @@ impl<'tcx> DebugContext<'tcx> {
 
                 let type_entry = self.dwarf.unit.get_mut(type_id);
 
-                //type_entry.set(gimli::DW_AT_mutable, AttributeValue::Flag(mutbl == rustc_hir::Mutability::Mut));
+                //type_entry.set(gimli::DW_AT_mutable, AttributeValue::Flag(mutbl == dustc_hir::Mutability::Mut));
                 type_entry.set(gimli::DW_AT_type, AttributeValue::UnitRef(pointee));
 
                 type_id
@@ -284,7 +284,7 @@ fn place_location<'tcx>(
     symbol: usize,
     context: &Context,
     local_map: &IndexVec<mir::Local, CPlace<'tcx>>,
-    #[allow(rustc::default_hash_types)] value_labels_ranges: &std::collections::HashMap<
+    #[allow(dustc::default_hash_types)] value_labels_ranges: &std::collections::HashMap<
         ValueLabel,
         Vec<ValueLocRange>,
     >,

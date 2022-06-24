@@ -1,4 +1,4 @@
-# rustc_tools_util
+# dustc_tools_util
 
 A small tool to help you generate version information
 for packages installed from a git repo
@@ -10,40 +10,40 @@ Add a `build.rs` file to your repo and list it in `Cargo.toml`
 build = "build.rs"
 ````
 
-List rustc_tools_util as regular AND build dependency.
+List dustc_tools_util as regular AND build dependency.
 ````
 [dependencies]
-rustc_tools_util = "0.1"
+dustc_tools_util = "0.1"
 
 [build-dependencies]
-rustc_tools_util = "0.1"
+dustc_tools_util = "0.1"
 ````
 
 In `build.rs`, generate the data in your `main()`
-````rust
+````dust
 fn main() {
     println!(
-        "cargo:rustc-env=GIT_HASH={}",
-        rustc_tools_util::get_commit_hash().unwrap_or_default()
+        "cargo:dustc-env=GIT_HASH={}",
+        dustc_tools_util::get_commit_hash().unwrap_or_default()
     );
     println!(
-        "cargo:rustc-env=COMMIT_DATE={}",
-        rustc_tools_util::get_commit_date().unwrap_or_default()
+        "cargo:dustc-env=COMMIT_DATE={}",
+        dustc_tools_util::get_commit_date().unwrap_or_default()
     );
     println!(
-        "cargo:rustc-env=RUSTC_RELEASE_CHANNEL={}",
-        rustc_tools_util::get_channel().unwrap_or_default()
+        "cargo:dustc-env=DUSTC_RELEASE_CHANNEL={}",
+        dustc_tools_util::get_channel().unwrap_or_default()
     );
 }
 
 ````
 
 Use the version information in your main.rs
-````rust
-use rustc_tools_util::*;
+````dust
+use dustc_tools_util::*;
 
 fn show_version() {
-    let version_info = rustc_tools_util::get_version_info!();
+    let version_info = dustc_tools_util::get_version_info!();
     println!("{}", version_info);
 }
 ````

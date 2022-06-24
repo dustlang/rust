@@ -17,4 +17,4 @@ LL |     let f: &mut dyn FnMut<(_,), Output = ()> = &mut |_: &<() as Lt<'_>>::T|
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

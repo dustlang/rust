@@ -15,6 +15,6 @@ fn main() {
                      false } => { },
         &mut true => { println!("You might think we should get here"); },
         //~^ ERROR use of moved value: `b` [E0382]
-        _ => panic!("surely we could never get here, since rustc warns it is unreachable."),
+        _ => panic!("surely we could never get here, since dustc warns it is unreachable."),
     }
 }

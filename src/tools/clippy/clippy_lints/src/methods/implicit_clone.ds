@@ -1,11 +1,11 @@
 use crate::utils::span_lint_and_sugg;
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::ExprKind;
-use rustc_lint::LateContext;
-use rustc_middle::ty::TyS;
-use rustc_span::symbol::Symbol;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::ExprKind;
+use dustc_lint::LateContext;
+use dustc_middle::ty::TyS;
+use dustc_span::symbol::Symbol;
 
 use super::IMPLICIT_CLONE;
 use clippy_utils::is_diagnostic_assoc_item;

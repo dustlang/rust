@@ -63,7 +63,7 @@ fn lang_start<T: crate::process::Termination + 'static>(
     argv: *const *const u8,
 ) -> isize {
     lang_start_internal(
-        &move || crate::sys_common::backtrace::__rust_begin_short_backtrace(main).report(),
+        &move || crate::sys_common::backtrace::__dust_begin_short_backtrace(main).report(),
         argc,
         argv,
     )

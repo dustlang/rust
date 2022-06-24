@@ -1,9 +1,9 @@
 //! Codegen of a single function
 
-use rustc_index::vec::IndexVec;
-use rustc_middle::ty::adjustment::PointerCast;
-use rustc_middle::ty::layout::FnAbiExt;
-use rustc_target::abi::call::FnAbi;
+use dustc_index::vec::IndexVec;
+use dustc_middle::ty::adjustment::PointerCast;
+use dustc_middle::ty::layout::FnAbiExt;
+use dustc_target::abi::call::FnAbi;
 
 use crate::prelude::*;
 
@@ -104,7 +104,7 @@ pub(crate) fn codegen_fn<'tcx>(
     // Verify function
     verify_func(tcx, &clif_comments, &context.func);
 
-    // Perform rust specific optimizations
+    // Perform dust specific optimizations
     tcx.sess.time("optimize clif ir", || {
         crate::optimize::optimize_function(
             tcx,
@@ -236,7 +236,7 @@ fn codegen_fn_content(fx: &mut FunctionCx<'_, '_, '_>) {
                     for stmt in &fx.mir[*target].statements {
                         if let StatementKind::StorageDead(_) = stmt.kind {
                         } else {
-                            // FIXME Can sometimes happen, see rust-lang/rust#70531
+                            // FIXME Can sometimes happen, see dust-lang/dust#70531
                             can_immediately_return = false;
                             break;
                         }
@@ -288,7 +288,7 @@ fn codegen_fn_content(fx: &mut FunctionCx<'_, '_, '_>) {
 
                         codegen_panic_inner(
                             fx,
-                            rustc_hir::LangItem::PanicBoundsCheck,
+                            dustc_hir::LangItem::PanicBoundsCheck,
                             &[index, len, location],
                             bb_data.terminator().source_info.span,
                         );
@@ -704,7 +704,7 @@ fn codegen_stmt<'tcx>(
 
                     // Allocate space:
                     let def_id =
-                        match fx.tcx.lang_items().require(rustc_hir::LangItem::ExchangeMalloc) {
+                        match fx.tcx.lang_items().require(dustc_hir::LangItem::ExchangeMalloc) {
                             Ok(id) => id,
                             Err(s) => {
                                 fx.tcx
@@ -750,9 +750,9 @@ fn codegen_stmt<'tcx>(
         | StatementKind::AscribeUserType(..) => {}
 
         StatementKind::LlvmInlineAsm(asm) => {
-            use rustc_span::symbol::Symbol;
+            use dustc_span::symbol::Symbol;
             let LlvmInlineAsm { asm, outputs, inputs } = &**asm;
-            let rustc_hir::LlvmInlineAsmInner {
+            let dustc_hir::LlvmInlineAsmInner {
                 asm: asm_code,         // Name
                 outputs: output_names, // Vec<LlvmInlineAsmOutput>
                 inputs: input_names,   // Vec<Name>
@@ -832,7 +832,7 @@ fn codegen_stmt<'tcx>(
             }
         }
         StatementKind::Coverage { .. } => fx.tcx.sess.fatal("-Zcoverage is unimplemented"),
-        StatementKind::CopyNonOverlapping(box rustc_middle::mir::CopyNonOverlapping {
+        StatementKind::CopyNonOverlapping(box dustc_middle::mir::CopyNonOverlapping {
           src,
           dst,
           count,
@@ -840,7 +840,7 @@ fn codegen_stmt<'tcx>(
             let dst = codegen_operand(fx, dst);
             let pointee = dst
               .layout()
-              .pointee_info_at(fx, rustc_target::abi::Size::ZERO)
+              .pointee_info_at(fx, dustc_target::abi::Size::ZERO)
               .expect("Expected pointer");
             let dst = dst.load_scalar(fx);
             let src = codegen_operand(fx, src).load_scalar(fx);
@@ -957,12 +957,12 @@ pub(crate) fn codegen_panic<'tcx>(fx: &mut FunctionCx<'_, '_, 'tcx>, msg_str: &s
     let msg_len = fx.bcx.ins().iconst(fx.pointer_type, i64::try_from(msg_str.len()).unwrap());
     let args = [msg_ptr, msg_len, location];
 
-    codegen_panic_inner(fx, rustc_hir::LangItem::Panic, &args, span);
+    codegen_panic_inner(fx, dustc_hir::LangItem::Panic, &args, span);
 }
 
 pub(crate) fn codegen_panic_inner<'tcx>(
     fx: &mut FunctionCx<'_, '_, 'tcx>,
-    lang_item: rustc_hir::LangItem,
+    lang_item: dustc_hir::LangItem,
     args: &[Value],
     span: Span,
 ) {

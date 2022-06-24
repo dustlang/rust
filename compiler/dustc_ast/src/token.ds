@@ -8,12 +8,12 @@ use crate::ast;
 use crate::ptr::P;
 use crate::tokenstream::TokenTree;
 
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::sync::Lrc;
-use rustc_macros::HashStable_Generic;
-use rustc_span::symbol::{kw, sym};
-use rustc_span::symbol::{Ident, Symbol};
-use rustc_span::{self, edition::Edition, Span, DUMMY_SP};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::sync::Lrc;
+use dustc_macros::HashStable_Generic;
+use dustc_span::symbol::{kw, sym};
+use dustc_span::symbol::{Ident, Symbol};
+use dustc_span::{self, edition::Edition, Span, DUMMY_SP};
 use std::borrow::Cow;
 use std::{fmt, mem};
 
@@ -243,7 +243,7 @@ pub enum TokenKind {
 
 // `TokenKind` is used a lot. Make sure it doesn't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
-rustc_data_structures::static_assert_size!(TokenKind, 16);
+dustc_data_structures::static_assert_size!(TokenKind, 16);
 
 #[derive(Clone, PartialEq, Encodable, Decodable, Debug, HashStable_Generic)]
 pub struct Token {
@@ -256,7 +256,7 @@ impl TokenKind {
         Literal(Lit::new(kind, symbol, suffix))
     }
 
-    // An approximation to proc-macro-style single-character operators used by rustc parser.
+    // An approximation to proc-macro-style single-character operators used by dustc parser.
     // If the operator token can be broken into two tokens, the first of which is single-character,
     // then this function performs that operation, otherwise it returns `None`.
     pub fn break_two_token_op(&self) -> Option<(TokenKind, TokenKind)> {
@@ -681,7 +681,7 @@ pub enum Nonterminal {
 
 // `Nonterminal` is used a lot. Make sure it doesn't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
-rustc_data_structures::static_assert_size!(Nonterminal, 48);
+dustc_data_structures::static_assert_size!(Nonterminal, 48);
 
 #[derive(Debug, Copy, Clone, PartialEq, Encodable, Decodable)]
 pub enum NonterminalKind {

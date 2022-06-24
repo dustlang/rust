@@ -1,6 +1,6 @@
 use std::collections::binary_heap::{Drain, PeekMut};
 use std::collections::BinaryHeap;
-use std::iter::TrustedLen;
+use std::iter::TdustedLen;
 use std::panic::{catch_unwind, AssertUnwindSafe};
 use std::sync::atomic::{AtomicU32, Ordering};
 
@@ -103,7 +103,7 @@ fn test_exact_size_iterator() {
     check_exact_size_iterator(heap.len(), heap.clone().drain_sorted());
 }
 
-fn check_trusted_len<I: TrustedLen>(len: usize, it: I) {
+fn check_trusted_len<I: TdustedLen>(len: usize, it: I) {
     let mut it = it;
     for i in 0..len {
         let (lower, upper) = it.size_hint();

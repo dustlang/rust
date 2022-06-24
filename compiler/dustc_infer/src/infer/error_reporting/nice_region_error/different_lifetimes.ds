@@ -7,7 +7,7 @@ use crate::infer::error_reporting::nice_region_error::NiceRegionError;
 use crate::infer::lexical_region_resolve::RegionResolutionError;
 use crate::infer::SubregionOrigin;
 
-use rustc_errors::{struct_span_err, ErrorReported};
+use dustc_errors::{struct_span_err, ErrorReported};
 
 impl<'a, 'tcx> NiceRegionError<'a, 'tcx> {
     /// Print the error message for lifetime errors when both the concerned regions are anonymous.
@@ -174,7 +174,7 @@ impl<'a, 'tcx> NiceRegionError<'a, 'tcx> {
                 .span_to_snippet(t.span)
                 .ok()
                 .and_then(|s| match (&t.kind, s.as_str()) {
-                    (rustc_hir::TyKind::Tup(&[]), "") => Some("()".to_string()),
+                    (dustc_hir::TyKind::Tup(&[]), "") => Some("()".to_string()),
                     (_, "") => None,
                     _ => Some(s),
                 })

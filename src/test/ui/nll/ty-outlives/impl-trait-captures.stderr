@@ -11,4 +11,4 @@ LL | fn foo<'a, T>(x: &ReEarlyBound(0, 'a) T) -> impl Foo<'a> {
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0621`.
+For more information about this error, try `dustc --explain E0621`.

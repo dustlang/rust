@@ -1,6 +1,6 @@
-# The Rustc Book
+# The Dustc Book
 
-- [What is rustc?](what-is-rustc.md)
+- [What is dustc?](what-is-dustc.md)
 - [Command-line arguments](command-line-arguments.md)
 - [Lints](lints/index.md)
     - [Lint levels](lints/levels.md)
@@ -20,4 +20,4 @@
 - [Profile-guided Optimization](profile-guided-optimization.md)
 - [Linker-plugin based LTO](linker-plugin-lto.md)
 - [Exploit Mitigations](exploit-mitigations.md)
-- [Contributing to `rustc`](contributing.md)
+- [Contributing to `dustc`](contributing.md)

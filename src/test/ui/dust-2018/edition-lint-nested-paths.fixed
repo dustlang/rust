@@ -1,6 +1,6 @@
-// run-rustfix
+// run-dustfix
 
-#![feature(rust_2018_preview, crate_visibility_modifier)]
+#![feature(dust_2018_preview, crate_visibility_modifier)]
 #![deny(absolute_paths_not_starting_with_crate)]
 
 use crate::foo::{a, b};

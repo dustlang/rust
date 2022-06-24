@@ -5,6 +5,6 @@
 To install, run the following commands:
 
 ```
-$ cd rust/src/tools/x/
+$ cd dust/src/tools/x/
 $ cargo install --path .
 ```

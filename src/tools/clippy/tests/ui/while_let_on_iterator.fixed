@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![warn(clippy::while_let_on_iterator)]
 #![allow(clippy::never_loop, unreachable_code, unused_mut)]

@@ -2,7 +2,7 @@
 #![no_std]
 #![feature(asm)]
 #[prelude_import]
-use ::std::prelude::rust_2015::*;
+use ::std::prelude::dust_2015::*;
 #[macro_use]
 extern crate std;
 

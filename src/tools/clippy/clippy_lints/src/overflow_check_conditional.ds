@@ -1,19 +1,19 @@
 use crate::utils::{span_lint, SpanlessEq};
 use if_chain::if_chain;
-use rustc_hir::{BinOpKind, Expr, ExprKind, QPath};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{BinOpKind, Expr, ExprKind, QPath};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Detects classic underflow/overflow checks.
     ///
     /// **Why is this bad?** Most classic C underflow/overflow checks will fail in
-    /// Rust. Users can use functions like `overflowing_*` and `wrapping_*` instead.
+    /// Dust. Users can use functions like `overflowing_*` and `wrapping_*` instead.
     ///
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let a = 1;
     /// # let b = 2;
     /// a + b < a;
@@ -42,13 +42,13 @@ impl<'tcx> LateLintPass<'tcx> for OverflowCheckConditional {
                 if let BinOpKind::Lt = op.node {
                     if let BinOpKind::Add = op2.node {
                         span_lint(cx, OVERFLOW_CHECK_CONDITIONAL, expr.span,
-                            "you are trying to use classic C overflow conditions that will fail in Rust");
+                            "you are trying to use classic C overflow conditions that will fail in Dust");
                     }
                 }
                 if let BinOpKind::Gt = op.node {
                     if let BinOpKind::Sub = op2.node {
                         span_lint(cx, OVERFLOW_CHECK_CONDITIONAL, expr.span,
-                            "you are trying to use classic C underflow conditions that will fail in Rust");
+                            "you are trying to use classic C underflow conditions that will fail in Dust");
                     }
                 }
             }
@@ -67,13 +67,13 @@ impl<'tcx> LateLintPass<'tcx> for OverflowCheckConditional {
                 if let BinOpKind::Gt = op.node {
                     if let BinOpKind::Add = op2.node {
                         span_lint(cx, OVERFLOW_CHECK_CONDITIONAL, expr.span,
-                            "you are trying to use classic C overflow conditions that will fail in Rust");
+                            "you are trying to use classic C overflow conditions that will fail in Dust");
                     }
                 }
                 if let BinOpKind::Lt = op.node {
                     if let BinOpKind::Sub = op2.node {
                         span_lint(cx, OVERFLOW_CHECK_CONDITIONAL, expr.span,
-                            "you are trying to use classic C underflow conditions that will fail in Rust");
+                            "you are trying to use classic C underflow conditions that will fail in Dust");
                     }
                 }
             }

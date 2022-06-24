@@ -31,4 +31,4 @@ LL | fn lint_files() -> impl Iterator<Item = foo::MissingItem> {
 error: aborting due to 3 previous errors
 
 Some errors have detailed explanations: E0433, E0720.
-For more information about an error, try `rustc --explain E0433`.
+For more information about an error, try `dustc --explain E0433`.

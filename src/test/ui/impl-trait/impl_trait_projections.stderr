@@ -30,4 +30,4 @@ LL | fn projection_is_disallowed(x: impl Iterator) -> <impl Iterator>::Item {
 
 error: aborting due to 5 previous errors
 
-For more information about this error, try `rustc --explain E0223`.
+For more information about this error, try `dustc --explain E0223`.

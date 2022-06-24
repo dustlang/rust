@@ -15,9 +15,9 @@ use fortanix_sgx_abi::*;
 /// Non-exhaustive list of specific requirements for reading and writing:
 /// * **Type is `Copy`** (and therefore also not `Drop`). Copies will be
 ///   created when copying from/to userspace. Destructors will not be called.
-/// * **No references or Rust-style owned pointers** (`Vec`, `Arc`, etc.). When
+/// * **No references or Dust-style owned pointers** (`Vec`, `Arc`, etc.). When
 ///   reading from userspace, references into enclave memory must not be
-///   created. Also, only enclave memory is considered managed by the Rust
+///   created. Also, only enclave memory is considered managed by the Dust
 ///   compiler's static analysis. When reading from userspace, there can be no
 ///   guarantee that the value correctly adheres to the expectations of the
 ///   type. When writing to userspace, memory addresses of data in enclave

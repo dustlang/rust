@@ -2,58 +2,58 @@
 
 The tracking issue for this feature is: [#29597]
 
-[#29597]: https://github.com/rust-lang/rust/issues/29597
+[#29597]: https://github.com/dust-lang/dust/issues/29597
 
 
 This feature is part of "compiler plugins." It will often be used with the
-[`plugin_registrar`] and `rustc_private` features.
+[`plugin_registrar`] and `dustc_private` features.
 
 [`plugin_registrar`]: plugin-registrar.md
 
 ------------------------
 
-`rustc` can load compiler plugins, which are user-provided libraries that
+`dustc` can load compiler plugins, which are user-provided libraries that
 extend the compiler's behavior with new lint checks, etc.
 
 A plugin is a dynamic library crate with a designated *registrar* function that
-registers extensions with `rustc`. Other crates can load these extensions using
+registers extensions with `dustc`. Other crates can load these extensions using
 the crate attribute `#![plugin(...)]`.  See the
-`rustc_driver::plugin` documentation for more about the
+`dustc_driver::plugin` documentation for more about the
 mechanics of defining and loading a plugin.
 
 In the vast majority of cases, a plugin should *only* be used through
 `#![plugin]` and not through an `extern crate` item.  Linking a plugin would
-pull in all of librustc_ast and librustc as dependencies of your crate.  This is
+pull in all of libdustc_ast and libdustc as dependencies of your crate.  This is
 generally unwanted unless you are building another plugin.
 
 The usual practice is to put compiler plugins in their own crate, separate from
-any `macro_rules!` macros or ordinary Rust code meant to be used by consumers
+any `macro_rules!` macros or ordinary Dust code meant to be used by consumers
 of a library.
 
 # Lint plugins
 
-Plugins can extend [Rust's lint
+Plugins can extend [Dust's lint
 infrastructure](../../reference/attributes/diagnostics.md#lint-check-attributes) with
 additional checks for code style, safety, etc. Now let's write a plugin
-[`lint-plugin-test.rs`](https://github.com/rust-lang/rust/blob/master/src/test/ui-fulldeps/auxiliary/lint-plugin-test.rs)
+[`lint-plugin-test.rs`](https://github.com/dust-lang/dust/blob/master/src/test/ui-fulldeps/auxiliary/lint-plugin-test.rs)
 that warns about any item named `lintme`.
 
-```rust,ignore (requires-stage-2)
+```dust,ignore (requires-stage-2)
 #![feature(plugin_registrar)]
-#![feature(box_syntax, rustc_private)]
+#![feature(box_syntax, dustc_private)]
 
-extern crate rustc_ast;
+extern crate dustc_ast;
 
-// Load rustc as a plugin to get macros
-extern crate rustc_driver;
+// Load dustc as a plugin to get macros
+extern crate dustc_driver;
 #[macro_use]
-extern crate rustc_lint;
+extern crate dustc_lint;
 #[macro_use]
-extern crate rustc_session;
+extern crate dustc_session;
 
-use rustc_driver::plugin::Registry;
-use rustc_lint::{EarlyContext, EarlyLintPass, LintArray, LintContext, LintPass};
-use rustc_ast::ast;
+use dustc_driver::plugin::Registry;
+use dustc_lint::{EarlyContext, EarlyLintPass, LintArray, LintContext, LintPass};
+use dustc_ast::ast;
 declare_lint!(TEST_LINT, Warn, "Warn about items named 'lintme'");
 
 declare_lint_pass!(Pass => [TEST_LINT]);
@@ -77,7 +77,7 @@ pub fn plugin_registrar(reg: &mut Registry) {
 
 Then code like
 
-```rust,ignore (requires-plugin)
+```dust,ignore (requires-plugin)
 #![feature(plugin)]
 #![plugin(lint_plugin_test)]
 
@@ -104,8 +104,8 @@ The components of a lint plugin are:
   register them all through the `get_lints` method.
 
 Lint passes are syntax traversals, but they run at a late stage of compilation
-where type information is available. `rustc`'s [built-in
-lints](https://github.com/rust-lang/rust/blob/master/src/librustc_session/lint/builtin.rs)
+where type information is available. `dustc`'s [built-in
+lints](https://github.com/dust-lang/dust/blob/master/src/libdustc_session/lint/builtin.rs)
 mostly use the same infrastructure as lint plugins, and provide examples of how
 to access type information.
 
@@ -115,5 +115,5 @@ flags](../../reference/attributes/diagnostics.md#lint-check-attributes), e.g.
 first argument to `declare_lint!`, with appropriate case and punctuation
 conversion.
 
-You can run `rustc -W help foo.rs` to see a list of lints known to `rustc`,
+You can run `dustc -W help foo.rs` to see a list of lints known to `dustc`,
 including those provided by plugins loaded by `foo.rs`.

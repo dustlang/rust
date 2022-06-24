@@ -2,7 +2,7 @@ use super::write::CodegenContext;
 use crate::traits::*;
 use crate::ModuleCodegen;
 
-use rustc_errors::FatalError;
+use dustc_errors::FatalError;
 
 use std::ffi::CString;
 use std::sync::Arc;

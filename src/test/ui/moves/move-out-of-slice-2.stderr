@@ -5,7 +5,7 @@ LL | #![feature(unsized_locals)]
    |            ^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #48055 <https://github.com/rust-lang/rust/issues/48055> for more information
+   = note: see issue #48055 <https://github.com/dust-lang/dust/issues/48055> for more information
 
 error[E0508]: cannot move out of type `[A]`, a non-copy slice
   --> $DIR/move-out-of-slice-2.rs:10:11
@@ -57,4 +57,4 @@ LL |         [_, _, d @ .., _] => {}
 
 error: aborting due to 4 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0508`.
+For more information about this error, try `dustc --explain E0508`.

@@ -4,7 +4,7 @@
 // revisions: rpass1 rpass2
 // compile-flags: -Z query-dep-graph
 
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 fn test<T>() { }
 
@@ -26,16 +26,16 @@ mod mod3 {
     #[cfg(rpass2)]
     use Trait2;
 
-    #[rustc_clean(label="hir_owner", cfg="rpass2")]
-    #[rustc_clean(label="hir_owner_nodes", cfg="rpass2")]
-    #[rustc_dirty(label="typeck", cfg="rpass2")]
+    #[dustc_clean(label="hir_owner", cfg="rpass2")]
+    #[dustc_clean(label="hir_owner_nodes", cfg="rpass2")]
+    #[dustc_dirty(label="typeck", cfg="rpass2")]
     fn bar() {
         ().method();
     }
 
-    #[rustc_clean(label="hir_owner", cfg="rpass2")]
-    #[rustc_clean(label="hir_owner_nodes", cfg="rpass2")]
-    #[rustc_clean(label="typeck", cfg="rpass2")]
+    #[dustc_clean(label="hir_owner", cfg="rpass2")]
+    #[dustc_clean(label="hir_owner_nodes", cfg="rpass2")]
+    #[dustc_clean(label="typeck", cfg="rpass2")]
     fn baz() {
         22; // no method call, traits in scope don't matter
     }

@@ -2,7 +2,7 @@
 
 The tracking issue for this feature is: [#63065]
 
-[#63065]: https://github.com/rust-lang/rust/issues/63065
+[#63065]: https://github.com/dust-lang/dust/issues/63065
 
 ------------------------
 
@@ -11,7 +11,7 @@ The `impl_trait_in_bindings` feature gate lets you use `impl Trait` syntax in
 
 A simple example is:
 
-```rust
+```dust
 #![feature(impl_trait_in_bindings)]
 
 use std::fmt::Debug;

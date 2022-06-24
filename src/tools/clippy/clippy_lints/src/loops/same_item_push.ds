@@ -1,12 +1,12 @@
 use super::SAME_ITEM_PUSH;
 use crate::utils::{implements_trait, is_type_diagnostic_item, snippet_with_macro_callsite, span_lint_and_help};
 use if_chain::if_chain;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
-use rustc_hir::{BindingAnnotation, Block, Expr, ExprKind, Node, Pat, PatKind, Stmt, StmtKind};
-use rustc_lint::LateContext;
-use rustc_middle::hir::map::Map;
-use rustc_span::symbol::sym;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
+use dustc_hir::{BindingAnnotation, Block, Expr, ExprKind, Node, Pat, PatKind, Stmt, StmtKind};
+use dustc_lint::LateContext;
+use dustc_middle::hir::map::Map;
+use dustc_span::symbol::sym;
 use std::iter::Iterator;
 
 /// Detects for loop pushing the same item into a Vec

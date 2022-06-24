@@ -24,4 +24,4 @@ LL | impl Copy for Foo { }
 error: aborting due to 3 previous errors
 
 Some errors have detailed explanations: E0117, E0206.
-For more information about an error, try `rustc --explain E0117`.
+For more information about an error, try `dustc --explain E0117`.

@@ -1,5 +1,5 @@
 // check-pass
-// run-rustfix
+// run-dustfix
 
 #![allow(incomplete_features)]
 #![warn(unused_braces)]

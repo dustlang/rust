@@ -1,16 +1,16 @@
 #![crate_name = "test"]
 #![feature(box_syntax)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 #![feature(associated_type_defaults)]
 #![feature(external_doc)]
 
-extern crate rustc_graphviz;
-// A simple rust project
+extern crate dustc_graphviz;
+// A simple dust project
 
 extern crate krate2;
 extern crate krate2 as krate3;
 
-use rustc_graphviz::RenderOption;
+use dustc_graphviz::RenderOption;
 use std::cell::RefCell;
 use std::collections::{HashMap, HashSet};
 use std::io::Write;
@@ -26,7 +26,7 @@ use std::char::from_u32;
 static uni: &'static str = "Les Miséééééééérables";
 static yy: usize = 25;
 
-static bob: Option<rustc_graphviz::RenderOption> = None;
+static bob: Option<dustc_graphviz::RenderOption> = None;
 
 // buglink test - see issue #1337.
 
@@ -424,7 +424,7 @@ impl Error + 'static + Send {
         <Error + 'static>::is::<T>(self)
     }
 }
-extern crate rustc_serialize;
+extern crate dustc_serialize;
 #[derive(Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Debug, Default)]
 struct AllDerives(i32);
 

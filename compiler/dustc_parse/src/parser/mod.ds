@@ -17,21 +17,21 @@ use diagnostics::Error;
 pub use pat::{GateOr, RecoverComma};
 pub use path::PathStyle;
 
-use rustc_ast::ptr::P;
-use rustc_ast::token::{self, DelimToken, Token, TokenKind};
-use rustc_ast::tokenstream::{self, DelimSpan, Spacing};
-use rustc_ast::tokenstream::{TokenStream, TokenTree, TreeAndSpacing};
-use rustc_ast::DUMMY_NODE_ID;
-use rustc_ast::{self as ast, AnonConst, AstLike, AttrStyle, AttrVec, Const, CrateSugar, Extern};
-use rustc_ast::{Async, Expr, ExprKind, MacArgs, MacDelimiter, Mutability, StrLit, Unsafe};
-use rustc_ast::{Visibility, VisibilityKind};
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::PResult;
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder, FatalError};
-use rustc_session::parse::ParseSess;
-use rustc_span::source_map::{Span, DUMMY_SP};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_ast::ptr::P;
+use dustc_ast::token::{self, DelimToken, Token, TokenKind};
+use dustc_ast::tokenstream::{self, DelimSpan, Spacing};
+use dustc_ast::tokenstream::{TokenStream, TokenTree, TreeAndSpacing};
+use dustc_ast::DUMMY_NODE_ID;
+use dustc_ast::{self as ast, AnonConst, AstLike, AttrStyle, AttrVec, Const, CrateSugar, Extern};
+use dustc_ast::{Async, Expr, ExprKind, MacArgs, MacDelimiter, Mutability, StrLit, Unsafe};
+use dustc_ast::{Visibility, VisibilityKind};
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::PResult;
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder, FatalError};
+use dustc_session::parse::ParseSess;
+use dustc_span::source_map::{Span, DUMMY_SP};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
 use tracing::debug;
 
 use std::{cmp, mem, slice};
@@ -132,7 +132,7 @@ pub struct Parser<'a> {
     /// Span pointing at the `:` for the last type ascription the parser has seen, and whether it
     /// looked like it could have been a mistyped path or literal `Option:Some(42)`).
     pub last_type_ascription: Option<(Span, bool /* likely path typo */)>,
-    /// If present, this `Parser` is not parsing Rust code but rather a macro call.
+    /// If present, this `Parser` is not parsing Dust code but rather a macro call.
     subparser_name: Option<&'static str>,
 }
 
@@ -298,7 +298,7 @@ enum TokenType {
 impl TokenType {
     fn to_string(&self) -> String {
         match *self {
-            TokenType::Token(ref t) => format!("`{}`", pprust::token_kind_to_string(t)),
+            TokenType::Token(ref t) => format!("`{}`", ppdust::token_kind_to_string(t)),
             TokenType::Keyword(kw) => format!("`{}`", kw),
             TokenType::Operator => "an operator".to_string(),
             TokenType::Lifetime => "lifetime".to_string(),
@@ -350,7 +350,7 @@ fn token_descr_opt(token: &Token) -> Option<&'static str> {
 }
 
 pub(super) fn token_descr(token: &Token) -> String {
-    let token_str = pprust::token_to_string(token);
+    let token_str = ppdust::token_to_string(token);
     match token_descr_opt(token) {
         Some(prefix) => format!("{} `{}`", prefix, token_str),
         _ => format!("`{}`", token_str),
@@ -455,7 +455,7 @@ impl<'a> Parser<'a> {
         }
     }
 
-    // Public for rustfmt usage.
+    // Public for dustfmt usage.
     pub fn parse_ident(&mut self) -> PResult<'a, Ident> {
         self.parse_ident_common(true)
     }
@@ -513,7 +513,7 @@ impl<'a> Parser<'a> {
 
     /// If the next token is the given keyword, eats it and returns `true`.
     /// Otherwise, returns `false`. An expectation is also added for diagnostics purposes.
-    // Public for rustfmt usage.
+    // Public for dustfmt usage.
     pub fn eat_keyword(&mut self, kw: Symbol) -> bool {
         if self.check_keyword(kw) {
             self.bump();
@@ -704,7 +704,7 @@ impl<'a> Parser<'a> {
                         }
                         Err(mut expect_err) => {
                             let sp = self.prev_token.span.shrink_to_hi();
-                            let token_str = pprust::token_kind_to_string(t);
+                            let token_str = ppdust::token_kind_to_string(t);
 
                             // Attempt to keep parsing if it was a similar separator.
                             if let Some(ref tokens) = t.similar_tokens() {
@@ -715,12 +715,12 @@ impl<'a> Parser<'a> {
 
                             // If this was a missing `@` in a binding pattern
                             // bail with a suggestion
-                            // https://github.com/rust-lang/rust/issues/72373
+                            // https://github.com/dust-lang/dust/issues/72373
                             if self.prev_token.is_ident() && self.token.kind == token::DotDot {
                                 let msg = format!(
                                     "if you meant to bind the contents of \
                                     the rest of the array pattern into `{}`, use `@`",
-                                    pprust::token_to_string(&self.prev_token)
+                                    ppdust::token_to_string(&self.prev_token)
                                 );
                                 expect_err
                                     .span_suggestion_verbose(
@@ -1093,7 +1093,7 @@ impl<'a> Parser<'a> {
     /// If the following element can't be a tuple (i.e., it's a function definition), then
     /// it's not a tuple struct field), and the contents within the parentheses isn't valid,
     /// so emit a proper diagnostic.
-    // Public for rustfmt usage.
+    // Public for dustfmt usage.
     pub fn parse_visibility(&mut self, fbt: FollowedByType) -> PResult<'a, Visibility> {
         maybe_whole!(self, NtVis, |x| x);
 
@@ -1186,7 +1186,7 @@ impl<'a> Parser<'a> {
 `pub(super)`: visible only in the current module's parent
 `pub(in path::to::module)`: visible only on the specified path"##;
 
-        let path_str = pprust::path_to_string(&path);
+        let path_str = ppdust::path_to_string(&path);
 
         struct_span_err!(self.sess.span_diagnostic, path.span, E0704, "{}", msg)
             .help(suggestion)
@@ -1265,7 +1265,7 @@ crate fn make_unclosed_delims_error(
         unmatched.found_span,
         &format!(
             "mismatched closing delimiter: `{}`",
-            pprust::token_kind_to_string(&token::CloseDelim(found_delim)),
+            ppdust::token_kind_to_string(&token::CloseDelim(found_delim)),
         ),
     );
     err.span_label(unmatched.found_span, "mismatched closing delimiter");

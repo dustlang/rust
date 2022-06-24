@@ -13,9 +13,9 @@ LL | | /// ```
 note: the lint level is defined here
   --> $DIR/check-attr.rs:1:9
    |
-LL | #![deny(rustdoc::invalid_codeblock_attributes)]
+LL | #![deny(dustdoc::invalid_codeblock_attributes)]
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   = help: the code block will either not be tested if not marked as a rust one or won't fail if it compiles successfully
+   = help: the code block will either not be tested if not marked as a dust one or won't fail if it compiles successfully
 
 error: unknown attribute `compilefail`. Did you mean `compile_fail`?
   --> $DIR/check-attr.rs:3:1
@@ -29,7 +29,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or won't fail if it compiles successfully
+   = help: the code block will either not be tested if not marked as a dust one or won't fail if it compiles successfully
 
 error: unknown attribute `comPile_fail`. Did you mean `compile_fail`?
   --> $DIR/check-attr.rs:3:1
@@ -43,7 +43,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or won't fail if it compiles successfully
+   = help: the code block will either not be tested if not marked as a dust one or won't fail if it compiles successfully
 
 error: unknown attribute `should-panic`. Did you mean `should_panic`?
   --> $DIR/check-attr.rs:13:1
@@ -57,7 +57,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or won't fail if it doesn't panic when running
+   = help: the code block will either not be tested if not marked as a dust one or won't fail if it doesn't panic when running
 
 error: unknown attribute `shouldpanic`. Did you mean `should_panic`?
   --> $DIR/check-attr.rs:13:1
@@ -71,7 +71,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or won't fail if it doesn't panic when running
+   = help: the code block will either not be tested if not marked as a dust one or won't fail if it doesn't panic when running
 
 error: unknown attribute `sHould_panic`. Did you mean `should_panic`?
   --> $DIR/check-attr.rs:13:1
@@ -85,7 +85,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or won't fail if it doesn't panic when running
+   = help: the code block will either not be tested if not marked as a dust one or won't fail if it doesn't panic when running
 
 error: unknown attribute `no-run`. Did you mean `no_run`?
   --> $DIR/check-attr.rs:23:1
@@ -99,7 +99,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or will be run (which you might not want)
+   = help: the code block will either not be tested if not marked as a dust one or will be run (which you might not want)
 
 error: unknown attribute `norun`. Did you mean `no_run`?
   --> $DIR/check-attr.rs:23:1
@@ -113,7 +113,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or will be run (which you might not want)
+   = help: the code block will either not be tested if not marked as a dust one or will be run (which you might not want)
 
 error: unknown attribute `no_Run`. Did you mean `no_run`?
   --> $DIR/check-attr.rs:23:1
@@ -127,7 +127,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or will be run (which you might not want)
+   = help: the code block will either not be tested if not marked as a dust one or will be run (which you might not want)
 
 error: unknown attribute `allow-fail`. Did you mean `allow_fail`?
   --> $DIR/check-attr.rs:33:1
@@ -141,7 +141,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or will be run (which you might not want)
+   = help: the code block will either not be tested if not marked as a dust one or will be run (which you might not want)
 
 error: unknown attribute `allowfail`. Did you mean `allow_fail`?
   --> $DIR/check-attr.rs:33:1
@@ -155,7 +155,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or will be run (which you might not want)
+   = help: the code block will either not be tested if not marked as a dust one or will be run (which you might not want)
 
 error: unknown attribute `alLow_fail`. Did you mean `allow_fail`?
   --> $DIR/check-attr.rs:33:1
@@ -169,7 +169,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or will be run (which you might not want)
+   = help: the code block will either not be tested if not marked as a dust one or will be run (which you might not want)
 
 error: unknown attribute `test-harness`. Did you mean `test_harness`?
   --> $DIR/check-attr.rs:43:1
@@ -183,7 +183,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or the code will be wrapped inside a main function
+   = help: the code block will either not be tested if not marked as a dust one or the code will be wrapped inside a main function
 
 error: unknown attribute `testharness`. Did you mean `test_harness`?
   --> $DIR/check-attr.rs:43:1
@@ -197,7 +197,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or the code will be wrapped inside a main function
+   = help: the code block will either not be tested if not marked as a dust one or the code will be wrapped inside a main function
 
 error: unknown attribute `teSt_harness`. Did you mean `test_harness`?
   --> $DIR/check-attr.rs:43:1
@@ -211,7 +211,7 @@ LL | | /// boo
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or the code will be wrapped inside a main function
+   = help: the code block will either not be tested if not marked as a dust one or the code will be wrapped inside a main function
 
 error: aborting due to 15 previous errors
 

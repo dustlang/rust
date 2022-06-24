@@ -8,7 +8,7 @@ LL |     const B: u8 = Self::A + 1;
    |
    = note: `#[deny(const_err)]` on by default
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error[E0080]: evaluation of constant value failed
   --> $DIR/defaults-not-assumed-fail.rs:34:16
@@ -23,9 +23,9 @@ LL |     assert_eq!(<() as Tr>::B, 0);    // causes the error above
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ referenced constant has errors
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
    = note: this error originates in a macro (in Nightly builds, run with -Z macro-backtrace for more info)
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0080`.
+For more information about this error, try `dustc --explain E0080`.

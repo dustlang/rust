@@ -2,10 +2,10 @@
 
 # ignore-windows
 
-NAME := $(shell $(RUSTC) --print file-names foo.rs)
+NAME := $(shell $(DUSTC) --print file-names foo.rs)
 
 all:
 	mkdir -p $(TMPDIR)/outdir
-	$(RUSTC) foo.rs -o $(TMPDIR)/outdir/$(NAME)
+	$(DUSTC) foo.rs -o $(TMPDIR)/outdir/$(NAME)
 	ln -nsf outdir/$(NAME) $(TMPDIR)
-	RUSTC_LOG=rustc_metadata::loader $(RUSTC) bar.rs
+	DUSTC_LOG=dustc_metadata::loader $(DUSTC) bar.rs

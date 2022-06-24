@@ -12,14 +12,14 @@ use crate::query::job::{
 use crate::query::{QueryContext, QueryMap, QueryStackFrame};
 
 #[cfg(not(parallel_compiler))]
-use rustc_data_structures::cold_path;
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::{FxHashMap, FxHasher};
-use rustc_data_structures::sharded::{get_shard_index_by_hash, Sharded};
-use rustc_data_structures::sync::{Lock, LockGuard};
-use rustc_data_structures::thin_vec::ThinVec;
-use rustc_errors::{Diagnostic, FatalError};
-use rustc_span::Span;
+use dustc_data_structures::cold_path;
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::fx::{FxHashMap, FxHasher};
+use dustc_data_structures::sharded::{get_shard_index_by_hash, Sharded};
+use dustc_data_structures::sync::{Lock, LockGuard};
+use dustc_data_structures::thin_vec::ThinVec;
+use dustc_errors::{Diagnostic, FatalError};
+use dustc_span::Span;
 use std::collections::hash_map::Entry;
 use std::fmt::Debug;
 use std::hash::{Hash, Hasher};

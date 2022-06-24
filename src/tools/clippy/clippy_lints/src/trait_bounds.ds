@@ -1,11 +1,11 @@
 use crate::utils::{in_macro, snippet, snippet_with_applicability, span_lint_and_help, SpanlessHash};
 use if_chain::if_chain;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::Applicability;
-use rustc_hir::{def::Res, GenericBound, Generics, ParamName, Path, QPath, TyKind, WherePredicate};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::Span;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::Applicability;
+use dustc_hir::{def::Res, GenericBound, Generics, ParamName, Path, QPath, TyKind, WherePredicate};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::Span;
 
 declare_clippy_lint! {
     /// **What it does:** This lint warns about unnecessary type repetitions in trait bounds
@@ -16,13 +16,13 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// pub fn foo<T>(t: T) where T: Copy, T: Clone {}
     /// ```
     ///
     /// Could be written as:
     ///
-    /// ```rust
+    /// ```dust
     /// pub fn foo<T>(t: T) where T: Copy + Clone {}
     /// ```
     pub TYPE_REPETITION_IN_BOUNDS,
@@ -40,18 +40,18 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// fn func<T: Clone + Default>(arg: T) where T: Clone + Default {}
     /// ```
     ///
     /// Could be written as:
     ///
-    /// ```rust
+    /// ```dust
     /// fn func<T: Clone + Default>(arg: T) {}
     /// ```
     /// or
     ///
-    /// ```rust
+    /// ```dust
     /// fn func<T>(arg: T) where T: Clone + Default {}
     /// ```
     pub TRAIT_DUPLICATION_IN_BOUNDS,

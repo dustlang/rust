@@ -7,12 +7,12 @@
 //! `RETURN_PLACE` the MIR arguments) are always fully normalized (and
 //! contain revealed `impl Trait` values).
 
-use rustc_infer::infer::LateBoundRegionConversionTime;
-use rustc_middle::mir::*;
-use rustc_middle::ty::Ty;
+use dustc_infer::infer::LateBoundRegionConversionTime;
+use dustc_middle::mir::*;
+use dustc_middle::ty::Ty;
 
-use rustc_index::vec::Idx;
-use rustc_span::Span;
+use dustc_index::vec::Idx;
+use dustc_span::Span;
 
 use crate::borrow_check::universal_regions::UniversalRegions;
 

@@ -7,14 +7,14 @@ use crate::llvm;
 use crate::llvm::{Bool, False, True};
 use crate::type_of::LayoutLlvmExt;
 use crate::value::Value;
-use rustc_codegen_ssa::common::TypeKind;
-use rustc_codegen_ssa::traits::*;
-use rustc_data_structures::small_c_str::SmallCStr;
-use rustc_middle::bug;
-use rustc_middle::ty::layout::TyAndLayout;
-use rustc_middle::ty::{self, Ty};
-use rustc_target::abi::call::{CastTarget, FnAbi, Reg};
-use rustc_target::abi::{AddressSpace, Align, Integer, Size};
+use dustc_codegen_ssa::common::TypeKind;
+use dustc_codegen_ssa::traits::*;
+use dustc_data_structures::small_c_str::SmallCStr;
+use dustc_middle::bug;
+use dustc_middle::ty::layout::TyAndLayout;
+use dustc_middle::ty::{self, Ty};
+use dustc_target::abi::call::{CastTarget, FnAbi, Reg};
+use dustc_target::abi::{AddressSpace, Align, Integer, Size};
 
 use std::fmt;
 use std::ptr;
@@ -31,7 +31,7 @@ impl fmt::Debug for Type {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str(
             &llvm::build_string(|s| unsafe {
-                llvm::LLVMRustWriteTypeToString(self, s);
+                llvm::LLVMDustWriteTypeToString(self, s);
             })
             .expect("non-UTF8 type description from LLVM"),
         )
@@ -53,7 +53,7 @@ impl CodegenCx<'ll, 'tcx> {
     }
 
     crate fn type_metadata(&self) -> &'ll Type {
-        unsafe { llvm::LLVMRustMetadataTypeInContext(self.llcx) }
+        unsafe { llvm::LLVMDustMetadataTypeInContext(self.llcx) }
     }
 
     ///x Creates an integer type with the given number of bits, e.g., i24
@@ -129,7 +129,7 @@ impl CodegenCx<'ll, 'tcx> {
     }
 
     crate fn type_array(&self, ty: &'ll Type, len: u64) -> &'ll Type {
-        unsafe { llvm::LLVMRustArrayType(ty, len) }
+        unsafe { llvm::LLVMDustArrayType(ty, len) }
     }
 }
 
@@ -186,7 +186,7 @@ impl BaseTypeMethods<'tcx> for CodegenCx<'ll, 'tcx> {
     }
 
     fn type_kind(&self, ty: &'ll Type) -> TypeKind {
-        unsafe { llvm::LLVMRustGetTypeKind(ty).to_generic() }
+        unsafe { llvm::LLVMDustGetTypeKind(ty).to_generic() }
     }
 
     fn type_ptr_to(&self, ty: &'ll Type) -> &'ll Type {

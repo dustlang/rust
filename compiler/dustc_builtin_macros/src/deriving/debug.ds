@@ -2,11 +2,11 @@ use crate::deriving::generic::ty::*;
 use crate::deriving::generic::*;
 use crate::deriving::path_std;
 
-use rustc_ast::ptr::P;
-use rustc_ast::{self as ast, Expr, MetaItem};
-use rustc_expand::base::{Annotatable, ExtCtxt};
-use rustc_span::symbol::{sym, Ident};
-use rustc_span::{Span, DUMMY_SP};
+use dustc_ast::ptr::P;
+use dustc_ast::{self as ast, Expr, MetaItem};
+use dustc_expand::base::{Annotatable, ExtCtxt};
+use dustc_span::symbol::{sym, Ident};
+use dustc_span::{Span, DUMMY_SP};
 
 fn make_mut_borrow(cx: &mut ExtCtxt<'_>, sp: Span, expr: P<Expr>) -> P<Expr> {
     cx.expr(sp, ast::ExprKind::AddrOf(ast::BorrowKind::Ref, ast::Mutability::Mut, expr))

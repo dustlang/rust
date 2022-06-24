@@ -250,7 +250,7 @@ pub fn dur2timeout(dur: Duration) -> c::DWORD {
 
 /// Use `__fastfail` to abort the process
 ///
-/// This is the same implementation as in libpanic_abort's `__rust_start_panic`. See
+/// This is the same implementation as in libpanic_abort's `__dust_start_panic`. See
 /// that function for more information on `__fastfail`
 #[allow(unreachable_code)]
 pub fn abort_internal() -> ! {

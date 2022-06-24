@@ -1,24 +1,24 @@
 use std::cmp;
 
 use crate::ich::StableHashingContext;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_errors::{DiagnosticBuilder, DiagnosticId};
-use rustc_hir::HirId;
-use rustc_session::lint::{
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_errors::{DiagnosticBuilder, DiagnosticId};
+use dustc_hir::HirId;
+use dustc_session::lint::{
     builtin::{self, FORBIDDEN_LINT_GROUPS},
     Level, Lint, LintId,
 };
-use rustc_session::{DiagnosticMessageId, Session};
-use rustc_span::hygiene::MacroKind;
-use rustc_span::source_map::{DesugaringKind, ExpnKind, MultiSpan};
-use rustc_span::{symbol, Span, Symbol, DUMMY_SP};
+use dustc_session::{DiagnosticMessageId, Session};
+use dustc_span::hygiene::MacroKind;
+use dustc_span::source_map::{DesugaringKind, ExpnKind, MultiSpan};
+use dustc_span::{symbol, Span, Symbol, DUMMY_SP};
 
 /// How a lint level was set.
 #[derive(Clone, Copy, PartialEq, Eq, HashStable, Debug)]
 pub enum LintLevelSource {
     /// Lint is at the default level as declared
-    /// in rustc or a plugin.
+    /// in dustc or a plugin.
     Default,
 
     /// Lint level was set by an attribute.
@@ -269,7 +269,7 @@ pub fn struct_lint_level<'s, 'd>(
         // can do about it. We probably want to skip the lint entirely.
         if err.span.primary_spans().iter().any(|s| in_external_macro(sess, *s)) {
             // Any suggestions made here are likely to be incorrect, so anything we
-            // emit shouldn't be automatically fixed by rustfix.
+            // emit shouldn't be automatically fixed by dustfix.
             err.allow_suggestions(false);
 
             // If this is a future incompatible lint it'll become a hard error, so

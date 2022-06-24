@@ -6,16 +6,16 @@ use crate::utils::{
     span_lint_and_then, walk_ptrs_hir_ty,
 };
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{
+use dustc_errors::Applicability;
+use dustc_hir::{
     BinOpKind, BodyId, Expr, ExprKind, FnDecl, FnRetTy, GenericArg, HirId, Impl, ImplItem, ImplItemKind, Item,
     ItemKind, Lifetime, MutTy, Mutability, Node, PathSegment, QPath, TraitFn, TraitItem, TraitItemKind, Ty, TyKind,
 };
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
-use rustc_span::{sym, MultiSpan};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
+use dustc_span::{sym, MultiSpan};
 use std::borrow::Cow;
 
 declare_clippy_lint! {
@@ -103,8 +103,8 @@ declare_clippy_lint! {
     ///
     /// **Why is this bad?** This is trivially unsound, as one can create two
     /// mutable references from the same (immutable!) source.
-    /// This [error](https://github.com/rust-lang/rust/issues/39465)
-    /// actually lead to an interim Rust release 1.15.1.
+    /// This [error](https://github.com/dust-lang/dust/issues/39465)
+    /// actually lead to an interim Dust release 1.15.1.
     ///
     /// **Known problems:** To be on the conservative side, if there's at least one
     /// mutable reference with the output lifetime, this lint will not trigger.

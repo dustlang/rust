@@ -8,18 +8,18 @@ use super::{
     InferCtxtUndoLogs, MiscVariable, RegionVariableOrigin, Rollback, Snapshot, SubregionOrigin,
 };
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::sync::Lrc;
-use rustc_data_structures::undo_log::UndoLogs;
-use rustc_data_structures::unify as ut;
-use rustc_data_structures::unify::UnifyKey;
-use rustc_hir::def_id::DefId;
-use rustc_index::vec::IndexVec;
-use rustc_middle::ty::ReStatic;
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_middle::ty::{ReLateBound, ReVar};
-use rustc_middle::ty::{Region, RegionVid};
-use rustc_span::Span;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::sync::Lrc;
+use dustc_data_structures::undo_log::UndoLogs;
+use dustc_data_structures::unify as ut;
+use dustc_data_structures::unify::UnifyKey;
+use dustc_hir::def_id::DefId;
+use dustc_index::vec::IndexVec;
+use dustc_middle::ty::ReStatic;
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_middle::ty::{ReLateBound, ReVar};
+use dustc_middle::ty::{Region, RegionVid};
+use dustc_span::Span;
 
 use std::collections::BTreeMap;
 use std::ops::Range;
@@ -27,7 +27,7 @@ use std::{cmp, fmt, mem};
 
 mod leak_check;
 
-pub use rustc_middle::infer::MemberConstraint;
+pub use dustc_middle::infer::MemberConstraint;
 
 #[derive(Default)]
 pub struct RegionConstraintStorage<'tcx> {
@@ -194,7 +194,7 @@ pub enum VerifyBound<'tcx> {
     /// following, where `G` is the generic for which this verify
     /// bound was created:
     ///
-    /// ```rust
+    /// ```dust
     /// fn(min) -> bool {
     ///     if G == K {
     ///         B(min)
@@ -243,7 +243,7 @@ pub enum VerifyBound<'tcx> {
 
     /// Given a set of bounds `B`, expands to the function:
     ///
-    /// ```rust
+    /// ```dust
     /// fn(min) -> bool {
     ///     exists (b in B) { b(min) }
     /// }
@@ -255,7 +255,7 @@ pub enum VerifyBound<'tcx> {
 
     /// Given a set of bounds `B`, expands to the function:
     ///
-    /// ```rust
+    /// ```dust
     /// fn(min) -> bool {
     ///     forall (b in B) { b(min) }
     /// }

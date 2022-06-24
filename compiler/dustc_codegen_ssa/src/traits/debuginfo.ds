@@ -1,10 +1,10 @@
 use super::BackendTypes;
 use crate::mir::debuginfo::{FunctionDebugContext, VariableKind};
-use rustc_middle::mir;
-use rustc_middle::ty::{Instance, Ty};
-use rustc_span::{SourceFile, Span, Symbol};
-use rustc_target::abi::call::FnAbi;
-use rustc_target::abi::Size;
+use dustc_middle::mir;
+use dustc_middle::ty::{Instance, Ty};
+use dustc_span::{SourceFile, Span, Symbol};
+use dustc_target::abi::call::FnAbi;
+use dustc_target::abi::Size;
 
 pub trait DebugInfoMethods<'tcx>: BackendTypes {
     fn create_vtable_metadata(&self, ty: Ty<'tcx>, vtable: Self::Value);

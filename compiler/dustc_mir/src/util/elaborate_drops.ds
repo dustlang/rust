@@ -1,13 +1,13 @@
 use crate::util::patch::MirPatch;
-use rustc_hir as hir;
-use rustc_hir::lang_items::LangItem;
-use rustc_index::vec::Idx;
-use rustc_middle::mir::*;
-use rustc_middle::traits::Reveal;
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::util::IntTypeExt;
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_target::abi::VariantIdx;
+use dustc_hir as hir;
+use dustc_hir::lang_items::LangItem;
+use dustc_index::vec::Idx;
+use dustc_middle::mir::*;
+use dustc_middle::traits::Reveal;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::util::IntTypeExt;
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_target::abi::VariantIdx;
 use std::fmt;
 
 /// The value of an inserted drop flag.
@@ -864,7 +864,7 @@ where
             // within that own generator's resume function.
             // This should only happen for the self argument on the resume function.
             // It effetively only contains upvars until the generator transformation runs.
-            // See librustc_body/transform/generator.rs for more details.
+            // See libdustc_body/transform/generator.rs for more details.
             ty::Generator(_, substs, _) => {
                 let tys: Vec<_> = substs.as_generator().upvar_tys().collect();
                 self.open_drop_for_tuple(&tys)

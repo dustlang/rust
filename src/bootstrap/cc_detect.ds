@@ -64,7 +64,7 @@ fn cc2ar(cc: &Path, target: TargetSelection) -> Option<PathBuf> {
 
 pub fn find(build: &mut Build) {
     // For all targets we're going to need a C compiler for building some shims
-    // and such as well as for being a linker for Rust code.
+    // and such as well as for being a linker for Dust code.
     let targets = build
         .targets
         .iter()
@@ -109,7 +109,7 @@ pub fn find(build: &mut Build) {
         };
 
         build.cc.insert(target, compiler.clone());
-        let cflags = build.cflags(target, GitRepo::Rustc);
+        let cflags = build.cflags(target, GitRepo::Dustc);
 
         // If we use llvm-libunwind, we will need a C++ compiler as well for all targets
         // We'll need one anyways if the target triple is also a host triple

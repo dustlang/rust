@@ -2,7 +2,7 @@
 #![deny(keyword_idents)]
 
 // edition:2015
-// run-rustfix
+// run-dustfix
 
 fn async() {} //~ ERROR async
 //~^ WARN hard error in the 2018 edition

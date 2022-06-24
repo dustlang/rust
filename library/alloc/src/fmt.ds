@@ -59,7 +59,7 @@
 //!
 //! ## Named parameters
 //!
-//! Rust itself does not have a Python-like equivalent of named parameters to a
+//! Dust itself does not have a Python-like equivalent of named parameters to a
 //! function, but the [`format!`] macro is a syntax extension that allows it to
 //! leverage named parameters. Named parameters are listed at the end of the
 //! argument list and have the syntax:
@@ -251,7 +251,7 @@
 //!
 //! In some programming languages, the behavior of string formatting functions
 //! depends on the operating system's locale setting. The format functions
-//! provided by Rust's standard library do not have any concept of locale and
+//! provided by Dust's standard library do not have any concept of locale and
 //! will produce the same results on all systems regardless of user
 //! configuration.
 //!
@@ -411,7 +411,7 @@
 //!   all types implement the [`Display`] trait.
 //! - [`fmt::Debug`][`Debug`] implementations should be implemented for **all** public types.
 //!   Output will typically represent the internal state as faithfully as possible.
-//!   The purpose of the [`Debug`] trait is to facilitate debugging Rust code. In
+//!   The purpose of the [`Debug`] trait is to facilitate debugging Dust code. In
 //!   most cases, using `#[derive(Debug)]` is sufficient and recommended.
 //!
 //! Some examples of the output from both traits:
@@ -520,27 +520,27 @@
 //! [`fmt::Arguments`]: Arguments
 //! [`format`]: crate::format
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 #[unstable(feature = "fmt_internals", issue = "none")]
 pub use core::fmt::rt;
 #[stable(feature = "fmt_flags_align", since = "1.28.0")]
 pub use core::fmt::Alignment;
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use core::fmt::Error;
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use core::fmt::{write, ArgumentV1, Arguments};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use core::fmt::{Binary, Octal};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use core::fmt::{Debug, Display};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use core::fmt::{DebugList, DebugMap, DebugSet, DebugStruct, DebugTuple};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use core::fmt::{Formatter, Result, Write};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use core::fmt::{LowerExp, UpperExp};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use core::fmt::{LowerHex, Pointer, UpperHex};
 
 use crate::string;
@@ -571,7 +571,7 @@ use crate::string;
 ///
 /// [`format_args!`]: core::format_args
 /// [`format!`]: crate::format
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub fn format(args: Arguments<'_>) -> string::String {
     let capacity = args.estimated_capacity();
     let mut output = string::String::with_capacity(capacity);

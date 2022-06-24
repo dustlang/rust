@@ -72,4 +72,4 @@ LL | fn k<'a, T: WithLifetime<'a>>(_x: T::Output) -> &'a isize {
 
 error: aborting due to 6 previous errors
 
-For more information about this error, try `rustc --explain E0106`.
+For more information about this error, try `dustc --explain E0106`.

@@ -1,9 +1,9 @@
 use std::marker::PhantomData;
 
-use rustc_data_structures::snapshot_vec as sv;
-use rustc_data_structures::undo_log::{Rollback, UndoLogs};
-use rustc_data_structures::unify as ut;
-use rustc_middle::ty;
+use dustc_data_structures::snapshot_vec as sv;
+use dustc_data_structures::undo_log::{Rollback, UndoLogs};
+use dustc_data_structures::unify as ut;
+use dustc_middle::ty;
 
 use crate::{
     infer::{region_constraints, type_variable, InferCtxtInner},

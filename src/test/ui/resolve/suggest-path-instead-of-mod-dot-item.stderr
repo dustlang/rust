@@ -101,4 +101,4 @@ LL |     a::b()
 
 error: aborting due to 9 previous errors
 
-For more information about this error, try `rustc --explain E0423`.
+For more information about this error, try `dustc --explain E0423`.

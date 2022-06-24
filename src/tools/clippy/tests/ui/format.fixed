@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![allow(clippy::print_literal, clippy::redundant_clone)]
 #![warn(clippy::useless_format)]

@@ -1,8 +1,8 @@
 //! Routines for manipulating the control-flow graph.
 
 use crate::build::CFG;
-use rustc_middle::mir::*;
-use rustc_middle::ty::{self, TyCtxt};
+use dustc_middle::mir::*;
+use dustc_middle::ty::{self, TyCtxt};
 
 impl<'tcx> CFG<'tcx> {
     crate fn block_data(&self, blk: BasicBlock) -> &BasicBlockData<'tcx> {
@@ -14,7 +14,7 @@ impl<'tcx> CFG<'tcx> {
     }
 
     // llvm.org/PR32488 makes this function use an excess of stack space. Mark
-    // it as #[inline(never)] to keep rustc's stack use in check.
+    // it as #[inline(never)] to keep dustc's stack use in check.
     #[inline(never)]
     crate fn start_new_block(&mut self) -> BasicBlock {
         self.basic_blocks.push(BasicBlockData::new(None))

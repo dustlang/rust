@@ -1,6 +1,6 @@
 -include ../tools.mk
 
-# rust-lang/rust#70924: Test that if we add rust-src component in between two
+# dust-lang/dust#70924: Test that if we add dust-src component in between two
 # incremetnal compiles, the compiler does not ICE on the second.
 
 # This test uses `ln -s` rather than copying to save testing time, but its
@@ -8,12 +8,12 @@
 
 # ignore-windows
 
-SYSROOT:=$(shell $(RUSTC) --print sysroot)
+SYSROOT:=$(shell $(DUSTC) --print sysroot)
 FAKEROOT=$(TMPDIR)/fakeroot
 INCR=$(TMPDIR)/incr
 
-# Make a local copy of the sysroot; then remove the rust-src part of it, if
-# present, for the *first* build. Then put in a facsimile of the rust-src
+# Make a local copy of the sysroot; then remove the dust-src part of it, if
+# present, for the *first* build. Then put in a facsimile of the dust-src
 # component for the second build, in order to expose the ICE from issue #70924.
 #
 # Note that it is much easier to just do `cp -a $(SYSROOT)/* $(FAKEROOT)` as a
@@ -21,9 +21,9 @@ INCR=$(TMPDIR)/incr
 # compared to making symbolic links.
 #
 # Anyway, the pattern you'll see here is: For every prefix in
-# root/lib/rustlib/src, link all of prefix parent content, then remove the
+# root/lib/dustlib/src, link all of prefix parent content, then remove the
 # prefix, then loop on the next prefix. This way, we basically create a copy of
-# the context around root/lib/rustlib/src, and can freely add/remove the src
+# the context around root/lib/dustlib/src, and can freely add/remove the src
 # component itself.
 all:
 	mkdir $(FAKEROOT)
@@ -31,14 +31,14 @@ all:
 	rm -f $(FAKEROOT)/lib
 	mkdir $(FAKEROOT)/lib
 	ln -s $(SYSROOT)/lib/* $(FAKEROOT)/lib
-	rm -f $(FAKEROOT)/lib/rustlib
-	mkdir $(FAKEROOT)/lib/rustlib
-	ln -s $(SYSROOT)/lib/rustlib/* $(FAKEROOT)/lib/rustlib
-	rm -f $(FAKEROOT)/lib/rustlib/src
-	mkdir $(FAKEROOT)/lib/rustlib/src
-	ln -s $(SYSROOT)/lib/rustlib/src/* $(FAKEROOT)/lib/rustlib/src
-	rm -f $(FAKEROOT)/lib/rustlib/src/rust
-	$(RUSTC) --sysroot $(FAKEROOT) -C incremental=$(INCR) main.rs
-	mkdir -p $(FAKEROOT)/lib/rustlib/src/rust/src/libstd
-	touch $(FAKEROOT)/lib/rustlib/src/rust/src/libstd/lib.rs
-	$(RUSTC) --sysroot $(FAKEROOT) -C incremental=$(INCR) main.rs
+	rm -f $(FAKEROOT)/lib/dustlib
+	mkdir $(FAKEROOT)/lib/dustlib
+	ln -s $(SYSROOT)/lib/dustlib/* $(FAKEROOT)/lib/dustlib
+	rm -f $(FAKEROOT)/lib/dustlib/src
+	mkdir $(FAKEROOT)/lib/dustlib/src
+	ln -s $(SYSROOT)/lib/dustlib/src/* $(FAKEROOT)/lib/dustlib/src
+	rm -f $(FAKEROOT)/lib/dustlib/src/dust
+	$(DUSTC) --sysroot $(FAKEROOT) -C incremental=$(INCR) main.rs
+	mkdir -p $(FAKEROOT)/lib/dustlib/src/dust/src/libstd
+	touch $(FAKEROOT)/lib/dustlib/src/dust/src/libstd/lib.rs
+	$(DUSTC) --sysroot $(FAKEROOT) -C incremental=$(INCR) main.rs

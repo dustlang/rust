@@ -3,10 +3,10 @@ use crate::mir::interpret::{LitToConstInput, Scalar};
 use crate::ty::subst::InternalSubsts;
 use crate::ty::{self, Ty, TyCtxt};
 use crate::ty::{ParamEnv, ParamEnvAnd};
-use rustc_errors::ErrorReported;
-use rustc_hir as hir;
-use rustc_hir::def_id::LocalDefId;
-use rustc_macros::HashStable;
+use dustc_errors::ErrorReported;
+use dustc_hir as hir;
+use dustc_hir::def_id::LocalDefId;
+use dustc_macros::HashStable;
 
 mod int;
 mod kind;

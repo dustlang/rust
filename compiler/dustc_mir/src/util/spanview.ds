@@ -1,9 +1,9 @@
-use rustc_hir::def_id::DefId;
-use rustc_middle::hir;
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::config::MirSpanview;
-use rustc_span::{BytePos, Pos, Span, SyntaxContext};
+use dustc_hir::def_id::DefId;
+use dustc_middle::hir;
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::config::MirSpanview;
+use dustc_span::{BytePos, Pos, Span, SyntaxContext};
 
 use std::cmp;
 use std::io::{self, Write};
@@ -673,7 +673,7 @@ fn fn_span<'tcx>(tcx: TyCtxt<'tcx>, def_id: DefId) -> Span {
     }
 }
 
-fn hir_body<'tcx>(tcx: TyCtxt<'tcx>, def_id: DefId) -> &'tcx rustc_hir::Body<'tcx> {
+fn hir_body<'tcx>(tcx: TyCtxt<'tcx>, def_id: DefId) -> &'tcx dustc_hir::Body<'tcx> {
     let hir_node = tcx.hir().get_if_local(def_id).expect("expected DefId is local");
     let fn_body_id = hir::map::associated_body(hir_node).expect("HIR node is a function with body");
     tcx.hir().body(fn_body_id)

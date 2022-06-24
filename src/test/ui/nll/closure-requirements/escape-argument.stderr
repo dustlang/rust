@@ -6,7 +6,7 @@ LL |         let mut closure = expect_sig(|p, y| *p = y);
    |
    = note: defining type: test::{closure#0} with closure substs [
                i16,
-               for<'r, 's> extern "rust-call" fn((&ReLateBound(DebruijnIndex(0), BoundRegion { kind: BrNamed('r) }) mut &ReLateBound(DebruijnIndex(0), BoundRegion { kind: BrNamed('s) }) i32, &ReLateBound(DebruijnIndex(0), BoundRegion { kind: BrNamed('s) }) i32)),
+               for<'r, 's> extern "dust-call" fn((&ReLateBound(DebruijnIndex(0), BoundRegion { kind: BrNamed('r) }) mut &ReLateBound(DebruijnIndex(0), BoundRegion { kind: BrNamed('s) }) i32, &ReLateBound(DebruijnIndex(0), BoundRegion { kind: BrNamed('s) }) i32)),
                (),
            ]
 
@@ -38,4 +38,4 @@ LL |     deref(p);
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0597`.
+For more information about this error, try `dustc --explain E0597`.

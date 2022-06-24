@@ -17,7 +17,7 @@ You need to set either `DW_AT_low_pc` and `DW_AT_high_pc` **or** `DW_AT_ranges` 
 to set `DW_AT_stmt_list` to the `.debug_line` section offset of the line program. Otherwise a
 debugger won't find the line number information. On macOS the debuginfo relocations **must** be
 section relative and not symbol relative.
-See [#303 (comment)](https://github.com/bjorn3/rustc_codegen_cranelift/issues/303#issuecomment-457825535)
+See [#303 (comment)](https://github.com/bjorn3/dustc_codegen_cranelift/issues/303#issuecomment-457825535)
 for more information.
 
 # Function debuginfo
@@ -40,7 +40,7 @@ DWARF version must be at least 4.
 (13:53:18) luispm: osa1, The commands are not tied to the execution context of the debugged program. The breakpoint conditions determine if execution must stop or continue etc.
 (13:55:00) luispm: bjorn3, Likely something GDB thinks is wrong. Does enabling "set debug dwarf*" show anything?
 (13:56:01) bjorn3: luispm: no
-(13:56:12) bjorn3: for more context: https://github.com/bjorn3/rustc_codegen_cranelift/pull/978
+(13:56:12) bjorn3: for more context: https://github.com/bjorn3/dustc_codegen_cranelift/pull/978
 (13:58:16) osa1 verliet de ruimte (quit: Quit: osa1).
 (13:58:28) bjorn3: luispm: wait, for b m<TAB> it shows nothing, but when stepping into a new function it does
 (13:58:45) bjorn3: it still doesn't show anything for `info args` though
@@ -62,7 +62,7 @@ DWARF version must be at least 4.
 (15:25:13) bjorn3: it just says: No symbol table info available.
 (15:25:21) bjorn3: any idea what it could be?
 (15:25:34) bjorn3: dwarfdump output: https://gist.github.com/bjorn3/8a34e333c80f13cb048381e94b4a3756
-(15:26:48) bjorn3: more context: https://github.com/bjorn3/rustc_codegen_cranelift/pull/978
+(15:26:48) bjorn3: more context: https://github.com/bjorn3/dustc_codegen_cranelift/pull/978
 (15:28:05) tromey: offhand I don't know, but if you can send me an executable I can look
 (15:28:17) bjorn3: how should I send it?
 (15:29:26) tromey: good question

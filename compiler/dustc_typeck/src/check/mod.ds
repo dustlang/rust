@@ -101,34 +101,34 @@ pub use inherited::{Inherited, InheritedBuilder};
 
 use crate::astconv::AstConv;
 use crate::check::gather_locals::GatherLocalsVisitor;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::{pluralize, struct_span_err, Applicability};
-use rustc_hir as hir;
-use rustc_hir::def::Res;
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId, LOCAL_CRATE};
-use rustc_hir::intravisit::Visitor;
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_hir::{HirIdMap, ImplicitSelfKind, Node};
-use rustc_index::bit_set::BitSet;
-use rustc_index::vec::Idx;
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_middle::ty::fold::{TypeFoldable, TypeFolder};
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::subst::GenericArgKind;
-use rustc_middle::ty::subst::{InternalSubsts, Subst, SubstsRef};
-use rustc_middle::ty::WithConstness;
-use rustc_middle::ty::{self, RegionKind, Ty, TyCtxt, UserType};
-use rustc_session::config;
-use rustc_session::parse::feature_err;
-use rustc_session::Session;
-use rustc_span::symbol::{kw, Ident};
-use rustc_span::{self, BytePos, MultiSpan, Span};
-use rustc_span::{source_map::DUMMY_SP, sym};
-use rustc_target::abi::VariantIdx;
-use rustc_target::spec::abi::Abi;
-use rustc_trait_selection::traits;
-use rustc_trait_selection::traits::error_reporting::recursive_type_with_infinite_size_error;
-use rustc_trait_selection::traits::error_reporting::suggestions::ReturnsVisitor;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::{pluralize, struct_span_err, Applicability};
+use dustc_hir as hir;
+use dustc_hir::def::Res;
+use dustc_hir::def_id::{CrateNum, DefId, LocalDefId, LOCAL_CRATE};
+use dustc_hir::intravisit::Visitor;
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_hir::{HirIdMap, ImplicitSelfKind, Node};
+use dustc_index::bit_set::BitSet;
+use dustc_index::vec::Idx;
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_middle::ty::fold::{TypeFoldable, TypeFolder};
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::subst::GenericArgKind;
+use dustc_middle::ty::subst::{InternalSubsts, Subst, SubstsRef};
+use dustc_middle::ty::WithConstness;
+use dustc_middle::ty::{self, RegionKind, Ty, TyCtxt, UserType};
+use dustc_session::config;
+use dustc_session::parse::feature_err;
+use dustc_session::Session;
+use dustc_span::symbol::{kw, Ident};
+use dustc_span::{self, BytePos, MultiSpan, Span};
+use dustc_span::{source_map::DUMMY_SP, sym};
+use dustc_target::abi::VariantIdx;
+use dustc_target::spec::abi::Abi;
+use dustc_trait_selection::traits;
+use dustc_trait_selection::traits::error_reporting::recursive_type_with_infinite_size_error;
+use dustc_trait_selection::traits::error_reporting::suggestions::ReturnsVisitor;
 
 use std::cell::{Ref, RefCell, RefMut};
 
@@ -144,7 +144,7 @@ macro_rules! type_error_struct {
         if $typ.references_error() {
             $session.diagnostic().struct_dummy()
         } else {
-            rustc_errors::struct_span_err!($session, $span, $code, $($message)*)
+            dustc_errors::struct_span_err!($session, $span, $code, $($message)*)
         }
     })
 }
@@ -341,7 +341,7 @@ fn used_trait_imports(tcx: TyCtxt<'_>, def_id: LocalDefId) -> &FxHashSet<LocalDe
 ///
 /// For example, consider this code.
 ///
-/// ```rust
+/// ```dust
 /// trait MyTrait {
 ///     type MyItem;
 ///     fn use_it(self) -> Self::MyItem
@@ -384,7 +384,7 @@ where
                     // in the substs has a corresponding generic parameter, which is what
                     // we replace it with.
                     // This replacement is only run on the function signature, so any
-                    // inference variables that we come across must be the rust of projection
+                    // inference variables that we come across must be the dust of projection
                     // (there's no other way for a user to get inference variables into
                     // a function signature).
                     if ty.needs_infer() {
@@ -405,7 +405,7 @@ where
                                         // 'const projections', e.g.:
                                         // `impl<T: SomeTrait> MyTrait for T where <T as SomeTrait>::MyConst == 25`
                                         // which should be the only way for us to end up with a const inference
-                                        // variable after projection. If Rust ever gains support for this kind
+                                        // variable after projection. If Dust ever gains support for this kind
                                         // of projection, this should *probably* be changed to
                                         // `self.tcx.mk_param_from_def(param)`
                                         bug!(
@@ -583,7 +583,7 @@ fn typeck_with_fallback<'tcx>(
         //
         // In code like this:
         //
-        // ```rust
+        // ```dust
         // type MyType = impl Copy;
         // fn produce() -> MyType { true }
         // fn bad_produce() -> MyType { panic!() }
@@ -739,11 +739,11 @@ fn binding_opaque_type_cycle_error(
     err.emit();
 }
 
-// Forbid defining intrinsics in Rust code,
+// Forbid defining intrinsics in Dust code,
 // as they must always be defined by the compiler.
 fn fn_maybe_err(tcx: TyCtxt<'_>, sp: Span, abi: Abi) {
-    if let Abi::RustIntrinsic | Abi::PlatformIntrinsic = abi {
-        tcx.sess.span_err(sp, "intrinsic must be in `extern \"rust-intrinsic\" { ... }` block");
+    if let Abi::DustIntrinsic | Abi::PlatformIntrinsic = abi {
+        tcx.sess.span_err(sp, "intrinsic must be in `extern \"dust-intrinsic\" { ... }` block");
     }
 }
 
@@ -1149,19 +1149,19 @@ fn typeck_item_bodies(tcx: TyCtxt<'_>, crate_num: CrateNum) {
     });
 }
 
-fn fatally_break_rust(sess: &Session) {
+fn fatally_break_dust(sess: &Session) {
     let handler = sess.diagnostic();
     handler.span_bug_no_panic(
         MultiSpan::new(),
-        "It looks like you're trying to break rust; would you like some ICE?",
+        "It looks like you're trying to break dust; would you like some ICE?",
     );
     handler.note_without_error("the compiler expectedly panicked. this is a feature.");
     handler.note_without_error(
         "we would appreciate a joke overview: \
-         https://github.com/rust-lang/rust/issues/43162#issuecomment-320764675",
+         https://github.com/dust-lang/dust/issues/43162#issuecomment-320764675",
     );
     handler.note_without_error(&format!(
-        "rustc {} running on {}",
+        "dustc {} running on {}",
         option_env!("CFG_VERSION").unwrap_or("unknown_version"),
         config::host_triple(),
     ));

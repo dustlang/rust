@@ -24,4 +24,4 @@ LL |         llvm_asm!("addb $1, $0" : "={rax}"((0i32, rax)));
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0668`.
+For more information about this error, try `dustc --explain E0668`.

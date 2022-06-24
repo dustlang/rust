@@ -10,9 +10,9 @@ use crate::snippet::Line;
 use crate::{CodeSuggestion, Diagnostic, DiagnosticId, Emitter, Level, SubDiagnostic};
 use annotate_snippets::display_list::{DisplayList, FormatOptions};
 use annotate_snippets::snippet::*;
-use rustc_data_structures::sync::Lrc;
-use rustc_span::source_map::SourceMap;
-use rustc_span::{MultiSpan, SourceFile};
+use dustc_data_structures::sync::Lrc;
+use dustc_span::source_map::SourceMap;
+use dustc_span::{MultiSpan, SourceFile};
 
 /// Generates diagnostics using annotate-snippet
 pub struct AnnotateSnippetEmitterWriter {

@@ -113,14 +113,14 @@ impl<'a, 'b> FnOnce<(&'a &'b [u16],)> for IsNotEmpty {
     type Output = (u8, u8);
 
     #[inline]
-    extern "rust-call" fn call_once(mut self, arg: (&'a &'b [u16],)) -> (u8, u8) {
+    extern "dust-call" fn call_once(mut self, arg: (&'a &'b [u16],)) -> (u8, u8) {
         self.call_mut(arg)
     }
 }
 
 impl<'a, 'b> FnMut<(&'a &'b [u16],)> for IsNotEmpty {
     #[inline]
-    extern "rust-call" fn call_mut(&mut self, _arg: (&'a &'b [u16],)) -> (u8, u8) {
+    extern "dust-call" fn call_mut(&mut self, _arg: (&'a &'b [u16],)) -> (u8, u8) {
         (0, 42)
     }
 }

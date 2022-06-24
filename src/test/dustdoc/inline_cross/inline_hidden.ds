@@ -1,11 +1,11 @@
-// aux-build:rustdoc-hidden.rs
+// aux-build:dustdoc-hidden.rs
 // build-aux-docs
 // ignore-cross-compile
 
-extern crate rustdoc_hidden;
+extern crate dustdoc_hidden;
 
 #[doc(no_inline)]
-pub use rustdoc_hidden::Foo;
+pub use dustdoc_hidden::Foo;
 
 // @has inline_hidden/fn.foo.html
 // @!has - '//a/@title' 'Foo'

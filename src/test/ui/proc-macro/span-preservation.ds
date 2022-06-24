@@ -45,7 +45,7 @@ extern "C" fn baz() {
 }
 
 #[recollect_attr]
-extern "Rust" fn rust_abi() {
+extern "Dust" fn dust_abi() {
     0 //~ ERROR mismatched types
 }
 

@@ -1,14 +1,14 @@
 use crate::utils::usage::mutated_variables;
 use crate::utils::{is_type_diagnostic_item, meets_msrv, snippet, span_lint, span_lint_and_sugg};
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_lint::LateContext;
-use rustc_semver::RustcVersion;
-use rustc_span::symbol::sym;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_lint::LateContext;
+use dustc_semver::DustcVersion;
+use dustc_span::symbol::sym;
 
 use super::MAP_UNWRAP_OR;
 
-const MAP_UNWRAP_OR_MSRV: RustcVersion = RustcVersion::new(1, 41, 0);
+const MAP_UNWRAP_OR_MSRV: DustcVersion = DustcVersion::new(1, 41, 0);
 
 /// lint use of `map().unwrap_or_else()` for `Option`s and `Result`s
 /// Return true if lint triggered
@@ -17,7 +17,7 @@ pub(super) fn check<'tcx>(
     expr: &'tcx hir::Expr<'_>,
     map_args: &'tcx [hir::Expr<'_>],
     unwrap_args: &'tcx [hir::Expr<'_>],
-    msrv: Option<&RustcVersion>,
+    msrv: Option<&DustcVersion>,
 ) -> bool {
     if !meets_msrv(msrv, &MAP_UNWRAP_OR_MSRV) {
         return false;

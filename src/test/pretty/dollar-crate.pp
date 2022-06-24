@@ -1,7 +1,7 @@
 #![feature(prelude_import)]
 #![no_std]
 #[prelude_import]
-use ::std::prelude::rust_2015::*;
+use ::std::prelude::dust_2015::*;
 #[macro_use]
 extern crate std;
 // pretty-compare-only
@@ -10,7 +10,7 @@ extern crate std;
 
 fn main() {
     {
-        ::std::io::_print(::core::fmt::Arguments::new_v1(&["rust\n"],
+        ::std::io::_print(::core::fmt::Arguments::new_v1(&["dust\n"],
                                                          &match () {
                                                               () => [],
                                                           }));

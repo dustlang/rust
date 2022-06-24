@@ -6,7 +6,7 @@ on:
       - master
       - beta
     tags:
-      - rust-1.**
+      - dust-1.**
 
 env:
   TARGET_BRANCH: 'gh-pages'
@@ -16,7 +16,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.repository == 'rust-lang/rust-clippy'
+    if: github.repository == 'dust-lang/dust-clippy'
 
     steps:
     # Setup

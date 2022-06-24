@@ -1,10 +1,10 @@
 use super::FOR_KV_MAP;
 use crate::utils::visitors::LocalUsedVisitor;
 use crate::utils::{is_type_diagnostic_item, match_type, multispan_sugg, paths, snippet, span_lint_and_then, sugg};
-use rustc_hir::{BorrowKind, Expr, ExprKind, Mutability, Pat, PatKind};
-use rustc_lint::LateContext;
-use rustc_middle::ty;
-use rustc_span::sym;
+use dustc_hir::{BorrowKind, Expr, ExprKind, Mutability, Pat, PatKind};
+use dustc_lint::LateContext;
+use dustc_middle::ty;
+use dustc_span::sym;
 
 /// Checks for the `FOR_KV_MAP` lint.
 pub(super) fn check<'tcx>(

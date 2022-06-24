@@ -3,28 +3,28 @@ use super::compare_method::check_type_bounds;
 use super::compare_method::{compare_const_impl, compare_impl_method, compare_ty_impl};
 use super::*;
 
-use rustc_attr as attr;
-use rustc_errors::{Applicability, ErrorReported};
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId, LOCAL_CRATE};
-use rustc_hir::intravisit::Visitor;
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{def::Res, ItemKind, Node, PathSegment};
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_infer::infer::{RegionVariableOrigin, TyCtxtInferExt};
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::layout::MAX_SIMD_LANES;
-use rustc_middle::ty::subst::GenericArgKind;
-use rustc_middle::ty::util::{Discr, IntTypeExt, Representability};
-use rustc_middle::ty::{self, ParamEnv, RegionKind, ToPredicate, Ty, TyCtxt};
-use rustc_session::config::EntryFnType;
-use rustc_session::lint::builtin::UNINHABITED_STATIC;
-use rustc_span::symbol::sym;
-use rustc_span::{self, MultiSpan, Span};
-use rustc_target::spec::abi::Abi;
-use rustc_trait_selection::opaque_types::InferCtxtExt as _;
-use rustc_trait_selection::traits::error_reporting::InferCtxtExt as _;
-use rustc_trait_selection::traits::{self, ObligationCauseCode};
+use dustc_attr as attr;
+use dustc_errors::{Applicability, ErrorReported};
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId, LOCAL_CRATE};
+use dustc_hir::intravisit::Visitor;
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{def::Res, ItemKind, Node, PathSegment};
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_infer::infer::{RegionVariableOrigin, TyCtxtInferExt};
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::layout::MAX_SIMD_LANES;
+use dustc_middle::ty::subst::GenericArgKind;
+use dustc_middle::ty::util::{Discr, IntTypeExt, Representability};
+use dustc_middle::ty::{self, ParamEnv, RegionKind, ToPredicate, Ty, TyCtxt};
+use dustc_session::config::EntryFnType;
+use dustc_session::lint::builtin::UNINHABITED_STATIC;
+use dustc_span::symbol::sym;
+use dustc_span::{self, MultiSpan, Span};
+use dustc_target::spec::abi::Abi;
+use dustc_trait_selection::opaque_types::InferCtxtExt as _;
+use dustc_trait_selection::traits::error_reporting::InferCtxtExt as _;
+use dustc_trait_selection::traits::{self, ObligationCauseCode};
 
 use std::ops::ControlFlow;
 
@@ -91,7 +91,7 @@ pub(super) fn check_fn<'a, 'tcx>(
         // TAIT usage in function return position.
         // Example:
         //
-        // ```rust
+        // ```dust
         // type Foo = impl Debug;
         // fn bar() -> Foo { 42 }
         // ```
@@ -100,7 +100,7 @@ pub(super) fn check_fn<'a, 'tcx>(
         //
         // Example with a free type alias:
         //
-        // ```rust
+        // ```dust
         // type Foo = impl Debug;
         // impl SomeTrait for SomeType {
         //     fn bar() -> Foo { 42 }
@@ -109,7 +109,7 @@ pub(super) fn check_fn<'a, 'tcx>(
         //
         // Example with an associated TAIT:
         //
-        // ```rust
+        // ```dust
         // impl SomeTrait for SomeType {
         //     type Foo = impl Debug;
         //     fn bar() -> Self::Foo { 42 }
@@ -121,7 +121,7 @@ pub(super) fn check_fn<'a, 'tcx>(
         // Forbid TAIT in trait declarations for now.
         // Examples:
         //
-        // ```rust
+        // ```dust
         // type Foo = impl Debug;
         // trait Bar {
         //     fn bar() -> Foo;
@@ -137,7 +137,7 @@ pub(super) fn check_fn<'a, 'tcx>(
         // Forbid TAIT in closure return position for now.
         // Example:
         //
-        // ```rust
+        // ```dust
         // type Foo = impl Debug;
         // let x = |y| -> Foo { 42 + y };
         // ```
@@ -168,7 +168,7 @@ pub(super) fn check_fn<'a, 'tcx>(
 
     fn_maybe_err(tcx, span, fn_sig.abi);
 
-    if fn_sig.abi == Abi::RustCall {
+    if fn_sig.abi == Abi::DustCall {
         let expected_args = if let ImplicitSelfKind::None = decl.implicit_self { 1 } else { 2 };
 
         let err = || {
@@ -181,13 +181,13 @@ pub(super) fn check_fn<'a, 'tcx>(
                     kind: hir::TraitItemKind::Fn(header, ..),
                     ..
                 }) => Some(header),
-                // Closures are RustCall, but they tuple their arguments, so shouldn't be checked
+                // Closures are DustCall, but they tuple their arguments, so shouldn't be checked
                 Node::Expr(hir::Expr { kind: hir::ExprKind::Closure(..), .. }) => None,
                 node => bug!("Item being checked wasn't a function/closure: {:?}", node),
             };
 
             if let Some(header) = item {
-                tcx.sess.span_err(header.span, "functions with the \"rust-call\" ABI must take a single non-self argument that is a tuple")
+                tcx.sess.span_err(header.span, "functions with the \"dust-call\" ABI must take a single non-self argument that is a tuple")
             }
         };
 
@@ -597,7 +597,7 @@ pub(super) fn check_opaque_for_inheriting_lifetimes(
     }
 
     impl Visitor<'tcx> for ProhibitOpaqueVisitor<'tcx> {
-        type Map = rustc_middle::hir::map::Map<'tcx>;
+        type Map = dustc_middle::hir::map::Map<'tcx>;
 
         fn nested_visit_map(&mut self) -> hir::intravisit::NestedVisitorMap<Self::Map> {
             hir::intravisit::NestedVisitorMap::OnlyBodies(self.tcx.hir())
@@ -816,7 +816,7 @@ pub fn check_item_type<'tcx>(tcx: TyCtxt<'tcx>, it: &'tcx hir::Item<'tcx>) {
                         let assoc_item = tcx.associated_item(item.def_id);
                         let trait_substs =
                             InternalSubsts::identity_for_item(tcx, it.def_id.to_def_id());
-                        let _: Result<_, rustc_errors::ErrorReported> = check_type_bounds(
+                        let _: Result<_, dustc_errors::ErrorReported> = check_type_bounds(
                             tcx,
                             assoc_item,
                             assoc_item,
@@ -837,9 +837,9 @@ pub fn check_item_type<'tcx>(tcx: TyCtxt<'tcx>, it: &'tcx hir::Item<'tcx>) {
         hir::ItemKind::OpaqueTy(hir::OpaqueTy { origin, .. }) => {
             // HACK(jynelson): trying to infer the type of `impl trait` breaks documenting
             // `async-std` (and `pub async fn` in general).
-            // Since rustdoc doesn't care about the concrete type behind `impl Trait`, just don't look at it!
-            // See https://github.com/rust-lang/rust/issues/75100
-            if !tcx.sess.opts.actually_rustdoc {
+            // Since dustdoc doesn't care about the concrete type behind `impl Trait`, just don't look at it!
+            // See https://github.com/dust-lang/dust/issues/75100
+            if !tcx.sess.opts.actually_dustdoc {
                 let substs = InternalSubsts::identity_for_item(tcx, it.def_id.to_def_id());
                 check_opaque(tcx, it.def_id, substs, it.span, &origin);
             }
@@ -852,7 +852,7 @@ pub fn check_item_type<'tcx>(tcx: TyCtxt<'tcx>, it: &'tcx hir::Item<'tcx>) {
         hir::ItemKind::ForeignMod { abi, items } => {
             check_abi(tcx, it.span, abi);
 
-            if abi == Abi::RustIntrinsic {
+            if abi == Abi::DustIntrinsic {
                 for item in items {
                     let item = tcx.hir().foreign_item(item.id);
                     intrinsic::check_intrinsic_type(tcx, item);

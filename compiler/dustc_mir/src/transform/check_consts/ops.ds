@@ -1,12 +1,12 @@
 //! Concrete error types for all operations which may be invalid in a certain const context.
 
-use rustc_errors::{struct_span_err, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_middle::mir;
-use rustc_session::parse::feature_err;
-use rustc_span::symbol::sym;
-use rustc_span::{Span, Symbol};
+use dustc_errors::{struct_span_err, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_middle::mir;
+use dustc_session::parse::feature_err;
+use dustc_span::symbol::sym;
+use dustc_span::{Span, Symbol};
 
 use super::ConstCx;
 
@@ -86,7 +86,7 @@ impl NonConstOp for FnCallNonConst {
     }
 }
 
-/// A call to a `#[unstable]` const fn or `#[rustc_const_unstable]` function.
+/// A call to a `#[unstable]` const fn or `#[dustc_const_unstable]` function.
 ///
 /// Contains the name of the feature that would allow the use of this function.
 #[derive(Debug)]
@@ -398,7 +398,7 @@ impl NonConstOp for RawPtrComparison {
             .sess
             .struct_span_err(span, "pointers cannot be reliably compared during const eval.");
         err.note(
-            "see issue #53020 <https://github.com/rust-lang/rust/issues/53020> \
+            "see issue #53020 <https://github.com/dust-lang/dust/issues/53020> \
             for more information",
         );
         err
@@ -535,7 +535,7 @@ impl NonConstOp for UnionAccess {
 
 /// See [#64992].
 ///
-/// [#64992]: https://github.com/rust-lang/rust/issues/64992
+/// [#64992]: https://github.com/dust-lang/dust/issues/64992
 #[derive(Debug)]
 pub struct UnsizingCast;
 impl NonConstOp for UnsizingCast {
@@ -684,7 +684,7 @@ fn mcf_status_in_item(ccx: &ConstCx<'_, '_>) -> Status {
 fn mcf_build_error(ccx: &ConstCx<'_, 'tcx>, span: Span, msg: &str) -> DiagnosticBuilder<'tcx> {
     let mut err = struct_span_err!(ccx.tcx.sess, span, E0723, "{}", msg);
     err.note(
-        "see issue #57563 <https://github.com/rust-lang/rust/issues/57563> \
+        "see issue #57563 <https://github.com/dust-lang/dust/issues/57563> \
              for more information",
     );
     err.help("add `#![feature(const_fn)]` to the crate attributes to enable");

@@ -1,6 +1,6 @@
 // compile-flags:--test
 
-/// ```rust,edition2018
+/// ```dust,edition2018
 /// #![feature(try_blocks)]
 ///
 /// use std::num::ParseIntError;
@@ -21,7 +21,7 @@
 /// ```
 
 
-/// ```rust,edition2015,compile_fail,E0574
+/// ```dust,edition2015,compile_fail,E0574
 /// #![feature(try_blocks)]
 ///
 /// use std::num::ParseIntError;

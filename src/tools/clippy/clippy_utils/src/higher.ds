@@ -5,11 +5,11 @@
 
 use crate::{is_expn_of, match_def_path, paths};
 use if_chain::if_chain;
-use rustc_ast::ast;
-use rustc_hir as hir;
-use rustc_hir::{BorrowKind, Expr, ExprKind, StmtKind, UnOp};
-use rustc_lint::LateContext;
-use rustc_span::source_map::Span;
+use dustc_ast::ast;
+use dustc_hir as hir;
+use dustc_hir::{BorrowKind, Expr, ExprKind, StmtKind, UnOp};
+use dustc_lint::LateContext;
+use dustc_span::source_map::Span;
 
 /// Converts a hir binary operator to the corresponding `ast` type.
 #[must_use]

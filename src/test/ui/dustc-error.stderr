@@ -1,5 +1,5 @@
-error: fatal error triggered by #[rustc_error]
-  --> $DIR/rustc-error.rs:4:1
+error: fatal error triggered by #[dustc_error]
+  --> $DIR/dustc-error.rs:4:1
    |
 LL | fn main() {
    | ^^^^^^^^^

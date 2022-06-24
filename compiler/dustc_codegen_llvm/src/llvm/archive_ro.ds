@@ -1,6 +1,6 @@
 //! A wrapper around LLVM's archive (.a) code
 
-use rustc_fs_util::path_to_c_string;
+use dustc_fs_util::path_to_c_string;
 use std::path::Path;
 use std::slice;
 use std::str;
@@ -29,7 +29,7 @@ impl ArchiveRO {
     pub fn open(dst: &Path) -> Result<ArchiveRO, String> {
         unsafe {
             let s = path_to_c_string(dst);
-            let ar = super::LLVMRustOpenArchive(s.as_ptr()).ok_or_else(|| {
+            let ar = super::LLVMDustOpenArchive(s.as_ptr()).ok_or_else(|| {
                 super::last_error().unwrap_or_else(|| "failed to open archive".to_owned())
             })?;
             Ok(ArchiveRO { raw: ar })
@@ -37,14 +37,14 @@ impl ArchiveRO {
     }
 
     pub fn iter(&self) -> Iter<'_> {
-        unsafe { Iter { raw: super::LLVMRustArchiveIteratorNew(self.raw) } }
+        unsafe { Iter { raw: super::LLVMDustArchiveIteratorNew(self.raw) } }
     }
 }
 
 impl Drop for ArchiveRO {
     fn drop(&mut self) {
         unsafe {
-            super::LLVMRustDestroyArchive(&mut *(self.raw as *mut _));
+            super::LLVMDustDestroyArchive(&mut *(self.raw as *mut _));
         }
     }
 }
@@ -54,7 +54,7 @@ impl<'a> Iterator for Iter<'a> {
 
     fn next(&mut self) -> Option<Result<Child<'a>, String>> {
         unsafe {
-            match super::LLVMRustArchiveIteratorNext(self.raw) {
+            match super::LLVMDustArchiveIteratorNext(self.raw) {
                 Some(raw) => Some(Ok(Child { raw })),
                 None => super::last_error().map(Err),
             }
@@ -65,7 +65,7 @@ impl<'a> Iterator for Iter<'a> {
 impl<'a> Drop for Iter<'a> {
     fn drop(&mut self) {
         unsafe {
-            super::LLVMRustArchiveIteratorFree(&mut *(self.raw as *mut _));
+            super::LLVMDustArchiveIteratorFree(&mut *(self.raw as *mut _));
         }
     }
 }
@@ -74,7 +74,7 @@ impl<'a> Child<'a> {
     pub fn name(&self) -> Option<&'a str> {
         unsafe {
             let mut name_len = 0;
-            let name_ptr = super::LLVMRustArchiveChildName(self.raw, &mut name_len);
+            let name_ptr = super::LLVMDustArchiveChildName(self.raw, &mut name_len);
             if name_ptr.is_null() {
                 None
             } else {
@@ -87,7 +87,7 @@ impl<'a> Child<'a> {
     pub fn data(&self) -> &'a [u8] {
         unsafe {
             let mut data_len = 0;
-            let data_ptr = super::LLVMRustArchiveChildData(self.raw, &mut data_len);
+            let data_ptr = super::LLVMDustArchiveChildData(self.raw, &mut data_len);
             if data_ptr.is_null() {
                 panic!("failed to read data from archive child");
             }
@@ -99,7 +99,7 @@ impl<'a> Child<'a> {
 impl<'a> Drop for Child<'a> {
     fn drop(&mut self) {
         unsafe {
-            super::LLVMRustArchiveChildFree(&mut *(self.raw as *mut _));
+            super::LLVMDustArchiveChildFree(&mut *(self.raw as *mut _));
         }
     }
 }

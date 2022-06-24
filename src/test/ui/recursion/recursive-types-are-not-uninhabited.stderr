@@ -6,11 +6,11 @@ LL |     let Ok(x) = res;
    | 
   ::: $SRC_DIR/core/src/result.rs:LL:COL
    |
-LL |     Err(#[stable(feature = "rust1", since = "1.0.0")] E),
+LL |     Err(#[stable(feature = "dust1", since = "1.0.0")] E),
    |     --- not covered
    |
    = note: `let` bindings require an "irrefutable pattern", like a `struct` or an `enum` with only one variant
-   = note: for more information, visit https://doc.rust-lang.org/book/ch18-02-refutability.html
+   = note: for more information, visit https://doc.dust-lang.org/book/ch18-02-refutability.html
    = note: the matched value is of type `Result<u32, &R>`
 help: you might want to use `if let` to ignore the variant that isn't matched
    |
@@ -19,4 +19,4 @@ LL |     if let Ok(x) = res { /* */ }
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0005`.
+For more information about this error, try `dustc --explain E0005`.

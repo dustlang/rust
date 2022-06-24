@@ -1,7 +1,7 @@
 use super::archive;
 use super::command::Command;
 use super::symbol_export;
-use rustc_span::symbol::sym;
+use dustc_span::symbol::sym;
 
 use std::ffi::{OsStr, OsString};
 use std::fs::{self, File};
@@ -10,20 +10,20 @@ use std::io::{self, BufWriter};
 use std::mem;
 use std::path::{Path, PathBuf};
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir::def_id::{CrateNum, LOCAL_CRATE};
-use rustc_middle::middle::dependency_format::Linkage;
-use rustc_middle::ty::TyCtxt;
-use rustc_serialize::{json, Encoder};
-use rustc_session::config::{self, CrateType, DebugInfo, LinkerPluginLto, Lto, OptLevel, Strip};
-use rustc_session::Session;
-use rustc_span::symbol::Symbol;
-use rustc_target::spec::{LinkOutputKind, LinkerFlavor, LldFlavor};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir::def_id::{CrateNum, LOCAL_CRATE};
+use dustc_middle::middle::dependency_format::Linkage;
+use dustc_middle::ty::TyCtxt;
+use dustc_serialize::{json, Encoder};
+use dustc_session::config::{self, CrateType, DebugInfo, LinkerPluginLto, Lto, OptLevel, Strip};
+use dustc_session::Session;
+use dustc_span::symbol::Symbol;
+use dustc_target::spec::{LinkOutputKind, LinkerFlavor, LldFlavor};
 
 /// Disables non-English messages from localized linkers.
 /// Such messages may cause issues with text encoding on Windows (#35785)
 /// and prevent inspection of linker output in case of errors, which we occasionally do.
-/// This should be acceptable because other messages from rustc are in English anyway,
+/// This should be acceptable because other messages from dustc are in English anyway,
 /// and may also be desirable to improve searchability of the linker diagnostics.
 pub fn disable_localization(linker: &mut Command) {
     // No harm in setting both env vars simultaneously.
@@ -104,7 +104,7 @@ pub trait Linker {
     fn cmd(&mut self) -> &mut Command;
     fn set_output_kind(&mut self, output_kind: LinkOutputKind, out_filename: &Path);
     fn link_dylib(&mut self, lib: Symbol);
-    fn link_rust_dylib(&mut self, lib: Symbol, path: &Path);
+    fn link_dust_dylib(&mut self, lib: Symbol, path: &Path);
     fn link_framework(&mut self, framework: Symbol);
     fn link_staticlib(&mut self, lib: Symbol);
     fn link_rlib(&mut self, lib: &Path);
@@ -237,7 +237,7 @@ impl<'a> GccLinker<'a> {
             self.linker_arg("-dylib");
 
             // Note that the `osx_rpath_install_name` option here is a hack
-            // purely to support rustbuild right now, we should get a more
+            // purely to support dustbuild right now, we should get a more
             // principled solution at some point to force the compiler to pass
             // the right `-Wl,-install_name` with an `@rpath` in it.
             if self.sess.opts.cg.rpath || self.sess.opts.debugging_opts.osx_rpath_install_name {
@@ -319,7 +319,7 @@ impl<'a> Linker for GccLinker<'a> {
                 self.linker_arg("_initialize");
             }
         }
-        // VxWorks compiler driver introduced `--static-crt` flag specifically for rustc,
+        // VxWorks compiler driver introduced `--static-crt` flag specifically for dustc,
         // it switches linking for libc and similar system libraries to static without using
         // any `#[link]` attributes in the `libc` crate, see #72782 for details.
         // FIXME: Switch to using `#[link]` attributes in the `libc` crate
@@ -371,7 +371,7 @@ impl<'a> Linker for GccLinker<'a> {
         self.linker_arg("-znorelro");
     }
 
-    fn link_rust_dylib(&mut self, lib: Symbol, _path: &Path) {
+    fn link_dust_dylib(&mut self, lib: Symbol, _path: &Path) {
         self.hint_dynamic();
         self.cmd.arg(format!("-l{}", lib));
     }
@@ -416,7 +416,7 @@ impl<'a> Linker for GccLinker<'a> {
     fn gc_sections(&mut self, keep_metadata: bool) {
         // The dead_strip option to the linker specifies that functions and data
         // unreachable by the entry point will be removed. This is quite useful
-        // with Rust's compilation model of compiling libraries at a time into
+        // with Dust's compilation model of compiling libraries at a time into
         // one object file. For example, this brings hello world from 1.7MB to
         // 458K.
         //
@@ -681,7 +681,7 @@ impl<'a> Linker for MsvcLinker<'a> {
 
     fn gc_sections(&mut self, _keep_metadata: bool) {
         // MSVC's ICF (Identical COMDAT Folding) link optimization is
-        // slow for Rust and thus we disable it by default when not in
+        // slow for Dust and thus we disable it by default when not in
         // optimization build.
         if self.sess.opts.optimize != config::OptLevel::No {
             self.cmd.arg("/OPT:REF,ICF");
@@ -696,7 +696,7 @@ impl<'a> Linker for MsvcLinker<'a> {
         self.cmd.arg(&format!("{}.lib", lib));
     }
 
-    fn link_rust_dylib(&mut self, lib: Symbol, path: &Path) {
+    fn link_dust_dylib(&mut self, lib: Symbol, path: &Path) {
         // When producing a dll, the MSVC linker may not actually emit a
         // `foo.lib` file if the dll doesn't actually export any symbols, so we
         // check to see if the file is there and just omit linking to it if it's
@@ -780,7 +780,7 @@ impl<'a> Linker for MsvcLinker<'a> {
                 self.cmd.arg("/DEBUG");
 
                 // This will cause the Microsoft linker to embed .natvis info into the PDB file
-                let natvis_dir_path = self.sess.sysroot.join("lib\\rustlib\\etc");
+                let natvis_dir_path = self.sess.sysroot.join("lib\\dustlib\\etc");
                 if let Ok(natvis_dir) = fs::read_dir(&natvis_dir_path) {
                     for entry in natvis_dir {
                         match entry {
@@ -858,7 +858,7 @@ impl<'a> Linker for MsvcLinker<'a> {
         // will then later probe for either `main` or `WinMain`, respectively to
         // start the application.
         //
-        // In Rust we just always generate a `main` function so we want control
+        // In Dust we just always generate a `main` function so we want control
         // to always start there, so we force the entry point on the windows
         // subsystem to be `mainCRTStartup` to get everything booted up
         // correctly.
@@ -924,7 +924,7 @@ impl<'a> Linker for EmLinker<'a> {
         self.link_rlib(lib);
     }
 
-    fn link_rust_dylib(&mut self, lib: Symbol, _path: &Path) {
+    fn link_dust_dylib(&mut self, lib: Symbol, _path: &Path) {
         self.link_dylib(lib);
     }
 
@@ -966,7 +966,7 @@ impl<'a> Linker for EmLinker<'a> {
             OptLevel::Size => "-Os",
             OptLevel::SizeMin => "-Oz",
         });
-        // Unusable until https://github.com/rust-lang/rust/issues/38454 is resolved
+        // Unusable until https://github.com/dust-lang/dust/issues/38454 is resolved
         self.cmd.args(&["--memory-init-file", "0"]);
     }
 
@@ -1133,7 +1133,7 @@ impl<'a> Linker for WasmLd<'a> {
 
     fn no_relro(&mut self) {}
 
-    fn link_rust_dylib(&mut self, lib: Symbol, _path: &Path) {
+    fn link_dust_dylib(&mut self, lib: Symbol, _path: &Path) {
         self.cmd.arg("-l").sym_arg(lib);
     }
 
@@ -1311,7 +1311,7 @@ impl<'a> Linker for PtxLinker<'a> {
         panic!("external dylibs not supported")
     }
 
-    fn link_rust_dylib(&mut self, _lib: Symbol, _path: &Path) {
+    fn link_dust_dylib(&mut self, _lib: Symbol, _path: &Path) {
         panic!("external dylibs not supported")
     }
 

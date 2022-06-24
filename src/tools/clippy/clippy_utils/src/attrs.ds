@@ -1,7 +1,7 @@
-use rustc_ast::ast;
-use rustc_errors::Applicability;
-use rustc_session::Session;
-use rustc_span::sym;
+use dustc_ast::ast;
+use dustc_errors::Applicability;
+use dustc_session::Session;
+use dustc_span::sym;
 use std::str::FromStr;
 
 /// Deprecation status of attributes known by Clippy.

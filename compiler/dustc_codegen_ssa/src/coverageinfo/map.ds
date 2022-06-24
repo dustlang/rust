@@ -1,12 +1,12 @@
 pub use super::ffi::*;
 
-use rustc_index::vec::IndexVec;
-use rustc_middle::mir::coverage::{
+use dustc_index::vec::IndexVec;
+use dustc_middle::mir::coverage::{
     CodeRegion, CounterValueReference, ExpressionOperandId, InjectedExpressionId,
     InjectedExpressionIndex, MappedExpressionIndex, Op,
 };
-use rustc_middle::ty::Instance;
-use rustc_middle::ty::TyCtxt;
+use dustc_middle::ty::Instance;
+use dustc_middle::ty::TyCtxt;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Expression {

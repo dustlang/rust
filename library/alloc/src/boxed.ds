@@ -1,7 +1,7 @@
 //! A pointer type for heap allocation.
 //!
 //! [`Box<T>`], casually referred to as a 'box', provides the simplest form of
-//! heap allocation in Rust. Boxes provide ownership for this allocation, and
+//! heap allocation in Dust. Boxes provide ownership for this allocation, and
 //! drop their contents when they go out of scope. Boxes also ensure that they
 //! never allocate more than `isize::MAX` bytes.
 //!
@@ -72,8 +72,8 @@
 //! So long as `T: Sized`, a `Box<T>` is guaranteed to be represented
 //! as a single pointer and is also ABI-compatible with C pointers
 //! (i.e. the C type `T*`). This means that if you have extern "C"
-//! Rust functions that will be called from C, you can define those
-//! Rust functions using `Box<T>` types, and use `T*` as corresponding
+//! Dust functions that will be called from C, you can define those
+//! Dust functions using `Box<T>` types, and use `T*` as corresponding
 //! type on the C side. As an example, consider this C header which
 //! declares functions that create and destroy some kind of `Foo`
 //! value:
@@ -88,10 +88,10 @@
 //! void foo_delete(struct Foo*);
 //! ```
 //!
-//! These two functions might be implemented in Rust as follows. Here, the
+//! These two functions might be implemented in Dust as follows. Here, the
 //! `struct Foo*` type from C is translated to `Box<Foo>`, which captures
 //! the ownership constraints. Note also that the nullable argument to
-//! `foo_delete` is represented in Rust as `Option<Box<Foo>>`, since `Box<Foo>`
+//! `foo_delete` is represented in Dust as `Option<Box<Foo>>`, since `Box<Foo>`
 //! cannot be null.
 //!
 //! ```
@@ -117,12 +117,12 @@
 //!
 //! **Important.** At least at present, you should avoid using
 //! `Box<T>` types for functions that are defined in C but invoked
-//! from Rust. In those cases, you should directly mirror the C types
+//! from Dust. In those cases, you should directly mirror the C types
 //! as closely as possible. Using types like `Box<T>` where the C
 //! definition is just using `T*` can lead to undefined behavior, as
-//! described in [rust-lang/unsafe-code-guidelines#198][ucg#198].
+//! described in [dust-lang/unsafe-code-guidelines#198][ucg#198].
 //!
-//! [ucg#198]: https://github.com/rust-lang/unsafe-code-guidelines/issues/198
+//! [ucg#198]: https://github.com/dust-lang/unsafe-code-guidelines/issues/198
 //! [dereferencing]: core::ops::Deref
 //! [`Box::<T>::from_raw(value)`]: Box::from_raw
 //! [`Global`]: crate::alloc::Global
@@ -130,7 +130,7 @@
 //! [`Layout::for_value(&*value)`]: crate::alloc::Layout::for_value
 //! [valid]: ptr#safety
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 use core::any::Any;
 use core::borrow;
@@ -161,7 +161,7 @@ use crate::vec::Vec;
 /// See the [module-level documentation](../../std/boxed/index.html) for more.
 #[lang = "owned_box"]
 #[fundamental]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Box<
     T: ?Sized,
     #[unstable(feature = "allocator_api", issue = "32838")] A: Allocator = Global,
@@ -180,7 +180,7 @@ impl<T> Box<T> {
     #[inline(always)]
     #[doc(alias = "alloc")]
     #[doc(alias = "malloc")]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn new(x: T) -> Self {
         box x
     }
@@ -998,14 +998,14 @@ impl<T: ?Sized, A: Allocator> Box<T, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 unsafe impl<#[may_dangle] T: ?Sized, A: Allocator> Drop for Box<T, A> {
     fn drop(&mut self) {
         // FIXME: Do nothing, drop is currently performed by compiler.
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: Default> Default for Box<T> {
     /// Creates a `Box<T>`, with the `Default` value for T.
     fn default() -> Self {
@@ -1013,7 +1013,7 @@ impl<T: Default> Default for Box<T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> Default for Box<[T]> {
     fn default() -> Self {
         Box::<[T; 0]>::new([])
@@ -1027,7 +1027,7 @@ impl Default for Box<str> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: Clone, A: Allocator + Clone> Clone for Box<T, A> {
     /// Returns a new box with a `clone()` of this box's contents.
     ///
@@ -1085,7 +1085,7 @@ impl Clone for Box<str> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized + PartialEq, A: Allocator> PartialEq for Box<T, A> {
     #[inline]
     fn eq(&self, other: &Self) -> bool {
@@ -1096,7 +1096,7 @@ impl<T: ?Sized + PartialEq, A: Allocator> PartialEq for Box<T, A> {
         PartialEq::ne(&**self, &**other)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized + PartialOrd, A: Allocator> PartialOrd for Box<T, A> {
     #[inline]
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
@@ -1119,17 +1119,17 @@ impl<T: ?Sized + PartialOrd, A: Allocator> PartialOrd for Box<T, A> {
         PartialOrd::gt(&**self, &**other)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized + Ord, A: Allocator> Ord for Box<T, A> {
     #[inline]
     fn cmp(&self, other: &Self) -> Ordering {
         Ord::cmp(&**self, &**other)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized + Eq, A: Allocator> Eq for Box<T, A> {}
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized + Hash, A: Allocator> Hash for Box<T, A> {
     fn hash<H: Hasher>(&self, state: &mut H) {
         (**self).hash(state);
@@ -1190,7 +1190,7 @@ impl<T> From<T> for Box<T> {
     /// from the stack into it.
     ///
     /// # Examples
-    /// ```rust
+    /// ```dust
     /// let x = 5;
     /// let boxed = Box::new(5);
     ///
@@ -1222,7 +1222,7 @@ impl<T: Copy> From<&[T]> for Box<[T]> {
     /// and performs a copy of `slice`.
     ///
     /// # Examples
-    /// ```rust
+    /// ```dust
     /// // create a &[u8] which will be used to create a Box<[u8]>
     /// let slice: &[u8] = &[104, 101, 108, 108, 111];
     /// let boxed_slice: Box<[u8]> = Box::from(slice);
@@ -1258,7 +1258,7 @@ impl From<&str> for Box<str> {
     /// and performs a copy of `s`.
     ///
     /// # Examples
-    /// ```rust
+    /// ```dust
     /// let boxed: Box<str> = Box::from("hello");
     /// println!("{}", boxed);
     /// ```
@@ -1286,7 +1286,7 @@ impl<A: Allocator> From<Box<str, A>> for Box<[u8], A> {
     /// This conversion does not allocate on the heap and happens in place.
     ///
     /// # Examples
-    /// ```rust
+    /// ```dust
     /// // create a Box<str> which will be used to create a Box<[u8]>
     /// let boxed: Box<str> = Box::from("hello");
     /// let boxed_str: Box<[u8]> = Box::from(boxed);
@@ -1311,7 +1311,7 @@ impl<T, const N: usize> From<[T; N]> for Box<[T]> {
     /// This conversion moves the array to newly heap-allocated memory.
     ///
     /// # Examples
-    /// ```rust
+    /// ```dust
     /// let boxed: Box<[u8]> = Box::from([4, 2]);
     /// println!("{:?}", boxed);
     /// ```
@@ -1335,7 +1335,7 @@ impl<T, const N: usize> TryFrom<Box<[T]>> for Box<[T; N]> {
 
 impl<A: Allocator> Box<dyn Any, A> {
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     /// Attempt to downcast the box to a concrete type.
     ///
     /// # Examples
@@ -1367,7 +1367,7 @@ impl<A: Allocator> Box<dyn Any, A> {
 
 impl<A: Allocator> Box<dyn Any + Send, A> {
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     /// Attempt to downcast the box to a concrete type.
     ///
     /// # Examples
@@ -1430,21 +1430,21 @@ impl<A: Allocator> Box<dyn Any + Send + Sync, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: fmt::Display + ?Sized, A: Allocator> fmt::Display for Box<T, A> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Display::fmt(&**self, f)
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: fmt::Debug + ?Sized, A: Allocator> fmt::Debug for Box<T, A> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Debug::fmt(&**self, f)
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized, A: Allocator> fmt::Pointer for Box<T, A> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         // It's not possible to extract the inner Uniq directly from the Box,
@@ -1454,7 +1454,7 @@ impl<T: ?Sized, A: Allocator> fmt::Pointer for Box<T, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized, A: Allocator> Deref for Box<T, A> {
     type Target = T;
 
@@ -1463,7 +1463,7 @@ impl<T: ?Sized, A: Allocator> Deref for Box<T, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized, A: Allocator> DerefMut for Box<T, A> {
     fn deref_mut(&mut self) -> &mut T {
         &mut **self
@@ -1473,7 +1473,7 @@ impl<T: ?Sized, A: Allocator> DerefMut for Box<T, A> {
 #[unstable(feature = "receiver_trait", issue = "none")]
 impl<T: ?Sized, A: Allocator> Receiver for Box<T, A> {}
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I: Iterator + ?Sized, A: Allocator> Iterator for Box<I, A> {
     type Item = I::Item;
     fn next(&mut self) -> Option<I::Item> {
@@ -1509,14 +1509,14 @@ impl<I: Iterator + ?Sized, A: Allocator> BoxIter for Box<I, A> {
 
 /// Specialization for sized `I`s that uses `I`s implementation of `last()`
 /// instead of the default.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I: Iterator, A: Allocator> BoxIter for Box<I, A> {
     fn last(self) -> Option<I::Item> {
         (*self).last()
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I: DoubleEndedIterator + ?Sized, A: Allocator> DoubleEndedIterator for Box<I, A> {
     fn next_back(&mut self) -> Option<I::Item> {
         (**self).next_back()
@@ -1525,7 +1525,7 @@ impl<I: DoubleEndedIterator + ?Sized, A: Allocator> DoubleEndedIterator for Box<
         (**self).nth_back(n)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I: ExactSizeIterator + ?Sized, A: Allocator> ExactSizeIterator for Box<I, A> {
     fn len(&self) -> usize {
         (**self).len()
@@ -1542,21 +1542,21 @@ impl<I: FusedIterator + ?Sized, A: Allocator> FusedIterator for Box<I, A> {}
 impl<Args, F: FnOnce<Args> + ?Sized, A: Allocator> FnOnce<Args> for Box<F, A> {
     type Output = <F as FnOnce<Args>>::Output;
 
-    extern "rust-call" fn call_once(self, args: Args) -> Self::Output {
+    extern "dust-call" fn call_once(self, args: Args) -> Self::Output {
         <F as FnOnce<Args>>::call_once(*self, args)
     }
 }
 
 #[stable(feature = "boxed_closure_impls", since = "1.35.0")]
 impl<Args, F: FnMut<Args> + ?Sized, A: Allocator> FnMut<Args> for Box<F, A> {
-    extern "rust-call" fn call_mut(&mut self, args: Args) -> Self::Output {
+    extern "dust-call" fn call_mut(&mut self, args: Args) -> Self::Output {
         <F as FnMut<Args>>::call_mut(self, args)
     }
 }
 
 #[stable(feature = "boxed_closure_impls", since = "1.35.0")]
 impl<Args, F: Fn<Args> + ?Sized, A: Allocator> Fn<Args> for Box<F, A> {
-    extern "rust-call" fn call(&self, args: Args) -> Self::Output {
+    extern "dust-call" fn call(&self, args: Args) -> Self::Output {
         <F as Fn<Args>>::call(self, args)
     }
 }

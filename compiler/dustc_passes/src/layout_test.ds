@@ -1,16 +1,16 @@
-use rustc_ast::Attribute;
-use rustc_hir as hir;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_hir::ItemKind;
-use rustc_middle::ty::layout::{HasParamEnv, HasTyCtxt, TyAndLayout};
-use rustc_middle::ty::{ParamEnv, Ty, TyCtxt};
-use rustc_span::symbol::sym;
-use rustc_target::abi::{HasDataLayout, LayoutOf, TargetDataLayout};
+use dustc_ast::Attribute;
+use dustc_hir as hir;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_hir::ItemKind;
+use dustc_middle::ty::layout::{HasParamEnv, HasTyCtxt, TyAndLayout};
+use dustc_middle::ty::{ParamEnv, Ty, TyCtxt};
+use dustc_span::symbol::sym;
+use dustc_target::abi::{HasDataLayout, LayoutOf, TargetDataLayout};
 
 pub fn test_layout(tcx: TyCtxt<'_>) {
-    if tcx.features().rustc_attrs {
-        // if the `rustc_attrs` feature is not enabled, don't bother testing layout
+    if tcx.features().dustc_attrs {
+        // if the `dustc_attrs` feature is not enabled, don't bother testing layout
         tcx.hir().krate().visit_all_item_likes(&mut LayoutTest { tcx });
     }
 }
@@ -27,7 +27,7 @@ impl ItemLikeVisitor<'tcx> for LayoutTest<'tcx> {
             | ItemKind::Struct(..)
             | ItemKind::Union(..) => {
                 for attr in self.tcx.get_attrs(item.def_id.to_def_id()).iter() {
-                    if self.tcx.sess.check_name(attr, sym::rustc_layout) {
+                    if self.tcx.sess.check_name(attr, sym::dustc_layout) {
                         self.dump_layout_of(item.def_id, item, attr);
                     }
                 }
@@ -48,7 +48,7 @@ impl LayoutTest<'tcx> {
         let ty = self.tcx.type_of(item_def_id);
         match self.tcx.layout_of(param_env.and(ty)) {
             Ok(ty_layout) => {
-                // Check out the `#[rustc_layout(..)]` attribute to tell what to dump.
+                // Check out the `#[dustc_layout(..)]` attribute to tell what to dump.
                 // The `..` are the names of fields to dump.
                 let meta_items = attr.meta_item_list().unwrap_or_default();
                 for meta_item in meta_items {

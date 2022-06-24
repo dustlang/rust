@@ -3,8 +3,8 @@ import re
 import sys
 
 indent = 0
-more_re = re.compile(r"^rust: ~\">>")
-less_re = re.compile(r"^rust: ~\"<<")
+more_re = re.compile(r"^dust: ~\">>")
+less_re = re.compile(r"^dust: ~\"<<")
 while True:
     line = sys.stdin.readline()
     if not line:

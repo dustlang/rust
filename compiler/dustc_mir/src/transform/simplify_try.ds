@@ -1,6 +1,6 @@
 //! The general point of the optimizations provided here is to simplify something like:
 //!
-//! ```rust
+//! ```dust
 //! match x {
 //!     Ok(x) => Ok(x),
 //!     Err(x) => Err(x)
@@ -11,11 +11,11 @@
 
 use crate::transform::{simplify, MirPass};
 use itertools::Itertools as _;
-use rustc_index::{bit_set::BitSet, vec::IndexVec};
-use rustc_middle::mir::visit::{NonUseContext, PlaceContext, Visitor};
-use rustc_middle::mir::*;
-use rustc_middle::ty::{self, List, Ty, TyCtxt};
-use rustc_target::abi::VariantIdx;
+use dustc_index::{bit_set::BitSet, vec::IndexVec};
+use dustc_middle::mir::visit::{NonUseContext, PlaceContext, Visitor};
+use dustc_middle::mir::*;
+use dustc_middle::ty::{self, List, Ty, TyCtxt};
+use dustc_target::abi::VariantIdx;
 use std::iter::{once, Enumerate, Peekable};
 use std::slice::Iter;
 
@@ -23,7 +23,7 @@ use std::slice::Iter;
 ///
 /// This is done by transforming basic blocks where the statements match:
 ///
-/// ```rust
+/// ```dust
 /// _LOCAL_TMP = ((_LOCAL_1 as Variant ).FIELD: TY );
 /// _TMP_2 = _LOCAL_TMP;
 /// ((_LOCAL_0 as Variant).FIELD: TY) = move _TMP_2;
@@ -32,7 +32,7 @@ use std::slice::Iter;
 ///
 /// into:
 ///
-/// ```rust
+/// ```dust
 /// _LOCAL_0 = move _LOCAL_1
 /// ```
 pub struct SimplifyArmIdentity;
@@ -137,7 +137,7 @@ fn get_arm_identity_info<'a, 'tcx>(
     }
 
     fn is_tmp_storage_stmt<'tcx>(stmt: &Statement<'tcx>) -> bool {
-        use rustc_middle::mir::StatementKind::Assign;
+        use dustc_middle::mir::StatementKind::Assign;
         if let Assign(box (place, Rvalue::Use(Operand::Copy(p) | Operand::Move(p)))) = &stmt.kind {
             place.as_local().is_some() && p.as_local().is_some()
         } else {
@@ -153,7 +153,7 @@ fn get_arm_identity_info<'a, 'tcx>(
         nop_stmts: &mut Vec<usize>,
     ) {
         try_eat(stmt_iter, is_tmp_storage_stmt, |idx, stmt| {
-            use rustc_middle::mir::StatementKind::Assign;
+            use dustc_middle::mir::StatementKind::Assign;
             if let Assign(box (place, Rvalue::Use(Operand::Copy(p) | Operand::Move(p)))) =
                 &stmt.kind
             {
@@ -472,7 +472,7 @@ impl<'tcx> Visitor<'tcx> for LocalUseCounter {
 }
 
 /// Match on:
-/// ```rust
+/// ```dust
 /// _LOCAL_INTO = ((_LOCAL_FROM as Variant).FIELD: TY);
 /// ```
 fn match_get_variant_field<'tcx>(
@@ -492,7 +492,7 @@ fn match_get_variant_field<'tcx>(
 }
 
 /// Match on:
-/// ```rust
+/// ```dust
 /// ((_LOCAL_FROM as Variant).FIELD: TY) = move _LOCAL_INTO;
 /// ```
 fn match_set_variant_field<'tcx>(stmt: &Statement<'tcx>) -> Option<(Local, Local, VarField<'tcx>)> {
@@ -507,7 +507,7 @@ fn match_set_variant_field<'tcx>(stmt: &Statement<'tcx>) -> Option<(Local, Local
 }
 
 /// Match on:
-/// ```rust
+/// ```dust
 /// discriminant(_LOCAL_TO_SET) = VAR_IDX;
 /// ```
 fn match_set_discr<'tcx>(stmt: &Statement<'tcx>) -> Option<(Local, VariantIdx)> {

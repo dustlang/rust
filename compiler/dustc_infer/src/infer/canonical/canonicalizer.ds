@@ -1,23 +1,23 @@
 //! This module contains the "canonicalizer" itself.
 //!
 //! For an overview of what canonicalization is and how it fits into
-//! rustc, check out the [chapter in the rustc dev guide][c].
+//! dustc, check out the [chapter in the dustc dev guide][c].
 //!
-//! [c]: https://rust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
+//! [c]: https://dust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
 
 use crate::infer::canonical::{
     Canonical, CanonicalTyVarKind, CanonicalVarInfo, CanonicalVarKind, Canonicalized,
     OriginalQueryValues,
 };
 use crate::infer::InferCtxt;
-use rustc_middle::ty::flags::FlagComputation;
-use rustc_middle::ty::fold::{TypeFoldable, TypeFolder};
-use rustc_middle::ty::subst::GenericArg;
-use rustc_middle::ty::{self, BoundVar, InferConst, List, Ty, TyCtxt, TypeFlags};
+use dustc_middle::ty::flags::FlagComputation;
+use dustc_middle::ty::fold::{TypeFoldable, TypeFolder};
+use dustc_middle::ty::subst::GenericArg;
+use dustc_middle::ty::{self, BoundVar, InferConst, List, Ty, TyCtxt, TypeFlags};
 use std::sync::atomic::Ordering;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_index::vec::Idx;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_index::vec::Idx;
 use smallvec::SmallVec;
 
 impl<'cx, 'tcx> InferCtxt<'cx, 'tcx> {
@@ -33,9 +33,9 @@ impl<'cx, 'tcx> InferCtxt<'cx, 'tcx> {
     /// with a mapping M that maps `'?0` to `'static`.
     ///
     /// To get a good understanding of what is happening here, check
-    /// out the [chapter in the rustc dev guide][c].
+    /// out the [chapter in the dustc dev guide][c].
     ///
-    /// [c]: https://rust-lang.github.io/chalk/book/canonical_queries/canonicalization.html#canonicalizing-the-query
+    /// [c]: https://dust-lang.github.io/chalk/book/canonical_queries/canonicalization.html#canonicalizing-the-query
     pub fn canonicalize_query<V>(
         &self,
         value: V,
@@ -77,9 +77,9 @@ impl<'cx, 'tcx> InferCtxt<'cx, 'tcx> {
     /// reference to `'static` alone.
     ///
     /// To get a good understanding of what is happening here, check
-    /// out the [chapter in the rustc dev guide][c].
+    /// out the [chapter in the dustc dev guide][c].
     ///
-    /// [c]: https://rust-lang.github.io/chalk/book/canonical_queries/canonicalization.html#canonicalizing-the-query-result
+    /// [c]: https://dust-lang.github.io/chalk/book/canonical_queries/canonicalization.html#canonicalizing-the-query-result
     pub fn canonicalize_response<V>(&self, value: V) -> Canonicalized<'tcx, V>
     where
         V: TypeFoldable<'tcx>,
@@ -196,12 +196,12 @@ impl CanonicalizeRegionMode for CanonicalizeQueryResponse {
                 // canonicalized environment, so there shouldn't be
                 // any other region names it can come up.
                 //
-                // rust-lang/rust#57464: `impl Trait` can leak local
+                // dust-lang/dust#57464: `impl Trait` can leak local
                 // scopes (in manner violating typeck). Therefore, use
                 // `delay_span_bug` to allow type error over an ICE.
                 ty::tls::with(|tcx| {
                     tcx.sess.delay_span_bug(
-                        rustc_span::DUMMY_SP,
+                        dustc_span::DUMMY_SP,
                         &format!("unexpected region in query response: `{:?}`", r),
                     );
                 });

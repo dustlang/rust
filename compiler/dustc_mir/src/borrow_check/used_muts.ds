@@ -1,9 +1,9 @@
-use rustc_middle::mir::visit::{PlaceContext, Visitor};
-use rustc_middle::mir::{
+use dustc_middle::mir::visit::{PlaceContext, Visitor};
+use dustc_middle::mir::{
     Local, Location, Place, Statement, StatementKind, Terminator, TerminatorKind,
 };
 
-use rustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::fx::FxHashSet;
 
 use crate::borrow_check::MirBorrowckCtxt;
 

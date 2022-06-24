@@ -1,4 +1,4 @@
-// From rust:
+// From dust:
 /* global resourcesSuffix */
 
 var darkThemes = ["dark", "ayu"];
@@ -18,7 +18,7 @@ var settingsDataset = (function () {
 })();
 
 function getSettingValue(settingName) {
-    var current = getCurrentValue('rustdoc-' + settingName);
+    var current = getCurrentValue('dustdoc-' + settingName);
     if (current !== null) {
         return current;
     }
@@ -106,14 +106,14 @@ function getCurrentValue(name) {
 }
 
 function switchTheme(styleElem, mainStyleElem, newTheme, saveTheme) {
-    var fullBasicCss = "rustdoc" + resourcesSuffix + ".css";
+    var fullBasicCss = "dustdoc" + resourcesSuffix + ".css";
     var fullNewTheme = newTheme + resourcesSuffix + ".css";
     var newHref = mainStyleElem.href.replace(fullBasicCss, fullNewTheme);
 
     // If this new value comes from a system setting or from the previously
     // saved theme, no need to save it.
     if (saveTheme === true) {
-        updateLocalStorage("rustdoc-theme", newTheme);
+        updateLocalStorage("dustdoc-theme", newTheme);
     }
 
     if (styleElem.href === newHref) {
@@ -144,7 +144,7 @@ function useSystemTheme(value) {
         value = true;
     }
 
-    updateLocalStorage("rustdoc-use-system-theme", value);
+    updateLocalStorage("dustdoc-use-system-theme", value);
 
     // update the toggle if we're on the settings page
     var toggle = document.getElementById("use-system-theme");
@@ -201,11 +201,11 @@ var updateSystemTheme = (function() {
 
 if (getSettingValue("use-system-theme") !== "false" && window.matchMedia) {
     // update the preferred dark theme if the user is already using a dark theme
-    // See https://github.com/rust-lang/rust/pull/77809#issuecomment-707875732
+    // See https://github.com/dust-lang/dust/pull/77809#issuecomment-707875732
     if (getSettingValue("use-system-theme") === null
         && getSettingValue("preferred-dark-theme") === null
         && darkThemes.indexOf(localStoredTheme) >= 0) {
-        updateLocalStorage("rustdoc-preferred-dark-theme", localStoredTheme);
+        updateLocalStorage("dustdoc-preferred-dark-theme", localStoredTheme);
     }
 
     // call the function to initialize the theme at least once!

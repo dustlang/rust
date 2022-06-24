@@ -5,7 +5,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error[E0700]: hidden type for `impl Trait` captures lifetime that does not appear in bounds
   --> $DIR/error-handling-2.rs:16:60
@@ -21,4 +21,4 @@ LL | fn foo<'a: 'b, 'b, 'c>(x: &'static i32, mut y: &'a i32) -> E<'b, 'c> {
 
 error: aborting due to previous error; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0700`.
+For more information about this error, try `dustc --explain E0700`.

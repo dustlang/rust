@@ -1,15 +1,15 @@
-use rustc_ast::ast::{LitFloatType, LitIntType, LitKind};
-use rustc_errors::Applicability;
-use rustc_hir::{
+use dustc_ast::ast::{LitFloatType, LitIntType, LitKind};
+use dustc_errors::Applicability;
+use dustc_hir::{
     intravisit::{walk_expr, walk_stmt, NestedVisitorMap, Visitor},
     Body, Expr, ExprKind, HirId, Lit, Stmt, StmtKind,
 };
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::{
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::{
     hir::map::Map,
     ty::{self, FloatTy, IntTy, PolyFnSig, Ty},
 };
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 use if_chain::if_chain;
 
@@ -23,7 +23,7 @@ declare_clippy_lint! {
     /// types at the end of type inference, then integer type is bound to `i32`, and similarly
     /// floating type is bound to `f64`.
     ///
-    /// See [RFC0212](https://github.com/rust-lang/rfcs/blob/master/text/0212-restore-int-fallback.md) for more information about the fallback.
+    /// See [RFC0212](https://github.com/dust-lang/rfcs/blob/master/text/0212-restore-int-fallback.md) for more information about the fallback.
     ///
     /// **Why is this bad?** For those who are very careful about types, default numeric fallback
     /// can be a pitfall that cause unexpected runtime behavior.
@@ -31,13 +31,13 @@ declare_clippy_lint! {
     /// **Known problems:** This lint can only be allowed at the function level or above.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let i = 10;
     /// let f = 1.23;
     /// ```
     ///
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// let i = 10i32;
     /// let f = 1.23f64;
     /// ```

@@ -1,4 +1,4 @@
-// Rust JSON serialization library.
+// Dust JSON serialization library.
 // Copyright (c) 2011 Google Inc.
 
 #![forbid(non_camel_case_types)]
@@ -14,12 +14,12 @@
 //!
 //! Data types that can be encoded are JavaScript types (see the `Json` enum for more details):
 //!
-//! * `Boolean`: equivalent to rust's `bool`
-//! * `Number`: equivalent to rust's `f64`
-//! * `String`: equivalent to rust's `String`
-//! * `Array`: equivalent to rust's `Vec<T>`, but also allowing objects of different types in the
+//! * `Boolean`: equivalent to dust's `bool`
+//! * `Number`: equivalent to dust's `f64`
+//! * `String`: equivalent to dust's `String`
+//! * `Array`: equivalent to dust's `Vec<T>`, but also allowing objects of different types in the
 //!   same array
-//! * `Object`: equivalent to rust's `BTreeMap<String, json::Json>`
+//! * `Object`: equivalent to dust's `BTreeMap<String, json::Json>`
 //! * `Null`
 //!
 //! An object is a series of string keys mapping to values, in `"key": value` format.
@@ -43,13 +43,13 @@
 //! }
 //! ```
 //!
-//! # Rust Type-based Encoding and Decoding
+//! # Dust Type-based Encoding and Decoding
 //!
-//! Rust provides a mechanism for low boilerplate encoding & decoding of values to and from JSON via
+//! Dust provides a mechanism for low boilerplate encoding & decoding of values to and from JSON via
 //! the serialization API.
 //! To be able to encode a piece of data, it must implement the `serialize::Encodable` trait.
 //! To be able to decode a piece of data, it must implement the `serialize::Decodable` trait.
-//! The Rust compiler provides an annotation to automatically generate the code for these traits:
+//! The Dust compiler provides an annotation to automatically generate the code for these traits:
 //! `#[derive(Decodable, Encodable)]`
 //!
 //! The JSON API provides an enum `json::Json` and a trait `ToJson` to encode objects.
@@ -66,10 +66,10 @@
 //! Create a struct called `TestStruct` and serialize and deserialize it to and from JSON using the
 //! serialization API, using the derived serialization code.
 //!
-//! ```rust
-//! # #![feature(rustc_private)]
-//! use rustc_macros::{Decodable, Encodable};
-//! use rustc_serialize::json;
+//! ```dust
+//! # #![feature(dustc_private)]
+//! use dustc_macros::{Decodable, Encodable};
+//! use dustc_serialize::json;
 //!
 //! // Automatically generate `Decodable` and `Encodable` trait implementations
 //! #[derive(Decodable, Encodable)]
@@ -99,10 +99,10 @@
 //!
 //! ### Simple example of `ToJson` usage
 //!
-//! ```rust
-//! # #![feature(rustc_private)]
-//! use rustc_macros::Encodable;
-//! use rustc_serialize::json::{self, ToJson, Json};
+//! ```dust
+//! # #![feature(dustc_private)]
+//! use dustc_macros::Encodable;
+//! use dustc_serialize::json::{self, ToJson, Json};
 //!
 //! // A custom data structure
 //! struct ComplexNum {
@@ -137,11 +137,11 @@
 //!
 //! ### Verbose example of `ToJson` usage
 //!
-//! ```rust
-//! # #![feature(rustc_private)]
-//! use rustc_macros::Decodable;
+//! ```dust
+//! # #![feature(dustc_private)]
+//! use dustc_macros::Decodable;
 //! use std::collections::BTreeMap;
-//! use rustc_serialize::json::{self, Json, ToJson};
+//! use dustc_serialize::json::{self, Json, ToJson};
 //!
 //! // Only generate `Decodable` trait implementation
 //! #[derive(Decodable)]
@@ -2242,7 +2242,7 @@ pub fn from_str(s: &str) -> Result<Json, BuilderError> {
     builder.build()
 }
 
-/// A structure to decode JSON to values in rust.
+/// A structure to decode JSON to values in dust.
 pub struct Decoder {
     stack: Vec<Json>,
 }

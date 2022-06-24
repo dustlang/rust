@@ -17,7 +17,7 @@
 //! notion of reachability is in fact slightly weaker than MIR CFG reachability - see #31617). A
 //! standard example of the situation is:
 //!
-//! ```rust
+//! ```dust
 //!   fn example() {
 //!       let _a: char = { return; };
 //!   }
@@ -28,11 +28,11 @@
 //! return.
 
 use crate::transform::MirPass;
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_middle::mir::visit::{MutVisitor, MutatingUseContext, PlaceContext, Visitor};
-use rustc_middle::mir::*;
-use rustc_middle::ty::ParamEnv;
-use rustc_middle::ty::TyCtxt;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_middle::mir::visit::{MutVisitor, MutatingUseContext, PlaceContext, Visitor};
+use dustc_middle::mir::*;
+use dustc_middle::ty::ParamEnv;
+use dustc_middle::ty::TyCtxt;
 use smallvec::SmallVec;
 use std::{borrow::Cow, convert::TryInto};
 

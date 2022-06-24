@@ -10,15 +10,15 @@
 //!  - option-if-let-else
 
 use crate::{is_ctor_or_promotable_const_function, is_type_diagnostic_item};
-use rustc_hir::def::{DefKind, Res};
+use dustc_hir::def::{DefKind, Res};
 
-use rustc_hir::intravisit;
-use rustc_hir::intravisit::{NestedVisitorMap, Visitor};
+use dustc_hir::intravisit;
+use dustc_hir::intravisit::{NestedVisitorMap, Visitor};
 
-use rustc_hir::{Block, Expr, ExprKind, Path, QPath};
-use rustc_lint::LateContext;
-use rustc_middle::hir::map::Map;
-use rustc_span::sym;
+use dustc_hir::{Block, Expr, ExprKind, Path, QPath};
+use dustc_lint::LateContext;
+use dustc_middle::hir::map::Map;
+use dustc_span::sym;
 
 /// Is the expr pure (is it free from side-effects)?
 /// This function is named so to stress that it isn't exhaustive and returns FNs.

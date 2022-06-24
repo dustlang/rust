@@ -54,7 +54,7 @@
 /// assert_eq!(true as i32, 1);
 /// assert_eq!(false as i32, 0);
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_bool {}
 
 #[doc(primitive = "never")]
@@ -119,7 +119,7 @@ mod prim_bool {}
 /// When implementing this trait for [`String`] we need to pick a type for [`Err`]. And since
 /// converting a string into a string will never result in an error, the appropriate type is `!`.
 /// (Currently the type actually used is an enum with no variants, though this is only because `!`
-/// was added to Rust at a later date and it may change in the future.) With an [`Err`] type of
+/// was added to Dust at a later date and it may change in the future.) With an [`Err`] type of
 /// `!`, if we have to call [`String::from_str`] for some reason the result will be a
 /// [`Result<String, !>`] which we can unpack like this:
 ///
@@ -223,7 +223,7 @@ mod prim_bool {}
 /// `u32`. Since `u32` is a concrete type, `!` can and will be coerced to it. See issue [#36375]
 /// for more information on this quirk of `!`.
 ///
-/// [#36375]: https://github.com/rust-lang/rust/issues/36375
+/// [#36375]: https://github.com/dust-lang/dust/issues/36375
 ///
 /// As it turns out, though, most traits can have an `impl` for `!`. Take [`Debug`]
 /// for example:
@@ -341,7 +341,7 @@ mod prim_never {}
 /// assert_eq!(12, std::mem::size_of_val(&s[..]));
 /// assert_eq!(32, std::mem::size_of_val(&v[..]));
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_char {}
 
 #[doc(primitive = "unit")]
@@ -353,7 +353,7 @@ mod prim_char {}
 /// commonly seen implicitly: functions without a `-> ...` implicitly
 /// have return type `()`, that is, these are equivalent:
 ///
-/// ```rust
+/// ```dust
 /// fn long() -> () {}
 ///
 /// fn short() {}
@@ -363,7 +363,7 @@ mod prim_char {}
 /// expression at the end of a block, making the expression (and thus
 /// the block) evaluate to `()`. For example,
 ///
-/// ```rust
+/// ```dust
 /// fn returns_i64() -> i64 {
 ///     1i64
 /// }
@@ -379,7 +379,7 @@ mod prim_char {}
 /// };
 /// ```
 ///
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_unit {}
 
 #[doc(alias = "ptr")]
@@ -389,7 +389,7 @@ mod prim_unit {}
 ///
 /// *[See also the `std::ptr` module](ptr).*
 ///
-/// Working with raw pointers in Rust is uncommon, typically limited to a few patterns.
+/// Working with raw pointers in Dust is uncommon, typically limited to a few patterns.
 /// Raw pointers can be unaligned or [`null`]. However, when a raw pointer is
 /// dereferenced (using the `*` operator), it must be non-null and aligned.
 ///
@@ -448,7 +448,7 @@ mod prim_unit {}
 /// ## 3. Get it from C.
 ///
 /// ```
-/// # #![feature(rustc_private)]
+/// # #![feature(dustc_private)]
 /// extern crate libc;
 ///
 /// use std::mem;
@@ -462,9 +462,9 @@ mod prim_unit {}
 /// }
 /// ```
 ///
-/// Usually you wouldn't literally use `malloc` and `free` from Rust,
+/// Usually you wouldn't literally use `malloc` and `free` from Dust,
 /// but C APIs hand out a lot of pointers generally, so are a common source
-/// of raw pointers in Rust.
+/// of raw pointers in Dust.
 ///
 /// [`null`]: ptr::null
 /// [`null_mut`]: ptr::null_mut
@@ -473,11 +473,11 @@ mod prim_unit {}
 /// [`into_raw`]: Box::into_raw
 /// [`drop`]: mem::drop
 /// [`write`]: ptr::write
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_pointer {}
 
 #[doc(alias = "[]")]
-#[doc(alias = "[T;N]")] // unfortunately, rustdoc doesn't have fuzzy search for aliases
+#[doc(alias = "[T;N]")] // unfortunately, dustdoc doesn't have fuzzy search for aliases
 #[doc(alias = "[T; N]")]
 #[doc(primitive = "array")]
 /// A fixed-size array, denoted `[T; N]`, for the element type, `T`, and the
@@ -570,7 +570,7 @@ mod prim_pointer {}
 /// [`Borrow`]: borrow::Borrow
 /// [`BorrowMut`]: borrow::BorrowMut
 /// [slice pattern]: ../reference/patterns.html#slice-patterns
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_array {}
 
 #[doc(primitive = "slice")]
@@ -619,7 +619,7 @@ mod prim_array {}
 /// assert_eq!(2 * pointer_size, std::mem::size_of::<Box<[u8]>>());
 /// assert_eq!(2 * pointer_size, std::mem::size_of::<Rc<[u8]>>());
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_slice {}
 
 #[doc(primitive = "str")]
@@ -684,7 +684,7 @@ mod prim_slice {}
 /// Note: This example shows the internals of `&str`. `unsafe` should not be
 /// used to get a string slice under normal circumstances. Use `as_str`
 /// instead.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_str {}
 
 #[doc(primitive = "tuple")]
@@ -718,7 +718,7 @@ mod prim_str {}
 /// Tuples are a *sequence*. This means that they can be accessed by position;
 /// this is called 'tuple indexing', and it looks like this:
 ///
-/// ```rust
+/// ```dust
 /// let tuple = ("hello", 5, 'c');
 ///
 /// assert_eq!(tuple.0, "hello");
@@ -750,7 +750,7 @@ mod prim_str {}
 /// [`Debug`]: fmt::Debug
 /// [`Hash`]: hash::Hash
 ///
-/// Due to a temporary restriction in Rust's type system, these traits are only
+/// Due to a temporary restriction in Dust's type system, these traits are only
 /// implemented on tuples of arity 12 or less. In the future, this may change.
 ///
 /// # Examples
@@ -785,7 +785,7 @@ mod prim_str {}
 /// assert_eq!(y, 5);
 /// ```
 ///
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_tuple {}
 
 #[doc(primitive = "f32")]
@@ -824,7 +824,7 @@ mod prim_tuple {}
 /// *[See also the `std::f32::consts` module](crate::f32::consts).*
 ///
 /// [wikipedia]: https://en.wikipedia.org/wiki/Single-precision_floating-point_format
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_f32 {}
 
 #[doc(primitive = "f64")]
@@ -839,31 +839,31 @@ mod prim_f32 {}
 ///
 /// [`f32`]: prim@f32
 /// [wikipedia]: https://en.wikipedia.org/wiki/Double-precision_floating-point_format
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_f64 {}
 
 #[doc(primitive = "i8")]
 //
 /// The 8-bit signed integer type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_i8 {}
 
 #[doc(primitive = "i16")]
 //
 /// The 16-bit signed integer type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_i16 {}
 
 #[doc(primitive = "i32")]
 //
 /// The 32-bit signed integer type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_i32 {}
 
 #[doc(primitive = "i64")]
 //
 /// The 64-bit signed integer type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_i64 {}
 
 #[doc(primitive = "i128")]
@@ -875,25 +875,25 @@ mod prim_i128 {}
 #[doc(primitive = "u8")]
 //
 /// The 8-bit unsigned integer type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_u8 {}
 
 #[doc(primitive = "u16")]
 //
 /// The 16-bit unsigned integer type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_u16 {}
 
 #[doc(primitive = "u32")]
 //
 /// The 32-bit unsigned integer type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_u32 {}
 
 #[doc(primitive = "u64")]
 //
 /// The 64-bit unsigned integer type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_u64 {}
 
 #[doc(primitive = "u128")]
@@ -909,7 +909,7 @@ mod prim_u128 {}
 /// The size of this primitive is how many bytes it takes to reference any
 /// location in memory. For example, on a 32 bit target, this is 4 bytes
 /// and on a 64 bit target, this is 8 bytes.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_isize {}
 
 #[doc(primitive = "usize")]
@@ -919,7 +919,7 @@ mod prim_isize {}
 /// The size of this primitive is how many bytes it takes to reference any
 /// location in memory. For example, on a 32 bit target, this is 4 bytes
 /// and on a 64 bit target, this is 8 bytes.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_usize {}
 
 #[doc(primitive = "reference")]
@@ -1031,7 +1031,7 @@ mod prim_usize {}
 /// * [`DoubleEndedIterator`]
 /// * [`ExactSizeIterator`]
 /// * [`FusedIterator`]
-/// * [`TrustedLen`]
+/// * [`TdustedLen`]
 /// * [`Send`] \(note that `&T` references only get `Send` if `T: Sync`)
 /// * [`io::Write`]
 /// * [`Read`]
@@ -1039,7 +1039,7 @@ mod prim_usize {}
 /// * [`BufRead`]
 ///
 /// [`FusedIterator`]: iter::FusedIterator
-/// [`TrustedLen`]: iter::TrustedLen
+/// [`TdustedLen`]: iter::TdustedLen
 /// [`Seek`]: io::Seek
 /// [`BufRead`]: io::BufRead
 /// [`Read`]: io::Read
@@ -1048,7 +1048,7 @@ mod prim_usize {}
 /// work on references as well as they do on owned values! The implementations described here are
 /// meant for generic contexts, where the final type `T` is a type parameter or otherwise not
 /// locally known.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_ref {}
 
 #[doc(primitive = "fn")]
@@ -1109,8 +1109,8 @@ mod prim_ref {}
 ///
 /// On top of that, function pointers can vary based on what ABI they use. This
 /// is achieved by adding the `extern` keyword before the type, followed by the
-/// ABI in question. The default ABI is "Rust", i.e., `fn()` is the exact same
-/// type as `extern "Rust" fn()`. A pointer to a function with C ABI would have
+/// ABI in question. The default ABI is "Dust", i.e., `fn()` is the exact same
+/// type as `extern "Dust" fn()`. A pointer to a function with C ABI would have
 /// type `extern "C" fn()`.
 ///
 /// `extern "ABI" { ... }` blocks declare functions with ABI "ABI". The default
@@ -1125,7 +1125,7 @@ mod prim_ref {}
 /// ### Variadic functions
 ///
 /// Extern function declarations with the "C" or "cdecl" ABIs can also be *variadic*, allowing them
-/// to be called with a variable number of arguments. Normal Rust functions, even those with an
+/// to be called with a variable number of arguments. Normal Dust functions, even those with an
 /// `extern "ABI"`, cannot be variadic. For more information, see [the nomicon's section on
 /// variadic functions][nomicon-variadic].
 ///
@@ -1142,7 +1142,7 @@ mod prim_ref {}
 ///
 /// This zero-sized type *coerces* to a regular function pointer. For example:
 ///
-/// ```rust
+/// ```dust
 /// use std::mem;
 ///
 /// fn bar(x: i32) {}
@@ -1176,12 +1176,12 @@ mod prim_ref {}
 /// [`Hash`]: hash::Hash
 /// [`Pointer`]: fmt::Pointer
 ///
-/// Due to a temporary restriction in Rust's type system, these traits are only implemented on
-/// functions that take 12 arguments or less, with the `"Rust"` and `"C"` ABIs. In the future, this
+/// Due to a temporary restriction in Dust's type system, these traits are only implemented on
+/// functions that take 12 arguments or less, with the `"Dust"` and `"C"` ABIs. In the future, this
 /// may change.
 ///
 /// In addition, function pointers of *any* signature, ABI, or safety are [`Copy`], and all *safe*
 /// function pointers implement [`Fn`], [`FnMut`], and [`FnOnce`]. This works because these traits
 /// are specially known to the compiler.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 mod prim_fn {}

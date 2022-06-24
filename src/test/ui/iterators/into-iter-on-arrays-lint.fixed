@@ -1,5 +1,5 @@
 // run-pass
-// run-rustfix
+// run-dustfix
 
 fn main() {
     let small = [1, 2];

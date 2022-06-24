@@ -12,9 +12,9 @@ test = { path = "./sysroot_src/library/test" }
 compiler_builtins = { version = "0.1.39", default-features = false, features = ["no-asm"] }
 
 [patch.crates-io]
-rustc-std-workspace-core = { path = "./sysroot_src/library/rustc-std-workspace-core" }
-rustc-std-workspace-alloc = { path = "./sysroot_src/library/rustc-std-workspace-alloc" }
-rustc-std-workspace-std = { path = "./sysroot_src/library/rustc-std-workspace-std" }
+dustc-std-workspace-core = { path = "./sysroot_src/library/dustc-std-workspace-core" }
+dustc-std-workspace-alloc = { path = "./sysroot_src/library/dustc-std-workspace-alloc" }
+dustc-std-workspace-std = { path = "./sysroot_src/library/dustc-std-workspace-std" }
 compiler_builtins = { path = "./compiler-builtins" }
 
 [profile.dev]

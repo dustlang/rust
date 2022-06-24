@@ -30,4 +30,4 @@ LL |     bar::<IntStruct>();
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0271`.
+For more information about this error, try `dustc --explain E0271`.

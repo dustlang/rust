@@ -4,7 +4,7 @@ error[E0658]: type alias impl trait is not permitted here
 LL | static A: Option<F> = None;
    |                       ^^^^
    |
-   = note: see issue #63065 <https://github.com/rust-lang/rust/issues/63065> for more information
+   = note: see issue #63065 <https://github.com/dust-lang/dust/issues/63065> for more information
    = help: add `#![feature(impl_trait_in_bindings)]` to the crate attributes to enable
 
 error: concrete type differs from previous defining opaque type use
@@ -21,4 +21,4 @@ LL | static A: Option<F> = None;
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0658`.
+For more information about this error, try `dustc --explain E0658`.

@@ -55,7 +55,7 @@ This API is completely unstable and subject to change.
 
 */
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(bindings_after_at)]
 #![feature(bool_to_option)]
 #![feature(box_syntax)]
@@ -75,7 +75,7 @@ This API is completely unstable and subject to change.
 extern crate tracing;
 
 #[macro_use]
-extern crate rustc_middle;
+extern crate dustc_middle;
 
 // These are used by Clippy.
 pub mod check;
@@ -94,21 +94,21 @@ mod outlives;
 mod structured_errors;
 mod variance;
 
-use rustc_errors::{struct_span_err, ErrorReported};
-use rustc_hir as hir;
-use rustc_hir::def_id::{LocalDefId, LOCAL_CRATE};
-use rustc_hir::Node;
-use rustc_infer::infer::{InferOk, TyCtxtInferExt};
-use rustc_infer::traits::TraitEngineExt as _;
-use rustc_middle::middle;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_middle::util;
-use rustc_session::config::EntryFnType;
-use rustc_span::{symbol::sym, Span, DUMMY_SP};
-use rustc_target::spec::abi::Abi;
-use rustc_trait_selection::traits::error_reporting::InferCtxtExt as _;
-use rustc_trait_selection::traits::{
+use dustc_errors::{struct_span_err, ErrorReported};
+use dustc_hir as hir;
+use dustc_hir::def_id::{LocalDefId, LOCAL_CRATE};
+use dustc_hir::Node;
+use dustc_infer::infer::{InferOk, TyCtxtInferExt};
+use dustc_infer::traits::TraitEngineExt as _;
+use dustc_middle::middle;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_middle::util;
+use dustc_session::config::EntryFnType;
+use dustc_span::{symbol::sym, Span, DUMMY_SP};
+use dustc_target::spec::abi::Abi;
+use dustc_trait_selection::traits::error_reporting::InferCtxtExt as _;
+use dustc_trait_selection::traits::{
     ObligationCause, ObligationCauseCode, TraitEngine, TraitEngineExt as _,
 };
 
@@ -245,7 +245,7 @@ fn check_main_fn_ty(tcx: TyCtxt<'_>, main_def_id: LocalDefId) {
                     expected_return_type,
                     false,
                     hir::Unsafety::Normal,
-                    Abi::Rust,
+                    Abi::Dust,
                 )
             }));
 
@@ -334,7 +334,7 @@ fn check_start_fn_ty(tcx: TyCtxt<'_>, start_def_id: LocalDefId) {
                 tcx.types.isize,
                 false,
                 hir::Unsafety::Normal,
-                Abi::Rust,
+                Abi::Dust,
             )));
 
             require_same_types(
@@ -381,7 +381,7 @@ pub fn check_crate(tcx: TyCtxt<'_>) -> Result<(), ErrorReported> {
         });
     })?;
 
-    if tcx.features().rustc_attrs {
+    if tcx.features().dustc_attrs {
         tcx.sess.track_errors(|| {
             tcx.sess.time("outlives_testing", || outlives::test::test_inferred_outlives(tcx));
         })?;
@@ -395,7 +395,7 @@ pub fn check_crate(tcx: TyCtxt<'_>) -> Result<(), ErrorReported> {
         tcx.sess.time("coherence_checking", || coherence::check_coherence(tcx));
     })?;
 
-    if tcx.features().rustc_attrs {
+    if tcx.features().dustc_attrs {
         tcx.sess.track_errors(|| {
             tcx.sess.time("variance_testing", || variance::test::test_variance(tcx));
         })?;
@@ -405,7 +405,7 @@ pub fn check_crate(tcx: TyCtxt<'_>) -> Result<(), ErrorReported> {
         tcx.sess.time("wf_checking", || check::check_wf_new(tcx));
     })?;
 
-    // NOTE: This is copy/pasted in librustdoc/core.rs and should be kept in sync.
+    // NOTE: This is copy/pasted in libdustdoc/core.rs and should be kept in sync.
     tcx.sess.time("item_types_checking", || {
         for &module in tcx.hir().krate().modules.keys() {
             tcx.ensure().check_mod_item_types(module);
@@ -420,7 +420,7 @@ pub fn check_crate(tcx: TyCtxt<'_>) -> Result<(), ErrorReported> {
     if tcx.sess.err_count() == 0 { Ok(()) } else { Err(ErrorReported) }
 }
 
-/// A quasi-deprecated helper used in rustdoc and clippy to get
+/// A quasi-deprecated helper used in dustdoc and clippy to get
 /// the type from a HIR node.
 pub fn hir_ty_to_ty<'tcx>(tcx: TyCtxt<'tcx>, hir_ty: &hir::Ty<'_>) -> Ty<'tcx> {
     // In case there are any projections, etc., find the "environment"

@@ -1,11 +1,11 @@
-use rustc_errors::Applicability;
-use rustc_hir::{BinOpKind, BorrowKind, Expr, ExprKind, LangItem, QPath};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Spanned;
-use rustc_span::sym;
+use dustc_errors::Applicability;
+use dustc_hir::{BinOpKind, BorrowKind, Expr, ExprKind, LangItem, QPath};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Spanned;
+use dustc_span::sym;
 
 use if_chain::if_chain;
 
@@ -26,7 +26,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// let mut x = "Hello".to_owned();
     /// x = x + ", World";
     ///
@@ -58,7 +58,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// let x = "Hello".to_owned();
     /// x + ", World";
     /// ```
@@ -97,7 +97,7 @@ declare_clippy_lint! {
     /// more readable than a function call.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// let bs = "a byte string".as_bytes();
     ///
@@ -186,11 +186,11 @@ declare_clippy_lint! {
     /// **Known problems:** None
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let _ = std::str::from_utf8(&"Hello World!".as_bytes()[6..11]).unwrap();
     /// ```
     /// could be written as
-    /// ```rust
+    /// ```dust
     /// let _ = &"Hello World!"[6..11];
     /// ```
     pub STRING_FROM_UTF8_AS_BYTES,
@@ -206,7 +206,7 @@ declare_lint_pass!(StringLitAsBytes => [STRING_LIT_AS_BYTES, STRING_FROM_UTF8_AS
 impl<'tcx> LateLintPass<'tcx> for StringLitAsBytes {
     fn check_expr(&mut self, cx: &LateContext<'tcx>, e: &'tcx Expr<'_>) {
         use crate::utils::{snippet, snippet_with_applicability};
-        use rustc_ast::LitKind;
+        use dustc_ast::LitKind;
 
         if_chain! {
             // Find std::str::converts::from_utf8
@@ -301,12 +301,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // example code where clippy issues a warning
     /// let _ = "str".to_string();
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// // example code which does not raise clippy warning
     /// let _ = "str".to_owned();
     /// ```
@@ -348,13 +348,13 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // example code where clippy issues a warning
     /// let msg = String::from("Hello World");
     /// let _ = msg.to_string();
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// // example code which does not raise clippy warning
     /// let msg = String::from("Hello World");
     /// let _ = msg.clone();

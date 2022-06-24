@@ -15,4 +15,4 @@ pub fn box_uninitialized() -> Box<MaybeUninit<usize>> {
 }
 
 // FIXME: add a test for a bigger box. Currently broken, see
-// https://github.com/rust-lang/rust/issues/58201.
+// https://github.com/dust-lang/dust/issues/58201.

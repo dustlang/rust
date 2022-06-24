@@ -3,13 +3,13 @@ use crate::utils::{
     snippet_with_macro_callsite, span_lint_and_sugg,
 };
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{Expr, ExprKind, LangItem, MatchSource, QPath};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty::{self, Ty};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::sym;
+use dustc_errors::Applicability;
+use dustc_hir::{Expr, ExprKind, LangItem, MatchSource, QPath};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty::{self, Ty};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::sym;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for usages of `Err(x)?`.
@@ -22,7 +22,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// fn foo(fail: bool) -> Result<i32, String> {
     ///     if fail {
     ///       Err("failed")?;
@@ -32,7 +32,7 @@ declare_clippy_lint! {
     /// ```
     /// Could be written:
     ///
-    /// ```rust
+    /// ```dust
     /// fn foo(fail: bool) -> Result<i32, String> {
     ///     if fail {
     ///       return Err("failed".into());

@@ -6,13 +6,13 @@ use crate::utils::{
     path_to_local, path_to_local_id, paths, snippet_with_applicability, span_lint_and_sugg,
 };
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::intravisit::{walk_block, walk_expr, NestedVisitorMap, Visitor};
-use rustc_hir::{Expr, ExprKind, HirId, MatchSource, Node, PatKind};
-use rustc_lint::LateContext;
-use rustc_middle::hir::map::Map;
+use dustc_errors::Applicability;
+use dustc_hir::intravisit::{walk_block, walk_expr, NestedVisitorMap, Visitor};
+use dustc_hir::{Expr, ExprKind, HirId, MatchSource, Node, PatKind};
+use dustc_lint::LateContext;
+use dustc_middle::hir::map::Map;
 
-use rustc_span::symbol::sym;
+use dustc_span::symbol::sym;
 
 pub(super) fn check(cx: &LateContext<'tcx>, expr: &'tcx Expr<'_>) {
     if let ExprKind::Match(ref match_expr, ref arms, MatchSource::WhileLetDesugar) = expr.kind {

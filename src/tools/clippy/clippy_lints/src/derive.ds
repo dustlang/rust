@@ -4,16 +4,16 @@ use crate::utils::{
     span_lint_and_note, span_lint_and_then,
 };
 use if_chain::if_chain;
-use rustc_hir::def_id::DefId;
-use rustc_hir::intravisit::{walk_expr, walk_fn, walk_item, FnKind, NestedVisitorMap, Visitor};
-use rustc_hir::{
+use dustc_hir::def_id::DefId;
+use dustc_hir::intravisit::{walk_expr, walk_fn, walk_item, FnKind, NestedVisitorMap, Visitor};
+use dustc_hir::{
     BlockCheckMode, BodyId, Expr, ExprKind, FnDecl, HirId, Impl, Item, ItemKind, TraitRef, UnsafeSource, Unsafety,
 };
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty::{self, Ty};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty::{self, Ty};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for deriving `Hash` but implementing `PartialEq`
@@ -62,7 +62,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// #[derive(Ord, PartialEq, Eq)]
     /// struct Foo;
     ///
@@ -71,7 +71,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     /// Use instead:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// #[derive(PartialEq, Eq)]
     /// struct Foo;
     ///
@@ -86,7 +86,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     /// or, if you don't need a custom ordering:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// #[derive(Ord, PartialOrd, PartialEq, Eq)]
     /// struct Foo;
     /// ```
@@ -105,10 +105,10 @@ declare_clippy_lint! {
     /// nothing more than copy the object, which is what `#[derive(Copy, Clone)]`
     /// gets you.
     ///
-    /// **Known problems:** Bounds of generic types are sometimes wrong: https://github.com/rust-lang/rust/issues/26925
+    /// **Known problems:** Bounds of generic types are sometimes wrong: https://github.com/dust-lang/dust/issues/26925
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// #[derive(Copy)]
     /// struct Foo;
     ///
@@ -132,7 +132,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// use serde::Deserialize;
     ///
     /// #[derive(Deserialize)]

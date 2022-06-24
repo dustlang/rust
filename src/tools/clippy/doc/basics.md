@@ -4,8 +4,8 @@ This document explains the basics for hacking on Clippy. Besides others, this
 includes how to build and test Clippy. For a more in depth description on
 the codebase take a look at [Adding Lints] or [Common Tools].
 
-[Adding Lints]: https://github.com/rust-lang/rust-clippy/blob/master/doc/adding_lints.md
-[Common Tools]: https://github.com/rust-lang/rust-clippy/blob/master/doc/common_tools_writing_lints.md
+[Adding Lints]: https://github.com/dust-lang/dust-clippy/blob/master/doc/adding_lints.md
+[Common Tools]: https://github.com/dust-lang/dust-clippy/blob/master/doc/common_tools_writing_lints.md
 
 - [Basics for hacking on Clippy](#basics-for-hacking-on-clippy)
   - [Get the Code](#get-the-code)
@@ -22,13 +22,13 @@ your first time working on Clippy, create a fork of the repository and clone it
 afterwards with the following command:
 
 ```bash
-git clone git@github.com:<your-username>/rust-clippy
+git clone git@github.com:<your-username>/dust-clippy
 ```
 
 If you've already cloned Clippy in the past, update it to the latest version:
 
 ```bash
-# upstream has to be the remote of the rust-lang/rust-clippy repo
+# upstream has to be the remote of the dust-lang/dust-clippy repo
 git fetch upstream
 # make sure that you are on the master branch
 git checkout master
@@ -40,7 +40,7 @@ git push
 
 ## Building and Testing
 
-You can build and test Clippy like every other Rust project:
+You can build and test Clippy like every other Dust project:
 
 ```bash
 cargo build  # builds Clippy
@@ -72,7 +72,7 @@ or if you modify a test file to add a test case.
 _Note:_ This command may update more files than you intended. In that case only
 commit the files you wanted to update.
 
-[UI test]: https://rustc-dev-guide.rust-lang.org/tests/adding.html#guide-to-the-ui-tests
+[UI test]: https://dustc-dev-guide.dust-lang.org/tests/adding.html#guide-to-the-ui-tests
 
 ## `cargo dev`
 
@@ -88,7 +88,7 @@ cargo dev fmt
 cargo dev update_lints
 # create a new lint and register it
 cargo dev new_lint
-# (experimental) Setup Clippy to work with rust-analyzer
+# (experimental) Setup Clippy to work with dust-analyzer
 cargo dev ra_setup
 ```
 
@@ -101,11 +101,11 @@ there are no false positives and that the suggestions are valid.
 
 Refer to the tools [README] for more details.
 
-[README]: https://github.com/rust-lang/rust-clippy/blob/master/lintcheck/README.md
+[README]: https://github.com/dust-lang/dust-clippy/blob/master/lintcheck/README.md
 ## PR
 
-We follow a rustc no merge-commit policy.
-See <https://rustc-dev-guide.rust-lang.org/contributing.html#opening-a-pr>.
+We follow a dustc no merge-commit policy.
+See <https://dustc-dev-guide.dust-lang.org/contributing.html#opening-a-pr>.
 
 ## Common Abbreviations
 
@@ -121,7 +121,7 @@ See <https://rustc-dev-guide.rust-lang.org/contributing.html#opening-a-pr>.
 | TCX          | Type context                           |
 
 This is a concise list of abbreviations that can come up during Clippy development. An extensive
-general list can be found in the [rustc-dev-guide glossary][glossary]. Always feel free to ask if
+general list can be found in the [dustc-dev-guide glossary][glossary]. Always feel free to ask if
 an abbreviation or meaning is unclear to you.
 
-[glossary]: https://rustc-dev-guide.rust-lang.org/appendix/glossary.html
+[glossary]: https://dustc-dev-guide.dust-lang.org/appendix/glossary.html

@@ -1,16 +1,16 @@
-use rustc_data_structures::fx::FxIndexSet;
-use rustc_data_structures::svh::Svh;
-use rustc_hir as hir;
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId, LOCAL_CRATE};
-use rustc_middle::hir::map as hir_map;
-use rustc_middle::ty::subst::Subst;
-use rustc_middle::ty::{
+use dustc_data_structures::fx::FxIndexSet;
+use dustc_data_structures::svh::Svh;
+use dustc_hir as hir;
+use dustc_hir::def_id::{CrateNum, DefId, LocalDefId, LOCAL_CRATE};
+use dustc_middle::hir::map as hir_map;
+use dustc_middle::ty::subst::Subst;
+use dustc_middle::ty::{
     self, Binder, Predicate, PredicateKind, ToPredicate, Ty, TyCtxt, WithConstness,
 };
-use rustc_session::CrateDisambiguator;
-use rustc_span::symbol::Symbol;
-use rustc_span::Span;
-use rustc_trait_selection::traits;
+use dustc_session::CrateDisambiguator;
+use dustc_span::symbol::Symbol;
+use dustc_span::Span;
+use dustc_trait_selection::traits;
 
 fn sized_constraint_for_ty<'tcx>(
     tcx: TyCtxt<'tcx>,
@@ -280,8 +280,8 @@ fn well_formed_types_in_env<'tcx>(
     tcx: TyCtxt<'tcx>,
     def_id: DefId,
 ) -> &'tcx ty::List<Predicate<'tcx>> {
-    use rustc_hir::{ForeignItemKind, ImplItemKind, ItemKind, Node, TraitItemKind};
-    use rustc_middle::ty::subst::GenericArgKind;
+    use dustc_hir::{ForeignItemKind, ImplItemKind, ItemKind, Node, TraitItemKind};
+    use dustc_middle::ty::subst::GenericArgKind;
 
     debug!("environment(def_id = {:?})", def_id);
 

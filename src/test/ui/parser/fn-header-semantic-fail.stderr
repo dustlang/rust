@@ -215,4 +215,4 @@ LL |         const async unsafe extern "C" fn ft5() {}
 error: aborting due to 20 previous errors
 
 Some errors have detailed explanations: E0053, E0379, E0706.
-For more information about an error, try `rustc --explain E0053`.
+For more information about an error, try `dustc --explain E0053`.

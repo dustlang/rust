@@ -6,7 +6,7 @@ LL |             let mut closure1 = || p = &y;
    |
    = note: defining type: test::{closure#0}::{closure#0} with closure substs [
                i16,
-               extern "rust-call" fn(()),
+               extern "dust-call" fn(()),
                (&'_#1r mut &'_#2r i32, &'_#3r i32),
            ]
    = note: number of external vids: 4
@@ -24,7 +24,7 @@ LL | |         };
    |
    = note: defining type: test::{closure#0} with closure substs [
                i16,
-               extern "rust-call" fn(()),
+               extern "dust-call" fn(()),
                (&'_#1r mut &'_#2r i32, &'_#3r i32),
            ]
    = note: number of external vids: 4
@@ -60,4 +60,4 @@ LL |     deref(p);
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0597`.
+For more information about this error, try `dustc --explain E0597`.

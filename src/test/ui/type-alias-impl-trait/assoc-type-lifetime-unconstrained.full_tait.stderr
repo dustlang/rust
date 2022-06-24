@@ -5,7 +5,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error[E0207]: the lifetime parameter `'a` is not constrained by the impl trait, self type, or predicates
   --> $DIR/assoc-type-lifetime-unconstrained.rs:20:6
@@ -15,4 +15,4 @@ LL | impl<'a, I> UnwrapItemsExt for I {
 
 error: aborting due to previous error; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0207`.
+For more information about this error, try `dustc --explain E0207`.

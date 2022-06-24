@@ -4,30 +4,30 @@ use crate::mir::{self, interpret};
 use crate::ty::codec::{RefDecodable, TyDecoder, TyEncoder};
 use crate::ty::context::TyCtxt;
 use crate::ty::{self, Ty};
-use rustc_data_structures::fingerprint::{Fingerprint, FingerprintDecoder, FingerprintEncoder};
-use rustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexSet};
-use rustc_data_structures::sync::{HashMapExt, Lock, Lrc, OnceCell};
-use rustc_data_structures::thin_vec::ThinVec;
-use rustc_data_structures::unhash::UnhashMap;
-use rustc_errors::Diagnostic;
-use rustc_hir::def_id::{CrateNum, DefId, DefIndex, LocalDefId, LOCAL_CRATE};
-use rustc_hir::definitions::DefPathHash;
-use rustc_hir::definitions::Definitions;
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_query_system::dep_graph::DepContext;
-use rustc_query_system::query::QueryContext;
-use rustc_serialize::{
+use dustc_data_structures::fingerprint::{Fingerprint, FingerprintDecoder, FingerprintEncoder};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexSet};
+use dustc_data_structures::sync::{HashMapExt, Lock, Lrc, OnceCell};
+use dustc_data_structures::thin_vec::ThinVec;
+use dustc_data_structures::unhash::UnhashMap;
+use dustc_errors::Diagnostic;
+use dustc_hir::def_id::{CrateNum, DefId, DefIndex, LocalDefId, LOCAL_CRATE};
+use dustc_hir::definitions::DefPathHash;
+use dustc_hir::definitions::Definitions;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_query_system::dep_graph::DepContext;
+use dustc_query_system::query::QueryContext;
+use dustc_serialize::{
     opaque::{self, FileEncodeResult, FileEncoder},
     Decodable, Decoder, Encodable, Encoder,
 };
-use rustc_session::{CrateDisambiguator, Session};
-use rustc_span::hygiene::{
+use dustc_session::{CrateDisambiguator, Session};
+use dustc_span::hygiene::{
     ExpnDataDecodeMode, ExpnDataEncodeMode, ExpnId, HygieneDecodeContext, HygieneEncodeContext,
     SyntaxContext, SyntaxContextData,
 };
-use rustc_span::source_map::{SourceMap, StableSourceFileId};
-use rustc_span::CachingSourceMapView;
-use rustc_span::{BytePos, ExpnData, SourceFile, Span, DUMMY_SP};
+use dustc_span::source_map::{SourceMap, StableSourceFileId};
+use dustc_span::CachingSourceMapView;
+use dustc_span::{BytePos, ExpnData, SourceFile, Span, DUMMY_SP};
 use std::collections::hash_map::Entry;
 use std::iter::FromIterator;
 use std::mem;
@@ -815,7 +815,7 @@ impl<'a, 'tcx> Decodable<CacheDecoder<'a, 'tcx>> for Vec<u8> {
 impl<'a, 'tcx> Decodable<CacheDecoder<'a, 'tcx>> for SyntaxContext {
     fn decode(decoder: &mut CacheDecoder<'a, 'tcx>) -> Result<Self, String> {
         let syntax_contexts = decoder.syntax_contexts;
-        rustc_span::hygiene::decode_syntax_context(decoder, decoder.hygiene_context, |this, id| {
+        dustc_span::hygiene::decode_syntax_context(decoder, decoder.hygiene_context, |this, id| {
             // This closure is invoked if we haven't already decoded the data for the `SyntaxContext` we are deserializing.
             // We look up the position of the associated `SyntaxData` and decode it.
             let pos = syntax_contexts.get(&id).unwrap();
@@ -830,7 +830,7 @@ impl<'a, 'tcx> Decodable<CacheDecoder<'a, 'tcx>> for SyntaxContext {
 impl<'a, 'tcx> Decodable<CacheDecoder<'a, 'tcx>> for ExpnId {
     fn decode(decoder: &mut CacheDecoder<'a, 'tcx>) -> Result<Self, String> {
         let expn_data = decoder.expn_data;
-        rustc_span::hygiene::decode_expn_id(
+        dustc_span::hygiene::decode_expn_id(
             decoder,
             ExpnDataDecodeMode::incr_comp(decoder.hygiene_context),
             |this, index| {
@@ -945,7 +945,7 @@ impl<'a, 'tcx> Decodable<CacheDecoder<'a, 'tcx>> for &'tcx [(ty::Predicate<'tcx>
     }
 }
 
-impl<'a, 'tcx> Decodable<CacheDecoder<'a, 'tcx>> for &'tcx [rustc_ast::InlineAsmTemplatePiece] {
+impl<'a, 'tcx> Decodable<CacheDecoder<'a, 'tcx>> for &'tcx [dustc_ast::InlineAsmTemplatePiece] {
     fn decode(d: &mut CacheDecoder<'a, 'tcx>) -> Result<Self, String> {
         RefDecodable::decode(d)
     }
@@ -1022,7 +1022,7 @@ where
     E: 'a + OpaqueEncoder,
 {
     fn encode(&self, s: &mut CacheEncoder<'a, 'tcx, E>) -> Result<(), E::Error> {
-        rustc_span::hygiene::raw_encode_syntax_context(*self, s.hygiene_context, s)
+        dustc_span::hygiene::raw_encode_syntax_context(*self, s.hygiene_context, s)
     }
 }
 
@@ -1031,7 +1031,7 @@ where
     E: 'a + OpaqueEncoder,
 {
     fn encode(&self, s: &mut CacheEncoder<'a, 'tcx, E>) -> Result<(), E::Error> {
-        rustc_span::hygiene::raw_encode_expn_id(
+        dustc_span::hygiene::raw_encode_expn_id(
             *self,
             s.hygiene_context,
             ExpnDataEncodeMode::IncrComp,

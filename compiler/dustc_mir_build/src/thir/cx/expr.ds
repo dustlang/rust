@@ -1,21 +1,21 @@
 use crate::thir::cx::Cx;
 use crate::thir::util::UserAnnotatedTyHelpers;
 use crate::thir::*;
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
-use rustc_index::vec::Idx;
-use rustc_middle::hir::place::Place as HirPlace;
-use rustc_middle::hir::place::PlaceBase as HirPlaceBase;
-use rustc_middle::hir::place::ProjectionKind as HirProjectionKind;
-use rustc_middle::mir::interpret::Scalar;
-use rustc_middle::mir::BorrowKind;
-use rustc_middle::ty::adjustment::{
+use dustc_data_structures::stack::ensure_sufficient_stack;
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
+use dustc_index::vec::Idx;
+use dustc_middle::hir::place::Place as HirPlace;
+use dustc_middle::hir::place::PlaceBase as HirPlaceBase;
+use dustc_middle::hir::place::ProjectionKind as HirProjectionKind;
+use dustc_middle::mir::interpret::Scalar;
+use dustc_middle::mir::BorrowKind;
+use dustc_middle::ty::adjustment::{
     Adjust, Adjustment, AutoBorrow, AutoBorrowMutability, PointerCast,
 };
-use rustc_middle::ty::subst::{InternalSubsts, SubstsRef};
-use rustc_middle::ty::{self, AdtKind, Ty};
-use rustc_span::Span;
+use dustc_middle::ty::subst::{InternalSubsts, SubstsRef};
+use dustc_middle::ty::{self, AdtKind, Ty};
+use dustc_span::Span;
 
 use std::iter;
 
@@ -675,7 +675,7 @@ impl<'thir, 'tcx> Cx<'thir, 'tcx> {
                                 ) => {
                                     let idx = adt_def.variant_index_with_ctor_id(variant_ctor_id);
                                     let (d, o) = adt_def.discriminant_def_for_variant(idx);
-                                    use rustc_middle::ty::util::IntTypeExt;
+                                    use dustc_middle::ty::util::IntTypeExt;
                                     let ty = adt_def.repr.discr_type();
                                     let ty = ty.to_ty(self.tcx());
                                     Some((d, o, ty))
@@ -1035,7 +1035,7 @@ impl<'thir, 'tcx> Cx<'thir, 'tcx> {
         let temp_lifetime = self.region_scope_tree.temporary_scope(closure_expr.hir_id.local_id);
         let var_ty = place.base_ty;
 
-        // The result of capture analysis in `rustc_typeck/check/upvar.rs`represents a captured path
+        // The result of capture analysis in `dustc_typeck/check/upvar.rs`represents a captured path
         // as it's seen for use within the closure and not at the time of closure creation.
         //
         // That is we see expect to see it start from a captured upvar and not something that is local
@@ -1128,7 +1128,7 @@ trait ToBorrowKind {
 
 impl ToBorrowKind for AutoBorrowMutability {
     fn to_borrow_kind(&self) -> BorrowKind {
-        use rustc_middle::ty::adjustment::AllowTwoPhase;
+        use dustc_middle::ty::adjustment::AllowTwoPhase;
         match *self {
             AutoBorrowMutability::Mut { allow_two_phase_borrow } => BorrowKind::Mut {
                 allow_two_phase_borrow: match allow_two_phase_borrow {

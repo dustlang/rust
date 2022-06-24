@@ -15,7 +15,7 @@ LL | let x: () = 5i32;
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0308`.
+For more information about this error, try `dustc --explain E0308`.
 Some expected error codes were not found: ["E0004"]
 
 failures:

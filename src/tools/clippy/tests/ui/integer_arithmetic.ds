@@ -8,7 +8,7 @@
     clippy::op_ref
 )]
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn main() {
     let mut i = 1i32;
     let mut var1 = 0i32;

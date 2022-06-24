@@ -1,5 +1,5 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) foo.rs -g -O
-	RUSTC="$(RUSTC_ORIGINAL)" $(call RUN,foo)
+	$(DUSTC) foo.rs -g -O
+	DUSTC="$(DUSTC_ORIGINAL)" $(call RUN,foo)

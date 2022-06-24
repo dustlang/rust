@@ -8,4 +8,4 @@ LL |         llvm_asm!("nop" : "+r"("r15"));
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0668`.
+For more information about this error, try `dustc --explain E0668`.

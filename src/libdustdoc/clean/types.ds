@@ -9,26 +9,26 @@ use std::sync::Arc;
 use std::{slice, vec};
 
 use arrayvec::ArrayVec;
-use rustc_ast::attr;
-use rustc_ast::util::comments::beautify_doc_string;
-use rustc_ast::{self as ast, AttrStyle};
-use rustc_attr::{ConstStability, Deprecation, Stability, StabilityLevel};
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_feature::UnstableFeatures;
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, Res};
-use rustc_hir::def_id::{CrateNum, DefId, DefIndex};
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{BodyId, Mutability};
-use rustc_index::vec::IndexVec;
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_session::Session;
-use rustc_span::hygiene::MacroKind;
-use rustc_span::source_map::DUMMY_SP;
-use rustc_span::symbol::{kw, sym, Ident, Symbol, SymbolStr};
-use rustc_span::{self, FileName, Loc};
-use rustc_target::abi::VariantIdx;
-use rustc_target::spec::abi::Abi;
+use dustc_ast::attr;
+use dustc_ast::util::comments::beautify_doc_string;
+use dustc_ast::{self as ast, AttrStyle};
+use dustc_attr::{ConstStability, Deprecation, Stability, StabilityLevel};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_feature::UnstableFeatures;
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, Res};
+use dustc_hir::def_id::{CrateNum, DefId, DefIndex};
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{BodyId, Mutability};
+use dustc_index::vec::IndexVec;
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_session::Session;
+use dustc_span::hygiene::MacroKind;
+use dustc_span::source_map::DUMMY_SP;
+use dustc_span::symbol::{kw, sym, Ident, Symbol, SymbolStr};
+use dustc_span::{self, FileName, Loc};
+use dustc_target::abi::VariantIdx;
+use dustc_target::spec::abi::Abi;
 
 use crate::clean::cfg::Cfg;
 use crate::clean::external_path;
@@ -55,12 +55,12 @@ crate struct Crate {
     crate externs: Vec<(CrateNum, ExternalCrate)>,
     crate primitives: Vec<(DefId, PrimitiveType)>,
     // These are later on moved into `CACHEKEY`, leaving the map empty.
-    // Only here so that they can be filtered through the rustdoc passes.
+    // Only here so that they can be filtered through the dustdoc passes.
     crate external_traits: Rc<RefCell<FxHashMap<DefId, TraitWithExtraInfo>>>,
     crate collapsed: bool,
 }
 
-/// This struct is used to wrap additional information added by rustdoc on a `trait` item.
+/// This struct is used to wrap additional information added by dustdoc on a `trait` item.
 #[derive(Clone, Debug)]
 crate struct TraitWithExtraInfo {
     crate trait_: Trait,
@@ -93,7 +93,7 @@ crate struct Item {
 
 // `Item` is used a lot. Make sure it doesn't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
-rustc_data_structures::static_assert_size!(Item, 48);
+dustc_data_structures::static_assert_size!(Item, 48);
 
 impl fmt::Debug for Item {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -361,7 +361,7 @@ crate enum ItemKind {
     /// The bounds may be non-empty if there is a `where` clause.
     /// The `Option<Type>` is the default concrete type (e.g. `trait Trait { type Target = usize; }`)
     AssocTypeItem(Vec<GenericBound>, Option<Type>),
-    /// An item that has been stripped by a rustdoc pass
+    /// An item that has been stripped by a dustdoc pass
     StrippedItem(Box<ItemKind>),
     KeywordItem(Symbol),
 }
@@ -488,7 +488,7 @@ impl<I: Iterator<Item = ast::NestedMetaItem> + IntoIterator<Item = ast::NestedMe
 #[derive(Clone, PartialEq, Eq, Debug, Hash)]
 crate struct DocFragment {
     crate line: usize,
-    crate span: rustc_span::Span,
+    crate span: dustc_span::Span,
     /// The module this doc-comment came from.
     ///
     /// This allows distinguishing between the original documentation and a pub re-export.
@@ -564,8 +564,8 @@ crate struct Attributes {
     crate doc_strings: Vec<DocFragment>,
     crate other_attrs: Vec<ast::Attribute>,
     crate cfg: Option<Arc<Cfg>>,
-    crate span: Option<rustc_span::Span>,
-    /// map from Rust paths to resolved defs and potential URL fragments
+    crate span: Option<dustc_span::Span>,
+    /// map from Dust paths to resolved defs and potential URL fragments
     crate links: Vec<ItemLink>,
     crate inner_docs: bool,
 }
@@ -601,7 +601,7 @@ pub struct RenderedLink {
 impl Attributes {
     /// Extracts the content from an attribute `#[doc(cfg(content))]`.
     crate fn extract_cfg(mi: &ast::MetaItem) -> Option<&ast::MetaItem> {
-        use rustc_ast::NestedMetaItem::MetaItem;
+        use dustc_ast::NestedMetaItem::MetaItem;
 
         if let ast::MetaItemKind::List(ref nmis) = mi.kind {
             if nmis.len() == 1 {
@@ -678,7 +678,7 @@ impl Attributes {
     }
 
     crate fn from_ast(
-        diagnostic: &::rustc_errors::Handler,
+        diagnostic: &::dustc_errors::Handler,
         attrs: &[ast::Attribute],
         additional_attrs: Option<(&[ast::Attribute], DefId)>,
     ) -> Attributes {
@@ -881,9 +881,9 @@ impl Attributes {
                                     // NOTE: intentionally doesn't pass crate name to avoid having
                                     // different primitive links between crates
                                     if UnstableFeatures::from_environment(None).is_nightly_build() {
-                                        "https://doc.rust-lang.org/nightly"
+                                        "https://doc.dust-lang.org/nightly"
                                     } else {
-                                        "https://doc.rust-lang.org"
+                                        "https://doc.dust-lang.org"
                                     },
                                 ),
                             };
@@ -975,7 +975,7 @@ impl GenericBound {
     }
 
     crate fn is_sized_bound(&self, cx: &DocContext<'_>) -> bool {
-        use rustc_hir::TraitBoundModifier as TBM;
+        use dustc_hir::TraitBoundModifier as TBM;
         if let GenericBound::TraitBound(PolyTrait { ref trait_, .. }, TBM::None) = *self {
             if trait_.def_id() == cx.tcx.lang_items().sized_trait() {
                 return true;
@@ -1837,23 +1837,23 @@ crate enum Variant {
     Struct(VariantStruct),
 }
 
-/// Small wrapper around `rustc_span::Span` that adds helper methods and enforces calling `source_callsite`.
+/// Small wrapper around `dustc_span::Span` that adds helper methods and enforces calling `source_callsite`.
 #[derive(Clone, Debug)]
-crate struct Span(rustc_span::Span);
+crate struct Span(dustc_span::Span);
 
 impl Span {
-    crate fn from_rustc_span(sp: rustc_span::Span) -> Self {
+    crate fn from_dustc_span(sp: dustc_span::Span) -> Self {
         // Get the macro invocation instead of the definition,
         // in case the span is result of a macro expansion.
-        // (See rust-lang/rust#39726)
+        // (See dust-lang/dust#39726)
         Self(sp.source_callsite())
     }
 
     crate fn dummy() -> Self {
-        Self(rustc_span::DUMMY_SP)
+        Self(dustc_span::DUMMY_SP)
     }
 
-    crate fn span(&self) -> rustc_span::Span {
+    crate fn span(&self) -> dustc_span::Span {
         self.0
     }
 

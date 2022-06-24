@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_driver"
+name = "dustc_driver"
 version = "0.0.0"
 edition = "2018"
 
@@ -13,33 +13,33 @@ atty = "0.2"
 tracing = { version = "0.1.25" }
 tracing-subscriber = { version = "0.2.16", default-features = false, features = ["fmt", "env-filter", "smallvec", "parking_lot", "ansi"] }
 tracing-tree = "0.1.9"
-rustc_middle = { path = "../rustc_middle" }
-rustc_ast_pretty = { path = "../rustc_ast_pretty" }
-rustc_target = { path = "../rustc_target" }
-rustc_lint = { path = "../rustc_lint" }
-rustc_data_structures = { path = "../rustc_data_structures" }
-rustc_errors = { path = "../rustc_errors" }
-rustc_feature = { path = "../rustc_feature" }
-rustc_hir = { path = "../rustc_hir" }
-rustc_hir_pretty = { path = "../rustc_hir_pretty" }
-rustc_metadata = { path = "../rustc_metadata" }
-rustc_mir = { path = "../rustc_mir" }
-rustc_parse = { path = "../rustc_parse" }
-rustc_plugin_impl = { path = "../rustc_plugin_impl" }
-rustc_save_analysis = { path = "../rustc_save_analysis" }
-rustc_codegen_ssa = { path = "../rustc_codegen_ssa" }
-rustc_session = { path = "../rustc_session" }
-rustc_error_codes = { path = "../rustc_error_codes" }
-rustc_interface = { path = "../rustc_interface" }
-rustc_serialize = { path = "../rustc_serialize" }
-rustc_ast = { path = "../rustc_ast" }
-rustc_span = { path = "../rustc_span" }
-rustc_mir_build = { path = "../rustc_mir_build" }
-rustc_typeck = { path = "../rustc_typeck" }
+dustc_middle = { path = "../dustc_middle" }
+dustc_ast_pretty = { path = "../dustc_ast_pretty" }
+dustc_target = { path = "../dustc_target" }
+dustc_lint = { path = "../dustc_lint" }
+dustc_data_structures = { path = "../dustc_data_structures" }
+dustc_errors = { path = "../dustc_errors" }
+dustc_feature = { path = "../dustc_feature" }
+dustc_hir = { path = "../dustc_hir" }
+dustc_hir_pretty = { path = "../dustc_hir_pretty" }
+dustc_metadata = { path = "../dustc_metadata" }
+dustc_mir = { path = "../dustc_mir" }
+dustc_parse = { path = "../dustc_parse" }
+dustc_plugin_impl = { path = "../dustc_plugin_impl" }
+dustc_save_analysis = { path = "../dustc_save_analysis" }
+dustc_codegen_ssa = { path = "../dustc_codegen_ssa" }
+dustc_session = { path = "../dustc_session" }
+dustc_error_codes = { path = "../dustc_error_codes" }
+dustc_interface = { path = "../dustc_interface" }
+dustc_serialize = { path = "../dustc_serialize" }
+dustc_ast = { path = "../dustc_ast" }
+dustc_span = { path = "../dustc_span" }
+dustc_mir_build = { path = "../dustc_mir_build" }
+dustc_typeck = { path = "../dustc_typeck" }
 
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3", features = ["consoleapi", "debugapi", "processenv"] }
 
 [features]
-llvm = ['rustc_interface/llvm']
+llvm = ['dustc_interface/llvm']
 max_level_info = ['tracing/max_level_info']

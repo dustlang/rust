@@ -5,7 +5,7 @@
 // compile-flags:-Zborrowck=mir -Zverbose
 
 #![allow(warnings)]
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 use std::cell::Cell;
 
@@ -22,7 +22,7 @@ where
 {
 }
 
-#[rustc_regions]
+#[dustc_regions]
 fn no_region<'a, T>(a: Cell<&'a ()>, b: T) {
     with_signature(a, b, |x, y| {
         //~^ ERROR the parameter type `T` may not live long enough
@@ -35,7 +35,7 @@ fn no_region<'a, T>(a: Cell<&'a ()>, b: T) {
     })
 }
 
-#[rustc_regions]
+#[dustc_regions]
 fn correct_region<'a, T>(a: Cell<&'a ()>, b: T)
 where
     T: 'a,
@@ -56,7 +56,7 @@ where
     })
 }
 
-#[rustc_regions]
+#[dustc_regions]
 fn wrong_region<'a, 'b, T>(a: Cell<&'a ()>, b: T)
 where
     T: 'b,
@@ -68,7 +68,7 @@ where
     })
 }
 
-#[rustc_regions]
+#[dustc_regions]
 fn outlives_region<'a, 'b, T>(a: Cell<&'a ()>, b: T)
 where
     T: 'b,

@@ -1,21 +1,21 @@
 // force-host
 
-#![feature(plugin_registrar, rustc_private)]
+#![feature(plugin_registrar, dustc_private)]
 #![feature(box_syntax)]
 
-extern crate rustc_driver;
-extern crate rustc_hir;
+extern crate dustc_driver;
+extern crate dustc_hir;
 #[macro_use]
-extern crate rustc_lint;
+extern crate dustc_lint;
 #[macro_use]
-extern crate rustc_session;
-extern crate rustc_span;
-extern crate rustc_ast;
+extern crate dustc_session;
+extern crate dustc_span;
+extern crate dustc_ast;
 
-use rustc_driver::plugin::Registry;
-use rustc_lint::{LateContext, LateLintPass, LintArray, LintContext, LintPass};
-use rustc_span::symbol::Symbol;
-use rustc_ast::attr;
+use dustc_driver::plugin::Registry;
+use dustc_lint::{LateContext, LateLintPass, LintArray, LintContext, LintPass};
+use dustc_span::symbol::Symbol;
+use dustc_ast::attr;
 
 declare_lint! {
     CRATE_NOT_OKAY,
@@ -26,8 +26,8 @@ declare_lint! {
 declare_lint_pass!(Pass => [CRATE_NOT_OKAY]);
 
 impl<'tcx> LateLintPass<'tcx> for Pass {
-    fn check_crate(&mut self, cx: &LateContext, krate: &rustc_hir::Crate) {
-        let attrs = cx.tcx.hir().attrs(rustc_hir::CRATE_HIR_ID);
+    fn check_crate(&mut self, cx: &LateContext, krate: &dustc_hir::Crate) {
+        let attrs = cx.tcx.hir().attrs(dustc_hir::CRATE_HIR_ID);
         if !cx.sess().contains_name(attrs, Symbol::intern("crate_okay")) {
             cx.lint(CRATE_NOT_OKAY, |lint| {
                 lint.build("crate is not marked with #![crate_okay]")

@@ -1,6 +1,6 @@
 include ../tools.mk
 
-TARGET_SYSROOT := $(shell $(RUSTC) --print sysroot)/lib/rustlib/$(TARGET)/lib
+TARGET_SYSROOT := $(shell $(DUSTC) --print sysroot)/lib/dustlib/$(TARGET)/lib
 
 ifdef IS_MSVC
 LIBSTD := $(wildcard $(TARGET_SYSROOT)/libstd-*.dll.lib)
@@ -23,5 +23,5 @@ $(call RUN_BINFILE,foo): $(call DYLIB,foo)
 endif
 
 $(call DYLIB,foo):
-	$(RUSTC) -C prefer-dynamic bar.rs
-	$(RUSTC) foo.rs
+	$(DUSTC) -C prefer-dynamic bar.rs
+	$(DUSTC) foo.rs

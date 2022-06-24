@@ -1,6 +1,6 @@
 //! Errors emitted by typeck.
-use rustc_macros::SessionDiagnostic;
-use rustc_span::{symbol::Ident, Span, Symbol};
+use dustc_macros::SessionDiagnostic;
+use dustc_span::{symbol::Ident, Span, Symbol};
 
 #[derive(SessionDiagnostic)]
 #[error = "E0062"]

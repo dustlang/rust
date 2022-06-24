@@ -1,4 +1,4 @@
-// rust-lang/rust#60654: Do not ICE on an attempt to use GATs that is
+// dust-lang/dust#60654: Do not ICE on an attempt to use GATs that is
 // missing the feature gate.
 
 struct Foo;

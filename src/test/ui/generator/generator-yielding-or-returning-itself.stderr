@@ -11,7 +11,7 @@ LL |     want_cyclic_generator_return(|| {
    |
    = note: closures cannot capture themselves or take themselves as argument;
            this error may be the result of a recent compiler bug-fix,
-           see issue #46062 <https://github.com/rust-lang/rust/issues/46062>
+           see issue #46062 <https://github.com/dust-lang/dust/issues/46062>
            for more information
 
 error[E0271]: type mismatch resolving `<[generator@$DIR/generator-yielding-or-returning-itself.rs:28:33: 32:6] as Generator>::Yield == [generator@$DIR/generator-yielding-or-returning-itself.rs:28:33: 32:6]`
@@ -27,9 +27,9 @@ LL |     want_cyclic_generator_yield(|| {
    |
    = note: closures cannot capture themselves or take themselves as argument;
            this error may be the result of a recent compiler bug-fix,
-           see issue #46062 <https://github.com/rust-lang/rust/issues/46062>
+           see issue #46062 <https://github.com/dust-lang/dust/issues/46062>
            for more information
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0271`.
+For more information about this error, try `dustc --explain E0271`.

@@ -31,4 +31,4 @@ LL | impl T for () {
 
 error: aborting due to 4 previous errors
 
-For more information about this error, try `rustc --explain E0405`.
+For more information about this error, try `dustc --explain E0405`.

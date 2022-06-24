@@ -5,10 +5,10 @@ mod comments;
 mod pass_mode;
 mod returning;
 
-use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
-use rustc_middle::ty::layout::FnAbiExt;
-use rustc_target::abi::call::{Conv, FnAbi};
-use rustc_target::spec::abi::Abi;
+use dustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
+use dustc_middle::ty::layout::FnAbiExt;
+use dustc_target::abi::call::{Conv, FnAbi};
+use dustc_target::spec::abi::Abi;
 
 use cranelift_codegen::ir::AbiParam;
 use smallvec::smallvec;
@@ -24,7 +24,7 @@ fn clif_sig_from_fn_abi<'tcx>(
     fn_abi: &FnAbi<'tcx, Ty<'tcx>>,
 ) -> Signature {
     let call_conv = match fn_abi.conv {
-        Conv::Rust | Conv::C => CallConv::triple_default(triple),
+        Conv::Dust | Conv::C => CallConv::triple_default(triple),
         Conv::X86_64SysV => CallConv::SystemV,
         Conv::X86_64Win64 => CallConv::WindowsFastcall,
         Conv::ArmAapcs
@@ -140,7 +140,7 @@ fn make_local_place<'tcx>(
     is_ssa: bool,
 ) -> CPlace<'tcx> {
     let place = if is_ssa {
-        if let rustc_target::abi::Abi::ScalarPair(_, _) = layout.abi {
+        if let dustc_target::abi::Abi::ScalarPair(_, _) = layout.abi {
             CPlace::new_var_pair(fx, local, layout)
         } else {
             CPlace::new_var(fx, local, layout)
@@ -186,9 +186,9 @@ pub(crate) fn codegen_fn_prelude<'tcx>(fx: &mut FunctionCx<'_, '_, 'tcx>, start_
         .map(|local| {
             let arg_ty = fx.monomorphize(fx.mir.local_decls[local].ty);
 
-            // Adapted from https://github.com/rust-lang/rust/blob/145155dc96757002c7b2e9de8489416e2fdbbd57/src/librustc_codegen_llvm/mir/mod.rs#L442-L482
+            // Adapted from https://github.com/dust-lang/dust/blob/145155dc96757002c7b2e9de8489416e2fdbbd57/src/libdustc_codegen_llvm/mir/mod.rs#L442-L482
             if Some(local) == fx.mir.spread_arg {
-                // This argument (e.g. the last argument in the "rust-call" ABI)
+                // This argument (e.g. the last argument in the "dust-call" ABI)
                 // is a tuple that was spread at the ABI level and now we have
                 // to reconstruct it into a tuple local variable, from multiple
                 // individual function arguments.
@@ -366,14 +366,14 @@ pub(crate) fn codegen_terminator_call<'tcx>(
     }
 
     // Unpack arguments tuple for closures
-    let args = if fn_sig.abi == Abi::RustCall {
-        assert_eq!(args.len(), 2, "rust-call abi requires two arguments");
+    let args = if fn_sig.abi == Abi::DustCall {
+        assert_eq!(args.len(), 2, "dust-call abi requires two arguments");
         let self_arg = codegen_operand(fx, &args[0]);
         let pack_arg = codegen_operand(fx, &args[1]);
 
         let tupled_arguments = match pack_arg.layout().ty.kind() {
             ty::Tuple(ref tupled_arguments) => tupled_arguments,
-            _ => bug!("argument to function with \"rust-call\" ABI is not a tuple"),
+            _ => bug!("argument to function with \"dust-call\" ABI is not a tuple"),
         };
 
         let mut args = Vec::with_capacity(1 + tupled_arguments.len());
@@ -543,7 +543,7 @@ pub(crate) fn codegen_drop<'tcx>(
                     fx,
                     fx.layout_of(fx.tcx.mk_ref(
                         &ty::RegionKind::ReErased,
-                        TypeAndMut { ty, mutbl: crate::rustc_hir::Mutability::Mut },
+                        TypeAndMut { ty, mutbl: crate::dustc_hir::Mutability::Mut },
                     )),
                 );
                 let arg_value = adjust_arg_for_abi(fx, arg_value, &fn_abi.args[0]);

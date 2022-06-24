@@ -4,7 +4,7 @@ error: pointers cannot be reliably compared during const eval.
 LL | static BAZ: bool = unsafe { (&FOO as *const i32) == (&BAR as *const i32) };
    |                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53020 <https://github.com/rust-lang/rust/issues/53020> for more information
+   = note: see issue #53020 <https://github.com/dust-lang/dust/issues/53020> for more information
 
 error: aborting due to previous error
 

@@ -13,7 +13,7 @@
 //! You can use this to implement a completely custom global allocator
 //! to route all default allocation requests to a custom object.
 //!
-//! ```rust
+//! ```dust
 //! use std::alloc::{GlobalAlloc, System, Layout};
 //!
 //! struct MyAllocator;
@@ -41,7 +41,7 @@
 //! The attribute is used on a `static` item whose type implements the
 //! [`GlobalAlloc`] trait. This type can be provided by an external library:
 //!
-//! ```rust,ignore (demonstrates crates.io usage)
+//! ```dust,ignore (demonstrates crates.io usage)
 //! extern crate jemallocator;
 //!
 //! use jemallocator::Jemalloc;
@@ -74,10 +74,10 @@ pub use alloc_crate::alloc::*;
 /// This is based on `malloc` on Unix platforms and `HeapAlloc` on Windows,
 /// plus related functions.
 ///
-/// This type implements the `GlobalAlloc` trait and Rust programs by default
+/// This type implements the `GlobalAlloc` trait and Dust programs by default
 /// work as if they had this definition:
 ///
-/// ```rust
+/// ```dust
 /// use std::alloc::System;
 ///
 /// #[global_allocator]
@@ -92,7 +92,7 @@ pub use alloc_crate::alloc::*;
 /// You can also define your own wrapper around `System` if you'd like, such as
 /// keeping track of the number of all bytes allocated:
 ///
-/// ```rust
+/// ```dust
 /// use std::alloc::{System, GlobalAlloc, Layout};
 /// use std::sync::atomic::{AtomicUsize, Ordering::SeqCst};
 ///
@@ -124,7 +124,7 @@ pub use alloc_crate::alloc::*;
 /// ```
 ///
 /// It can also be used directly to allocate memory independently of whatever
-/// global allocator has been selected for a Rust program. For example if a Rust
+/// global allocator has been selected for a Dust program. For example if a Dust
 /// program opts in to using jemalloc as the global allocator, `System` will
 /// still allocate memory using `malloc` and `HeapAlloc`.
 #[stable(feature = "alloc_system_type", since = "1.28.0")]
@@ -324,7 +324,7 @@ fn default_alloc_error_hook(layout: Layout) {
 #[doc(hidden)]
 #[alloc_error_handler]
 #[unstable(feature = "alloc_internals", issue = "none")]
-pub fn rust_oom(layout: Layout) -> ! {
+pub fn dust_oom(layout: Layout) -> ! {
     let hook = HOOK.load(Ordering::SeqCst);
     let hook: fn(Layout) =
         if hook.is_null() { default_alloc_error_hook } else { unsafe { mem::transmute(hook) } };
@@ -339,16 +339,16 @@ pub fn rust_oom(layout: Layout) -> ! {
 pub mod __default_lib_allocator {
     use super::{GlobalAlloc, Layout, System};
     // These magic symbol names are used as a fallback for implementing the
-    // `__rust_alloc` etc symbols (see `src/liballoc/alloc.rs`) when there is
+    // `__dust_alloc` etc symbols (see `src/liballoc/alloc.rs`) when there is
     // no `#[global_allocator]` attribute.
 
-    // for symbol names src/librustc_ast/expand/allocator.rs
-    // for signatures src/librustc_allocator/lib.rs
+    // for symbol names src/libdustc_ast/expand/allocator.rs
+    // for signatures src/libdustc_allocator/lib.rs
 
     // linkage directives are provided as part of the current compiler allocator
     // ABI
 
-    #[rustc_std_internal_symbol]
+    #[dustc_std_internal_symbol]
     pub unsafe extern "C" fn __rdl_alloc(size: usize, align: usize) -> *mut u8 {
         // SAFETY: see the guarantees expected by `Layout::from_size_align` and
         // `GlobalAlloc::alloc`.
@@ -358,14 +358,14 @@ pub mod __default_lib_allocator {
         }
     }
 
-    #[rustc_std_internal_symbol]
+    #[dustc_std_internal_symbol]
     pub unsafe extern "C" fn __rdl_dealloc(ptr: *mut u8, size: usize, align: usize) {
         // SAFETY: see the guarantees expected by `Layout::from_size_align` and
         // `GlobalAlloc::dealloc`.
         unsafe { System.dealloc(ptr, Layout::from_size_align_unchecked(size, align)) }
     }
 
-    #[rustc_std_internal_symbol]
+    #[dustc_std_internal_symbol]
     pub unsafe extern "C" fn __rdl_realloc(
         ptr: *mut u8,
         old_size: usize,
@@ -380,7 +380,7 @@ pub mod __default_lib_allocator {
         }
     }
 
-    #[rustc_std_internal_symbol]
+    #[dustc_std_internal_symbol]
     pub unsafe extern "C" fn __rdl_alloc_zeroed(size: usize, align: usize) -> *mut u8 {
         // SAFETY: see the guarantees expected by `Layout::from_size_align` and
         // `GlobalAlloc::alloc_zeroed`.

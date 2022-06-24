@@ -1,5 +1,5 @@
 [package]
-name = "rustc-workspace-hack"
+name = "dustc-workspace-hack"
 version = "1.0.0"
 authors = ["Alex Crichton <alex@alexcrichton.com>"]
 license = 'MIT OR Apache-2.0'

@@ -18,30 +18,30 @@ use self::TargetLint::*;
 
 use crate::levels::LintLevelsBuilder;
 use crate::passes::{EarlyLintPassObject, LateLintPassObject};
-use rustc_ast as ast;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sync;
-use rustc_errors::{
+use dustc_ast as ast;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::sync;
+use dustc_errors::{
     add_elided_lifetime_in_path_suggestion, struct_span_err, Applicability, SuggestionStyle,
 };
-use rustc_hir as hir;
-use rustc_hir::def::Res;
-use rustc_hir::def_id::{CrateNum, DefId};
-use rustc_hir::definitions::{DefPathData, DisambiguatedDefPathData};
-use rustc_middle::lint::LintDiagnosticBuilder;
-use rustc_middle::middle::privacy::AccessLevels;
-use rustc_middle::middle::stability;
-use rustc_middle::ty::layout::{LayoutError, TyAndLayout};
-use rustc_middle::ty::print::with_no_trimmed_paths;
-use rustc_middle::ty::{self, print::Printer, subst::GenericArg, Ty, TyCtxt};
-use rustc_serialize::json::Json;
-use rustc_session::lint::{BuiltinLintDiagnostics, ExternDepSpec};
-use rustc_session::lint::{FutureIncompatibleInfo, Level, Lint, LintBuffer, LintId};
-use rustc_session::Session;
-use rustc_session::SessionLintStore;
-use rustc_span::lev_distance::find_best_match_for_name;
-use rustc_span::{symbol::Symbol, MultiSpan, Span, DUMMY_SP};
-use rustc_target::abi::LayoutOf;
+use dustc_hir as hir;
+use dustc_hir::def::Res;
+use dustc_hir::def_id::{CrateNum, DefId};
+use dustc_hir::definitions::{DefPathData, DisambiguatedDefPathData};
+use dustc_middle::lint::LintDiagnosticBuilder;
+use dustc_middle::middle::privacy::AccessLevels;
+use dustc_middle::middle::stability;
+use dustc_middle::ty::layout::{LayoutError, TyAndLayout};
+use dustc_middle::ty::print::with_no_trimmed_paths;
+use dustc_middle::ty::{self, print::Printer, subst::GenericArg, Ty, TyCtxt};
+use dustc_serialize::json::Json;
+use dustc_session::lint::{BuiltinLintDiagnostics, ExternDepSpec};
+use dustc_session::lint::{FutureIncompatibleInfo, Level, Lint, LintBuffer, LintId};
+use dustc_session::Session;
+use dustc_session::SessionLintStore;
+use dustc_span::lev_distance::find_best_match_for_name;
+use dustc_span::{symbol::Symbol, MultiSpan, Span, DUMMY_SP};
+use dustc_target::abi::LayoutOf;
 use tracing::debug;
 
 use std::cell::Cell;
@@ -103,7 +103,7 @@ enum TargetLint {
 
     /// A lint name that should give no warnings and have no effect.
     ///
-    /// This is used by rustc to avoid warning about old rustdoc lints before rustdoc registers them as tool lints.
+    /// This is used by dustc to avoid warning about old dustdoc lints before dustdoc registers them as tool lints.
     Ignored,
 }
 
@@ -135,7 +135,7 @@ pub enum CheckLintNameResult<'a> {
     /// the lint does not exist in the tool or the code was not
     /// compiled with the tool and therefore the lint was never
     /// added to the `LintStore`. Otherwise the `LintId` will be
-    /// returned as if it where a rustc lint.
+    /// returned as if it where a dustc lint.
     Tool(Result<&'a [LintId], (Option<&'a [LintId]>, String)>),
 }
 
@@ -289,7 +289,7 @@ impl LintStore {
 
     /// This lint should give no warning and have no effect.
     ///
-    /// This is used by rustc to avoid warning about old rustdoc lints before rustdoc registers them as tool lints.
+    /// This is used by dustc to avoid warning about old dustdoc lints before dustdoc registers them as tool lints.
     #[track_caller]
     pub fn register_ignored(&mut self, name: &str) {
         if self.by_name.insert(name.to_string(), Ignored).is_some() {
@@ -412,7 +412,7 @@ impl LintStore {
                     // If the lint isn't registered, there are two possibilities:
                     None => {
                         // 1. The tool is currently running, so this lint really doesn't exist.
-                        // FIXME: should this handle tools that never register a lint, like rustfmt?
+                        // FIXME: should this handle tools that never register a lint, like dustfmt?
                         tracing::debug!("lints={:?}", self.by_name.keys().collect::<Vec<_>>());
                         let tool_prefix = format!("{}::", tool_name);
                         return if self.by_name.keys().any(|lint| lint.starts_with(&tool_prefix)) {
@@ -429,7 +429,7 @@ impl LintStore {
                 },
                 Some(&Id(ref id)) => return CheckLintNameResult::Tool(Ok(slice::from_ref(id))),
                 // If the lint was registered as removed or renamed by the lint tool, we don't need
-                // to treat tool_lints and rustc lints different and can use the code below.
+                // to treat tool_lints and dustc lints different and can use the code below.
                 _ => {}
             }
         }
@@ -666,7 +666,7 @@ pub trait LintContext: Sized {
                     stability::deprecation_suggestion(&mut db, "macro", suggestion, span)
                 }
                 BuiltinLintDiagnostics::UnusedDocComment(span) => {
-                    db.span_label(span, "rustdoc does not generate documentation for macro invocations");
+                    db.span_label(span, "dustdoc does not generate documentation for macro invocations");
                     db.help("to document an item produced by a macro, \
                                   the macro must produce the documentation as part of its expansion");
                 }
@@ -851,12 +851,12 @@ impl<'tcx> LateContext<'tcx> {
     /// inherent `impl` blocks are matched with the name of the type.
     ///
     /// Instead of using this method, it is often preferable to instead use
-    /// `rustc_diagnostic_item` or a `lang_item`. This is less prone to errors
+    /// `dustc_diagnostic_item` or a `lang_item`. This is less prone to errors
     /// as paths get invalidated if the target definition moves.
     ///
     /// # Examples
     ///
-    /// ```rust,ignore (no context or def id available)
+    /// ```dust,ignore (no context or def id available)
     /// if cx.match_def_path(def_id, &[sym::core, sym::option, sym::Option]) {
     ///     // The given `def_id` is that of an `Option` type
     /// }
@@ -871,7 +871,7 @@ impl<'tcx> LateContext<'tcx> {
     ///
     /// # Examples
     ///
-    /// ```rust,ignore (no context or def id available)
+    /// ```dust,ignore (no context or def id available)
     /// let def_path = cx.get_def_path(def_id);
     /// if let &[sym::core, sym::option, sym::Option] = &def_path[..] {
     ///     // The given `def_id` is that of an `Option` type

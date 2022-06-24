@@ -6,13 +6,13 @@
 
 #![register_attr(attr)]
 #![register_tool(tool)]
-#![register_tool(rustfmt, clippy)] // OK
+#![register_tool(dustfmt, clippy)] // OK
 #![cfg_attr(foo, register_attr(conditional_attr))]
 #![cfg_attr(foo, register_tool(conditional_tool))]
 
 #[attr]
 #[tool::attr]
-#[rustfmt::attr]
+#[dustfmt::attr]
 #[clippy::attr]
 #[conditional_attr]
 #[conditional_tool::attr]

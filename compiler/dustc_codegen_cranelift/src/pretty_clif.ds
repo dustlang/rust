@@ -61,9 +61,9 @@ use cranelift_codegen::{
     write::{FuncWriter, PlainWriter},
 };
 
-use rustc_middle::ty::layout::FnAbiExt;
-use rustc_session::config::OutputType;
-use rustc_target::abi::call::FnAbi;
+use dustc_middle::ty::layout::FnAbiExt;
+use dustc_session::config::OutputType;
+use dustc_target::abi::call::FnAbi;
 
 use crate::prelude::*;
 

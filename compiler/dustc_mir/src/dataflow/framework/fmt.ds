@@ -1,8 +1,8 @@
 //! Custom formatting traits used when outputting Graphviz diagrams with the results of a dataflow
 //! analysis.
 
-use rustc_index::bit_set::{BitSet, HybridBitSet};
-use rustc_index::vec::Idx;
+use dustc_index::bit_set::{BitSet, HybridBitSet};
+use dustc_index::vec::Idx;
 use std::fmt;
 
 /// An extension to `fmt::Debug` for data that can be better printed with some auxiliary data `C`.
@@ -146,7 +146,7 @@ where
     }
 }
 
-impl<C> DebugWithContext<C> for rustc_middle::mir::Local {}
+impl<C> DebugWithContext<C> for dustc_middle::mir::Local {}
 impl<C> DebugWithContext<C> for crate::dataflow::move_paths::InitIndex {}
 
 impl<'tcx, C> DebugWithContext<C> for crate::dataflow::move_paths::MovePathIndex

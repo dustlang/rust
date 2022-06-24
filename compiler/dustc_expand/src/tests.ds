@@ -1,14 +1,14 @@
-use rustc_ast as ast;
-use rustc_ast::tokenstream::TokenStream;
-use rustc_parse::{new_parser_from_source_str, parser::Parser, source_file_to_stream};
-use rustc_session::parse::ParseSess;
-use rustc_span::source_map::{FilePathMapping, SourceMap};
-use rustc_span::with_default_session_globals;
-use rustc_span::{BytePos, MultiSpan, Span};
+use dustc_ast as ast;
+use dustc_ast::tokenstream::TokenStream;
+use dustc_parse::{new_parser_from_source_str, parser::Parser, source_file_to_stream};
+use dustc_session::parse::ParseSess;
+use dustc_span::source_map::{FilePathMapping, SourceMap};
+use dustc_span::with_default_session_globals;
+use dustc_span::{BytePos, MultiSpan, Span};
 
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::emitter::EmitterWriter;
-use rustc_errors::{Handler, PResult};
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::emitter::EmitterWriter;
+use dustc_errors::{Handler, PResult};
 
 use std::io;
 use std::io::prelude::*;
@@ -62,7 +62,7 @@ crate fn matches_codepattern(a: &str, b: &str) -> bool {
             (None, None) => return true,
             (None, _) => return false,
             (Some(&a), None) => {
-                if rustc_lexer::is_whitespace(a) {
+                if dustc_lexer::is_whitespace(a) {
                     break; // Trailing whitespace check is out of loop for borrowck.
                 } else {
                     return false;
@@ -71,11 +71,11 @@ crate fn matches_codepattern(a: &str, b: &str) -> bool {
             (Some(&a), Some(&b)) => (a, b),
         };
 
-        if rustc_lexer::is_whitespace(a) && rustc_lexer::is_whitespace(b) {
+        if dustc_lexer::is_whitespace(a) && dustc_lexer::is_whitespace(b) {
             // Skip whitespace for `a` and `b`.
             scan_for_non_ws_or_end(&mut a_iter);
             scan_for_non_ws_or_end(&mut b_iter);
-        } else if rustc_lexer::is_whitespace(a) {
+        } else if dustc_lexer::is_whitespace(a) {
             // Skip whitespace for `a`.
             scan_for_non_ws_or_end(&mut a_iter);
         } else if a == b {
@@ -87,12 +87,12 @@ crate fn matches_codepattern(a: &str, b: &str) -> bool {
     }
 
     // Check if a has *only* trailing whitespace.
-    a_iter.all(rustc_lexer::is_whitespace)
+    a_iter.all(dustc_lexer::is_whitespace)
 }
 
 /// Advances the given peekable `Iterator` until it reaches a non-whitespace character.
 fn scan_for_non_ws_or_end<I: Iterator<Item = char>>(iter: &mut Peekable<I>) {
-    while iter.peek().copied().map(rustc_lexer::is_whitespace) == Some(true) {
+    while iter.peek().copied().map(dustc_lexer::is_whitespace) == Some(true) {
         iter.next();
     }
 }

@@ -1,5 +1,5 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) libc.rs -Cmetadata=foo
-	$(RUSTC) main.rs --extern libc=$(TMPDIR)/liblibc.rlib
+	$(DUSTC) libc.rs -Cmetadata=foo
+	$(DUSTC) main.rs --extern libc=$(TMPDIR)/liblibc.rlib

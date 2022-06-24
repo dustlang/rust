@@ -1,27 +1,27 @@
 //! Calls `chalk-solve` to solve a `ty::Predicate`
 //!
 //! In order to call `chalk-solve`, this file must convert a `CanonicalChalkEnvironmentAndGoal` into
-//! a Chalk uncanonical goal. It then calls Chalk, and converts the answer back into rustc solution.
+//! a Chalk uncanonical goal. It then calls Chalk, and converts the answer back into dustc solution.
 
 crate mod db;
 crate mod lowering;
 
-use rustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::fx::FxHashMap;
 
-use rustc_index::vec::IndexVec;
+use dustc_index::vec::IndexVec;
 
-use rustc_middle::infer::canonical::{CanonicalTyVarKind, CanonicalVarKind};
-use rustc_middle::traits::ChalkRustInterner;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::subst::GenericArg;
-use rustc_middle::ty::{self, BoundVar, ParamTy, TyCtxt, TypeFoldable};
+use dustc_middle::infer::canonical::{CanonicalTyVarKind, CanonicalVarKind};
+use dustc_middle::traits::ChalkDustInterner;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::subst::GenericArg;
+use dustc_middle::ty::{self, BoundVar, ParamTy, TyCtxt, TypeFoldable};
 
-use rustc_infer::infer::canonical::{
+use dustc_infer::infer::canonical::{
     Canonical, CanonicalVarValues, Certainty, QueryRegionConstraints, QueryResponse,
 };
-use rustc_infer::traits::{self, CanonicalChalkEnvironmentAndGoal};
+use dustc_infer::traits::{self, CanonicalChalkEnvironmentAndGoal};
 
-use crate::chalk::db::RustIrDatabase as ChalkRustIrDatabase;
+use crate::chalk::db::DustIrDatabase as ChalkDustIrDatabase;
 use crate::chalk::lowering::{
     LowerInto, ParamsSubstitutor, PlaceholdersCollector, RegionsSubstitutor,
 };
@@ -36,7 +36,7 @@ crate fn evaluate_goal<'tcx>(
     tcx: TyCtxt<'tcx>,
     obligation: CanonicalChalkEnvironmentAndGoal<'tcx>,
 ) -> Result<&'tcx Canonical<'tcx, QueryResponse<'tcx, ()>>, traits::query::NoSolution> {
-    let interner = ChalkRustInterner { tcx };
+    let interner = ChalkDustInterner { tcx };
 
     // Chalk doesn't have a notion of `Params`, so instead we use placeholders.
     let mut placeholders_collector = PlaceholdersCollector::new();
@@ -59,7 +59,7 @@ crate fn evaluate_goal<'tcx>(
     let max_universe = obligation.max_universe.index();
 
     let lowered_goal: chalk_ir::UCanonical<
-        chalk_ir::InEnvironment<chalk_ir::Goal<ChalkRustInterner<'tcx>>>,
+        chalk_ir::InEnvironment<chalk_ir::Goal<ChalkDustInterner<'tcx>>>,
     > = chalk_ir::UCanonical {
         canonical: chalk_ir::Canonical {
             binders: chalk_ir::CanonicalVarKinds::from_iter(
@@ -96,18 +96,18 @@ crate fn evaluate_goal<'tcx>(
 
     use chalk_solve::Solver;
     let mut solver = chalk_engine::solve::SLGSolver::new(32, None);
-    let db = ChalkRustIrDatabase { interner, reempty_placeholder };
+    let db = ChalkDustIrDatabase { interner, reempty_placeholder };
     let solution = solver.solve(&db, &lowered_goal);
     debug!(?obligation, ?solution, "evaluate goal");
 
-    // Ideally, the code to convert *back* to rustc types would live close to
-    // the code to convert *from* rustc types. Right now though, we don't
+    // Ideally, the code to convert *back* to dustc types would live close to
+    // the code to convert *from* dustc types. Right now though, we don't
     // really need this and so it's really minimal.
     // Right now, we also treat a `Unique` solution the same as
     // `Ambig(Definite)`. This really isn't right.
     let make_solution = |subst: chalk_ir::Substitution<_>,
                          binders: chalk_ir::CanonicalVarKinds<_>| {
-        use rustc_middle::infer::canonical::CanonicalVarInfo;
+        use dustc_middle::infer::canonical::CanonicalVarInfo;
 
         let mut var_values: IndexVec<BoundVar, GenericArg<'tcx>> = IndexVec::new();
         subst.as_slice(&interner).iter().for_each(|p| {

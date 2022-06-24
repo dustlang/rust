@@ -26,5 +26,5 @@ RUN /scripts/cmake.sh
 
 ENV HOSTS=mips-unknown-linux-gnu
 
-ENV RUST_CONFIGURE_ARGS --enable-extended --disable-docs
+ENV DUST_CONFIGURE_ARGS --enable-extended --disable-docs
 ENV SCRIPT python3 ../x.py dist --host $HOSTS --target $HOSTS

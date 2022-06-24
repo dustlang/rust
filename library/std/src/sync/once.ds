@@ -108,7 +108,7 @@ use crate::thread::{self, Thread};
 ///     // run initialization here
 /// });
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Once {
     // `state_and_queue` is actually a pointer to a `Waiter` with extra state
     // bits, so we add the `PhantomData` appropriately.
@@ -118,9 +118,9 @@ pub struct Once {
 
 // The `PhantomData` of a raw pointer removes these two auto traits, but we
 // enforce both below in the implementation so this should be safe to add.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 unsafe impl Sync for Once {}
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 unsafe impl Send for Once {}
 
 /// State yielded to [`Once::call_once_force()`]’s closure parameter. The state
@@ -141,8 +141,8 @@ pub struct OnceState {
 ///
 /// static START: Once = ONCE_INIT;
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_deprecated(
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_deprecated(
     since = "1.38.0",
     reason = "the `new` function is now preferred",
     suggestion = "Once::new()"
@@ -185,7 +185,7 @@ impl Once {
     /// Creates a new `Once` value.
     #[inline]
     #[stable(feature = "once_new", since = "1.2.0")]
-    #[rustc_const_stable(feature = "const_once_new", since = "1.32.0")]
+    #[dustc_const_stable(feature = "const_once_new", since = "1.32.0")]
     pub const fn new() -> Once {
         Once { state_and_queue: AtomicUsize::new(INCOMPLETE), _marker: marker::PhantomData }
     }
@@ -247,7 +247,7 @@ impl Once {
     /// This is similar to [poisoning with mutexes][poison].
     ///
     /// [poison]: struct.Mutex.html#poisoning
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn call_once<F>(&self, f: F)
     where
         F: FnOnce(),

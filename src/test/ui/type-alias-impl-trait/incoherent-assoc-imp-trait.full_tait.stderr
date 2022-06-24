@@ -5,7 +5,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error[E0119]: conflicting implementations of trait `std::ops::FnOnce<()>` for type `&_`:
   --> $DIR/incoherent-assoc-imp-trait.rs:13:1
@@ -29,4 +29,4 @@ LL | impl<F> FnOnce<()> for &F {
 error: aborting due to 2 previous errors; 1 warning emitted
 
 Some errors have detailed explanations: E0119, E0210.
-For more information about an error, try `rustc --explain E0119`.
+For more information about an error, try `dustc --explain E0119`.

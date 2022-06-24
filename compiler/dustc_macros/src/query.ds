@@ -415,7 +415,7 @@ fn add_query_description_impl(
         #[allow(unused_variables)]
         fn describe(tcx: QueryCtxt<'tcx>, key: Self::Key) -> String {
             let (#tcx, #key) = (*tcx, key);
-            ::rustc_middle::ty::print::with_no_trimmed_paths(|| format!(#desc).into())
+            ::dustc_middle::ty::print::with_no_trimmed_paths(|| format!(#desc).into())
         }
     };
 
@@ -427,7 +427,7 @@ fn add_query_description_impl(
     });
 }
 
-pub fn rustc_queries(input: TokenStream) -> TokenStream {
+pub fn dustc_queries(input: TokenStream) -> TokenStream {
     let queries = parse_macro_input!(input as List<Query>);
 
     let mut query_stream = quote! {};
@@ -496,7 +496,7 @@ pub fn rustc_queries(input: TokenStream) -> TokenStream {
 
     TokenStream::from(quote! {
         #[macro_export]
-        macro_rules! rustc_query_append {
+        macro_rules! dustc_query_append {
             ([$($macro:tt)*][$($other:tt)*]) => {
                 $($macro)* {
                     $($other)*
@@ -506,7 +506,7 @@ pub fn rustc_queries(input: TokenStream) -> TokenStream {
                 }
             }
         }
-        macro_rules! rustc_dep_node_append {
+        macro_rules! dustc_dep_node_append {
             ([$($macro:tt)*][$($other:tt)*]) => {
                 $($macro)*(
                     $($other)*
@@ -516,13 +516,13 @@ pub fn rustc_queries(input: TokenStream) -> TokenStream {
             }
         }
         #[macro_export]
-        macro_rules! rustc_cached_queries {
+        macro_rules! dustc_cached_queries {
             ($($macro:tt)*) => {
                 $($macro)*(#cached_queries);
             }
         }
         #[macro_export]
-        macro_rules! rustc_query_description {
+        macro_rules! dustc_query_description {
             () => { #query_description_stream }
         }
     })

@@ -4,7 +4,7 @@ crate mod renderer;
 
 crate use renderer::{run_format, FormatRenderer};
 
-use rustc_span::def_id::DefId;
+use dustc_span::def_id::DefId;
 
 use crate::clean;
 use crate::clean::types::GetDefId;

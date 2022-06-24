@@ -10,7 +10,7 @@ error[E0038]: the trait `SomeTrait` cannot be made into an object
 LL |     let trait_obj: &dyn SomeTrait = SomeTrait;
    |                    ^^^^^^^^^^^^^^ `SomeTrait` cannot be made into an object
    |
-note: for a trait to be "object safe" it needs to allow building a vtable to allow the call to be resolvable dynamically; for more information visit <https://doc.rust-lang.org/reference/items/traits.html#object-safety>
+note: for a trait to be "object safe" it needs to allow building a vtable to allow the call to be resolvable dynamically; for more information visit <https://doc.dust-lang.org/reference/items/traits.html#object-safety>
   --> $DIR/E0033-teach.rs:4:8
    |
 LL | trait SomeTrait {
@@ -34,9 +34,9 @@ LL |     let &invalid = trait_obj;
    |
    = note: This error indicates that a pointer to a trait type cannot be implicitly dereferenced by a pattern. Every trait defines a type, but because the size of trait implementors isn't fixed, this type has no compile-time size. Therefore, all accesses to trait types must be through pointers. If you encounter this error you should try to avoid dereferencing the pointer.
            
-           You can read more about trait objects in the Trait Objects section of the Reference: https://doc.rust-lang.org/reference/types.html#trait-objects
+           You can read more about trait objects in the Trait Objects section of the Reference: https://doc.dust-lang.org/reference/types.html#trait-objects
 
 error: aborting due to 3 previous errors
 
 Some errors have detailed explanations: E0033, E0038, E0423.
-For more information about an error, try `rustc --explain E0033`.
+For more information about an error, try `dustc --explain E0033`.

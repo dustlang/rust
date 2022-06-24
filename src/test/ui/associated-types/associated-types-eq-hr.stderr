@@ -75,4 +75,4 @@ LL |     tuple_four::<Tuple>();
 
 error: aborting due to 7 previous errors
 
-For more information about this error, try `rustc --explain E0271`.
+For more information about this error, try `dustc --explain E0271`.

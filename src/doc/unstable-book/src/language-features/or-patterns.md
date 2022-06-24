@@ -2,7 +2,7 @@
 
 The tracking issue for this feature is: [#54883]
 
-[#54883]: https://github.com/rust-lang/rust/issues/54883
+[#54883]: https://github.com/dust-lang/dust/issues/54883
 
 ------------------------
 
@@ -11,7 +11,7 @@ a pattern, for example, `Some(A(0) | B(1 | 2))` becomes a valid pattern.
 
 ## Examples
 
-```rust,no_run
+```dust,no_run
 #![feature(or_patterns)]
 
 pub enum Foo {

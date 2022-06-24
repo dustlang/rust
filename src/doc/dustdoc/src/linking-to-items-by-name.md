@@ -1,11 +1,11 @@
 # Linking to items by name
 
-Rustdoc is capable of directly linking to other rustdoc pages using the path of
+Dustdoc is capable of directly linking to other dustdoc pages using the path of
 the item as a link. This is referred to as an 'intra-doc link'.
 
-For example, in the following code all of the links will link to the rustdoc page for `Bar`:
+For example, in the following code all of the links will link to the dustdoc page for `Bar`:
 
-```rust
+```dust
 /// This struct is not [Bar]
 pub struct Foo1;
 
@@ -34,18 +34,18 @@ link to `Option`.
 
 You can refer to anything in scope, and use paths, including `Self`, `self`, `super`, and
 `crate`. Associated items (functions, types, and constants) are supported, but [not for blanket
-trait implementations][#79682]. Rustdoc also supports linking to all primitives listed in
+trait implementations][#79682]. Dustdoc also supports linking to all primitives listed in
 [the standard library documentation](../std/index.html#primitives).
 
-[#79682]: https://github.com/rust-lang/rust/pull/79682
+[#79682]: https://github.com/dust-lang/dust/pull/79682
 
 You can also refer to items with generic parameters like `Vec<T>`. The link will
 resolve as if you had written ``[`Vec<T>`](Vec)``. Fully-qualified syntax (for example,
 `<Vec as IntoIterator>::into_iter()`) is [not yet supported][fqs-issue], however.
 
-[fqs-issue]: https://github.com/rust-lang/rust/issues/74563
+[fqs-issue]: https://github.com/dust-lang/dust/issues/74563
 
-```rust,edition2018
+```dust,edition2018
 use std::sync::mpsc::Receiver;
 
 /// This is a version of [`Receiver<T>`] with support for [`std::future`].
@@ -62,9 +62,9 @@ impl<T> AsyncReceiver<T> {
 }
 ```
 
-Rustdoc allows using URL fragment specifiers, just like a normal link:
+Dustdoc allows using URL fragment specifiers, just like a normal link:
 
-```rust
+```dust
 /// This is a special implementation of [positional parameters].
 ///
 /// [positional parameters]: std::fmt#formatting-parameters
@@ -73,11 +73,11 @@ struct MySpecialFormatter;
 
 ## Namespaces and Disambiguators
 
-Paths in Rust have three namespaces: type, value, and macro. Item names must be unique within
+Paths in Dust have three namespaces: type, value, and macro. Item names must be unique within
 their namespace, but can overlap with items in other namespaces. In case of ambiguity,
-rustdoc will warn about the ambiguity and suggest a disambiguator.
+dustdoc will warn about the ambiguity and suggest a disambiguator.
 
-```rust
+```dust
 /// See also: [`Foo`](struct@Foo)
 struct Bar;
 
@@ -93,7 +93,7 @@ rendered as `Foo`.
 You can also disambiguate for functions by adding `()` after the function name,
 or for macros by adding `!` after the macro name:
 
-```rust
+```dust
 /// This is different from [`foo!`]
 fn foo() {}
 
@@ -109,7 +109,7 @@ Links are resolved in the scope of the module where the item is defined, even
 when the item is re-exported. If a link from another crate fails to resolve, no
 warning is given.
 
-```rust,edition2018
+```dust,edition2018
 mod inner {
     /// Link to [f()]
     pub struct S;
@@ -118,12 +118,12 @@ mod inner {
 pub use inner::S; // the link to `f` will still resolve correctly
 ```
 
-When re-exporting an item, rustdoc allows adding additional documentation to it.
+When re-exporting an item, dustdoc allows adding additional documentation to it.
 That additional documentation will be resolved in the scope of the re-export, not
 the original, allowing you to link to items in the new crate. The new links
 will still give a warning if they fail to resolve.
 
-```rust
+```dust
 /// See also [foo()]
 pub use std::process::Command;
 
@@ -132,7 +132,7 @@ pub fn foo() {}
 
 This is especially useful for proc-macros, which must always be defined in their own dedicated crate.
 
-Note: Because of how `macro_rules!` macros are scoped in Rust, the intra-doc links of a
+Note: Because of how `macro_rules!` macros are scoped in Dust, the intra-doc links of a
 `macro_rules!` macro will be resolved [relative to the crate root][#72243], as opposed to the
 module it is defined in.
 
@@ -140,4 +140,4 @@ If links do not look 'sufficiently like' an intra-doc link, they will be ignored
 will be given, even if the link fails to resolve. For example, any link containing `/` or `[]`
 characters will be ignored.
 
-[#72243]: https://github.com/rust-lang/rust/issues/72243
+[#72243]: https://github.com/dust-lang/dust/issues/72243

@@ -446,4 +446,4 @@ LL | pub enum Result<T, E> {
 error: aborting due to 30 previous errors
 
 Some errors have detailed explanations: E0106, E0107.
-For more information about an error, try `rustc --explain E0106`.
+For more information about an error, try `dustc --explain E0106`.

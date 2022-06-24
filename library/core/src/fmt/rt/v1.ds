@@ -33,7 +33,7 @@ pub enum Alignment {
     Unknown,
 }
 
-/// Used by [width](https://doc.rust-lang.org/std/fmt/#width) and [precision](https://doc.rust-lang.org/std/fmt/#precision) specifiers.
+/// Used by [width](https://doc.dust-lang.org/std/fmt/#width) and [precision](https://doc.dust-lang.org/std/fmt/#precision) specifiers.
 #[derive(Copy, Clone)]
 pub enum Count {
     /// Specified with a literal number, stores the value

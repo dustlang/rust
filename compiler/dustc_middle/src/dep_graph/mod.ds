@@ -1,13 +1,13 @@
 use crate::ich::StableHashingContext;
 use crate::ty::{self, TyCtxt};
-use rustc_data_structures::profiling::SelfProfilerRef;
-use rustc_data_structures::sync::Lock;
-use rustc_session::Session;
+use dustc_data_structures::profiling::SelfProfilerRef;
+use dustc_data_structures::sync::Lock;
+use dustc_session::Session;
 
 #[macro_use]
 mod dep_node;
 
-pub use rustc_query_system::dep_graph::{
+pub use dustc_query_system::dep_graph::{
     debug, hash_result, DepContext, DepNodeColor, DepNodeIndex, SerializedDepNodeIndex,
     WorkProduct, WorkProductId,
 };
@@ -15,13 +15,13 @@ pub use rustc_query_system::dep_graph::{
 crate use dep_node::make_compile_codegen_unit;
 pub use dep_node::{label_strs, DepKind, DepNode, DepNodeExt};
 
-pub type DepGraph = rustc_query_system::dep_graph::DepGraph<DepKind>;
-pub type TaskDeps = rustc_query_system::dep_graph::TaskDeps<DepKind>;
-pub type DepGraphQuery = rustc_query_system::dep_graph::DepGraphQuery<DepKind>;
-pub type PreviousDepGraph = rustc_query_system::dep_graph::PreviousDepGraph<DepKind>;
-pub type SerializedDepGraph = rustc_query_system::dep_graph::SerializedDepGraph<DepKind>;
+pub type DepGraph = dustc_query_system::dep_graph::DepGraph<DepKind>;
+pub type TaskDeps = dustc_query_system::dep_graph::TaskDeps<DepKind>;
+pub type DepGraphQuery = dustc_query_system::dep_graph::DepGraphQuery<DepKind>;
+pub type PreviousDepGraph = dustc_query_system::dep_graph::PreviousDepGraph<DepKind>;
+pub type SerializedDepGraph = dustc_query_system::dep_graph::SerializedDepGraph<DepKind>;
 
-impl rustc_query_system::dep_graph::DepKind for DepKind {
+impl dustc_query_system::dep_graph::DepKind for DepKind {
     const NULL: Self = DepKind::Null;
 
     #[inline(always)]

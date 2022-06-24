@@ -1,7 +1,7 @@
 //! The `InstrumentCoverage` MIR pass implementation includes debugging tools and options
 //! to help developers understand and/or improve the analysis and instrumentation of a MIR.
 //!
-//! To enable coverage, include the rustc command line option:
+//! To enable coverage, include the dustc command line option:
 //!
 //!   * `-Z instrument-coverage`
 //!
@@ -44,15 +44,15 @@
 //! points, which can be enabled via environment variable:
 //!
 //! ```shell
-//! RUSTC_LOG=rustc_mir::transform::coverage=debug
+//! DUSTC_LOG=dustc_mir::transform::coverage=debug
 //! ```
 //!
 //! Other module paths with coverage-related debug logs may also be of interest, particularly for
-//! debugging the coverage map data, injected as global variables in the LLVM IR (during rustc's
+//! debugging the coverage map data, injected as global variables in the LLVM IR (during dustc's
 //! code generation pass). For example:
 //!
 //! ```shell
-//! RUSTC_LOG=rustc_mir::transform::coverage,rustc_codegen_ssa::coverageinfo,rustc_codegen_llvm::coverageinfo=debug
+//! DUSTC_LOG=dustc_mir::transform::coverage,dustc_codegen_ssa::coverageinfo,dustc_codegen_llvm::coverageinfo=debug
 //! ```
 //!
 //! Coverage Debug Options
@@ -61,13 +61,13 @@
 //! Additional debugging options can be enabled using the environment variable:
 //!
 //! ```shell
-//! RUSTC_COVERAGE_DEBUG_OPTIONS=<options>
+//! DUSTC_COVERAGE_DEBUG_OPTIONS=<options>
 //! ```
 //!
 //! These options are comma-separated, and specified in the format `option-name=value`. For example:
 //!
 //! ```shell
-//! $ RUSTC_COVERAGE_DEBUG_OPTIONS=counter-format=id+operation,allow-unused-expressions=yes cargo build
+//! $ DUSTC_COVERAGE_DEBUG_OPTIONS=counter-format=id+operation,allow-unused-expressions=yes cargo build
 //! ```
 //!
 //! Coverage debug options include:
@@ -82,7 +82,7 @@
 //!     probably indicates there was a bug in the algorithm that creates and assigns counters
 //!     and expressions.
 //!
-//!     When this kind of bug is encountered, the rustc compiler will panic by default. Setting:
+//!     When this kind of bug is encountered, the dustc compiler will panic by default. Setting:
 //!     `allow-unused-expressions=yes` will log a warning message instead of panicking (effectively
 //!     ignoring the unused expressions), which may be helpful when debugging the root cause of
 //!     the problem.
@@ -115,17 +115,17 @@ use crate::util::generic_graphviz::GraphvizWriter;
 use crate::util::pretty;
 use crate::util::spanview::{self, SpanViewable};
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_index::vec::Idx;
-use rustc_middle::mir::coverage::*;
-use rustc_middle::mir::{self, BasicBlock, TerminatorKind};
-use rustc_middle::ty::TyCtxt;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_index::vec::Idx;
+use dustc_middle::mir::coverage::*;
+use dustc_middle::mir::{self, BasicBlock, TerminatorKind};
+use dustc_middle::ty::TyCtxt;
 
 use std::lazy::SyncOnceCell;
 
 pub const NESTED_INDENT: &str = "    ";
 
-const RUSTC_COVERAGE_DEBUG_OPTIONS: &str = "RUSTC_COVERAGE_DEBUG_OPTIONS";
+const DUSTC_COVERAGE_DEBUG_OPTIONS: &str = "DUSTC_COVERAGE_DEBUG_OPTIONS";
 
 pub(super) fn debug_options<'a>() -> &'a DebugOptions {
     static DEBUG_OPTIONS: SyncOnceCell<DebugOptions> = SyncOnceCell::new();
@@ -134,7 +134,7 @@ pub(super) fn debug_options<'a>() -> &'a DebugOptions {
 }
 
 /// Parses and maintains coverage-specific debug options captured from the environment variable
-/// "RUSTC_COVERAGE_DEBUG_OPTIONS", if set.
+/// "DUSTC_COVERAGE_DEBUG_OPTIONS", if set.
 #[derive(Debug, Clone)]
 pub(super) struct DebugOptions {
     pub allow_unused_expressions: bool,
@@ -146,7 +146,7 @@ impl DebugOptions {
         let mut allow_unused_expressions = true;
         let mut counter_format = ExpressionFormat::default();
 
-        if let Ok(env_debug_options) = std::env::var(RUSTC_COVERAGE_DEBUG_OPTIONS) {
+        if let Ok(env_debug_options) = std::env::var(DUSTC_COVERAGE_DEBUG_OPTIONS) {
             for setting_str in env_debug_options.replace(" ", "").replace("-", "_").split(',') {
                 let (option, value) = match setting_str.split_once('=') {
                     None => (setting_str, None),
@@ -157,7 +157,7 @@ impl DebugOptions {
                         allow_unused_expressions = bool_option_val(option, value);
                         debug!(
                             "{} env option `allow_unused_expressions` is set to {}",
-                            RUSTC_COVERAGE_DEBUG_OPTIONS, allow_unused_expressions
+                            DUSTC_COVERAGE_DEBUG_OPTIONS, allow_unused_expressions
                         );
                     }
                     "counter_format" => {
@@ -168,14 +168,14 @@ impl DebugOptions {
                                     plus-separated choices (a non-empty subset of \
                                     `id+block+operation`)",
                                     option,
-                                    RUSTC_COVERAGE_DEBUG_OPTIONS
+                                    DUSTC_COVERAGE_DEBUG_OPTIONS
                                 );
                             }
                             Some(val) => {
                                 counter_format = counter_format_option_val(val);
                                 debug!(
                                     "{} env option `counter_format` is set to {:?}",
-                                    RUSTC_COVERAGE_DEBUG_OPTIONS, counter_format
+                                    DUSTC_COVERAGE_DEBUG_OPTIONS, counter_format
                                 );
                             }
                         };
@@ -184,7 +184,7 @@ impl DebugOptions {
                         bug!(
                             "Unsupported setting `{}` in environment variable {}",
                             option,
-                            RUSTC_COVERAGE_DEBUG_OPTIONS
+                            DUSTC_COVERAGE_DEBUG_OPTIONS
                         )
                     }
                 };
@@ -206,7 +206,7 @@ fn bool_option_val(option: &str, some_strval: Option<&str>) -> bool {
                 "Unsupported value `{}` for option `{}` in environment variable {}",
                 option,
                 val,
-                RUSTC_COVERAGE_DEBUG_OPTIONS
+                DUSTC_COVERAGE_DEBUG_OPTIONS
             )
         }
     } else {
@@ -225,7 +225,7 @@ fn counter_format_option_val(strval: &str) -> ExpressionFormat {
             _ => bug!(
                 "Unsupported counter_format choice `{}` in environment variable {}",
                 component,
-                RUSTC_COVERAGE_DEBUG_OPTIONS
+                DUSTC_COVERAGE_DEBUG_OPTIONS
             ),
         }
     }

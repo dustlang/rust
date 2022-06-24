@@ -1,7 +1,7 @@
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_driver;
-extern crate rustc_span;
+extern crate dustc_driver;
+extern crate dustc_span;
 
 use std::cell::RefCell;
 use std::collections::BTreeMap;
@@ -12,9 +12,9 @@ use std::io::Write;
 use std::path::Path;
 use std::path::PathBuf;
 
-use rustc_span::edition::DEFAULT_EDITION;
+use dustc_span::edition::DEFAULT_EDITION;
 
-use rustdoc::html::markdown::{ErrorCodes, IdMap, Markdown, Playground};
+use dustdoc::html::markdown::{ErrorCodes, IdMap, Markdown, Playground};
 
 pub struct ErrorMetadata {
     pub description: Option<String>,
@@ -64,11 +64,11 @@ impl Formatter for HTMLFormatter {
             r##"<!DOCTYPE html>
 <html>
 <head>
-<title>Rust Compiler Error Index</title>
+<title>Dust Compiler Error Index</title>
 <meta charset="utf-8">
-<!-- Include rust.css after light.css so its rules take priority. -->
+<!-- Include dust.css after light.css so its rules take priority. -->
 <link rel="stylesheet" type="text/css" href="light{suffix}.css"/>
-<link rel="stylesheet" type="text/css" href="rust.css"/>
+<link rel="stylesheet" type="text/css" href="dust.css"/>
 <style>
 .error-undescribed {{
     display: none;
@@ -83,7 +83,7 @@ impl Formatter for HTMLFormatter {
     }
 
     fn title(&self, output: &mut dyn Write) -> Result<(), Box<dyn Error>> {
-        write!(output, "<h1>Rust Compiler Error Index</h1>\n")?;
+        write!(output, "<h1>Dust Compiler Error Index</h1>\n")?;
         Ok(())
     }
 
@@ -113,7 +113,7 @@ impl Formatter for HTMLFormatter {
                 let mut id_map = self.0.borrow_mut();
                 let playground = Playground {
                     crate_name: None,
-                    url: String::from("https://play.rust-lang.org/"),
+                    url: String::from("https://play.dust-lang.org/"),
                 };
                 write!(
                     output,
@@ -178,7 +178,7 @@ function hasClass(elem, className) {{
     return false;
 }}
 
-onEach(document.getElementsByClassName('rust-example-rendered'), function(e) {{
+onEach(document.getElementsByClassName('dust-example-rendered'), function(e) {{
     if (hasClass(e, 'compile_fail')) {{
         e.addEventListener("mouseover", function(event) {{
             e.previousElementSibling.childNodes[0].style.color = '#f00';
@@ -210,7 +210,7 @@ impl Formatter for MarkdownFormatter {
     }
 
     fn title(&self, output: &mut dyn Write) -> Result<(), Box<dyn Error>> {
-        write!(output, "# Rust Compiler Error Index\n")?;
+        write!(output, "# Dust Compiler Error Index\n")?;
         Ok(())
     }
 
@@ -281,9 +281,9 @@ fn parse_args() -> (OutputFormat, PathBuf) {
 }
 
 fn main() {
-    rustc_driver::init_env_logger("RUST_LOG");
+    dustc_driver::init_env_logger("DUST_LOG");
     let (format, dst) = parse_args();
-    let result = rustc_span::with_default_session_globals(move || main_with_result(format, &dst));
+    let result = dustc_span::with_default_session_globals(move || main_with_result(format, &dst));
     if let Err(e) = result {
         panic!("{}", e.to_string());
     }

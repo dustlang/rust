@@ -1,6 +1,6 @@
 use crate::fx::FxIndexSet;
 use crate::sync::Lock;
-use rustc_index::bit_set::BitMatrix;
+use dustc_index::bit_set::BitMatrix;
 use std::fmt::Debug;
 use std::hash::Hash;
 use std::mem;

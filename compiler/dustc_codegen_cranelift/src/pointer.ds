@@ -3,7 +3,7 @@
 
 use crate::prelude::*;
 
-use rustc_target::abi::Align;
+use dustc_target::abi::Align;
 
 use cranelift_codegen::ir::immediates::Offset32;
 

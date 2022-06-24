@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![warn(clippy::all, clippy::pedantic)]
 #![allow(clippy::iter_cloned_collect)]
 #![allow(clippy::clone_on_copy, clippy::redundant_clone)]

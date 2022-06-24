@@ -3,7 +3,7 @@
 // non-structural-match in hidden manner that lets matches
 // through that we had intended to reject.
 //
-// See discussion on rust-lang/rust#62307 and rust-lang/rust#62339
+// See discussion on dust-lang/dust#62307 and dust-lang/dust#62339
 
 struct NoDerive(i32);
 

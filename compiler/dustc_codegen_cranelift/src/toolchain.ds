@@ -2,9 +2,9 @@
 
 use std::path::PathBuf;
 
-use rustc_middle::bug;
-use rustc_session::Session;
-use rustc_target::spec::LinkerFlavor;
+use dustc_middle::bug;
+use dustc_session::Session;
+use dustc_target::spec::LinkerFlavor;
 
 /// Tries to infer the path of a binary for the target toolchain from the linker name.
 pub(crate) fn get_toolchain_binary(sess: &Session, tool: &str) -> PathBuf {
@@ -31,7 +31,7 @@ pub(crate) fn get_toolchain_binary(sess: &Session, tool: &str) -> PathBuf {
     linker
 }
 
-// Adapted from https://github.com/rust-lang/rust/blob/5db778affee7c6600c8e7a177c48282dab3f6292/src/librustc_codegen_ssa/back/link.rs#L848-L931
+// Adapted from https://github.com/dust-lang/dust/blob/5db778affee7c6600c8e7a177c48282dab3f6292/src/libdustc_codegen_ssa/back/link.rs#L848-L931
 fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
     fn infer_from(
         sess: &Session,
@@ -66,7 +66,7 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
                     LinkerFlavor::Ld => "ld",
                     LinkerFlavor::Msvc => "link.exe",
                     LinkerFlavor::Lld(_) => "lld",
-                    LinkerFlavor::PtxLinker => "rust-ptx-linker",
+                    LinkerFlavor::PtxLinker => "dust-ptx-linker",
                 }),
                 flavor,
             )),
@@ -87,7 +87,7 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
                     LinkerFlavor::Ld
                 } else if stem == "link" || stem == "lld-link" {
                     LinkerFlavor::Msvc
-                } else if stem == "lld" || stem == "rust-lld" {
+                } else if stem == "lld" || stem == "dust-lld" {
                     LinkerFlavor::Lld(sess.target.lld_flavor)
                 } else {
                     // fall back to the value in the target spec

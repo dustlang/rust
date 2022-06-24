@@ -7,14 +7,14 @@ standard library, and documentation.
 
 **Note: this README is for _users_ rather than _contributors_.
 If you wish to _contribute_ to the compiler, you should read the
-[Getting Started][gettingstarted] section of the rustc-dev-guide instead.**
+[Getting Started][gettingstarted] section of the dustc-dev-guide instead.**
 
 ## Quick Start
 
 Read ["Installation"] from [The Book].
 
-["Installation"]: https://doc.rust-lang.org/book/ch01-01-installation.html
-[The Book]: https://doc.rust-lang.org/book/index.html
+["Installation"]: https://doc.dust-lang.org/book/ch01-01-installation.html
+[The Book]: https://doc.dust-lang.org/book/index.html
 
 ## Installing from Source
 
@@ -22,8 +22,8 @@ The Dust build system uses a Python script called `x.py` to build the compiler,
 which manages the bootstrapping process. More information about it can be found
 by running `./x.py --help` or reading the [dustc dev guide][dustcguidebuild].
 
-[gettingstarted]: https://rustc-dev-guide.rust-lang.org/getting-started.html
-[dustcguidebuild]: https://rustc-dev-guide.rust-lang.org/building/how-to-build-and-run.html
+[gettingstarted]: https://dustc-dev-guide.dust-lang.org/getting-started.html
+[dustcguidebuild]: https://dustc-dev-guide.dust-lang.org/building/how-to-build-and-run.html
 
 ### Building on a Unix-like system
 1. Make sure you have installed the dependencies:
@@ -105,7 +105,7 @@ build.
    # Update package mirrors (may be needed if you have a fresh install of MSYS2)
    pacman -Sy pacman-mirrors
 
-   # Install build tools needed for Rust. If you're building a 32-bit compiler,
+   # Install build tools needed for Dust. If you're building a 32-bit compiler,
    # then replace "x86_64" below with "i686". If you've already got git, python,
    # or CMake installed and in PATH you can remove them from this list. Note
    # that it is important that you do **not** use the 'python2', 'cmake' and 'ninja'
@@ -200,7 +200,7 @@ the ABI used. I.e., if the ABI was `x86_64-pc-windows-msvc`, the directory will 
 
 ## Notes
 
-Since the Dust compiler is written in Rust, it must be built by a
+Since the Dust compiler is written in Dust, it must be built by a
 precompiled "snapshot" version of itself (made in an earlier stage of
 development). As such, source builds require a connection to the Internet, to
 fetch snapshots, and an OS that can execute the available snapshot binaries.
@@ -217,7 +217,7 @@ Snapshot binaries are currently built and tested on several platforms:
 Due to this decision from Apple, the targets are no longer useful to our users.
 Please read [our blog post][macx32] for more info.
 
-[macx32]: https://blog.rust-lang.org/2020/01/03/reducing-support-for-32-bit-apple-targets.html
+[macx32]: https://blog.dust-lang.org/2020/01/03/reducing-support-for-32-bit-apple-targets.html
 
 You may find that other platforms work, but these are our officially
 supported build environments that are most likely to work.
@@ -227,19 +227,19 @@ supported build environments that are most likely to work.
 The Dust community congregates in a few places:
 
 * [Stack Overflow] - Direct questions about using the language.
-* [users.rust-lang.org] - General discussion and broader questions.
-* [/r/rust] - News and general discussion.
+* [users.dust-lang.org] - General discussion and broader questions.
+* [/r/dust] - News and general discussion.
 
-[Stack Overflow]: https://stackoverflow.com/questions/tagged/rust
-[/r/rust]: https://reddit.com/r/rust
-[users.rust-lang.org]: https://users.rust-lang.org/
+[Stack Overflow]: https://stackoverflow.com/questions/tagged/dust
+[/r/dust]: https://reddit.com/r/dust
+[users.dust-lang.org]: https://users.dust-lang.org/
 
 ## Contributing
 
 If you are interested in contributing to the Dust project, please take a look
 at the [Getting Started][gettingstarted] guide in the [dustc-dev-guide].
 
-[dustc-dev-guide]: https://rustc-dev-guide.rust-lang.org
+[dustc-dev-guide]: https://dustc-dev-guide.dust-lang.org
 
 ## License
 
@@ -256,4 +256,4 @@ The Dust programming language is an open source, community project governed
 by a core team.  Third-party logos may be subject to third-party copyrights and trademarks. See
 [Licenses][policies-licenses] for details.
 
-[policies-licenses]: https://www.rust-lang.org/policies/licenses
+[policies-licenses]: https://www.dust-lang.org/policies/licenses

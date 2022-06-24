@@ -13,7 +13,7 @@ LL | |     });
    |
    = note: defining type: supply::<'_#1r, T>::{closure#0} with closure substs [
                i32,
-               extern "rust-call" fn((T,)),
+               extern "dust-call" fn((T,)),
                (),
            ]
    = note: number of external vids: 2
@@ -50,4 +50,4 @@ LL | |     });
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0309`.
+For more information about this error, try `dustc --explain E0309`.

@@ -55,7 +55,7 @@ pub mod unstable_book;
 
 fn filter_dirs(path: &Path) -> bool {
     let skip = [
-        "compiler/rustc_codegen_cranelift",
+        "compiler/dustc_codegen_cranelift",
         "src/llvm-project",
         "library/backtrace",
         "library/stdarch",
@@ -63,9 +63,9 @@ fn filter_dirs(path: &Path) -> bool {
         "src/tools/clippy",
         "src/tools/miri",
         "src/tools/rls",
-        "src/tools/rust-analyzer",
-        "src/tools/rust-installer",
-        "src/tools/rustfmt",
+        "src/tools/dust-analyzer",
+        "src/tools/dust-installer",
+        "src/tools/dustfmt",
         "src/doc/book",
         // Filter RLS output directories
         "target/rls",

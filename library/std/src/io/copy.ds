@@ -39,7 +39,7 @@ use crate::mem::MaybeUninit;
 ///     Ok(())
 /// }
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub fn copy<R: ?Sized, W: ?Sized>(reader: &mut R, writer: &mut W) -> Result<u64>
 where
     R: Read,
@@ -88,7 +88,7 @@ impl<I: Write> BufferedCopySpec for BufWriter<I> {
         //     _uninitialized_ integers, which is **undefined behavior**
         //
         //   - Only the standard library gets to soundly "ignore" this,
-        //     based on its privileged knowledge of unstable rustc
+        //     based on its privileged knowledge of unstable dustc
         //     internals;
         unsafe {
             let spare_cap = writer.buffer_mut().spare_capacity_mut();
@@ -136,7 +136,7 @@ fn stack_buffer_copy<R: Read + ?Sized, W: Write + ?Sized>(
     //     _uninitialized_ integers, which is **undefined behavior**
     //
     //   - Only the standard library gets to soundly "ignore" this,
-    //     based on its privileged knowledge of unstable rustc
+    //     based on its privileged knowledge of unstable dustc
     //     internals;
     unsafe {
         reader.initializer().initialize(buf.assume_init_mut());

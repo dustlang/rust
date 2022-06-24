@@ -4,8 +4,8 @@ use crate::prelude::*;
 use crate::value_and_place::assert_assignable;
 
 use cranelift_codegen::ir::{ArgumentExtension, ArgumentPurpose};
-use rustc_target::abi::call::{
-    ArgAbi, ArgAttributes, ArgExtension as RustcArgExtension, CastTarget, PassMode, Reg, RegKind,
+use dustc_target::abi::call::{
+    ArgAbi, ArgAttributes, ArgExtension as DustcArgExtension, CastTarget, PassMode, Reg, RegKind,
 };
 use smallvec::{smallvec, SmallVec};
 
@@ -31,9 +31,9 @@ fn reg_to_abi_param(reg: Reg) -> AbiParam {
 
 fn apply_arg_attrs_to_abi_param(mut param: AbiParam, arg_attrs: ArgAttributes) -> AbiParam {
     match arg_attrs.arg_ext {
-        RustcArgExtension::None => {}
-        RustcArgExtension::Zext => param.extension = ArgumentExtension::Uext,
-        RustcArgExtension::Sext => param.extension = ArgumentExtension::Sext,
+        DustcArgExtension::None => {}
+        DustcArgExtension::Zext => param.extension = ArgumentExtension::Uext,
+        DustcArgExtension::Sext => param.extension = ArgumentExtension::Sext,
     }
     param
 }

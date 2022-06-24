@@ -1,19 +1,19 @@
 use crate::tests::{matches_codepattern, string_to_stream, with_error_checking_parse};
 
-use rustc_ast::ptr::P;
-use rustc_ast::token::{self, Token};
-use rustc_ast::tokenstream::{DelimSpan, TokenStream, TokenTree};
-use rustc_ast::visit;
-use rustc_ast::{self as ast, PatKind};
-use rustc_ast_pretty::pprust::item_to_string;
-use rustc_errors::PResult;
-use rustc_parse::new_parser_from_source_str;
-use rustc_parse::parser::ForceCollect;
-use rustc_session::parse::ParseSess;
-use rustc_span::source_map::FilePathMapping;
-use rustc_span::symbol::{kw, sym, Symbol};
-use rustc_span::with_default_session_globals;
-use rustc_span::{BytePos, FileName, Pos, Span};
+use dustc_ast::ptr::P;
+use dustc_ast::token::{self, Token};
+use dustc_ast::tokenstream::{DelimSpan, TokenStream, TokenTree};
+use dustc_ast::visit;
+use dustc_ast::{self as ast, PatKind};
+use dustc_ast_pretty::ppdust::item_to_string;
+use dustc_errors::PResult;
+use dustc_parse::new_parser_from_source_str;
+use dustc_parse::parser::ForceCollect;
+use dustc_session::parse::ParseSess;
+use dustc_span::source_map::FilePathMapping;
+use dustc_span::symbol::{kw, sym, Symbol};
+use dustc_span::with_default_session_globals;
+use dustc_span::{BytePos, FileName, Pos, Span};
 
 use std::path::PathBuf;
 
@@ -33,7 +33,7 @@ fn parse_item_from_source_str(
     new_parser_from_source_str(sess, name, source).parse_item(ForceCollect::No)
 }
 
-// Produces a `rustc_span::span`.
+// Produces a `dustc_span::span`.
 fn sp(a: u32, b: u32) -> Span {
     Span::with_root_ctxt(BytePos(a), BytePos(b))
 }

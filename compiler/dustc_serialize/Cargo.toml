@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_serialize"
+name = "dustc_serialize"
 version = "0.0.0"
 edition = "2018"
 
@@ -9,4 +9,4 @@ indexmap = "1"
 smallvec = { version = "1.6.1", features = ["union", "may_dangle"] }
 
 [dev-dependencies]
-rustc_macros = { path = "../rustc_macros" }
+dustc_macros = { path = "../dustc_macros" }

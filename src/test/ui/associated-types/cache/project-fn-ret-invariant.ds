@@ -1,5 +1,5 @@
 #![feature(unboxed_closures)]
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 // Test for projection cache. We should be able to project distinct
 // lifetimes from `foo` as we reinstantiate it multiple times, but not
 // if we do it just once. In this variant, the region `'a` is used in
@@ -56,6 +56,6 @@ fn transmute<'a, 'b>(x: Type<'a>, y: Type<'b>) -> (Type<'a>, Type<'b>) {
     (a, b) //[krisskross]~ ERROR E0623
 }
 
-#[rustc_error]
+#[dustc_error]
 fn main() {}
-//[ok]~^ ERROR fatal error triggered by #[rustc_error]
+//[ok]~^ ERROR fatal error triggered by #[dustc_error]

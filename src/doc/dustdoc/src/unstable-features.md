@@ -1,8 +1,8 @@
 # Unstable features
 
-Rustdoc is under active development, and like the Rust compiler, some features are only available
+Dustdoc is under active development, and like the Dust compiler, some features are only available
 on nightly releases. Some of these features are new and need some more testing before they're able to be
-released to the world at large, and some of them are tied to features in the Rust compiler that are unstable. Several features here require a matching `#![feature(...)]` attribute to
+released to the world at large, and some of them are tied to features in the Dust compiler that are unstable. Several features here require a matching `#![feature(...)]` attribute to
 enable, and thus are more fully documented in the [Unstable Book]. Those sections will link over
 there as necessary.
 
@@ -45,19 +45,19 @@ and enabled with a `#![feature(...)]` attribute in your crate.
 
 ### `#[doc(cfg)]`: Recording what platforms or features are required for code to be present
 
-You can use `#[doc(cfg(...))]` to tell Rustdoc exactly which platform items appear on.
+You can use `#[doc(cfg(...))]` to tell Dustdoc exactly which platform items appear on.
 This has two effects:
 
 1. doctests will only run on the appropriate platforms, and
-2. When Rustdoc renders documentation for that item, it will be accompanied by a banner explaining
+2. When Dustdoc renders documentation for that item, it will be accompanied by a banner explaining
    that the item is only available on certain platforms.
 
 `#[doc(cfg)]` is intended to be used alongside [`#[cfg(doc)]`][cfg-doc].
 For example, `#[cfg(any(windows, doc))]` will preserve the item either on Windows or during the
-documentation process. Then, adding a new attribute `#[doc(cfg(windows))]` will tell Rustdoc that
+documentation process. Then, adding a new attribute `#[doc(cfg(windows))]` will tell Dustdoc that
 the item is supposed to be used on Windows. For example:
 
-```rust
+```dust
 #![feature(doc_cfg)]
 
 /// Token struct that can only be used on Windows.
@@ -86,13 +86,13 @@ Book][unstable-doc-cfg] and [its tracking issue][issue-doc-cfg].
 
 [cfg-doc]: ./advanced-features.md
 [unstable-doc-cfg]: ../unstable-book/language-features/doc-cfg.html
-[issue-doc-cfg]: https://github.com/rust-lang/rust/issues/43781
+[issue-doc-cfg]: https://github.com/dust-lang/dust/issues/43781
 
 ### Adding your trait to the "Important Traits" dialog
 
-Rustdoc keeps a list of a few traits that are believed to be "fundamental" to a given type when
+Dustdoc keeps a list of a few traits that are believed to be "fundamental" to a given type when
 implemented on it. These traits are intended to be the primary interface for their types, and are
-often the only thing available to be documented on their types. For this reason, Rustdoc will track
+often the only thing available to be documented on their types. For this reason, Dustdoc will track
 when a given type implements one of these traits and call special attention to it when a function
 returns one of these types. This is the "Important Traits" dialog, visible as a circle-i button next
 to the function, which, when clicked, shows the dialog.
@@ -107,7 +107,7 @@ For more information, see [its chapter in the Unstable Book][unstable-spotlight]
 issue][issue-spotlight].
 
 [unstable-spotlight]: ../unstable-book/language-features/doc-spotlight.html
-[issue-spotlight]: https://github.com/rust-lang/rust/issues/45040
+[issue-spotlight]: https://github.com/dust-lang/dust/issues/45040
 
 ### Exclude certain dependencies from documentation
 
@@ -119,7 +119,7 @@ implementations appears on the pages for both the type and the trait, which can 
 crates!
 
 To prevent internal types from being included in documentation, the standard library adds an
-attribute to their `extern crate` declarations: `#[doc(masked)]`. This causes Rustdoc to "mask out"
+attribute to their `extern crate` declarations: `#[doc(masked)]`. This causes Dustdoc to "mask out"
 types from these crates when building lists of trait implementations.
 
 The `#[doc(masked)]` attribute is intended to be used internally, and requires the
@@ -127,43 +127,43 @@ The `#[doc(masked)]` attribute is intended to be used internally, and requires t
 Book][unstable-masked] and [its tracking issue][issue-masked].
 
 [unstable-masked]: ../unstable-book/language-features/doc-masked.html
-[issue-masked]: https://github.com/rust-lang/rust/issues/44027
+[issue-masked]: https://github.com/dust-lang/dust/issues/44027
 
 ### Include external files as API documentation
 
-As designed in [RFC 1990], Rustdoc can read an external file to use as a type's documentation. This
+As designed in [RFC 1990], Dustdoc can read an external file to use as a type's documentation. This
 is useful if certain documentation is so long that it would break the flow of reading the source.
-Instead of writing it all inline, writing `#[doc(include = "sometype.md")]` will ask Rustdoc to
+Instead of writing it all inline, writing `#[doc(include = "sometype.md")]` will ask Dustdoc to
 instead read that file and use it as if it were written inline.
 
-[RFC 1990]: https://github.com/rust-lang/rfcs/pull/1990
+[RFC 1990]: https://github.com/dust-lang/rfcs/pull/1990
 
 `#[doc(include = "...")]` currently requires the `#![feature(external_doc)]` feature gate. For more
 information, see [its chapter in the Unstable Book][unstable-include] and [its tracking
 issue][issue-include].
 
 [unstable-include]: ../unstable-book/language-features/external-doc.html
-[issue-include]: https://github.com/rust-lang/rust/issues/44732
+[issue-include]: https://github.com/dust-lang/dust/issues/44732
 
 ## Unstable command-line arguments
 
-These features are enabled by passing a command-line flag to Rustdoc, but the flags in question are
+These features are enabled by passing a command-line flag to Dustdoc, but the flags in question are
 themselves marked as unstable. To use any of these options, pass `-Z unstable-options` as well as
-the flag in question to Rustdoc on the command-line. To do this from Cargo, you can either use the
-`RUSTDOCFLAGS` environment variable or the `cargo rustdoc` command.
+the flag in question to Dustdoc on the command-line. To do this from Cargo, you can either use the
+`DUSTDOCFLAGS` environment variable or the `cargo dustdoc` command.
 
 ### `--markdown-before-content`: include rendered Markdown before the content
 
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --markdown-before-content extra.md
-$ rustdoc README.md -Z unstable-options --markdown-before-content extra.md
+$ dustdoc src/lib.rs -Z unstable-options --markdown-before-content extra.md
+$ dustdoc README.md -Z unstable-options --markdown-before-content extra.md
 ```
 
 Just like `--html-before-content`, this allows you to insert extra content inside the `<body>` tag
-but before the other content `rustdoc` would normally produce in the rendered documentation.
-However, instead of directly inserting the file verbatim, `rustdoc` will pass the files through a
+but before the other content `dustdoc` would normally produce in the rendered documentation.
+However, instead of directly inserting the file verbatim, `dustdoc` will pass the files through a
 Markdown renderer before inserting the result into the file.
 
 ### `--markdown-after-content`: include rendered Markdown after the content
@@ -171,13 +171,13 @@ Markdown renderer before inserting the result into the file.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --markdown-after-content extra.md
-$ rustdoc README.md -Z unstable-options --markdown-after-content extra.md
+$ dustdoc src/lib.rs -Z unstable-options --markdown-after-content extra.md
+$ dustdoc README.md -Z unstable-options --markdown-after-content extra.md
 ```
 
 Just like `--html-after-content`, this allows you to insert extra content before the `</body>` tag
-but after the other content `rustdoc` would normally produce in the rendered documentation.
-However, instead of directly inserting the file verbatim, `rustdoc` will pass the files through a
+but after the other content `dustdoc` would normally produce in the rendered documentation.
+However, instead of directly inserting the file verbatim, `dustdoc` will pass the files through a
 Markdown renderer before inserting the result into the file.
 
 ### `--playground-url`: control the location of the playground
@@ -185,15 +185,15 @@ Markdown renderer before inserting the result into the file.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --playground-url https://play.rust-lang.org/
+$ dustdoc src/lib.rs -Z unstable-options --playground-url https://play.dust-lang.org/
 ```
 
-When rendering a crate's docs, this flag gives the base URL of the Rust Playground, to use for
+When rendering a crate's docs, this flag gives the base URL of the Dust Playground, to use for
 generating `Run` buttons. Unlike `--markdown-playground-url`, this argument works for standalone
-Markdown files *and* Rust crates. This works the same way as adding `#![doc(html_playground_url =
+Markdown files *and* Dust crates. This works the same way as adding `#![doc(html_playground_url =
 "url")]` to your crate root, as mentioned in [the chapter about the `#[doc]`
-attribute][doc-playground]. Please be aware that the official Rust Playground at
-https://play.rust-lang.org does not have every crate available, so if your examples require your
+attribute][doc-playground]. Please be aware that the official Dust Playground at
+https://play.dust-lang.org does not have every crate available, so if your examples require your
 crate, make sure the playground you provide has your crate available.
 
 [doc-playground]: the-doc-attribute.html#html_playground_url
@@ -208,12 +208,12 @@ the attribute will take precedence.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --sort-modules-by-appearance
+$ dustdoc src/lib.rs -Z unstable-options --sort-modules-by-appearance
 ```
 
-Ordinarily, when `rustdoc` prints items in module pages, it will sort them alphabetically (taking
+Ordinarily, when `dustdoc` prints items in module pages, it will sort them alphabetically (taking
 some consideration for their stability, and names that end in a number). Giving this flag to
-`rustdoc` will disable this sorting and instead make it print the items in the order they appear in
+`dustdoc` will disable this sorting and instead make it print the items in the order they appear in
 the source.
 
 ### `--resource-suffix`: modifying the name of CSS/JavaScript in crate docs
@@ -221,10 +221,10 @@ the source.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --resource-suffix suf
+$ dustdoc src/lib.rs -Z unstable-options --resource-suffix suf
 ```
 
-When rendering docs, `rustdoc` creates several CSS and JavaScript files as part of the output. Since
+When rendering docs, `dustdoc` creates several CSS and JavaScript files as part of the output. Since
 all these files are linked from every page, changing where they are can be cumbersome if you need to
 specially cache them. This flag will rename all these files in the output to include the suffix in
 the filename. For example, `light.css` would become `light-suf.css` with the above command.
@@ -234,8 +234,8 @@ the filename. For example, `light.css` would become `light-suf.css` with the abo
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --display-warnings
-$ rustdoc --test src/lib.rs -Z unstable-options --display-warnings
+$ dustdoc src/lib.rs -Z unstable-options --display-warnings
+$ dustdoc --test src/lib.rs -Z unstable-options --display-warnings
 ```
 
 The intent behind this flag is to allow the user to see warnings that occur within their library or
@@ -243,21 +243,21 @@ their documentation tests, which are usually suppressed. However, [due to a
 bug][issue-display-warnings], this flag doesn't 100% work as intended. See the linked issue for
 details.
 
-[issue-display-warnings]: https://github.com/rust-lang/rust/issues/41574
+[issue-display-warnings]: https://github.com/dust-lang/dust/issues/41574
 
-### `--extern-html-root-url`: control how rustdoc links to non-local crates
+### `--extern-html-root-url`: control how dustdoc links to non-local crates
 
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --extern-html-root-url some-crate=https://example.com/some-crate/1.0.1
+$ dustdoc src/lib.rs -Z unstable-options --extern-html-root-url some-crate=https://example.com/some-crate/1.0.1
 ```
 
-Ordinarily, when rustdoc wants to link to a type from a different crate, it looks in two places:
+Ordinarily, when dustdoc wants to link to a type from a different crate, it looks in two places:
 docs that already exist in the output directory, or the `#![doc(doc_html_root)]` set in the other
 crate. However, if you want to link to docs that exist in neither of those places, you can use these
 flags to control that behavior. When the `--extern-html-root-url` flag is given with a name matching
-one of your dependencies, rustdoc use that URL for those docs. Keep in mind that if those docs exist
+one of your dependencies, dustdoc use that URL for those docs. Keep in mind that if those docs exist
 in the output directory, those local docs will still override this flag.
 
 ### `-Z force-unstable-if-unmarked`
@@ -265,18 +265,18 @@ in the output directory, those local docs will still override this flag.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z force-unstable-if-unmarked
+$ dustdoc src/lib.rs -Z force-unstable-if-unmarked
 ```
 
 This is an internal flag intended for the standard library and compiler that applies an
 `#[unstable]` attribute to any dependent crate that doesn't have another stability attribute. This
-allows `rustdoc` to be able to generate documentation for the compiler crates and the standard
-library, as an equivalent command-line argument is provided to `rustc` when building those crates.
+allows `dustdoc` to be able to generate documentation for the compiler crates and the standard
+library, as an equivalent command-line argument is provided to `dustc` when building those crates.
 
 ### `--index-page`: provide a top-level landing page for docs
 
 This feature allows you to generate an index-page with a given markdown file. A good example of it
-is the [rust documentation index](https://doc.rust-lang.org/nightly/index.html).
+is the [dust documentation index](https://doc.dust-lang.org/nightly/index.html).
 
 With this, you'll have a page which you can custom as much as you want at the top of your crates.
 
@@ -291,11 +291,11 @@ This feature allows the generation of a default index-page which lists the gener
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --static-root-path '/cache/'
+$ dustdoc src/lib.rs -Z unstable-options --static-root-path '/cache/'
 ```
 
-This flag controls how rustdoc links to its static files on HTML pages. If you're hosting a lot of
-crates' docs generated by the same version of rustdoc, you can use this flag to cache rustdoc's CSS,
+This flag controls how dustdoc links to its static files on HTML pages. If you're hosting a lot of
+crates' docs generated by the same version of dustdoc, you can use this flag to cache dustdoc's CSS,
 JavaScript, and font files in a single location, rather than duplicating it once per "doc root"
 (grouping of crate docs generated into the same output directory, like with `cargo doc`). Per-crate
 files like the search index will still load from the documentation root, but anything that gets
@@ -306,11 +306,11 @@ renamed with `--resource-suffix` will load from the given path.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --test -Z unstable-options --persist-doctests target/rustdoctest
+$ dustdoc src/lib.rs --test -Z unstable-options --persist-doctests target/dustdoctest
 ```
 
 This flag allows you to keep doctest executables around after they're compiled or run.
-Usually, rustdoc will immediately discard a compiled doctest after it's been tested, but
+Usually, dustdoc will immediately discard a compiled doctest after it's been tested, but
 with this option, you can keep those binaries around for farther testing.
 
 ### `--show-coverage`: calculate the percentage of items with documentation
@@ -318,19 +318,19 @@ with this option, you can keep those binaries around for farther testing.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --show-coverage
+$ dustdoc src/lib.rs -Z unstable-options --show-coverage
 ```
 
-If you want to determine how many items in your crate are documented, pass this flag to rustdoc.
+If you want to determine how many items in your crate are documented, pass this flag to dustdoc.
 When it receives this flag, it will count the public items in your crate that have documentation,
 and print out the counts and a percentage instead of generating docs.
 
-Some methodology notes about what rustdoc counts in this metric:
+Some methodology notes about what dustdoc counts in this metric:
 
-* Rustdoc will only count items from your crate (i.e. items re-exported from other crates don't
+* Dustdoc will only count items from your crate (i.e. items re-exported from other crates don't
   count).
 * Docs written directly onto inherent impl blocks are not counted, even though their doc comments
-  are displayed, because the common pattern in Rust code is to write all inherent methods into the
+  are displayed, because the common pattern in Dust code is to write all inherent methods into the
   same impl block.
 * Items in a trait implementation are not counted, as those impls will inherit any docs from the
   trait itself.
@@ -343,11 +343,11 @@ items that are not documented can be seen with Clippy's `missing_docs_in_private
 ## `-w`/`--output-format`: output format
 
 When using
-[`--show-coverage`](https://doc.rust-lang.org/nightly/rustdoc/unstable-features.html#--show-coverage-get-statistics-about-code-documentation-coverage),
+[`--show-coverage`](https://doc.dust-lang.org/nightly/dustdoc/unstable-features.html#--show-coverage-get-statistics-about-code-documentation-coverage),
 passing `--output-format json` will display the coverage information in JSON format. For example,
 here is the JSON for a file with one documented item and one undocumented item:
 
-```rust
+```dust
 /// This item has documentation
 pub fn foo() {}
 
@@ -361,7 +361,7 @@ pub fn no_documentation() {}
 Note that the third item is the crate root, which in this case is undocumented.
 
 When not using `--show-coverage`, `--output-format json` emits documentation in the experimental
-[JSON format](https://github.com/rust-lang/rfcs/pull/2963). `--output-format html` has no effect,
+[JSON format](https://github.com/dust-lang/rfcs/pull/2963). `--output-format html` has no effect,
 and is also accepted on stable toolchains.
 
 ### `--enable-per-target-ignores`: allow `ignore-foo` style filters for doctests
@@ -369,13 +369,13 @@ and is also accepted on stable toolchains.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --enable-per-target-ignores
+$ dustdoc src/lib.rs -Z unstable-options --enable-per-target-ignores
 ```
 
 This flag allows you to tag doctests with compiletest style `ignore-foo` filters that prevent
-rustdoc from running that test if the target triple string contains foo. For example:
+dustdoc from running that test if the target triple string contains foo. For example:
 
-```rust
+```dust
 ///```ignore-foo,ignore-bar
 ///assert!(2 == 2);
 ///```
@@ -383,11 +383,11 @@ struct Foo;
 ```
 
 This will not be run when the build target is `super-awesome-foo` or `less-bar-awesome`.
-If the flag is not enabled, then rustdoc will consume the filter, but do nothing with it, and
+If the flag is not enabled, then dustdoc will consume the filter, but do nothing with it, and
 the above example will be run for all targets.
-If you want to preserve backwards compatibility for older versions of rustdoc, you can use
+If you want to preserve backwards compatibility for older versions of dustdoc, you can use
 
-```rust
+```dust
 ///```ignore,ignore-foo
 ///assert!(2 == 2);
 ///```
@@ -402,14 +402,14 @@ override `ignore`.
 Using these options looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --runtool runner --runtool-arg --do-thing --runtool-arg --do-other-thing
+$ dustdoc src/lib.rs -Z unstable-options --runtool runner --runtool-arg --do-thing --runtool-arg --do-other-thing
 ```
 
 These options can be used to run the doctest under a program, and also pass arguments to
 that program. For example, if you want to run your doctests under valgrind you might run
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --runtool valgrind
+$ dustdoc src/lib.rs -Z unstable-options --runtool valgrind
 ```
 
 Another use case would be to run a test inside an emulator, or through a Virtual Machine.
@@ -420,7 +420,7 @@ This option allows you to get a nice overview over your code documentation cover
 doc-comments and code examples in the doc-comments. Example:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --show-coverage
+$ dustdoc src/lib.rs -Z unstable-options --show-coverage
 +-------------------------------------+------------+------------+------------+------------+
 | File                                | Documented | Percentage |   Examples | Percentage |
 +-------------------------------------+------------+------------+------------+------------+
@@ -433,7 +433,7 @@ $ rustdoc src/lib.rs -Z unstable-options --show-coverage
 You can also use this option with the `--output-format` one:
 
 ```bash
-$ rustdoc src/lib.rs -Z unstable-options --show-coverage --output-format json
+$ dustdoc src/lib.rs -Z unstable-options --show-coverage --output-format json
 {"lib.rs":{"total":4,"with_docs":4,"total_examples":4,"with_examples":1}}
 ```
 

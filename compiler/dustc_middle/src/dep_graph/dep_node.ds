@@ -53,18 +53,18 @@
 //! user of the `DepNode` API of having to know how to compute the expected
 //! fingerprint for a given set of node parameters.
 //!
-//! [dependency graph]: https://rustc-dev-guide.rust-lang.org/query.html
+//! [dependency graph]: https://dustc-dev-guide.dust-lang.org/query.html
 
 use crate::ty::TyCtxt;
 
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId, CRATE_DEF_INDEX};
-use rustc_hir::definitions::DefPathHash;
-use rustc_hir::HirId;
-use rustc_span::symbol::Symbol;
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_hir::def_id::{CrateNum, DefId, LocalDefId, CRATE_DEF_INDEX};
+use dustc_hir::definitions::DefPathHash;
+use dustc_hir::HirId;
+use dustc_span::symbol::Symbol;
 use std::hash::Hash;
 
-pub use rustc_query_system::dep_graph::{DepContext, DepNodeParams};
+pub use dustc_query_system::dep_graph::{DepContext, DepNodeParams};
 
 /// This struct stores metadata about each DepKind.
 ///
@@ -201,7 +201,7 @@ pub mod dep_kind {
         );
     }
 
-    rustc_dep_node_append!([define_query_dep_kinds!][]);
+    dustc_dep_node_append!([define_query_dep_kinds!][]);
 }
 
 macro_rules! define_dep_nodes {
@@ -243,7 +243,7 @@ macro_rules! define_dep_nodes {
     );
 }
 
-rustc_dep_node_append!([define_dep_nodes!][ <'tcx>
+dustc_dep_node_append!([define_dep_nodes!][ <'tcx>
     // We use this for most things when incr. comp. is turned off.
     [] Null,
 
@@ -259,7 +259,7 @@ crate fn make_compile_codegen_unit(tcx: TyCtxt<'_>, name: Symbol) -> DepNode {
     DepNode::construct(tcx, DepKind::CompileCodegenUnit, &name)
 }
 
-pub type DepNode = rustc_query_system::dep_graph::DepNode<DepKind>;
+pub type DepNode = dustc_query_system::dep_graph::DepNode<DepKind>;
 
 // We keep a lot of `DepNode`s in memory during compilation. It's not
 // required that their size stay the same, but we don't want to change

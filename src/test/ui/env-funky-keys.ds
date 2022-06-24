@@ -8,7 +8,7 @@
 // ignore-vxworks no execve
 // no-prefer-dynamic
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
 extern crate libc;
 

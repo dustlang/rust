@@ -1,16 +1,16 @@
 use crate::utils::{snippet_with_applicability, span_lint, span_lint_and_then};
 use if_chain::if_chain;
-use rustc_ast::ast;
-use rustc_ast::visit as ast_visit;
-use rustc_ast::visit::Visitor as AstVisitor;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::intravisit as hir_visit;
-use rustc_hir::intravisit::Visitor as HirVisitor;
-use rustc_lint::{EarlyContext, EarlyLintPass, LateContext, LateLintPass, LintContext};
-use rustc_middle::hir::map::Map;
-use rustc_middle::lint::in_external_macro;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_ast::ast;
+use dustc_ast::visit as ast_visit;
+use dustc_ast::visit::Visitor as AstVisitor;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::intravisit as hir_visit;
+use dustc_hir::intravisit::Visitor as HirVisitor;
+use dustc_lint::{EarlyContext, EarlyLintPass, LateContext, LateLintPass, LintContext};
+use dustc_middle::hir::map::Map;
+use dustc_middle::lint::in_external_macro;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Detects closures called in the same expression where they
@@ -22,7 +22,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Bad
     /// let a = (|| 42)()
     ///

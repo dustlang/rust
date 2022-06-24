@@ -1,5 +1,5 @@
 //! Test for Clippy lint renames.
-// run-rustfix
+// run-dustfix
 
 #![allow(dead_code)]
 // allow the new lint name here, to test if the new name works

@@ -1,7 +1,7 @@
 use super::ITER_NEXT_LOOP;
 use crate::utils::{match_trait_method, paths, span_lint};
-use rustc_hir::Expr;
-use rustc_lint::LateContext;
+use dustc_hir::Expr;
+use dustc_lint::LateContext;
 
 pub(super) fn check(cx: &LateContext<'_>, arg: &Expr<'_>, expr: &Expr<'_>) -> bool {
     if match_trait_method(cx, arg, &paths::ITERATOR) {

@@ -1,6 +1,6 @@
 // aux-build:test-macros.rs
 
-// FIXME: https://github.com/rust-lang/rust/issues/41430
+// FIXME: https://github.com/dust-lang/dust/issues/41430
 // This is a temporary regression test for the ICE reported in #41211
 
 #![feature(custom_inner_attributes)]

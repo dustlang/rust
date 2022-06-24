@@ -4,10 +4,10 @@
 //! We walk the set of items and, for each member, generate new constraints.
 
 use hir::def_id::{DefId, LocalDefId};
-use rustc_hir as hir;
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_middle::ty::subst::{GenericArgKind, SubstsRef};
-use rustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_hir as hir;
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_middle::ty::subst::{GenericArgKind, SubstsRef};
+use dustc_middle::ty::{self, Ty, TyCtxt};
 
 use super::terms::VarianceTerm::*;
 use super::terms::*;

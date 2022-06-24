@@ -16,13 +16,13 @@
 
 use crate::context::{EarlyContext, LintContext, LintStore};
 use crate::passes::{EarlyLintPass, EarlyLintPassObject};
-use rustc_ast as ast;
-use rustc_ast::visit as ast_visit;
-use rustc_ast::AstLike;
-use rustc_session::lint::{BufferedEarlyLint, LintBuffer, LintPass};
-use rustc_session::Session;
-use rustc_span::symbol::Ident;
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_ast::visit as ast_visit;
+use dustc_ast::AstLike;
+use dustc_session::lint::{BufferedEarlyLint, LintBuffer, LintPass};
+use dustc_session::Session;
+use dustc_span::symbol::Ident;
+use dustc_span::Span;
 
 use std::slice;
 use tracing::debug;
@@ -289,7 +289,7 @@ struct EarlyLintPassObjects<'a> {
     lints: &'a mut [EarlyLintPassObject],
 }
 
-#[allow(rustc::lint_pass_impl_without_macro)]
+#[allow(dustc::lint_pass_impl_without_macro)]
 impl LintPass for EarlyLintPassObjects<'_> {
     fn name(&self) -> &'static str {
         panic!()

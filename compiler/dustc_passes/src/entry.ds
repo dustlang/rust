@@ -1,15 +1,15 @@
-use rustc_ast::entry::EntryPointType;
-use rustc_errors::struct_span_err;
-use rustc_hir::def_id::{CrateNum, LocalDefId, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_hir::{ForeignItem, HirId, ImplItem, Item, ItemKind, TraitItem, CRATE_HIR_ID};
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::config::{CrateType, EntryFnType};
-use rustc_session::Session;
-use rustc_span::symbol::sym;
-use rustc_span::{Span, DUMMY_SP};
+use dustc_ast::entry::EntryPointType;
+use dustc_errors::struct_span_err;
+use dustc_hir::def_id::{CrateNum, LocalDefId, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_hir::{ForeignItem, HirId, ImplItem, Item, ItemKind, TraitItem, CRATE_HIR_ID};
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::config::{CrateType, EntryFnType};
+use dustc_session::Session;
+use dustc_span::symbol::sym;
+use dustc_span::{Span, DUMMY_SP};
 
 struct EntryContext<'a, 'tcx> {
     session: &'a Session,
@@ -78,7 +78,7 @@ fn entry_fn(tcx: TyCtxt<'_>, cnum: CrateNum) -> Option<(LocalDefId, EntryFnType)
     configure_main(tcx, &ctxt)
 }
 
-// Beware, this is duplicated in `librustc_builtin_macros/test_harness.rs`
+// Beware, this is duplicated in `libdustc_builtin_macros/test_harness.rs`
 // (with `ast::Item`), so make sure to keep them in sync.
 fn entry_point_type(ctxt: &EntryContext<'_, '_>, item: &Item<'_>, at_root: bool) -> EntryPointType {
     let attrs = ctxt.map.attrs(item.hir_id());
@@ -218,8 +218,8 @@ fn no_main_err(tcx: TyCtxt<'_>, visitor: &EntryContext<'_, '_>) {
     }
     if tcx.sess.teach(&err.get_code().unwrap()) {
         err.note(
-            "If you don't know the basics of Rust, you can go look to the Rust Book \
-                  to get started: https://doc.rust-lang.org/book/",
+            "If you don't know the basics of Dust, you can go look to the Dust Book \
+                  to get started: https://doc.dust-lang.org/book/",
         );
     }
     err.emit();

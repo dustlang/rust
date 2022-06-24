@@ -5,7 +5,7 @@
 //! functions and algorithms. Mocked objects include instances of `mir::Body`; including
 //! `Terminator`s of various `kind`s, and `Span` objects. Some functions used by or used on
 //! real, runtime versions of these mocked-up objects have constraints (such as cross-thread
-//! limitations) and deep dependencies on other elements of the full Rust compiler (which is
+//! limitations) and deep dependencies on other elements of the full Dust compiler (which is
 //! *not* constructed or mocked for these tests).
 //!
 //! Of particular note, attempting to simply print elements of the `mir::Body` with default
@@ -18,7 +18,7 @@
 //! are unrelated to the `TyCtxt` global. Without initializing the `Span` session globals, some
 //! basic, coverage-specific features would be impossible to test, but thankfully initializing these
 //! globals is comparitively simpler. The easiest way is to wrap the test in a closure argument
-//! to: `rustc_span::with_default_session_globals(|| { test_here(); })`.
+//! to: `dustc_span::with_default_session_globals(|| { test_here(); })`.
 
 use super::counters;
 use super::debug;
@@ -27,13 +27,13 @@ use super::spans;
 
 use coverage_test_macros::let_bcb;
 
-use rustc_data_structures::graph::WithNumNodes;
-use rustc_data_structures::graph::WithSuccessors;
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_middle::mir::coverage::CoverageKind;
-use rustc_middle::mir::*;
-use rustc_middle::ty::{self, DebruijnIndex, TyS, TypeFlags};
-use rustc_span::{self, BytePos, Pos, Span, DUMMY_SP};
+use dustc_data_structures::graph::WithNumNodes;
+use dustc_data_structures::graph::WithSuccessors;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_middle::mir::coverage::CoverageKind;
+use dustc_middle::mir::*;
+use dustc_middle::ty::{self, DebruijnIndex, TyS, TypeFlags};
+use dustc_span::{self, BytePos, Pos, Span, DUMMY_SP};
 
 // All `TEMP_BLOCK` targets should be replaced before calling `to_body() -> mir::Body`.
 const TEMP_BLOCK: BasicBlock = BasicBlock::MAX;
@@ -673,7 +673,7 @@ fn synthesize_body_span_from_terminators(mir_body: &Body<'_>) -> Span {
 
 #[test]
 fn test_make_bcb_counters() {
-    rustc_span::with_default_session_globals(|| {
+    dustc_span::with_default_session_globals(|| {
         let mir_body = goto_switchint();
         let body_span = synthesize_body_span_from_terminators(&mir_body);
         let mut basic_coverage_blocks = graph::CoverageGraph::from_mir(&mir_body);

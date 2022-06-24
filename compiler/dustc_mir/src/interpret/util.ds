@@ -1,5 +1,5 @@
-use rustc_middle::mir::interpret::InterpResult;
-use rustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable, TypeVisitor};
+use dustc_middle::mir::interpret::InterpResult;
+use dustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable, TypeVisitor};
 use std::convert::TryInto;
 use std::ops::ControlFlow;
 

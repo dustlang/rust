@@ -24,4 +24,4 @@ LL |     a.iter().map(|_: (u16, u16)| 45);
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0631`.
+For more information about this error, try `dustc --explain E0631`.

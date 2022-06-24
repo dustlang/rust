@@ -2,11 +2,11 @@ use crate::deriving::generic::ty::*;
 use crate::deriving::generic::*;
 use crate::deriving::{path_local, path_std};
 
-use rustc_ast::ptr::P;
-use rustc_ast::{BinOpKind, Expr, MetaItem};
-use rustc_expand::base::{Annotatable, ExtCtxt};
-use rustc_span::symbol::sym;
-use rustc_span::Span;
+use dustc_ast::ptr::P;
+use dustc_ast::{BinOpKind, Expr, MetaItem};
+use dustc_expand::base::{Annotatable, ExtCtxt};
+use dustc_span::symbol::sym;
+use dustc_span::Span;
 
 pub fn expand_deriving_partial_eq(
     cx: &mut ExtCtxt<'_>,

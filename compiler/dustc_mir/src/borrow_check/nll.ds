@@ -1,16 +1,16 @@
 //! The entry point of the NLL borrow checker.
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::Diagnostic;
-use rustc_hir::def_id::DefId;
-use rustc_index::vec::IndexVec;
-use rustc_infer::infer::InferCtxt;
-use rustc_middle::mir::{
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::Diagnostic;
+use dustc_hir::def_id::DefId;
+use dustc_index::vec::IndexVec;
+use dustc_infer::infer::InferCtxt;
+use dustc_middle::mir::{
     BasicBlock, Body, ClosureOutlivesSubject, ClosureRegionRequirements, LocalKind, Location,
     Promoted,
 };
-use rustc_middle::ty::{self, RegionKind, RegionVid};
-use rustc_span::symbol::sym;
+use dustc_middle::ty::{self, RegionKind, RegionVid};
+use dustc_span::symbol::sym;
 use std::env;
 use std::fmt::Debug;
 use std::io;
@@ -31,7 +31,7 @@ use crate::borrow_check::{
     borrow_set::BorrowSet,
     constraint_generation,
     diagnostics::RegionErrors,
-    facts::{AllFacts, AllFactsExt, RustcFacts},
+    facts::{AllFacts, AllFactsExt, DustcFacts},
     invalidation,
     location::LocationTable,
     region_infer::{values::RegionValueElements, RegionInferenceContext},
@@ -41,7 +41,7 @@ use crate::borrow_check::{
     Upvar,
 };
 
-crate type PoloniusOutput = Output<RustcFacts>;
+crate type PoloniusOutput = Output<DustcFacts>;
 
 /// The output of `nll::compute_regions`. This includes the computed `RegionInferenceContext`, any
 /// closure requirements to propagate, and any generated errors.
@@ -372,11 +372,11 @@ pub(super) fn dump_annotation<'a, 'tcx>(
 ) {
     let tcx = infcx.tcx;
     let base_def_id = tcx.closure_base_def_id(body.source.def_id());
-    if !tcx.has_attr(base_def_id, sym::rustc_regions) {
+    if !tcx.has_attr(base_def_id, sym::dustc_regions) {
         return;
     }
 
-    // When the enclosing function is tagged with `#[rustc_regions]`,
+    // When the enclosing function is tagged with `#[dustc_regions]`,
     // we dump out various bits of state as warnings. This is useful
     // for verifying that the compiler is behaving as expected.  These
     // warnings focus on the closure region requirements -- for

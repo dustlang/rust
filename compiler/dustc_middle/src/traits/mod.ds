@@ -1,6 +1,6 @@
-//! Trait Resolution. See the [rustc dev guide] for more information on how this works.
+//! Trait Resolution. See the [dustc dev guide] for more information on how this works.
 //!
-//! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/traits/resolution.html
+//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/traits/resolution.html
 
 mod chalk;
 pub mod query;
@@ -13,12 +13,12 @@ use crate::mir::interpret::ErrorHandled;
 use crate::ty::subst::SubstsRef;
 use crate::ty::{self, AdtKind, Ty, TyCtxt};
 
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_hir::Constness;
-use rustc_span::symbol::Symbol;
-use rustc_span::{Span, DUMMY_SP};
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_hir::Constness;
+use dustc_span::symbol::Symbol;
+use dustc_span::{Span, DUMMY_SP};
 use smallvec::SmallVec;
 
 use std::borrow::Cow;
@@ -32,7 +32,7 @@ pub type CanonicalChalkEnvironmentAndGoal<'tcx> = Canonical<'tcx, ChalkEnvironme
 
 pub use self::ObligationCauseCode::*;
 
-pub use self::chalk::{ChalkEnvironmentAndGoal, RustInterner as ChalkRustInterner};
+pub use self::chalk::{ChalkEnvironmentAndGoal, DustInterner as ChalkDustInterner};
 
 /// Depending on the stage of compilation, we want projection to be
 /// more or less conservative.

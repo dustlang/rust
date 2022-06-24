@@ -1,9 +1,9 @@
-use rustc_infer::infer::nll_relate::{NormalizationStrategy, TypeRelating, TypeRelatingDelegate};
-use rustc_infer::infer::{InferCtxt, NllRegionVariableOrigin};
-use rustc_middle::mir::ConstraintCategory;
-use rustc_middle::ty::relate::TypeRelation;
-use rustc_middle::ty::{self, Const, Ty};
-use rustc_trait_selection::traits::query::Fallible;
+use dustc_infer::infer::nll_relate::{NormalizationStrategy, TypeRelating, TypeRelatingDelegate};
+use dustc_infer::infer::{InferCtxt, NllRegionVariableOrigin};
+use dustc_middle::mir::ConstraintCategory;
+use dustc_middle::ty::relate::TypeRelation;
+use dustc_middle::ty::{self, Const, Ty};
+use dustc_trait_selection::traits::query::Fallible;
 
 use crate::borrow_check::constraints::OutlivesConstraint;
 use crate::borrow_check::type_check::{BorrowCheckContext, Locations};

@@ -2,7 +2,7 @@
 
 //! This is a doc comment
 //!
-//! ```rust
+//! ```dust
 //! fn main() {}
 //! ```
 //!

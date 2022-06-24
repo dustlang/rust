@@ -4,20 +4,20 @@ use crate::def_id::DefId;
 crate use crate::hir_id::HirId;
 use crate::{itemlikevisit, LangItem};
 
-use rustc_ast::util::parser::ExprPrecedence;
-use rustc_ast::{self as ast, CrateSugar, LlvmAsmDialect};
-use rustc_ast::{Attribute, FloatTy, IntTy, Label, LitKind, StrStyle, TraitObjectSyntax, UintTy};
-pub use rustc_ast::{BorrowKind, ImplPolarity, IsAuto};
-pub use rustc_ast::{CaptureBy, Movability, Mutability};
-use rustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
-use rustc_data_structures::sync::{par_for_each_in, Send, Sync};
-use rustc_macros::HashStable_Generic;
-use rustc_span::source_map::{SourceMap, Spanned};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{def_id::LocalDefId, BytePos};
-use rustc_span::{MultiSpan, Span, DUMMY_SP};
-use rustc_target::asm::InlineAsmRegOrRegClass;
-use rustc_target::spec::abi::Abi;
+use dustc_ast::util::parser::ExprPrecedence;
+use dustc_ast::{self as ast, CrateSugar, LlvmAsmDialect};
+use dustc_ast::{Attribute, FloatTy, IntTy, Label, LitKind, StrStyle, TraitObjectSyntax, UintTy};
+pub use dustc_ast::{BorrowKind, ImplPolarity, IsAuto};
+pub use dustc_ast::{CaptureBy, Movability, Mutability};
+use dustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
+use dustc_data_structures::sync::{par_for_each_in, Send, Sync};
+use dustc_macros::HashStable_Generic;
+use dustc_span::source_map::{SourceMap, Spanned};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{def_id::LocalDefId, BytePos};
+use dustc_span::{MultiSpan, Span, DUMMY_SP};
+use dustc_target::asm::InlineAsmRegOrRegClass;
+use dustc_target::spec::abi::Abi;
 
 use smallvec::SmallVec;
 use std::collections::{BTreeMap, BTreeSet};
@@ -179,7 +179,7 @@ impl Lifetime {
     }
 }
 
-/// A `Path` is essentially Rust's notion of a name; for instance,
+/// A `Path` is essentially Dust's notion of a name; for instance,
 /// `std::cmp::PartialEq`. It's represented as a sequence of identifiers,
 /// along with a bunch of supporting information.
 #[derive(Debug, HashStable_Generic)]
@@ -292,7 +292,7 @@ impl GenericArg<'_> {
         }
     }
 
-    pub fn to_ord(&self, feats: &rustc_feature::Features) -> ast::ParamKindOrd {
+    pub fn to_ord(&self, feats: &dustc_feature::Features) -> ast::ParamKindOrd {
         match self {
             GenericArg::Lifetime(_) => ast::ParamKindOrd::Lifetime,
             GenericArg::Type(_) => ast::ParamKindOrd::Type,
@@ -534,7 +534,7 @@ impl Generics<'hir> {
 #[derive(HashStable_Generic)]
 pub enum SyntheticTyParamKind {
     ImplTrait,
-    // Created by the `#[rustc_synthetic]` attribute.
+    // Created by the `#[dustc_synthetic]` attribute.
     FromAttr,
 }
 
@@ -635,9 +635,9 @@ pub struct CrateItem<'hir> {
 /// The top-level data structure that stores the entire contents of
 /// the crate currently being compiled.
 ///
-/// For more details, see the [rustc dev guide].
+/// For more details, see the [dustc dev guide].
 ///
-/// [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/hir.html
+/// [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/hir.html
 #[derive(Debug)]
 pub struct Crate<'hir> {
     pub item: CrateItem<'hir>,
@@ -1506,7 +1506,7 @@ impl Expr<'_> {
 
             // Type ascription inherits its place expression kind from its
             // operand. See:
-            // https://github.com/rust-lang/rfcs/blob/master/text/0803-type-ascription.md#type-ascription-and-temporaries
+            // https://github.com/dust-lang/rfcs/blob/master/text/0803-type-ascription.md#type-ascription-and-temporaries
             ExprKind::Type(ref e, _) => e.is_place_expr(allow_projections_from),
 
             ExprKind::Unary(UnOp::Deref, _) => true,
@@ -1781,7 +1781,7 @@ pub enum ExprKind<'hir> {
 ///
 /// To resolve the path to a `DefId`, call [`qpath_res`].
 ///
-/// [`qpath_res`]: ../rustc_middle/ty/struct.TypeckResults.html#method.qpath_res
+/// [`qpath_res`]: ../dustc_middle/ty/struct.TypeckResults.html#method.qpath_res
 #[derive(Debug, HashStable_Generic)]
 pub enum QPath<'hir> {
     /// Path to a definition, optionally "fully-qualified" with a `Self`
@@ -1845,7 +1845,7 @@ pub enum LocalSource {
     /// When lowering async functions, we create locals within the `async move` so that
     /// all parameters are dropped after the future is polled.
     ///
-    /// ```ignore (pseudo-Rust)
+    /// ```ignore (pseudo-Dust)
     /// async fn foo(<pattern> @ x: Type) {
     ///     async move {
     ///         let <pattern> = x;
@@ -1945,7 +1945,7 @@ pub struct Destination {
     pub label: Option<Label>,
 
     // These errors are caught and then reported during the diagnostics pass in
-    // librustc_passes/loops.rs
+    // libdustc_passes/loops.rs
     pub target_id: Result<HirId, LoopIdError>,
 }
 
@@ -3071,14 +3071,14 @@ impl<'hir> Node<'hir> {
 // Some nodes are used a lot. Make sure they don't unintentionally get bigger.
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
 mod size_asserts {
-    rustc_data_structures::static_assert_size!(super::Block<'static>, 48);
-    rustc_data_structures::static_assert_size!(super::Expr<'static>, 64);
-    rustc_data_structures::static_assert_size!(super::Pat<'static>, 88);
-    rustc_data_structures::static_assert_size!(super::QPath<'static>, 24);
-    rustc_data_structures::static_assert_size!(super::Ty<'static>, 72);
+    dustc_data_structures::static_assert_size!(super::Block<'static>, 48);
+    dustc_data_structures::static_assert_size!(super::Expr<'static>, 64);
+    dustc_data_structures::static_assert_size!(super::Pat<'static>, 88);
+    dustc_data_structures::static_assert_size!(super::QPath<'static>, 24);
+    dustc_data_structures::static_assert_size!(super::Ty<'static>, 72);
 
-    rustc_data_structures::static_assert_size!(super::Item<'static>, 184);
-    rustc_data_structures::static_assert_size!(super::TraitItem<'static>, 128);
-    rustc_data_structures::static_assert_size!(super::ImplItem<'static>, 152);
-    rustc_data_structures::static_assert_size!(super::ForeignItem<'static>, 136);
+    dustc_data_structures::static_assert_size!(super::Item<'static>, 184);
+    dustc_data_structures::static_assert_size!(super::TraitItem<'static>, 128);
+    dustc_data_structures::static_assert_size!(super::ImplItem<'static>, 152);
+    dustc_data_structures::static_assert_size!(super::ForeignItem<'static>, 136);
 }

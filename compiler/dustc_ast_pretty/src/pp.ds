@@ -17,7 +17,7 @@
 //! Despite some redundancies and quirks in the way it's implemented in that
 //! paper, I've opted to keep the implementation here as similar as I can,
 //! changing only what was blatantly wrong, a typo, or sufficiently
-//! non-idiomatic rust that it really stuck out.
+//! non-idiomatic dust that it really stuck out.
 //!
 //! In particular you'll see a certain amount of churn related to INTEGER vs.
 //! CARDINAL in the Mesa implementation. Mesa apparently interconverts the two

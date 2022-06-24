@@ -5,17 +5,17 @@ use crate::type_::Type;
 use crate::type_of::LayoutLlvmExt;
 use crate::value::Value;
 
-use rustc_codegen_ssa::mir::operand::OperandValue;
-use rustc_codegen_ssa::mir::place::PlaceRef;
-use rustc_codegen_ssa::traits::*;
-use rustc_codegen_ssa::MemFlags;
-use rustc_middle::bug;
-pub use rustc_middle::ty::layout::{FAT_PTR_ADDR, FAT_PTR_EXTRA};
-use rustc_middle::ty::Ty;
-use rustc_target::abi::call::ArgAbi;
-pub use rustc_target::abi::call::*;
-use rustc_target::abi::{self, HasDataLayout, Int, LayoutOf};
-pub use rustc_target::spec::abi::Abi;
+use dustc_codegen_ssa::mir::operand::OperandValue;
+use dustc_codegen_ssa::mir::place::PlaceRef;
+use dustc_codegen_ssa::traits::*;
+use dustc_codegen_ssa::MemFlags;
+use dustc_middle::bug;
+pub use dustc_middle::ty::layout::{FAT_PTR_ADDR, FAT_PTR_EXTRA};
+use dustc_middle::ty::Ty;
+use dustc_target::abi::call::ArgAbi;
+pub use dustc_target::abi::call::*;
+use dustc_target::abi::{self, HasDataLayout, Int, LayoutOf};
+pub use dustc_target::spec::abi::Abi;
 
 use libc::c_uint;
 
@@ -52,14 +52,14 @@ impl ArgAttributesExt for ArgAttributes {
             let deref = self.pointee_size.bytes();
             if deref != 0 {
                 if regular.contains(ArgAttribute::NonNull) {
-                    llvm::LLVMRustAddDereferenceableAttr(llfn, idx.as_uint(), deref);
+                    llvm::LLVMDustAddDereferenceableAttr(llfn, idx.as_uint(), deref);
                 } else {
-                    llvm::LLVMRustAddDereferenceableOrNullAttr(llfn, idx.as_uint(), deref);
+                    llvm::LLVMDustAddDereferenceableOrNullAttr(llfn, idx.as_uint(), deref);
                 }
                 regular -= ArgAttribute::NonNull;
             }
             if let Some(align) = self.pointee_align {
-                llvm::LLVMRustAddAlignmentAttr(llfn, idx.as_uint(), align.bytes() as u32);
+                llvm::LLVMDustAddAlignmentAttr(llfn, idx.as_uint(), align.bytes() as u32);
             }
             regular.for_each_kind(|attr| attr.apply_llfn(idx, llfn));
             match self.arg_ext {
@@ -80,9 +80,9 @@ impl ArgAttributesExt for ArgAttributes {
             let deref = self.pointee_size.bytes();
             if deref != 0 {
                 if regular.contains(ArgAttribute::NonNull) {
-                    llvm::LLVMRustAddDereferenceableCallSiteAttr(callsite, idx.as_uint(), deref);
+                    llvm::LLVMDustAddDereferenceableCallSiteAttr(callsite, idx.as_uint(), deref);
                 } else {
-                    llvm::LLVMRustAddDereferenceableOrNullCallSiteAttr(
+                    llvm::LLVMDustAddDereferenceableOrNullCallSiteAttr(
                         callsite,
                         idx.as_uint(),
                         deref,
@@ -91,7 +91,7 @@ impl ArgAttributesExt for ArgAttributes {
                 regular -= ArgAttribute::NonNull;
             }
             if let Some(align) = self.pointee_align {
-                llvm::LLVMRustAddAlignmentCallSiteAttr(
+                llvm::LLVMDustAddAlignmentCallSiteAttr(
                     callsite,
                     idx.as_uint(),
                     align.bytes() as u32,
@@ -191,15 +191,15 @@ pub trait ArgAbiExt<'ll, 'tcx> {
 }
 
 impl ArgAbiExt<'ll, 'tcx> for ArgAbi<'tcx, Ty<'tcx>> {
-    /// Gets the LLVM type for a place of the original Rust type of
+    /// Gets the LLVM type for a place of the original Dust type of
     /// this argument/return, i.e., the result of `type_of::type_of`.
     fn memory_ty(&self, cx: &CodegenCx<'ll, 'tcx>) -> &'ll Type {
         self.layout.llvm_type(cx)
     }
 
     /// Stores a direct/indirect value described by this ArgAbi into a
-    /// place for the original Rust type of this argument/return.
-    /// Can be used for both storing formal arguments into Rust variables
+    /// place for the original Dust type of this argument/return.
+    /// Can be used for both storing formal arguments into Dust variables
     /// or results of call/invoke instructions into their destinations.
     fn store(
         &self,
@@ -230,8 +230,8 @@ impl ArgAbiExt<'ll, 'tcx> for ArgAbi<'tcx, Ty<'tcx>> {
                 // Basically we dump the data onto the stack then memcpy it.
                 //
                 // Other approaches I tried:
-                // - Casting rust ret pointer to the foreign type and using Store
-                //   is (a) unsafe if size of foreign type > size of rust type and
+                // - Casting dust ret pointer to the foreign type and using Store
+                //   is (a) unsafe if size of foreign type > size of dust type and
                 //   (b) runs afoul of strict aliasing rules, yielding invalid
                 //   assembly under -O (specifically, the store gets removed).
                 // - Truncating foreign type to correct integral type and then
@@ -389,7 +389,7 @@ impl<'tcx> FnAbiLlvmExt<'tcx> for FnAbi<'tcx, Ty<'tcx>> {
 
     fn llvm_cconv(&self) -> llvm::CallConv {
         match self.conv {
-            Conv::C | Conv::Rust | Conv::CCmseNonSecureCall => llvm::CCallConv,
+            Conv::C | Conv::Dust | Conv::CCmseNonSecureCall => llvm::CCallConv,
             Conv::AmdGpuKernel => llvm::AmdGpuKernel,
             Conv::AvrInterrupt => llvm::AvrInterrupt,
             Conv::AvrNonBlockingInterrupt => llvm::AvrNonBlockingInterrupt,
@@ -431,7 +431,7 @@ impl<'tcx> FnAbiLlvmExt<'tcx> for FnAbi<'tcx, Ty<'tcx>> {
                 assert!(!on_stack);
                 let i = apply(attrs);
                 unsafe {
-                    llvm::LLVMRustAddStructRetAttr(
+                    llvm::LLVMDustAddStructRetAttr(
                         llfn,
                         llvm::AttributePlace::Argument(i).as_uint(),
                         self.ret.layout.llvm_type(cx),
@@ -449,7 +449,7 @@ impl<'tcx> FnAbiLlvmExt<'tcx> for FnAbi<'tcx, Ty<'tcx>> {
                 PassMode::Indirect { ref attrs, extra_attrs: None, on_stack: true } => {
                     let i = apply(attrs);
                     unsafe {
-                        llvm::LLVMRustAddByValAttr(
+                        llvm::LLVMDustAddByValAttr(
                             llfn,
                             llvm::AttributePlace::Argument(i).as_uint(),
                             arg.layout.llvm_type(cx),
@@ -493,7 +493,7 @@ impl<'tcx> FnAbiLlvmExt<'tcx> for FnAbi<'tcx, Ty<'tcx>> {
                 assert!(!on_stack);
                 let i = apply(attrs);
                 unsafe {
-                    llvm::LLVMRustAddStructRetCallSiteAttr(
+                    llvm::LLVMDustAddStructRetCallSiteAttr(
                         callsite,
                         llvm::AttributePlace::Argument(i).as_uint(),
                         self.ret.layout.llvm_type(bx),
@@ -524,7 +524,7 @@ impl<'tcx> FnAbiLlvmExt<'tcx> for FnAbi<'tcx, Ty<'tcx>> {
                 PassMode::Indirect { ref attrs, extra_attrs: None, on_stack: true } => {
                     let i = apply(attrs);
                     unsafe {
-                        llvm::LLVMRustAddByValCallSiteAttr(
+                        llvm::LLVMDustAddByValCallSiteAttr(
                             callsite,
                             llvm::AttributePlace::Argument(i).as_uint(),
                             arg.layout.llvm_type(bx),
@@ -559,7 +559,7 @@ impl<'tcx> FnAbiLlvmExt<'tcx> for FnAbi<'tcx, Ty<'tcx>> {
         }
 
         if self.conv == Conv::CCmseNonSecureCall {
-            // This will probably get ignored on all targets but those supporting the TrustZone-M
+            // This will probably get ignored on all targets but those supporting the TdustZone-M
             // extension (thumbv8m targets).
             unsafe {
                 llvm::AddCallSiteAttrString(

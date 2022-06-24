@@ -2,11 +2,11 @@
 //!
 //! See the `Qualif` trait for more info.
 
-use rustc_errors::ErrorReported;
-use rustc_middle::mir::*;
-use rustc_middle::ty::{self, subst::SubstsRef, AdtDef, Ty};
-use rustc_span::DUMMY_SP;
-use rustc_trait_selection::traits;
+use dustc_errors::ErrorReported;
+use dustc_middle::mir::*;
+use dustc_middle::ty::{self, subst::SubstsRef, AdtDef, Ty};
+use dustc_span::DUMMY_SP;
+use dustc_trait_selection::traits;
 
 use super::ConstCx;
 

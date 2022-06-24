@@ -16,11 +16,11 @@
 
 set -ex
 
-bucket=rust-lang-ci2
+bucket=dust-lang-ci2
 commit=$1
 builder=$2
 
-curl -O https://$bucket.s3.amazonaws.com/rustc-builds/$commit/cpu-$builder.csv
+curl -O https://$bucket.s3.amazonaws.com/dustc-builds/$commit/cpu-$builder.csv
 
 gnuplot <<-EOF
 reset

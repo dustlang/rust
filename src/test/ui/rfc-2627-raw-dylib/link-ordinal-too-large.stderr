@@ -5,7 +5,7 @@ LL | #![feature(raw_dylib)]
    |            ^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #58713 <https://github.com/rust-lang/rust/issues/58713> for more information
+   = note: see issue #58713 <https://github.com/dust-lang/dust/issues/58713> for more information
 
 error: ordinal value in `link_ordinal` is too large: `18446744073709551616`
   --> $DIR/link-ordinal-too-large.rs:6:5

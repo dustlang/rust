@@ -1,7 +1,7 @@
-# Everyone uses make for building Rust
+# Everyone uses make for building Dust
 
 foo: bar.rlib
-	$(RUSTC) --crate-type bin --extern bar=bar.rlib
+	$(DUSTC) --crate-type bin --extern bar=bar.rlib
 
 %.rlib: %.rs
-	$(RUSTC) --crate-type lib $<
+	$(DUSTC) --crate-type lib $<

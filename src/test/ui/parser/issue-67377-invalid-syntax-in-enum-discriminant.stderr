@@ -120,4 +120,4 @@ LL |         V = [Vec::new; { [0].len() ].len() as isize,
 
 error: aborting due to 14 previous errors
 
-For more information about this error, try `rustc --explain E0282`.
+For more information about this error, try `dustc --explain E0282`.

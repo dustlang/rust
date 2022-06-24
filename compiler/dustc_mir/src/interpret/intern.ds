@@ -15,14 +15,14 @@
 //! that contains allocations whose mutability we cannot identify.)
 
 use super::validity::RefTracking;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::ErrorReported;
-use rustc_hir as hir;
-use rustc_middle::mir::interpret::InterpResult;
-use rustc_middle::ty::{self, layout::TyAndLayout, Ty};
-use rustc_target::abi::Size;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::ErrorReported;
+use dustc_hir as hir;
+use dustc_middle::mir::interpret::InterpResult;
+use dustc_middle::ty::{self, layout::TyAndLayout, Ty};
+use dustc_target::abi::Size;
 
-use rustc_ast::Mutability;
+use dustc_ast::Mutability;
 
 use super::{AllocId, Allocation, InterpCx, MPlaceTy, Machine, MemoryKind, Scalar, ValueVisitor};
 use crate::const_eval;
@@ -305,7 +305,7 @@ where
     let base_intern_mode = match intern_kind {
         InternKind::Static(mutbl) => InternMode::Static(mutbl),
         // `Constant` includes array lengths.
-        // `Promoted` includes non-`Copy` array initializers and `rustc_args_required_const` arguments.
+        // `Promoted` includes non-`Copy` array initializers and `dustc_args_required_const` arguments.
         InternKind::Constant | InternKind::Promoted => InternMode::Const,
     };
 

@@ -1,17 +1,17 @@
 //! See docs in `build/expr/mod.rs`.
 
-use rustc_index::vec::Idx;
+use dustc_index::vec::Idx;
 
 use crate::build::expr::as_place::PlaceBase;
 use crate::build::expr::category::{Category, RvalueFunc};
 use crate::build::{BlockAnd, BlockAndExtension, Builder};
 use crate::thir::*;
-use rustc_middle::middle::region;
-use rustc_middle::mir::AssertKind;
-use rustc_middle::mir::Place;
-use rustc_middle::mir::*;
-use rustc_middle::ty::{self, Ty, UpvarSubsts};
-use rustc_span::Span;
+use dustc_middle::middle::region;
+use dustc_middle::mir::AssertKind;
+use dustc_middle::mir::Place;
+use dustc_middle::mir::*;
+use dustc_middle::ty::{self, Ty, UpvarSubsts};
+use dustc_span::Span;
 
 impl<'a, 'tcx> Builder<'a, 'tcx> {
     /// Returns an rvalue suitable for use until the end of the current
@@ -242,7 +242,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
                 let result = match substs {
                     UpvarSubsts::Generator(substs) => {
                         // We implicitly set the discriminant to 0. See
-                        // librustc_mir/transform/deaggregator.rs for details.
+                        // libdustc_mir/transform/deaggregator.rs for details.
                         let movability = movability.unwrap();
                         box AggregateKind::Generator(closure_id, substs, movability)
                     }

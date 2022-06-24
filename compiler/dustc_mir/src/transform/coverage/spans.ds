@@ -3,15 +3,15 @@ use super::graph::{BasicCoverageBlock, BasicCoverageBlockData, CoverageGraph, ST
 
 use crate::util::spanview::source_range_no_file;
 
-use rustc_data_structures::graph::WithNumNodes;
-use rustc_middle::mir::{
+use dustc_data_structures::graph::WithNumNodes;
+use dustc_middle::mir::{
     self, AggregateKind, BasicBlock, FakeReadCause, Rvalue, Statement, StatementKind, Terminator,
     TerminatorKind,
 };
-use rustc_middle::ty::TyCtxt;
+use dustc_middle::ty::TyCtxt;
 
-use rustc_span::source_map::original_sp;
-use rustc_span::{BytePos, Span, SyntaxContext};
+use dustc_span::source_map::original_sp;
+use dustc_span::{BytePos, Span, SyntaxContext};
 
 use std::cmp::Ordering;
 

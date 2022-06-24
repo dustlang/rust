@@ -5,7 +5,7 @@
 //! New code should use the associated constants directly on the primitive type.
 
 #![stable(feature = "i128", since = "1.26.0")]
-#![rustc_deprecated(
+#![dustc_deprecated(
     since = "TBD",
     reason = "all constants in this module replaced by associated constants on `u128`"
 )]

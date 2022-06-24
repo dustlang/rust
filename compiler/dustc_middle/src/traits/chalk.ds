@@ -5,60 +5,60 @@
 //! its name suggest, is to provide an abstraction boundary for creating
 //! interned Chalk types.
 
-use rustc_middle::mir::interpret::ConstValue;
-use rustc_middle::ty::{self, AdtDef, TyCtxt};
+use dustc_middle::mir::interpret::ConstValue;
+use dustc_middle::ty::{self, AdtDef, TyCtxt};
 
-use rustc_hir::def_id::DefId;
-use rustc_target::spec::abi::Abi;
+use dustc_hir::def_id::DefId;
+use dustc_target::spec::abi::Abi;
 
 use std::cmp::Ordering;
 use std::fmt;
 use std::hash::{Hash, Hasher};
 
 #[derive(Copy, Clone)]
-pub struct RustInterner<'tcx> {
+pub struct DustInterner<'tcx> {
     pub tcx: TyCtxt<'tcx>,
 }
 
 /// We don't ever actually need this. It's only required for derives.
-impl<'tcx> Hash for RustInterner<'tcx> {
+impl<'tcx> Hash for DustInterner<'tcx> {
     fn hash<H: Hasher>(&self, _state: &mut H) {}
 }
 
 /// We don't ever actually need this. It's only required for derives.
-impl<'tcx> Ord for RustInterner<'tcx> {
+impl<'tcx> Ord for DustInterner<'tcx> {
     fn cmp(&self, _other: &Self) -> Ordering {
         Ordering::Equal
     }
 }
 
 /// We don't ever actually need this. It's only required for derives.
-impl<'tcx> PartialOrd for RustInterner<'tcx> {
+impl<'tcx> PartialOrd for DustInterner<'tcx> {
     fn partial_cmp(&self, _other: &Self) -> Option<Ordering> {
         None
     }
 }
 
 /// We don't ever actually need this. It's only required for derives.
-impl<'tcx> PartialEq for RustInterner<'tcx> {
+impl<'tcx> PartialEq for DustInterner<'tcx> {
     fn eq(&self, _other: &Self) -> bool {
         false
     }
 }
 
 /// We don't ever actually need this. It's only required for derives.
-impl<'tcx> Eq for RustInterner<'tcx> {}
+impl<'tcx> Eq for DustInterner<'tcx> {}
 
-impl fmt::Debug for RustInterner<'_> {
+impl fmt::Debug for DustInterner<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "RustInterner")
+        write!(f, "DustInterner")
     }
 }
 
 // Right now, there is no interning at all. I was running into problems with
 // adding interning in `ty/context.rs` for Chalk types with
 // `parallel-compiler = true`. -jackh726
-impl<'tcx> chalk_ir::interner::Interner for RustInterner<'tcx> {
+impl<'tcx> chalk_ir::interner::Interner for DustInterner<'tcx> {
     type InternedType = Box<chalk_ir::TyData<Self>>;
     type InternedLifetime = Box<chalk_ir::LifetimeData<Self>>;
     type InternedConst = Box<chalk_ir::ConstData<Self>>;
@@ -385,7 +385,7 @@ impl<'tcx> chalk_ir::interner::Interner for RustInterner<'tcx> {
     }
 }
 
-impl<'tcx> chalk_ir::interner::HasInterner for RustInterner<'tcx> {
+impl<'tcx> chalk_ir::interner::HasInterner for DustInterner<'tcx> {
     type Interner = Self;
 }
 

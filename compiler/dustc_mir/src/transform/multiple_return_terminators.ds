@@ -2,9 +2,9 @@
 //! return instead.
 
 use crate::transform::{simplify, MirPass};
-use rustc_index::bit_set::BitSet;
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
+use dustc_index::bit_set::BitSet;
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
 
 pub struct MultipleReturnTerminators;
 

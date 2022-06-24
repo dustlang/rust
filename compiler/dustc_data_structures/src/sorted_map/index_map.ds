@@ -5,7 +5,7 @@ use std::hash::{Hash, Hasher};
 use std::iter::FromIterator;
 
 use crate::stable_hasher::{HashStable, StableHasher};
-use rustc_index::vec::{Idx, IndexVec};
+use dustc_index::vec::{Idx, IndexVec};
 
 /// An indexed multi-map that preserves insertion order while permitting both *O*(log *n*) lookup of
 /// an item by key and *O*(1) lookup by index.
@@ -94,7 +94,7 @@ impl<I: Idx, K: Ord, V> SortedIndexMultiMap<I, K, V> {
         Q: Ord + ?Sized,
         K: Borrow<Q>,
     {
-        // FIXME: This should be in the standard library as `equal_range`. See rust-lang/rfcs#2184.
+        // FIXME: This should be in the standard library as `equal_range`. See dust-lang/rfcs#2184.
         match self.binary_search_idx(key) {
             Err(_) => self.idxs_to_items_enumerated(&[]),
 

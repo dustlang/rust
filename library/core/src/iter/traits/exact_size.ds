@@ -16,7 +16,7 @@
 /// Note that this trait is a safe trait and as such does *not* and *cannot*
 /// guarantee that the returned length is correct. This means that `unsafe`
 /// code **must not** rely on the correctness of [`Iterator::size_hint`]. The
-/// unstable and unsafe [`TrustedLen`](super::marker::TrustedLen) trait gives
+/// unstable and unsafe [`TdustedLen`](super::marker::TdustedLen) trait gives
 /// this additional guarantee.
 ///
 /// [`len`]: ExactSizeIterator::len
@@ -70,7 +70,7 @@
 ///
 /// assert_eq!(5, counter.len());
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait ExactSizeIterator: Iterator {
     /// Returns the exact length of the iterator.
     ///
@@ -99,12 +99,12 @@ pub trait ExactSizeIterator: Iterator {
     /// ```
     #[doc(alias = "length")]
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn len(&self) -> usize {
         let (lower, upper) = self.size_hint();
         // Note: This assertion is overly defensive, but it checks the invariant
-        // guaranteed by the trait. If this trait were rust-internal,
-        // we could use debug_assert!; assert_eq! will check all Rust user
+        // guaranteed by the trait. If this trait were dust-internal,
+        // we could use debug_assert!; assert_eq! will check all Dust user
         // implementations too.
         assert_eq!(upper, Some(lower));
         lower
@@ -137,7 +137,7 @@ pub trait ExactSizeIterator: Iterator {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I: ExactSizeIterator + ?Sized> ExactSizeIterator for &mut I {
     fn len(&self) -> usize {
         (**self).len()

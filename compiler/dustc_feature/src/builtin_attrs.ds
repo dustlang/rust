@@ -5,8 +5,8 @@ use AttributeType::*;
 
 use crate::{Features, Stability};
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_span::symbol::{sym, Symbol};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_span::symbol::{sym, Symbol};
 
 use std::lazy::SyncLazy;
 
@@ -132,16 +132,16 @@ macro_rules! gated {
     };
 }
 
-macro_rules! rustc_attr {
+macro_rules! dustc_attr {
     (TEST, $attr:ident, $typ:expr, $tpl:expr $(,)?) => {
-        rustc_attr!(
+        dustc_attr!(
             $attr,
             $typ,
             $tpl,
             concat!(
                 "the `#[",
                 stringify!($attr),
-                "]` attribute is just used for rustc unit tests \
+                "]` attribute is just used for dustc unit tests \
                 and will never be stable",
             ),
         )
@@ -151,7 +151,7 @@ macro_rules! rustc_attr {
             sym::$attr,
             $typ,
             $tpl,
-            Gated(Stability::Unstable, sym::rustc_attrs, $msg, cfg_fn!(rustc_attrs)),
+            Gated(Stability::Unstable, sym::dustc_attrs, $msg, cfg_fn!(dustc_attrs)),
         )
     };
 }
@@ -167,8 +167,8 @@ const INTERNAL_UNSTABLE: &str = "this is an internal attribute that will never b
 
 pub type BuiltinAttribute = (Symbol, AttributeType, AttributeTemplate, AttributeGate);
 
-/// Attributes that have a special meaning to rustc or rustdoc.
-#[rustfmt::skip]
+/// Attributes that have a special meaning to dustc or dustdoc.
+#[dustfmt::skip]
 pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
     // ==========================================================================
     // Stable attributes:
@@ -270,7 +270,7 @@ pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
         experimental!(no_sanitize)
     ),
 
-    // FIXME: #14408 assume docs are used since rustdoc looks at them.
+    // FIXME: #14408 assume docs are used since dustdoc looks at them.
     ungated!(doc, AssumedUsed, template!(List: "hidden|inline|...", NameValueStr: "string")),
 
     // ==========================================================================
@@ -294,7 +294,7 @@ pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
         sym::plugin_registrar, Normal, template!(Word),
         Gated(
             Stability::Deprecated(
-                "https://github.com/rust-lang/rust/pull/64675",
+                "https://github.com/dust-lang/dust/pull/64675",
                 Some("may be removed in a future compiler version"),
             ),
             sym::plugin_registrar,
@@ -306,7 +306,7 @@ pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
         sym::plugin, CrateLevel, template!(List: "name"),
         Gated(
             Stability::Deprecated(
-                "https://github.com/rust-lang/rust/pull/64675",
+                "https://github.com/dust-lang/dust/pull/64675",
                 Some("may be removed in a future compiler version"),
             ),
             sym::plugin,
@@ -358,7 +358,7 @@ pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
     // FIXME(#14407) -- only looked at on-demand so we can't
     // guarantee they'll have already been checked.
     ungated!(
-        rustc_deprecated, AssumedUsed,
+        dustc_deprecated, AssumedUsed,
         template!(List: r#"since = "version", reason = "...""#)
     ),
     // FIXME(#14407)
@@ -369,16 +369,16 @@ pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
         template!(List: r#"feature = "name", reason = "...", issue = "N""#),
     ),
     // FIXME(#14407)
-    ungated!(rustc_const_unstable, AssumedUsed, template!(List: r#"feature = "name""#)),
+    ungated!(dustc_const_unstable, AssumedUsed, template!(List: r#"feature = "name""#)),
     // FIXME(#14407)
-    ungated!(rustc_const_stable, AssumedUsed, template!(List: r#"feature = "name""#)),
+    ungated!(dustc_const_stable, AssumedUsed, template!(List: r#"feature = "name""#)),
     gated!(
         allow_internal_unstable, AssumedUsed, template!(Word, List: "feat1, feat2, ..."),
         "allow_internal_unstable side-steps feature gating and stability checks",
     ),
     gated!(
-        rustc_allow_const_fn_unstable, AssumedUsed, template!(Word, List: "feat1, feat2, ..."),
-        "rustc_allow_const_fn_unstable side-steps feature gating and stability checks"
+        dustc_allow_const_fn_unstable, AssumedUsed, template!(Word, List: "feat1, feat2, ..."),
+        "dustc_allow_const_fn_unstable side-steps feature gating and stability checks"
     ),
     gated!(
         allow_internal_unsafe, Normal, template!(Word),
@@ -399,8 +399,8 @@ pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
     // Internal attributes: Runtime related:
     // ==========================================================================
 
-    rustc_attr!(rustc_allocator, AssumedUsed, template!(Word), IMPL_DETAIL),
-    rustc_attr!(rustc_allocator_nounwind, AssumedUsed, template!(Word), IMPL_DETAIL),
+    dustc_attr!(dustc_allocator, AssumedUsed, template!(Word), IMPL_DETAIL),
+    dustc_attr!(dustc_allocator_nounwind, AssumedUsed, template!(Word), IMPL_DETAIL),
     gated!(alloc_error_handler, Normal, template!(Word), experimental!(alloc_error_handler)),
     gated!(
         default_lib_allocator, AssumedUsed, template!(Word), allocator_internals,
@@ -435,16 +435,16 @@ pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
         linkage, AssumedUsed, template!(NameValueStr: "external|internal|..."),
         "the `linkage` attribute is experimental and not portable across platforms",
     ),
-    rustc_attr!(rustc_std_internal_symbol, AssumedUsed, template!(Word), INTERNAL_UNSTABLE),
+    dustc_attr!(dustc_std_internal_symbol, AssumedUsed, template!(Word), INTERNAL_UNSTABLE),
 
     // ==========================================================================
     // Internal attributes, Macro related:
     // ==========================================================================
 
-    rustc_attr!(rustc_builtin_macro, AssumedUsed, template!(Word, NameValueStr: "name"), IMPL_DETAIL),
-    rustc_attr!(rustc_proc_macro_decls, Normal, template!(Word), INTERNAL_UNSTABLE),
-    rustc_attr!(
-        rustc_macro_transparency, AssumedUsed,
+    dustc_attr!(dustc_builtin_macro, AssumedUsed, template!(Word, NameValueStr: "name"), IMPL_DETAIL),
+    dustc_attr!(dustc_proc_macro_decls, Normal, template!(Word), INTERNAL_UNSTABLE),
+    dustc_attr!(
+        dustc_macro_transparency, AssumedUsed,
         template!(NameValueStr: "transparent|semitransparent|opaque"),
         "used internally for testing macro hygiene",
     ),
@@ -453,8 +453,8 @@ pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
     // Internal attributes, Diagnostics related:
     // ==========================================================================
 
-    rustc_attr!(
-        rustc_on_unimplemented, AssumedUsed,
+    dustc_attr!(
+        dustc_on_unimplemented, AssumedUsed,
         template!(
             List: r#"/*opt*/ message = "...", /*opt*/ label = "...", /*opt*/ note = "...""#,
             NameValueStr: "message"
@@ -462,33 +462,33 @@ pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
         INTERNAL_UNSTABLE
     ),
     // Enumerates "identity-like" conversion methods to suggest on type mismatch.
-    rustc_attr!(rustc_conversion_suggestion, AssumedUsed, template!(Word), INTERNAL_UNSTABLE),
+    dustc_attr!(dustc_conversion_suggestion, AssumedUsed, template!(Word), INTERNAL_UNSTABLE),
 
     // ==========================================================================
     // Internal attributes, Const related:
     // ==========================================================================
 
-    rustc_attr!(rustc_promotable, AssumedUsed, template!(Word), IMPL_DETAIL),
-    rustc_attr!(rustc_args_required_const, AssumedUsed, template!(List: "N"), INTERNAL_UNSTABLE),
-    rustc_attr!(rustc_legacy_const_generics, AssumedUsed, template!(List: "N"), INTERNAL_UNSTABLE),
+    dustc_attr!(dustc_promotable, AssumedUsed, template!(Word), IMPL_DETAIL),
+    dustc_attr!(dustc_args_required_const, AssumedUsed, template!(List: "N"), INTERNAL_UNSTABLE),
+    dustc_attr!(dustc_legacy_const_generics, AssumedUsed, template!(List: "N"), INTERNAL_UNSTABLE),
 
     // ==========================================================================
     // Internal attributes, Layout related:
     // ==========================================================================
 
-    rustc_attr!(
-        rustc_layout_scalar_valid_range_start, AssumedUsed, template!(List: "value"),
-        "the `#[rustc_layout_scalar_valid_range_start]` attribute is just used to enable \
+    dustc_attr!(
+        dustc_layout_scalar_valid_range_start, AssumedUsed, template!(List: "value"),
+        "the `#[dustc_layout_scalar_valid_range_start]` attribute is just used to enable \
         niche optimizations in libcore and will never be stable",
     ),
-    rustc_attr!(
-        rustc_layout_scalar_valid_range_end, AssumedUsed, template!(List: "value"),
-        "the `#[rustc_layout_scalar_valid_range_end]` attribute is just used to enable \
+    dustc_attr!(
+        dustc_layout_scalar_valid_range_end, AssumedUsed, template!(List: "value"),
+        "the `#[dustc_layout_scalar_valid_range_end]` attribute is just used to enable \
         niche optimizations in libcore and will never be stable",
     ),
-    rustc_attr!(
-        rustc_nonnull_optimization_guaranteed, AssumedUsed, template!(Word),
-        "the `#[rustc_nonnull_optimization_guaranteed]` attribute is just used to enable \
+    dustc_attr!(
+        dustc_nonnull_optimization_guaranteed, AssumedUsed, template!(Word),
+        "the `#[dustc_nonnull_optimization_guaranteed]` attribute is just used to enable \
         niche optimizations in libcore and will never be stable",
     ),
 
@@ -500,96 +500,96 @@ pub const BUILTIN_ATTRIBUTES: &[BuiltinAttribute] = &[
         "language items are subject to change",
     ),
     (
-        sym::rustc_diagnostic_item,
+        sym::dustc_diagnostic_item,
         Normal,
         template!(NameValueStr: "name"),
         Gated(
             Stability::Unstable,
-            sym::rustc_attrs,
+            sym::dustc_attrs,
             "diagnostic items compiler internal support for linting",
-            cfg_fn!(rustc_attrs),
+            cfg_fn!(dustc_attrs),
         ),
     ),
     gated!(
         // Used in resolve:
         prelude_import, AssumedUsed, template!(Word),
-        "`#[prelude_import]` is for use by rustc only",
+        "`#[prelude_import]` is for use by dustc only",
     ),
     gated!(
-        rustc_paren_sugar, Normal, template!(Word), unboxed_closures,
+        dustc_paren_sugar, Normal, template!(Word), unboxed_closures,
         "unboxed_closures are still evolving",
     ),
-    rustc_attr!(
-        rustc_inherit_overflow_checks, AssumedUsed, template!(Word),
-        "the `#[rustc_inherit_overflow_checks]` attribute is just used to control \
+    dustc_attr!(
+        dustc_inherit_overflow_checks, AssumedUsed, template!(Word),
+        "the `#[dustc_inherit_overflow_checks]` attribute is just used to control \
         overflow checking behavior of several libcore functions that are inlined \
         across crates and will never be stable",
     ),
-    rustc_attr!(rustc_reservation_impl, Normal, template!(NameValueStr: "reservation message"),
-                "the `#[rustc_reservation_impl]` attribute is internally used \
+    dustc_attr!(dustc_reservation_impl, Normal, template!(NameValueStr: "reservation message"),
+                "the `#[dustc_reservation_impl]` attribute is internally used \
                  for reserving for `for<T> From<!> for T` impl"
     ),
-    rustc_attr!(
-        rustc_test_marker, Normal, template!(Word),
-        "the `#[rustc_test_marker]` attribute is used internally to track tests",
+    dustc_attr!(
+        dustc_test_marker, Normal, template!(Word),
+        "the `#[dustc_test_marker]` attribute is used internally to track tests",
     ),
-    rustc_attr!(
-        rustc_unsafe_specialization_marker, Normal, template!(Word),
-        "the `#[rustc_unsafe_specialization_marker]` attribute is used to check specializations"
+    dustc_attr!(
+        dustc_unsafe_specialization_marker, Normal, template!(Word),
+        "the `#[dustc_unsafe_specialization_marker]` attribute is used to check specializations"
     ),
-    rustc_attr!(
-        rustc_specialization_trait, Normal, template!(Word),
-        "the `#[rustc_specialization_trait]` attribute is used to check specializations"
+    dustc_attr!(
+        dustc_specialization_trait, Normal, template!(Word),
+        "the `#[dustc_specialization_trait]` attribute is used to check specializations"
     ),
 
     // ==========================================================================
     // Internal attributes, Testing:
     // ==========================================================================
 
-    rustc_attr!(TEST, rustc_outlives, Normal, template!(Word)),
-    rustc_attr!(TEST, rustc_capture_analysis, Normal, template!(Word)),
-    rustc_attr!(TEST, rustc_variance, Normal, template!(Word)),
-    rustc_attr!(TEST, rustc_layout, Normal, template!(List: "field1, field2, ...")),
-    rustc_attr!(TEST, rustc_regions, Normal, template!(Word)),
-    rustc_attr!(
-        TEST, rustc_error, AssumedUsed,
+    dustc_attr!(TEST, dustc_outlives, Normal, template!(Word)),
+    dustc_attr!(TEST, dustc_capture_analysis, Normal, template!(Word)),
+    dustc_attr!(TEST, dustc_variance, Normal, template!(Word)),
+    dustc_attr!(TEST, dustc_layout, Normal, template!(List: "field1, field2, ...")),
+    dustc_attr!(TEST, dustc_regions, Normal, template!(Word)),
+    dustc_attr!(
+        TEST, dustc_error, AssumedUsed,
         template!(Word, List: "delay_span_bug_from_inside_query")
     ),
-    rustc_attr!(TEST, rustc_dump_user_substs, AssumedUsed, template!(Word)),
-    rustc_attr!(TEST, rustc_if_this_changed, AssumedUsed, template!(Word, List: "DepNode")),
-    rustc_attr!(TEST, rustc_then_this_would_need, AssumedUsed, template!(List: "DepNode")),
-    rustc_attr!(
-        TEST, rustc_dirty, AssumedUsed,
+    dustc_attr!(TEST, dustc_dump_user_substs, AssumedUsed, template!(Word)),
+    dustc_attr!(TEST, dustc_if_this_changed, AssumedUsed, template!(Word, List: "DepNode")),
+    dustc_attr!(TEST, dustc_then_this_would_need, AssumedUsed, template!(List: "DepNode")),
+    dustc_attr!(
+        TEST, dustc_dirty, AssumedUsed,
         template!(List: r#"cfg = "...", /*opt*/ label = "...", /*opt*/ except = "...""#),
     ),
-    rustc_attr!(
-        TEST, rustc_clean, AssumedUsed,
+    dustc_attr!(
+        TEST, dustc_clean, AssumedUsed,
         template!(List: r#"cfg = "...", /*opt*/ label = "...", /*opt*/ except = "...""#),
     ),
-    rustc_attr!(
-        TEST, rustc_partition_reused, AssumedUsed,
+    dustc_attr!(
+        TEST, dustc_partition_reused, AssumedUsed,
         template!(List: r#"cfg = "...", module = "...""#),
     ),
-    rustc_attr!(
-        TEST, rustc_partition_codegened, AssumedUsed,
+    dustc_attr!(
+        TEST, dustc_partition_codegened, AssumedUsed,
         template!(List: r#"cfg = "...", module = "...""#),
     ),
-    rustc_attr!(
-        TEST, rustc_expected_cgu_reuse, AssumedUsed,
+    dustc_attr!(
+        TEST, dustc_expected_cgu_reuse, AssumedUsed,
         template!(List: r#"cfg = "...", module = "...", kind = "...""#),
     ),
-    rustc_attr!(TEST, rustc_synthetic, AssumedUsed, template!(Word)),
-    rustc_attr!(TEST, rustc_symbol_name, AssumedUsed, template!(Word)),
-    rustc_attr!(TEST, rustc_polymorphize_error, AssumedUsed, template!(Word)),
-    rustc_attr!(TEST, rustc_def_path, AssumedUsed, template!(Word)),
-    rustc_attr!(TEST, rustc_mir, AssumedUsed, template!(List: "arg1, arg2, ...")),
-    rustc_attr!(TEST, rustc_dump_program_clauses, AssumedUsed, template!(Word)),
-    rustc_attr!(TEST, rustc_dump_env_program_clauses, AssumedUsed, template!(Word)),
-    rustc_attr!(TEST, rustc_object_lifetime_default, AssumedUsed, template!(Word)),
-    rustc_attr!(TEST, rustc_dummy, Normal, template!(Word /* doesn't matter*/)),
+    dustc_attr!(TEST, dustc_synthetic, AssumedUsed, template!(Word)),
+    dustc_attr!(TEST, dustc_symbol_name, AssumedUsed, template!(Word)),
+    dustc_attr!(TEST, dustc_polymorphize_error, AssumedUsed, template!(Word)),
+    dustc_attr!(TEST, dustc_def_path, AssumedUsed, template!(Word)),
+    dustc_attr!(TEST, dustc_mir, AssumedUsed, template!(List: "arg1, arg2, ...")),
+    dustc_attr!(TEST, dustc_dump_program_clauses, AssumedUsed, template!(Word)),
+    dustc_attr!(TEST, dustc_dump_env_program_clauses, AssumedUsed, template!(Word)),
+    dustc_attr!(TEST, dustc_object_lifetime_default, AssumedUsed, template!(Word)),
+    dustc_attr!(TEST, dustc_dummy, Normal, template!(Word /* doesn't matter*/)),
     gated!(
         omit_gdb_pretty_printer_section, AssumedUsed, template!(Word),
-        "the `#[omit_gdb_pretty_printer_section]` attribute is just used for the Rust test suite",
+        "the `#[omit_gdb_pretty_printer_section]` attribute is just used for the Dust test suite",
     ),
 ];
 

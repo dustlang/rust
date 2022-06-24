@@ -16,7 +16,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |         Some(0 | 1 | 2) => {}
    |              ^^^^^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -25,7 +25,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     let | A | B;
    |         ^^^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -34,7 +34,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     let A | B;
    |         ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -43,7 +43,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     for | A | B in 0 {}
    |         ^^^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -52,7 +52,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     for A | B in 0 {}
    |         ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -61,7 +61,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     fn fun((A | B): _) {}
    |             ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -70,7 +70,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     let _ = |(A | B): u8| ();
    |               ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -79,7 +79,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     let (A | B);
    |          ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -88,7 +88,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     let (A | B,);
    |          ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -97,7 +97,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     let A(B | C);
    |           ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -106,7 +106,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     let E::V(B | C);
    |              ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -115,7 +115,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     let S { f1: B | C, f2 };
    |                 ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -124,7 +124,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     let E::V { f1: B | C, f2 };
    |                    ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -133,7 +133,7 @@ error[E0658]: or-patterns syntax is experimental
 LL |     let [A | B];
    |          ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -142,7 +142,7 @@ error[E0658]: or-patterns syntax is experimental
 LL | accept_pat!((p | q));
    |              ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -151,7 +151,7 @@ error[E0658]: or-patterns syntax is experimental
 LL | accept_pat!((p | q,));
    |              ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -160,7 +160,7 @@ error[E0658]: or-patterns syntax is experimental
 LL | accept_pat!(TS(p | q));
    |                ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -169,7 +169,7 @@ error[E0658]: or-patterns syntax is experimental
 LL | accept_pat!(NS { f: p | q });
    |                     ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error[E0658]: or-patterns syntax is experimental
@@ -178,9 +178,9 @@ error[E0658]: or-patterns syntax is experimental
 LL | accept_pat!([p | q]);
    |              ^^^^^
    |
-   = note: see issue #54883 <https://github.com/rust-lang/rust/issues/54883> for more information
+   = note: see issue #54883 <https://github.com/dust-lang/dust/issues/54883> for more information
    = help: add `#![feature(or_patterns)]` to the crate attributes to enable
 
 error: aborting due to 21 previous errors
 
-For more information about this error, try `rustc --explain E0658`.
+For more information about this error, try `dustc --explain E0658`.

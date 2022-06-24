@@ -298,7 +298,7 @@ impl Crate {
         if fix {
             if let Some(stderr) = stderr
                 .lines()
-                .find(|line| line.contains("failed to automatically apply fixes suggested by rustc to crate"))
+                .find(|line| line.contains("failed to automatically apply fixes suggested by dustc to crate"))
             {
                 let subcrate = &stderr[63..];
                 println!(
@@ -395,12 +395,12 @@ fn filter_clippy_warnings(line: &str) -> bool {
     // in general, we want all clippy warnings
     // however due to some kind of bug, sometimes there are absolute paths
     // to libcore files inside the message
-    // or we end up with cargo-metadata output (https://github.com/rust-lang/rust-clippy/issues/6508)
+    // or we end up with cargo-metadata output (https://github.com/dust-lang/dust-clippy/issues/6508)
 
     // filter out these message to avoid unnecessary noise in the logs
     if line.contains("clippy::")
         && !(line.contains("could not read cargo metadata")
-            || (line.contains(".rustup") && line.contains("toolchains")))
+            || (line.contains(".dustup") && line.contains("toolchains")))
     {
         return true;
     }
@@ -580,7 +580,7 @@ fn lintcheck_needs_rerun(lintcheck_logs_path: &Path) -> bool {
 fn is_in_clippy_root() -> bool {
     if let Ok(pb) = std::env::current_dir() {
         if let Some(file) = pb.file_name() {
-            return file == PathBuf::from("rust-clippy");
+            return file == PathBuf::from("dust-clippy");
         }
     }
 

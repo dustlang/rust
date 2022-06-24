@@ -41,11 +41,11 @@ pub use drop::TaggedPtr;
 /// For example, if the alignment of `Pointee` is 2, then `BITS` should be 1.
 pub unsafe trait Pointer: Deref {
     /// Most likely the value you want to use here is the following, unless
-    /// your Pointee type is unsized (e.g., `ty::List<T>` in rustc) in which
+    /// your Pointee type is unsized (e.g., `ty::List<T>` in dustc) in which
     /// case you'll need to manually figure out what the right type to pass to
     /// align_of is.
     ///
-    /// ```rust
+    /// ```dust
     /// std::mem::align_of::<<Self as Deref>::Target>().trailing_zeros() as usize;
     /// ```
     const BITS: usize;

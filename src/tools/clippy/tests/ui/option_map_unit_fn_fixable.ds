@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![warn(clippy::option_map_unit_fn)]
 #![allow(unused)]
@@ -29,7 +29,7 @@ impl HasOption {
         value + 1
     }
 }
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn option_map_unit_fn() {
     let x = HasOption { field: Some(10) };
 

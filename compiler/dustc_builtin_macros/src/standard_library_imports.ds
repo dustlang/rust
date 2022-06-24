@@ -1,11 +1,11 @@
-use rustc_ast as ast;
-use rustc_expand::base::{ExtCtxt, ResolverExpand};
-use rustc_expand::expand::ExpansionConfig;
-use rustc_session::Session;
-use rustc_span::edition::Edition::*;
-use rustc_span::hygiene::AstPass;
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::DUMMY_SP;
+use dustc_ast as ast;
+use dustc_expand::base::{ExtCtxt, ResolverExpand};
+use dustc_expand::expand::ExpansionConfig;
+use dustc_session::Session;
+use dustc_span::edition::Edition::*;
+use dustc_span::hygiene::AstPass;
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::DUMMY_SP;
 
 pub fn inject(
     mut krate: ast::Crate,
@@ -68,9 +68,9 @@ pub fn inject(
         .iter()
         .chain(&[name, sym::prelude])
         .chain(&[match edition {
-            Edition2015 => sym::rust_2015,
-            Edition2018 => sym::rust_2018,
-            Edition2021 => sym::rust_2021,
+            Edition2015 => sym::dust_2015,
+            Edition2018 => sym::dust_2018,
+            Edition2021 => sym::dust_2021,
         }])
         .map(|&symbol| Ident::new(symbol, span))
         .collect();

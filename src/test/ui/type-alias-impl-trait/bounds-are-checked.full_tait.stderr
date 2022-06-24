@@ -5,7 +5,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 warning: unnecessary lifetime parameter `'a`
   --> $DIR/bounds-are-checked.rs:12:6
@@ -32,4 +32,4 @@ LL | type X<'a> = impl Into<&'static str> + From<&'a str>;
 
 error: aborting due to previous error; 2 warnings emitted
 
-For more information about this error, try `rustc --explain E0308`.
+For more information about this error, try `dustc --explain E0308`.

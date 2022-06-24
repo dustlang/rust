@@ -1,6 +1,6 @@
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
-#[rustc_error]
+#[dustc_error]
 fn main() {
-    //~^ ERROR fatal error triggered by #[rustc_error]
+    //~^ ERROR fatal error triggered by #[dustc_error]
 }

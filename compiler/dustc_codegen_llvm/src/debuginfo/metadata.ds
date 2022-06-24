@@ -19,27 +19,27 @@ use crate::llvm::debuginfo::{
 use crate::value::Value;
 
 use cstr::cstr;
-use rustc_codegen_ssa::traits::*;
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_fs_util::path_to_c_string;
-use rustc_hir::def::CtorKind;
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_middle::ich::NodeIdHashingMode;
-use rustc_middle::mir::{self, Field, GeneratorLayout};
-use rustc_middle::ty::layout::{self, IntegerExt, PrimitiveExt, TyAndLayout};
-use rustc_middle::ty::subst::GenericArgKind;
-use rustc_middle::ty::Instance;
-use rustc_middle::ty::{self, AdtKind, GeneratorSubsts, ParamEnv, Ty, TyCtxt};
-use rustc_middle::{bug, span_bug};
-use rustc_session::config::{self, DebugInfo};
-use rustc_span::symbol::{Interner, Symbol};
-use rustc_span::{self, SourceFile, SourceFileHash, Span};
-use rustc_target::abi::{Abi, Align, HasDataLayout, Integer, LayoutOf, TagEncoding};
-use rustc_target::abi::{Int, Pointer, F32, F64};
-use rustc_target::abi::{Primitive, Size, VariantIdx, Variants};
+use dustc_codegen_ssa::traits::*;
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_fs_util::path_to_c_string;
+use dustc_hir::def::CtorKind;
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_middle::ich::NodeIdHashingMode;
+use dustc_middle::mir::{self, Field, GeneratorLayout};
+use dustc_middle::ty::layout::{self, IntegerExt, PrimitiveExt, TyAndLayout};
+use dustc_middle::ty::subst::GenericArgKind;
+use dustc_middle::ty::Instance;
+use dustc_middle::ty::{self, AdtKind, GeneratorSubsts, ParamEnv, Ty, TyCtxt};
+use dustc_middle::{bug, span_bug};
+use dustc_session::config::{self, DebugInfo};
+use dustc_span::symbol::{Interner, Symbol};
+use dustc_span::{self, SourceFile, SourceFileHash, Span};
+use dustc_target::abi::{Abi, Align, HasDataLayout, Integer, LayoutOf, TagEncoding};
+use dustc_target::abi::{Int, Pointer, F32, F64};
+use dustc_target::abi::{Primitive, Size, VariantIdx, Variants};
 use tracing::debug;
 
 use libc::{c_longlong, c_uint};
@@ -72,7 +72,7 @@ impl fmt::Debug for llvm::Metadata {
 
 // From DWARF 5.
 // See http://www.dwarfstd.org/ShowIssue.php?issue=140129.1.
-const DW_LANG_RUST: c_uint = 0x1c;
+const DW_LANG_DUST: c_uint = 0x1c;
 #[allow(non_upper_case_globals)]
 const DW_ATE_boolean: c_uint = 0x02;
 #[allow(non_upper_case_globals)]
@@ -347,11 +347,11 @@ fn fixed_vec_metadata(
     };
 
     let subrange =
-        unsafe { Some(llvm::LLVMRustDIBuilderGetOrCreateSubrange(DIB(cx), 0, upper_bound)) };
+        unsafe { Some(llvm::LLVMDustDIBuilderGetOrCreateSubrange(DIB(cx), 0, upper_bound)) };
 
     let subscripts = create_DIArray(DIB(cx), &[subrange]);
     let metadata = unsafe {
-        llvm::LLVMRustDIBuilderCreateArrayType(
+        llvm::LLVMDustDIBuilderCreateArrayType(
             DIB(cx),
             size.bits(),
             align.bits() as u32,
@@ -445,7 +445,7 @@ fn subroutine_type_metadata(
 
     MetadataCreationResult::new(
         unsafe {
-            llvm::LLVMRustDIBuilderCreateSubroutineType(
+            llvm::LLVMDustDIBuilderCreateSubroutineType(
                 DIB(cx),
                 create_DIArray(DIB(cx), &signature_metadata[..]),
             )
@@ -501,7 +501,7 @@ fn trait_pointer_metadata(
             type_metadata: type_metadata(
                 cx,
                 cx.tcx.mk_mut_ptr(cx.tcx.types.u8),
-                rustc_span::DUMMY_SP,
+                dustc_span::DUMMY_SP,
             ),
             offset: layout.fields.offset(0),
             size: data_ptr_field.size,
@@ -512,7 +512,7 @@ fn trait_pointer_metadata(
         },
         MemberDescription {
             name: "vtable".to_owned(),
-            type_metadata: type_metadata(cx, vtable_field.ty, rustc_span::DUMMY_SP),
+            type_metadata: type_metadata(cx, vtable_field.ty, dustc_span::DUMMY_SP),
             offset: layout.fields.offset(1),
             size: vtable_field.size,
             align: vtable_field.align.abi,
@@ -530,7 +530,7 @@ fn trait_pointer_metadata(
         member_descriptions,
         containing_scope,
         file_metadata,
-        rustc_span::DUMMY_SP,
+        dustc_span::DUMMY_SP,
     )
 }
 
@@ -623,7 +623,7 @@ pub fn type_metadata(cx: &CodegenCx<'ll, 'tcx>, t: Ty<'tcx>, usage_site_span: Sp
             }
 
             // It's possible to create a self-referential
-            // type in Rust by using 'impl trait':
+            // type in Dust by using 'impl trait':
             //
             // fn foo() -> impl Copy { foo }
             //
@@ -637,7 +637,7 @@ pub fn type_metadata(cx: &CodegenCx<'ll, 'tcx>, t: Ty<'tcx>, usage_site_span: Sp
                     // type is going to see *something* weird - the only
                     // question is what exactly it will see.
                     let name = "<recur_type>";
-                    llvm::LLVMRustDIBuilderCreateBasicType(
+                    llvm::LLVMDustDIBuilderCreateBasicType(
                         DIB(cx),
                         name.as_ptr().cast(),
                         name.len(),
@@ -797,9 +797,9 @@ fn file_metadata_raw(
             let (hash_kind, hash_value) = match hash {
                 Some(hash) => {
                     let kind = match hash.kind {
-                        rustc_span::SourceFileHashAlgorithm::Md5 => llvm::ChecksumKind::MD5,
-                        rustc_span::SourceFileHashAlgorithm::Sha1 => llvm::ChecksumKind::SHA1,
-                        rustc_span::SourceFileHashAlgorithm::Sha256 => llvm::ChecksumKind::SHA256,
+                        dustc_span::SourceFileHashAlgorithm::Md5 => llvm::ChecksumKind::MD5,
+                        dustc_span::SourceFileHashAlgorithm::Sha1 => llvm::ChecksumKind::SHA1,
+                        dustc_span::SourceFileHashAlgorithm::Sha256 => llvm::ChecksumKind::SHA256,
                     };
                     (kind, hex_encode(hash.hash_bytes()))
                 }
@@ -807,7 +807,7 @@ fn file_metadata_raw(
             };
 
             let file_metadata = unsafe {
-                llvm::LLVMRustDIBuilderCreateFile(
+                llvm::LLVMDustDIBuilderCreateFile(
                     DIB(cx),
                     file_name.as_ptr().cast(),
                     file_name.len(),
@@ -886,7 +886,7 @@ fn basic_type_metadata(cx: &CodegenCx<'ll, 'tcx>, t: Ty<'tcx>) -> &'ll DIType {
     };
 
     let ty_metadata = unsafe {
-        llvm::LLVMRustDIBuilderCreateBasicType(
+        llvm::LLVMDustDIBuilderCreateBasicType(
             DIB(cx),
             name.as_ptr().cast(),
             name.len(),
@@ -907,7 +907,7 @@ fn basic_type_metadata(cx: &CodegenCx<'ll, 'tcx>, t: Ty<'tcx>) -> &'ll DIType {
     };
 
     let typedef_metadata = unsafe {
-        llvm::LLVMRustDIBuilderCreateTypedef(
+        llvm::LLVMDustDIBuilderCreateTypedef(
             DIB(cx),
             ty_metadata,
             typedef_name.as_ptr().cast(),
@@ -940,7 +940,7 @@ fn pointer_type_metadata(
     let (pointer_size, pointer_align) = cx.size_and_align_of(pointer_type);
     let name = compute_debuginfo_type_name(cx.tcx, pointer_type, false);
     unsafe {
-        llvm::LLVMRustDIBuilderCreatePointerType(
+        llvm::LLVMDustDIBuilderCreatePointerType(
             DIB(cx),
             pointee_type_metadata,
             pointer_size.bits(),
@@ -956,7 +956,7 @@ fn param_type_metadata(cx: &CodegenCx<'ll, 'tcx>, t: Ty<'tcx>) -> &'ll DIType {
     debug!("param_type_metadata: {:?}", t);
     let name = format!("{:?}", t);
     unsafe {
-        llvm::LLVMRustDIBuilderCreateBasicType(
+        llvm::LLVMDustDIBuilderCreateBasicType(
             DIB(cx),
             name.as_ptr().cast(),
             name.len(),
@@ -986,10 +986,10 @@ pub fn compile_unit_metadata(
     }
 
     debug!("compile_unit_metadata: {:?}", name_in_debuginfo);
-    let rustc_producer =
-        format!("rustc version {}", option_env!("CFG_VERSION").expect("CFG_VERSION"),);
+    let dustc_producer =
+        format!("dustc version {}", option_env!("CFG_VERSION").expect("CFG_VERSION"),);
     // FIXME(#41252) Remove "clang LLVM" if we can get GDB and LLVM to play nice.
-    let producer = format!("clang LLVM ({})", rustc_producer);
+    let producer = format!("clang LLVM ({})", dustc_producer);
 
     let name_in_debuginfo = name_in_debuginfo.to_string_lossy();
     let work_dir = tcx.sess.working_dir.0.to_string_lossy();
@@ -1019,12 +1019,12 @@ pub fn compile_unit_metadata(
     //    what limited debuginfo should exactly look like. So for now we keep
     //    the emission kind as `FullDebug`.
     //
-    //    See https://github.com/rust-lang/rust/issues/60020 for details.
+    //    See https://github.com/dust-lang/dust/issues/60020 for details.
     let kind = DebugEmissionKind::FullDebug;
     assert!(tcx.sess.opts.debuginfo != DebugInfo::None);
 
     unsafe {
-        let compile_unit_file = llvm::LLVMRustDIBuilderCreateFile(
+        let compile_unit_file = llvm::LLVMDustDIBuilderCreateFile(
             debug_context.builder,
             name_in_debuginfo.as_ptr().cast(),
             name_in_debuginfo.len(),
@@ -1035,9 +1035,9 @@ pub fn compile_unit_metadata(
             0,
         );
 
-        let unit_metadata = llvm::LLVMRustDIBuilderCreateCompileUnit(
+        let unit_metadata = llvm::LLVMDustDIBuilderCreateCompileUnit(
             debug_context.builder,
-            DW_LANG_RUST,
+            DW_LANG_DUST,
             compile_unit_file,
             producer.as_ptr().cast(),
             producer.len(),
@@ -1056,7 +1056,7 @@ pub fn compile_unit_metadata(
 
         if tcx.sess.opts.debugging_opts.profile {
             let cu_desc_metadata =
-                llvm::LLVMRustMetadataAsValue(debug_context.llcontext, unit_metadata);
+                llvm::LLVMDustMetadataAsValue(debug_context.llcontext, unit_metadata);
             let default_gcda_path = &tcx.output_filenames(LOCAL_CRATE).with_extension("gcda");
             let gcda_path =
                 tcx.sess.opts.debugging_opts.profile_emit.as_ref().unwrap_or(default_gcda_path);
@@ -1088,8 +1088,8 @@ pub fn compile_unit_metadata(
         if tcx.sess.opts.target_triple.triple().starts_with("wasm32") {
             let name_metadata = llvm::LLVMMDStringInContext(
                 debug_context.llcontext,
-                rustc_producer.as_ptr().cast(),
-                rustc_producer.as_bytes().len() as c_uint,
+                dustc_producer.as_ptr().cast(),
+                dustc_producer.as_bytes().len() as c_uint,
             );
             llvm::LLVMAddNamedMetadataOperand(
                 debug_context.llmod,
@@ -1155,7 +1155,7 @@ impl<'ll> MemberDescription<'ll> {
             .map(|info| (info.file, info.line))
             .unwrap_or_else(|| (unknown_file_metadata(cx), UNKNOWN_LINE_NUMBER));
         unsafe {
-            llvm::LLVMRustDIBuilderCreateVariantMemberType(
+            llvm::LLVMDustDIBuilderCreateVariantMemberType(
                 DIB(cx),
                 composite_type_metadata,
                 self.name.as_ptr().cast(),
@@ -1625,7 +1625,7 @@ impl EnumMemberDescriptionFactory<'ll, 'tcx> {
 
                     // Encode the information about the null variant in the union
                     // member's name.
-                    let mut name = String::from("RUST$ENCODED$ENUM$");
+                    let mut name = String::from("DUST$ENCODED$ENUM$");
                     // Right now it's not even going to work for `niche_start > 0`,
                     // and for multiple niche variants it only supports the first.
                     fn compute_field_path<'a, 'tcx>(
@@ -1895,7 +1895,7 @@ fn describe_enum_variant(
                 let enum_layout = cx.layout_of(layout.ty);
                 let offset = enum_layout.fields.offset(tag_field.as_usize());
                 let args =
-                    ("RUST$ENUM$DISR".to_owned(), enum_layout.field(cx, tag_field.as_usize()).ty);
+                    ("DUST$ENUM$DISR".to_owned(), enum_layout.field(cx, tag_field.as_usize()).ty);
                 (Some(offset), Some(args))
             }
             _ => (None, None),
@@ -1973,7 +1973,7 @@ fn prepare_enum_metadata(
                         _ => bug!("non integer discriminant"),
                     };
                     unsafe {
-                        Some(llvm::LLVMRustDIBuilderCreateEnumerator(
+                        Some(llvm::LLVMDustDIBuilderCreateEnumerator(
                             DIB(cx),
                             name.as_ptr().cast(),
                             name.len(),
@@ -1991,7 +1991,7 @@ fn prepare_enum_metadata(
                     debug_assert_eq!(tcx.types.u32, substs.as_generator().discr_ty(tcx));
                     let name = GeneratorSubsts::variant_name(variant_index);
                     unsafe {
-                        Some(llvm::LLVMRustDIBuilderCreateEnumerator(
+                        Some(llvm::LLVMDustDIBuilderCreateEnumerator(
                             DIB(cx),
                             name.as_ptr().cast(),
                             name.len(),
@@ -2013,7 +2013,7 @@ fn prepare_enum_metadata(
             None => {
                 let (discriminant_size, discriminant_align) = (discr.size(cx), discr.align(cx));
                 let discriminant_base_type_metadata =
-                    type_metadata(cx, discr.to_ty(tcx), rustc_span::DUMMY_SP);
+                    type_metadata(cx, discr.to_ty(tcx), dustc_span::DUMMY_SP);
 
                 let item_name;
                 let discriminant_name = match enum_type.kind() {
@@ -2026,7 +2026,7 @@ fn prepare_enum_metadata(
                 };
 
                 let discriminant_type_metadata = unsafe {
-                    llvm::LLVMRustDIBuilderCreateEnumerationType(
+                    llvm::LLVMDustDIBuilderCreateEnumerationType(
                         DIB(cx),
                         containing_scope,
                         discriminant_name.as_ptr().cast(),
@@ -2075,7 +2075,7 @@ fn prepare_enum_metadata(
             let unique_type_id_str = type_map.get_unique_type_id_as_string(unique_type_id);
 
             unsafe {
-                llvm::LLVMRustDIBuilderCreateUnionType(
+                llvm::LLVMDustDIBuilderCreateUnionType(
                     DIB(cx),
                     containing_scope,
                     enum_name.as_ptr().cast(),
@@ -2134,7 +2134,7 @@ fn prepare_enum_metadata(
 
             let tag_metadata = basic_type_metadata(cx, tag_type);
             unsafe {
-                Some(llvm::LLVMRustDIBuilderCreateMemberType(
+                Some(llvm::LLVMDustDIBuilderCreateMemberType(
                     DIB(cx),
                     containing_scope,
                     discriminator_name.as_ptr().cast(),
@@ -2156,7 +2156,7 @@ fn prepare_enum_metadata(
 
             let discr_metadata = basic_type_metadata(cx, discr_type);
             unsafe {
-                Some(llvm::LLVMRustDIBuilderCreateMemberType(
+                Some(llvm::LLVMDustDIBuilderCreateMemberType(
                     DIB(cx),
                     containing_scope,
                     discriminator_name.as_ptr().cast(),
@@ -2196,7 +2196,7 @@ fn prepare_enum_metadata(
     let empty_array = create_DIArray(DIB(cx), &[]);
     let name = "";
     let variant_part = unsafe {
-        llvm::LLVMRustDIBuilderCreateVariantPart(
+        llvm::LLVMDustDIBuilderCreateVariantPart(
             DIB(cx),
             containing_scope,
             name.as_ptr().cast(),
@@ -2222,7 +2222,7 @@ fn prepare_enum_metadata(
         let unique_type_id_str = type_map.get_unique_type_id_as_string(unique_type_id);
 
         unsafe {
-            llvm::LLVMRustDIBuilderCreateStructType(
+            llvm::LLVMDustDIBuilderCreateStructType(
                 DIB(cx),
                 Some(containing_scope),
                 enum_name.as_ptr().cast(),
@@ -2261,7 +2261,7 @@ fn prepare_enum_metadata(
 /// Creates debug information for a composite type, that is, anything that
 /// results in a LLVM struct.
 ///
-/// Examples of Rust types to use this are: structs, tuples, boxes, vecs, and enums.
+/// Examples of Dust types to use this are: structs, tuples, boxes, vecs, and enums.
 fn composite_type_metadata(
     cx: &CodegenCx<'ll, 'tcx>,
     composite_type: Ty<'tcx>,
@@ -2321,7 +2321,7 @@ fn set_members_of_composite_type(
     let type_params = compute_type_parameters(cx, composite_type);
     unsafe {
         let type_array = create_DIArray(DIB(cx), &member_metadata[..]);
-        llvm::LLVMRustDICompositeTypeReplaceArrays(
+        llvm::LLVMDustDICompositeTypeReplaceArrays(
             DIB(cx),
             composite_type_metadata,
             Some(type_array),
@@ -2344,10 +2344,10 @@ fn compute_type_parameters(cx: &CodegenCx<'ll, 'tcx>, ty: Ty<'tcx>) -> &'ll DIAr
                         let actual_type =
                             cx.tcx.normalize_erasing_regions(ParamEnv::reveal_all(), ty);
                         let actual_type_metadata =
-                            type_metadata(cx, actual_type, rustc_span::DUMMY_SP);
+                            type_metadata(cx, actual_type, dustc_span::DUMMY_SP);
                         let name = &name.as_str();
                         Some(unsafe {
-                            Some(llvm::LLVMRustDIBuilderCreateTemplateTypeParameter(
+                            Some(llvm::LLVMDustDIBuilderCreateTemplateTypeParameter(
                                 DIB(cx),
                                 None,
                                 name.as_ptr().cast(),
@@ -2375,7 +2375,7 @@ fn compute_type_parameters(cx: &CodegenCx<'ll, 'tcx>, ty: Ty<'tcx>) -> &'ll DIAr
     }
 }
 
-/// A convenience wrapper around `LLVMRustDIBuilderCreateStructType()`. Does not do
+/// A convenience wrapper around `LLVMDustDIBuilderCreateStructType()`. Does not do
 /// any caching, does not add any fields to the struct. This can be done later
 /// with `set_members_of_composite_type()`.
 fn create_struct_stub(
@@ -2392,12 +2392,12 @@ fn create_struct_stub(
     let unique_type_id = type_map.get_unique_type_id_as_string(unique_type_id);
 
     let metadata_stub = unsafe {
-        // `LLVMRustDIBuilderCreateStructType()` wants an empty array. A null
+        // `LLVMDustDIBuilderCreateStructType()` wants an empty array. A null
         // pointer will lead to hard to trace and debug LLVM assertions
         // later on in `llvm/lib/IR/Value.cpp`.
         let empty_array = create_DIArray(DIB(cx), &[]);
 
-        llvm::LLVMRustDIBuilderCreateStructType(
+        llvm::LLVMDustDIBuilderCreateStructType(
             DIB(cx),
             containing_scope,
             struct_type_name.as_ptr().cast(),
@@ -2432,12 +2432,12 @@ fn create_union_stub(
     let unique_type_id = type_map.get_unique_type_id_as_string(unique_type_id);
 
     let metadata_stub = unsafe {
-        // `LLVMRustDIBuilderCreateUnionType()` wants an empty array. A null
+        // `LLVMDustDIBuilderCreateUnionType()` wants an empty array. A null
         // pointer will lead to hard to trace and debug LLVM assertions
         // later on in `llvm/lib/IR/Value.cpp`.
         let empty_array = create_DIArray(DIB(cx), &[]);
 
-        llvm::LLVMRustDIBuilderCreateUnionType(
+        llvm::LLVMDustDIBuilderCreateUnionType(
             DIB(cx),
             containing_scope,
             union_type_name.as_ptr().cast(),
@@ -2473,7 +2473,7 @@ pub fn create_global_var_metadata(cx: &CodegenCx<'ll, '_>, def_id: DefId, global
     let tcx = cx.tcx;
 
     // We may want to remove the namespace scope if we're in an extern block (see
-    // https://github.com/rust-lang/rust/pull/46457#issuecomment-351750952).
+    // https://github.com/dust-lang/dust/pull/46457#issuecomment-351750952).
     let var_scope = get_namespace_for_item(cx, def_id);
     let span = tcx.def_span(def_id);
 
@@ -2496,7 +2496,7 @@ pub fn create_global_var_metadata(cx: &CodegenCx<'ll, '_>, def_id: DefId, global
     let global_align = cx.align_of(variable_type);
 
     unsafe {
-        llvm::LLVMRustDIBuilderCreateStaticVariable(
+        llvm::LLVMDustDIBuilderCreateStaticVariable(
             DIB(cx),
             Some(var_scope),
             var_name.as_ptr().cast(),
@@ -2528,10 +2528,10 @@ pub fn create_vtable_metadata(cx: &CodegenCx<'ll, 'tcx>, ty: Ty<'tcx>, vtable: &
         return;
     }
 
-    let type_metadata = type_metadata(cx, ty, rustc_span::DUMMY_SP);
+    let type_metadata = type_metadata(cx, ty, dustc_span::DUMMY_SP);
 
     unsafe {
-        // `LLVMRustDIBuilderCreateStructType()` wants an empty array. A null
+        // `LLVMDustDIBuilderCreateStructType()` wants an empty array. A null
         // pointer will lead to hard to trace and debug LLVM assertions
         // later on in `llvm/lib/IR/Value.cpp`.
         let empty_array = create_DIArray(DIB(cx), &[]);
@@ -2540,7 +2540,7 @@ pub fn create_vtable_metadata(cx: &CodegenCx<'ll, 'tcx>, ty: Ty<'tcx>, vtable: &
         // Create a new one each time. We don't want metadata caching
         // here, because each vtable will refer to a unique containing
         // type.
-        let vtable_type = llvm::LLVMRustDIBuilderCreateStructType(
+        let vtable_type = llvm::LLVMDustDIBuilderCreateStructType(
             DIB(cx),
             NO_SCOPE_METADATA,
             name.as_ptr().cast(),
@@ -2559,7 +2559,7 @@ pub fn create_vtable_metadata(cx: &CodegenCx<'ll, 'tcx>, ty: Ty<'tcx>, vtable: &
         );
 
         let linkage_name = "";
-        llvm::LLVMRustDIBuilderCreateStaticVariable(
+        llvm::LLVMDustDIBuilderCreateStaticVariable(
             DIB(cx),
             NO_SCOPE_METADATA,
             name.as_ptr().cast(),
@@ -2584,5 +2584,5 @@ pub fn extend_scope_to_file(
     file: &SourceFile,
 ) -> &'ll DILexicalBlock {
     let file_metadata = file_metadata(cx, file);
-    unsafe { llvm::LLVMRustDIBuilderCreateLexicalBlockFile(DIB(cx), scope_metadata, file_metadata) }
+    unsafe { llvm::LLVMDustDIBuilderCreateLexicalBlockFile(DIB(cx), scope_metadata, file_metadata) }
 }

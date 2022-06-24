@@ -1,10 +1,10 @@
 // compile-flags: --target sparc-unknown-linux-gnu
 // needs-llvm-components: sparc
 
-#![feature(no_core, lang_items, rustc_attrs)]
+#![feature(no_core, lang_items, dustc_attrs)]
 #![no_core]
 
-#[rustc_builtin_macro]
+#[dustc_builtin_macro]
 macro_rules! asm {
     () => {};
 }

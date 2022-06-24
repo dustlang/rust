@@ -17,4 +17,4 @@ LL | fn i<'a, T, U>(v: Box<(dyn A<U> + 'static)>) -> Box<dyn X + 'static> {
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0759`.
+For more information about this error, try `dustc --explain E0759`.

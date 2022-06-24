@@ -1,4 +1,4 @@
-//! # The Rust core allocation and collections library
+//! # The Dust core allocation and collections library
 //!
 //! This library provides smart pointers and collections for managing
 //! heap-allocated values.
@@ -59,9 +59,9 @@
 #![allow(unused_attributes)]
 #![stable(feature = "alloc", since = "1.36.0")]
 #![doc(
-    html_root_url = "https://doc.rust-lang.org/nightly/",
-    html_playground_url = "https://play.rust-lang.org/",
-    issue_tracker_base_url = "https://github.com/rust-lang/rust/issues/",
+    html_root_url = "https://doc.dust-lang.org/nightly/",
+    html_playground_url = "https://play.dust-lang.org/",
+    issue_tracker_base_url = "https://github.com/dust-lang/dust/issues/",
     test(no_crate_inject, attr(allow(unused_variables), deny(warnings)))
 )]
 #![no_std]
@@ -71,7 +71,7 @@
 #![warn(missing_debug_implementations)]
 #![allow(explicit_outlives_requirements)]
 #![deny(unsafe_op_in_unsafe_fn)]
-#![feature(rustc_allow_const_fn_unstable)]
+#![feature(dustc_allow_const_fn_unstable)]
 #![cfg_attr(not(test), feature(generator_trait))]
 #![cfg_attr(test, feature(test))]
 #![cfg_attr(test, feature(new_uninit))]
@@ -104,7 +104,7 @@
 #![feature(fundamental)]
 #![feature(inplace_iteration)]
 #![feature(int_bits_const)]
-// Technically, this is a bug in rustdoc: rustdoc sees the documentation on `#[lang = slice_alloc]`
+// Technically, this is a bug in dustdoc: dustdoc sees the documentation on `#[lang = slice_alloc]`
 // blocks is for `&[T]`, which also has documentation using this feature in `core`, and gets mad
 // that the feature-gate isn't enabled. Ideally, it wouldn't check for the feature gate for docs
 // from other crates, but since this can only appear for lang items, it doesn't seem worth fixing.
@@ -121,7 +121,7 @@
 #![feature(or_patterns)]
 #![feature(pattern)]
 #![feature(ptr_internals)]
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 #![feature(receiver_trait)]
 #![feature(min_specialization)]
 #![feature(set_ptr_value)]

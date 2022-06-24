@@ -1,9 +1,9 @@
 use crate::methods::derefs_to_slice;
 use crate::methods::iter_nth_zero;
 use crate::utils::{is_type_diagnostic_item, span_lint_and_help};
-use rustc_hir as hir;
-use rustc_lint::LateContext;
-use rustc_span::symbol::sym;
+use dustc_hir as hir;
+use dustc_lint::LateContext;
+use dustc_span::symbol::sym;
 
 use super::ITER_NTH;
 

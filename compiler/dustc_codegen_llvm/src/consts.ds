@@ -7,16 +7,16 @@ use crate::type_of::LayoutLlvmExt;
 use crate::value::Value;
 use cstr::cstr;
 use libc::c_uint;
-use rustc_codegen_ssa::traits::*;
-use rustc_hir::def_id::DefId;
-use rustc_middle::middle::codegen_fn_attrs::{CodegenFnAttrFlags, CodegenFnAttrs};
-use rustc_middle::mir::interpret::{
+use dustc_codegen_ssa::traits::*;
+use dustc_hir::def_id::DefId;
+use dustc_middle::middle::codegen_fn_attrs::{CodegenFnAttrFlags, CodegenFnAttrs};
+use dustc_middle::mir::interpret::{
     read_target_uint, Allocation, ErrorHandled, GlobalAlloc, Pointer,
 };
-use rustc_middle::mir::mono::MonoItem;
-use rustc_middle::ty::{self, Instance, Ty};
-use rustc_middle::{bug, span_bug};
-use rustc_target::abi::{AddressSpace, Align, HasDataLayout, LayoutOf, Primitive, Scalar, Size};
+use dustc_middle::mir::mono::MonoItem;
+use dustc_middle::ty::{self, Instance, Ty};
+use dustc_middle::{bug, span_bug};
+use dustc_target::abi::{AddressSpace, Align, HasDataLayout, LayoutOf, Primitive, Scalar, Size};
 use tracing::debug;
 
 pub fn const_alloc_to_llvm(cx: &CodegenCx<'ll, '_>, alloc: &Allocation) -> &'ll Value {
@@ -87,7 +87,7 @@ pub fn codegen_static_initializer(
 fn set_global_alignment(cx: &CodegenCx<'ll, '_>, gv: &'ll Value, mut align: Align) {
     // The target may require greater alignment for globals than the type does.
     // Note: GCC and Clang also allow `__attribute__((aligned))` on variables,
-    // which can force it to be smaller.  Rust doesn't support this yet.
+    // which can force it to be smaller.  Dust doesn't support this yet.
     if let Some(min) = cx.sess().target.min_global_align {
         match Align::from_bits(min) {
             Ok(min) => align = align.max(min),
@@ -128,7 +128,7 @@ fn check_and_apply_linkage(
         unsafe {
             // Declare a symbol `foo` with the desired linkage.
             let g1 = cx.declare_global(&sym, llty2);
-            llvm::LLVMRustSetLinkage(g1, base::linkage_to_llvm(linkage));
+            llvm::LLVMDustSetLinkage(g1, base::linkage_to_llvm(linkage));
 
             // Declare an internal global `extern_with_linkage_foo` which
             // is initialized with the address of `foo`.  If `foo` is
@@ -136,7 +136,7 @@ fn check_and_apply_linkage(
             // linkage and there are no definitions), then
             // `extern_with_linkage_foo` will instead be initialized to
             // zero.
-            let mut real_name = "_rust_extern_with_linkage_".to_string();
+            let mut real_name = "_dust_extern_with_linkage_".to_string();
             real_name.push_str(&sym);
             let g2 = cx.define_global(&real_name, llty).unwrap_or_else(|| {
                 cx.sess().span_fatal(
@@ -144,7 +144,7 @@ fn check_and_apply_linkage(
                     &format!("symbol `{}` is already defined", &sym),
                 )
             });
-            llvm::LLVMRustSetLinkage(g2, llvm::Linkage::InternalLinkage);
+            llvm::LLVMDustSetLinkage(g2, llvm::Linkage::InternalLinkage);
             llvm::LLVMSetInitializer(g2, g1);
             g2
         }
@@ -177,7 +177,7 @@ impl CodegenCx<'ll, 'tcx> {
                     let gv = self.define_global(&name[..], self.val_ty(cv)).unwrap_or_else(|| {
                         bug!("symbol `{}` is already defined", name);
                     });
-                    llvm::LLVMRustSetLinkage(gv, llvm::Linkage::PrivateLinkage);
+                    llvm::LLVMDustSetLinkage(gv, llvm::Linkage::PrivateLinkage);
                     gv
                 }
                 _ => self.define_private_global(self.val_ty(cv)),
@@ -222,7 +222,7 @@ impl CodegenCx<'ll, 'tcx> {
 
             if !self.tcx.is_reachable_non_generic(def_id) {
                 unsafe {
-                    llvm::LLVMRustSetVisibility(g, llvm::Visibility::Hidden);
+                    llvm::LLVMDustSetVisibility(g, llvm::Visibility::Hidden);
                 }
             }
 
@@ -257,7 +257,7 @@ impl CodegenCx<'ll, 'tcx> {
             );
 
             if needs_dll_storage_attr {
-                // This item is external but not foreign, i.e., it originates from an external Rust
+                // This item is external but not foreign, i.e., it originates from an external Dust
                 // crate. Since we don't know whether this crate will be linked dynamically or
                 // statically in the final application, we always mark such symbols as 'dllimport'.
                 // If final linkage happens to be static, we rely on compiler-emitted __imp_ stubs
@@ -341,18 +341,18 @@ impl StaticMethods for CodegenCx<'ll, 'tcx> {
                 let name = llvm::get_value_name(g).to_vec();
                 llvm::set_value_name(g, b"");
 
-                let linkage = llvm::LLVMRustGetLinkage(g);
-                let visibility = llvm::LLVMRustGetVisibility(g);
+                let linkage = llvm::LLVMDustGetLinkage(g);
+                let visibility = llvm::LLVMDustGetVisibility(g);
 
-                let new_g = llvm::LLVMRustGetOrInsertGlobal(
+                let new_g = llvm::LLVMDustGetOrInsertGlobal(
                     self.llmod,
                     name.as_ptr().cast(),
                     name.len(),
                     val_llty,
                 );
 
-                llvm::LLVMRustSetLinkage(new_g, linkage);
-                llvm::LLVMRustSetVisibility(new_g, visibility);
+                llvm::LLVMDustSetLinkage(new_g, linkage);
+                llvm::LLVMDustSetVisibility(new_g, visibility);
 
                 // To avoid breaking any invariants, we leave around the old
                 // global for the moment; we'll replace all references to it

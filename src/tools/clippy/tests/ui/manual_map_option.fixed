@@ -1,5 +1,5 @@
 // edition:2018
-// run-rustfix
+// run-dustfix
 
 #![warn(clippy::manual_map)]
 #![allow(
@@ -19,7 +19,7 @@ fn main() {
 
     Some(0).map(|x| !x);
 
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     Some(0).map(std::convert::identity);
 
     Some(&String::new()).map(|x| str::len(x));

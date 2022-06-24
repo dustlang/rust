@@ -1,22 +1,22 @@
 use crate::pp::Breaks::{Consistent, Inconsistent};
 use crate::pp::{self, Breaks};
 
-use rustc_ast::attr;
-use rustc_ast::ptr::P;
-use rustc_ast::token::{self, BinOpToken, CommentKind, DelimToken, Nonterminal, Token, TokenKind};
-use rustc_ast::tokenstream::{TokenStream, TokenTree};
-use rustc_ast::util::classify;
-use rustc_ast::util::comments::{gather_comments, Comment, CommentStyle};
-use rustc_ast::util::parser::{self, AssocOp, Fixity};
-use rustc_ast::{self as ast, BlockCheckMode, PatKind, RangeEnd, RangeSyntax};
-use rustc_ast::{GenericArg, MacArgs, ModKind};
-use rustc_ast::{GenericBound, SelfKind, TraitBoundModifier};
-use rustc_ast::{InlineAsmOperand, InlineAsmRegOrRegClass};
-use rustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
-use rustc_span::edition::Edition;
-use rustc_span::source_map::{SourceMap, Spanned};
-use rustc_span::symbol::{kw, sym, Ident, IdentPrinter, Symbol};
-use rustc_span::{BytePos, FileName, Span};
+use dustc_ast::attr;
+use dustc_ast::ptr::P;
+use dustc_ast::token::{self, BinOpToken, CommentKind, DelimToken, Nonterminal, Token, TokenKind};
+use dustc_ast::tokenstream::{TokenStream, TokenTree};
+use dustc_ast::util::classify;
+use dustc_ast::util::comments::{gather_comments, Comment, CommentStyle};
+use dustc_ast::util::parser::{self, AssocOp, Fixity};
+use dustc_ast::{self as ast, BlockCheckMode, PatKind, RangeEnd, RangeSyntax};
+use dustc_ast::{GenericArg, MacArgs, ModKind};
+use dustc_ast::{GenericBound, SelfKind, TraitBoundModifier};
+use dustc_ast::{InlineAsmOperand, InlineAsmRegOrRegClass};
+use dustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
+use dustc_span::edition::Edition;
+use dustc_span::source_map::{SourceMap, Spanned};
+use dustc_span::symbol::{kw, sym, Ident, IdentPrinter, Symbol};
+use dustc_span::{BytePos, FileName, Span};
 
 use std::borrow::Cow;
 
@@ -64,7 +64,7 @@ impl<'a> Comments<'a> {
 
     pub fn trailing_comment(
         &self,
-        span: rustc_span::Span,
+        span: dustc_span::Span,
         next_pos: Option<BytePos>,
     ) -> Option<Comment> {
         if let Some(cmnt) = self.next() {
@@ -117,7 +117,7 @@ pub fn print_crate<'a>(
         let fake_attr = attr::mk_attr_inner(list);
         s.print_attribute(&fake_attr);
 
-        // Currently, in Rust 2018 we don't have `extern crate std;` at the crate
+        // Currently, in Dust 2018 we don't have `extern crate std;` at the crate
         // root, so this is not needed, and actually breaks things.
         if edition == Edition::Edition2015 {
             // `#![no_std]`
@@ -612,7 +612,7 @@ pub trait PrintState<'a>: std::ops::Deref<Target = pp::Printer> + std::ops::Dere
         self.end(); // Close the head-box.
     }
 
-    fn bclose_maybe_open(&mut self, span: rustc_span::Span, close_box: bool) {
+    fn bclose_maybe_open(&mut self, span: dustc_span::Span, close_box: bool) {
         self.maybe_print_comment(span.hi());
         self.break_offset_if_not_bol(1, -(INDENT_UNIT as isize));
         self.word("}");
@@ -621,7 +621,7 @@ pub trait PrintState<'a>: std::ops::Deref<Target = pp::Printer> + std::ops::Dere
         }
     }
 
-    fn bclose(&mut self, span: rustc_span::Span) {
+    fn bclose(&mut self, span: dustc_span::Span) {
         self.bclose_maybe_open(span, true)
     }
 
@@ -867,7 +867,7 @@ impl<'a> State<'a> {
     crate fn commasep_cmnt<T, F, G>(&mut self, b: Breaks, elts: &[T], mut op: F, mut get_span: G)
     where
         F: FnMut(&mut State<'_>, &T),
-        G: FnMut(&T) -> rustc_span::Span,
+        G: FnMut(&T) -> dustc_span::Span,
     {
         self.rbox(0, b);
         let len = elts.len();
@@ -1339,7 +1339,7 @@ impl<'a> State<'a> {
         enum_definition: &ast::EnumDef,
         generics: &ast::Generics,
         ident: Ident,
-        span: rustc_span::Span,
+        span: dustc_span::Span,
         visibility: &ast::Visibility,
     ) {
         self.head(visibility_qualified(visibility, "enum"));
@@ -1350,7 +1350,7 @@ impl<'a> State<'a> {
         self.print_variants(&enum_definition.variants, span)
     }
 
-    crate fn print_variants(&mut self, variants: &[ast::Variant], span: rustc_span::Span) {
+    crate fn print_variants(&mut self, variants: &[ast::Variant], span: dustc_span::Span) {
         self.bopen();
         for v in variants {
             self.space_if_not_bol();
@@ -1395,7 +1395,7 @@ impl<'a> State<'a> {
         struct_def: &ast::VariantData,
         generics: &ast::Generics,
         ident: Ident,
-        span: rustc_span::Span,
+        span: dustc_span::Span,
         print_finalizer: bool,
     ) {
         self.print_ident(ident);
@@ -2819,9 +2819,9 @@ impl<'a> State<'a> {
             where_clause: ast::WhereClause {
                 has_where_token: false,
                 predicates: Vec::new(),
-                span: rustc_span::DUMMY_SP,
+                span: dustc_span::DUMMY_SP,
             },
-            span: rustc_span::DUMMY_SP,
+            span: dustc_span::DUMMY_SP,
         };
         let header = ast::FnHeader { unsafety, ext, ..ast::FnHeader::default() };
         self.print_fn(decl, header, name, &generics);
@@ -2830,7 +2830,7 @@ impl<'a> State<'a> {
 
     crate fn maybe_print_trailing_comment(
         &mut self,
-        span: rustc_span::Span,
+        span: dustc_span::Span,
         next_pos: Option<BytePos>,
     ) {
         if let Some(cmnts) = self.comments() {

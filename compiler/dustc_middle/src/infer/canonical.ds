@@ -17,15 +17,15 @@
 //! `instantiate_query_result` method.
 //!
 //! For a more detailed look at what is happening here, check
-//! out the [chapter in the rustc dev guide][c].
+//! out the [chapter in the dustc dev guide][c].
 //!
-//! [c]: https://rust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
+//! [c]: https://dust-lang.github.io/chalk/book/canonical_queries/canonicalization.html
 
 use crate::infer::MemberConstraint;
 use crate::ty::subst::GenericArg;
 use crate::ty::{self, BoundVar, List, Region, TyCtxt};
-use rustc_index::vec::IndexVec;
-use rustc_macros::HashStable;
+use dustc_index::vec::IndexVec;
+use dustc_macros::HashStable;
 use smallvec::SmallVec;
 use std::ops::Index;
 
@@ -152,7 +152,7 @@ impl<'tcx> CanonicalVarKind<'tcx> {
     }
 }
 
-/// Rust actually has more than one category of type variables;
+/// Dust actually has more than one category of type variables;
 /// notably, the type variables we create for literals (e.g., 22 or
 /// 22.) can only be instantiated with integral/float types (e.g.,
 /// usize or f32). In order to faithfully reproduce a type, we need to
@@ -209,7 +209,7 @@ pub enum Certainty {
     /// The query is not known to be true, but also not known to be
     /// false. The `var_values` represent *either* values that must
     /// hold in order for the query to be true, or helpful tips that
-    /// *might* make it true. Currently rustc's trait solver cannot
+    /// *might* make it true. Currently dustc's trait solver cannot
     /// distinguish the two (e.g., due to our preference for where
     /// clauses over impls).
     ///
@@ -265,14 +265,14 @@ impl<'tcx, V> Canonical<'tcx, V> {
     ///
     /// An example of a **correct** use of this:
     ///
-    /// ```rust,ignore (not real code)
+    /// ```dust,ignore (not real code)
     /// let a: Canonical<'_, T> = ...;
     /// let b: Canonical<'_, (T,)> = a.unchecked_map(|v| (v, ));
     /// ```
     ///
     /// An example of an **incorrect** use of this:
     ///
-    /// ```rust,ignore (not real code)
+    /// ```dust,ignore (not real code)
     /// let a: Canonical<'tcx, T> = ...;
     /// let ty: Ty<'tcx> = ...;
     /// let b: Canonical<'tcx, (T, Ty<'tcx>)> = a.unchecked_map(|v| (v, ty));

@@ -1,20 +1,20 @@
-use rustc_ast as ast;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::{ColorConfig, ErrorReported};
-use rustc_hir as hir;
-use rustc_hir::intravisit;
-use rustc_hir::{HirId, CRATE_HIR_ID};
-use rustc_interface::interface;
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::config::{self, CrateType, ErrorOutputType};
-use rustc_session::{lint, DiagnosticOutput, Session};
-use rustc_span::edition::Edition;
-use rustc_span::source_map::SourceMap;
-use rustc_span::symbol::sym;
-use rustc_span::{BytePos, FileName, Pos, Span, DUMMY_SP};
-use rustc_target::spec::TargetTriple;
+use dustc_ast as ast;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::{ColorConfig, ErrorReported};
+use dustc_hir as hir;
+use dustc_hir::intravisit;
+use dustc_hir::{HirId, CRATE_HIR_ID};
+use dustc_interface::interface;
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::config::{self, CrateType, ErrorOutputType};
+use dustc_session::{lint, DiagnosticOutput, Session};
+use dustc_span::edition::Edition;
+use dustc_span::source_map::SourceMap;
+use dustc_span::symbol::sym;
+use dustc_span::{BytePos, FileName, Pos, Span, DUMMY_SP};
+use dustc_target::spec::TargetTriple;
 use tempfile::Builder as TempFileBuilder;
 
 use std::env;
@@ -73,7 +73,7 @@ crate fn run(options: Options) -> Result<(), ErrorReported> {
         cg: options.codegen_options.clone(),
         externs: options.externs.clone(),
         unstable_features: options.render_options.unstable_features,
-        actually_rustdoc: true,
+        actually_dustdoc: true,
         debugging_opts: config::DebuggingOptions { ..config::basic_debugging_options() },
         edition: options.edition,
         target_triple: options.target.clone(),
@@ -99,7 +99,7 @@ crate fn run(options: Options) -> Result<(), ErrorReported> {
         register_lints: Some(box crate::lint::register_lints),
         override_queries: None,
         make_codegen_backend: None,
-        registry: rustc_driver::diagnostics_registry(),
+        registry: dustc_driver::diagnostics_registry(),
     };
 
     let mut test_args = options.test_args.clone();
@@ -160,7 +160,7 @@ crate fn run(options: Options) -> Result<(), ErrorReported> {
         Err(ErrorReported) => return Err(ErrorReported),
     };
 
-    test_args.insert(0, "rustdoctest".to_string());
+    test_args.insert(0, "dustdoctest".to_string());
 
     testing::test_main(
         &test_args,
@@ -173,7 +173,7 @@ crate fn run(options: Options) -> Result<(), ErrorReported> {
 
 // Look for `#![doc(test(no_crate_inject))]`, used by crates in the std facade.
 fn scrape_test_config(attrs: &[ast::Attribute]) -> TestOptions {
-    use rustc_ast_pretty::pprust;
+    use dustc_ast_pretty::ppdust;
 
     let mut opts =
         TestOptions { no_crate_inject: false, display_warnings: false, attrs: Vec::new() };
@@ -193,7 +193,7 @@ fn scrape_test_config(attrs: &[ast::Attribute]) -> TestOptions {
         if attr.has_name(sym::attr) {
             if let Some(l) = attr.meta_item_list() {
                 for item in l {
-                    opts.attrs.push(pprust::meta_list_item_to_string(item));
+                    opts.attrs.push(ppdust::meta_list_item_to_string(item));
                 }
             }
         }
@@ -257,13 +257,13 @@ fn run_test(
     let (test, line_offset, supports_color) =
         make_test(test, Some(cratename), as_test_harness, opts, edition, Some(test_id));
 
-    let output_file = outdir.path().join("rust_out");
+    let output_file = outdir.path().join("dust_out");
 
-    let rustc_binary = options
+    let dustc_binary = options
         .test_builder
         .as_deref()
-        .unwrap_or_else(|| rustc_interface::util::rustc_path().expect("found rustc"));
-    let mut compiler = Command::new(&rustc_binary);
+        .unwrap_or_else(|| dustc_interface::util::dustc_path().expect("found dustc"));
+    let mut compiler = Command::new(&dustc_binary);
     compiler.arg("--crate-type").arg("bin");
     for cfg in &options.cfgs {
         compiler.arg("--cfg").arg(&cfg);
@@ -272,8 +272,8 @@ fn run_test(
         compiler.arg("--sysroot").arg(sysroot);
     }
     compiler.arg("--edition").arg(&edition.to_string());
-    compiler.env("UNSTABLE_RUSTDOC_TEST_PATH", path);
-    compiler.env("UNSTABLE_RUSTDOC_TEST_LINE", format!("{}", line as isize - line_offset as isize));
+    compiler.env("UNSTABLE_DUSTDOC_TEST_PATH", path);
+    compiler.env("UNSTABLE_DUSTDOC_TEST_LINE", format!("{}", line as isize - line_offset as isize));
     compiler.arg("-o").arg(&output_file);
     if as_test_harness {
         compiler.arg("--test");
@@ -324,7 +324,7 @@ fn run_test(
     compiler.stdin(Stdio::piped());
     compiler.stderr(Stdio::piped());
 
-    let mut child = compiler.spawn().expect("Failed to spawn rustc process");
+    let mut child = compiler.spawn().expect("Failed to spawn dustc process");
     {
         let stdin = child.stdin.as_mut().expect("Failed to open stdin");
         stdin.write_all(test.as_bytes()).expect("could write out test sources");
@@ -393,7 +393,7 @@ fn run_test(
     Ok(())
 }
 
-/// Transforms a test into code that can be compiled into a Rust binary, and returns the number of
+/// Transforms a test into code that can be compiled into a Dust binary, and returns the number of
 /// lines before the test code begins as well as if the output stream supports colors or not.
 crate fn make_test(
     s: &str,
@@ -429,22 +429,22 @@ crate fn make_test(
     prog.push_str(&crate_attrs);
     prog.push_str(&crates);
 
-    // Uses librustc_ast to parse the doctest and find if there's a main fn and the extern
+    // Uses libdustc_ast to parse the doctest and find if there's a main fn and the extern
     // crate already is included.
-    let result = rustc_driver::catch_fatal_errors(|| {
-        rustc_span::with_session_globals(edition, || {
-            use rustc_errors::emitter::{Emitter, EmitterWriter};
-            use rustc_errors::Handler;
-            use rustc_parse::maybe_new_parser_from_source_str;
-            use rustc_parse::parser::ForceCollect;
-            use rustc_session::parse::ParseSess;
-            use rustc_span::source_map::FilePathMapping;
+    let result = dustc_driver::catch_fatal_errors(|| {
+        dustc_span::with_session_globals(edition, || {
+            use dustc_errors::emitter::{Emitter, EmitterWriter};
+            use dustc_errors::Handler;
+            use dustc_parse::maybe_new_parser_from_source_str;
+            use dustc_parse::parser::ForceCollect;
+            use dustc_session::parse::ParseSess;
+            use dustc_span::source_map::FilePathMapping;
 
             let filename = FileName::anon_source_code(s);
             let source = crates + everything_else;
 
             // Any errors in parsing should also appear when the doctest is compiled for real, so just
-            // send all the errors that librustc_ast emits directly into a `Sink` instead of stderr.
+            // send all the errors that libdustc_ast emits directly into a `Sink` instead of stderr.
             let sm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
             supports_color =
                 EmitterWriter::stderr(ColorConfig::Auto, None, false, false, Some(80), false)
@@ -535,7 +535,7 @@ crate fn make_test(
     // If a doctest's `fn main` is being masked by a wrapper macro, the parsing loop above won't
     // see it. In that case, run the old text-based scan to see if they at least have a main
     // function written inside a macro invocation. See
-    // https://github.com/rust-lang/rust/issues/56898
+    // https://github.com/dust-lang/dust/issues/56898
     let already_has_main = if found_macro && !already_has_main {
         s.lines()
             .map(|line| {
@@ -692,7 +692,7 @@ crate struct Collector {
 
     // The name of the test displayed to the user, separated by `::`.
     //
-    // In tests from Rust source, this is the path to the item
+    // In tests from Dust source, this is the path to the item
     // e.g., `["std", "vec", "Vec", "push"]`.
     //
     // In tests from a markdown file, this is the titles of all headers (h1~h6)
@@ -704,7 +704,7 @@ crate struct Collector {
     //
     // ## Subtitle
     //
-    // ```rust
+    // ```dust
     // assert!(true);
     // ```
     // ``````
@@ -825,9 +825,9 @@ impl Tester for Collector {
         } else {
             DirState::Temp(
                 TempFileBuilder::new()
-                    .prefix("rustdoctest")
+                    .prefix("dustdoctest")
                     .tempdir()
-                    .expect("rustdoc needs a tempdir"),
+                    .expect("dustdoc needs a tempdir"),
             )
         };
 
@@ -945,8 +945,8 @@ impl Tester for Collector {
                 .chars()
                 .enumerate()
                 .map(|(i, c)| {
-                    if (i == 0 && rustc_lexer::is_id_start(c))
-                        || (i != 0 && rustc_lexer::is_id_continue(c))
+                    if (i == 0 && dustc_lexer::is_id_start(c))
+                        || (i != 0 && dustc_lexer::is_id_continue(c))
                     {
                         c
                     } else {
@@ -1050,7 +1050,7 @@ impl<'a, 'hir, 'tcx> intravisit::Visitor<'hir> for HirCollector<'a, 'hir, 'tcx> 
 
     fn visit_item(&mut self, item: &'hir hir::Item<'_>) {
         let name = if let hir::ItemKind::Impl(impl_) = &item.kind {
-            rustc_hir_pretty::id_to_string(&self.map, impl_.self_ty.hir_id)
+            dustc_hir_pretty::id_to_string(&self.map, impl_.self_ty.hir_id)
         } else {
             item.ident.to_string()
         };

@@ -1,12 +1,12 @@
 // run-pass
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_macros;
+extern crate dustc_macros;
 #[allow(dead_code)]
-extern crate rustc_serialize;
+extern crate dustc_serialize;
 
-use rustc_macros::{Decodable, Encodable};
+use dustc_macros::{Decodable, Encodable};
 
 #[derive(Decodable, Encodable, Debug)]
 struct A {

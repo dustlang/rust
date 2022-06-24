@@ -1,11 +1,11 @@
-// run-rustfix
-#![feature(rustc_private)]
+// run-dustfix
+#![feature(dustc_private)]
 #![deny(clippy::internal)]
 #![allow(clippy::unnecessary_operation, unused_must_use)]
 
-extern crate rustc_span;
+extern crate dustc_span;
 
-use rustc_span::symbol::{Ident, Symbol};
+use dustc_span::symbol::{Ident, Symbol};
 
 fn main() {
     Symbol::intern("foo").as_str() == "clippy";

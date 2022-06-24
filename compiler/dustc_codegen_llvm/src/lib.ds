@@ -1,10 +1,10 @@
-//! The Rust compiler.
+//! The Dust compiler.
 //!
 //! # Note
 //!
 //! This API is completely unstable and subject to change.
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(bool_to_option)]
 #![feature(const_cstr_unchecked)]
 #![feature(crate_visibility_modifier)]
@@ -17,22 +17,22 @@
 use back::write::{create_informational_target_machine, create_target_machine};
 
 pub use llvm_util::target_features;
-use rustc_ast::expand::allocator::AllocatorKind;
-use rustc_codegen_ssa::back::lto::{LtoModuleCodegen, SerializedModule, ThinModule};
-use rustc_codegen_ssa::back::write::{
+use dustc_ast::expand::allocator::AllocatorKind;
+use dustc_codegen_ssa::back::lto::{LtoModuleCodegen, SerializedModule, ThinModule};
+use dustc_codegen_ssa::back::write::{
     CodegenContext, FatLTOInput, ModuleConfig, TargetMachineFactoryConfig, TargetMachineFactoryFn,
 };
-use rustc_codegen_ssa::traits::*;
-use rustc_codegen_ssa::ModuleCodegen;
-use rustc_codegen_ssa::{CodegenResults, CompiledModule};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::{ErrorReported, FatalError, Handler};
-use rustc_middle::dep_graph::{WorkProduct, WorkProductId};
-use rustc_middle::middle::cstore::{EncodedMetadata, MetadataLoaderDyn};
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_session::config::{OptLevel, OutputFilenames, PrintRequest};
-use rustc_session::Session;
-use rustc_span::symbol::Symbol;
+use dustc_codegen_ssa::traits::*;
+use dustc_codegen_ssa::ModuleCodegen;
+use dustc_codegen_ssa::{CodegenResults, CompiledModule};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::{ErrorReported, FatalError, Handler};
+use dustc_middle::dep_graph::{WorkProduct, WorkProductId};
+use dustc_middle::middle::cstore::{EncodedMetadata, MetadataLoaderDyn};
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_session::config::{OptLevel, OutputFilenames, PrintRequest};
+use dustc_session::Session;
+use dustc_span::symbol::Symbol;
 
 use std::any::Any;
 use std::ffi::CStr;
@@ -130,7 +130,7 @@ impl WriteBackendMethods for LlvmCodegenBackend {
     type ThinBuffer = back::lto::ThinBuffer;
     fn print_pass_timings(&self) {
         unsafe {
-            llvm::LLVMRustPrintPassTimings();
+            llvm::LLVMDustPrintPassTimings();
         }
     }
     fn run_link(
@@ -265,7 +265,7 @@ impl CodegenBackend for LlvmCodegenBackend {
         metadata: EncodedMetadata,
         need_metadata_module: bool,
     ) -> Box<dyn Any> {
-        Box::new(rustc_codegen_ssa::base::codegen_crate(
+        Box::new(dustc_codegen_ssa::base::codegen_crate(
             LlvmCodegenBackend(()),
             tcx,
             metadata,
@@ -279,7 +279,7 @@ impl CodegenBackend for LlvmCodegenBackend {
         sess: &Session,
     ) -> Result<(CodegenResults, FxHashMap<WorkProductId, WorkProduct>), ErrorReported> {
         let (codegen_results, work_products) = ongoing_codegen
-            .downcast::<rustc_codegen_ssa::back::write::OngoingCodegen<LlvmCodegenBackend>>()
+            .downcast::<dustc_codegen_ssa::back::write::OngoingCodegen<LlvmCodegenBackend>>()
             .expect("Expected LlvmCodegenBackend's OngoingCodegen, found Box<Any>")
             .join(sess);
 
@@ -299,7 +299,7 @@ impl CodegenBackend for LlvmCodegenBackend {
         outputs: &OutputFilenames,
     ) -> Result<(), ErrorReported> {
         use crate::back::archive::LlvmArchiveBuilder;
-        use rustc_codegen_ssa::back::link::link_binary;
+        use dustc_codegen_ssa::back::link::link_binary;
 
         // Run the linker on any artifacts that resulted from the LLVM run.
         // This should produce either a finished executable or library.
@@ -328,7 +328,7 @@ unsafe impl Sync for ModuleLlvm {}
 impl ModuleLlvm {
     fn new(tcx: TyCtxt<'_>, mod_name: &str) -> Self {
         unsafe {
-            let llcx = llvm::LLVMRustContextCreate(tcx.sess.fewer_names());
+            let llcx = llvm::LLVMDustContextCreate(tcx.sess.fewer_names());
             let llmod_raw = context::create_module(tcx, llcx, mod_name) as *const _;
             ModuleLlvm { llmod_raw, llcx, tm: create_target_machine(tcx, mod_name) }
         }
@@ -336,7 +336,7 @@ impl ModuleLlvm {
 
     fn new_metadata(tcx: TyCtxt<'_>, mod_name: &str) -> Self {
         unsafe {
-            let llcx = llvm::LLVMRustContextCreate(tcx.sess.fewer_names());
+            let llcx = llvm::LLVMDustContextCreate(tcx.sess.fewer_names());
             let llmod_raw = context::create_module(tcx, llcx, mod_name) as *const _;
             ModuleLlvm { llmod_raw, llcx, tm: create_informational_target_machine(tcx.sess) }
         }
@@ -349,7 +349,7 @@ impl ModuleLlvm {
         handler: &Handler,
     ) -> Result<Self, FatalError> {
         unsafe {
-            let llcx = llvm::LLVMRustContextCreate(cgcx.fewer_names);
+            let llcx = llvm::LLVMDustContextCreate(cgcx.fewer_names);
             let llmod_raw = back::lto::parse_module(llcx, name, buffer, handler)?;
             let tm_factory_config = TargetMachineFactoryConfig::new(&cgcx, name.to_str().unwrap());
             let tm = match (cgcx.tm_factory)(tm_factory_config) {
@@ -373,7 +373,7 @@ impl Drop for ModuleLlvm {
     fn drop(&mut self) {
         unsafe {
             llvm::LLVMContextDispose(&mut *(self.llcx as *mut _));
-            llvm::LLVMRustDisposeTargetMachine(&mut *(self.tm as *mut _));
+            llvm::LLVMDustDisposeTargetMachine(&mut *(self.tm as *mut _));
         }
     }
 }

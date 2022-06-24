@@ -26,22 +26,22 @@
 //! | static-dylib (gcc)    | crtend, crtn  | crtendS, crtn | crtend_so      | crtend | -    |
 //! | static-dylib (clang)  | crtendS, crtn | N/A           | crtend_so      | crtend | -    |
 //!
-//! Use cases for rustc linking the CRT objects explicitly:
-//!     - rustc needs to add its own Rust-specific objects (mingw is the example)
+//! Use cases for dustc linking the CRT objects explicitly:
+//!     - dustc needs to add its own Dust-specific objects (mingw is the example)
 //!     - gcc wrapper cannot be used for some reason and linker like ld or lld is used directly.
 //!     - gcc wrapper pulls wrong CRT objects (e.g. from glibc when we are targeting musl).
 //!
 //! In general it is preferable to rely on the target's native toolchain to pull the objects.
-//! However, for some targets (musl, mingw) rustc historically provides a more self-contained
+//! However, for some targets (musl, mingw) dustc historically provides a more self-contained
 //! installation not requiring users to install the native target's toolchain.
-//! In that case rustc distributes the objects as a part of the target's Rust toolchain
+//! In that case dustc distributes the objects as a part of the target's Dust toolchain
 //! and falls back to linking with them manually.
-//! Unlike native toolchains, rustc only currently adds the libc's objects during linking,
-//! but not gcc's. As a result rustc cannot link with C++ static libraries (#36710)
+//! Unlike native toolchains, dustc only currently adds the libc's objects during linking,
+//! but not gcc's. As a result dustc cannot link with C++ static libraries (#36710)
 //! when linking in self-contained mode.
 
 use crate::spec::LinkOutputKind;
-use rustc_serialize::json::{Json, ToJson};
+use dustc_serialize::json::{Json, ToJson};
 use std::collections::BTreeMap;
 use std::str::FromStr;
 

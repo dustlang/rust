@@ -1,27 +1,27 @@
-//! The current rustc diagnostics emitter.
+//! The current dustc diagnostics emitter.
 //!
 //! An `Emitter` takes care of generating the output from a `DiagnosticBuilder` struct.
 //!
 //! There are various `Emitter` implementations that generate different output formats such as
 //! JSON and human readable output.
 //!
-//! The output types are defined in `rustc_session::config::ErrorOutputType`.
+//! The output types are defined in `dustc_session::config::ErrorOutputType`.
 
 use Destination::*;
 
-use rustc_lint_defs::FutureBreakage;
-use rustc_span::source_map::SourceMap;
-use rustc_span::{MultiSpan, SourceFile, Span};
+use dustc_lint_defs::FutureBreakage;
+use dustc_span::source_map::SourceMap;
+use dustc_span::{MultiSpan, SourceFile, Span};
 
 use crate::snippet::{Annotation, AnnotationType, Line, MultilineAnnotation, Style, StyledString};
 use crate::styled_buffer::StyledBuffer;
 use crate::{CodeSuggestion, Diagnostic, DiagnosticId, Level, SubDiagnostic, SuggestionStyle};
 
-use rustc_lint_defs::pluralize;
+use dustc_lint_defs::pluralize;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sync::Lrc;
-use rustc_span::hygiene::{ExpnKind, MacroKind};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::sync::Lrc;
+use dustc_span::hygiene::{ExpnKind, MacroKind};
 use std::borrow::Cow;
 use std::cmp::{max, min, Reverse};
 use std::io;
@@ -195,7 +195,7 @@ pub trait Emitter {
 
     fn emit_future_breakage_report(&mut self, _diags: Vec<(FutureBreakage, Diagnostic)>) {}
 
-    /// Checks if should show explanations about "rustc --explain"
+    /// Checks if should show explanations about "dustc --explain"
     fn should_show_explain(&self) -> bool {
         true
     }
@@ -2050,7 +2050,7 @@ fn emit_to_destination(
     // On Windows, styling happens through calls to a terminal API. This prevents us from using the
     // same buffering approach.  Instead, we use a global Windows mutex, which we acquire long
     // enough to output the full error message, then we release.
-    let _buffer_lock = lock::acquire_global_lock("rustc_errors");
+    let _buffer_lock = lock::acquire_global_lock("dustc_errors");
     for (pos, line) in rendered_buffer.iter().enumerate() {
         for part in line {
             dst.apply_style(*lvl, part.style)?;
@@ -2083,7 +2083,7 @@ impl Destination {
     fn from_stderr(color: ColorConfig) -> Destination {
         let choice = color.to_color_choice();
         // On Windows we'll be performing global synchronization on the entire
-        // system for emitting rustc errors, so there's no need to buffer
+        // system for emitting dustc errors, so there's no need to buffer
         // anything.
         //
         // On non-Windows we rely on the atomicity of `write` to ensure errors

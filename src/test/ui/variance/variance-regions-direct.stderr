@@ -12,9 +12,9 @@ error[E0208]: [+, +, +]
   --> $DIR/variance-regions-direct.rs:18:1
    |
 LL | / struct Test3<'a, 'b, 'c> {
-LL | |     x: extern "Rust" fn(&'a isize),
-LL | |     y: extern "Rust" fn(&'b [isize]),
-LL | |     c: extern "Rust" fn(&'c str),
+LL | |     x: extern "Dust" fn(&'a isize),
+LL | |     y: extern "Dust" fn(&'b [isize]),
+LL | |     c: extern "Dust" fn(&'c str),
 LL | | }
    | |_^
 
@@ -30,7 +30,7 @@ error[E0208]: [+, o]
   --> $DIR/variance-regions-direct.rs:35:1
    |
 LL | / struct Test5<'a, 'b:'a> {
-LL | |     x: extern "Rust" fn(&'a mut &'b isize),
+LL | |     x: extern "Dust" fn(&'a mut &'b isize),
 LL | | }
    | |_^
 
@@ -38,7 +38,7 @@ error[E0208]: [-, o]
   --> $DIR/variance-regions-direct.rs:45:1
    |
 LL | / struct Test6<'a, 'b:'a> {
-LL | |     x: &'a mut extern "Rust" fn(&'b isize),
+LL | |     x: &'a mut extern "Dust" fn(&'b isize),
 LL | | }
    | |_^
 
@@ -54,7 +54,7 @@ error[E0208]: [+, -, o]
   --> $DIR/variance-regions-direct.rs:59:1
    |
 LL | / enum Test8<'a, 'b, 'c:'b> {
-LL | |     Test8A(extern "Rust" fn(&'a isize)),
+LL | |     Test8A(extern "Dust" fn(&'a isize)),
 LL | |     Test8B(&'b [isize]),
 LL | |     Test8C(&'b mut &'c str),
 LL | | }

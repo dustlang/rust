@@ -46,4 +46,4 @@ LL | fn test(a: impl for<'a> Generator<&'a mut bool>) {}
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0308`.
+For more information about this error, try `dustc --explain E0308`.

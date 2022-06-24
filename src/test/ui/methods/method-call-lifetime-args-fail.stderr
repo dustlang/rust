@@ -232,4 +232,4 @@ LL |     fn early<'a, 'b>(self) -> (&'a u8, &'b u8) { loop {} }
 
 error: aborting due to 18 previous errors
 
-For more information about this error, try `rustc --explain E0107`.
+For more information about this error, try `dustc --explain E0107`.

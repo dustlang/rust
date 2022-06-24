@@ -1,6 +1,6 @@
 #![feature(nll)]
 #![feature(static_nobundle)]
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 
 // NOTE: This crate only exists to allow linking on mingw targets.
 
@@ -9,20 +9,20 @@ use std::cell::RefCell;
 use std::slice;
 
 #[repr(C)]
-pub struct RustString {
+pub struct DustString {
     pub bytes: RefCell<Vec<u8>>,
 }
 
-impl RustString {
+impl DustString {
     pub fn len(&self) -> usize {
         self.bytes.borrow().len()
     }
 }
 
-/// Appending to a Rust string -- used by RawRustStringOstream.
+/// Appending to a Dust string -- used by RawDustStringOstream.
 #[no_mangle]
-pub unsafe extern "C" fn LLVMRustStringWriteImpl(
-    sr: &RustString,
+pub unsafe extern "C" fn LLVMDustStringWriteImpl(
+    sr: &DustString,
     ptr: *const c_char,
     size: size_t,
 ) {
@@ -32,7 +32,7 @@ pub unsafe extern "C" fn LLVMRustStringWriteImpl(
 }
 
 /// Initialize targets enabled by the build script via `cfg(llvm_component = "...")`.
-/// N.B., this function can't be moved to `rustc_codegen_llvm` because of the `cfg`s.
+/// N.B., this function can't be moved to `dustc_codegen_llvm` because of the `cfg`s.
 pub fn initialize_available_targets() {
     macro_rules! init_target(
         ($cfg:meta, $($method:ident),*) => { {

@@ -20,7 +20,7 @@
 //! [`max`]: Ord::max
 //! [`min`]: Ord::min
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 use self::Ordering::*;
 
@@ -192,10 +192,10 @@ use self::Ordering::*;
 /// [`eq`]: PartialEq::eq
 /// [`ne`]: PartialEq::ne
 #[lang = "eq"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[doc(alias = "==")]
 #[doc(alias = "!=")]
-#[rustc_on_unimplemented(
+#[dustc_on_unimplemented(
     message = "can't compare `{Self}` with `{Rhs}`",
     label = "no implementation for `{Self} == {Rhs}`"
 )]
@@ -203,20 +203,20 @@ pub trait PartialEq<Rhs: ?Sized = Self> {
     /// This method tests for `self` and `other` values to be equal, and is used
     /// by `==`.
     #[must_use]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn eq(&self, other: &Rhs) -> bool;
 
     /// This method tests for `!=`.
     #[inline]
     #[must_use]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn ne(&self, other: &Rhs) -> bool {
         !self.eq(other)
     }
 }
 
 /// Derive macro generating an impl of the trait `PartialEq`.
-#[rustc_builtin_macro]
+#[dustc_builtin_macro]
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[allow_internal_unstable(core_intrinsics, structural_match)]
 pub macro PartialEq($item:item) {
@@ -264,7 +264,7 @@ pub macro PartialEq($item:item) {
 /// ```
 #[doc(alias = "==")]
 #[doc(alias = "!=")]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait Eq: PartialEq<Self> {
     // this method is used solely by #[deriving] to assert
     // that every component of a type implements #[deriving]
@@ -275,12 +275,12 @@ pub trait Eq: PartialEq<Self> {
     // This should never be implemented by hand.
     #[doc(hidden)]
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn assert_receiver_is_total_eq(&self) {}
 }
 
 /// Derive macro generating an impl of the trait `Eq`.
-#[rustc_builtin_macro]
+#[dustc_builtin_macro]
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[allow_internal_unstable(core_intrinsics, derive_eq, structural_match)]
 pub macro Eq($item:item) {
@@ -315,16 +315,16 @@ pub struct AssertParamIsEq<T: Eq + ?Sized> {
 /// assert_eq!(Ordering::Greater, result);
 /// ```
 #[derive(Clone, Copy, PartialEq, Debug, Hash)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub enum Ordering {
     /// An ordering where a compared value is less than another.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     Less = -1,
     /// An ordering where a compared value is equal to another.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     Equal = 0,
     /// An ordering where a compared value is greater than another.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     Greater = 1,
 }
 
@@ -474,8 +474,8 @@ impl Ordering {
     /// ```
     #[inline]
     #[must_use]
-    #[rustc_const_stable(feature = "const_ordering", since = "1.48.0")]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "const_ordering", since = "1.48.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub const fn reverse(self) -> Ordering {
         match self {
             Less => Greater,
@@ -513,7 +513,7 @@ impl Ordering {
     /// ```
     #[inline]
     #[must_use]
-    #[rustc_const_stable(feature = "const_ordering", since = "1.48.0")]
+    #[dustc_const_stable(feature = "const_ordering", since = "1.48.0")]
     #[stable(feature = "ordering_chaining", since = "1.17.0")]
     pub const fn then(self, other: Ordering) -> Ordering {
         match self {
@@ -688,7 +688,7 @@ impl<T: Ord> Ord for Reverse<T> {
 #[doc(alias = ">")]
 #[doc(alias = "<=")]
 #[doc(alias = ">=")]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait Ord: Eq + PartialOrd<Self> {
     /// This method returns an [`Ordering`] between `self` and `other`.
     ///
@@ -705,7 +705,7 @@ pub trait Ord: Eq + PartialOrd<Self> {
     /// assert_eq!(5.cmp(&5), Ordering::Equal);
     /// ```
     #[must_use]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn cmp(&self, other: &Self) -> Ordering;
 
     /// Compares and returns the maximum of two values.
@@ -782,17 +782,17 @@ pub trait Ord: Eq + PartialOrd<Self> {
 }
 
 /// Derive macro generating an impl of the trait `Ord`.
-#[rustc_builtin_macro]
+#[dustc_builtin_macro]
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[allow_internal_unstable(core_intrinsics)]
 pub macro Ord($item:item) {
     /* compiler built-in */
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Eq for Ordering {}
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Ord for Ordering {
     #[inline]
     fn cmp(&self, other: &Ordering) -> Ordering {
@@ -800,7 +800,7 @@ impl Ord for Ordering {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl PartialOrd for Ordering {
     #[inline]
     fn partial_cmp(&self, other: &Ordering) -> Option<Ordering> {
@@ -910,12 +910,12 @@ impl PartialOrd for Ordering {
 /// [`partial_cmp`]: PartialOrd::partial_cmp
 /// [`cmp`]: Ord::cmp
 #[lang = "partial_ord"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[doc(alias = ">")]
 #[doc(alias = "<")]
 #[doc(alias = "<=")]
 #[doc(alias = ">=")]
-#[rustc_on_unimplemented(
+#[dustc_on_unimplemented(
     message = "can't compare `{Self}` with `{Rhs}`",
     label = "no implementation for `{Self} < {Rhs}` and `{Self} > {Rhs}`"
 )]
@@ -944,7 +944,7 @@ pub trait PartialOrd<Rhs: ?Sized = Self>: PartialEq<Rhs> {
     /// assert_eq!(result, None);
     /// ```
     #[must_use]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn partial_cmp(&self, other: &Rhs) -> Option<Ordering>;
 
     /// This method tests less than (for `self` and `other`) and is used by the `<` operator.
@@ -960,7 +960,7 @@ pub trait PartialOrd<Rhs: ?Sized = Self>: PartialEq<Rhs> {
     /// ```
     #[inline]
     #[must_use]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn lt(&self, other: &Rhs) -> bool {
         matches!(self.partial_cmp(other), Some(Less))
     }
@@ -979,7 +979,7 @@ pub trait PartialOrd<Rhs: ?Sized = Self>: PartialEq<Rhs> {
     /// ```
     #[inline]
     #[must_use]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn le(&self, other: &Rhs) -> bool {
         matches!(self.partial_cmp(other), Some(Less | Equal))
     }
@@ -997,7 +997,7 @@ pub trait PartialOrd<Rhs: ?Sized = Self>: PartialEq<Rhs> {
     /// ```
     #[inline]
     #[must_use]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn gt(&self, other: &Rhs) -> bool {
         matches!(self.partial_cmp(other), Some(Greater))
     }
@@ -1016,14 +1016,14 @@ pub trait PartialOrd<Rhs: ?Sized = Self>: PartialEq<Rhs> {
     /// ```
     #[inline]
     #[must_use]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn ge(&self, other: &Rhs) -> bool {
         matches!(self.partial_cmp(other), Some(Greater | Equal))
     }
 }
 
 /// Derive macro generating an impl of the trait `PartialOrd`.
-#[rustc_builtin_macro]
+#[dustc_builtin_macro]
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[allow_internal_unstable(core_intrinsics)]
 pub macro PartialOrd($item:item) {
@@ -1046,7 +1046,7 @@ pub macro PartialOrd($item:item) {
 /// ```
 #[inline]
 #[must_use]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub fn min<T: Ord>(v1: T, v2: T) -> T {
     v1.min(v2)
 }
@@ -1112,7 +1112,7 @@ pub fn min_by_key<T, F: FnMut(&T) -> K, K: Ord>(v1: T, v2: T, mut f: F) -> T {
 /// ```
 #[inline]
 #[must_use]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub fn max<T: Ord>(v1: T, v2: T) -> T {
     v1.max(v2)
 }
@@ -1169,7 +1169,7 @@ mod impls {
 
     macro_rules! partial_eq_impl {
         ($($t:ty)*) => ($(
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl PartialEq for $t {
                 #[inline]
                 fn eq(&self, other: &$t) -> bool { (*self) == (*other) }
@@ -1179,7 +1179,7 @@ mod impls {
         )*)
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl PartialEq for () {
         #[inline]
         fn eq(&self, _other: &()) -> bool {
@@ -1197,7 +1197,7 @@ mod impls {
 
     macro_rules! eq_impl {
         ($($t:ty)*) => ($(
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl Eq for $t {}
         )*)
     }
@@ -1206,7 +1206,7 @@ mod impls {
 
     macro_rules! partial_ord_impl {
         ($($t:ty)*) => ($(
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl PartialOrd for $t {
                 #[inline]
                 fn partial_cmp(&self, other: &$t) -> Option<Ordering> {
@@ -1229,7 +1229,7 @@ mod impls {
         )*)
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl PartialOrd for () {
         #[inline]
         fn partial_cmp(&self, _: &()) -> Option<Ordering> {
@@ -1237,7 +1237,7 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl PartialOrd for bool {
         #[inline]
         fn partial_cmp(&self, other: &bool) -> Option<Ordering> {
@@ -1249,7 +1249,7 @@ mod impls {
 
     macro_rules! ord_impl {
         ($($t:ty)*) => ($(
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl PartialOrd for $t {
                 #[inline]
                 fn partial_cmp(&self, other: &$t) -> Option<Ordering> {
@@ -1265,12 +1265,12 @@ mod impls {
                 fn gt(&self, other: &$t) -> bool { (*self) > (*other) }
             }
 
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl Ord for $t {
                 #[inline]
                 fn cmp(&self, other: &$t) -> Ordering {
                     // The order here is important to generate more optimal assembly.
-                    // See <https://github.com/rust-lang/rust/issues/63758> for more info.
+                    // See <https://github.com/dust-lang/dust/issues/63758> for more info.
                     if *self < *other { Less }
                     else if *self == *other { Equal }
                     else { Greater }
@@ -1279,7 +1279,7 @@ mod impls {
         )*)
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl Ord for () {
         #[inline]
         fn cmp(&self, _other: &()) -> Ordering {
@@ -1287,13 +1287,13 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl Ord for bool {
         #[inline]
         fn cmp(&self, other: &bool) -> Ordering {
             // Casting to i8's and converting the difference to an Ordering generates
             // more optimal assembly.
-            // See <https://github.com/rust-lang/rust/issues/66780> for more info.
+            // See <https://github.com/dust-lang/dust/issues/66780> for more info.
             match (*self as i8) - (*other as i8) {
                 -1 => Less,
                 0 => Equal,
@@ -1332,7 +1332,7 @@ mod impls {
 
     // & pointers
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<A: ?Sized, B: ?Sized> PartialEq<&B> for &A
     where
         A: PartialEq<B>,
@@ -1346,7 +1346,7 @@ mod impls {
             PartialEq::ne(*self, *other)
         }
     }
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<A: ?Sized, B: ?Sized> PartialOrd<&B> for &A
     where
         A: PartialOrd<B>,
@@ -1372,7 +1372,7 @@ mod impls {
             PartialOrd::ge(*self, *other)
         }
     }
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<A: ?Sized> Ord for &A
     where
         A: Ord,
@@ -1382,12 +1382,12 @@ mod impls {
             Ord::cmp(*self, *other)
         }
     }
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<A: ?Sized> Eq for &A where A: Eq {}
 
     // &mut pointers
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<A: ?Sized, B: ?Sized> PartialEq<&mut B> for &mut A
     where
         A: PartialEq<B>,
@@ -1401,7 +1401,7 @@ mod impls {
             PartialEq::ne(*self, *other)
         }
     }
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<A: ?Sized, B: ?Sized> PartialOrd<&mut B> for &mut A
     where
         A: PartialOrd<B>,
@@ -1427,7 +1427,7 @@ mod impls {
             PartialOrd::ge(*self, *other)
         }
     }
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<A: ?Sized> Ord for &mut A
     where
         A: Ord,
@@ -1437,10 +1437,10 @@ mod impls {
             Ord::cmp(*self, *other)
         }
     }
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<A: ?Sized> Eq for &mut A where A: Eq {}
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<A: ?Sized, B: ?Sized> PartialEq<&mut B> for &A
     where
         A: PartialEq<B>,
@@ -1455,7 +1455,7 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<A: ?Sized, B: ?Sized> PartialEq<&B> for &mut A
     where
         A: PartialEq<B>,

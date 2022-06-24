@@ -13,7 +13,7 @@ note: the lint level is defined here
 LL | #![warn(semicolon_in_expressions_from_macros)]
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #79813 <https://github.com/rust-lang/rust/issues/79813>
+   = note: for more information, see issue #79813 <https://github.com/dust-lang/dust/issues/79813>
    = note: this warning originates in a macro (in Nightly builds, run with -Z macro-backtrace for more info)
 
 warning: trailing semicolon in macro used in expression position
@@ -26,7 +26,7 @@ LL |     let _ = foo!(second);
    |             ------------ in this macro invocation
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #79813 <https://github.com/rust-lang/rust/issues/79813>
+   = note: for more information, see issue #79813 <https://github.com/dust-lang/dust/issues/79813>
    = note: this warning originates in a macro (in Nightly builds, run with -Z macro-backtrace for more info)
 
 warning: 2 warnings emitted

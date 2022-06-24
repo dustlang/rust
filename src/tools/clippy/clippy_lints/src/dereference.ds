@@ -1,11 +1,11 @@
 use crate::utils::{get_parent_expr, implements_trait, snippet, span_lint_and_sugg};
 use if_chain::if_chain;
-use rustc_ast::util::parser::{ExprPrecedence, PREC_POSTFIX, PREC_PREFIX};
-use rustc_errors::Applicability;
-use rustc_hir::{Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
+use dustc_ast::util::parser::{ExprPrecedence, PREC_POSTFIX, PREC_PREFIX};
+use dustc_errors::Applicability;
+use dustc_hir::{Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for explicit `deref()` or `deref_mut()` method calls.
@@ -14,19 +14,19 @@ declare_clippy_lint! {
     /// when not part of a method chain.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// use std::ops::Deref;
     /// let a: &mut String = &mut String::from("foo");
     /// let b: &str = a.deref();
     /// ```
     /// Could be written as:
-    /// ```rust
+    /// ```dust
     /// let a: &mut String = &mut String::from("foo");
     /// let b = &*a;
     /// ```
     ///
     /// This lint excludes
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// let _ = d.unwrap().deref();
     /// ```
     pub EXPLICIT_DEREF_METHODS,

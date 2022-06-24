@@ -8,7 +8,7 @@
 //!   but one [`llvm::Type`] corresponds to many [`Ty`]s; for instance, `tup(int, int,
 //!   int)` and `rec(x=int, y=int, z=int)` will have the same [`llvm::Type`].
 //!
-//! [`Ty`]: rustc_middle::ty::Ty
+//! [`Ty`]: dustc_middle::ty::Ty
 //! [`val_ty`]: common::val_ty
 
 use super::ModuleLlvm;
@@ -21,19 +21,19 @@ use crate::llvm;
 use crate::metadata;
 use crate::value::Value;
 
-use rustc_codegen_ssa::base::maybe_create_entry_wrapper;
-use rustc_codegen_ssa::mono_item::MonoItemExt;
-use rustc_codegen_ssa::traits::*;
-use rustc_codegen_ssa::{ModuleCodegen, ModuleKind};
-use rustc_data_structures::small_c_str::SmallCStr;
-use rustc_middle::dep_graph;
-use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrs;
-use rustc_middle::middle::cstore::EncodedMetadata;
-use rustc_middle::middle::exported_symbols;
-use rustc_middle::mir::mono::{Linkage, Visibility};
-use rustc_middle::ty::TyCtxt;
-use rustc_session::config::{DebugInfo, SanitizerSet};
-use rustc_span::symbol::Symbol;
+use dustc_codegen_ssa::base::maybe_create_entry_wrapper;
+use dustc_codegen_ssa::mono_item::MonoItemExt;
+use dustc_codegen_ssa::traits::*;
+use dustc_codegen_ssa::{ModuleCodegen, ModuleKind};
+use dustc_data_structures::small_c_str::SmallCStr;
+use dustc_middle::dep_graph;
+use dustc_middle::middle::codegen_fn_attrs::CodegenFnAttrs;
+use dustc_middle::middle::cstore::EncodedMetadata;
+use dustc_middle::middle::exported_symbols;
+use dustc_middle::mir::mono::{Linkage, Visibility};
+use dustc_middle::ty::TyCtxt;
+use dustc_session::config::{DebugInfo, SanitizerSet};
+use dustc_span::symbol::Symbol;
 
 use std::ffi::CString;
 use std::time::Instant;

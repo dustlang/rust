@@ -5,36 +5,36 @@ version = 3
 [[package]]
 name = "anyhow"
 version = "1.0.38"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "afddf7f520a80dbf76e6f50a35bca42a2331ef227a28b3b6dc5c2e2338d114b1"
 
 [[package]]
 name = "ar"
 version = "0.8.0"
-source = "git+https://github.com/bjorn3/rust-ar.git?branch=do_not_remove_cg_clif_ranlib#de9ab0e56bf3a208381d342aa5b60f9ff2891648"
+source = "git+https://github.com/bjorn3/dust-ar.git?branch=do_not_remove_cg_clif_ranlib#de9ab0e56bf3a208381d342aa5b60f9ff2891648"
 
 [[package]]
 name = "autocfg"
 version = "1.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a"
 
 [[package]]
 name = "bitflags"
 version = "1.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
 
 [[package]]
 name = "byteorder"
 version = "1.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "ae44d1a3d5a19df61dd0c8beb138458ac2a53a7ac09eba97d55592540004306b"
 
 [[package]]
 name = "cfg-if"
 version = "1.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
@@ -148,7 +148,7 @@ dependencies = [
 [[package]]
 name = "crc32fast"
 version = "1.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "81156fece84ab6a9f2afdb109ce3ae577e42b1228441eded99bd77f627953b1a"
 dependencies = [
  "cfg-if",
@@ -157,7 +157,7 @@ dependencies = [
 [[package]]
 name = "errno"
 version = "0.2.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "fa68f2fb9cae9d37c9b2b3584aba698a2e97f72d7aef7b9f7aa71d8b54ce46fe"
 dependencies = [
  "errno-dragonfly",
@@ -168,7 +168,7 @@ dependencies = [
 [[package]]
 name = "errno-dragonfly"
 version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "14ca354e36190500e1e1fb267c647932382b54053c50b14970856c0b00a35067"
 dependencies = [
  "gcc",
@@ -178,13 +178,13 @@ dependencies = [
 [[package]]
 name = "gcc"
 version = "0.3.55"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "8f5f3913fa0bfe7ee1fd8248b6b9f42a5af4b9d65ec2dd2c3c26132b950ecfc2"
 
 [[package]]
 name = "gimli"
 version = "0.23.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "f6503fe142514ca4799d4c26297c4248239fe8838d827db6bd6065c6ed29a6ce"
 dependencies = [
  "indexmap",
@@ -193,13 +193,13 @@ dependencies = [
 [[package]]
 name = "hashbrown"
 version = "0.9.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "d7afe4a420e3fe79967a00898cc1f4db7c8a49a9333a29f8a4bd76a253d5cd04"
 
 [[package]]
 name = "indexmap"
 version = "1.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "4fb1fa934250de4de8aef298d81c729a7d33d8c239daa3a7575e6b92bfc7313b"
 dependencies = [
  "autocfg",
@@ -209,13 +209,13 @@ dependencies = [
 [[package]]
 name = "libc"
 version = "0.2.86"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "b7282d924be3275cec7f6756ff4121987bc6481325397dde6ba3e7802b1a8b1c"
 
 [[package]]
 name = "libloading"
 version = "0.6.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "351a32417a12d5f7e82c368a66781e307834dae04c6ce0cd4456d52989229883"
 dependencies = [
  "cfg-if",
@@ -225,7 +225,7 @@ dependencies = [
 [[package]]
 name = "log"
 version = "0.4.14"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "51b9bbe6c47d51fc3e1a9b945965946b4c44142ab8792c50835a980d362c2710"
 dependencies = [
  "cfg-if",
@@ -234,7 +234,7 @@ dependencies = [
 [[package]]
 name = "mach"
 version = "0.3.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "b823e83b2affd8f40a9ee8c29dbc56404c1e34cd2710921f2801e2cf29527afa"
 dependencies = [
  "libc",
@@ -243,7 +243,7 @@ dependencies = [
 [[package]]
 name = "object"
 version = "0.23.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "a9a7ab5d64814df0fe4a4b5ead45ed6c5f181ee3ff04ba344313a6c80446c5d4"
 dependencies = [
  "crc32fast",
@@ -253,7 +253,7 @@ dependencies = [
 [[package]]
 name = "proc-macro2"
 version = "1.0.24"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "1e0704ee1a7e00d7bb417d0770ea303c1bccbabf0ef1667dae92b5967f5f8a71"
 dependencies = [
  "unicode-xid",
@@ -262,7 +262,7 @@ dependencies = [
 [[package]]
 name = "quote"
 version = "1.0.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "c3d0b9745dc2debf507c8422de05d7226cc1f0644216dfdfead988f9b1ab32a7"
 dependencies = [
  "proc-macro2",
@@ -271,18 +271,18 @@ dependencies = [
 [[package]]
 name = "regalloc"
 version = "0.0.31"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "571f7f397d61c4755285cd37853fe8e03271c243424a907415909379659381c5"
 dependencies = [
  "log",
- "rustc-hash",
+ "dustc-hash",
  "smallvec",
 ]
 
 [[package]]
 name = "region"
 version = "2.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "877e54ea2adcd70d80e9179344c97f93ef0dffd6b03e1f4529e6e83ab2fa9ae0"
 dependencies = [
  "bitflags",
@@ -292,13 +292,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "rustc-hash"
+name = "dustc-hash"
 version = "1.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
 
 [[package]]
-name = "rustc_codegen_cranelift"
+name = "dustc_codegen_cranelift"
 version = "0.1.0"
 dependencies = [
  "ar",
@@ -318,13 +318,13 @@ dependencies = [
 [[package]]
 name = "smallvec"
 version = "1.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "fe0f37c9e8f3c5a4a66ad655a93c74daac4ad00c441533bf5c6e7990bb42604e"
 
 [[package]]
 name = "syn"
 version = "1.0.60"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "c700597eca8a5a762beb35753ef6b94df201c81cca676604f547495a0d7f0081"
 dependencies = [
  "proc-macro2",
@@ -335,13 +335,13 @@ dependencies = [
 [[package]]
 name = "target-lexicon"
 version = "0.11.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "422045212ea98508ae3d28025bc5aaa2bd4a9cdaecd442a08da2ee620ee9ea95"
 
 [[package]]
 name = "thiserror"
 version = "1.0.24"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "e0f4a65597094d4483ddaed134f409b2cb7c1beccf25201a9f73c719254fa98e"
 dependencies = [
  "thiserror-impl",
@@ -350,7 +350,7 @@ dependencies = [
 [[package]]
 name = "thiserror-impl"
 version = "1.0.24"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "7765189610d8241a44529806d6fd1f2e0a08734313a35d5b3a556f92b381f3c0"
 dependencies = [
  "proc-macro2",
@@ -361,13 +361,13 @@ dependencies = [
 [[package]]
 name = "unicode-xid"
 version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "f7fe0bb3479651439c9112f72b6c505038574c9fbb575ed1bf3b797fa39dd564"
 
 [[package]]
 name = "winapi"
 version = "0.3.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
 dependencies = [
  "winapi-i686-pc-windows-gnu",
@@ -377,11 +377,11 @@ dependencies = [
 [[package]]
 name = "winapi-i686-pc-windows-gnu"
 version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
 
 [[package]]
 name = "winapi-x86_64-pc-windows-gnu"
 version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+source = "registry+https://github.com/dust-lang/crates.io-index"
 checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"

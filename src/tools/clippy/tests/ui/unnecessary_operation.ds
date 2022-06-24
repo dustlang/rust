@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![feature(box_syntax)]
 #![allow(clippy::deref_addrof, dead_code, unused, clippy::no_effect)]

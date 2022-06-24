@@ -5,7 +5,7 @@ LL | #![feature(impl_trait_in_bindings)]
    |            ^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63065 <https://github.com/rust-lang/rust/issues/63065> for more information
+   = note: see issue #63065 <https://github.com/dust-lang/dust/issues/63065> for more information
 
 error[E0719]: the value of the associated type `Item` (from trait `Iterator`) is already specified
   --> $DIR/duplicate.rs:13:36
@@ -561,4 +561,4 @@ LL | trait TRA3 { type A: Iterator<Item: 'static, Item: 'static>; }
 
 error: aborting due to 69 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0719`.
+For more information about this error, try `dustc --explain E0719`.

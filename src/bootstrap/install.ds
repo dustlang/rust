@@ -29,7 +29,7 @@ fn install_sh(
     let prefix = default_path(&builder.config.prefix, "/usr/local");
     let sysconfdir = prefix.join(default_path(&builder.config.sysconfdir, "/etc"));
     let datadir = prefix.join(default_path(&builder.config.datadir, "share"));
-    let docdir = prefix.join(default_path(&builder.config.docdir, "share/doc/rust"));
+    let docdir = prefix.join(default_path(&builder.config.docdir, "share/doc/dust"));
     let mandir = prefix.join(default_path(&builder.config.mandir, "share/man"));
     let libdir = prefix.join(default_path(&builder.config.libdir, "lib"));
     let bindir = prefix.join(&builder.config.bindir); // Default in config.rs
@@ -159,11 +159,11 @@ install!((self, builder, _config),
             );
         }
     };
-    RustAnalyzer, "rust-analyzer", Self::should_build(_config), only_hosts: true, {
+    DustAnalyzer, "dust-analyzer", Self::should_build(_config), only_hosts: true, {
         let tarball = builder
-            .ensure(dist::RustAnalyzer { compiler: self.compiler, target: self.target })
-            .expect("missing rust-analyzer");
-        install_sh(builder, "rust-analyzer", self.compiler.stage, Some(self.target), &tarball);
+            .ensure(dist::DustAnalyzer { compiler: self.compiler, target: self.target })
+            .expect("missing dust-analyzer");
+        install_sh(builder, "dust-analyzer", self.compiler.stage, Some(self.target), &tarball);
     };
     Clippy, "clippy", Self::should_build(_config), only_hosts: true, {
         let tarball = builder.ensure(dist::Clippy { compiler: self.compiler, target: self.target });
@@ -178,15 +178,15 @@ install!((self, builder, _config),
             );
         }
     };
-    Rustfmt, "rustfmt", Self::should_build(_config), only_hosts: true, {
-        if let Some(tarball) = builder.ensure(dist::Rustfmt {
+    Dustfmt, "dustfmt", Self::should_build(_config), only_hosts: true, {
+        if let Some(tarball) = builder.ensure(dist::Dustfmt {
             compiler: self.compiler,
             target: self.target
         }) {
-            install_sh(builder, "rustfmt", self.compiler.stage, Some(self.target), &tarball);
+            install_sh(builder, "dustfmt", self.compiler.stage, Some(self.target), &tarball);
         } else {
             builder.info(
-                &format!("skipping Install Rustfmt stage{} ({})", self.compiler.stage, self.target),
+                &format!("skipping Install Dustfmt stage{} ({})", self.compiler.stage, self.target),
             );
         }
     };
@@ -200,11 +200,11 @@ install!((self, builder, _config),
         }).expect("missing analysis");
         install_sh(builder, "analysis", self.compiler.stage, Some(self.target), &tarball);
     };
-    Rustc, "src/librustc", true, only_hosts: true, {
-        let tarball = builder.ensure(dist::Rustc {
+    Dustc, "src/libdustc", true, only_hosts: true, {
+        let tarball = builder.ensure(dist::Dustc {
             compiler: builder.compiler(builder.top_stage, self.target),
         });
-        install_sh(builder, "rustc", self.compiler.stage, Some(self.target), &tarball);
+        install_sh(builder, "dustc", self.compiler.stage, Some(self.target), &tarball);
     };
 );
 

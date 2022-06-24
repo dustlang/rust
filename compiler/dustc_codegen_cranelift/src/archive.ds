@@ -4,9 +4,9 @@ use std::collections::BTreeMap;
 use std::fs::File;
 use std::path::{Path, PathBuf};
 
-use rustc_codegen_ssa::back::archive::{find_library, ArchiveBuilder};
-use rustc_codegen_ssa::METADATA_FILENAME;
-use rustc_session::Session;
+use dustc_codegen_ssa::back::archive::{find_library, ArchiveBuilder};
+use dustc_codegen_ssa::METADATA_FILENAME;
+use dustc_session::Session;
 
 use object::{Object, ObjectSymbol, SymbolKind};
 
@@ -24,14 +24,14 @@ pub(crate) struct ArArchiveBuilder<'a> {
     no_builtin_ranlib: bool,
 
     src_archives: Vec<(PathBuf, ar::Archive<File>)>,
-    // Don't use `HashMap` here, as the order is important. `rust.metadata.bin` must always be at
+    // Don't use `HashMap` here, as the order is important. `dust.metadata.bin` must always be at
     // the end of an archive for linkers to not get confused.
     entries: Vec<(String, ArchiveEntry)>,
 }
 
 impl<'a> ArchiveBuilder<'a> for ArArchiveBuilder<'a> {
     fn new(sess: &'a Session, output: &Path, input: Option<&Path>) -> Self {
-        use rustc_codegen_ssa::back::link::archive_search_paths;
+        use dustc_codegen_ssa::back::link::archive_search_paths;
 
         let (src_archives, entries) = if let Some(input) = input {
             let mut archive = ar::Archive::new(File::open(input).unwrap());
@@ -85,7 +85,7 @@ impl<'a> ArchiveBuilder<'a> for ArArchiveBuilder<'a> {
         ));
     }
 
-    fn add_native_library(&mut self, name: rustc_span::symbol::Symbol) {
+    fn add_native_library(&mut self, name: dustc_span::symbol::Symbol) {
         let location = find_library(name, &self.lib_search_paths, self.sess);
         self.add_archive(location.clone(), |_| false).unwrap_or_else(|e| {
             panic!("failed to add native library {}: {}", location.to_string_lossy(), e);
@@ -107,12 +107,12 @@ impl<'a> ArchiveBuilder<'a> for ArArchiveBuilder<'a> {
                 return true;
             }
 
-            // Don't include Rust objects if LTO is enabled
+            // Don't include Dust objects if LTO is enabled
             if lto && fname.starts_with(&obj_start) && fname.ends_with(".o") {
                 return true;
             }
 
-            // Otherwise if this is *not* a rust object and we're skipping
+            // Otherwise if this is *not* a dust object and we're skipping
             // objects then skip this file
             if skip_objects && (!fname.starts_with(&obj_start) || !fname.ends_with(".o")) {
                 return true;

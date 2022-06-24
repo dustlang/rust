@@ -6,7 +6,7 @@
 //!
 //! [`std::slice`]: ../../std/slice/index.html
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 use crate::cmp::Ordering::{self, Greater, Less};
 use crate::marker::Copy;
@@ -25,7 +25,7 @@ use crate::slice;
     issue = "none",
     reason = "exposed from core to be reused in std; use the memchr crate"
 )]
-/// Pure rust memchr implementation, taken from rust-memchr
+/// Pure dust memchr implementation, taken from dust-memchr
 pub mod memchr;
 
 mod ascii;
@@ -37,11 +37,11 @@ mod rotate;
 mod sort;
 mod specialize;
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use iter::{Chunks, ChunksMut, Windows};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use iter::{Iter, IterMut};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use iter::{RSplitN, RSplitNMut, Split, SplitMut, SplitN, SplitNMut};
 
 #[stable(feature = "slice_rsplit", since = "1.27.0")]
@@ -65,7 +65,7 @@ pub use iter::{GroupBy, GroupByMut};
 #[stable(feature = "split_inclusive", since = "1.51.0")]
 pub use iter::{SplitInclusive, SplitInclusiveMut};
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use raw::{from_raw_parts, from_raw_parts_mut};
 
 #[stable(feature = "from_ref", since = "1.28.0")]
@@ -93,17 +93,17 @@ impl<T> [T] {
     /// assert_eq!(a.len(), 3);
     /// ```
     #[doc(alias = "length")]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_const_stable(feature = "const_slice_len", since = "1.32.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "const_slice_len", since = "1.32.0")]
     #[inline]
     // SAFETY: const sound because we transmute out the length field as a usize (which it must be)
-    #[rustc_allow_const_fn_unstable(const_fn_union)]
+    #[dustc_allow_const_fn_unstable(const_fn_union)]
     pub const fn len(&self) -> usize {
         #[cfg(bootstrap)]
         {
             // SAFETY: this is safe because `&[T]` and `FatPtr<T>` have the same layout.
             // Only `std` can make this guarantee.
-            unsafe { crate::ptr::Repr { rust: self }.raw.len }
+            unsafe { crate::ptr::Repr { dust: self }.raw.len }
         }
         #[cfg(not(bootstrap))]
         {
@@ -126,8 +126,8 @@ impl<T> [T] {
     /// let a = [1, 2, 3];
     /// assert!(!a.is_empty());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_const_stable(feature = "const_slice_is_empty", since = "1.32.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "const_slice_is_empty", since = "1.32.0")]
     #[inline]
     pub const fn is_empty(&self) -> bool {
         self.len() == 0
@@ -144,7 +144,7 @@ impl<T> [T] {
     /// let w: &[i32] = &[];
     /// assert_eq!(None, w.first());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn first(&self) -> Option<&T> {
         if let [first, ..] = self { Some(first) } else { None }
@@ -162,7 +162,7 @@ impl<T> [T] {
     /// }
     /// assert_eq!(x, &[5, 1, 2]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn first_mut(&mut self) -> Option<&mut T> {
         if let [first, ..] = self { Some(first) } else { None }
@@ -255,7 +255,7 @@ impl<T> [T] {
     /// let w: &[i32] = &[];
     /// assert_eq!(None, w.last());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn last(&self) -> Option<&T> {
         if let [.., last] = self { Some(last) } else { None }
@@ -273,7 +273,7 @@ impl<T> [T] {
     /// }
     /// assert_eq!(x, &[0, 1, 10]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn last_mut(&mut self) -> Option<&mut T> {
         if let [.., last] = self { Some(last) } else { None }
@@ -296,7 +296,7 @@ impl<T> [T] {
     /// assert_eq!(None, v.get(3));
     /// assert_eq!(None, v.get(0..4));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn get<I>(&self, index: I) -> Option<&I::Output>
     where
@@ -320,7 +320,7 @@ impl<T> [T] {
     /// }
     /// assert_eq!(x, &[0, 42, 2]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn get_mut<I>(&mut self, index: I) -> Option<&mut I::Output>
     where
@@ -340,7 +340,7 @@ impl<T> [T] {
     /// even if the resulting reference is not used.
     ///
     /// [`get`]: slice::get
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///
@@ -351,7 +351,7 @@ impl<T> [T] {
     ///     assert_eq!(x.get_unchecked(1), &2);
     /// }
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub unsafe fn get_unchecked<I>(&self, index: I) -> &I::Output
     where
@@ -374,7 +374,7 @@ impl<T> [T] {
     /// even if the resulting reference is not used.
     ///
     /// [`get_mut`]: slice::get_mut
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///
@@ -387,7 +387,7 @@ impl<T> [T] {
     /// }
     /// assert_eq!(x, &[1, 13, 4]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub unsafe fn get_unchecked_mut<I>(&mut self, index: I) -> &mut I::Output
     where
@@ -425,8 +425,8 @@ impl<T> [T] {
     /// ```
     ///
     /// [`as_mut_ptr`]: slice::as_mut_ptr
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_const_stable(feature = "const_slice_as_ptr", since = "1.32.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "const_slice_as_ptr", since = "1.32.0")]
     #[inline]
     pub const fn as_ptr(&self) -> *const T {
         self as *const [T] as *const T
@@ -453,8 +453,8 @@ impl<T> [T] {
     /// }
     /// assert_eq!(x, &[3, 4, 6]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
     #[inline]
     pub const fn as_mut_ptr(&mut self) -> *mut T {
         self as *mut [T] as *mut T
@@ -489,7 +489,7 @@ impl<T> [T] {
     ///
     /// [`as_ptr`]: slice::as_ptr
     #[stable(feature = "slice_ptr_range", since = "1.48.0")]
-    #[rustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
+    #[dustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
     #[inline]
     pub const fn as_ptr_range(&self) -> Range<*const T> {
         let start = self.as_ptr();
@@ -500,9 +500,9 @@ impl<T> [T] {
         //
         //   - The size of the slice is never larger than isize::MAX bytes, as
         //     noted here:
-        //       - https://github.com/rust-lang/unsafe-code-guidelines/issues/102#issuecomment-473340447
-        //       - https://doc.rust-lang.org/reference/behavior-considered-undefined.html
-        //       - https://doc.rust-lang.org/core/slice/fn.from_raw_parts.html#safety
+        //       - https://github.com/dust-lang/unsafe-code-guidelines/issues/102#issuecomment-473340447
+        //       - https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+        //       - https://doc.dust-lang.org/core/slice/fn.from_raw_parts.html#safety
         //     (This doesn't seem normative yet, but the very same assumption is
         //     made in many places, including the Index implementation of slices.)
         //
@@ -531,7 +531,7 @@ impl<T> [T] {
     ///
     /// [`as_mut_ptr`]: slice::as_mut_ptr
     #[stable(feature = "slice_ptr_range", since = "1.48.0")]
-    #[rustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
+    #[dustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
     #[inline]
     pub const fn as_mut_ptr_range(&mut self) -> Range<*mut T> {
         let start = self.as_mut_ptr();
@@ -558,7 +558,7 @@ impl<T> [T] {
     /// v.swap(1, 3);
     /// assert!(v == ["a", "d", "c", "b"]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn swap(&mut self, a: usize, b: usize) {
         // Can't take two mutable loans from one vector, so instead use raw pointers.
@@ -582,7 +582,7 @@ impl<T> [T] {
     /// v.reverse();
     /// assert!(v == [3, 2, 1]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn reverse(&mut self) {
         let mut i: usize = 0;
@@ -699,7 +699,7 @@ impl<T> [T] {
     /// assert_eq!(iterator.next(), Some(&4));
     /// assert_eq!(iterator.next(), None);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn iter(&self) -> Iter<'_, T> {
         Iter::new(self)
@@ -716,7 +716,7 @@ impl<T> [T] {
     /// }
     /// assert_eq!(x, &[3, 4, 6]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn iter_mut(&mut self) -> IterMut<'_, T> {
         IterMut::new(self)
@@ -748,7 +748,7 @@ impl<T> [T] {
     /// let mut iter = slice.windows(4);
     /// assert!(iter.next().is_none());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn windows(&self, size: usize) -> Windows<'_, T> {
         let size = NonZeroUsize::new(size).expect("size is zero");
@@ -782,7 +782,7 @@ impl<T> [T] {
     ///
     /// [`chunks_exact`]: slice::chunks_exact
     /// [`rchunks`]: slice::rchunks
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn chunks(&self, chunk_size: usize) -> Chunks<'_, T> {
         assert_ne!(chunk_size, 0);
@@ -820,7 +820,7 @@ impl<T> [T] {
     ///
     /// [`chunks_exact_mut`]: slice::chunks_exact_mut
     /// [`rchunks_mut`]: slice::rchunks_mut
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn chunks_mut(&mut self, chunk_size: usize) -> ChunksMut<'_, T> {
         assert_ne!(chunk_size, 0);
@@ -1499,7 +1499,7 @@ impl<T> [T] {
     ///     assert_eq!(right, []);
     /// }
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn split_at(&self, mid: usize) -> (&[T], &[T]) {
         assert!(mid <= self.len());
@@ -1529,7 +1529,7 @@ impl<T> [T] {
     /// right[1] = 4;
     /// assert_eq!(v, [1, 2, 3, 4, 5, 6]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn split_at_mut(&mut self, mid: usize) -> (&mut [T], &mut [T]) {
         assert!(mid <= self.len());
@@ -1553,7 +1553,7 @@ impl<T> [T] {
     /// `0 <= mid <= self.len()`.
     ///
     /// [`split_at`]: slice::split_at
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///
@@ -1602,7 +1602,7 @@ impl<T> [T] {
     /// `0 <= mid <= self.len()`.
     ///
     /// [`split_at_mut`]: slice::split_at_mut
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///
@@ -1673,7 +1673,7 @@ impl<T> [T] {
     /// assert_eq!(iter.next().unwrap(), &[20]);
     /// assert!(iter.next().is_none());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn split<F>(&self, pred: F) -> Split<'_, T, F>
     where
@@ -1695,7 +1695,7 @@ impl<T> [T] {
     /// }
     /// assert_eq!(v, [1, 40, 30, 1, 60, 1]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn split_mut<F>(&mut self, pred: F) -> SplitMut<'_, T, F>
     where
@@ -1845,7 +1845,7 @@ impl<T> [T] {
     ///     println!("{:?}", group);
     /// }
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn splitn<F>(&self, n: usize, pred: F) -> SplitN<'_, T, F>
     where
@@ -1871,7 +1871,7 @@ impl<T> [T] {
     /// }
     /// assert_eq!(v, [1, 40, 30, 1, 60, 50]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn splitn_mut<F>(&mut self, n: usize, pred: F) -> SplitNMut<'_, T, F>
     where
@@ -1900,7 +1900,7 @@ impl<T> [T] {
     ///     println!("{:?}", group);
     /// }
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn rsplitn<F>(&self, n: usize, pred: F) -> RSplitN<'_, T, F>
     where
@@ -1927,7 +1927,7 @@ impl<T> [T] {
     /// }
     /// assert_eq!(s, [1, 40, 30, 20, 60, 1]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn rsplitn_mut<F>(&mut self, n: usize, pred: F) -> RSplitNMut<'_, T, F>
     where
@@ -1954,7 +1954,7 @@ impl<T> [T] {
     /// assert!(v.iter().any(|e| e == "hello")); // search with `&str`
     /// assert!(!v.iter().any(|e| e == "hi"));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn contains(&self, x: &T) -> bool
     where
@@ -1983,7 +1983,7 @@ impl<T> [T] {
     /// let v: &[u8] = &[];
     /// assert!(v.starts_with(&[]));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn starts_with(&self, needle: &[T]) -> bool
     where
         T: PartialEq,
@@ -2012,7 +2012,7 @@ impl<T> [T] {
     /// let v: &[u8] = &[];
     /// assert!(v.ends_with(&[]));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn ends_with(&self, needle: &[T]) -> bool
     where
         T: PartialEq,
@@ -2133,7 +2133,7 @@ impl<T> [T] {
     /// s.insert(idx, num);
     /// assert_eq!(s, [0, 1, 1, 1, 1, 2, 3, 5, 8, 13, 21, 34, 42, 55]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn binary_search(&self, x: &T) -> Result<usize, usize>
     where
         T: Ord,
@@ -2179,7 +2179,7 @@ impl<T> [T] {
     /// let r = s.binary_search_by(|probe| probe.cmp(&seek));
     /// assert!(match r { Ok(1..=4) => true, _ => false, });
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn binary_search_by<'a, F>(&'a self, mut f: F) -> Result<usize, usize>
     where
@@ -2198,7 +2198,7 @@ impl<T> [T] {
 
             // The reason why we use if/else control flow rather than match
             // is because match reorders comparison operations, which is perf sensitive.
-            // This is x86 asm for u8: https://rust.godbolt.org/z/8Y8Pra.
+            // This is x86 asm for u8: https://dust.godbolt.org/z/8Y8Pra.
             if cmp == Less {
                 left = mid + 1;
             } else if cmp == Greater {
@@ -2248,11 +2248,11 @@ impl<T> [T] {
     /// let r = s.binary_search_by_key(&1, |&(a, b)| b);
     /// assert!(match r { Ok(1..=4) => true, _ => false, });
     /// ```
-    // Lint rustdoc::broken_intra_doc_links is allowed as `slice::sort_by_key` is
+    // Lint dustdoc::broken_intra_doc_links is allowed as `slice::sort_by_key` is
     // in crate `alloc`, and as such doesn't exists yet when building `core`.
     // links to downstream crate: #74481. Since primitives are only documented in
     // libstd (#73423), this never leads to broken links in practice.
-    #[cfg_attr(not(bootstrap), allow(rustdoc::broken_intra_doc_links))]
+    #[cfg_attr(not(bootstrap), allow(dustdoc::broken_intra_doc_links))]
     #[cfg_attr(bootstrap, allow(broken_intra_doc_links))]
     #[stable(feature = "slice_binary_search_by_key", since = "1.10.0")]
     #[inline]
@@ -2395,7 +2395,7 @@ impl<T> [T] {
 
     /// Reorder the slice such that the element at `index` is at its final sorted position.
     #[unstable(feature = "slice_partition_at_index", issue = "55300")]
-    #[rustc_deprecated(since = "1.49.0", reason = "use the select_nth_unstable() instead")]
+    #[dustc_deprecated(since = "1.49.0", reason = "use the select_nth_unstable() instead")]
     #[inline]
     pub fn partition_at_index(&mut self, index: usize) -> (&mut [T], &mut T, &mut [T])
     where
@@ -2407,7 +2407,7 @@ impl<T> [T] {
     /// Reorder the slice with a comparator function such that the element at `index` is at its
     /// final sorted position.
     #[unstable(feature = "slice_partition_at_index", issue = "55300")]
-    #[rustc_deprecated(since = "1.49.0", reason = "use select_nth_unstable_by() instead")]
+    #[dustc_deprecated(since = "1.49.0", reason = "use select_nth_unstable_by() instead")]
     #[inline]
     pub fn partition_at_index_by<F>(
         &mut self,
@@ -2423,7 +2423,7 @@ impl<T> [T] {
     /// Reorder the slice with a key extraction function such that the element at `index` is at its
     /// final sorted position.
     #[unstable(feature = "slice_partition_at_index", issue = "55300")]
-    #[rustc_deprecated(since = "1.49.0", reason = "use the select_nth_unstable_by_key() instead")]
+    #[dustc_deprecated(since = "1.49.0", reason = "use the select_nth_unstable_by_key() instead")]
     #[inline]
     pub fn partition_at_index_by_key<K, F>(
         &mut self,
@@ -2937,7 +2937,7 @@ impl<T> [T] {
     /// assert_eq!(dst, [3, 4]);
     /// ```
     ///
-    /// Rust enforces that there can only be one mutable reference with no
+    /// Dust enforces that there can only be one mutable reference with no
     /// immutable references to a particular piece of data in a particular
     /// scope. Because of this, attempting to use `clone_from_slice` on a
     /// single slice will result in a compile failure:
@@ -2999,7 +2999,7 @@ impl<T> [T] {
     /// assert_eq!(dst, [3, 4]);
     /// ```
     ///
-    /// Rust enforces that there can only be one mutable reference with no
+    /// Dust enforces that there can only be one mutable reference with no
     /// immutable references to a particular piece of data in a particular
     /// scope. Because of this, attempting to use `copy_from_slice` on a
     /// single slice will result in a compile failure:
@@ -3118,7 +3118,7 @@ impl<T> [T] {
     /// assert_eq!(slice2, [1, 2, 0, 0]);
     /// ```
     ///
-    /// Rust enforces that there can only be one mutable reference to a
+    /// Dust enforces that there can only be one mutable reference to a
     /// particular piece of data in a particular scope. Because of this,
     /// attempting to use `swap_with_slice` on a single slice will result in
     /// a compile failure:
@@ -3508,7 +3508,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> Default for &[T] {
     /// Creates an empty slice.
     fn default() -> Self {

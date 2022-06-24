@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(core_intrinsics)]
 #![feature(crate_visibility_modifier)]
 #![feature(drain_filter)]
@@ -16,11 +16,11 @@
 extern crate proc_macro;
 
 #[macro_use]
-extern crate rustc_macros;
+extern crate dustc_macros;
 #[macro_use]
-extern crate rustc_middle;
+extern crate dustc_middle;
 #[macro_use]
-extern crate rustc_data_structures;
+extern crate dustc_data_structures;
 
 pub use rmeta::{provide, provide_extern};
 

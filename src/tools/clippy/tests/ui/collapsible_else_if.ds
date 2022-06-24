@@ -1,7 +1,7 @@
-// run-rustfix
+// run-dustfix
 #![allow(clippy::assertions_on_constants)]
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 #[warn(clippy::collapsible_if)]
 #[warn(clippy::collapsible_else_if)]
 

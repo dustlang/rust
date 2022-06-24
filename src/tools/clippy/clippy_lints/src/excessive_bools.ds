@@ -1,10 +1,10 @@
 use crate::utils::{attr_by_name, in_macro, match_path_ast, span_lint_and_help};
-use rustc_ast::ast::{
+use dustc_ast::ast::{
     AssocItemKind, Extern, FnKind, FnSig, ImplKind, Item, ItemKind, TraitKind, Ty, TyKind,
 };
-use rustc_lint::{EarlyContext, EarlyLintPass};
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::Span;
+use dustc_lint::{EarlyContext, EarlyLintPass};
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::Span;
 
 use std::convert::TryInto;
 
@@ -23,7 +23,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// Bad:
-    /// ```rust
+    /// ```dust
     /// struct S {
     ///     is_pending: bool,
     ///     is_processing: bool,
@@ -32,7 +32,7 @@ declare_clippy_lint! {
     /// ```
     ///
     /// Good:
-    /// ```rust
+    /// ```dust
     /// enum S {
     ///     Pending,
     ///     Processing,
@@ -59,12 +59,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// Bad:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// fn f(is_round: bool, is_hot: bool) { ... }
     /// ```
     ///
     /// Good:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// enum Shape {
     ///     Round,
     ///     Spiky,

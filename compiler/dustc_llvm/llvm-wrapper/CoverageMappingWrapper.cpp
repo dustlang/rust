@@ -8,7 +8,7 @@
 
 using namespace llvm;
 
-struct LLVMRustCounterMappingRegion {
+struct LLVMDustCounterMappingRegion {
   coverage::Counter Count;
   uint32_t FileID;
   uint32_t ExpandedFileID;
@@ -19,32 +19,32 @@ struct LLVMRustCounterMappingRegion {
   coverage::CounterMappingRegion::RegionKind Kind;
 };
 
-extern "C" void LLVMRustCoverageWriteFilenamesSectionToBuffer(
+extern "C" void LLVMDustCoverageWriteFilenamesSectionToBuffer(
     const char* const Filenames[],
     size_t FilenamesLen,
-    RustStringRef BufferOut) {
+    DustStringRef BufferOut) {
   SmallVector<StringRef,32> FilenameRefs;
   for (size_t i = 0; i < FilenamesLen; i++) {
     FilenameRefs.push_back(StringRef(Filenames[i]));
   }
   auto FilenamesWriter = coverage::CoverageFilenamesSectionWriter(
     makeArrayRef(FilenameRefs));
-  RawRustStringOstream OS(BufferOut);
+  RawDustStringOstream OS(BufferOut);
   FilenamesWriter.write(OS);
 }
 
-extern "C" void LLVMRustCoverageWriteMappingToBuffer(
+extern "C" void LLVMDustCoverageWriteMappingToBuffer(
     const unsigned *VirtualFileMappingIDs,
     unsigned NumVirtualFileMappingIDs,
     const coverage::CounterExpression *Expressions,
     unsigned NumExpressions,
-    LLVMRustCounterMappingRegion *RustMappingRegions,
+    LLVMDustCounterMappingRegion *DustMappingRegions,
     unsigned NumMappingRegions,
-    RustStringRef BufferOut) {
+    DustStringRef BufferOut) {
   // Convert from FFI representation to LLVM representation.
   SmallVector<coverage::CounterMappingRegion, 0> MappingRegions;
   MappingRegions.reserve(NumMappingRegions);
-  for (const auto &Region : makeArrayRef(RustMappingRegions, NumMappingRegions)) {
+  for (const auto &Region : makeArrayRef(DustMappingRegions, NumMappingRegions)) {
     MappingRegions.emplace_back(
         Region.Count, Region.FileID, Region.ExpandedFileID,
         Region.LineStart, Region.ColumnStart, Region.LineEnd, Region.ColumnEnd,
@@ -54,21 +54,21 @@ extern "C" void LLVMRustCoverageWriteMappingToBuffer(
       makeArrayRef(VirtualFileMappingIDs, NumVirtualFileMappingIDs),
       makeArrayRef(Expressions, NumExpressions),
       MappingRegions);
-  RawRustStringOstream OS(BufferOut);
+  RawDustStringOstream OS(BufferOut);
   CoverageMappingWriter.write(OS);
 }
 
-extern "C" LLVMValueRef LLVMRustCoverageCreatePGOFuncNameVar(LLVMValueRef F, const char *FuncName) {
+extern "C" LLVMValueRef LLVMDustCoverageCreatePGOFuncNameVar(LLVMValueRef F, const char *FuncName) {
   StringRef FuncNameRef(FuncName);
   return wrap(createPGOFuncNameVar(*cast<Function>(unwrap(F)), FuncNameRef));
 }
 
-extern "C" uint64_t LLVMRustCoverageHashCString(const char *StrVal) {
+extern "C" uint64_t LLVMDustCoverageHashCString(const char *StrVal) {
   StringRef StrRef(StrVal);
   return IndexedInstrProf::ComputeHash(StrRef);
 }
 
-extern "C" uint64_t LLVMRustCoverageHashByteArray(
+extern "C" uint64_t LLVMDustCoverageHashByteArray(
     const char *Bytes,
     unsigned NumBytes) {
   StringRef StrRef(Bytes, NumBytes);
@@ -77,33 +77,33 @@ extern "C" uint64_t LLVMRustCoverageHashByteArray(
 
 static void WriteSectionNameToString(LLVMModuleRef M,
                                      InstrProfSectKind SK,
-                                     RustStringRef Str) {
+                                     DustStringRef Str) {
   Triple TargetTriple(unwrap(M)->getTargetTriple());
   auto name = getInstrProfSectionName(SK, TargetTriple.getObjectFormat());
-  RawRustStringOstream OS(Str);
+  RawDustStringOstream OS(Str);
   OS << name;
 }
 
-extern "C" void LLVMRustCoverageWriteMapSectionNameToString(LLVMModuleRef M,
-                                                            RustStringRef Str) {
+extern "C" void LLVMDustCoverageWriteMapSectionNameToString(LLVMModuleRef M,
+                                                            DustStringRef Str) {
   WriteSectionNameToString(M, IPSK_covmap, Str);
 }
 
-extern "C" void LLVMRustCoverageWriteFuncSectionNameToString(LLVMModuleRef M,
-                                                             RustStringRef Str) {
+extern "C" void LLVMDustCoverageWriteFuncSectionNameToString(LLVMModuleRef M,
+                                                             DustStringRef Str) {
 #if LLVM_VERSION_GE(11, 0)
   WriteSectionNameToString(M, IPSK_covfun, Str);
-// else do nothing; the `Version` check will abort codegen on the Rust side
+// else do nothing; the `Version` check will abort codegen on the Dust side
 #endif
 }
 
-extern "C" void LLVMRustCoverageWriteMappingVarNameToString(RustStringRef Str) {
+extern "C" void LLVMDustCoverageWriteMappingVarNameToString(DustStringRef Str) {
   auto name = getCoverageMappingVarName();
-  RawRustStringOstream OS(Str);
+  RawDustStringOstream OS(Str);
   OS << name;
 }
 
-extern "C" uint32_t LLVMRustCoverageMappingVersion() {
+extern "C" uint32_t LLVMDustCoverageMappingVersion() {
 #if LLVM_VERSION_GE(11, 0)
   return coverage::CovMapVersion::Version4;
 #else

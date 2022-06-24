@@ -6,7 +6,7 @@ LL |     #[inline = "2100"] fn f() { }
    |
    = note: `#[deny(ill_formed_attribute_input)]` on by default
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #57571 <https://github.com/rust-lang/rust/issues/57571>
+   = note: for more information, see issue #57571 <https://github.com/dust-lang/dust/issues/57571>
 
 error: `main` attribute can only be used on functions
   --> $DIR/issue-43106-gating-of-builtin-attrs-error.rs:110:1
@@ -247,4 +247,4 @@ LL |     #[export_name = "2200"] impl S { }
 
 error: aborting due to 36 previous errors
 
-For more information about this error, try `rustc --explain E0518`.
+For more information about this error, try `dustc --explain E0518`.

@@ -1,4 +1,4 @@
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 // revisions: good bad
 
@@ -20,8 +20,8 @@ fn foo<U, T>(_t: T)
     where for<'a> &'a T: Mirror<Image=&'a U>
 {}
 
-#[rustc_error]
-fn main() { //[good]~ ERROR fatal error triggered by #[rustc_error]
+#[dustc_error]
+fn main() { //[good]~ ERROR fatal error triggered by #[dustc_error]
     foo(());
     //[bad]~^ ERROR mismatched types
 }

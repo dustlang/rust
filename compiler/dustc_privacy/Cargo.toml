@@ -1,17 +1,17 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_privacy"
+name = "dustc_privacy"
 version = "0.0.0"
 edition = "2018"
 
 [dependencies]
-rustc_middle = { path = "../rustc_middle" }
-rustc_attr = { path = "../rustc_attr" }
-rustc_errors = { path = "../rustc_errors" }
-rustc_hir = { path = "../rustc_hir" }
-rustc_typeck = { path = "../rustc_typeck" }
-rustc_session = { path = "../rustc_session" }
-rustc_span = { path = "../rustc_span" }
-rustc_data_structures = { path = "../rustc_data_structures" }
-rustc_trait_selection = { path = "../rustc_trait_selection" }
+dustc_middle = { path = "../dustc_middle" }
+dustc_attr = { path = "../dustc_attr" }
+dustc_errors = { path = "../dustc_errors" }
+dustc_hir = { path = "../dustc_hir" }
+dustc_typeck = { path = "../dustc_typeck" }
+dustc_session = { path = "../dustc_session" }
+dustc_span = { path = "../dustc_span" }
+dustc_data_structures = { path = "../dustc_data_structures" }
+dustc_trait_selection = { path = "../dustc_trait_selection" }
 tracing = "0.1"

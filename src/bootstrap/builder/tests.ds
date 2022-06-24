@@ -10,11 +10,11 @@ fn configure(cmd: &str, host: &[&str], target: &[&str]) -> Config {
     config.ninja_in_file = false;
     // try to avoid spurious failures in dist where we create/delete each others file
     config.out = PathBuf::from(env::var_os("BOOTSTRAP_OUTPUT_DIRECTORY").unwrap());
-    config.initial_rustc = PathBuf::from(env::var_os("RUSTC").unwrap());
+    config.initial_dustc = PathBuf::from(env::var_os("DUSTC").unwrap());
     config.initial_cargo = PathBuf::from(env::var_os("BOOTSTRAP_INITIAL_CARGO").unwrap());
     let dir = config
         .out
-        .join("tmp-rustbuild-tests")
+        .join("tmp-dustbuild-tests")
         .join(&thread::current().name().unwrap_or("unknown").replace(":", "-"));
     t!(fs::create_dir_all(&dir));
     config.out = dir;
@@ -49,16 +49,16 @@ mod defaults {
             ]
         );
         assert!(!builder.cache.all::<compile::Assemble>().is_empty());
-        // Make sure rustdoc is only built once.
+        // Make sure dustdoc is only built once.
         assert_eq!(
-            first(builder.cache.all::<tool::Rustdoc>()),
-            // Recall that rustdoc stages are off-by-one
+            first(builder.cache.all::<tool::Dustdoc>()),
+            // Recall that dustdoc stages are off-by-one
             // - this is the compiler it's _linked_ to, not built with.
-            &[tool::Rustdoc { compiler: Compiler { host: a, stage: 1 } }],
+            &[tool::Dustdoc { compiler: Compiler { host: a, stage: 1 } }],
         );
         assert_eq!(
-            first(builder.cache.all::<compile::Rustc>()),
-            &[compile::Rustc { compiler: Compiler { host: a, stage: 0 }, target: a },]
+            first(builder.cache.all::<compile::Dustc>()),
+            &[compile::Dustc { compiler: Compiler { host: a, stage: 0 }, target: a },]
         );
     }
 
@@ -76,12 +76,12 @@ mod defaults {
         );
         assert!(!builder.cache.all::<compile::Assemble>().is_empty());
         assert_eq!(
-            first(builder.cache.all::<tool::Rustdoc>()),
-            // This is the beta rustdoc.
-            // Add an assert here to make sure this is the only rustdoc built.
-            &[tool::Rustdoc { compiler: Compiler { host: a, stage: 0 } }],
+            first(builder.cache.all::<tool::Dustdoc>()),
+            // This is the beta dustdoc.
+            // Add an assert here to make sure this is the only dustdoc built.
+            &[tool::Dustdoc { compiler: Compiler { host: a, stage: 0 } }],
         );
-        assert!(builder.cache.all::<compile::Rustc>().is_empty());
+        assert!(builder.cache.all::<compile::Dustc>().is_empty());
     }
 
     #[test]
@@ -95,10 +95,10 @@ mod defaults {
         let b = TargetSelection::from_user("B");
 
         // Ideally, this build wouldn't actually have `target: a`
-        // rustdoc/rustcc/std here (the user only requested a host=B build, so
+        // dustdoc/dustcc/std here (the user only requested a host=B build, so
         // there's not really a need for us to build for target A in this case
         // (since we're producing stage 1 libraries/binaries).  But currently
-        // rustbuild is just a bit buggy here; this should be fixed though.
+        // dustbuild is just a bit buggy here; this should be fixed though.
         assert_eq!(
             first(builder.cache.all::<compile::Std>()),
             &[
@@ -117,17 +117,17 @@ mod defaults {
             ]
         );
         assert_eq!(
-            first(builder.cache.all::<tool::Rustdoc>()),
+            first(builder.cache.all::<tool::Dustdoc>()),
             &[
-                tool::Rustdoc { compiler: Compiler { host: a, stage: 1 } },
-                tool::Rustdoc { compiler: Compiler { host: b, stage: 1 } },
+                tool::Dustdoc { compiler: Compiler { host: a, stage: 1 } },
+                tool::Dustdoc { compiler: Compiler { host: b, stage: 1 } },
             ],
         );
         assert_eq!(
-            first(builder.cache.all::<compile::Rustc>()),
+            first(builder.cache.all::<compile::Dustc>()),
             &[
-                compile::Rustc { compiler: Compiler { host: a, stage: 0 }, target: a },
-                compile::Rustc { compiler: Compiler { host: a, stage: 0 }, target: b },
+                compile::Dustc { compiler: Compiler { host: a, stage: 0 }, target: a },
+                compile::Dustc { compiler: Compiler { host: a, stage: 0 }, target: b },
             ]
         );
     }
@@ -142,8 +142,8 @@ mod defaults {
         builder.run_step_descriptions(&Builder::get_step_descriptions(Kind::Doc), &[]);
         let a = TargetSelection::from_user("A");
 
-        // error_index_generator uses stage 0 to share rustdoc artifacts with the
-        // rustdoc tool.
+        // error_index_generator uses stage 0 to share dustdoc artifacts with the
+        // dustdoc tool.
         assert_eq!(
             first(builder.cache.all::<doc::ErrorIndex>()),
             &[doc::ErrorIndex { target: a },]
@@ -153,11 +153,11 @@ mod defaults {
             &[tool::ErrorIndex { compiler: Compiler { host: a, stage: 0 } }]
         );
         // docs should be built with the beta compiler, not with the stage0 artifacts.
-        // recall that rustdoc is off-by-one: `stage` is the compiler rustdoc is _linked_ to,
+        // recall that dustdoc is off-by-one: `stage` is the compiler dustdoc is _linked_ to,
         // not the one it was built by.
         assert_eq!(
-            first(builder.cache.all::<tool::Rustdoc>()),
-            &[tool::Rustdoc { compiler: Compiler { host: a, stage: 0 } },]
+            first(builder.cache.all::<tool::Dustdoc>()),
+            &[tool::Dustdoc { compiler: Compiler { host: a, stage: 0 } },]
         );
     }
 }
@@ -182,18 +182,18 @@ mod dist {
         assert_eq!(first(builder.cache.all::<dist::Docs>()), &[dist::Docs { host: a },]);
         assert_eq!(first(builder.cache.all::<dist::Mingw>()), &[dist::Mingw { host: a },]);
         assert_eq!(
-            first(builder.cache.all::<dist::Rustc>()),
-            &[dist::Rustc { compiler: Compiler { host: a, stage: 2 } },]
+            first(builder.cache.all::<dist::Dustc>()),
+            &[dist::Dustc { compiler: Compiler { host: a, stage: 2 } },]
         );
         assert_eq!(
             first(builder.cache.all::<dist::Std>()),
             &[dist::Std { compiler: Compiler { host: a, stage: 1 }, target: a },]
         );
         assert_eq!(first(builder.cache.all::<dist::Src>()), &[dist::Src]);
-        // Make sure rustdoc is only built once.
+        // Make sure dustdoc is only built once.
         assert_eq!(
-            first(builder.cache.all::<tool::Rustdoc>()),
-            &[tool::Rustdoc { compiler: Compiler { host: a, stage: 2 } },]
+            first(builder.cache.all::<tool::Dustdoc>()),
+            &[tool::Dustdoc { compiler: Compiler { host: a, stage: 2 } },]
         );
     }
 
@@ -215,8 +215,8 @@ mod dist {
             &[dist::Mingw { host: a }, dist::Mingw { host: b },]
         );
         assert_eq!(
-            first(builder.cache.all::<dist::Rustc>()),
-            &[dist::Rustc { compiler: Compiler { host: a, stage: 2 } },]
+            first(builder.cache.all::<dist::Dustc>()),
+            &[dist::Dustc { compiler: Compiler { host: a, stage: 2 } },]
         );
         assert_eq!(
             first(builder.cache.all::<dist::Std>()),
@@ -246,10 +246,10 @@ mod dist {
             &[dist::Mingw { host: a }, dist::Mingw { host: b },]
         );
         assert_eq!(
-            first(builder.cache.all::<dist::Rustc>()),
+            first(builder.cache.all::<dist::Dustc>()),
             &[
-                dist::Rustc { compiler: Compiler { host: a, stage: 2 } },
-                dist::Rustc { compiler: Compiler { host: b, stage: 2 } },
+                dist::Dustc { compiler: Compiler { host: a, stage: 2 } },
+                dist::Dustc { compiler: Compiler { host: b, stage: 2 } },
             ]
         );
         assert_eq!(
@@ -284,14 +284,14 @@ mod dist {
         builder.run_step_descriptions(&Builder::get_step_descriptions(Kind::Dist), &[]);
 
         assert_eq!(
-            first(builder.cache.all::<dist::Rustc>()),
-            &[dist::Rustc { compiler: Compiler { host: b, stage: 2 } },]
+            first(builder.cache.all::<dist::Dustc>()),
+            &[dist::Dustc { compiler: Compiler { host: b, stage: 2 } },]
         );
         assert_eq!(
-            first(builder.cache.all::<compile::Rustc>()),
+            first(builder.cache.all::<compile::Dustc>()),
             &[
-                compile::Rustc { compiler: Compiler { host: a, stage: 0 }, target: a },
-                compile::Rustc { compiler: Compiler { host: a, stage: 1 }, target: b },
+                compile::Dustc { compiler: Compiler { host: a, stage: 0 }, target: a },
+                compile::Dustc { compiler: Compiler { host: a, stage: 1 }, target: b },
             ]
         );
     }
@@ -315,10 +315,10 @@ mod dist {
             &[dist::Mingw { host: a }, dist::Mingw { host: b }, dist::Mingw { host: c },]
         );
         assert_eq!(
-            first(builder.cache.all::<dist::Rustc>()),
+            first(builder.cache.all::<dist::Dustc>()),
             &[
-                dist::Rustc { compiler: Compiler { host: a, stage: 2 } },
-                dist::Rustc { compiler: Compiler { host: b, stage: 2 } },
+                dist::Dustc { compiler: Compiler { host: a, stage: 2 } },
+                dist::Dustc { compiler: Compiler { host: b, stage: 2 } },
             ]
         );
         assert_eq!(
@@ -368,10 +368,10 @@ mod dist {
             &[dist::Mingw { host: a }, dist::Mingw { host: b },]
         );
         assert_eq!(
-            first(builder.cache.all::<dist::Rustc>()),
+            first(builder.cache.all::<dist::Dustc>()),
             &[
-                dist::Rustc { compiler: Compiler { host: a, stage: 2 } },
-                dist::Rustc { compiler: Compiler { host: b, stage: 2 } },
+                dist::Dustc { compiler: Compiler { host: a, stage: 2 } },
+                dist::Dustc { compiler: Compiler { host: b, stage: 2 } },
             ]
         );
         assert_eq!(
@@ -409,7 +409,7 @@ mod dist {
         let mut builder = Builder::new(&build);
         builder.run_step_descriptions(
             &Builder::get_step_descriptions(Kind::Build),
-            &["compiler/rustc".into(), "library/std".into()],
+            &["compiler/dustc".into(), "library/std".into()],
         );
 
         let a = TargetSelection::from_user("A");
@@ -429,13 +429,13 @@ mod dist {
         );
         assert!(!builder.cache.all::<compile::Assemble>().is_empty());
         assert_eq!(
-            first(builder.cache.all::<compile::Rustc>()),
+            first(builder.cache.all::<compile::Dustc>()),
             &[
-                compile::Rustc { compiler: Compiler { host: a, stage: 0 }, target: a },
-                compile::Rustc { compiler: Compiler { host: a, stage: 1 }, target: a },
-                compile::Rustc { compiler: Compiler { host: a, stage: 2 }, target: a },
-                compile::Rustc { compiler: Compiler { host: a, stage: 1 }, target: b },
-                compile::Rustc { compiler: Compiler { host: a, stage: 2 }, target: b },
+                compile::Dustc { compiler: Compiler { host: a, stage: 0 }, target: a },
+                compile::Dustc { compiler: Compiler { host: a, stage: 1 }, target: a },
+                compile::Dustc { compiler: Compiler { host: a, stage: 2 }, target: a },
+                compile::Dustc { compiler: Compiler { host: a, stage: 1 }, target: b },
+                compile::Dustc { compiler: Compiler { host: a, stage: 2 }, target: b },
             ]
         );
     }
@@ -467,10 +467,10 @@ mod dist {
             ]
         );
         assert_eq!(
-            first(builder.cache.all::<compile::Rustc>()),
+            first(builder.cache.all::<compile::Dustc>()),
             &[
-                compile::Rustc { compiler: Compiler { host: a, stage: 0 }, target: a },
-                compile::Rustc { compiler: Compiler { host: a, stage: 1 }, target: a },
+                compile::Dustc { compiler: Compiler { host: a, stage: 0 }, target: a },
+                compile::Dustc { compiler: Compiler { host: a, stage: 1 }, target: a },
             ]
         );
     }
@@ -482,12 +482,12 @@ mod dist {
         config.cmd = Subcommand::Test {
             paths: vec!["library/std".into()],
             test_args: vec![],
-            rustc_args: vec![],
+            dustc_args: vec![],
             fail_fast: true,
             doc_tests: DocTests::No,
             bless: false,
             compare_mode: None,
-            rustfix_coverage: false,
+            dustfix_coverage: false,
             pass: None,
         };
 
@@ -502,7 +502,7 @@ mod dist {
         );
 
         // Ensure we don't build any compiler artifacts.
-        assert!(!builder.cache.contains::<compile::Rustc>());
+        assert!(!builder.cache.contains::<compile::Dustc>());
         assert_eq!(
             first(builder.cache.all::<test::Crate>()),
             &[test::Crate {
@@ -522,12 +522,12 @@ mod dist {
         config.cmd = Subcommand::Test {
             paths: Vec::new(),
             test_args: Vec::new(),
-            rustc_args: Vec::new(),
+            dustc_args: Vec::new(),
             fail_fast: true,
             doc_tests: DocTests::No,
             bless: false,
             compare_mode: None,
-            rustfix_coverage: false,
+            dustfix_coverage: false,
             pass: None,
         };
 
@@ -539,7 +539,7 @@ mod dist {
         assert!(!builder.cache.contains::<test::Tidy>());
 
         // Ensure other tests are not affected.
-        assert!(builder.cache.contains::<test::RustdocUi>());
+        assert!(builder.cache.contains::<test::DustdocUi>());
     }
 
     #[test]
@@ -552,8 +552,8 @@ mod dist {
         builder.run_step_descriptions(&Builder::get_step_descriptions(Kind::Doc), &[]);
         let a = TargetSelection::from_user("A");
 
-        // error_index_generator uses stage 1 to share rustdoc artifacts with the
-        // rustdoc tool.
+        // error_index_generator uses stage 1 to share dustdoc artifacts with the
+        // dustdoc tool.
         assert_eq!(
             first(builder.cache.all::<doc::ErrorIndex>()),
             &[doc::ErrorIndex { target: a },]
@@ -562,11 +562,11 @@ mod dist {
             first(builder.cache.all::<tool::ErrorIndex>()),
             &[tool::ErrorIndex { compiler: Compiler { host: a, stage: 1 } }]
         );
-        // This is actually stage 1, but Rustdoc::run swaps out the compiler with
+        // This is actually stage 1, but Dustdoc::run swaps out the compiler with
         // stage minus 1 if --stage is not 0. Very confusing!
         assert_eq!(
-            first(builder.cache.all::<tool::Rustdoc>()),
-            &[tool::Rustdoc { compiler: Compiler { host: a, stage: 2 } },]
+            first(builder.cache.all::<tool::Dustdoc>()),
+            &[tool::Dustdoc { compiler: Compiler { host: a, stage: 2 } },]
         );
     }
 
@@ -577,12 +577,12 @@ mod dist {
         config.cmd = Subcommand::Test {
             paths: vec![],
             test_args: vec![],
-            rustc_args: vec![],
+            dustc_args: vec![],
             fail_fast: true,
             doc_tests: DocTests::Yes,
             bless: false,
             compare_mode: None,
-            rustfix_coverage: false,
+            dustfix_coverage: false,
             pass: None,
         };
         let build = Build::new(config);
@@ -590,8 +590,8 @@ mod dist {
         builder.run_step_descriptions(&Builder::get_step_descriptions(Kind::Test), &[]);
         let a = TargetSelection::from_user("A");
 
-        // error_index_generator uses stage 1 to share rustdoc artifacts with the
-        // rustdoc tool.
+        // error_index_generator uses stage 1 to share dustdoc artifacts with the
+        // dustdoc tool.
         assert_eq!(
             first(builder.cache.all::<doc::ErrorIndex>()),
             &[doc::ErrorIndex { target: a },]
@@ -600,18 +600,18 @@ mod dist {
             first(builder.cache.all::<tool::ErrorIndex>()),
             &[tool::ErrorIndex { compiler: Compiler { host: a, stage: 1 } }]
         );
-        // Unfortunately rustdoc is built twice. Once from stage1 for compiletest
+        // Unfortunately dustdoc is built twice. Once from stage1 for compiletest
         // (and other things), and once from stage0 for std crates. Ideally it
         // would only be built once. If someone wants to fix this, it might be
         // worth investigating if it would be possible to test std from stage1.
         // Note that the stages here are +1 than what they actually are because
-        // Rustdoc::run swaps out the compiler with stage minus 1 if --stage is
+        // Dustdoc::run swaps out the compiler with stage minus 1 if --stage is
         // not 0.
         assert_eq!(
-            first(builder.cache.all::<tool::Rustdoc>()),
+            first(builder.cache.all::<tool::Dustdoc>()),
             &[
-                tool::Rustdoc { compiler: Compiler { host: a, stage: 1 } },
-                tool::Rustdoc { compiler: Compiler { host: a, stage: 2 } },
+                tool::Dustdoc { compiler: Compiler { host: a, stage: 1 } },
+                tool::Dustdoc { compiler: Compiler { host: a, stage: 2 } },
             ]
         );
     }

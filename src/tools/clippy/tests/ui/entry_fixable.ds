@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![allow(unused, clippy::needless_pass_by_value)]
 #![warn(clippy::map_entry)]

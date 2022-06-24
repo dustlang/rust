@@ -1,25 +1,25 @@
-//! This module implements [RFC 1946]: Intra-rustdoc-links
+//! This module implements [RFC 1946]: Intra-dustdoc-links
 //!
-//! [RFC 1946]: https://github.com/rust-lang/rfcs/blob/master/text/1946-intra-rustdoc-links.md
+//! [RFC 1946]: https://github.com/dust-lang/rfcs/blob/master/text/1946-intra-dustdoc-links.md
 
-use rustc_ast as ast;
-use rustc_data_structures::{fx::FxHashMap, stable_set::FxHashSet};
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_expand::base::SyntaxExtensionKind;
-use rustc_hir as hir;
-use rustc_hir::def::{
+use dustc_ast as ast;
+use dustc_data_structures::{fx::FxHashMap, stable_set::FxHashSet};
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_expand::base::SyntaxExtensionKind;
+use dustc_hir as hir;
+use dustc_hir::def::{
     DefKind,
     Namespace::{self, *},
     PerNS,
 };
-use rustc_hir::def_id::{CrateNum, DefId};
-use rustc_middle::ty::TyCtxt;
-use rustc_middle::{bug, ty};
-use rustc_resolve::ParentScope;
-use rustc_session::lint::Lint;
-use rustc_span::hygiene::{MacroKind, SyntaxContext};
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::DUMMY_SP;
+use dustc_hir::def_id::{CrateNum, DefId};
+use dustc_middle::ty::TyCtxt;
+use dustc_middle::{bug, ty};
+use dustc_resolve::ParentScope;
+use dustc_session::lint::Lint;
+use dustc_span::hygiene::{MacroKind, SyntaxContext};
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::DUMMY_SP;
 use smallvec::{smallvec, SmallVec};
 
 use pulldown_cmark::LinkType;
@@ -73,7 +73,7 @@ enum Res {
     Primitive(PrimitiveType),
 }
 
-type ResolveRes = rustc_hir::def::Res<rustc_ast::NodeId>;
+type ResolveRes = dustc_hir::def::Res<dustc_ast::NodeId>;
 
 impl Res {
     fn descr(self) -> &'static str {
@@ -108,9 +108,9 @@ impl Res {
         }
     }
 
-    fn as_hir_res(self) -> Option<rustc_hir::def::Res> {
+    fn as_hir_res(self) -> Option<dustc_hir::def::Res> {
         match self {
-            Res::Def(kind, id) => Some(rustc_hir::def::Res::Def(kind, id)),
+            Res::Def(kind, id) => Some(dustc_hir::def::Res::Def(kind, id)),
             // FIXME: maybe this should handle the subset of PrimitiveType that fits into hir::PrimTy?
             Res::Primitive(_) => None,
         }
@@ -121,7 +121,7 @@ impl TryFrom<ResolveRes> for Res {
     type Error = ();
 
     fn try_from(res: ResolveRes) -> Result<Self, ()> {
-        use rustc_hir::def::Res::*;
+        use dustc_hir::def::Res::*;
         match res {
             Def(kind, id) => Ok(Res::Def(kind, id)),
             PrimTy(prim) => Ok(Res::Primitive(PrimitiveType::from_hir(prim))),
@@ -159,8 +159,8 @@ enum ResolutionFailure<'a> {
         /// In `[std::io::Error::x]`, `x` would be unresolved.
         unresolved: Cow<'a, str>,
     },
-    /// This happens when rustdoc can't determine the parent scope for an item.
-    /// It is always a bug in rustdoc.
+    /// This happens when dustdoc can't determine the parent scope for an item.
+    /// It is always a bug in dustdoc.
     NoParentItem,
     /// This link has malformed generic parameters; e.g., the angle brackets are unbalanced.
     MalformedGenerics(MalformedGenerics),
@@ -197,7 +197,7 @@ enum MalformedGenerics {
     /// called.
     ///
     /// Note that this will also **not** be triggered if the invalid path separator is inside angle
-    /// brackets because rustdoc mostly ignores what's inside angle brackets (except for
+    /// brackets because dustdoc mostly ignores what's inside angle brackets (except for
     /// [`HasFullyQualifiedSyntax`](MalformedGenerics::HasFullyQualifiedSyntax)).
     ///
     /// This is detected by checking if there is a colon followed by a non-colon in the link.
@@ -227,20 +227,20 @@ impl ResolutionFailure<'a> {
 enum AnchorFailure {
     /// User error: `[std#x#y]` is not valid
     MultipleAnchors,
-    /// The anchor provided by the user conflicts with Rustdoc's generated anchor.
+    /// The anchor provided by the user conflicts with Dustdoc's generated anchor.
     ///
     /// This is an unfortunate state of affairs. Not every item that can be
     /// linked to has its own page; sometimes it is a subheading within a page,
-    /// like for associated items. In those cases, rustdoc uses an anchor to
+    /// like for associated items. In those cases, dustdoc uses an anchor to
     /// link to the subheading. Since you can't have two anchors for the same
-    /// link, Rustdoc disallows having a user-specified anchor.
+    /// link, Dustdoc disallows having a user-specified anchor.
     ///
     /// Most of the time this is fine, because you can just link to the page of
     /// the item if you want to provide your own anchor. For primitives, though,
-    /// rustdoc uses the anchor as a side channel to know which page to link to;
-    /// it doesn't show up in the generated link. Ideally, rustdoc would remove
+    /// dustdoc uses the anchor as a side channel to know which page to link to;
+    /// it doesn't show up in the generated link. Ideally, dustdoc would remove
     /// this limitation, allowing you to link to subheaders on primitives.
-    RustdocAnchorConflict(Res),
+    DustdocAnchorConflict(Res),
 }
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
@@ -505,7 +505,7 @@ impl<'a, 'tcx> LinkCollector<'a, 'tcx> {
                 Res::Primitive(ty) => {
                     if extra_fragment.is_some() {
                         return Err(ErrorKind::AnchorFailure(
-                            AnchorFailure::RustdocAnchorConflict(res),
+                            AnchorFailure::DustdocAnchorConflict(res),
                         ));
                     }
                     return Ok((res, Some(ty.as_str().to_owned())));
@@ -524,7 +524,7 @@ impl<'a, 'tcx> LinkCollector<'a, 'tcx> {
             .next()
             .map(|f| f.to_owned())
             // If there's no `::`, it's not an associated item.
-            // So we can be sure that `rustc_resolve` was accurate when it said it wasn't resolved.
+            // So we can be sure that `dustc_resolve` was accurate when it said it wasn't resolved.
             .ok_or_else(|| {
                 debug!("found no `::`, assumming {} was correctly not in scope", item_name);
                 ResolutionFailure::NotResolved {
@@ -600,7 +600,7 @@ impl<'a, 'tcx> LinkCollector<'a, 'tcx> {
                         ty::AssocKind::Type => "associatedtype",
                     };
                     Some(if extra_fragment.is_some() {
-                        Err(ErrorKind::AnchorFailure(AnchorFailure::RustdocAnchorConflict(ty_res)))
+                        Err(ErrorKind::AnchorFailure(AnchorFailure::DustdocAnchorConflict(ty_res)))
                     } else {
                         // HACK(jynelson): `clean` expects the type, not the associated item
                         // but the disambiguator logic expects the associated item.
@@ -633,7 +633,7 @@ impl<'a, 'tcx> LinkCollector<'a, 'tcx> {
                                         item.did,
                                     );
                                     Err(ErrorKind::AnchorFailure(
-                                        AnchorFailure::RustdocAnchorConflict(res),
+                                        AnchorFailure::DustdocAnchorConflict(res),
                                     ))
                                 } else {
                                     Ok((
@@ -670,7 +670,7 @@ impl<'a, 'tcx> LinkCollector<'a, 'tcx> {
                     };
 
                     if extra_fragment.is_some() {
-                        Err(ErrorKind::AnchorFailure(AnchorFailure::RustdocAnchorConflict(ty_res)))
+                        Err(ErrorKind::AnchorFailure(AnchorFailure::DustdocAnchorConflict(ty_res)))
                     } else {
                         let res = Res::Def(item.kind.as_def_kind(), item.def_id);
                         Ok((res, Some(format!("{}.{}", kind, item_str))))
@@ -716,7 +716,7 @@ impl<'a, 'tcx> LinkCollector<'a, 'tcx> {
         let res = match result {
             Ok(res) => Some(res),
             Err(ErrorKind::Resolve(box kind)) => kind.full_res(),
-            Err(ErrorKind::AnchorFailure(AnchorFailure::RustdocAnchorConflict(res))) => Some(res),
+            Err(ErrorKind::AnchorFailure(AnchorFailure::DustdocAnchorConflict(res))) => Some(res),
             Err(ErrorKind::AnchorFailure(AnchorFailure::MultipleAnchors)) => None,
         };
         self.kind_side_channel.take().map(|(kind, id)| Res::Def(kind, id)).or(res)
@@ -821,7 +821,7 @@ fn is_derive_trait_collision<T>(ns: &PerNS<Result<(Res, T), ResolutionFailure<'_
 
 impl<'a, 'tcx> DocFolder for LinkCollector<'a, 'tcx> {
     fn fold_item(&mut self, mut item: Item) -> Option<Item> {
-        use rustc_middle::ty::DefIdTree;
+        use dustc_middle::ty::DefIdTree;
 
         let parent_node = if item.is_fake() {
             None
@@ -857,7 +857,7 @@ impl<'a, 'tcx> DocFolder for LinkCollector<'a, 'tcx> {
         // HACK(jynelson): `clean` marks associated types as `TypedefItem`, not as `AssocTypeItem`.
         // Fixing this breaks `fn render_deref_methods`.
         // As a workaround, see if the parent of the item is an `impl`; if so this must be an associated item,
-        // regardless of what rustdoc wants to call it.
+        // regardless of what dustdoc wants to call it.
         } else if let Some(parent) = self.cx.tcx.parent(item.def_id) {
             let parent_kind = self.cx.tcx.def_kind(parent);
             Some(if parent_kind == DefKind::Impl { parent } else { item.def_id })
@@ -865,7 +865,7 @@ impl<'a, 'tcx> DocFolder for LinkCollector<'a, 'tcx> {
             Some(item.def_id)
         };
 
-        // FIXME(jynelson): this shouldn't go through stringification, rustdoc should just use the DefId directly
+        // FIXME(jynelson): this shouldn't go through stringification, dustdoc should just use the DefId directly
         let self_name = self_id.and_then(|self_id| {
             if matches!(self.cx.tcx.def_kind(self_id), DefKind::Impl) {
                 // using `ty.to_string()` (or any variant) has issues with raw idents
@@ -901,7 +901,7 @@ impl<'a, 'tcx> DocFolder for LinkCollector<'a, 'tcx> {
                 (item.def_id.krate, parent_node)
             };
             // NOTE: if there are links that start in one crate and end in another, this will not resolve them.
-            // This is a degenerate case and it's not supported by rustdoc.
+            // This is a degenerate case and it's not supported by dustdoc.
             for md_link in markdown_links(&doc) {
                 let link = self.resolve_link(&item, &doc, &self_name, parent_node, krate, md_link);
                 if let Some(link) = link {
@@ -1036,10 +1036,10 @@ impl LinkCollector<'_, '_> {
                 }
             }
         } else if path_str.starts_with("crate::") || is_lone_crate {
-            use rustc_span::def_id::CRATE_DEF_INDEX;
+            use dustc_span::def_id::CRATE_DEF_INDEX;
 
-            // HACK(jynelson): rustc_resolve thinks that `crate` is the crate currently being documented.
-            // But rustdoc wants it to mean the crate this item was originally present in.
+            // HACK(jynelson): dustc_resolve thinks that `crate` is the crate currently being documented.
+            // But dustdoc wants it to mean the crate this item was originally present in.
             // To work around this, remove it and resolve relative to the crate root instead.
             // HACK(jynelson)(2): If we just strip `crate::` then suddenly primitives become ambiguous
             // (consider `crate::char`). Instead, change it to `self::`. This works because 'self' is now the crate root.
@@ -1117,7 +1117,7 @@ impl LinkCollector<'_, '_> {
                             path_str,
                             dox,
                             ori_link.range,
-                            AnchorFailure::RustdocAnchorConflict(prim),
+                            AnchorFailure::DustdocAnchorConflict(prim),
                         );
                         return None;
                     }
@@ -1186,7 +1186,7 @@ impl LinkCollector<'_, '_> {
                 .as_local()
                 .and_then(|dst_id| item.def_id.as_local().map(|src_id| (src_id, dst_id)))
             {
-                use rustc_hir::def_id::LOCAL_CRATE;
+                use dustc_hir::def_id::LOCAL_CRATE;
 
                 let hir_src = self.cx.tcx.hir().local_def_id_to_hir_id(src_id);
                 let hir_dst = self.cx.tcx.hir().local_def_id_to_hir_id(dst_id);
@@ -1208,9 +1208,9 @@ impl LinkCollector<'_, '_> {
                     // verify the disambiguator (if any) matches the type of the associated item.
                     // This case should really follow the same flow as the `Res::Def` branch below,
                     // but attempting to add a call to `clean::register_res` causes an ICE. @jyn514
-                    // thinks `register_res` is only needed for cross-crate re-exports, but Rust
+                    // thinks `register_res` is only needed for cross-crate re-exports, but Dust
                     // doesn't allow statements like `use str::trim;`, making this a (hopefully)
-                    // valid omission. See https://github.com/rust-lang/rust/pull/80660#discussion_r551585677
+                    // valid omission. See https://github.com/dust-lang/dust/pull/80660#discussion_r551585677
                     // for discussion on the matter.
                     verify(kind, id)?;
 
@@ -1230,13 +1230,13 @@ impl LinkCollector<'_, '_> {
                             span_of_attrs(&item.attrs).unwrap_or(item.source.span())
                         });
 
-                        rustc_session::parse::feature_err(
+                        dustc_session::parse::feature_err(
                             &self.cx.tcx.sess.parse_sess,
                             sym::intra_doc_pointers,
                             span,
                             "linking to associated items of raw pointers is experimental",
                         )
-                        .note("rustdoc does not allow disambiguating between `*const` and `*mut`, and pointers are unstable until it does")
+                        .note("dustdoc does not allow disambiguating between `*const` and `*mut`, and pointers are unstable until it does")
                         .emit();
                     }
                 } else {
@@ -1253,7 +1253,7 @@ impl LinkCollector<'_, '_> {
             }
             Res::Def(kind, id) => {
                 verify(kind, id)?;
-                let id = clean::register_res(self.cx, rustc_hir::def::Res::Def(kind, id));
+                let id = clean::register_res(self.cx, dustc_hir::def::Res::Def(kind, id));
                 Some(ItemLink { link: ori_link.link, link_text, did: Some(id), fragment })
             }
         }
@@ -1327,7 +1327,7 @@ impl LinkCollector<'_, '_> {
                         if kind.full_res().is_none() {
                             let other_ns = if expected_ns == ValueNS { TypeNS } else { ValueNS };
                             // FIXME: really it should be `resolution_failure` that does this, not `resolve_with_disambiguator`
-                            // See https://github.com/rust-lang/rust/pull/76955#discussion_r493953382 for a good approach
+                            // See https://github.com/dust-lang/dust/pull/76955#discussion_r493953382 for a good approach
                             for &new_ns in &[other_ns, MacroNS] {
                                 if let Some(res) =
                                     self.check_full_res(new_ns, path_str, base_node, extra_fragment)
@@ -1495,7 +1495,7 @@ impl LinkCollector<'_, '_> {
 enum Disambiguator {
     /// `prim@`
     ///
-    /// This is buggy, see <https://github.com/rust-lang/rust/pull/77875#discussion_r503583103>
+    /// This is buggy, see <https://github.com/dust-lang/dust/pull/77875#discussion_r503583103>
     Primitive,
     /// `struct@` or `f()`
     Kind(DefKind),
@@ -1681,7 +1681,7 @@ fn report_diagnostic(
     item: &Item,
     dox: &str,
     link_range: &Range<usize>,
-    decorate: impl FnOnce(&mut DiagnosticBuilder<'_>, Option<rustc_span::Span>),
+    decorate: impl FnOnce(&mut DiagnosticBuilder<'_>, Option<dustc_span::Span>),
 ) {
     let hir_id = match DocContext::as_local_hir_id(tcx, item.def_id) {
         Some(hir_id) => hir_id,
@@ -1921,7 +1921,7 @@ fn resolution_failure(
                         )
                     }
                     ResolutionFailure::NoParentItem => {
-                        diag.level = rustc_errors::Level::Bug;
+                        diag.level = dustc_errors::Level::Bug;
                         "all intra-doc links should have a parent item".to_owned()
                     }
                     ResolutionFailure::MalformedGenerics(variant) => match variant {
@@ -1932,7 +1932,7 @@ fn resolution_failure(
                             String::from("missing type for generic parameters")
                         }
                         MalformedGenerics::HasFullyQualifiedSyntax => {
-                            diag.note("see https://github.com/rust-lang/rust/issues/74563 for more information");
+                            diag.note("see https://github.com/dust-lang/dust/issues/74563 for more information");
                             String::from("fully-qualified syntax is unsupported")
                         }
                         MalformedGenerics::InvalidPathSeparator => {
@@ -1967,7 +1967,7 @@ fn anchor_failure(
 ) {
     let msg = match failure {
         AnchorFailure::MultipleAnchors => format!("`{}` contains multiple anchors", path_str),
-        AnchorFailure::RustdocAnchorConflict(res) => format!(
+        AnchorFailure::DustdocAnchorConflict(res) => format!(
             "`{}` contains an anchor, but links to {kind}s are already anchored",
             path_str,
             kind = res.descr(),
@@ -2035,7 +2035,7 @@ fn suggest_disambiguator(
     diag: &mut DiagnosticBuilder<'_>,
     path_str: &str,
     dox: &str,
-    sp: Option<rustc_span::Span>,
+    sp: Option<dustc_span::Span>,
     link_range: &Range<usize>,
 ) {
     let suggestion = disambiguator.suggestion();
@@ -2087,10 +2087,10 @@ fn handle_variant(
     res: Res,
     extra_fragment: &Option<String>,
 ) -> Result<(Res, Option<String>), ErrorKind<'static>> {
-    use rustc_middle::ty::DefIdTree;
+    use dustc_middle::ty::DefIdTree;
 
     if extra_fragment.is_some() {
-        return Err(ErrorKind::AnchorFailure(AnchorFailure::RustdocAnchorConflict(res)));
+        return Err(ErrorKind::AnchorFailure(AnchorFailure::DustdocAnchorConflict(res)));
     }
     cx.tcx
         .parent(res.def_id())

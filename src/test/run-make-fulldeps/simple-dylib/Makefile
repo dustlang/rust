@@ -1,5 +1,5 @@
 -include ../tools.mk
 all:
-	$(RUSTC) bar.rs --crate-type=dylib -C prefer-dynamic
-	$(RUSTC) foo.rs
+	$(DUSTC) bar.rs --crate-type=dylib -C prefer-dynamic
+	$(DUSTC) foo.rs
 	$(call RUN,foo)

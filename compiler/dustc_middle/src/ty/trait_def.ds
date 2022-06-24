@@ -3,14 +3,14 @@ use crate::traits::specialization_graph;
 use crate::ty::fast_reject;
 use crate::ty::fold::TypeFoldable;
 use crate::ty::{Ty, TyCtxt};
-use rustc_hir as hir;
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId};
-use rustc_hir::definitions::DefPathHash;
+use dustc_hir as hir;
+use dustc_hir::def_id::{CrateNum, DefId, LocalDefId};
+use dustc_hir::definitions::DefPathHash;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_errors::ErrorReported;
-use rustc_macros::HashStable;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_errors::ErrorReported;
+use dustc_macros::HashStable;
 use std::collections::BTreeMap;
 
 /// A trait's definition with type information.
@@ -22,7 +22,7 @@ pub struct TraitDef {
 
     pub unsafety: hir::Unsafety,
 
-    /// If `true`, then this trait had the `#[rustc_paren_sugar]`
+    /// If `true`, then this trait had the `#[dustc_paren_sugar]`
     /// attribute, indicating that it should be used with `Foo()`
     /// sugar. This is a temporary thing -- eventually any trait will
     /// be usable with the sugar (or without it).
@@ -52,13 +52,13 @@ pub enum TraitSpecializationKind {
     None,
     /// Specializing on this trait is allowed because it doesn't have any
     /// methods. For example `Sized` or `FusedIterator`.
-    /// Applies to traits with the `rustc_unsafe_specialization_marker`
+    /// Applies to traits with the `dustc_unsafe_specialization_marker`
     /// attribute.
     Marker,
     /// Specializing on this trait is allowed because all of the impls of this
     /// trait are "always applicable". Always applicable means that if
     /// `X<'x>: T<'y>` for any lifetimes, then `for<'a, 'b> X<'a>: T<'b>`.
-    /// Applies to traits with the `rustc_specialization_trait` attribute.
+    /// Applies to traits with the `dustc_specialization_trait` attribute.
     AlwaysApplicable,
 }
 

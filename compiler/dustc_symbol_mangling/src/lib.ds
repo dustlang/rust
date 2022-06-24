@@ -1,7 +1,7 @@
-//! The Rust Linkage Model and Symbol Names
+//! The Dust Linkage Model and Symbol Names
 //! =======================================
 //!
-//! The semantic model of Rust linkage is, broadly, that "there's no global
+//! The semantic model of Dust linkage is, broadly, that "there's no global
 //! namespace" between crates. Our aim is to preserve the illusion of this
 //! model despite the fact that it's not *quite* possible to implement on
 //! modern linkers. We initially didn't use system linkers at all, but have
@@ -46,7 +46,7 @@
 //!   in their concrete type parameters, so these parameters are part of the
 //!   data being digested for the symbol hash.
 //!
-//! - Rust allows items to be defined in anonymous scopes, such as in
+//! - Dust allows items to be defined in anonymous scopes, such as in
 //!   `fn foo() { { fn bar() {} } { fn bar() {} } }`. Both `bar` functions have
 //!   the path `foo::bar`, since the anonymous scopes do not contribute to the
 //!   path of an item. The compiler already handles this case via so-called
@@ -87,7 +87,7 @@
 //! virtually impossible. Thus, symbol hash generation exclusively relies on
 //! DefPaths which are much more robust in the face of changes to the code base.
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(never_type)]
 #![feature(nll)]
 #![feature(or_patterns)]
@@ -95,16 +95,16 @@
 #![recursion_limit = "256"]
 
 #[macro_use]
-extern crate rustc_middle;
+extern crate dustc_middle;
 
-use rustc_hir::def_id::{CrateNum, LOCAL_CRATE};
-use rustc_hir::Node;
-use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
-use rustc_middle::mir::mono::{InstantiationMode, MonoItem};
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::{self, Instance, TyCtxt};
-use rustc_session::config::SymbolManglingVersion;
+use dustc_hir::def_id::{CrateNum, LOCAL_CRATE};
+use dustc_hir::Node;
+use dustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
+use dustc_middle::mir::mono::{InstantiationMode, MonoItem};
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::{self, Instance, TyCtxt};
+use dustc_session::config::SymbolManglingVersion;
 
 use tracing::debug;
 

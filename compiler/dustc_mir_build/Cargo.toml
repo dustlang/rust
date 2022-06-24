@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_mir_build"
+name = "dustc_mir_build"
 version = "0.0.0"
 edition = "2018"
 
@@ -8,20 +8,20 @@ edition = "2018"
 doctest = false
 
 [dependencies]
-rustc_arena = { path = "../rustc_arena" }
+dustc_arena = { path = "../dustc_arena" }
 tracing = "0.1"
-rustc_middle = { path = "../rustc_middle" }
-rustc_apfloat = { path = "../rustc_apfloat" }
-rustc_attr = { path = "../rustc_attr" }
-rustc_data_structures = { path = "../rustc_data_structures" }
-rustc_index = { path = "../rustc_index" }
-rustc_errors = { path = "../rustc_errors" }
-rustc_hir = { path = "../rustc_hir" }
-rustc_infer = { path = "../rustc_infer" }
-rustc_serialize = { path = "../rustc_serialize" }
-rustc_session = { path = "../rustc_session" }
-rustc_span = { path = "../rustc_span" }
-rustc_target = { path = "../rustc_target" }
-rustc_trait_selection = { path = "../rustc_trait_selection" }
-rustc_ast = { path = "../rustc_ast" }
+dustc_middle = { path = "../dustc_middle" }
+dustc_apfloat = { path = "../dustc_apfloat" }
+dustc_attr = { path = "../dustc_attr" }
+dustc_data_structures = { path = "../dustc_data_structures" }
+dustc_index = { path = "../dustc_index" }
+dustc_errors = { path = "../dustc_errors" }
+dustc_hir = { path = "../dustc_hir" }
+dustc_infer = { path = "../dustc_infer" }
+dustc_serialize = { path = "../dustc_serialize" }
+dustc_session = { path = "../dustc_session" }
+dustc_span = { path = "../dustc_span" }
+dustc_target = { path = "../dustc_target" }
+dustc_trait_selection = { path = "../dustc_trait_selection" }
+dustc_ast = { path = "../dustc_ast" }
 smallvec = { version = "1.6.1", features = ["union", "may_dangle"] }

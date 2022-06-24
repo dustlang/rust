@@ -24,7 +24,7 @@ Test for missing files.
 
 Since rs files are alphabetically before stderr/stdout, we can sort by the full name
 and iter in that order. If we've seen the file stem for the first time and it's not
-a rust file, it means the rust file has to be missing.
+a dust file, it means the dust file has to be missing.
 */
 fn explore_directory(dir: &Path) -> Vec<String> {
     let mut missing_files: Vec<String> = Vec::new();

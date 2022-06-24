@@ -1,15 +1,15 @@
-// run-rustfix
+// run-dustfix
 
 #![deny(clippy::internal)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_hir;
-extern crate rustc_lint;
-extern crate rustc_middle;
+extern crate dustc_hir;
+extern crate dustc_lint;
+extern crate dustc_middle;
 #[macro_use]
-extern crate rustc_session;
-use rustc_hir::Expr;
-use rustc_lint::{LateContext, LateLintPass};
+extern crate dustc_session;
+use dustc_hir::Expr;
+use dustc_lint::{LateContext, LateLintPass};
 
 declare_lint! {
     pub TEST_LINT,

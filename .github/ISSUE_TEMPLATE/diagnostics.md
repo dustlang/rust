@@ -21,7 +21,7 @@ Given the following code: <!-- Please provide a link to play.dustlang.org -->
 The current output is:
 
 ```
-<rustc output>
+<dustc output>
 ```
 
 <!-- The following is not always necessary. -->

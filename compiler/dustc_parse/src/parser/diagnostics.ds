@@ -2,20 +2,20 @@ use super::ty::AllowPlus;
 use super::TokenType;
 use super::{BlockMode, Parser, PathStyle, Restrictions, SemiColonMode, SeqSep, TokenExpectType};
 
-use rustc_ast as ast;
-use rustc_ast::ptr::P;
-use rustc_ast::token::{self, Lit, LitKind, TokenKind};
-use rustc_ast::util::parser::AssocOp;
-use rustc_ast::{AngleBracketedArg, AngleBracketedArgs, AnonConst, AttrVec};
-use rustc_ast::{BinOpKind, BindingMode, Block, BlockCheckMode, Expr, ExprKind, GenericArg, Item};
-use rustc_ast::{ItemKind, Mutability, Param, Pat, PatKind, Path, PathSegment, QSelf, Ty, TyKind};
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::{pluralize, struct_span_err};
-use rustc_errors::{Applicability, DiagnosticBuilder, Handler, PResult};
-use rustc_span::source_map::Spanned;
-use rustc_span::symbol::{kw, Ident};
-use rustc_span::{MultiSpan, Span, SpanSnippetError, DUMMY_SP};
+use dustc_ast as ast;
+use dustc_ast::ptr::P;
+use dustc_ast::token::{self, Lit, LitKind, TokenKind};
+use dustc_ast::util::parser::AssocOp;
+use dustc_ast::{AngleBracketedArg, AngleBracketedArgs, AnonConst, AttrVec};
+use dustc_ast::{BinOpKind, BindingMode, Block, BlockCheckMode, Expr, ExprKind, GenericArg, Item};
+use dustc_ast::{ItemKind, Mutability, Param, Pat, PatKind, Path, PathSegment, QSelf, Ty, TyKind};
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::{pluralize, struct_span_err};
+use dustc_errors::{Applicability, DiagnosticBuilder, Handler, PResult};
+use dustc_span::source_map::Spanned;
+use dustc_span::symbol::{kw, Ident};
+use dustc_span::{MultiSpan, Span, SpanSnippetError, DUMMY_SP};
 
 use tracing::{debug, trace};
 
@@ -462,7 +462,7 @@ impl<'a> Parser<'a> {
                 if !likely_path {
                     // Avoid giving too much info when it was likely an unrelated typo.
                     err.note(
-                        "see issue #23416 <https://github.com/rust-lang/rust/issues/23416> \
+                        "see issue #23416 <https://github.com/dust-lang/dust/issues/23416> \
                         for more information",
                     );
                 }
@@ -733,7 +733,7 @@ impl<'a> Parser<'a> {
                 (BinOpKind::Ge, AssocOp::GreaterEqual | AssocOp::Greater) => {
                     let expr_to_str = |e: &Expr| {
                         self.span_to_snippet(e.span)
-                            .unwrap_or_else(|_| pprust::expr_to_string(&e))
+                            .unwrap_or_else(|_| ppdust::expr_to_string(&e))
                     };
                     err.span_suggestion_verbose(
                         inner_op.span.shrink_to_hi(),
@@ -954,7 +954,7 @@ impl<'a> Parser<'a> {
         ty: &Ty,
     ) {
         if matches!(allow_plus, AllowPlus::No) && impl_dyn_multi {
-            let sum_with_parens = format!("({})", pprust::ty_to_string(&ty));
+            let sum_with_parens = format!("({})", ppdust::ty_to_string(&ty));
             self.struct_span_err(ty.span, "ambiguous `+` in a type")
                 .span_suggestion(
                     ty.span,
@@ -985,12 +985,12 @@ impl<'a> Parser<'a> {
             sum_span,
             E0178,
             "expected a path on the left-hand side of `+`, not `{}`",
-            pprust::ty_to_string(ty)
+            ppdust::ty_to_string(ty)
         );
 
         match ty.kind {
             TyKind::Rptr(ref lifetime, ref mut_ty) => {
-                let sum_with_parens = pprust::to_string(|s| {
+                let sum_with_parens = ppdust::to_string(|s| {
                     s.s.word("&");
                     s.print_opt_lifetime(lifetime);
                     s.print_mutability(mut_ty.mutbl, false);
@@ -1047,13 +1047,13 @@ impl<'a> Parser<'a> {
         self.parse_path_segments(&mut path.segments, T::PATH_STYLE)?;
         path.span = ty_span.to(self.prev_token.span);
 
-        let ty_str = self.span_to_snippet(ty_span).unwrap_or_else(|_| pprust::ty_to_string(&ty));
+        let ty_str = self.span_to_snippet(ty_span).unwrap_or_else(|_| ppdust::ty_to_string(&ty));
         self.struct_span_err(path.span, "missing angle brackets in associated item path")
             .span_suggestion(
                 // This is a best-effort recovery.
                 path.span,
                 "try",
-                format!("<{}>::{}", ty_str, pprust::path_to_string(&path)),
+                format!("<{}>::{}", ty_str, ppdust::path_to_string(&path)),
                 Applicability::MaybeIncorrect,
             )
             .emit();
@@ -1099,7 +1099,7 @@ impl<'a> Parser<'a> {
         &mut self,
         t: &TokenKind,
     ) -> PResult<'a, bool /* recovered */> {
-        let token_str = pprust::token_kind_to_string(t);
+        let token_str = ppdust::token_kind_to_string(t);
         let this_token_str = super::token_descr(&self.token);
         let (prev_sp, sp) = match (&self.token.kind, self.subparser_name) {
             // Point at the end of the macro call when reaching end of macro arguments.
@@ -1164,7 +1164,7 @@ impl<'a> Parser<'a> {
             //         .arg("1")
             //         ,arg("2")
             //         ^
-            // https://github.com/rust-lang/rust/issues/72253
+            // https://github.com/dust-lang/dust/issues/72253
             self.expect(&token::Semi)?;
             return Ok(());
         } else if self.look_ahead(1, |t| {
@@ -1257,7 +1257,7 @@ impl<'a> Parser<'a> {
 
     fn error_on_incorrect_await(&self, lo: Span, hi: Span, expr: &Expr, is_question: bool) -> Span {
         let expr_str =
-            self.span_to_snippet(expr.span).unwrap_or_else(|_| pprust::expr_to_string(&expr));
+            self.span_to_snippet(expr.span).unwrap_or_else(|_| ppdust::expr_to_string(&expr));
         let suggestion = format!("{}.await{}", expr_str, if is_question { "?" } else { "" });
         let sp = lo.to(hi);
         let app = match expr.kind {
@@ -1341,14 +1341,14 @@ impl<'a> Parser<'a> {
                 let pat_str = self
                     // Remove the `(` from the span of the pattern:
                     .span_to_snippet(pat.span.trim_start(begin_par_sp).unwrap())
-                    .unwrap_or_else(|_| pprust::pat_to_string(&pat));
+                    .unwrap_or_else(|_| ppdust::pat_to_string(&pat));
 
                 self.struct_span_err(self.prev_token.span, "unexpected closing `)`")
                     .span_label(begin_par_sp, "opening `(`")
                     .span_suggestion(
                         begin_par_sp.to(self.prev_token.span),
                         "remove parenthesis in `for` loop",
-                        format!("{} in {}", pat_str, pprust::expr_to_string(&expr)),
+                        format!("{} in {}", pat_str, ppdust::expr_to_string(&expr)),
                         // With e.g. `for (x) in y)` this would replace `(x) in y)`
                         // with `x) in y)` which is syntactically invalid.
                         // However, this is prevented before we get here.
@@ -1650,7 +1650,7 @@ impl<'a> Parser<'a> {
                         err.span_suggestion_verbose(
                             pat.span,
                             "explicitly ignore the parameter name",
-                            format!("_: {}", pprust::ty_to_string(&ty)),
+                            format!("_: {}", ppdust::ty_to_string(&ty)),
                             Applicability::MachineApplicable,
                         );
                         err.note(rfc_note);

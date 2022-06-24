@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 use std::net::TcpListener;
 
 struct NoToSocketAddrs(String);

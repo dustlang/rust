@@ -9,24 +9,24 @@ mod simplify;
 crate mod types;
 crate mod utils;
 
-use rustc_ast as ast;
-use rustc_attr as attr;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, DefKind, Res};
-use rustc_hir::def_id::{CrateNum, DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_infer::infer::region_constraints::{Constraint, RegionConstraintData};
-use rustc_middle::bug;
-use rustc_middle::middle::resolve_lifetime as rl;
-use rustc_middle::ty::fold::TypeFolder;
-use rustc_middle::ty::subst::{InternalSubsts, Subst};
-use rustc_middle::ty::{self, AdtKind, Lift, Ty, TyCtxt};
-use rustc_mir::const_eval::{is_const_fn, is_min_const_fn, is_unstable_const_fn};
-use rustc_span::hygiene::{AstPass, MacroKind};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{self, ExpnKind};
-use rustc_typeck::hir_ty_to_ty;
+use dustc_ast as ast;
+use dustc_attr as attr;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, DefKind, Res};
+use dustc_hir::def_id::{CrateNum, DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_infer::infer::region_constraints::{Constraint, RegionConstraintData};
+use dustc_middle::bug;
+use dustc_middle::middle::resolve_lifetime as rl;
+use dustc_middle::ty::fold::TypeFolder;
+use dustc_middle::ty::subst::{InternalSubsts, Subst};
+use dustc_middle::ty::{self, AdtKind, Lift, Ty, TyCtxt};
+use dustc_mir::const_eval::{is_const_fn, is_min_const_fn, is_unstable_const_fn};
+use dustc_span::hygiene::{AstPass, MacroKind};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{self, ExpnKind};
+use dustc_typeck::hir_ty_to_ty;
 
 use std::collections::hash_map::Entry;
 use std::default::Default;
@@ -229,13 +229,13 @@ impl Clean<Item> for doctree::Module<'_> {
             }
         };
 
-        let what_rustc_thinks = Item::from_hir_id_and_parts(
+        let what_dustc_thinks = Item::from_hir_id_and_parts(
             self.id,
             self.name,
             ModuleItem(Module { is_crate: self.is_crate, items }),
             cx,
         );
-        Item { source: span.clean(cx), ..what_rustc_thinks }
+        Item { source: span.clean(cx), ..what_dustc_thinks }
     }
 }
 
@@ -625,9 +625,9 @@ impl Clean<Generics> for hir::Generics<'_> {
         }
         /// This can happen for `async fn`, e.g. `async fn f<'_>(&'_ self)`.
         ///
-        /// See [`lifetime_to_generic_param`] in [`rustc_ast_lowering`] for more information.
+        /// See [`lifetime_to_generic_param`] in [`dustc_ast_lowering`] for more information.
         ///
-        /// [`lifetime_to_generic_param`]: rustc_ast_lowering::LoweringContext::lifetime_to_generic_param
+        /// [`lifetime_to_generic_param`]: dustc_ast_lowering::LoweringContext::lifetime_to_generic_param
         fn is_elided_lifetime(param: &hir::GenericParam<'_>) -> bool {
             matches!(
                 param.kind,
@@ -702,7 +702,7 @@ impl<'a, 'tcx> Clean<Generics> for (&'a ty::Generics, ty::GenericPredicates<'tcx
         let mut impl_trait = BTreeMap::<ImplTraitParam, Vec<GenericBound>>::default();
 
         // Bounds in the type_params and lifetimes fields are repeated in the
-        // predicates field (see rustc_typeck::collect::ty_generics), so remove
+        // predicates field (see dustc_typeck::collect::ty_generics), so remove
         // them.
         let stripped_params = gens
             .params
@@ -1071,10 +1071,10 @@ impl Clean<Item> for hir::TraitItem<'_> {
                     AssocTypeItem(bounds.clean(cx), default.clean(cx))
                 }
             };
-            let what_rustc_thinks =
+            let what_dustc_thinks =
                 Item::from_def_id_and_parts(local_did, Some(self.ident.name), inner, cx);
             // Trait items always inherit the trait's visibility -- we don't want to show `pub`.
-            Item { visibility: Inherited, ..what_rustc_thinks }
+            Item { visibility: Inherited, ..what_dustc_thinks }
         })
     }
 }
@@ -1110,16 +1110,16 @@ impl Clean<Item> for hir::ImplItem<'_> {
                 }
             };
 
-            let what_rustc_thinks =
+            let what_dustc_thinks =
                 Item::from_def_id_and_parts(local_did, Some(self.ident.name), inner, cx);
             let parent_item = cx.tcx.hir().expect_item(cx.tcx.hir().get_parent_item(self.hir_id()));
             if let hir::ItemKind::Impl(impl_) = &parent_item.kind {
                 if impl_.of_trait.is_some() {
                     // Trait impl items always inherit the impl's visibility --
                     // we don't want to show `pub`.
-                    Item { visibility: Inherited, ..what_rustc_thinks }
+                    Item { visibility: Inherited, ..what_dustc_thinks }
                 } else {
-                    what_rustc_thinks
+                    what_dustc_thinks
                 }
             } else {
                 panic!("found impl item with non-impl parent {:?}", parent_item);
@@ -1281,7 +1281,7 @@ impl Clean<Item> for ty::AssocItem {
 }
 
 fn clean_qpath(hir_ty: &hir::Ty<'_>, cx: &mut DocContext<'_>) -> Type {
-    use rustc_hir::GenericParamCount;
+    use dustc_hir::GenericParamCount;
     let hir::Ty { hir_id, span, ref kind } = *hir_ty;
     let qpath = match kind {
         hir::TyKind::Path(qpath) => qpath,
@@ -1434,15 +1434,15 @@ fn clean_qpath(hir_ty: &hir::Ty<'_>, cx: &mut DocContext<'_>) -> Type {
 
 impl Clean<Type> for hir::Ty<'_> {
     fn clean(&self, cx: &mut DocContext<'_>) -> Type {
-        use rustc_hir::*;
+        use dustc_hir::*;
 
         match self.kind {
             TyKind::Never => Never,
             TyKind::Ptr(ref m) => RawPointer(m.mutbl, box m.ty.clean(cx)),
             TyKind::Rptr(ref l, ref m) => {
                 // There are two times a `Fresh` lifetime can be created:
-                // 1. For `&'_ x`, written by the user. This corresponds to `lower_lifetime` in `rustc_ast_lowering`.
-                // 2. For `&x` as a parameter to an `async fn`. This corresponds to `elided_ref_lifetime in `rustc_ast_lowering`.
+                // 1. For `&'_ x`, written by the user. This corresponds to `lower_lifetime` in `dustc_ast_lowering`.
+                // 2. For `&x` as a parameter to an `async fn`. This corresponds to `elided_ref_lifetime in `dustc_ast_lowering`.
                 //    See #59286 for more information.
                 // Ideally we would only hide the `'_` for case 2., but I don't know a way to distinguish it.
                 // Turning `fn f(&'_ self)` into `fn f(&self)` isn't the worst thing in the world, though;
@@ -1511,9 +1511,9 @@ fn normalize(cx: &mut DocContext<'tcx>, ty: Ty<'_>) -> Option<Ty<'tcx>> {
         return None;
     }
 
-    use crate::rustc_trait_selection::infer::TyCtxtInferExt;
-    use crate::rustc_trait_selection::traits::query::normalize::AtExt;
-    use rustc_middle::traits::ObligationCause;
+    use crate::dustc_trait_selection::infer::TyCtxtInferExt;
+    use crate::dustc_trait_selection::traits::query::normalize::AtExt;
+    use dustc_middle::traits::ObligationCause;
 
     // Try to normalize `<X as Y>::T` to a type
     let lifted = ty.lift_to_tcx(cx.tcx).unwrap();
@@ -1756,27 +1756,27 @@ impl<'tcx> Clean<Constant> for ty::Const<'tcx> {
 
 impl Clean<Item> for hir::FieldDef<'_> {
     fn clean(&self, cx: &mut DocContext<'_>) -> Item {
-        let what_rustc_thinks = Item::from_hir_id_and_parts(
+        let what_dustc_thinks = Item::from_hir_id_and_parts(
             self.hir_id,
             Some(self.ident.name),
             StructFieldItem(self.ty.clean(cx)),
             cx,
         );
         // Don't show `pub` for fields on enum variants; they are always public
-        Item { visibility: self.vis.clean(cx), ..what_rustc_thinks }
+        Item { visibility: self.vis.clean(cx), ..what_dustc_thinks }
     }
 }
 
 impl Clean<Item> for ty::FieldDef {
     fn clean(&self, cx: &mut DocContext<'_>) -> Item {
-        let what_rustc_thinks = Item::from_def_id_and_parts(
+        let what_dustc_thinks = Item::from_def_id_and_parts(
             self.did,
             Some(self.ident.name),
             StructFieldItem(cx.tcx.type_of(self.did).clean(cx)),
             cx,
         );
         // Don't show `pub` for fields on enum variants; they are always public
-        Item { visibility: self.vis.clean(cx), ..what_rustc_thinks }
+        Item { visibility: self.vis.clean(cx), ..what_dustc_thinks }
     }
 }
 
@@ -1803,8 +1803,8 @@ impl Clean<Visibility> for ty::Visibility {
         match *self {
             ty::Visibility::Public => Visibility::Public,
             // NOTE: this is not quite right: `ty` uses `Invisible` to mean 'private',
-            // while rustdoc really does mean inherited. That means that for enum variants, such as
-            // `pub enum E { V }`, `V` will be marked as `Public` by `ty`, but as `Inherited` by rustdoc.
+            // while dustdoc really does mean inherited. That means that for enum variants, such as
+            // `pub enum E { V }`, `V` will be marked as `Public` by `ty`, but as `Inherited` by dustdoc.
             // This is the main reason `impl Clean for hir::Visibility` still exists; various parts of clean
             // override `tcx.visibility` explicitly to make sure this distinction is captured.
             ty::Visibility::Invisible => Visibility::Inherited,
@@ -1813,7 +1813,7 @@ impl Clean<Visibility> for ty::Visibility {
     }
 }
 
-impl Clean<VariantStruct> for rustc_hir::VariantData<'_> {
+impl Clean<VariantStruct> for dustc_hir::VariantData<'_> {
     fn clean(&self, cx: &mut DocContext<'_>) -> VariantStruct {
         VariantStruct {
             struct_type: CtorKind::from_hir(self),
@@ -1839,18 +1839,18 @@ impl Clean<Item> for ty::VariantDef {
                     .map(|field| {
                         let name = Some(field.ident.name);
                         let kind = StructFieldItem(cx.tcx.type_of(field.did).clean(cx));
-                        let what_rustc_thinks =
+                        let what_dustc_thinks =
                             Item::from_def_id_and_parts(field.did, name, kind, cx);
                         // don't show `pub` for fields, which are always public
-                        Item { visibility: Visibility::Inherited, ..what_rustc_thinks }
+                        Item { visibility: Visibility::Inherited, ..what_dustc_thinks }
                     })
                     .collect(),
             }),
         };
-        let what_rustc_thinks =
+        let what_dustc_thinks =
             Item::from_def_id_and_parts(self.def_id, Some(self.ident.name), VariantItem(kind), cx);
         // don't show `pub` for fields, which are always public
-        Item { visibility: Inherited, ..what_rustc_thinks }
+        Item { visibility: Inherited, ..what_dustc_thinks }
     }
 }
 
@@ -1866,9 +1866,9 @@ impl Clean<Variant> for hir::VariantData<'_> {
     }
 }
 
-impl Clean<Span> for rustc_span::Span {
+impl Clean<Span> for dustc_span::Span {
     fn clean(&self, _cx: &mut DocContext<'_>) -> Span {
-        Span::from_rustc_span(*self)
+        Span::from_dustc_span(*self)
     }
 }
 
@@ -1962,11 +1962,11 @@ impl Clean<Vec<Item>> for (&hir::Item<'_>, Option<Symbol>) {
                     generics: ty.generics.clean(cx),
                 }),
                 ItemKind::TyAlias(hir_ty, ref generics) => {
-                    let rustdoc_ty = hir_ty.clean(cx);
+                    let dustdoc_ty = hir_ty.clean(cx);
                     let ty = hir_ty_to_ty(cx.tcx, hir_ty).clean(cx);
                     TypedefItem(
                         Typedef {
-                            type_: rustdoc_ty,
+                            type_: dustdoc_ty,
                             generics: generics.clean(cx),
                             item_type: Some(ty),
                         },
@@ -2028,10 +2028,10 @@ impl Clean<Vec<Item>> for (&hir::Item<'_>, Option<Symbol>) {
 impl Clean<Item> for hir::Variant<'_> {
     fn clean(&self, cx: &mut DocContext<'_>) -> Item {
         let kind = VariantItem(self.data.clean(cx));
-        let what_rustc_thinks =
+        let what_dustc_thinks =
             Item::from_hir_id_and_parts(self.id, Some(self.ident.name), kind, cx);
         // don't show `pub` for variants, which are always public
-        Item { visibility: Inherited, ..what_rustc_thinks }
+        Item { visibility: Inherited, ..what_dustc_thinks }
     }
 }
 
@@ -2128,7 +2128,7 @@ fn clean_extern_crate(
             return items;
         }
     }
-    // FIXME: using `from_def_id_and_kind` breaks `rustdoc/masked` for some reason
+    // FIXME: using `from_def_id_and_kind` breaks `dustdoc/masked` for some reason
     vec![Item {
         name: Some(name),
         attrs: box attrs.clean(cx),
@@ -2159,7 +2159,7 @@ fn clean_use_statement(
 
     if pub_underscore {
         if let Some(ref inline) = inline_attr {
-            rustc_errors::struct_span_err!(
+            dustc_errors::struct_span_err!(
                 cx.tcx.sess,
                 inline.span(),
                 E0780,
@@ -2188,7 +2188,7 @@ fn clean_use_statement(
         });
 
     // Also check whether imports were asked to be inlined, in case we're trying to re-export a
-    // crate in Rust 2018+
+    // crate in Dust 2018+
     let path = path.clean(cx);
     let inner = if kind == hir::UseKind::Glob {
         if !denied {

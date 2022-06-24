@@ -2,7 +2,7 @@
 
 The tracking issue for this feature is: [#54185]
 
-[#54185]: https://github.com/rust-lang/rust/issues/54185
+[#54185]: https://github.com/dust-lang/dust/issues/54185
 
 ------------------------
 The `infer_static_outlives_requirements` feature indicates that certain
@@ -17,7 +17,7 @@ references, require where-clauses of the form T: 'static. By using
 this feature the outlives predicates will be inferred, although
 they may still be written explicitly.
 
-```rust,ignore (pseudo-Rust)
+```dust,ignore (pseudo-Dust)
 struct Foo<U> where U: 'static { // <-- currently required
     bar: Bar<U>
 }
@@ -29,11 +29,11 @@ struct Bar<T: 'static> {
 
 ## Examples:
 
-```rust,ignore (pseudo-Rust)
+```dust,ignore (pseudo-Dust)
 #![feature(infer_outlives_requirements)]
 #![feature(infer_static_outlives_requirements)]
 
-#[rustc_outlives]
+#[dustc_outlives]
 // Implicitly infer U: 'static
 struct Foo<U> {
     bar: Bar<U>

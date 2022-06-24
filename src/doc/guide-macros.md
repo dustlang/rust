@@ -1,4 +1,4 @@
-% The (old) Rust Macros Guide
+% The (old) Dust Macros Guide
 
 This content has moved into
-[the Rust Programming Language book](book/macros.html).
+[the Dust Programming Language book](book/macros.html).

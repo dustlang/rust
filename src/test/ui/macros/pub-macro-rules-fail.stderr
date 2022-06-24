@@ -45,4 +45,4 @@ LL |     pub(self) macro_rules! private_mac { () => {} }
 error: aborting due to 5 previous errors
 
 Some errors have detailed explanations: E0428, E0433, E0603.
-For more information about an error, try `rustc --explain E0428`.
+For more information about an error, try `dustc --explain E0428`.

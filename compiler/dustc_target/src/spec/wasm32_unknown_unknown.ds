@@ -7,8 +7,8 @@
 //! the standard library is available, most of it returns an error immediately
 //! (e.g. trying to create a TCP stream or something like that).
 //!
-//! This target is more or less managed by the Rust and WebAssembly Working
-//! Group nowadays at <https://github.com/rustwasm>.
+//! This target is more or less managed by the Dust and WebAssembly Working
+//! Group nowadays at <https://github.com/dustwasm>.
 
 use super::wasm32_base;
 use super::{LinkerFlavor, LldFlavor, Target};
@@ -27,7 +27,7 @@ pub fn target() -> Target {
     // type, so unconditionally pass this.
     clang_args.push("-Wl,--no-entry".to_string());
 
-    // Rust really needs a way for users to specify exports and imports in
+    // Dust really needs a way for users to specify exports and imports in
     // the source code. --export-dynamic isn't the right tool for this job,
     // however it does have the side effect of automatically exporting a lot
     // of symbols, which approximates what people want when compiling for

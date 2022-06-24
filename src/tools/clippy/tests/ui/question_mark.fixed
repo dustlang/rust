@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![allow(unreachable_code)]
 #![allow(clippy::unnecessary_wraps)]
 
@@ -44,7 +44,7 @@ pub struct CopyStruct {
 }
 
 impl CopyStruct {
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     pub fn func(&self) -> Option<u32> {
         (self.opt)?;
 

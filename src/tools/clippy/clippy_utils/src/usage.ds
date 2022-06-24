@@ -1,16 +1,16 @@
 use crate as utils;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir as hir;
-use rustc_hir::def::Res;
-use rustc_hir::intravisit;
-use rustc_hir::intravisit::{NestedVisitorMap, Visitor};
-use rustc_hir::{Expr, ExprKind, HirId, Path};
-use rustc_infer::infer::TyCtxtInferExt;
-use rustc_lint::LateContext;
-use rustc_middle::mir::FakeReadCause;
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty;
-use rustc_typeck::expr_use_visitor::{ConsumeMode, Delegate, ExprUseVisitor, PlaceBase, PlaceWithHirId};
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir as hir;
+use dustc_hir::def::Res;
+use dustc_hir::intravisit;
+use dustc_hir::intravisit::{NestedVisitorMap, Visitor};
+use dustc_hir::{Expr, ExprKind, HirId, Path};
+use dustc_infer::infer::TyCtxtInferExt;
+use dustc_lint::LateContext;
+use dustc_middle::mir::FakeReadCause;
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty;
+use dustc_typeck::expr_use_visitor::{ConsumeMode, Delegate, ExprUseVisitor, PlaceBase, PlaceWithHirId};
 
 /// Returns a set of mutated local variable IDs, or `None` if mutations could not be determined.
 pub fn mutated_variables<'tcx>(expr: &'tcx Expr<'_>, cx: &LateContext<'tcx>) -> Option<FxHashSet<HirId>> {
@@ -79,7 +79,7 @@ impl<'tcx> Delegate<'tcx> for MutVarsDelegate {
         self.update(&cmt)
     }
 
-    fn fake_read(&mut self, _: rustc_typeck::expr_use_visitor::Place<'tcx>, _: FakeReadCause, _:HirId) { }
+    fn fake_read(&mut self, _: dustc_typeck::expr_use_visitor::Place<'tcx>, _: FakeReadCause, _:HirId) { }
 }
 
 pub struct ParamBindingIdCollector {
@@ -187,7 +187,7 @@ impl<'tcx> Visitor<'tcx> for ReturnBreakContinueMacroVisitor {
                 if utils::in_macro(ex.span) {
                     self.seen_return_break_continue = true;
                 } else {
-                    rustc_hir::intravisit::walk_expr(self, ex);
+                    dustc_hir::intravisit::walk_expr(self, ex);
                 }
             },
         }

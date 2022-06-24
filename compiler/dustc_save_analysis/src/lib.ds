@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(nll)]
 #![feature(or_patterns)]
 #![recursion_limit = "256"]
@@ -9,25 +9,25 @@ mod dumper;
 mod span_utils;
 mod sig;
 
-use rustc_ast as ast;
-use rustc_ast::util::comments::beautify_doc_string;
-use rustc_ast_pretty::pprust::attribute_to_string;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind as HirDefKind, Res};
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_hir::intravisit::{self, Visitor};
-use rustc_hir::Node;
-use rustc_hir_pretty::{enum_def_to_string, fn_to_string, ty_to_string};
-use rustc_middle::hir::map::Map;
-use rustc_middle::middle::cstore::ExternCrate;
-use rustc_middle::middle::privacy::AccessLevels;
-use rustc_middle::ty::{self, print::with_no_trimmed_paths, DefIdTree, TyCtxt};
-use rustc_middle::{bug, span_bug};
-use rustc_session::config::{CrateType, Input, OutputType};
-use rustc_session::output::{filename_for_metadata, out_filename};
-use rustc_span::source_map::Spanned;
-use rustc_span::symbol::Ident;
-use rustc_span::*;
+use dustc_ast as ast;
+use dustc_ast::util::comments::beautify_doc_string;
+use dustc_ast_pretty::ppdust::attribute_to_string;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind as HirDefKind, Res};
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_hir::intravisit::{self, Visitor};
+use dustc_hir::Node;
+use dustc_hir_pretty::{enum_def_to_string, fn_to_string, ty_to_string};
+use dustc_middle::hir::map::Map;
+use dustc_middle::middle::cstore::ExternCrate;
+use dustc_middle::middle::privacy::AccessLevels;
+use dustc_middle::ty::{self, print::with_no_trimmed_paths, DefIdTree, TyCtxt};
+use dustc_middle::{bug, span_bug};
+use dustc_session::config::{CrateType, Input, OutputType};
+use dustc_session::output::{filename_for_metadata, out_filename};
+use dustc_span::source_map::Spanned;
+use dustc_span::symbol::Ident;
+use dustc_span::*;
 
 use std::cell::Cell;
 use std::default::Default;
@@ -422,7 +422,7 @@ impl<'tcx> SaveContext<'tcx> {
 
                             let mut qualname = String::from("<");
                             qualname
-                                .push_str(&rustc_hir_pretty::id_to_string(&hir, self_ty.hir_id));
+                                .push_str(&dustc_hir_pretty::id_to_string(&hir, self_ty.hir_id));
 
                             let trait_id = self.tcx.trait_id_of_impl(impl_id);
                             let mut docs = String::new();
@@ -1039,12 +1039,12 @@ fn find_config(supplied: Option<Config>) -> Config {
         return config;
     }
 
-    match env::var_os("RUST_SAVE_ANALYSIS_CONFIG") {
+    match env::var_os("DUST_SAVE_ANALYSIS_CONFIG") {
         None => Config::default(),
         Some(config) => config
             .to_str()
             .ok_or(())
-            .map_err(|_| error!("`RUST_SAVE_ANALYSIS_CONFIG` isn't UTF-8"))
+            .map_err(|_| error!("`DUST_SAVE_ANALYSIS_CONFIG` isn't UTF-8"))
             .and_then(|cfg| {
                 serde_json::from_str(cfg)
                     .map_err(|_| error!("Could not deserialize save-analysis config"))

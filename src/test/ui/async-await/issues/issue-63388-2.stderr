@@ -14,4 +14,4 @@ LL |     ) -> &'a dyn Foo
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0106`.
+For more information about this error, try `dustc --explain E0106`.

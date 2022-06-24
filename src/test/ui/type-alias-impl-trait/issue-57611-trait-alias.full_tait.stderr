@@ -5,7 +5,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error: implementation of `FnOnce` is not general enough
   --> $DIR/issue-57611-trait-alias.rs:20:16
@@ -64,4 +64,4 @@ LL |     type Bar = impl Baz<Self, Self>;
 
 error: aborting due to 5 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0308`.
+For more information about this error, try `dustc --explain E0308`.

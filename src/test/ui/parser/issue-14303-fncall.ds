@@ -1,4 +1,4 @@
-// can't run rustfix because it doesn't handle multipart suggestions correctly
+// can't run dustfix because it doesn't handle multipart suggestions correctly
 // compile-flags: -Zborrowck=mir
 // we need the above to avoid ast borrowck failure in recovered code
 

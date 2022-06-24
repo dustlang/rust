@@ -1,11 +1,11 @@
-use rustc_data_structures::fx::FxHashMap;
-use rustc_lint::LintStore;
-use rustc_lint_defs::{declare_tool_lint, Lint, LintId};
-use rustc_session::{lint, Session};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_lint::LintStore;
+use dustc_lint_defs::{declare_tool_lint, Lint, LintId};
+use dustc_session::{lint, Session};
 
 use std::lazy::SyncLazy as Lazy;
 
-/// This function is used to setup the lint initialization. By default, in rustdoc, everything
+/// This function is used to setup the lint initialization. By default, in dustdoc, everything
 /// is "allowed". Depending if we run in test mode or not, we want some of them to be at their
 /// default level. For example, the "INVALID_CODEBLOCK_ATTRIBUTES" lint is activated in both
 /// modes.
@@ -33,7 +33,7 @@ where
     let lints = || {
         lint::builtin::HardwiredLints::get_lints()
             .into_iter()
-            .chain(rustc_lint::SoftLints::get_lints().into_iter())
+            .chain(dustc_lint::SoftLints::get_lints().into_iter())
     };
 
     let lint_opts = lints()
@@ -63,102 +63,102 @@ where
     (lint_opts, lint_caps)
 }
 
-macro_rules! declare_rustdoc_lint {
+macro_rules! declare_dustdoc_lint {
     ($(#[$attr:meta])* $name: ident, $level: ident, $descr: literal $(,)?) => {
         declare_tool_lint! {
-            $(#[$attr])* pub rustdoc::$name, $level, $descr
+            $(#[$attr])* pub dustdoc::$name, $level, $descr
         }
     }
 }
 
-declare_rustdoc_lint! {
+declare_dustdoc_lint! {
     /// The `broken_intra_doc_links` lint detects failures in resolving
-    /// intra-doc link targets. This is a `rustdoc` only lint, see the
-    /// documentation in the [rustdoc book].
+    /// intra-doc link targets. This is a `dustdoc` only lint, see the
+    /// documentation in the [dustdoc book].
     ///
-    /// [rustdoc book]: ../../../rustdoc/lints.html#broken_intra_doc_links
+    /// [dustdoc book]: ../../../dustdoc/lints.html#broken_intra_doc_links
     BROKEN_INTRA_DOC_LINKS,
     Warn,
     "failures in resolving intra-doc link targets"
 }
 
-declare_rustdoc_lint! {
+declare_dustdoc_lint! {
     /// This is a subset of `broken_intra_doc_links` that warns when linking from
-    /// a public item to a private one. This is a `rustdoc` only lint, see the
-    /// documentation in the [rustdoc book].
+    /// a public item to a private one. This is a `dustdoc` only lint, see the
+    /// documentation in the [dustdoc book].
     ///
-    /// [rustdoc book]: ../../../rustdoc/lints.html#private_intra_doc_links
+    /// [dustdoc book]: ../../../dustdoc/lints.html#private_intra_doc_links
     PRIVATE_INTRA_DOC_LINKS,
     Warn,
     "linking from a public item to a private one"
 }
 
-declare_rustdoc_lint! {
+declare_dustdoc_lint! {
     /// The `invalid_codeblock_attributes` lint detects code block attributes
     /// in documentation examples that have potentially mis-typed values. This
-    /// is a `rustdoc` only lint, see the documentation in the [rustdoc book].
+    /// is a `dustdoc` only lint, see the documentation in the [dustdoc book].
     ///
-    /// [rustdoc book]: ../../../rustdoc/lints.html#invalid_codeblock_attributes
+    /// [dustdoc book]: ../../../dustdoc/lints.html#invalid_codeblock_attributes
     INVALID_CODEBLOCK_ATTRIBUTES,
     Warn,
     "codeblock attribute looks a lot like a known one"
 }
 
-declare_rustdoc_lint! {
+declare_dustdoc_lint! {
     /// The `missing_crate_level_docs` lint detects if documentation is
-    /// missing at the crate root. This is a `rustdoc` only lint, see the
-    /// documentation in the [rustdoc book].
+    /// missing at the crate root. This is a `dustdoc` only lint, see the
+    /// documentation in the [dustdoc book].
     ///
-    /// [rustdoc book]: ../../../rustdoc/lints.html#missing_crate_level_docs
+    /// [dustdoc book]: ../../../dustdoc/lints.html#missing_crate_level_docs
     MISSING_CRATE_LEVEL_DOCS,
     Allow,
     "detects crates with no crate-level documentation"
 }
 
-declare_rustdoc_lint! {
+declare_dustdoc_lint! {
     /// The `missing_doc_code_examples` lint detects publicly-exported items
-    /// without code samples in their documentation. This is a `rustdoc` only
-    /// lint, see the documentation in the [rustdoc book].
+    /// without code samples in their documentation. This is a `dustdoc` only
+    /// lint, see the documentation in the [dustdoc book].
     ///
-    /// [rustdoc book]: ../../../rustdoc/lints.html#missing_doc_code_examples
+    /// [dustdoc book]: ../../../dustdoc/lints.html#missing_doc_code_examples
     MISSING_DOC_CODE_EXAMPLES,
     Allow,
     "detects publicly-exported items without code samples in their documentation"
 }
 
-declare_rustdoc_lint! {
+declare_dustdoc_lint! {
     /// The `private_doc_tests` lint detects code samples in docs of private
-    /// items not documented by `rustdoc`. This is a `rustdoc` only lint, see
-    /// the documentation in the [rustdoc book].
+    /// items not documented by `dustdoc`. This is a `dustdoc` only lint, see
+    /// the documentation in the [dustdoc book].
     ///
-    /// [rustdoc book]: ../../../rustdoc/lints.html#private_doc_tests
+    /// [dustdoc book]: ../../../dustdoc/lints.html#private_doc_tests
     PRIVATE_DOC_TESTS,
     Allow,
-    "detects code samples in docs of private items not documented by rustdoc"
+    "detects code samples in docs of private items not documented by dustdoc"
 }
 
-declare_rustdoc_lint! {
+declare_dustdoc_lint! {
     /// The `invalid_html_tags` lint detects invalid HTML tags. This is a
-    /// `rustdoc` only lint, see the documentation in the [rustdoc book].
+    /// `dustdoc` only lint, see the documentation in the [dustdoc book].
     ///
-    /// [rustdoc book]: ../../../rustdoc/lints.html#invalid_html_tags
+    /// [dustdoc book]: ../../../dustdoc/lints.html#invalid_html_tags
     INVALID_HTML_TAGS,
     Allow,
     "detects invalid HTML tags in doc comments"
 }
 
-declare_rustdoc_lint! {
+declare_dustdoc_lint! {
     /// The `non_autolinks` lint detects when a URL could be written using
-    /// only angle brackets. This is a `rustdoc` only lint, see the
-    /// documentation in the [rustdoc book].
+    /// only angle brackets. This is a `dustdoc` only lint, see the
+    /// documentation in the [dustdoc book].
     ///
-    /// [rustdoc book]: ../../../rustdoc/lints.html#non_autolinks
+    /// [dustdoc book]: ../../../dustdoc/lints.html#non_autolinks
     NON_AUTOLINKS,
     Warn,
     "detects URLs that could be written using only angle brackets"
 }
 
-crate static RUSTDOC_LINTS: Lazy<Vec<&'static Lint>> = Lazy::new(|| {
+crate static DUSTDOC_LINTS: Lazy<Vec<&'static Lint>> = Lazy::new(|| {
     vec![
         BROKEN_INTRA_DOC_LINKS,
         PRIVATE_INTRA_DOC_LINKS,
@@ -172,17 +172,17 @@ crate static RUSTDOC_LINTS: Lazy<Vec<&'static Lint>> = Lazy::new(|| {
 });
 
 crate fn register_lints(_sess: &Session, lint_store: &mut LintStore) {
-    lint_store.register_lints(&**RUSTDOC_LINTS);
+    lint_store.register_lints(&**DUSTDOC_LINTS);
     lint_store.register_group(
         true,
-        "rustdoc::all",
-        Some("rustdoc"),
-        RUSTDOC_LINTS.iter().map(|&lint| LintId::of(lint)).collect(),
+        "dustdoc::all",
+        Some("dustdoc"),
+        DUSTDOC_LINTS.iter().map(|&lint| LintId::of(lint)).collect(),
     );
-    for lint in &*RUSTDOC_LINTS {
+    for lint in &*DUSTDOC_LINTS {
         let name = lint.name_lower();
-        lint_store.register_alias(&name.replace("rustdoc::", ""), &name);
+        lint_store.register_alias(&name.replace("dustdoc::", ""), &name);
     }
     lint_store
-        .register_renamed("intra_doc_link_resolution_failure", "rustdoc::broken_intra_doc_links");
+        .register_renamed("intra_doc_link_resolution_failure", "dustdoc::broken_intra_doc_links");
 }

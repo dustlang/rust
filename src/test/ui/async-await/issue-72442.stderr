@@ -11,4 +11,4 @@ LL |     pub fn open<P: AsRef<Path>>(path: P) -> io::Result<File> {
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

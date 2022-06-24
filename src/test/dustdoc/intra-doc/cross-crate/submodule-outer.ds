@@ -4,7 +4,7 @@
 
 extern crate bar as bar_;
 
-// from https://github.com/rust-lang/rust/issues/60883
+// from https://github.com/dust-lang/dust/issues/60883
 pub mod bar {
     pub use ::bar_::Bar;
 }

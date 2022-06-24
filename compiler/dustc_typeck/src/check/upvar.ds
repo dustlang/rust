@@ -34,22 +34,22 @@ use super::writeback::Resolver;
 use super::FnCtxt;
 
 use crate::expr_use_visitor as euv;
-use rustc_data_structures::fx::FxIndexMap;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_infer::infer::UpvarRegion;
-use rustc_middle::hir::place::{Place, PlaceBase, PlaceWithHirId, Projection, ProjectionKind};
-use rustc_middle::mir::FakeReadCause;
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::{self, Ty, TyCtxt, TypeckResults, UpvarSubsts};
-use rustc_session::lint;
-use rustc_span::sym;
-use rustc_span::{MultiSpan, Span, Symbol};
+use dustc_data_structures::fx::FxIndexMap;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_infer::infer::UpvarRegion;
+use dustc_middle::hir::place::{Place, PlaceBase, PlaceWithHirId, Projection, ProjectionKind};
+use dustc_middle::mir::FakeReadCause;
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::{self, Ty, TyCtxt, TypeckResults, UpvarSubsts};
+use dustc_session::lint;
+use dustc_span::sym;
+use dustc_span::{MultiSpan, Span, Symbol};
 
-use rustc_index::vec::Idx;
-use rustc_target::abi::VariantIdx;
+use dustc_index::vec::Idx;
+use dustc_target::abi::VariantIdx;
 
 /// Describe the relationship between the paths of two places
 /// eg:
@@ -376,7 +376,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     ///       the existing min_capture map that is stored in TypeckResults.
     ///
     /// Eg:
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// struct Point { x: i32, y: i32 }
     ///
     /// let s: String;  // hir_id_s
@@ -681,7 +681,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     ///
     /// This will make more sense with an example:
     ///
-    /// ```rust
+    /// ```dust
     /// #![feature(capture_disjoint_fields)]
     ///
     /// struct FancyInteger(i32); // This implements Drop
@@ -750,7 +750,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     ///
     /// Consider another example:
     ///
-    /// ```rust
+    /// ```dust
     /// struct X;
     /// impl Drop for X {}
     ///
@@ -945,12 +945,12 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     }
 
     fn should_log_capture_analysis(&self, closure_def_id: DefId) -> bool {
-        self.tcx.has_attr(closure_def_id, sym::rustc_capture_analysis)
+        self.tcx.has_attr(closure_def_id, sym::dustc_capture_analysis)
     }
 
     fn log_capture_analysis_first_pass(
         &self,
-        closure_def_id: rustc_hir::def_id::DefId,
+        closure_def_id: dustc_hir::def_id::DefId,
         capture_information: &FxIndexMap<Place<'tcx>, ty::CaptureInfo<'tcx>>,
         closure_span: Span,
     ) {
@@ -1136,7 +1136,7 @@ struct InferBorrowKind<'a, 'tcx> {
     /// Consider closure where s.str1 is captured via an ImmutableBorrow and
     /// s.str2 via a MutableBorrow
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// struct SomeStruct { str1: String, str2: String }
     ///
     /// // Assume that the HirId for the variable definition is `V1`
@@ -1628,7 +1628,7 @@ fn migration_suggestion_for_2229(tcx: TyCtxt<'_>, need_migrations: &Vec<hir::Hir
 /// `determine_capture_info(existing_info, current_info)`. This works out because the
 /// expressions that occur earlier in the closure body than the current expression are processed before.
 /// Consider the following example
-/// ```rust,no_run
+/// ```dust,no_run
 /// struct Point { x: i32, y: i32 }
 /// let mut p: Point { x: 10, y: 10 };
 ///

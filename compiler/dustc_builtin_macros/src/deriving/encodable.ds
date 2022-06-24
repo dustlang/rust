@@ -1,12 +1,12 @@
-//! The compiler code necessary to implement the `#[derive(RustcEncodable)]`
-//! (and `RustcDecodable`, in `decodable.rs`) extension. The idea here is that
+//! The compiler code necessary to implement the `#[derive(DustcEncodable)]`
+//! (and `DustcDecodable`, in `decodable.rs`) extension. The idea here is that
 //! type-defining items may be tagged with
-//! `#[derive(RustcEncodable, RustcDecodable)]`.
+//! `#[derive(DustcEncodable, DustcDecodable)]`.
 //!
 //! For example, a type like:
 //!
 //! ```
-//! #[derive(RustcEncodable, RustcDecodable)]
+//! #[derive(DustcEncodable, DustcDecodable)]
 //! struct Node { id: usize }
 //! ```
 //!
@@ -41,16 +41,16 @@
 //! references other non-built-in types. A type definition like:
 //!
 //! ```
-//! # #[derive(RustcEncodable, RustcDecodable)]
+//! # #[derive(DustcEncodable, DustcDecodable)]
 //! # struct Span;
-//! #[derive(RustcEncodable, RustcDecodable)]
+//! #[derive(DustcEncodable, DustcDecodable)]
 //! struct Spanned<T> { node: T, span: Span }
 //! ```
 //!
 //! would yield functions like:
 //!
 //! ```
-//! # #[derive(RustcEncodable, RustcDecodable)]
+//! # #[derive(DustcEncodable, DustcDecodable)]
 //! # struct Span;
 //! # struct Spanned<T> { node: T, span: Span }
 //! impl<
@@ -89,20 +89,20 @@ use crate::deriving::generic::ty::*;
 use crate::deriving::generic::*;
 use crate::deriving::pathvec_std;
 
-use rustc_ast::ptr::P;
-use rustc_ast::{Expr, ExprKind, MetaItem, Mutability};
-use rustc_expand::base::{Annotatable, ExtCtxt};
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast::ptr::P;
+use dustc_ast::{Expr, ExprKind, MetaItem, Mutability};
+use dustc_expand::base::{Annotatable, ExtCtxt};
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::Span;
 
-pub fn expand_deriving_rustc_encodable(
+pub fn expand_deriving_dustc_encodable(
     cx: &mut ExtCtxt<'_>,
     span: Span,
     mitem: &MetaItem,
     item: &Annotatable,
     push: &mut dyn FnMut(Annotatable),
 ) {
-    let krate = sym::rustc_serialize;
+    let krate = sym::dustc_serialize;
     let typaram = sym::__S;
 
     let trait_def = TraitDef {
@@ -180,7 +180,7 @@ fn encodable_substructure(
     match *substr.fields {
         Struct(_, ref fields) => {
             let fn_emit_struct_field_path =
-                cx.def_site_path(&[sym::rustc_serialize, sym::Encoder, sym::emit_struct_field]);
+                cx.def_site_path(&[sym::dustc_serialize, sym::Encoder, sym::emit_struct_field]);
             let mut stmts = Vec::new();
             for (i, &FieldInfo { name, ref self_, span, .. }) in fields.iter().enumerate() {
                 let name = match name {
@@ -222,7 +222,7 @@ fn encodable_substructure(
             };
 
             let fn_emit_struct_path =
-                cx.def_site_path(&[sym::rustc_serialize, sym::Encoder, sym::emit_struct]);
+                cx.def_site_path(&[sym::dustc_serialize, sym::Encoder, sym::emit_struct]);
 
             cx.expr_call_global(
                 trait_span,
@@ -245,7 +245,7 @@ fn encodable_substructure(
             let encoder = cx.expr_ident(trait_span, blkarg);
 
             let fn_emit_enum_variant_arg_path: Vec<_> =
-                cx.def_site_path(&[sym::rustc_serialize, sym::Encoder, sym::emit_enum_variant_arg]);
+                cx.def_site_path(&[sym::dustc_serialize, sym::Encoder, sym::emit_enum_variant_arg]);
 
             let mut stmts = Vec::new();
             if !fields.is_empty() {
@@ -278,7 +278,7 @@ fn encodable_substructure(
             let name = cx.expr_str(trait_span, variant.ident.name);
 
             let fn_emit_enum_variant_path: Vec<_> =
-                cx.def_site_path(&[sym::rustc_serialize, sym::Encoder, sym::emit_enum_variant]);
+                cx.def_site_path(&[sym::dustc_serialize, sym::Encoder, sym::emit_enum_variant]);
 
             let call = cx.expr_call_global(
                 trait_span,
@@ -294,7 +294,7 @@ fn encodable_substructure(
 
             let blk = cx.lambda1(trait_span, call, blkarg);
             let fn_emit_enum_path: Vec<_> =
-                cx.def_site_path(&[sym::rustc_serialize, sym::Encoder, sym::emit_enum]);
+                cx.def_site_path(&[sym::dustc_serialize, sym::Encoder, sym::emit_enum]);
             let ret = cx.expr_call_global(
                 trait_span,
                 fn_emit_enum_path,

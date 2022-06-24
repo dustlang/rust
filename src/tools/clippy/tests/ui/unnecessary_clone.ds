@@ -1,4 +1,4 @@
-// does not test any rustfixable lints
+// does not test any dustfixable lints
 
 #![warn(clippy::clone_on_ref_ptr)]
 #![allow(unused, clippy::redundant_clone, clippy::unnecessary_wraps)]

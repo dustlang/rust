@@ -21,6 +21,6 @@ pub static TARGET_LIB: SyncLazy<PathBuf> = SyncLazy::new(|| {
 });
 
 #[must_use]
-pub fn is_rustc_test_suite() -> bool {
-    option_env!("RUSTC_TEST_SUITE").is_some()
+pub fn is_dustc_test_suite() -> bool {
+    option_env!("DUSTC_TEST_SUITE").is_some()
 }

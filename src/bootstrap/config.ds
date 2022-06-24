@@ -64,7 +64,7 @@ pub struct Config {
     pub ignore_git: bool,
     pub exclude: Vec<PathBuf>,
     pub include_default_paths: bool,
-    pub rustc_error_format: Option<String>,
+    pub dustc_error_format: Option<String>,
     pub json_output: bool,
     pub test_compare_mode: bool,
     pub llvm_libunwind: Option<LlvmLibunwind>,
@@ -81,7 +81,7 @@ pub struct Config {
     pub cmd: Subcommand,
     pub incremental: bool,
     pub dry_run: bool,
-    pub download_rustc: bool,
+    pub download_dustc: bool,
 
     pub deny_warnings: bool,
     pub backtrace_on_ice: bool,
@@ -114,30 +114,30 @@ pub struct Config {
     pub llvm_ldflags: Option<String>,
     pub llvm_use_libcxx: bool,
 
-    // rust codegen options
-    pub rust_optimize: bool,
-    pub rust_codegen_units: Option<u32>,
-    pub rust_codegen_units_std: Option<u32>,
-    pub rust_debug_assertions: bool,
-    pub rust_debug_assertions_std: bool,
-    pub rust_debug_logging: bool,
-    pub rust_debuginfo_level_rustc: u32,
-    pub rust_debuginfo_level_std: u32,
-    pub rust_debuginfo_level_tools: u32,
-    pub rust_debuginfo_level_tests: u32,
-    pub rust_run_dsymutil: bool,
-    pub rust_rpath: bool,
-    pub rustc_parallel: bool,
-    pub rustc_default_linker: Option<String>,
-    pub rust_optimize_tests: bool,
-    pub rust_dist_src: bool,
-    pub rust_codegen_backends: Vec<Interned<String>>,
-    pub rust_verify_llvm_ir: bool,
-    pub rust_thin_lto_import_instr_limit: Option<u32>,
-    pub rust_remap_debuginfo: bool,
-    pub rust_new_symbol_mangling: bool,
-    pub rust_profile_use: Option<String>,
-    pub rust_profile_generate: Option<String>,
+    // dust codegen options
+    pub dust_optimize: bool,
+    pub dust_codegen_units: Option<u32>,
+    pub dust_codegen_units_std: Option<u32>,
+    pub dust_debug_assertions: bool,
+    pub dust_debug_assertions_std: bool,
+    pub dust_debug_logging: bool,
+    pub dust_debuginfo_level_dustc: u32,
+    pub dust_debuginfo_level_std: u32,
+    pub dust_debuginfo_level_tools: u32,
+    pub dust_debuginfo_level_tests: u32,
+    pub dust_run_dsymutil: bool,
+    pub dust_rpath: bool,
+    pub dustc_parallel: bool,
+    pub dustc_default_linker: Option<String>,
+    pub dust_optimize_tests: bool,
+    pub dust_dist_src: bool,
+    pub dust_codegen_backends: Vec<Interned<String>>,
+    pub dust_verify_llvm_ir: bool,
+    pub dust_thin_lto_import_instr_limit: Option<u32>,
+    pub dust_remap_debuginfo: bool,
+    pub dust_new_symbol_mangling: bool,
+    pub dust_profile_use: Option<String>,
+    pub dust_profile_generate: Option<String>,
 
     pub build: TargetSelection,
     pub hosts: Vec<TargetSelection>,
@@ -153,7 +153,7 @@ pub struct Config {
     pub dist_compression_formats: Option<Vec<String>>,
 
     // libstd features
-    pub backtrace: bool, // support for RUST_BACKTRACE
+    pub backtrace: bool, // support for DUST_BACKTRACE
 
     // misc
     pub low_priority: bool,
@@ -184,8 +184,8 @@ pub struct Config {
 
     // These are either the stage0 downloaded binaries or the locally installed ones.
     pub initial_cargo: PathBuf,
-    pub initial_rustc: PathBuf,
-    pub initial_rustfmt: Option<PathBuf>,
+    pub initial_dustc: PathBuf,
+    pub initial_dustfmt: Option<PathBuf>,
     pub out: PathBuf,
 }
 
@@ -210,7 +210,7 @@ impl FromStr for LlvmLibunwind {
             "no" => Ok(Self::No),
             "in-tree" => Ok(Self::InTree),
             "system" => Ok(Self::System),
-            invalid => Err(format!("Invalid value '{}' for rust.llvm-libunwind config.", invalid)),
+            invalid => Err(format!("Invalid value '{}' for dust.llvm-libunwind config.", invalid)),
         }
     }
 }
@@ -243,7 +243,7 @@ impl TargetSelection {
         Self { triple, file }
     }
 
-    pub fn rustc_target_arg(&self) -> &str {
+    pub fn dustc_target_arg(&self) -> &str {
         self.file.as_ref().unwrap_or(&self.triple)
     }
 
@@ -320,7 +320,7 @@ struct TomlConfig {
     build: Option<Build>,
     install: Option<Install>,
     llvm: Option<Llvm>,
-    rust: Option<Rust>,
+    dust: Option<Dust>,
     target: Option<HashMap<String, TomlTarget>>,
     dist: Option<Dist>,
     profile: Option<String>,
@@ -329,7 +329,7 @@ struct TomlConfig {
 impl Merge for TomlConfig {
     fn merge(
         &mut self,
-        TomlConfig { build, install, llvm, rust, dist, target, profile: _, changelog_seen: _ }: Self,
+        TomlConfig { build, install, llvm, dust, dist, target, profile: _, changelog_seen: _ }: Self,
     ) {
         fn do_merge<T: Merge>(x: &mut Option<T>, y: Option<T>) {
             if let Some(new) = y {
@@ -343,7 +343,7 @@ impl Merge for TomlConfig {
         do_merge(&mut self.build, build);
         do_merge(&mut self.install, install);
         do_merge(&mut self.llvm, llvm);
-        do_merge(&mut self.rust, rust);
+        do_merge(&mut self.dust, dust);
         do_merge(&mut self.dist, dist);
         assert!(target.is_none(), "merging target-specific config is not currently supported");
     }
@@ -356,11 +356,11 @@ struct Build {
     build: Option<String>,
     host: Option<Vec<String>>,
     target: Option<Vec<String>>,
-    // This is ignored, the rust code always gets the build directory from the `BUILD_DIR` env variable
+    // This is ignored, the dust code always gets the build directory from the `BUILD_DIR` env variable
     build_dir: Option<String>,
     cargo: Option<String>,
-    rustc: Option<String>,
-    rustfmt: Option<PathBuf>,
+    dustc: Option<String>,
+    dustfmt: Option<PathBuf>,
     docs: Option<bool>,
     compiler_docs: Option<bool>,
     docs_minification: Option<bool>,
@@ -463,10 +463,10 @@ impl Default for StringOrBool {
     }
 }
 
-/// TOML representation of how the Rust build is configured.
+/// TOML representation of how the Dust build is configured.
 #[derive(Deserialize, Default, Merge)]
 #[serde(deny_unknown_fields, rename_all = "kebab-case")]
-struct Rust {
+struct Dust {
     optimize: Option<bool>,
     debug: Option<bool>,
     codegen_units: Option<u32>,
@@ -475,7 +475,7 @@ struct Rust {
     debug_assertions_std: Option<bool>,
     debug_logging: Option<bool>,
     debuginfo_level: Option<u32>,
-    debuginfo_level_rustc: Option<u32>,
+    debuginfo_level_dustc: Option<u32>,
     debuginfo_level_std: Option<u32>,
     debuginfo_level_tools: Option<u32>,
     debuginfo_level_tests: Option<u32>,
@@ -510,7 +510,7 @@ struct Rust {
     new_symbol_mangling: Option<bool>,
     profile_generate: Option<String>,
     profile_use: Option<String>,
-    download_rustc: Option<bool>,
+    download_dustc: Option<bool>,
 }
 
 /// TOML representation of how each build target is configured.
@@ -554,18 +554,18 @@ impl Config {
         config.ninja_in_file = true;
         config.llvm_version_check = true;
         config.backtrace = true;
-        config.rust_optimize = true;
-        config.rust_optimize_tests = true;
+        config.dust_optimize = true;
+        config.dust_optimize_tests = true;
         config.submodules = true;
         config.fast_submodules = true;
         config.docs = true;
         config.docs_minification = true;
-        config.rust_rpath = true;
+        config.dust_rpath = true;
         config.channel = "dev".to_string();
         config.codegen_tests = true;
         config.ignore_git = false;
-        config.rust_dist_src = true;
-        config.rust_codegen_backends = vec![INTERNER.intern_str("llvm")];
+        config.dust_dist_src = true;
+        config.dust_codegen_backends = vec![INTERNER.intern_str("llvm")];
         config.deny_warnings = true;
         config.missing_tools = false;
 
@@ -577,7 +577,7 @@ impl Config {
         config.out = Config::path_from_python("BUILD_DIR");
 
         config.initial_cargo = PathBuf::from(env!("CARGO"));
-        config.initial_rustc = PathBuf::from(env!("RUSTC"));
+        config.initial_dustc = PathBuf::from(env!("DUSTC"));
 
         config
     }
@@ -588,7 +588,7 @@ impl Config {
         let mut config = Config::default_opts();
         config.exclude = flags.exclude;
         config.include_default_paths = flags.include_default_paths;
-        config.rustc_error_format = flags.rustc_error_format;
+        config.dustc_error_format = flags.dustc_error_format;
         config.json_output = flags.json_output;
         config.on_fail = flags.on_fail;
         config.jobs = flags.jobs.map(threads_from_config);
@@ -675,8 +675,8 @@ impl Config {
         set(&mut config.full_bootstrap, build.full_bootstrap);
         set(&mut config.extended, build.extended);
         config.tools = build.tools;
-        if build.rustfmt.is_some() {
-            config.initial_rustfmt = build.rustfmt;
+        if build.dustfmt.is_some() {
+            config.initial_dustfmt = build.dustfmt;
         }
         set(&mut config.verbose, build.verbose);
         set(&mut config.sanitizers, build.sanitizers);
@@ -687,7 +687,7 @@ impl Config {
         set(&mut config.print_step_timings, build.print_step_timings);
         set(&mut config.print_step_rusage, build.print_step_rusage);
 
-        // See https://github.com/rust-lang/compiler-team/issues/326
+        // See https://github.com/dust-lang/compiler-team/issues/326
         config.stage = match config.cmd {
             Subcommand::Check { .. } => flags.stage.or(build.check_stage).unwrap_or(0),
             Subcommand::Doc { .. } => flags.stage.or(build.doc_stage).unwrap_or(0),
@@ -757,7 +757,7 @@ impl Config {
         let mut debug_assertions_std = None;
         let mut debug_logging = None;
         let mut debuginfo_level = None;
-        let mut debuginfo_level_rustc = None;
+        let mut debuginfo_level_dustc = None;
         let mut debuginfo_level_std = None;
         let mut debuginfo_level_tools = None;
         let mut debuginfo_level_tests = None;
@@ -843,64 +843,64 @@ impl Config {
             }
         }
 
-        if let Some(rust) = toml.rust {
-            debug = rust.debug;
-            debug_assertions = rust.debug_assertions;
-            debug_assertions_std = rust.debug_assertions_std;
-            debug_logging = rust.debug_logging;
-            debuginfo_level = rust.debuginfo_level;
-            debuginfo_level_rustc = rust.debuginfo_level_rustc;
-            debuginfo_level_std = rust.debuginfo_level_std;
-            debuginfo_level_tools = rust.debuginfo_level_tools;
-            debuginfo_level_tests = rust.debuginfo_level_tests;
-            config.rust_run_dsymutil = rust.run_dsymutil.unwrap_or(false);
-            optimize = rust.optimize;
-            ignore_git = rust.ignore_git;
-            set(&mut config.rust_new_symbol_mangling, rust.new_symbol_mangling);
-            set(&mut config.rust_optimize_tests, rust.optimize_tests);
-            set(&mut config.codegen_tests, rust.codegen_tests);
-            set(&mut config.rust_rpath, rust.rpath);
-            set(&mut config.jemalloc, rust.jemalloc);
-            set(&mut config.test_compare_mode, rust.test_compare_mode);
-            config.llvm_libunwind = rust
+        if let Some(dust) = toml.dust {
+            debug = dust.debug;
+            debug_assertions = dust.debug_assertions;
+            debug_assertions_std = dust.debug_assertions_std;
+            debug_logging = dust.debug_logging;
+            debuginfo_level = dust.debuginfo_level;
+            debuginfo_level_dustc = dust.debuginfo_level_dustc;
+            debuginfo_level_std = dust.debuginfo_level_std;
+            debuginfo_level_tools = dust.debuginfo_level_tools;
+            debuginfo_level_tests = dust.debuginfo_level_tests;
+            config.dust_run_dsymutil = dust.run_dsymutil.unwrap_or(false);
+            optimize = dust.optimize;
+            ignore_git = dust.ignore_git;
+            set(&mut config.dust_new_symbol_mangling, dust.new_symbol_mangling);
+            set(&mut config.dust_optimize_tests, dust.optimize_tests);
+            set(&mut config.codegen_tests, dust.codegen_tests);
+            set(&mut config.dust_rpath, dust.rpath);
+            set(&mut config.jemalloc, dust.jemalloc);
+            set(&mut config.test_compare_mode, dust.test_compare_mode);
+            config.llvm_libunwind = dust
                 .llvm_libunwind
-                .map(|v| v.parse().expect("failed to parse rust.llvm-libunwind"));
-            set(&mut config.backtrace, rust.backtrace);
-            set(&mut config.channel, rust.channel);
-            config.description = rust.description;
-            set(&mut config.rust_dist_src, rust.dist_src);
-            set(&mut config.verbose_tests, rust.verbose_tests);
+                .map(|v| v.parse().expect("failed to parse dust.llvm-libunwind"));
+            set(&mut config.backtrace, dust.backtrace);
+            set(&mut config.channel, dust.channel);
+            config.description = dust.description;
+            set(&mut config.dust_dist_src, dust.dist_src);
+            set(&mut config.verbose_tests, dust.verbose_tests);
             // in the case "false" is set explicitly, do not overwrite the command line args
-            if let Some(true) = rust.incremental {
+            if let Some(true) = dust.incremental {
                 config.incremental = true;
             }
-            set(&mut config.use_lld, rust.use_lld);
-            set(&mut config.lld_enabled, rust.lld);
-            set(&mut config.llvm_tools_enabled, rust.llvm_tools);
-            config.rustc_parallel = rust.parallel_compiler.unwrap_or(false);
-            config.rustc_default_linker = rust.default_linker;
-            config.musl_root = rust.musl_root.map(PathBuf::from);
-            config.save_toolstates = rust.save_toolstates.map(PathBuf::from);
-            set(&mut config.deny_warnings, flags.deny_warnings.or(rust.deny_warnings));
-            set(&mut config.backtrace_on_ice, rust.backtrace_on_ice);
-            set(&mut config.rust_verify_llvm_ir, rust.verify_llvm_ir);
-            config.rust_thin_lto_import_instr_limit = rust.thin_lto_import_instr_limit;
-            set(&mut config.rust_remap_debuginfo, rust.remap_debuginfo);
-            set(&mut config.control_flow_guard, rust.control_flow_guard);
+            set(&mut config.use_lld, dust.use_lld);
+            set(&mut config.lld_enabled, dust.lld);
+            set(&mut config.llvm_tools_enabled, dust.llvm_tools);
+            config.dustc_parallel = dust.parallel_compiler.unwrap_or(false);
+            config.dustc_default_linker = dust.default_linker;
+            config.musl_root = dust.musl_root.map(PathBuf::from);
+            config.save_toolstates = dust.save_toolstates.map(PathBuf::from);
+            set(&mut config.deny_warnings, flags.deny_warnings.or(dust.deny_warnings));
+            set(&mut config.backtrace_on_ice, dust.backtrace_on_ice);
+            set(&mut config.dust_verify_llvm_ir, dust.verify_llvm_ir);
+            config.dust_thin_lto_import_instr_limit = dust.thin_lto_import_instr_limit;
+            set(&mut config.dust_remap_debuginfo, dust.remap_debuginfo);
+            set(&mut config.control_flow_guard, dust.control_flow_guard);
 
-            if let Some(ref backends) = rust.codegen_backends {
-                config.rust_codegen_backends =
+            if let Some(ref backends) = dust.codegen_backends {
+                config.dust_codegen_backends =
                     backends.iter().map(|s| INTERNER.intern_str(s)).collect();
             }
 
-            config.rust_codegen_units = rust.codegen_units.map(threads_from_config);
-            config.rust_codegen_units_std = rust.codegen_units_std.map(threads_from_config);
-            config.rust_profile_use = flags.rust_profile_use.or(rust.profile_use);
-            config.rust_profile_generate = flags.rust_profile_generate.or(rust.profile_generate);
-            config.download_rustc = rust.download_rustc.unwrap_or(false);
+            config.dust_codegen_units = dust.codegen_units.map(threads_from_config);
+            config.dust_codegen_units_std = dust.codegen_units_std.map(threads_from_config);
+            config.dust_profile_use = flags.dust_profile_use.or(dust.profile_use);
+            config.dust_profile_generate = flags.dust_profile_generate.or(dust.profile_generate);
+            config.download_dustc = dust.download_dustc.unwrap_or(false);
         } else {
-            config.rust_profile_use = flags.rust_profile_use;
-            config.rust_profile_generate = flags.rust_profile_generate;
+            config.dust_profile_use = flags.dust_profile_use;
+            config.dust_profile_generate = flags.dust_profile_generate;
         }
 
         if let Some(t) = toml.target {
@@ -955,20 +955,20 @@ impl Config {
             config.dist_gpg_password_file = t.gpg_password_file.map(PathBuf::from);
             config.dist_upload_addr = t.upload_addr;
             config.dist_compression_formats = t.compression_formats;
-            set(&mut config.rust_dist_src, t.src_tarball);
+            set(&mut config.dust_dist_src, t.src_tarball);
             set(&mut config.missing_tools, t.missing_tools);
         }
 
-        config.initial_rustfmt = config.initial_rustfmt.or_else({
+        config.initial_dustfmt = config.initial_dustfmt.or_else({
             let build = config.build;
-            let initial_rustc = &config.initial_rustc;
+            let initial_dustc = &config.initial_dustc;
 
             move || {
-                // Cargo does not provide a RUSTFMT environment variable, so we
+                // Cargo does not provide a DUSTFMT environment variable, so we
                 // synthesize it manually.
-                let rustfmt = initial_rustc.with_file_name(exe("rustfmt", build));
+                let dustfmt = initial_dustc.with_file_name(exe("dustfmt", build));
 
-                if rustfmt.exists() { Some(rustfmt) } else { None }
+                if dustfmt.exists() { Some(dustfmt) } else { None }
             }
         });
 
@@ -981,14 +981,14 @@ impl Config {
         config.llvm_assertions = llvm_assertions.unwrap_or(default);
 
         let default = true;
-        config.rust_optimize = optimize.unwrap_or(default);
+        config.dust_optimize = optimize.unwrap_or(default);
 
         let default = debug == Some(true);
-        config.rust_debug_assertions = debug_assertions.unwrap_or(default);
-        config.rust_debug_assertions_std =
-            debug_assertions_std.unwrap_or(config.rust_debug_assertions);
+        config.dust_debug_assertions = debug_assertions.unwrap_or(default);
+        config.dust_debug_assertions_std =
+            debug_assertions_std.unwrap_or(config.dust_debug_assertions);
 
-        config.rust_debug_logging = debug_logging.unwrap_or(config.rust_debug_assertions);
+        config.dust_debug_logging = debug_logging.unwrap_or(config.dust_debug_assertions);
 
         let with_defaults = |debuginfo_level_specific: Option<u32>| {
             debuginfo_level_specific.or(debuginfo_level).unwrap_or(if debug == Some(true) {
@@ -997,10 +997,10 @@ impl Config {
                 0
             })
         };
-        config.rust_debuginfo_level_rustc = with_defaults(debuginfo_level_rustc);
-        config.rust_debuginfo_level_std = with_defaults(debuginfo_level_std);
-        config.rust_debuginfo_level_tools = with_defaults(debuginfo_level_tools);
-        config.rust_debuginfo_level_tests = debuginfo_level_tests.unwrap_or(0);
+        config.dust_debuginfo_level_dustc = with_defaults(debuginfo_level_dustc);
+        config.dust_debuginfo_level_std = with_defaults(debuginfo_level_std);
+        config.dust_debuginfo_level_tools = with_defaults(debuginfo_level_tools);
+        config.dust_debuginfo_level_tests = debuginfo_level_tests.unwrap_or(0);
 
         let default = config.channel == "dev";
         config.ignore_git = ignore_git.unwrap_or(default);
@@ -1058,7 +1058,7 @@ impl Config {
     }
 
     pub fn llvm_enabled(&self) -> bool {
-        self.rust_codegen_backends.contains(&INTERNER.intern_str("llvm"))
+        self.dust_codegen_backends.contains(&INTERNER.intern_str("llvm"))
     }
 }
 

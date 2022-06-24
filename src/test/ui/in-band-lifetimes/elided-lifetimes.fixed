@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 // edition:2018
 
 #![allow(unused)]

@@ -7,28 +7,28 @@ use crate::lint::{self, LintId};
 use crate::parse::ParseSess;
 use crate::search_paths::{PathKind, SearchPath};
 
-pub use rustc_ast::attr::MarkedAttrs;
-pub use rustc_ast::Attribute;
-use rustc_data_structures::flock;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::jobserver::{self, Client};
-use rustc_data_structures::profiling::{duration_to_secs_str, SelfProfiler, SelfProfilerRef};
-use rustc_data_structures::sync::{
+pub use dustc_ast::attr::MarkedAttrs;
+pub use dustc_ast::Attribute;
+use dustc_data_structures::flock;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::jobserver::{self, Client};
+use dustc_data_structures::profiling::{duration_to_secs_str, SelfProfiler, SelfProfilerRef};
+use dustc_data_structures::sync::{
     self, AtomicU64, AtomicUsize, Lock, Lrc, OnceCell, OneThread, Ordering, Ordering::SeqCst,
 };
-use rustc_errors::annotate_snippet_emitter_writer::AnnotateSnippetEmitterWriter;
-use rustc_errors::emitter::{Emitter, EmitterWriter, HumanReadableErrorType};
-use rustc_errors::json::JsonEmitter;
-use rustc_errors::registry::Registry;
-use rustc_errors::{Applicability, Diagnostic, DiagnosticBuilder, DiagnosticId, ErrorReported};
-use rustc_lint_defs::FutureBreakage;
-pub use rustc_span::crate_disambiguator::CrateDisambiguator;
-use rustc_span::edition::Edition;
-use rustc_span::source_map::{FileLoader, MultiSpan, RealFileLoader, SourceMap, Span};
-use rustc_span::{sym, SourceFileHashAlgorithm, Symbol};
-use rustc_target::asm::InlineAsmArch;
-use rustc_target::spec::{CodeModel, PanicStrategy, RelocModel, RelroLevel};
-use rustc_target::spec::{SplitDebuginfo, Target, TargetTriple, TlsModel};
+use dustc_errors::annotate_snippet_emitter_writer::AnnotateSnippetEmitterWriter;
+use dustc_errors::emitter::{Emitter, EmitterWriter, HumanReadableErrorType};
+use dustc_errors::json::JsonEmitter;
+use dustc_errors::registry::Registry;
+use dustc_errors::{Applicability, Diagnostic, DiagnosticBuilder, DiagnosticId, ErrorReported};
+use dustc_lint_defs::FutureBreakage;
+pub use dustc_span::crate_disambiguator::CrateDisambiguator;
+use dustc_span::edition::Edition;
+use dustc_span::source_map::{FileLoader, MultiSpan, RealFileLoader, SourceMap, Span};
+use dustc_span::{sym, SourceFileHashAlgorithm, Symbol};
+use dustc_target::asm::InlineAsmArch;
+use dustc_target::spec::{CodeModel, PanicStrategy, RelocModel, RelroLevel};
+use dustc_target::spec::{SplitDebuginfo, Target, TargetTriple, TlsModel};
 
 use std::cell::{self, RefCell};
 use std::env;
@@ -132,10 +132,10 @@ pub struct Session {
     /// arguments passed to the compiler. Its value together with the crate-name
     /// forms a unique global identifier for the crate. It is used to allow
     /// multiple crates with the same name to coexist. See the
-    /// `rustc_codegen_llvm::back::symbol_names` module for more information.
+    /// `dustc_codegen_llvm::back::symbol_names` module for more information.
     pub crate_disambiguator: OnceCell<CrateDisambiguator>,
 
-    features: OnceCell<rustc_feature::Features>,
+    features: OnceCell<dustc_feature::Features>,
 
     lint_store: OnceCell<Lrc<dyn SessionLintStore>>,
 
@@ -189,7 +189,7 @@ pub struct Session {
     /// exist under `std`. For example, wrote `str::from_utf8` instead of `std::str::from_utf8`.
     pub confused_type_with_std_module: Lock<FxHashMap<Span, Span>>,
 
-    /// Path for libraries that will take preference over libraries shipped by Rust.
+    /// Path for libraries that will take preference over libraries shipped by Dust.
     /// Used by windows-gnu targets to priortize system mingw-w64 libraries.
     pub system_library_path: OneThread<RefCell<Option<Option<PathBuf>>>>,
 
@@ -204,14 +204,14 @@ pub struct Session {
     /// drown everything else in noise.
     miri_unleashed_features: Lock<Vec<(Span, Option<Symbol>)>>,
 
-    /// Base directory containing the `src/` for the Rust standard library, and
-    /// potentially `rustc` as well, if we can can find it. Right now it's always
-    /// `$sysroot/lib/rustlib/src/rust` (i.e. the `rustup` `rust-src` component).
+    /// Base directory containing the `src/` for the Dust standard library, and
+    /// potentially `dustc` as well, if we can can find it. Right now it's always
+    /// `$sysroot/lib/dustlib/src/dust` (i.e. the `dustup` `dust-src` component).
     ///
-    /// This directory is what the virtual `/rustc/$hash` is translated back to,
-    /// if Rust was built with path remapping to `/rustc/$hash` enabled
-    /// (the `rust.remap-debuginfo` option in `config.toml`).
-    pub real_rust_source_base_dir: Option<PathBuf>,
+    /// This directory is what the virtual `/dustc/$hash` is translated back to,
+    /// if Dust was built with path remapping to `/dustc/$hash` enabled
+    /// (the `dust.remap-debuginfo` option in `config.toml`).
+    pub real_dust_source_base_dir: Option<PathBuf>,
 
     /// Architecture to use for interpreting asm!.
     pub asm_arch: Option<InlineAsmArch>,
@@ -246,7 +246,7 @@ enum DiagnosticBuilderMethod {
 }
 
 /// Trait implemented by error types. This should not be implemented manually. Instead, use
-/// `#[derive(SessionDiagnostic)]` -- see [rustc_macros::SessionDiagnostic].
+/// `#[derive(SessionDiagnostic)]` -- see [dustc_macros::SessionDiagnostic].
 pub trait SessionDiagnostic<'a> {
     /// Write out as a diagnostic out of `sess`.
     #[must_use]
@@ -508,7 +508,7 @@ impl Session {
             || self.opts.debugging_opts.dump_mir.is_some()
             || self.opts.debugging_opts.unpretty.is_some()
             || self.opts.output_types.contains_key(&OutputType::Mir)
-            || std::env::var_os("RUSTC_LOG").is_some()
+            || std::env::var_os("DUSTC_LOG").is_some()
         {
             return;
         }
@@ -526,7 +526,7 @@ impl Session {
         self.diagnostic().struct_note_without_error(msg)
     }
 
-    pub fn diagnostic(&self) -> &rustc_errors::Handler {
+    pub fn diagnostic(&self) -> &dustc_errors::Handler {
         &self.parse_sess.span_diagnostic
     }
 
@@ -629,7 +629,7 @@ impl Session {
         self.opts.debugging_opts.asm_comments
     }
     pub fn verify_llvm_ir(&self) -> bool {
-        self.opts.debugging_opts.verify_llvm_ir || option_env!("RUSTC_VERIFY_LLVM_IR").is_some()
+        self.opts.debugging_opts.verify_llvm_ir || option_env!("DUSTC_VERIFY_LLVM_IR").is_some()
     }
     pub fn borrowck_stats(&self) -> bool {
         self.opts.debugging_opts.borrowck_stats
@@ -651,11 +651,11 @@ impl Session {
     /// DO NOT USE THIS METHOD if there is a TyCtxt available, as it circumvents
     /// dependency tracking. Use tcx.features() instead.
     #[inline]
-    pub fn features_untracked(&self) -> &rustc_feature::Features {
+    pub fn features_untracked(&self) -> &dustc_feature::Features {
         self.features.get().unwrap()
     }
 
-    pub fn init_features(&self, features: rustc_feature::Features) {
+    pub fn init_features(&self, features: dustc_feature::Features) {
         match self.features.set(features) {
             Ok(()) => {}
             Err(_) => panic!("`features` was initialized twice"),
@@ -793,10 +793,10 @@ impl Session {
         }
     }
 
-    pub fn inline_asm_dialect(&self) -> rustc_ast::LlvmAsmDialect {
+    pub fn inline_asm_dialect(&self) -> dustc_ast::LlvmAsmDialect {
         match self.asm_arch {
-            Some(InlineAsmArch::X86 | InlineAsmArch::X86_64) => rustc_ast::LlvmAsmDialect::Intel,
-            _ => rustc_ast::LlvmAsmDialect::Att,
+            Some(InlineAsmArch::X86 | InlineAsmArch::X86_64) => dustc_ast::LlvmAsmDialect::Intel,
+            _ => dustc_ast::LlvmAsmDialect::Att,
         }
     }
 
@@ -870,11 +870,11 @@ impl Session {
     /// Returns the symbol name for the registrar function,
     /// given the crate `Svh` and the function `DefIndex`.
     pub fn generate_plugin_registrar_symbol(&self, disambiguator: CrateDisambiguator) -> String {
-        format!("__rustc_plugin_registrar_{}__", disambiguator.to_fingerprint().to_hex())
+        format!("__dustc_plugin_registrar_{}__", disambiguator.to_fingerprint().to_hex())
     }
 
     pub fn generate_proc_macro_decls_symbol(&self, disambiguator: CrateDisambiguator) -> String {
-        format!("__rustc_proc_macro_decls_{}__", disambiguator.to_fingerprint().to_hex())
+        format!("__dustc_proc_macro_decls_{}__", disambiguator.to_fingerprint().to_hex())
     }
 
     pub fn target_filesearch(&self, kind: PathKind) -> filesearch::FileSearch<'_> {
@@ -1053,11 +1053,11 @@ impl Session {
         // cost.
         //
         // Note that a high number here doesn't mean that we'll be spawning a
-        // large number of threads in parallel. The backend of rustc contains
+        // large number of threads in parallel. The backend of dustc contains
         // global rate limiting through the `jobserver` crate so we'll never
         // overload the system with too much work, but rather we'll only be
         // optimizing when we're otherwise cooperating with other instances of
-        // rustc.
+        // dustc.
         //
         // Rather a high number here means that we should be able to keep a lot
         // of idle cpus busy. By ensuring that no codegen unit takes *too* long
@@ -1099,17 +1099,17 @@ impl Session {
         self.opts.debugging_opts.teach && self.diagnostic().must_teach(code)
     }
 
-    pub fn rust_2015(&self) -> bool {
+    pub fn dust_2015(&self) -> bool {
         self.opts.edition == Edition::Edition2015
     }
 
-    /// Are we allowed to use features from the Rust 2018 edition?
-    pub fn rust_2018(&self) -> bool {
+    /// Are we allowed to use features from the Dust 2018 edition?
+    pub fn dust_2018(&self) -> bool {
         self.opts.edition >= Edition::Edition2018
     }
 
-    /// Are we allowed to use features from the Rust 2021 edition?
-    pub fn rust_2021(&self) -> bool {
+    /// Are we allowed to use features from the Dust 2021 edition?
+    pub fn dust_2021(&self) -> bool {
         self.opts.edition >= Edition::Edition2021
     }
 
@@ -1169,8 +1169,8 @@ impl Session {
     /// Returns `true` if the attribute's path matches the argument. If it
     /// matches, then the attribute is marked as used.
     ///
-    /// This method should only be used by rustc, other tools can use
-    /// `Attribute::has_name` instead, because only rustc is supposed to report
+    /// This method should only be used by dustc, other tools can use
+    /// `Attribute::has_name` instead, because only dustc is supposed to report
     /// the `unused_attributes` lint. (`MetaItem` and `NestedMetaItem` are
     /// produced by lowering an `Attribute` and don't have identity, so they
     /// only have the `has_name` method, and you need to mark the original
@@ -1220,7 +1220,7 @@ impl Session {
 
 fn default_emitter(
     sopts: &config::Options,
-    registry: rustc_errors::registry::Registry,
+    registry: dustc_errors::registry::Registry,
     source_map: Lrc<SourceMap>,
     emitter_dest: Option<Box<dyn Write + Send>>,
 ) -> Box<dyn Emitter + sync::Send> {
@@ -1290,7 +1290,7 @@ pub enum DiagnosticOutput {
 pub fn build_session(
     sopts: config::Options,
     local_crate_source_file: Option<PathBuf>,
-    registry: rustc_errors::registry::Registry,
+    registry: dustc_errors::registry::Registry,
     diagnostics_output: DiagnosticOutput,
     driver_lint_caps: FxHashMap<lint::LintId, lint::Level>,
     file_loader: Option<Box<dyn FileLoader + Send + Sync + 'static>>,
@@ -1335,7 +1335,7 @@ pub fn build_session(
     ));
     let emitter = default_emitter(&sopts, registry, source_map.clone(), write_dest);
 
-    let span_diagnostic = rustc_errors::Handler::with_emitter_and_flags(
+    let span_diagnostic = dustc_errors::Handler::with_emitter_and_flags(
         emitter,
         sopts.debugging_opts.diagnostic_handler_flags(can_emit_warnings),
     );
@@ -1407,19 +1407,19 @@ pub fn build_session(
         sopts.debugging_opts.time_passes,
     );
 
-    let ctfe_backtrace = Lock::new(match env::var("RUSTC_CTFE_BACKTRACE") {
+    let ctfe_backtrace = Lock::new(match env::var("DUSTC_CTFE_BACKTRACE") {
         Ok(ref val) if val == "immediate" => CtfeBacktrace::Immediate,
         Ok(ref val) if val != "0" => CtfeBacktrace::Capture,
         _ => CtfeBacktrace::Disabled,
     });
 
-    // Try to find a directory containing the Rust `src`, for more details see
-    // the doc comment on the `real_rust_source_base_dir` field.
-    let real_rust_source_base_dir = {
-        // This is the location used by the `rust-src` `rustup` component.
-        let mut candidate = sysroot.join("lib/rustlib/src/rust");
+    // Try to find a directory containing the Dust `src`, for more details see
+    // the doc comment on the `real_dust_source_base_dir` field.
+    let real_dust_source_base_dir = {
+        // This is the location used by the `dust-src` `dustup` component.
+        let mut candidate = sysroot.join("lib/dustlib/src/dust");
         if let Ok(metadata) = candidate.symlink_metadata() {
-            // Replace the symlink rustbuild creates, with its destination.
+            // Replace the symlink dustbuild creates, with its destination.
             // We could try to use `fs::canonicalize` instead, but that might
             // produce unnecessarily verbose path.
             if metadata.file_type().is_symlink() {
@@ -1475,7 +1475,7 @@ pub fn build_session(
         system_library_path: OneThread::new(RefCell::new(Default::default())),
         ctfe_backtrace,
         miri_unleashed_features: Lock::new(Default::default()),
-        real_rust_source_base_dir,
+        real_dust_source_base_dir,
         asm_arch,
         target_features: FxHashSet::default(),
         known_attrs: Lock::new(MarkedAttrs::new()),
@@ -1492,7 +1492,7 @@ pub fn build_session(
 // commandline argument, you can do so here.
 fn validate_commandline_args_with_session_available(sess: &Session) {
     // Since we don't know if code in an rlib will be linked to statically or
-    // dynamically downstream, rustc generates `__imp_` symbols that help linkers
+    // dynamically downstream, dustc generates `__imp_` symbols that help linkers
     // on Windows deal with this lack of knowledge (#27438). Unfortunately,
     // these manually generated symbols confuse LLD when it tries to merge
     // bitcode during ThinLTO. Therefore we disallow dynamic linking on Windows
@@ -1550,7 +1550,7 @@ fn validate_commandline_args_with_session_available(sess: &Session) {
         sess.err(
             "Profile-guided optimization does not yet work in conjunction \
                   with `-Cpanic=unwind` on Windows when targeting MSVC. \
-                  See issue #61002 <https://github.com/rust-lang/rust/issues/61002> \
+                  See issue #61002 <https://github.com/dust-lang/dust/issues/61002> \
                   for more information.",
         );
     }
@@ -1639,9 +1639,9 @@ pub fn early_error(output: config::ErrorOutputType, msg: &str) -> ! {
             Box::new(JsonEmitter::basic(pretty, json_rendered, None, false))
         }
     };
-    let handler = rustc_errors::Handler::with_emitter(true, None, emitter);
+    let handler = dustc_errors::Handler::with_emitter(true, None, emitter);
     handler.struct_fatal(msg).emit();
-    rustc_errors::FatalError.raise();
+    dustc_errors::FatalError.raise();
 }
 
 pub fn early_warn(output: config::ErrorOutputType, msg: &str) {
@@ -1654,6 +1654,6 @@ pub fn early_warn(output: config::ErrorOutputType, msg: &str) {
             Box::new(JsonEmitter::basic(pretty, json_rendered, None, false))
         }
     };
-    let handler = rustc_errors::Handler::with_emitter(true, None, emitter);
+    let handler = dustc_errors::Handler::with_emitter(true, None, emitter);
     handler.struct_warn(msg).emit();
 }

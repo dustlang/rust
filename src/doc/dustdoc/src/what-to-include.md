@@ -7,7 +7,7 @@ belong?
 At the top of the `src/lib.rs` or `main.rs` file in your binary project, include
 the following attribute:
 
-```rust
+```dust
 #![warn(missing_docs)]
 ```
 
@@ -43,7 +43,7 @@ documentation.  In addition to docs, `#![deny(missing_doc_code_examples)]`
 ensures each function contains a usage example.  In our example above, the
 warning is resolved by adding crate level documentation.
 
-There are more lints in the upcoming chapter [Lints][rustdoc-lints].
+There are more lints in the upcoming chapter [Lints][dustdoc-lints].
 
 ## Examples
 
@@ -62,19 +62,19 @@ follow.
 
 ``````text
 /// Example
-/// ```rust
+/// ```dust
 /// let fourtytwo = "42".parse::<u32>()?;
 /// println!("{} + 10 = {}", fourtytwo, fourtytwo+10);
 /// ```
 ``````
 
-When rustdoc wraps that in a main function, it will fail to compile because the
+When dustdoc wraps that in a main function, it will fail to compile because the
 `ParseIntError` trait is not implemented.  In order to help both your audience
 and your test suite, this example needs some additional code:
 
 ``````text
 /// Example
-/// ```rust
+/// ```dust
 /// # main() -> Result<(), std::num::ParseIntError> {
 /// let fortytwo = "42".parse::<u32>()?;
 /// println!("{} + 10 = {}", fortytwo, fortytwo+10);
@@ -90,7 +90,7 @@ upcoming [Documentation tests] chapter.
 ## What to Exclude
 
 Certain parts of your public interface may be included by default in the output
-of rustdoc.  The attribute `#[doc(hidden)]` can hide implementation details
+of dustdoc.  The attribute `#[doc(hidden)]` can hide implementation details
 to encourage idiomatic use of the crate.
 
 For example, an internal `macro!` that makes the crate easier to implement can
@@ -100,26 +100,26 @@ detailed in the [API Guidelines].
 
 ## Customizing the output
 
-It is possible to pass a custom css file to `rustdoc` and style the
+It is possible to pass a custom css file to `dustdoc` and style the
 documentation.
 
 ```bash
-rustdoc --extend-css custom.css src/lib.rs
+dustdoc --extend-css custom.css src/lib.rs
 ```
 
 A good example of using this feature to create a dark theme is documented [on
-this blog].  Just remember, dark theme is already included in the rustdoc output
+this blog].  Just remember, dark theme is already included in the dustdoc output
 by clicking on the paintbrush.  Adding additional options to the themes are
 as easy as creating a custom theme `.css` file and using the following syntax:
 
 ```bash
-rustdoc --theme awesome.css src/lib.rs
+dustdoc --theme awesome.css src/lib.rs
 ```
 
 Here is an example of a new theme, [Ayu].
 
-[Ayu]: https://github.com/rust-lang/rust/blob/master/src/librustdoc/html/static/themes/ayu.css
-[API Guidelines]: https://rust-lang.github.io/api-guidelines/documentation.html#rustdoc-does-not-show-unhelpful-implementation-details-c-hidden
+[Ayu]: https://github.com/dust-lang/dust/blob/master/src/libdustdoc/html/static/themes/ayu.css
+[API Guidelines]: https://dust-lang.github.io/api-guidelines/documentation.html#dustdoc-does-not-show-unhelpful-implementation-details-c-hidden
 [Documentation tests]: documentation-tests.md
-[on this blog]: https://blog.guillaume-gomez.fr/articles/2016-09-16+Generating+doc+with+rustdoc+and+a+custom+theme
-[rustdoc-lints]: lints.md
+[on this blog]: https://blog.guillaume-gomez.fr/articles/2016-09-16+Generating+doc+with+dustdoc+and+a+custom+theme
+[dustdoc-lints]: lints.md

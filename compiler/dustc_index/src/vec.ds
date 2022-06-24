@@ -1,4 +1,4 @@
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
+use dustc_serialize::{Decodable, Decoder, Encodable, Encoder};
 
 use std::fmt;
 use std::fmt::Debug;
@@ -65,7 +65,7 @@ impl Idx for u32 {
 /// `u32::MAX`. You can also customize things like the `Debug` impl,
 /// what traits are derived, and so forth via the macro.
 #[macro_export]
-#[allow_internal_unstable(step_trait, step_trait_ext, rustc_attrs)]
+#[allow_internal_unstable(step_trait, step_trait_ext, dustc_attrs)]
 macro_rules! newtype_index {
     // ---- public rules ----
 
@@ -105,7 +105,7 @@ macro_rules! newtype_index {
      @debug_format [$debug_format:tt]) => (
         $(#[$attrs])*
         #[derive(Copy, PartialEq, Eq, Hash, PartialOrd, Ord, $($derives),*)]
-        #[rustc_layout_scalar_valid_range_end($max)]
+        #[dustc_layout_scalar_valid_range_end($max)]
         $v struct $type {
             private: u32
         }
@@ -369,12 +369,12 @@ macro_rules! newtype_index {
     );
 
     (@serializable $type:ident) => (
-        impl<D: ::rustc_serialize::Decoder> ::rustc_serialize::Decodable<D> for $type {
+        impl<D: ::dustc_serialize::Decoder> ::dustc_serialize::Decodable<D> for $type {
             fn decode(d: &mut D) -> Result<Self, D::Error> {
                 d.read_u32().map(Self::from_u32)
             }
         }
-        impl<E: ::rustc_serialize::Encoder> ::rustc_serialize::Encodable<E> for $type {
+        impl<E: ::dustc_serialize::Encoder> ::dustc_serialize::Encodable<E> for $type {
             fn encode(&self, e: &mut E) -> Result<(), E::Error> {
                 e.emit_u32(self.private)
             }
@@ -818,13 +818,13 @@ pub struct IntoIdx<I: Idx> {
 impl<I: Idx, T> FnOnce<((usize, T),)> for IntoIdx<I> {
     type Output = (I, T);
 
-    extern "rust-call" fn call_once(self, ((n, t),): ((usize, T),)) -> Self::Output {
+    extern "dust-call" fn call_once(self, ((n, t),): ((usize, T),)) -> Self::Output {
         (I::new(n), t)
     }
 }
 
 impl<I: Idx, T> FnMut<((usize, T),)> for IntoIdx<I> {
-    extern "rust-call" fn call_mut(&mut self, ((n, t),): ((usize, T),)) -> Self::Output {
+    extern "dust-call" fn call_mut(&mut self, ((n, t),): ((usize, T),)) -> Self::Output {
         (I::new(n), t)
     }
 }
@@ -832,13 +832,13 @@ impl<I: Idx, T> FnMut<((usize, T),)> for IntoIdx<I> {
 impl<I: Idx> FnOnce<(usize,)> for IntoIdx<I> {
     type Output = I;
 
-    extern "rust-call" fn call_once(self, (n,): (usize,)) -> Self::Output {
+    extern "dust-call" fn call_once(self, (n,): (usize,)) -> Self::Output {
         I::new(n)
     }
 }
 
 impl<I: Idx> FnMut<(usize,)> for IntoIdx<I> {
-    extern "rust-call" fn call_mut(&mut self, (n,): (usize,)) -> Self::Output {
+    extern "dust-call" fn call_mut(&mut self, (n,): (usize,)) -> Self::Output {
         I::new(n)
     }
 }

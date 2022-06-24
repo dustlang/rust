@@ -1,7 +1,7 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) foo.rs
-	$(RUSTC) -Z ls $(TMPDIR)/foo
+	$(DUSTC) foo.rs
+	$(DUSTC) -Z ls $(TMPDIR)/foo
 	touch $(TMPDIR)/bar
-	$(RUSTC) -Z ls $(TMPDIR)/bar
+	$(DUSTC) -Z ls $(TMPDIR)/bar

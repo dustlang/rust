@@ -12,24 +12,24 @@ else
    exit 1
 fi
 
-if echo "$RUSTC_WRAPPER" | grep sccache; then
+if echo "$DUSTC_WRAPPER" | grep sccache; then
 echo
-echo -e "\x1b[1;93m=== Warning: Unset RUSTC_WRAPPER to prevent interference with sccache ===\x1b[0m"
+echo -e "\x1b[1;93m=== Warning: Unset DUSTC_WRAPPER to prevent interference with sccache ===\x1b[0m"
 echo
-export RUSTC_WRAPPER=
+export DUSTC_WRAPPER=
 fi
 
 dir=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)
 
-export RUSTC=$dir"/bin/cg_clif"
+export DUSTC=$dir"/bin/cg_clif"
 
-export RUSTDOCFLAGS=$linker' -Cpanic=abort -Zpanic-abort-tests '\
-'-Zcodegen-backend='$dir'/lib/librustc_codegen_cranelift.'$dylib_ext' --sysroot '$dir
+export DUSTDOCFLAGS=$linker' -Cpanic=abort -Zpanic-abort-tests '\
+'-Zcodegen-backend='$dir'/lib/libdustc_codegen_cranelift.'$dylib_ext' --sysroot '$dir
 
 # FIXME fix `#[linkage = "extern_weak"]` without this
 if [[ "$unamestr" == 'Darwin' ]]; then
-   export RUSTFLAGS="$RUSTFLAGS -Clink-arg=-undefined -Clink-arg=dynamic_lookup"
+   export DUSTFLAGS="$DUSTFLAGS -Clink-arg=-undefined -Clink-arg=dynamic_lookup"
 fi
 
-export LD_LIBRARY_PATH="$(rustc --print sysroot)/lib:"$dir"/lib"
+export LD_LIBRARY_PATH="$(dustc --print sysroot)/lib:"$dir"/lib"
 export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH

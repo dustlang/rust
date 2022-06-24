@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_codegen_ssa"
+name = "dustc_codegen_ssa"
 version = "0.0.0"
 edition = "2018"
 
@@ -18,19 +18,19 @@ jobserver = "0.1.11"
 tempfile = "3.1"
 pathdiff = "0.2.0"
 
-rustc_serialize = { path = "../rustc_serialize" }
-rustc_ast = { path = "../rustc_ast" }
-rustc_span = { path = "../rustc_span" }
-rustc_middle = { path = "../rustc_middle" }
-rustc_apfloat = { path = "../rustc_apfloat" }
-rustc_attr = { path = "../rustc_attr" }
-rustc_symbol_mangling = { path = "../rustc_symbol_mangling" }
-rustc_data_structures = { path = "../rustc_data_structures"}
-rustc_errors = { path = "../rustc_errors" }
-rustc_fs_util = { path = "../rustc_fs_util" }
-rustc_hir = { path = "../rustc_hir" }
-rustc_incremental = { path = "../rustc_incremental" }
-rustc_index = { path = "../rustc_index" }
-rustc_macros = { path = "../rustc_macros" }
-rustc_target = { path = "../rustc_target" }
-rustc_session = { path = "../rustc_session" }
+dustc_serialize = { path = "../dustc_serialize" }
+dustc_ast = { path = "../dustc_ast" }
+dustc_span = { path = "../dustc_span" }
+dustc_middle = { path = "../dustc_middle" }
+dustc_apfloat = { path = "../dustc_apfloat" }
+dustc_attr = { path = "../dustc_attr" }
+dustc_symbol_mangling = { path = "../dustc_symbol_mangling" }
+dustc_data_structures = { path = "../dustc_data_structures"}
+dustc_errors = { path = "../dustc_errors" }
+dustc_fs_util = { path = "../dustc_fs_util" }
+dustc_hir = { path = "../dustc_hir" }
+dustc_incremental = { path = "../dustc_incremental" }
+dustc_index = { path = "../dustc_index" }
+dustc_macros = { path = "../dustc_macros" }
+dustc_target = { path = "../dustc_target" }
+dustc_session = { path = "../dustc_session" }

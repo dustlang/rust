@@ -12,5 +12,5 @@ lazy_static = "1"
 walkdir = "2"
 
 [[bin]]
-name = "rust-tidy"
+name = "dust-tidy"
 path = "src/main.rs"

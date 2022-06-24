@@ -1,6 +1,6 @@
 // @has issue_31899/index.html
 // @has - 'Make this line a bit longer.'
-// @!has - 'rust rust-example-rendered'
+// @!has - 'dust dust-example-rendered'
 // @!has - 'use ndarray::arr2'
 // @!has - 'prohibited'
 
@@ -16,7 +16,7 @@
 /// assert_eq!(a[[1, 1]], 1);
 /// ```
 ///
-/// **Note** the blanket implementation that's not visible in rustdoc:
+/// **Note** the blanket implementation that's not visible in dustdoc:
 /// `impl<D> NdIndex for D where D: Dimension { ... }`
 pub fn bar() {}
 

@@ -23,4 +23,4 @@ LL | type X<'a> = impl Into<&'static str> + From<&'a str>;
 
 error: aborting due to previous error; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0308`.
+For more information about this error, try `dustc --explain E0308`.

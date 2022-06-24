@@ -19,8 +19,8 @@ extern "C" fn panic_in_ffi() {
 }
 
 #[unwind(aborts)]
-extern "Rust" fn panic_in_rust_abi() {
-    panic!("TestRust");
+extern "Dust" fn panic_in_dust_abi() {
+    panic!("TestDust");
 }
 
 fn test() {
@@ -31,7 +31,7 @@ fn test() {
 }
 
 fn testrust() {
-    let _ = panic::catch_unwind(|| { panic_in_rust_abi(); });
+    let _ = panic::catch_unwind(|| { panic_in_dust_abi(); });
     // The process should have aborted by now.
     io::stdout().write(b"This should never be printed.\n");
     let _ = io::stdout().flush();

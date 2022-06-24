@@ -22,7 +22,7 @@ error[E0658]: `impl Trait` in type aliases is unstable
 LL |     type Out = impl Debug;
    |                ^^^^^^^^^^
    |
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
    = help: add `#![feature(min_type_alias_impl_trait)]` to the crate attributes to enable
 
 error[E0658]: `impl Trait` in type aliases is unstable
@@ -31,7 +31,7 @@ error[E0658]: `impl Trait` in type aliases is unstable
 LL | type InTypeAlias<R> = impl Debug;
    |                       ^^^^^^^^^^
    |
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
    = help: add `#![feature(min_type_alias_impl_trait)]` to the crate attributes to enable
 
 error[E0658]: `impl Trait` in type aliases is unstable
@@ -40,7 +40,7 @@ error[E0658]: `impl Trait` in type aliases is unstable
 LL | type InReturnInTypeAlias<R> = fn() -> impl Debug;
    |                                       ^^^^^^^^^^
    |
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
    = help: add `#![feature(min_type_alias_impl_trait)]` to the crate attributes to enable
 
 error[E0562]: `impl Trait` not allowed outside of function and inherent method return types
@@ -290,4 +290,4 @@ LL | type InTypeAlias<R> = impl Debug;
 error: aborting due to 44 previous errors
 
 Some errors have detailed explanations: E0562, E0658, E0666, E0720.
-For more information about an error, try `rustc --explain E0562`.
+For more information about an error, try `dustc --explain E0562`.

@@ -16,19 +16,19 @@ import bootstrap
 class Stage0DataTestCase(unittest.TestCase):
     """Test Case for stage0_data"""
     def setUp(self):
-        self.rust_root = tempfile.mkdtemp()
-        os.mkdir(os.path.join(self.rust_root, "src"))
-        with open(os.path.join(self.rust_root, "src",
+        self.dust_root = tempfile.mkdtemp()
+        os.mkdir(os.path.join(self.dust_root, "src"))
+        with open(os.path.join(self.dust_root, "src",
                                "stage0.txt"), "w") as stage0:
-            stage0.write("#ignore\n\ndate: 2017-06-15\nrustc: beta\ncargo: beta\nrustfmt: beta")
+            stage0.write("#ignore\n\ndate: 2017-06-15\ndustc: beta\ncargo: beta\ndustfmt: beta")
 
     def tearDown(self):
-        rmtree(self.rust_root)
+        rmtree(self.dust_root)
 
     def test_stage0_data(self):
         """Extract data from stage0.txt"""
-        expected = {"date": "2017-06-15", "rustc": "beta", "cargo": "beta", "rustfmt": "beta"}
-        data = bootstrap.stage0_data(self.rust_root)
+        expected = {"date": "2017-06-15", "dustc": "beta", "cargo": "beta", "dustfmt": "beta"}
+        data = bootstrap.stage0_data(self.dust_root)
         self.assertDictEqual(data, expected)
 
 
@@ -65,11 +65,11 @@ class ProgramOutOfDate(unittest.TestCase):
     def setUp(self):
         self.container = tempfile.mkdtemp()
         os.mkdir(os.path.join(self.container, "stage0"))
-        self.build = bootstrap.RustBuild()
+        self.build = bootstrap.DustBuild()
         self.build.date = "2017-06-15"
         self.build.build_dir = self.container
-        self.rustc_stamp_path = os.path.join(self.container, "stage0",
-                                             ".rustc-stamp")
+        self.dustc_stamp_path = os.path.join(self.container, "stage0",
+                                             ".dustc-stamp")
         self.key = self.build.date + str(None)
 
     def tearDown(self):
@@ -77,21 +77,21 @@ class ProgramOutOfDate(unittest.TestCase):
 
     def test_stamp_path_does_not_exists(self):
         """Return True when the stamp file does not exists"""
-        if os.path.exists(self.rustc_stamp_path):
-            os.unlink(self.rustc_stamp_path)
-        self.assertTrue(self.build.program_out_of_date(self.rustc_stamp_path, self.key))
+        if os.path.exists(self.dustc_stamp_path):
+            os.unlink(self.dustc_stamp_path)
+        self.assertTrue(self.build.program_out_of_date(self.dustc_stamp_path, self.key))
 
     def test_dates_are_different(self):
         """Return True when the dates are different"""
-        with open(self.rustc_stamp_path, "w") as rustc_stamp:
-            rustc_stamp.write("2017-06-14None")
-        self.assertTrue(self.build.program_out_of_date(self.rustc_stamp_path, self.key))
+        with open(self.dustc_stamp_path, "w") as dustc_stamp:
+            dustc_stamp.write("2017-06-14None")
+        self.assertTrue(self.build.program_out_of_date(self.dustc_stamp_path, self.key))
 
     def test_same_dates(self):
         """Return False both dates match"""
-        with open(self.rustc_stamp_path, "w") as rustc_stamp:
-            rustc_stamp.write("2017-06-15None")
-        self.assertFalse(self.build.program_out_of_date(self.rustc_stamp_path, self.key))
+        with open(self.dustc_stamp_path, "w") as dustc_stamp:
+            dustc_stamp.write("2017-06-15None")
+        self.assertFalse(self.build.program_out_of_date(self.dustc_stamp_path, self.key))
 
 
 if __name__ == '__main__':

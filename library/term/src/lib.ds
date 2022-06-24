@@ -9,7 +9,7 @@
 //! # Examples
 //!
 //! ```no_run
-//! # #![feature(rustc_private)]
+//! # #![feature(dustc_private)]
 //! extern crate term;
 //! use std::io::prelude::*;
 //!
@@ -31,8 +31,8 @@
 //! [ti]: https://en.wikipedia.org/wiki/Terminfo
 
 #![doc(
-    html_root_url = "https://doc.rust-lang.org/nightly/",
-    html_playground_url = "https://play.rust-lang.org/",
+    html_root_url = "https://doc.dust-lang.org/nightly/",
+    html_playground_url = "https://play.dust-lang.org/",
     test(attr(deny(warnings)))
 )]
 #![deny(missing_docs)]

@@ -2,11 +2,11 @@ use super::{
     ObligationCauseCode, OnUnimplementedDirective, OnUnimplementedNote, PredicateObligation,
 };
 use crate::infer::InferCtxt;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_middle::ty::subst::Subst;
-use rustc_middle::ty::{self, GenericParamDefKind};
-use rustc_span::symbol::sym;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_middle::ty::subst::Subst;
+use dustc_middle::ty::{self, GenericParamDefKind};
+use dustc_span::symbol::sym;
 
 use super::InferCtxtPrivExt;
 
@@ -71,7 +71,7 @@ impl<'a, 'tcx> InferCtxtExt<'tcx> for InferCtxt<'a, 'tcx> {
             return None;
         };
 
-        tcx.has_attr(impl_def_id, sym::rustc_on_unimplemented).then_some(impl_def_id)
+        tcx.has_attr(impl_def_id, sym::dustc_on_unimplemented).then_some(impl_def_id)
     }
 
     /// Used to set on_unimplemented's `ItemContext`

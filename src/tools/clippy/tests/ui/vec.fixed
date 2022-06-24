@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![warn(clippy::useless_vec)]
 
@@ -28,7 +28,7 @@ fn main() {
 
     on_slice(&[1, 2]);
     on_slice(&[1, 2]);
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     on_slice(&[1, 2]);
     on_slice(&[1, 2]);
 

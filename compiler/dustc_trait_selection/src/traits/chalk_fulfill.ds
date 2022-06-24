@@ -7,8 +7,8 @@ use crate::traits::{
     ChalkEnvironmentAndGoal, FulfillmentError, FulfillmentErrorCode, ObligationCause,
     PredicateObligation, SelectionError, TraitEngine,
 };
-use rustc_data_structures::fx::FxIndexSet;
-use rustc_middle::ty::{self, Ty};
+use dustc_data_structures::fx::FxIndexSet;
+use dustc_middle::ty::{self, Ty};
 
 pub struct FulfillmentContext<'tcx> {
     obligations: FxIndexSet<PredicateObligation<'tcx>>,

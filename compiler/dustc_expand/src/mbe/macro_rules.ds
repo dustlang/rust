@@ -8,24 +8,24 @@ use crate::mbe::macro_parser::{Error, ErrorReported, Failure, Success};
 use crate::mbe::macro_parser::{MatchedNonterminal, MatchedSeq};
 use crate::mbe::transcribe::transcribe;
 
-use rustc_ast as ast;
-use rustc_ast::token::{self, NonterminalKind, NtTT, Token, TokenKind::*};
-use rustc_ast::tokenstream::{DelimSpan, TokenStream};
-use rustc_ast::NodeId;
-use rustc_ast_pretty::pprust;
-use rustc_attr::{self as attr, TransparencyError};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_feature::Features;
-use rustc_lint_defs::builtin::SEMICOLON_IN_EXPRESSIONS_FROM_MACROS;
-use rustc_parse::parser::Parser;
-use rustc_session::parse::ParseSess;
-use rustc_session::Session;
-use rustc_span::edition::Edition;
-use rustc_span::hygiene::Transparency;
-use rustc_span::symbol::{kw, sym, Ident, MacroRulesNormalizedIdent};
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_ast::token::{self, NonterminalKind, NtTT, Token, TokenKind::*};
+use dustc_ast::tokenstream::{DelimSpan, TokenStream};
+use dustc_ast::NodeId;
+use dustc_ast_pretty::ppdust;
+use dustc_attr::{self as attr, TransparencyError};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_feature::Features;
+use dustc_lint_defs::builtin::SEMICOLON_IN_EXPRESSIONS_FROM_MACROS;
+use dustc_parse::parser::Parser;
+use dustc_session::parse::ParseSess;
+use dustc_session::Session;
+use dustc_span::edition::Edition;
+use dustc_span::hygiene::Transparency;
+use dustc_span::symbol::{kw, sym, Ident, MacroRulesNormalizedIdent};
+use dustc_span::Span;
 
 use std::borrow::Cow;
 use std::collections::hash_map::Entry;
@@ -203,7 +203,7 @@ fn generic_extension<'cx>(
     let sess = &cx.sess.parse_sess;
 
     if cx.trace_macros() {
-        let msg = format!("expanding `{}! {{ {} }}`", name, pprust::tts_to_string(&arg));
+        let msg = format!("expanding `{}! {{ {} }}`", name, ppdust::tts_to_string(&arg));
         trace_macros_note(&mut cx.expansions, sp, msg);
     }
 
@@ -280,7 +280,7 @@ fn generic_extension<'cx>(
                 }
 
                 if cx.trace_macros() {
-                    let msg = format!("to `{}`", pprust::tts_to_string(&tts));
+                    let msg = format!("to `{}`", ppdust::tts_to_string(&tts));
                     trace_macros_note(&mut cx.expansions, sp, msg);
                 }
 
@@ -430,7 +430,7 @@ pub fn compile_declarative_macro(
         ),
     ];
 
-    let parser = Parser::new(&sess.parse_sess, body, true, rustc_parse::MACRO_ARGUMENTS);
+    let parser = Parser::new(&sess.parse_sess, body, true, dustc_parse::MACRO_ARGUMENTS);
     let argument_map = match parse_tt(&mut Cow::Borrowed(&parser), &argument_gram) {
         Success(m) => m,
         Failure(token, msg) => {
@@ -1159,7 +1159,7 @@ fn is_in_follow(tok: &mbe::TokenTree, kind: NonterminalKind) -> IsInFollow {
 
 fn quoted_tt_to_string(tt: &mbe::TokenTree) -> String {
     match *tt {
-        mbe::TokenTree::Token(ref token) => pprust::token_to_string(&token),
+        mbe::TokenTree::Token(ref token) => ppdust::token_to_string(&token),
         mbe::TokenTree::MetaVar(_, name) => format!("${}", name),
         mbe::TokenTree::MetaVarDecl(_, name, Some(kind)) => format!("${}:{}", name, kind),
         mbe::TokenTree::MetaVarDecl(_, name, None) => format!("${}:", name),
@@ -1172,7 +1172,7 @@ fn quoted_tt_to_string(tt: &mbe::TokenTree) -> String {
 }
 
 fn parser_from_cx(sess: &ParseSess, tts: TokenStream) -> Parser<'_> {
-    Parser::new(sess, tts, true, rustc_parse::MACRO_ARGUMENTS)
+    Parser::new(sess, tts, true, dustc_parse::MACRO_ARGUMENTS)
 }
 
 /// Generates an appropriate parsing failure message. For EOF, this is "unexpected end...". For
@@ -1180,6 +1180,6 @@ fn parser_from_cx(sess: &ParseSess, tts: TokenStream) -> Parser<'_> {
 fn parse_failure_msg(tok: &Token) -> String {
     match tok.kind {
         token::Eof => "unexpected end of macro invocation".to_string(),
-        _ => format!("no rules expected the token `{}`", pprust::token_to_string(tok),),
+        _ => format!("no rules expected the token `{}`", ppdust::token_to_string(tok),),
     }
 }

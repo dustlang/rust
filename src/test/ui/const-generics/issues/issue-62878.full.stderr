@@ -21,4 +21,4 @@ LL |     foo::<_, {[1]}>();
 error: aborting due to 3 previous errors
 
 Some errors have detailed explanations: E0308, E0747, E0770.
-For more information about an error, try `rustc --explain E0308`.
+For more information about an error, try `dustc --explain E0308`.

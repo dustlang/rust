@@ -3,7 +3,7 @@
 
 (function () {
     function changeSetting(settingName, value) {
-        updateLocalStorage("rustdoc-" + settingName, value);
+        updateLocalStorage("dustdoc-" + settingName, value);
 
         switch (settingName) {
             case "preferred-dark-theme":

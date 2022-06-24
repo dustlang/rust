@@ -4,13 +4,13 @@ use crate::utils::{
     span_lint_and_then,
 };
 use if_chain::if_chain;
-use rustc_ast::ast::LitKind;
-use rustc_errors::Applicability;
-use rustc_hir::{Arm, BorrowKind, Expr, ExprKind, MatchSource, PatKind};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
-use rustc_span::sym;
+use dustc_ast::ast::LitKind;
+use dustc_errors::Applicability;
+use dustc_hir::{Arm, BorrowKind, Expr, ExprKind, MatchSource, PatKind};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
+use dustc_span::sym;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for the use of `format!("string literal with no
@@ -25,7 +25,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Examples:**
-    /// ```rust
+    /// ```dust
     ///
     /// // Bad
     /// let foo = "foo";
@@ -92,7 +92,7 @@ fn on_argumentv1_new<'tcx>(cx: &LateContext<'tcx>, expr: &'tcx Expr<'_>, arms: &
         if pats.len() == 1;
         then {
             let ty = cx.typeck_results().pat_ty(&pats[0]).peel_refs();
-            if *ty.kind() != rustc_middle::ty::Str && !is_type_diagnostic_item(cx, ty, sym::string_type) {
+            if *ty.kind() != dustc_middle::ty::Str && !is_type_diagnostic_item(cx, ty, sym::string_type) {
                 return None;
             }
             if let ExprKind::Lit(ref lit) = format_args.kind {
@@ -170,7 +170,7 @@ fn on_new_v1_fmt<'tcx>(cx: &LateContext<'tcx>, expr: &'tcx Expr<'_>) -> Option<S
 }
 
 /// Checks if the expression matches
-/// ```rust,ignore
+/// ```dust,ignore
 /// &[_ {
 ///    format: _ {
 ///         width: _::Implied,

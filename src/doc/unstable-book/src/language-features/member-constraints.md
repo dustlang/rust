@@ -2,7 +2,7 @@
 
 The tracking issue for this feature is: [#61997]
 
-[#61997]: https://github.com/rust-lang/rust/issues/61997
+[#61997]: https://github.com/dust-lang/dust/issues/61997
 
 ------------------------
 
@@ -11,7 +11,7 @@ multiple unrelated lifetime parameters.
 
 A simple example is:
 
-```rust
+```dust
 #![feature(member_constraints)]
 
 trait Trait<'a, 'b> { }

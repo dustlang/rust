@@ -2,21 +2,21 @@ use super::method::MethodCallee;
 use super::{Expectation, FnCtxt, TupleArgumentsFlag};
 use crate::type_error_struct;
 
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def::{Namespace, Res};
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_infer::{infer, traits};
-use rustc_middle::ty::adjustment::{
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def::{Namespace, Res};
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_infer::{infer, traits};
+use dustc_middle::ty::adjustment::{
     Adjust, Adjustment, AllowTwoPhase, AutoBorrow, AutoBorrowMutability,
 };
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable};
-use rustc_span::symbol::{sym, Ident};
-use rustc_span::Span;
-use rustc_target::spec::abi;
-use rustc_trait_selection::autoderef::Autoderef;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable};
+use dustc_span::symbol::{sym, Ident};
+use dustc_span::Span;
+use dustc_target::spec::abi;
+use dustc_trait_selection::autoderef::Autoderef;
 
 /// Checks that it is legal to call methods of the trait corresponding
 /// to `trait_id` (this only cares about the trait, not the specific
@@ -414,7 +414,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                         self.tcx.ty_error(),
                         false,
                         hir::Unsafety::Normal,
-                        abi::Abi::Rust,
+                        abi::Abi::Dust,
                     )),
                     None,
                 )

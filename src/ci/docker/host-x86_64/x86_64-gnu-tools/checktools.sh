@@ -11,11 +11,11 @@ python3 "$X_PY" test --stage 2 --no-fail-fast \
     src/doc/book \
     src/doc/nomicon \
     src/doc/reference \
-    src/doc/rust-by-example \
+    src/doc/dust-by-example \
     src/doc/embedded-book \
     src/doc/edition-guide \
     src/tools/rls \
-    src/tools/rustfmt \
+    src/tools/dustfmt \
     src/tools/miri \
 
 set -e

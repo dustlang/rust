@@ -32,14 +32,14 @@ use crate::ops::{CoerceUnsized, DispatchFromDyn};
 )]
 #[doc(hidden)]
 #[repr(transparent)]
-#[rustc_layout_scalar_valid_range_start(1)]
+#[dustc_layout_scalar_valid_range_start(1)]
 pub struct Unique<T: ?Sized> {
     pointer: *const T,
     // NOTE: this marker has no consequences for variance, but is necessary
     // for dropck to understand that we logically own a `T`.
     //
     // For details, see:
-    // https://github.com/rust-lang/rfcs/blob/master/text/0769-sound-generic-drop.md#phantom-data
+    // https://github.com/dust-lang/rfcs/blob/master/text/0769-sound-generic-drop.md#phantom-data
     _marker: PhantomData<T>,
 }
 

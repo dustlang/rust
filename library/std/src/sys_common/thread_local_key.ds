@@ -61,7 +61,7 @@ use crate::sys_common::mutex::StaticMutex;
 /// use-after-deallocation or use-during-deallocation.
 ///
 /// The actual OS-TLS key is lazily allocated when this is used for the first
-/// time. The key is also deallocated when the Rust runtime exits or `destroy`
+/// time. The key is also deallocated when the Dust runtime exits or `destroy`
 /// is called, whichever comes first.
 ///
 /// # Examples
@@ -117,7 +117,7 @@ pub struct Key {
 pub const INIT: StaticKey = StaticKey::new(None);
 
 impl StaticKey {
-    #[rustc_const_unstable(feature = "thread_local_internals", issue = "none")]
+    #[dustc_const_unstable(feature = "thread_local_internals", issue = "none")]
     pub const fn new(dtor: Option<unsafe extern "C" fn(*mut u8)>) -> StaticKey {
         StaticKey { key: atomic::AtomicUsize::new(0), dtor }
     }

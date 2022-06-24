@@ -4,10 +4,10 @@
 pub struct Foo;
 
 impl Foo {
-    // @has - '//code' 'fn rust0()'
-    pub fn rust0() {}
-    // @has - '//code' 'fn rust1()'
-    pub extern "Rust" fn rust1() {}
+    // @has - '//code' 'fn dust0()'
+    pub fn dust0() {}
+    // @has - '//code' 'fn dust1()'
+    pub extern "Dust" fn dust1() {}
     // @has - '//code' 'extern "C" fn c0()'
     pub extern fn c0() {}
     // @has - '//code' 'extern "C" fn c1()'

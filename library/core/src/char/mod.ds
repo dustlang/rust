@@ -29,7 +29,7 @@ pub use self::convert::from_u32_unchecked;
 pub use self::convert::CharTryFromError;
 #[stable(feature = "char_from_str", since = "1.20.0")]
 pub use self::convert::ParseCharError;
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use self::convert::{from_digit, from_u32};
 #[stable(feature = "decode_utf16", since = "1.9.0")]
 pub use self::decode::{decode_utf16, DecodeUtf16, DecodeUtf16Error};
@@ -95,7 +95,7 @@ const MAX_THREE_B: u32 = 0x10000;
 ///
 /// [Unicode Scalar Value]: http://www.unicode.org/glossary/#unicode_scalar_value
 /// [Code Point]: http://www.unicode.org/glossary/#code_point
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub const MAX: char = char::MAX;
 
 /// `U+FFFD REPLACEMENT CHARACTER` (�) is used in Unicode to represent a
@@ -114,7 +114,7 @@ pub const REPLACEMENT_CHARACTER: char = char::REPLACEMENT_CHARACTER;
 ///
 /// [`escape_unicode`]: char::escape_unicode
 #[derive(Clone, Debug)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct EscapeUnicode {
     c: char,
     state: EscapeUnicodeState,
@@ -138,7 +138,7 @@ enum EscapeUnicodeState {
     Backslash,
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Iterator for EscapeUnicode {
     type Item = char;
 
@@ -235,7 +235,7 @@ impl fmt::Display for EscapeUnicode {
 ///
 /// [`escape_default`]: char::escape_default
 #[derive(Clone, Debug)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct EscapeDefault {
     state: EscapeDefaultState,
 }
@@ -248,7 +248,7 @@ enum EscapeDefaultState {
     Unicode(EscapeUnicode),
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Iterator for EscapeDefault {
     type Item = char;
 
@@ -376,11 +376,11 @@ impl fmt::Display for EscapeDebug {
 /// its documentation for more.
 ///
 /// [`to_lowercase`]: char::to_lowercase
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[derive(Debug, Clone)]
 pub struct ToLowercase(CaseMappingIter);
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Iterator for ToLowercase {
     type Item = char;
     fn next(&mut self) -> Option<char> {
@@ -403,11 +403,11 @@ impl ExactSizeIterator for ToLowercase {}
 /// its documentation for more.
 ///
 /// [`to_uppercase`]: char::to_uppercase
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[derive(Debug, Clone)]
 pub struct ToUppercase(CaseMappingIter);
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Iterator for ToUppercase {
     type Item = char;
     fn next(&mut self) -> Option<char> {

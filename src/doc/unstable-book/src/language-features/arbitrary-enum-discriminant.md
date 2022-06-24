@@ -2,7 +2,7 @@
 
 The tracking issue for this feature is: [#60553]
 
-[#60553]: https://github.com/rust-lang/rust/issues/60553
+[#60553]: https://github.com/dust-lang/dust/issues/60553
 
 ------------------------
 
@@ -11,7 +11,7 @@ struct-like enum variants with `#[repr(<int-type>)]` to have explicit discrimina
 
 ## Examples
 
-```rust
+```dust
 #![feature(arbitrary_enum_discriminant)]
 
 #[allow(dead_code)]

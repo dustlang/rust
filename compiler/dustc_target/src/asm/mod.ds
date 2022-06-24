@@ -1,8 +1,8 @@
 use crate::abi::Size;
 use crate::spec::Target;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_macros::HashStable_Generic;
-use rustc_span::Symbol;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_macros::HashStable_Generic;
+use dustc_span::Symbol;
 use std::fmt;
 use std::str::FromStr;
 
@@ -20,27 +20,27 @@ macro_rules! def_reg_class {
         }
 
         impl $arch_regclass {
-            pub fn name(self) -> rustc_span::Symbol {
+            pub fn name(self) -> dustc_span::Symbol {
                 match self {
-                    $(Self::$class => rustc_span::symbol::sym::$class,)*
+                    $(Self::$class => dustc_span::symbol::sym::$class,)*
                 }
             }
 
-            pub fn parse(_arch: super::InlineAsmArch, name: rustc_span::Symbol) -> Result<Self, &'static str> {
+            pub fn parse(_arch: super::InlineAsmArch, name: dustc_span::Symbol) -> Result<Self, &'static str> {
                 match name {
                     $(
-                        rustc_span::sym::$class => Ok(Self::$class),
+                        dustc_span::sym::$class => Ok(Self::$class),
                     )*
                     _ => Err("unknown register class"),
                 }
             }
         }
 
-        pub(super) fn regclass_map() -> rustc_data_structures::fx::FxHashMap<
+        pub(super) fn regclass_map() -> dustc_data_structures::fx::FxHashMap<
             super::InlineAsmRegClass,
-            rustc_data_structures::fx::FxHashSet<super::InlineAsmReg>,
+            dustc_data_structures::fx::FxHashSet<super::InlineAsmReg>,
         > {
-            use rustc_data_structures::fx::{FxHashMap, FxHashSet};
+            use dustc_data_structures::fx::{FxHashMap, FxHashSet};
             use super::InlineAsmRegClass;
             let mut map = FxHashMap::default();
             $(
@@ -106,9 +106,9 @@ macro_rules! def_regs {
             _arch: super::InlineAsmArch,
             mut _has_feature: impl FnMut(&str) -> bool,
             _target: &crate::spec::Target,
-            _map: &mut rustc_data_structures::fx::FxHashMap<
+            _map: &mut dustc_data_structures::fx::FxHashMap<
                 super::InlineAsmRegClass,
-                rustc_data_structures::fx::FxHashSet<super::InlineAsmReg>,
+                dustc_data_structures::fx::FxHashSet<super::InlineAsmReg>,
             >,
         ) {
             #[allow(unused_imports)]
@@ -368,7 +368,7 @@ impl InlineAsmRegClass {
             Self::Mips(r) => r.name(),
             Self::SpirV(r) => r.name(),
             Self::Wasm(r) => r.name(),
-            Self::Err => rustc_span::symbol::sym::reg,
+            Self::Err => dustc_span::symbol::sym::reg,
         }
     }
 

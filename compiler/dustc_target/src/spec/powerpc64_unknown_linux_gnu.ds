@@ -8,7 +8,7 @@ pub fn target() -> Target {
     base.max_atomic_width = Some(64);
 
     // ld.so in at least RHEL6 on ppc64 has a bug related to BIND_NOW, so only enable partial RELRO
-    // for now. https://github.com/rust-lang/rust/pull/43170#issuecomment-315411474
+    // for now. https://github.com/dust-lang/dust/pull/43170#issuecomment-315411474
     base.relro_level = RelroLevel::Partial;
 
     Target {

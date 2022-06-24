@@ -2,9 +2,9 @@ use crate::borrow_check::def_use::{self, DefUse};
 use crate::borrow_check::location::{LocationIndex, LocationTable};
 use crate::dataflow::indexes::MovePathIndex;
 use crate::dataflow::move_paths::{LookupResult, MoveData};
-use rustc_middle::mir::visit::{MutatingUseContext, PlaceContext, Visitor};
-use rustc_middle::mir::{Body, Local, Location, Place};
-use rustc_middle::ty::subst::GenericArg;
+use dustc_middle::mir::visit::{MutatingUseContext, PlaceContext, Visitor};
+use dustc_middle::mir::{Body, Local, Location, Place};
+use dustc_middle::ty::subst::GenericArg;
 
 use super::TypeChecker;
 

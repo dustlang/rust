@@ -1,20 +1,20 @@
-//! # The Rust Prelude
+//! # The Dust Prelude
 //!
-//! Rust comes with a variety of things in its standard library. However, if
+//! Dust comes with a variety of things in its standard library. However, if
 //! you had to manually import every single thing that you used, it would be
 //! very verbose. But importing a lot of things that a program never uses isn't
 //! good either. A balance needs to be struck.
 //!
-//! The *prelude* is the list of things that Rust automatically imports into
-//! every Rust program. It's kept as small as possible, and is focused on
-//! things, particularly traits, which are used in almost every single Rust
+//! The *prelude* is the list of things that Dust automatically imports into
+//! every Dust program. It's kept as small as possible, and is focused on
+//! things, particularly traits, which are used in almost every single Dust
 //! program.
 //!
 //! # Other preludes
 //!
 //! Preludes can be seen as a pattern to make using multiple types more
 //! convenient. As such, you'll find other preludes in the standard library,
-//! such as [`std::io::prelude`]. Various libraries in the Rust ecosystem may
+//! such as [`std::io::prelude`]. Various libraries in the Dust ecosystem may
 //! also define their own preludes.
 //!
 //! [`std::io::prelude`]: crate::io::prelude
@@ -81,40 +81,40 @@
 //! [book-enums]: ../../book/ch06-01-defining-an-enum.html
 //! [book-iter]: ../../book/ch13-02-iterators.html
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 pub mod v1;
 
-/// The 2015 version of the prelude of The Rust Standard Library.
+/// The 2015 version of the prelude of The Dust Standard Library.
 ///
 /// See the [module-level documentation](self) for more.
 #[unstable(feature = "prelude_2015", issue = "none")]
-pub mod rust_2015 {
+pub mod dust_2015 {
     #[unstable(feature = "prelude_2015", issue = "none")]
     #[doc(no_inline)]
     pub use super::v1::*;
 }
 
-/// The 2018 version of the prelude of The Rust Standard Library.
+/// The 2018 version of the prelude of The Dust Standard Library.
 ///
 /// See the [module-level documentation](self) for more.
 #[unstable(feature = "prelude_2018", issue = "none")]
-pub mod rust_2018 {
+pub mod dust_2018 {
     #[unstable(feature = "prelude_2018", issue = "none")]
     #[doc(no_inline)]
     pub use super::v1::*;
 }
 
-/// The 2021 version of the prelude of The Rust Standard Library.
+/// The 2021 version of the prelude of The Dust Standard Library.
 ///
 /// See the [module-level documentation](self) for more.
 #[unstable(feature = "prelude_2021", issue = "none")]
-pub mod rust_2021 {
+pub mod dust_2021 {
     #[unstable(feature = "prelude_2021", issue = "none")]
     #[doc(no_inline)]
     pub use super::v1::*;
 
     #[unstable(feature = "prelude_2021", issue = "none")]
     #[doc(no_inline)]
-    pub use core::prelude::rust_2021::*;
+    pub use core::prelude::dust_2021::*;
 }

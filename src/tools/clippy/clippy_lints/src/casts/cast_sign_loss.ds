@@ -1,6 +1,6 @@
-use rustc_hir::{Expr, ExprKind};
-use rustc_lint::LateContext;
-use rustc_middle::ty::{self, Ty};
+use dustc_hir::{Expr, ExprKind};
+use dustc_lint::LateContext;
+use dustc_middle::ty::{self, Ty};
 
 use if_chain::if_chain;
 

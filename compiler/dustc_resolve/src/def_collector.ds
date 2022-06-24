@@ -1,14 +1,14 @@
 use crate::{ImplTraitContext, Resolver};
-use rustc_ast::visit::{self, FnKind};
-use rustc_ast::walk_list;
-use rustc_ast::*;
-use rustc_ast_lowering::ResolverAstLowering;
-use rustc_expand::expand::AstFragment;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::definitions::*;
-use rustc_span::hygiene::ExpnId;
-use rustc_span::symbol::{kw, sym};
-use rustc_span::Span;
+use dustc_ast::visit::{self, FnKind};
+use dustc_ast::walk_list;
+use dustc_ast::*;
+use dustc_ast_lowering::ResolverAstLowering;
+use dustc_expand::expand::AstFragment;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::definitions::*;
+use dustc_span::hygiene::ExpnId;
+use dustc_span::symbol::{kw, sym};
+use dustc_span::Span;
 use tracing::debug;
 
 crate fn collect_definitions(

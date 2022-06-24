@@ -1,4 +1,4 @@
-// https://github.com/rust-lang/rust/issues/55223
+// https://github.com/dust-lang/dust/issues/55223
 #![allow(const_err)]
 
 union Foo<'a> {

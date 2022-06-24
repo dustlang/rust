@@ -1,18 +1,18 @@
 use super::callee::DeferredCallResolution;
 use super::MaybeInProgressTables;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefIdMap, LocalDefId};
-use rustc_hir::HirIdMap;
-use rustc_infer::infer;
-use rustc_infer::infer::{InferCtxt, InferOk, TyCtxtInferExt};
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_span::{self, Span};
-use rustc_trait_selection::infer::InferCtxtExt as _;
-use rustc_trait_selection::opaque_types::OpaqueTypeDecl;
-use rustc_trait_selection::traits::{self, TraitEngine, TraitEngineExt};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefIdMap, LocalDefId};
+use dustc_hir::HirIdMap;
+use dustc_infer::infer;
+use dustc_infer::infer::{InferCtxt, InferOk, TyCtxtInferExt};
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_span::{self, Span};
+use dustc_trait_selection::infer::InferCtxtExt as _;
+use dustc_trait_selection::opaque_types::OpaqueTypeDecl;
+use dustc_trait_selection::traits::{self, TraitEngine, TraitEngineExt};
 
 use std::cell::RefCell;
 use std::ops::Deref;

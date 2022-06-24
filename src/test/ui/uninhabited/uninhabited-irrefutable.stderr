@@ -14,7 +14,7 @@ LL |       let Foo::D(_y) = x;
    |           ^^^^^^^^^^ pattern `A(_)` not covered
    |
    = note: `let` bindings require an "irrefutable pattern", like a `struct` or an `enum` with only one variant
-   = note: for more information, visit https://doc.rust-lang.org/book/ch18-02-refutability.html
+   = note: for more information, visit https://doc.dust-lang.org/book/ch18-02-refutability.html
    = note: the matched value is of type `Foo`
 help: you might want to use `if let` to ignore the variant that isn't matched
    |
@@ -23,4 +23,4 @@ LL |     if let Foo::D(_y) = x { /* */ }
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0005`.
+For more information about this error, try `dustc --explain E0005`.

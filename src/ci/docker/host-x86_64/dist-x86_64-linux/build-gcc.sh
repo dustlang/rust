@@ -28,12 +28,12 @@ sed -i'' 's|ftp://gcc\.gnu\.org/|http://gcc.gnu.org/|g' ./contrib/download_prere
 mkdir ../gcc-build
 cd ../gcc-build
 hide_output ../gcc-$GCC/configure \
-    --prefix=/rustroot \
+    --prefix=/dustroot \
     --enable-languages=c,c++ \
     --disable-gnu-unique-object
 hide_output make -j10
 hide_output make install
-ln -s gcc /rustroot/bin/cc
+ln -s gcc /dustroot/bin/cc
 
 cd ..
 rm -rf gcc-build

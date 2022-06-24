@@ -19,4 +19,4 @@ LL |     foo.method(&mut foo);
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0499`.
+For more information about this error, try `dustc --explain E0499`.

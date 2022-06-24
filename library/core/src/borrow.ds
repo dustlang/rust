@@ -1,10 +1,10 @@
 //! A module for working with borrowed data.
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 /// A trait for borrowing data.
 ///
-/// In Rust, it is common to provide different representations of a type for
+/// In Dust, it is common to provide different representations of a type for
 /// different use cases. For instance, storage location and management for a
 /// value can be specifically chosen as appropriate for a particular use via
 /// pointer types such as [`Box<T>`] or [`Rc<T>`]. Beyond these generic
@@ -152,8 +152,8 @@
 /// [`Hash`]: crate::hash::Hash
 /// [`HashMap<K, V>`]: ../../std/collections/struct.HashMap.html
 /// [`String`]: ../../std/string/struct.String.html
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_diagnostic_item = "Borrow"]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_diagnostic_item = "Borrow"]
 pub trait Borrow<Borrowed: ?Sized> {
     /// Immutably borrows from an owned value.
     ///
@@ -174,7 +174,7 @@ pub trait Borrow<Borrowed: ?Sized> {
     ///
     /// check(s);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn borrow(&self) -> &Borrowed;
 }
 
@@ -183,7 +183,7 @@ pub trait Borrow<Borrowed: ?Sized> {
 /// As a companion to [`Borrow<T>`] this trait allows a type to borrow as
 /// an underlying type by providing a mutable reference. See [`Borrow<T>`]
 /// for more information on borrowing as another type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait BorrowMut<Borrowed: ?Sized>: Borrow<Borrowed> {
     /// Mutably borrows from an owned value.
     ///
@@ -200,40 +200,40 @@ pub trait BorrowMut<Borrowed: ?Sized>: Borrow<Borrowed> {
     ///
     /// check(v);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn borrow_mut(&mut self) -> &mut Borrowed;
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> Borrow<T> for T {
-    #[rustc_diagnostic_item = "noop_method_borrow"]
+    #[dustc_diagnostic_item = "noop_method_borrow"]
     fn borrow(&self) -> &T {
         self
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> BorrowMut<T> for T {
     fn borrow_mut(&mut self) -> &mut T {
         self
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> Borrow<T> for &T {
     fn borrow(&self) -> &T {
         &**self
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> Borrow<T> for &mut T {
     fn borrow(&self) -> &T {
         &**self
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> BorrowMut<T> for &mut T {
     fn borrow_mut(&mut self) -> &mut T {
         &mut **self

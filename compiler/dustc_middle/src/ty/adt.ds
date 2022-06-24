@@ -2,18 +2,18 @@ use crate::ich::StableHashingContext;
 use crate::mir::interpret::ErrorHandled;
 use crate::ty;
 use crate::ty::util::{Discr, IntTypeExt};
-use rustc_data_structures::captures::Captures;
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_errors::ErrorReported;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::DefId;
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_serialize::{self, Encodable, Encoder};
-use rustc_session::DataTypeKind;
-use rustc_span::symbol::sym;
-use rustc_target::abi::VariantIdx;
+use dustc_data_structures::captures::Captures;
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_errors::ErrorReported;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::DefId;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_serialize::{self, Encodable, Encoder};
+use dustc_session::DataTypeKind;
+use dustc_span::symbol::sym;
+use dustc_target::abi::VariantIdx;
 
 use std::cell::RefCell;
 use std::cmp::Ordering;
@@ -60,7 +60,7 @@ bitflags! {
 ///
 /// The initialism *ADT* stands for an [*algebraic data type (ADT)*][adt].
 /// This is slightly wrong because `union`s are not ADTs.
-/// Moreover, Rust only allows recursive data types through indirection.
+/// Moreover, Dust only allows recursive data types through indirection.
 ///
 /// [adt]: https://en.wikipedia.org/wiki/Algebraic_data_type
 pub struct AdtDef {

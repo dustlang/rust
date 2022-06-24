@@ -3,11 +3,11 @@
 
 use crate::consts::{miri_to_const, Constant};
 use crate::utils::span_lint;
-use rustc_hir::{Item, ItemKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty::util::IntTypeExt;
-use rustc_middle::ty::{self, IntTy, UintTy};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{Item, ItemKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty::util::IntTypeExt;
+use dustc_middle::ty::{self, IntTy, UintTy};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 use std::convert::TryFrom;
 
 declare_clippy_lint! {
@@ -20,7 +20,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # #[cfg(target_pointer_width = "64")]
     /// #[repr(usize)]
     /// enum NonPortable {
@@ -50,7 +50,7 @@ impl<'tcx> LateLintPass<'tcx> for UnportableVariant {
                         .tcx
                         .const_eval_poly(def_id.to_def_id())
                         .ok()
-                        .map(|val| rustc_middle::ty::Const::from_value(cx.tcx, val, ty));
+                        .map(|val| dustc_middle::ty::Const::from_value(cx.tcx, val, ty));
                     if let Some(Constant::Int(val)) = constant.and_then(miri_to_const) {
                         if let ty::Adt(adt, _) = ty.kind() {
                             if adt.is_enum() {

@@ -3,11 +3,11 @@
 //
 // Considering that all other `internal-lints` are tested here
 // this seems like the cleaner solution though.
-#![feature(rustc_attrs)]
-#![deny(rustc::ty_pass_by_reference)]
+#![feature(dustc_attrs)]
+#![deny(dustc::ty_pass_by_reference)]
 #![allow(unused)]
 
-#[rustc_diagnostic_item = "TyCtxt"]
+#[dustc_diagnostic_item = "TyCtxt"]
 struct TyCtxt<'tcx> {
     inner: &'tcx (),
 }
@@ -22,7 +22,7 @@ struct TyS<'tcx> {
     inner: &'tcx (),
 }
 
-#[rustc_diagnostic_item = "Ty"]
+#[dustc_diagnostic_item = "Ty"]
 type Ty<'tcx> = &'tcx TyS<'tcx>;
 
 impl<'tcx> TyS<'tcx> {

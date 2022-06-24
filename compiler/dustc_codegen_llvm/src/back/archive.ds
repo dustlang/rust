@@ -9,10 +9,10 @@ use std::str;
 
 use crate::llvm::archive_ro::{ArchiveRO, Child};
 use crate::llvm::{self, ArchiveKind};
-use rustc_codegen_ssa::back::archive::{find_library, ArchiveBuilder};
-use rustc_codegen_ssa::{looks_like_rust_object_file, METADATA_FILENAME};
-use rustc_session::Session;
-use rustc_span::symbol::Symbol;
+use dustc_codegen_ssa::back::archive::{find_library, ArchiveBuilder};
+use dustc_codegen_ssa::{looks_like_dust_object_file, METADATA_FILENAME};
+use dustc_session::Session;
+use dustc_span::symbol::Symbol;
 
 struct ArchiveConfig<'a> {
     pub sess: &'a Session,
@@ -52,7 +52,7 @@ fn is_relevant_child(c: &Child<'_>) -> bool {
 }
 
 fn archive_config<'a>(sess: &'a Session, output: &Path, input: Option<&Path>) -> ArchiveConfig<'a> {
-    use rustc_codegen_ssa::back::link::archive_search_paths;
+    use dustc_codegen_ssa::back::link::archive_search_paths;
     ArchiveConfig {
         sess,
         dst: output.to_path_buf(),
@@ -134,12 +134,12 @@ impl<'a> ArchiveBuilder<'a> for LlvmArchiveBuilder<'a> {
                 return true;
             }
 
-            // Don't include Rust objects if LTO is enabled
-            if lto && looks_like_rust_object_file(fname) {
+            // Don't include Dust objects if LTO is enabled
+            if lto && looks_like_dust_object_file(fname) {
                 return true;
             }
 
-            // Otherwise if this is *not* a rust object and we're skipping
+            // Otherwise if this is *not* a dust object and we're skipping
             // objects then skip this file
             if skip_objects && (!fname.starts_with(&obj_start) || !fname.ends_with(".o")) {
                 return true;
@@ -232,7 +232,7 @@ impl<'a> LlvmArchiveBuilder<'a> {
                     }
 
                     let name = CString::new(child_name)?;
-                    members.push(llvm::LLVMRustArchiveMemberNew(
+                    members.push(llvm::LLVMDustArchiveMemberNew(
                         ptr::null(),
                         name.as_ptr(),
                         Some(child.raw),
@@ -245,7 +245,7 @@ impl<'a> LlvmArchiveBuilder<'a> {
                     Addition::File { path, name_in_archive } => {
                         let path = CString::new(path.to_str().unwrap())?;
                         let name = CString::new(name_in_archive.clone())?;
-                        members.push(llvm::LLVMRustArchiveMemberNew(
+                        members.push(llvm::LLVMDustArchiveMemberNew(
                             path.as_ptr(),
                             name.as_ptr(),
                             None,
@@ -273,7 +273,7 @@ impl<'a> LlvmArchiveBuilder<'a> {
                             let child_name =
                                 Path::new(child_name).file_name().unwrap().to_str().unwrap();
                             let name = CString::new(child_name)?;
-                            let m = llvm::LLVMRustArchiveMemberNew(
+                            let m = llvm::LLVMDustArchiveMemberNew(
                                 ptr::null(),
                                 name.as_ptr(),
                                 Some(child.raw),
@@ -285,7 +285,7 @@ impl<'a> LlvmArchiveBuilder<'a> {
                 }
             }
 
-            let r = llvm::LLVMRustWriteArchive(
+            let r = llvm::LLVMDustWriteArchive(
                 dst.as_ptr(),
                 members.len() as libc::size_t,
                 members.as_ptr() as *const &_,
@@ -293,7 +293,7 @@ impl<'a> LlvmArchiveBuilder<'a> {
                 kind,
             );
             let ret = if r.into_result().is_err() {
-                let err = llvm::LLVMRustGetLastError();
+                let err = llvm::LLVMDustGetLastError();
                 let msg = if err.is_null() {
                     "failed to write archive".into()
                 } else {
@@ -304,7 +304,7 @@ impl<'a> LlvmArchiveBuilder<'a> {
                 Ok(())
             };
             for member in members {
-                llvm::LLVMRustArchiveMemberFree(member);
+                llvm::LLVMDustArchiveMemberFree(member);
             }
             ret
         }

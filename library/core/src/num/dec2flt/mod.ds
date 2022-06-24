@@ -36,7 +36,7 @@
 //! available online: <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.45.4152>
 //!
 //! In addition, there are numerous helper functions that are used in the paper but not available
-//! in Rust (or at least in core). Our version is additionally complicated by the need to handle
+//! in Dust (or at least in core). Our version is additionally complicated by the need to handle
 //! overflow and underflow and the desire to handle subnormal numbers. Bellerophon and
 //! Algorithm R have trouble with overflow, subnormals, and underflow. We conservatively switch to
 //! Algorithm M (with the modifications described in section 8 of the paper) well before the
@@ -100,7 +100,7 @@ pub mod rawfp;
 
 macro_rules! from_str_float_impl {
     ($t:ty) => {
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl FromStr for $t {
             type Err = ParseFloatError;
 
@@ -141,7 +141,7 @@ macro_rules! from_str_float_impl {
             /// In some situations, some strings that should create a valid float
             /// instead return an error. See [issue #31407] for details.
             ///
-            /// [issue #31407]: https://github.com/rust-lang/rust/issues/31407
+            /// [issue #31407]: https://github.com/dust-lang/dust/issues/31407
             ///
             /// # Arguments
             ///
@@ -177,7 +177,7 @@ from_str_float_impl!(f64);
 /// }
 /// ```
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct ParseFloatError {
     kind: FloatErrorKind,
 }
@@ -204,7 +204,7 @@ impl ParseFloatError {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Display for ParseFloatError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.__description().fmt(f)

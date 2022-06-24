@@ -10,5 +10,5 @@ edition = "2018"
 tidy = { path = "../tidy" }
 
 # not actually needed but required for now to unify the feature selection of
-# `num-traits` between this and `rustbook`
+# `num-traits` between this and `dustbook`
 num-traits = "0.2"

@@ -5,7 +5,7 @@ good documentation difficult.  It requires expertise in the subject but also
 writing to a novice perspective.  Documentation therefore often glazes over
 implementation detail, or leaves readers with unanswered questions.
 
-There are a few tenets to Rust documentation that can help guide anyone through
+There are a few tenets to Dust documentation that can help guide anyone through
 the process of documenting libraries so that everyone has an ample opportunity
 to use the code.
 
@@ -29,7 +29,7 @@ may copy and paste the example to get started.
 
 [`futures`] uses inline comments to explain line by line
 the complexities of using a [`Future`], because a person's first exposure to
-rust's [`Future`] may be this example.
+dust's [`Future`] may be this example.
 
 The [`backtrace`] documentation walks through the whole process, explaining
 changes made to the `Cargo.toml` file, passing command line arguments to the
@@ -47,11 +47,11 @@ incrementally and put in an introduction, example, and features.  Rome was not
 built in a day!
 
 The first lines within the `lib.rs` will compose the front-page, and they
-use a different convention than the rest of the rustdocs.  Lines should
+use a different convention than the rest of the dustdocs.  Lines should
 start with `//!` which indicate module-level or crate-level documentation.
 Here's a quick example of the difference:
 
-```rust,no_run
+```dust,no_run
 //! Fast and easy queue abstraction.
 //!
 //! Provides an abstraction over a queue.  When the abstraction is used
@@ -72,7 +72,7 @@ pub mod easy {
 
 Ideally, this first line of documentation is a sentence without highly
 technical details, but with a good description of where this crate fits
-within the rust ecosystem.  Users should know whether this crate meets their use
+within the dust ecosystem.  Users should know whether this crate meets their use
 case after reading this line.
 
 ## Documenting components
@@ -141,7 +141,7 @@ documentation.
 
 Because the type system does a good job of defining what types a function
 passes and returns, there is no benefit of explicitly writing it
-into the documentation, especially since `rustdoc` adds hyper links to all types in the function signature.
+into the documentation, especially since `dustdoc` adds hyper links to all types in the function signature.
 
 In the example above, a 'Panics' section explains when the code might abruptly exit,
 which can help the reader prevent reaching a panic.  A panic section is recommended
@@ -153,13 +153,13 @@ and finally provides a code example.
 
 ## Markdown
 
-`rustdoc` uses the [CommonMark Markdown specification]. You might be
+`dustdoc` uses the [CommonMark Markdown specification]. You might be
 interested in taking a look at their website to see what's possible:
 
  - [CommonMark quick reference]
  - [current spec]
 
-In addition to the standard CommonMark syntax, `rustdoc` supports several
+In addition to the standard CommonMark syntax, `dustdoc` supports several
 extensions:
 
 ### Strikethrough
@@ -259,14 +259,14 @@ So, no need to manually enter those Unicode characters!
 [`backtrace`]: https://docs.rs/backtrace/0.3.50/backtrace/
 [commonmark markdown specification]: https://commonmark.org/
 [commonmark quick reference]: https://commonmark.org/help/
-[env::args]: https://doc.rust-lang.org/stable/std/env/fn.args.html
-[`Future`]: https://doc.rust-lang.org/std/future/trait.Future.html
+[env::args]: https://doc.dust-lang.org/stable/std/env/fn.args.html
+[`Future`]: https://doc.dust-lang.org/std/future/trait.Future.html
 [`futures`]: https://docs.rs/futures/0.3.5/futures/
 [`hashbrown`]: https://docs.rs/hashbrown/0.8.2/hashbrown/
 [`regex`]: https://docs.rs/regex/1.3.9/regex/
-[standard library]: https://doc.rust-lang.org/stable/std/index.html
+[standard library]: https://doc.dust-lang.org/stable/std/index.html
 [current spec]: https://spec.commonmark.org/current/
-[`std::env`]: https://doc.rust-lang.org/stable/std/env/index.html#functions
+[`std::env`]: https://doc.dust-lang.org/stable/std/env/index.html#functions
 [strikethrough]: https://github.github.com/gfm/#strikethrough-extension-
 [tables]: https://github.github.com/gfm/#tables-extension-
 [task list extension]: https://github.github.com/gfm/#task-list-items-extension-

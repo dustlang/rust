@@ -2,12 +2,12 @@
 //!
 //! Two important entities in this module are:
 //!
-//! - [`rustc_middle::ty::Ty`], used to represent the semantics of a type.
-//! - [`rustc_middle::ty::TyCtxt`], the central data structure in the compiler.
+//! - [`dustc_middle::ty::Ty`], used to represent the semantics of a type.
+//! - [`dustc_middle::ty::TyCtxt`], the central data structure in the compiler.
 //!
 //! For more information, see ["The `ty` module: representing types"] in the ructc-dev-guide.
 //!
-//! ["The `ty` module: representing types"]: https://rustc-dev-guide.rust-lang.org/ty.html
+//! ["The `ty` module: representing types"]: https://dustc-dev-guide.dust-lang.org/ty.html
 
 pub use self::fold::{TypeFoldable, TypeFolder, TypeVisitor};
 pub use self::AssocItemContainer::*;
@@ -27,22 +27,22 @@ use crate::traits::{self, Reveal};
 use crate::ty;
 use crate::ty::subst::{GenericArg, InternalSubsts, Subst, SubstsRef};
 use crate::ty::util::Discr;
-use rustc_ast as ast;
-use rustc_attr as attr;
-use rustc_data_structures::captures::Captures;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::sync::{self, par_iter, ParallelIterator};
-use rustc_data_structures::tagged_ptr::CopyTaggedPtr;
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
-use rustc_hir::def_id::{CrateNum, DefId, DefIdMap, LocalDefId, CRATE_DEF_INDEX};
-use rustc_hir::{Constness, Node};
-use rustc_macros::HashStable;
-use rustc_span::hygiene::ExpnId;
-use rustc_span::symbol::{kw, Ident, Symbol};
-use rustc_span::Span;
-use rustc_target::abi::Align;
+use dustc_ast as ast;
+use dustc_attr as attr;
+use dustc_data_structures::captures::Captures;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::sync::{self, par_iter, ParallelIterator};
+use dustc_data_structures::tagged_ptr::CopyTaggedPtr;
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
+use dustc_hir::def_id::{CrateNum, DefId, DefIdMap, LocalDefId, CRATE_DEF_INDEX};
+use dustc_hir::{Constness, Node};
+use dustc_macros::HashStable;
+use dustc_span::hygiene::ExpnId;
+use dustc_span::symbol::{kw, Ident, Symbol};
+use dustc_span::Span;
+use dustc_target::abi::Align;
 
 use std::cmp::Ordering;
 use std::hash::{Hash, Hasher};
@@ -50,8 +50,8 @@ use std::ops::ControlFlow;
 use std::{fmt, ptr, str};
 
 pub use crate::ty::diagnostics::*;
-pub use rustc_type_ir::InferTy::*;
-pub use rustc_type_ir::*;
+pub use dustc_type_ir::InferTy::*;
+pub use dustc_type_ir::*;
 
 pub use self::binding::BindingMode;
 pub use self::binding::BindingMode::*;
@@ -113,7 +113,7 @@ mod sty;
 // Data types
 
 pub struct ResolverOutputs {
-    pub definitions: rustc_hir::definitions::Definitions,
+    pub definitions: dustc_hir::definitions::Definitions,
     pub cstore: Box<CrateStoreDyn>,
     pub visibilities: FxHashMap<LocalDefId, Visibility>,
     pub extern_crate_map: FxHashMap<LocalDefId, CrateNum>,
@@ -143,9 +143,9 @@ pub enum ImplPolarity {
     Positive,
     /// `impl !Trait for Type`
     Negative,
-    /// `#[rustc_reservation_impl] impl Trait for Type`
+    /// `#[dustc_reservation_impl] impl Trait for Type`
     ///
-    /// This is a "stability hack", not a real Rust feature.
+    /// This is a "stability hack", not a real Dust feature.
     /// See #64631 for details.
     Reservation,
 }
@@ -259,7 +259,7 @@ pub struct CReaderCacheKey {
     pub pos: usize,
 }
 
-#[allow(rustc::usage_of_ty_tykind)]
+#[allow(dustc::usage_of_ty_tykind)]
 pub struct TyS<'tcx> {
     /// This field shouldn't be used directly and may be removed in the future.
     /// Use `TyS::kind()` instead.
@@ -290,7 +290,7 @@ pub struct TyS<'tcx> {
 
 impl<'tcx> TyS<'tcx> {
     /// A constructor used only for internal testing.
-    #[allow(rustc::usage_of_ty_tykind)]
+    #[allow(dustc::usage_of_ty_tykind)]
     pub fn make_for_test(
         kind: TyKind<'tcx>,
         flags: TypeFlags,
@@ -346,7 +346,7 @@ impl<'a, 'tcx> HashStable<StableHashingContext<'a>> for TyS<'tcx> {
     }
 }
 
-#[rustc_diagnostic_item = "Ty"]
+#[dustc_diagnostic_item = "Ty"]
 pub type Ty<'tcx> = &'tcx TyS<'tcx>;
 
 impl ty::EarlyBoundRegion {
@@ -809,7 +809,7 @@ impl<'tcx> InstantiatedPredicates<'tcx> {
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     /// "Universes" are used during type- and trait-checking in the
     /// presence of `for<..>` binders to control what sets of names are
     /// visible. Universes are arranged into a tree: the root universe
@@ -925,7 +925,7 @@ pub type PlaceholderConst<'tcx> = Placeholder<BoundConst<'tcx>>;
 /// This is used to avoid calls to `type_of` for const arguments during typeck
 /// which cause cycle errors.
 ///
-/// ```rust
+/// ```dust
 /// struct A;
 /// impl A {
 ///     fn foo<const N: usize>(&self) -> [u8; N] { [0; N] }
@@ -1072,7 +1072,7 @@ pub struct ParamEnv<'tcx> {
     packed: CopyTaggedPtr<&'tcx List<Predicate<'tcx>>, traits::Reveal, true>,
 }
 
-unsafe impl rustc_data_structures::tagged_ptr::Tag for traits::Reveal {
+unsafe impl dustc_data_structures::tagged_ptr::Tag for traits::Reveal {
     const BITS: usize = 1;
     fn into_usize(self) -> usize {
         match self {
@@ -1530,7 +1530,7 @@ pub enum ImplOverlapKind {
     /// These impls are allowed to overlap, but that raises
     /// an issue #33140 future-compatibility warning.
     ///
-    /// Some background: in Rust 1.0, the trait-object types `Send + Sync` (today's
+    /// Some background: in Dust 1.0, the trait-object types `Send + Sync` (today's
     /// `dyn Send + Sync`) and `Sync + Send` (now `dyn Sync + Send`) were different.
     ///
     /// The widely-used version 0.1.0 of the crate `traitobject` had accidentally relied
@@ -1600,7 +1600,7 @@ impl<'tcx> TyCtxt<'tcx> {
             let def_key = self.def_key(def_id);
             match def_key.disambiguated_data.data {
                 // The name of a constructor is that of its parent.
-                rustc_hir::definitions::DefPathData::Ctor => self.item_name_from_def_id(DefId {
+                dustc_hir::definitions::DefPathData::Ctor => self.item_name_from_def_id(DefId {
                     krate: def_id.krate,
                     index: def_key.parent.unwrap(),
                 }),
@@ -1668,7 +1668,7 @@ impl<'tcx> TyCtxt<'tcx> {
 
         match (self.impl_polarity(def_id1), self.impl_polarity(def_id2)) {
             (ImplPolarity::Reservation, _) | (_, ImplPolarity::Reservation) => {
-                // `#[rustc_reservation_impl]` impls don't overlap with anything
+                // `#[dustc_reservation_impl]` impls don't overlap with anything
                 debug!(
                     "impls_are_allowed_to_overlap({:?}, {:?}) = Some(Permitted) (reservations)",
                     def_id1, def_id2

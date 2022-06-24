@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 // edition:2018
 
 #![feature(async_closure)]
@@ -28,7 +28,7 @@ async fn f() -> CustomFutureType {
     CustomFutureType
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn main() {
     let _f = {
         3

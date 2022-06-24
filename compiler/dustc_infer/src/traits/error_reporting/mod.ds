@@ -1,13 +1,13 @@
 use super::ObjectSafetyViolation;
 
 use crate::infer::InferCtxt;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::{struct_span_err, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::symbol::Symbol;
-use rustc_span::{MultiSpan, Span};
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::{struct_span_err, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::symbol::Symbol;
+use dustc_span::{MultiSpan, Span};
 use std::fmt;
 
 impl<'a, 'tcx> InferCtxt<'a, 'tcx> {
@@ -101,7 +101,7 @@ pub fn report_object_safety_error(
         note_span,
         "for a trait to be \"object safe\" it needs to allow building a vtable to allow the call \
          to be resolvable dynamically; for more information visit \
-         <https://doc.rust-lang.org/reference/items/traits.html#object-safety>",
+         <https://doc.dust-lang.org/reference/items/traits.html#object-safety>",
     );
 
     if tcx.sess.trait_methods_not_found.borrow().iter().any(|full_span| full_span.contains(span)) {

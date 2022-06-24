@@ -1,4 +1,4 @@
-% The (old) Rust Guide
+% The (old) Dust Guide
 
 This content has moved into
-[the Rust Programming Language book](book/README.html).
+[the Dust Programming Language book](book/README.html).

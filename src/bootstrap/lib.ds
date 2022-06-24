@@ -1,25 +1,25 @@
-//! Implementation of rustbuild, the Rust build system.
+//! Implementation of dustbuild, the Dust build system.
 //!
-//! This module, and its descendants, are the implementation of the Rust build
+//! This module, and its descendants, are the implementation of the Dust build
 //! system. Most of this build system is backed by Cargo but the outer layer
 //! here serves as the ability to orchestrate calling Cargo, sequencing Cargo
-//! builds, building artifacts like LLVM, etc. The goals of rustbuild are:
+//! builds, building artifacts like LLVM, etc. The goals of dustbuild are:
 //!
 //! * To be an easily understandable, easily extensible, and maintainable build
 //!   system.
-//! * Leverage standard tools in the Rust ecosystem to build the compiler, aka
+//! * Leverage standard tools in the Dust ecosystem to build the compiler, aka
 //!   crates.io and Cargo.
 //! * A standard interface to build across all platforms, including MSVC
 //!
 //! ## Architecture
 //!
 //! The build system defers most of the complicated logic managing invocations
-//! of rustc and rustdoc to Cargo itself. However, moving through various stages
-//! and copying artifacts is still necessary for it to do. Each time rustbuild
+//! of dustc and dustdoc to Cargo itself. However, moving through various stages
+//! and copying artifacts is still necessary for it to do. Each time dustbuild
 //! is invoked, it will iterate through the list of predefined steps and execute
 //! each serially in turn if it matches the paths passed or is a default rule.
-//! For each step rustbuild relies on the step internally being incremental and
-//! parallel. Note, though, that the `-j` parameter to rustbuild gets forwarded
+//! For each step dustbuild relies on the step internally being incremental and
+//! parallel. Note, though, that the `-j` parameter to dustbuild gets forwarded
 //! to appropriate test harnesses and such.
 //!
 //! Most of the "meaty" steps that matter are backed by Cargo, which does indeed
@@ -31,11 +31,11 @@
 //! When you execute `x.py build`, the steps executed are:
 //!
 //! * First, the python script is run. This will automatically download the
-//!   stage0 rustc and cargo according to `src/stage0.txt`, or use the cached
-//!   versions if they're available. These are then used to compile rustbuild
-//!   itself (using Cargo). Finally, control is then transferred to rustbuild.
+//!   stage0 dustc and cargo according to `src/stage0.txt`, or use the cached
+//!   versions if they're available. These are then used to compile dustbuild
+//!   itself (using Cargo). Finally, control is then transferred to dustbuild.
 //!
-//! * Rustbuild takes over, performs sanity checks, probes the environment,
+//! * Dustbuild takes over, performs sanity checks, probes the environment,
 //!   reads configuration, and starts executing steps as it reads the command
 //!   line arguments (paths) or going through the default rules.
 //!
@@ -46,30 +46,30 @@
 //!   Building stage0 test artifacts
 //!   Copying stage0 test
 //!   Building stage0 compiler artifacts
-//!   Copying stage0 rustc
+//!   Copying stage0 dustc
 //!   Assembling stage1 compiler
 //!   Building stage1 std artifacts
 //!   Copying stage1 std
 //!   Building stage1 test artifacts
 //!   Copying stage1 test
 //!   Building stage1 compiler artifacts
-//!   Copying stage1 rustc
+//!   Copying stage1 dustc
 //!   Assembling stage2 compiler
 //!   Uplifting stage1 std
 //!   Uplifting stage1 test
-//!   Uplifting stage1 rustc
+//!   Uplifting stage1 dustc
 //!
 //! Let's disect that a little:
 //!
 //! ## Building stage0 {std,test,compiler} artifacts
 //!
 //! These steps use the provided (downloaded, usually) compiler to compile the
-//! local Rust source into libraries we can use.
+//! local Dust source into libraries we can use.
 //!
-//! ## Copying stage0 {std,test,rustc}
+//! ## Copying stage0 {std,test,dustc}
 //!
 //! This copies the build output from Cargo into
-//! `build/$HOST/stage0-sysroot/lib/rustlib/$ARCH/lib`. FIXME: this step's
+//! `build/$HOST/stage0-sysroot/lib/dustlib/$ARCH/lib`. FIXME: this step's
 //! documentation should be expanded -- the information already here may be
 //! incorrect.
 //!
@@ -78,15 +78,15 @@
 //! This copies the libraries we built in "building stage0 ... artifacts" into
 //! the stage1 compiler's lib directory. These are the host libraries that the
 //! compiler itself uses to run. These aren't actually used by artifacts the new
-//! compiler generates. This step also copies the rustc and rustdoc binaries we
+//! compiler generates. This step also copies the dustc and dustdoc binaries we
 //! generated into build/$HOST/stage/bin.
 //!
-//! The stage1/bin/rustc is a fully functional compiler, but it doesn't yet have
+//! The stage1/bin/dustc is a fully functional compiler, but it doesn't yet have
 //! any libraries to link built binaries or libraries to. The next 3 steps will
 //! provide those libraries for it; they are mostly equivalent to constructing
 //! the stage1/bin compiler so we don't go through them individually.
 //!
-//! ## Uplifting stage1 {std,test,rustc}
+//! ## Uplifting stage1 {std,test,dustc}
 //!
 //! This step copies the libraries from the stage1 compiler sysroot into the
 //! stage2 compiler. This is done to avoid rebuilding the compiler; libraries
@@ -95,7 +95,7 @@
 //! that if you want to, you can enable the full-bootstrap option to change this
 //! behavior.
 //!
-//! Each step is driven by a separate Cargo project and rustbuild orchestrates
+//! Each step is driven by a separate Cargo project and dustbuild orchestrates
 //! copying files between steps and otherwise preparing for Cargo to run.
 //!
 //! ## Further information
@@ -187,7 +187,7 @@ const LLVM_TOOLS: &[&str] = &[
 
 pub const VERSION: usize = 2;
 
-/// A structure representing a Rust compiler.
+/// A structure representing a Dust compiler.
 ///
 /// Each compiler has a `stage` that it is associated with and a `host` that
 /// corresponds to the platform the compiler runs on. This structure is used as
@@ -209,7 +209,7 @@ pub enum DocTests {
 }
 
 pub enum GitRepo {
-    Rustc,
+    Dustc,
     Llvm,
 }
 
@@ -233,13 +233,13 @@ pub struct Build {
     // Properties derived from the above configuration
     src: PathBuf,
     out: PathBuf,
-    rust_info: channel::GitInfo,
+    dust_info: channel::GitInfo,
     cargo_info: channel::GitInfo,
     rls_info: channel::GitInfo,
-    rust_analyzer_info: channel::GitInfo,
+    dust_analyzer_info: channel::GitInfo,
     clippy_info: channel::GitInfo,
     miri_info: channel::GitInfo,
-    rustfmt_info: channel::GitInfo,
+    dustfmt_info: channel::GitInfo,
     in_tree_llvm_info: channel::GitInfo,
     local_rebuild: bool,
     fail_fast: bool,
@@ -251,8 +251,8 @@ pub struct Build {
     hosts: Vec<TargetSelection>,
     targets: Vec<TargetSelection>,
 
-    // Stage 0 (downloaded) compiler, lld and cargo or their local rust equivalents
-    initial_rustc: PathBuf,
+    // Stage 0 (downloaded) compiler, lld and cargo or their local dust equivalents
+    initial_dustc: PathBuf,
     initial_cargo: PathBuf,
     initial_lld: PathBuf,
     initial_libdir: PathBuf,
@@ -287,14 +287,14 @@ impl Crate {
     }
 }
 
-/// When building Rust various objects are handled differently.
+/// When building Dust various objects are handled differently.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum DependencyType {
     /// Libraries originating from proc-macros.
     Host,
-    /// Typical Rust libraries.
+    /// Typical Dust libraries.
     Target,
-    /// Non Rust libraries and objects shipped to ease usage of certain targets.
+    /// Non Dust libraries and objects shipped to ease usage of certain targets.
     TargetSelfContained,
 }
 
@@ -307,16 +307,16 @@ pub enum Mode {
     /// Build the standard library, placing output in the "stageN-std" directory.
     Std,
 
-    /// Build librustc, and compiler libraries, placing output in the "stageN-rustc" directory.
-    Rustc,
+    /// Build libdustc, and compiler libraries, placing output in the "stageN-dustc" directory.
+    Dustc,
 
-    /// Build a codegen backend for rustc, placing the output in the "stageN-codegen" directory.
+    /// Build a codegen backend for dustc, placing the output in the "stageN-codegen" directory.
     Codegen,
 
     /// Build a tool, placing output in the "stage0-bootstrap-tools"
     /// directory. This is for miscellaneous sets of tools that are built
     /// using the bootstrap stage0 compiler in its entirety (target libraries
-    /// and all). Typically these tools compile with stable Rust.
+    /// and all). Typically these tools compile with stable Dust.
     ToolBootstrap,
 
     /// Build a tool which uses the locally built std, placing output in the
@@ -324,16 +324,16 @@ pub enum Mode {
     /// compiletest which needs libtest.
     ToolStd,
 
-    /// Build a tool which uses the locally built rustc and the target std,
+    /// Build a tool which uses the locally built dustc and the target std,
     /// placing the output in the "stageN-tools" directory. This is used for
-    /// anything that needs a fully functional rustc, such as rustdoc, clippy,
-    /// cargo, rls, rustfmt, miri, etc.
-    ToolRustc,
+    /// anything that needs a fully functional dustc, such as dustdoc, clippy,
+    /// cargo, rls, dustfmt, miri, etc.
+    ToolDustc,
 }
 
 impl Mode {
     pub fn is_tool(&self) -> bool {
-        matches!(self, Mode::ToolBootstrap | Mode::ToolRustc | Mode::ToolStd)
+        matches!(self, Mode::ToolBootstrap | Mode::ToolDustc | Mode::ToolStd)
     }
 
     pub fn must_support_dlopen(&self) -> bool {
@@ -359,14 +359,14 @@ impl Build {
         };
 
         let ignore_git = config.ignore_git;
-        let rust_info = channel::GitInfo::new(ignore_git, &src);
+        let dust_info = channel::GitInfo::new(ignore_git, &src);
         let cargo_info = channel::GitInfo::new(ignore_git, &src.join("src/tools/cargo"));
         let rls_info = channel::GitInfo::new(ignore_git, &src.join("src/tools/rls"));
-        let rust_analyzer_info =
-            channel::GitInfo::new(ignore_git, &src.join("src/tools/rust-analyzer"));
+        let dust_analyzer_info =
+            channel::GitInfo::new(ignore_git, &src.join("src/tools/dust-analyzer"));
         let clippy_info = channel::GitInfo::new(ignore_git, &src.join("src/tools/clippy"));
         let miri_info = channel::GitInfo::new(ignore_git, &src.join("src/tools/miri"));
-        let rustfmt_info = channel::GitInfo::new(ignore_git, &src.join("src/tools/rustfmt"));
+        let dustfmt_info = channel::GitInfo::new(ignore_git, &src.join("src/tools/dustfmt"));
 
         // we always try to use git for LLVM builds
         let in_tree_llvm_info = channel::GitInfo::new(false, &src.join("src/llvm-project"));
@@ -375,20 +375,20 @@ impl Build {
             "/dummy/lib/path/to/lib/".to_string()
         } else {
             output(
-                Command::new(&config.initial_rustc)
+                Command::new(&config.initial_dustc)
                     .arg("--target")
-                    .arg(config.build.rustc_target_arg())
+                    .arg(config.build.dustc_target_arg())
                     .arg("--print")
                     .arg("target-libdir"),
             )
         };
         let initial_target_dir = Path::new(&initial_target_libdir_str).parent().unwrap();
-        let initial_lld = initial_target_dir.join("bin").join("rust-lld");
+        let initial_lld = initial_target_dir.join("bin").join("dust-lld");
 
         let initial_sysroot = if config.dry_run {
             "/dummy".to_string()
         } else {
-            output(Command::new(&config.initial_rustc).arg("--print").arg("sysroot"))
+            output(Command::new(&config.initial_dustc).arg("--print").arg("sysroot"))
         };
         let initial_libdir = initial_target_dir
             .parent()
@@ -404,7 +404,7 @@ impl Build {
         let version = version.trim();
 
         let mut build = Build {
-            initial_rustc: config.initial_rustc.clone(),
+            initial_dustc: config.initial_dustc.clone(),
             initial_cargo: config.initial_cargo.clone(),
             initial_lld,
             initial_libdir,
@@ -422,13 +422,13 @@ impl Build {
             src,
             out,
 
-            rust_info,
+            dust_info,
             cargo_info,
             rls_info,
-            rust_analyzer_info,
+            dust_analyzer_info,
             clippy_info,
             miri_info,
-            rustfmt_info,
+            dustfmt_info,
             in_tree_llvm_info,
             cc: HashMap::new(),
             cxx: HashMap::new(),
@@ -447,10 +447,10 @@ impl Build {
         build.verbose("running sanity check");
         sanity::check(&mut build);
 
-        // If local-rust is the same major.minor as the current version, then force a
+        // If local-dust is the same major.minor as the current version, then force a
         // local-rebuild
         let local_version_verbose =
-            output(Command::new(&build.initial_rustc).arg("--version").arg("--verbose"));
+            output(Command::new(&build.initial_dustc).arg("--version").arg("--verbose"));
         let local_release = local_version_verbose
             .lines()
             .filter_map(|x| x.strip_prefix("release:"))
@@ -562,7 +562,7 @@ impl Build {
     }
 
     /// Gets the space-separated set of activated features for the compiler.
-    fn rustc_features(&self) -> String {
+    fn dustc_features(&self) -> String {
         let mut features = String::new();
         if self.config.jemalloc {
             features.push_str("jemalloc");
@@ -576,7 +576,7 @@ impl Build {
         // which is everything (including debug/trace/etc.)
         // if its unset, if debug_assertions is on, then debug_logging will also be on
         // as well as tracing *ignoring* this feature when debug_assertions is on
-        if !self.config.rust_debug_logging {
+        if !self.config.dust_debug_logging {
             features.push_str(" max_level_info");
         }
 
@@ -586,7 +586,7 @@ impl Build {
     /// Component directory that Cargo will produce output into (e.g.
     /// release/debug)
     fn cargo_dir(&self) -> &'static str {
-        if self.config.rust_optimize { "release" } else { "debug" }
+        if self.config.dust_optimize { "release" } else { "debug" }
     }
 
     fn tools_dir(&self, compiler: Compiler) -> PathBuf {
@@ -605,10 +605,10 @@ impl Build {
     fn stage_out(&self, compiler: Compiler, mode: Mode) -> PathBuf {
         let suffix = match mode {
             Mode::Std => "-std",
-            Mode::Rustc => "-rustc",
+            Mode::Dustc => "-dustc",
             Mode::Codegen => "-codegen",
             Mode::ToolBootstrap => "-bootstrap-tools",
-            Mode::ToolStd | Mode::ToolRustc => "-tools",
+            Mode::ToolStd | Mode::ToolDustc => "-tools",
         };
         self.out.join(&*compiler.host.triple).join(format!("stage{}{}", compiler.stage, suffix))
     }
@@ -653,8 +653,8 @@ impl Build {
 
     /// Returns `true` if no custom `llvm-config` is set for the specified target.
     ///
-    /// If no custom `llvm-config` was specified then Rust's llvm will be used.
-    fn is_rust_llvm(&self, target: TargetSelection) -> bool {
+    /// If no custom `llvm-config` was specified then Dust's llvm will be used.
+    fn is_dust_llvm(&self, target: TargetSelection) -> bool {
         if self.config.llvm_from_ci && target == self.config.build {
             return true;
         }
@@ -714,27 +714,27 @@ impl Build {
         self.out.join(&*target.triple).join("native")
     }
 
-    /// Root output directory for rust_test_helpers library compiled for
+    /// Root output directory for dust_test_helpers library compiled for
     /// `target`
     fn test_helpers_out(&self, target: TargetSelection) -> PathBuf {
-        self.native_dir(target).join("rust-test-helpers")
+        self.native_dir(target).join("dust-test-helpers")
     }
 
-    /// Adds the `RUST_TEST_THREADS` env var if necessary
-    fn add_rust_test_threads(&self, cmd: &mut Command) {
-        if env::var_os("RUST_TEST_THREADS").is_none() {
-            cmd.env("RUST_TEST_THREADS", self.jobs().to_string());
+    /// Adds the `DUST_TEST_THREADS` env var if necessary
+    fn add_dust_test_threads(&self, cmd: &mut Command) {
+        if env::var_os("DUST_TEST_THREADS").is_none() {
+            cmd.env("DUST_TEST_THREADS", self.jobs().to_string());
         }
     }
 
     /// Returns the libdir of the snapshot compiler.
-    fn rustc_snapshot_libdir(&self) -> PathBuf {
-        self.rustc_snapshot_sysroot().join(libdir(self.config.build))
+    fn dustc_snapshot_libdir(&self) -> PathBuf {
+        self.dustc_snapshot_sysroot().join(libdir(self.config.build))
     }
 
     /// Returns the sysroot of the snapshot compiler.
-    fn rustc_snapshot_sysroot(&self) -> &Path {
-        self.initial_rustc.parent().unwrap().parent().unwrap()
+    fn dustc_snapshot_sysroot(&self) -> &Path {
+        self.initial_dustc.parent().unwrap().parent().unwrap()
     }
 
     /// Runs a command, printing out nice contextual information if it fails.
@@ -813,16 +813,16 @@ impl Build {
     }
 
     fn debuginfo_map_to(&self, which: GitRepo) -> Option<String> {
-        if !self.config.rust_remap_debuginfo {
+        if !self.config.dust_remap_debuginfo {
             return None;
         }
 
         match which {
-            GitRepo::Rustc => {
-                let sha = self.rust_sha().unwrap_or(&self.version);
-                Some(format!("/rustc/{}", sha))
+            GitRepo::Dustc => {
+                let sha = self.dust_sha().unwrap_or(&self.version);
+                Some(format!("/dustc/{}", sha))
             }
-            GitRepo::Llvm => Some(String::from("/rustc/llvm")),
+            GitRepo::Llvm => Some(String::from("/dustc/llvm")),
         }
     }
 
@@ -1016,7 +1016,7 @@ impl Build {
         match &self.config.channel[..] {
             "stable" => num.to_string(),
             "beta" => {
-                if self.rust_info.is_git() {
+                if self.dust_info.is_git() {
                     format!("{}-beta.{}", num, self.beta_prerelease_version())
                 } else {
                     format!("{}-beta", num)
@@ -1048,8 +1048,8 @@ impl Build {
         n
     }
 
-    /// Returns the value of `release` above for Rust itself.
-    fn rust_release(&self) -> String {
+    /// Returns the value of `release` above for Dust itself.
+    fn dust_release(&self) -> String {
         self.release(&self.version)
     }
 
@@ -1068,8 +1068,8 @@ impl Build {
         }
     }
 
-    /// Returns the value of `package_vers` above for Rust itself.
-    fn rust_package_vers(&self) -> String {
+    /// Returns the value of `package_vers` above for Dust itself.
+    fn dust_package_vers(&self) -> String {
         self.package_vers(&self.version)
     }
 
@@ -1077,13 +1077,13 @@ impl Build {
         target.contains("linux-gnu") || target.contains("apple-darwin")
     }
 
-    /// Returns the `version` string associated with this compiler for Rust
+    /// Returns the `version` string associated with this compiler for Dust
     /// itself.
     ///
     /// Note that this is a descriptive string which includes the commit date,
     /// sha, version, etc.
-    fn rust_version(&self) -> String {
-        let mut version = self.rust_info.version(self, &self.version);
+    fn dust_version(&self) -> String {
+        let mut version = self.dust_info.version(self, &self.version);
         if let Some(ref s) = self.config.description {
             version.push_str(" (");
             version.push_str(s);
@@ -1093,8 +1093,8 @@ impl Build {
     }
 
     /// Returns the full commit hash.
-    fn rust_sha(&self) -> Option<&str> {
-        self.rust_info.sha()
+    fn dust_sha(&self) -> Option<&str> {
+        self.dust_info.sha()
     }
 
     /// Returns the `a.b.c` version that the given package is at.
@@ -1149,7 +1149,7 @@ impl Build {
                         || target
                             .map(|t| self.config.profiler_enabled(t))
                             .unwrap_or_else(|| self.config.any_profiler_enabled()))
-                    && (dep != "rustc_codegen_llvm" || self.config.llvm_enabled())
+                    && (dep != "dustc_codegen_llvm" || self.config.llvm_enabled())
                 {
                     list.push(*dep);
                 }

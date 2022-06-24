@@ -7,7 +7,7 @@
 ///
 /// # Example
 ///
-/// ```rust
+/// ```dust
 /// // some code here
 /// ```
 pub struct NonGen;

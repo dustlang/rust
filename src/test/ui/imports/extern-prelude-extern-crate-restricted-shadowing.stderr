@@ -32,4 +32,4 @@ LL |     pub use super::v1::*;
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0659`.
+For more information about this error, try `dustc --explain E0659`.

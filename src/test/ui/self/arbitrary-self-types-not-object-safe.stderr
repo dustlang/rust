@@ -20,4 +20,4 @@ LL |     let x = Rc::new(5usize) as Rc<dyn Foo>;
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0038`.
+For more information about this error, try `dustc --explain E0038`.

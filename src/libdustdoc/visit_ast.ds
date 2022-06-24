@@ -1,16 +1,16 @@
-//! The Rust AST Visitor. Extracts useful information and massages it into a form
+//! The Dust AST Visitor. Extracts useful information and massages it into a form
 //! usable for `clean`.
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::DefId;
-use rustc_hir::Node;
-use rustc_middle::middle::privacy::AccessLevel;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::source_map::Spanned;
-use rustc_span::symbol::{kw, sym, Symbol};
-use rustc_span::{self, Span};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::DefId;
+use dustc_hir::Node;
+use dustc_middle::middle::privacy::AccessLevel;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::source_map::Spanned;
+use dustc_span::symbol::{kw, sym, Symbol};
+use dustc_span::{self, Span};
 
 use std::mem;
 
@@ -42,7 +42,7 @@ crate fn inherits_doc_hidden(tcx: TyCtxt<'_>, mut node: hir::HirId) -> bool {
 // Also, is there some reason that this doesn't use the 'visit'
 // framework from syntax?.
 
-crate struct RustdocVisitor<'a, 'tcx> {
+crate struct DustdocVisitor<'a, 'tcx> {
     cx: &'a mut core::DocContext<'tcx>,
     view_item_stack: FxHashSet<hir::HirId>,
     inlining: bool,
@@ -51,12 +51,12 @@ crate struct RustdocVisitor<'a, 'tcx> {
     exact_paths: FxHashMap<DefId, Vec<String>>,
 }
 
-impl<'a, 'tcx> RustdocVisitor<'a, 'tcx> {
-    crate fn new(cx: &'a mut core::DocContext<'tcx>) -> RustdocVisitor<'a, 'tcx> {
+impl<'a, 'tcx> DustdocVisitor<'a, 'tcx> {
+    crate fn new(cx: &'a mut core::DocContext<'tcx>) -> DustdocVisitor<'a, 'tcx> {
         // If the root is re-exported, terminate all recursion.
         let mut stack = FxHashSet::default();
         stack.insert(hir::CRATE_HIR_ID);
-        RustdocVisitor {
+        DustdocVisitor {
             cx,
             view_item_stack: stack,
             inlining: false,
@@ -73,7 +73,7 @@ impl<'a, 'tcx> RustdocVisitor<'a, 'tcx> {
     crate fn visit(mut self, krate: &'tcx hir::Crate<'_>) -> Module<'tcx> {
         let mut top_level_module = self.visit_mod_contents(
             krate.item.span,
-            &Spanned { span: rustc_span::DUMMY_SP, node: hir::VisibilityKind::Public },
+            &Spanned { span: dustc_span::DUMMY_SP, node: hir::VisibilityKind::Public },
             hir::CRATE_HIR_ID,
             &krate.item.module,
             None,
@@ -98,11 +98,11 @@ impl<'a, 'tcx> RustdocVisitor<'a, 'tcx> {
             // for the closest module _ancestor_, which is not necessarily a direct parent
             // (since a direct parent isn't necessarily a module, c.f. #77828).
             let macro_parent_def_id = {
-                use rustc_middle::ty::DefIdTree;
+                use dustc_middle::ty::DefIdTree;
                 tcx.parent(def.def_id.to_def_id()).unwrap()
             };
             let macro_parent_path = tcx.def_path(macro_parent_def_id);
-            // HACK: rustdoc has no way to lookup `doctree::Module`s by their HirId. Instead,
+            // HACK: dustdoc has no way to lookup `doctree::Module`s by their HirId. Instead,
             // lookup the module by its name, by looking at each path segment one at a time.
             let mut cur_mod = &mut top_level_module;
             for path_segment in macro_parent_path.data {
@@ -110,7 +110,7 @@ impl<'a, 'tcx> RustdocVisitor<'a, 'tcx> {
                 // namespace), which is _necessary_ for the macro to be accessible outside it
                 // (no "associated macros" as of yet). Else we bail with an outer `continue`.
                 let path_segment_ty_ns = match path_segment.data {
-                    rustc_hir::definitions::DefPathData::TypeNs(symbol) => symbol,
+                    dustc_hir::definitions::DefPathData::TypeNs(symbol) => symbol,
                     _ => continue 'exported_macros,
                 };
                 // Descend into the child module that matches this path segment (if any).

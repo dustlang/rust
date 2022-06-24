@@ -4,7 +4,7 @@
 
 // This test checks that generic parameter re-ordering diagnostic suggestions mention that
 // consts come after types and lifetimes when the `const_generics` feature is enabled.
-// We cannot run rustfix on this test because of the above const generics warning.
+// We cannot run dustfix on this test because of the above const generics warning.
 
 struct A;
 

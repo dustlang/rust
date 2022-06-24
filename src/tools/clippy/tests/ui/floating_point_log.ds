@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![allow(dead_code, clippy::double_parens)]
 #![warn(clippy::suboptimal_flops, clippy::imprecise_flops)]
 

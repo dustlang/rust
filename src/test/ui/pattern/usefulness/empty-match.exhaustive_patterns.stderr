@@ -258,4 +258,4 @@ LL |       match_guarded_arm!(NonEmptyEnum5::V1);
 
 error: aborting due to 22 previous errors
 
-For more information about this error, try `rustc --explain E0004`.
+For more information about this error, try `dustc --explain E0004`.

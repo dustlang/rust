@@ -38,7 +38,7 @@
 	font-style: normal;
 	font-weight: 400;
 	/* Avoid using locally installed font because bad versions are in circulation:
-	 * see https://github.com/rust-lang/rust/issues/24355 */
+	 * see https://github.com/dust-lang/dust/issues/24355 */
 	src: url("SourceCodePro-Regular.woff") format('woff');
 	font-display: swap;
 }
@@ -222,15 +222,15 @@ a > code {
 }
 
 /* Code highlighting */
-pre.rust .kw { color: #8959A8; }
-pre.rust .kw-2, pre.rust .prelude-ty { color: #4271AE; }
-pre.rust .number, pre.rust .string { color: #718C00; }
-pre.rust .self, pre.rust .bool-val, pre.rust .prelude-val,
-pre.rust .attribute, pre.rust .attribute .ident { color: #C82829; }
-pre.rust .comment { color: #8E908C; }
-pre.rust .doccomment { color: #4D4D4C; }
-pre.rust .macro, pre.rust .macro-nonterminal { color: #3E999F; }
-pre.rust .lifetime { color: #B76514; }
+pre.dust .kw { color: #8959A8; }
+pre.dust .kw-2, pre.dust .prelude-ty { color: #4271AE; }
+pre.dust .number, pre.dust .string { color: #718C00; }
+pre.dust .self, pre.dust .bool-val, pre.dust .prelude-val,
+pre.dust .attribute, pre.dust .attribute .ident { color: #C82829; }
+pre.dust .comment { color: #8E908C; }
+pre.dust .doccomment { color: #4D4D4C; }
+pre.dust .macro, pre.dust .macro-nonterminal { color: #3E999F; }
+pre.dust .lifetime { color: #B76514; }
 
 /* The rest */
 
@@ -333,7 +333,7 @@ table th {
 /* Code snippets */
 
 .example-wrap { position: relative; }
-pre.rust { position: relative; }
+pre.dust { position: relative; }
 a.test-arrow {
 	background-color: rgba(78, 139, 202, 0.2);
 	display: inline-block;

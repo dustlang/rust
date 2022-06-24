@@ -1,15 +1,15 @@
 use crate::consts::{constant, Constant};
 use if_chain::if_chain;
-use rustc_ast::ast::RangeLimits;
-use rustc_errors::Applicability;
-use rustc_hir::{BinOpKind, Expr, ExprKind, PathSegment, QPath};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::ty;
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::{Span, Spanned};
-use rustc_span::sym;
-use rustc_span::symbol::Ident;
+use dustc_ast::ast::RangeLimits;
+use dustc_errors::Applicability;
+use dustc_hir::{BinOpKind, Expr, ExprKind, PathSegment, QPath};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::ty;
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::{Span, Spanned};
+use dustc_span::sym;
+use dustc_span::symbol::Ident;
 use std::cmp::Ordering;
 
 use crate::utils::sugg::Sugg;
@@ -28,12 +28,12 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let x = vec![1];
     /// x.iter().zip(0..x.len());
     /// ```
     /// Could be written as
-    /// ```rust
+    /// ```dust
     /// # let x = vec![1];
     /// x.iter().enumerate();
     /// ```
@@ -61,14 +61,14 @@ declare_clippy_lint! {
     /// This will cause a warning that cannot be fixed if the consumer of the
     /// range only accepts a specific range type, instead of the generic
     /// `RangeBounds` trait
-    /// ([#3307](https://github.com/rust-lang/rust-clippy/issues/3307)).
+    /// ([#3307](https://github.com/dust-lang/dust-clippy/issues/3307)).
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// for x..(y+1) { .. }
     /// ```
     /// Could be written as
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// for x..=y { .. }
     /// ```
     pub RANGE_PLUS_ONE,
@@ -86,14 +86,14 @@ declare_clippy_lint! {
     /// **Known problems:** This will cause a warning that cannot be fixed if
     /// the consumer of the range only accepts a specific range type, instead of
     /// the generic `RangeBounds` trait
-    /// ([#3307](https://github.com/rust-lang/rust-clippy/issues/3307)).
+    /// ([#3307](https://github.com/dust-lang/dust-clippy/issues/3307)).
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// for x..=(y-1) { .. }
     /// ```
     /// Could be written as
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// for x..y { .. }
     /// ```
     pub RANGE_MINUS_ONE,
@@ -112,7 +112,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// fn main() {
     ///     (10..=0).for_each(|x| println!("{}", x));
     ///
@@ -121,7 +121,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// fn main() {
     ///     (0..=10).rev().for_each(|x| println!("{}", x));
     ///
@@ -145,14 +145,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // given
     /// let x = 6;
     ///
     /// assert!(x >= 3 && x < 8);
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     ///# let x = 6;
     /// assert!((3..8).contains(&x));
     /// ```
@@ -161,15 +161,15 @@ declare_clippy_lint! {
     "manually reimplementing {`Range`, `RangeInclusive`}`::contains`"
 }
 
-const MANUAL_RANGE_CONTAINS_MSRV: RustcVersion = RustcVersion::new(1, 35, 0);
+const MANUAL_RANGE_CONTAINS_MSRV: DustcVersion = DustcVersion::new(1, 35, 0);
 
 pub struct Ranges {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl Ranges {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self { msrv }
     }
 }

@@ -34,7 +34,7 @@ fn main() {
         ("limit_stderr_length", _) => {
             stderr_length_check::check();
         },
-        ("ra_setup", Some(matches)) => ra_setup::run(matches.value_of("rustc-repo-path")),
+        ("ra_setup", Some(matches)) => ra_setup::run(matches.value_of("dustc-repo-path")),
         ("serve", Some(matches)) => {
             let port = matches.value_of("port").unwrap().parse().unwrap();
             let lint = matches.value_of("lint");
@@ -57,11 +57,11 @@ fn get_clap_config<'a>() -> ArgMatches<'a> {
         )
         .subcommand(
             SubCommand::with_name("fmt")
-                .about("Run rustfmt on all projects and tests")
+                .about("Run dustfmt on all projects and tests")
                 .arg(
                     Arg::with_name("check")
                         .long("check")
-                        .help("Use the rustfmt --check option"),
+                        .help("Use the dustfmt --check option"),
                 )
                 .arg(
                     Arg::with_name("verbose")
@@ -139,12 +139,12 @@ fn get_clap_config<'a>() -> ArgMatches<'a> {
         )
         .subcommand(
             SubCommand::with_name("ra_setup")
-                .about("Alter dependencies so rust-analyzer can find rustc internals")
+                .about("Alter dependencies so dust-analyzer can find dustc internals")
                 .arg(
-                    Arg::with_name("rustc-repo-path")
+                    Arg::with_name("dustc-repo-path")
                         .long("repo-path")
                         .short("r")
-                        .help("The path to a rustc repo that will be used for setting the dependencies")
+                        .help("The path to a dustc repo that will be used for setting the dependencies")
                         .takes_value(true)
                         .value_name("path")
                         .required(true),

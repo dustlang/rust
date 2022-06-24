@@ -3,11 +3,11 @@ use crate::hir::place::{
 };
 use crate::ty;
 
-use rustc_data_structures::fx::{FxHashMap, FxIndexMap};
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::lang_items::LangItem;
-use rustc_span::Span;
+use dustc_data_structures::fx::{FxHashMap, FxIndexMap};
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::lang_items::LangItem;
+use dustc_span::Span;
 
 use super::{Ty, TyCtxt};
 
@@ -178,7 +178,7 @@ pub struct CaptureInfo<'tcx> {
     /// Expr Id pointing to use that resulted in selecting the current capture kind
     ///
     /// Eg:
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// let mut t = (0,1);
     ///
     /// let c = || {
@@ -194,7 +194,7 @@ pub struct CaptureInfo<'tcx> {
     /// None. In such case we fallback on uvpars_mentioned for span.
     ///
     /// Eg:
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// let x = 5;
     ///
     /// let c = || {

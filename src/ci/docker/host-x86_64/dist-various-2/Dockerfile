@@ -83,12 +83,12 @@ COPY scripts/sccache.sh /scripts/
 RUN sh /scripts/sccache.sh
 
 ENV CARGO_TARGET_X86_64_FUCHSIA_AR /usr/local/bin/llvm-ar
-ENV CARGO_TARGET_X86_64_FUCHSIA_RUSTFLAGS \
+ENV CARGO_TARGET_X86_64_FUCHSIA_DUSTFLAGS \
 -C link-arg=--sysroot=/usr/local/x86_64-fuchsia \
 -C link-arg=-L/usr/local/x86_64-fuchsia/lib \
 -C link-arg=-L/usr/local/lib/x86_64-fuchsia/lib
 ENV CARGO_TARGET_AARCH64_FUCHSIA_AR /usr/local/bin/llvm-ar
-ENV CARGO_TARGET_AARCH64_FUCHSIA_RUSTFLAGS \
+ENV CARGO_TARGET_AARCH64_FUCHSIA_DUSTFLAGS \
 -C link-arg=--sysroot=/usr/local/aarch64-fuchsia \
 -C link-arg=-L/usr/local/aarch64-fuchsia/lib \
 -C link-arg=-L/usr/local/lib/aarch64-fuchsia/lib
@@ -112,7 +112,7 @@ ENV TARGETS=$TARGETS,i686-unknown-freebsd
 # Luckily one of the folders is /usr/local/include so symlink /usr/include/asm-generic there
 RUN ln -s /usr/include/asm-generic /usr/local/include/asm
 
-ENV RUST_CONFIGURE_ARGS --enable-extended --enable-lld --disable-docs \
+ENV DUST_CONFIGURE_ARGS --enable-extended --enable-lld --disable-docs \
   --set target.wasm32-wasi.wasi-root=/wasm32-wasi \
   --musl-root-armv7=/musl-armv7
 

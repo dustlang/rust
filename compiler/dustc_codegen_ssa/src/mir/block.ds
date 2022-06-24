@@ -9,20 +9,20 @@ use crate::meth;
 use crate::traits::*;
 use crate::MemFlags;
 
-use rustc_ast as ast;
-use rustc_hir::lang_items::LangItem;
-use rustc_index::vec::Idx;
-use rustc_middle::mir::interpret::ConstValue;
-use rustc_middle::mir::AssertKind;
-use rustc_middle::mir::{self, SwitchTargets};
-use rustc_middle::ty::layout::{FnAbiExt, HasTyCtxt};
-use rustc_middle::ty::print::with_no_trimmed_paths;
-use rustc_middle::ty::{self, Instance, Ty, TypeFoldable};
-use rustc_span::source_map::Span;
-use rustc_span::{sym, Symbol};
-use rustc_target::abi::call::{ArgAbi, FnAbi, PassMode};
-use rustc_target::abi::{self, LayoutOf};
-use rustc_target::spec::abi::Abi;
+use dustc_ast as ast;
+use dustc_hir::lang_items::LangItem;
+use dustc_index::vec::Idx;
+use dustc_middle::mir::interpret::ConstValue;
+use dustc_middle::mir::AssertKind;
+use dustc_middle::mir::{self, SwitchTargets};
+use dustc_middle::ty::layout::{FnAbiExt, HasTyCtxt};
+use dustc_middle::ty::print::with_no_trimmed_paths;
+use dustc_middle::ty::{self, Instance, Ty, TypeFoldable};
+use dustc_span::source_map::Span;
+use dustc_span::{sym, Symbol};
+use dustc_target::abi::call::{ArgAbi, FnAbi, PassMode};
+use dustc_target::abi::{self, LayoutOf};
+use dustc_target::spec::abi::Abi;
 
 /// Used by `FunctionCx::codegen_terminator` for emitting common patterns
 /// e.g., creating a basic block, calling a function, etc.
@@ -343,7 +343,7 @@ impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
         let mut const_cond = bx.const_to_opt_u128(cond, false).map(|c| c == 1);
 
         // This case can currently arise only from functions marked
-        // with #[rustc_inherit_overflow_checks] and inlined from
+        // with #[dustc_inherit_overflow_checks] and inlined from
         // another crate (mostly core::num generic/#[inline] fns),
         // while the current crate doesn't use overflow checks.
         // NOTE: Unlike binops, negation doesn't have its own
@@ -673,8 +673,8 @@ impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
             }
         }
 
-        // Split the rust-call tupled arguments off.
-        let (first_args, untuple) = if abi == Abi::RustCall && !args.is_empty() {
+        // Split the dust-call tupled arguments off.
+        let (first_args, untuple) = if abi == Abi::DustCall && !args.is_empty() {
             let (tup, args) = args.split_last().unwrap();
             (args, Some(tup))
         } else {
@@ -1064,7 +1064,7 @@ impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
             Ref(llval, _, align) => {
                 if arg.is_indirect() && align < arg.layout.align.abi {
                     // `foo(packed.large_field)`. We can't pass the (unaligned) field directly. I
-                    // think that ATM (Rust 1.16) we only pass temporaries, but we shouldn't
+                    // think that ATM (Dust 1.16) we only pass temporaries, but we shouldn't
                     // have scary latent bugs around.
 
                     let scratch = PlaceRef::alloca(bx, arg.layout);

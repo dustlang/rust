@@ -3,12 +3,12 @@
 #![allow(unused_imports)]
 #![allow(unused_must_use)]
 // pretty-expanded FIXME #23616
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_serialize;
+extern crate dustc_serialize;
 
-use rustc_serialize::json;
-use rustc_serialize::{Encodable, Encoder};
+use dustc_serialize::json;
+use dustc_serialize::{Encodable, Encoder};
 use std::fmt;
 
 struct Foo<T: for<'a> Encodable<json::Encoder<'a>>> {

@@ -22,17 +22,17 @@ error: malformed `stable` attribute input
 LL |     #[stable = "a"]
    |     ^^^^^^^^^^^^^^^ help: must be of the form: `#[stable(feature = "name", since = "version")]`
 
-error: malformed `rustc_deprecated` attribute input
+error: malformed `dustc_deprecated` attribute input
   --> $DIR/stability-attribute-sanity-4.rs:21:5
    |
-LL |     #[rustc_deprecated]
-   |     ^^^^^^^^^^^^^^^^^^^ help: must be of the form: `#[rustc_deprecated(since = "version", reason = "...")]`
+LL |     #[dustc_deprecated]
+   |     ^^^^^^^^^^^^^^^^^^^ help: must be of the form: `#[dustc_deprecated(since = "version", reason = "...")]`
 
-error: malformed `rustc_deprecated` attribute input
+error: malformed `dustc_deprecated` attribute input
   --> $DIR/stability-attribute-sanity-4.rs:25:5
    |
-LL |     #[rustc_deprecated = "a"]
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^ help: must be of the form: `#[rustc_deprecated(since = "version", reason = "...")]`
+LL |     #[dustc_deprecated = "a"]
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^ help: must be of the form: `#[dustc_deprecated(since = "version", reason = "...")]`
 
 error: aborting due to 6 previous errors
 

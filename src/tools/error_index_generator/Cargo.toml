@@ -5,7 +5,7 @@ version = "0.0.0"
 edition = "2018"
 
 [dependencies]
-rustdoc = { path = "../../librustdoc" }
+dustdoc = { path = "../../libdustdoc" }
 
 [build-dependencies]
 walkdir = "2"

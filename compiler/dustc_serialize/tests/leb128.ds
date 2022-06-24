@@ -2,7 +2,7 @@
 #![feature(maybe_uninit_slice)]
 #![feature(maybe_uninit_uninit_array)]
 
-use rustc_serialize::leb128::*;
+use dustc_serialize::leb128::*;
 use std::mem::MaybeUninit;
 
 macro_rules! impl_test_unsigned_leb128 {

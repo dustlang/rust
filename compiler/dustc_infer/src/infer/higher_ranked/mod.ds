@@ -5,8 +5,8 @@ use super::combine::CombineFields;
 use super::{HigherRankedType, InferCtxt};
 
 use crate::infer::CombinedSnapshot;
-use rustc_middle::ty::relate::{Relate, RelateResult, TypeRelation};
-use rustc_middle::ty::{self, Binder, TypeFoldable};
+use dustc_middle::ty::relate::{Relate, RelateResult, TypeRelation};
+use dustc_middle::ty::{self, Binder, TypeFoldable};
 
 impl<'a, 'tcx> CombineFields<'a, 'tcx> {
     pub fn higher_ranked_sub<T>(
@@ -25,8 +25,8 @@ impl<'a, 'tcx> CombineFields<'a, 'tcx> {
         // that function subtyping works correctly with respect to regions
         //
         // Note: this is a subtle algorithm.  For a full explanation, please see
-        // the rustc dev guide:
-        // <https://rustc-dev-guide.rust-lang.org/borrow_check/region_inference/placeholders_and_universes.html>
+        // the dustc dev guide:
+        // <https://dustc-dev-guide.dust-lang.org/borrow_check/region_inference/placeholders_and_universes.html>
 
         let span = self.trace.cause.span;
 
@@ -63,9 +63,9 @@ impl<'a, 'tcx> InferCtxt<'a, 'tcx> {
     ///
     /// **Important:** You have to be careful to not leak these placeholders,
     /// for more information about how placeholders and HRTBs work, see
-    /// the [rustc dev guide].
+    /// the [dustc dev guide].
     ///
-    /// [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/traits/hrtb.html
+    /// [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/traits/hrtb.html
     pub fn replace_bound_vars_with_placeholders<T>(&self, binder: ty::Binder<T>) -> T
     where
         T: TypeFoldable<'tcx>,

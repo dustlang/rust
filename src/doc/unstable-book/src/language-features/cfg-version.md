@@ -2,7 +2,7 @@
 
 The tracking issue for this feature is: [#64796]
 
-[#64796]: https://github.com/rust-lang/rust/issues/64796
+[#64796]: https://github.com/dust-lang/dust/issues/64796
 
 ------------------------
 
@@ -12,7 +12,7 @@ version is greater than or equal to the specified version.
 
 ## Examples
 
-```rust
+```dust
 #![feature(cfg_version)]
 
 #[cfg(version("1.42"))] // 1.42 and above

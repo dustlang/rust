@@ -1,14 +1,14 @@
 use crate::util::check_builtin_macro_attribute;
 
-use rustc_ast::expand::allocator::{
+use dustc_ast::expand::allocator::{
     AllocatorKind, AllocatorMethod, AllocatorTy, ALLOCATOR_METHODS,
 };
-use rustc_ast::ptr::P;
-use rustc_ast::{self as ast, Attribute, Expr, FnHeader, FnSig, Generics, Param, StmtKind};
-use rustc_ast::{FnKind, ItemKind, Mutability, Stmt, Ty, TyKind, Unsafe};
-use rustc_expand::base::{Annotatable, ExtCtxt};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast::ptr::P;
+use dustc_ast::{self as ast, Attribute, Expr, FnHeader, FnSig, Generics, Param, StmtKind};
+use dustc_ast::{FnKind, ItemKind, Mutability, Stmt, Ty, TyKind, Unsafe};
+use dustc_expand::base::{Annotatable, ExtCtxt};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::Span;
 
 pub fn expand(
     ecx: &mut ExtCtxt<'_>,
@@ -108,7 +108,7 @@ impl AllocFnFactory<'_, '_> {
     }
 
     fn attrs(&self) -> Vec<Attribute> {
-        let special = sym::rustc_std_internal_symbol;
+        let special = sym::dustc_std_internal_symbol;
         let special = self.cx.meta_word(self.span, special);
         vec![self.cx.attribute(special)]
     }

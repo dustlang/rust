@@ -1,8 +1,8 @@
 //! This pass replaces a drop of a type that does not need dropping, with a goto
 
 use crate::transform::MirPass;
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
 
 use super::simplify::simplify_cfg;
 

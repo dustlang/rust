@@ -10,12 +10,12 @@
 use crate::def_id::DefId;
 use crate::{MethodKind, Target};
 
-use rustc_ast as ast;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_macros::HashStable_Generic;
-use rustc_span::symbol::{kw, sym, Symbol};
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_macros::HashStable_Generic;
+use dustc_span::symbol::{kw, sym, Symbol};
+use dustc_span::Span;
 
 use std::lazy::SyncLazy;
 
@@ -42,7 +42,7 @@ macro_rules! language_item_table {
     ) => {
 
         enum_from_u32! {
-            /// A representation of all the valid language items in Rust.
+            /// A representation of all the valid language items in Dust.
             #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Encodable, Decodable)]
             pub enum LangItem {
                 $(
@@ -148,7 +148,7 @@ impl<CTX> HashStable<CTX> for LangItem {
 ///
 /// About the `check_name` argument: passing in a `Session` would be simpler,
 /// because then we could call `Session::check_name` directly. But we want to
-/// avoid the need for `rustc_hir` to depend on `rustc_session`, so we
+/// avoid the need for `dustc_hir` to depend on `dustc_session`, so we
 /// use a closure instead.
 pub fn extract<'a, F>(check_name: F, attrs: &'a [ast::Attribute]) -> Option<(Symbol, Span)>
 where

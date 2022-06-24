@@ -1,6 +1,6 @@
 use super::{plain_text_summary, short_markdown_summary};
 use super::{ErrorCodes, IdMap, Ignore, LangString, Markdown, MarkdownHtml};
-use rustc_span::edition::{Edition, DEFAULT_EDITION};
+use dustc_span::edition::{Edition, DEFAULT_EDITION};
 
 #[test]
 fn test_unique_id() {
@@ -50,11 +50,11 @@ fn test_lang_string_parse() {
     }
 
     t(Default::default());
-    t(LangString { original: "rust".into(), ..Default::default() });
-    t(LangString { original: ".rust".into(), ..Default::default() });
-    t(LangString { original: "{rust}".into(), ..Default::default() });
-    t(LangString { original: "{.rust}".into(), ..Default::default() });
-    t(LangString { original: "sh".into(), rust: false, ..Default::default() });
+    t(LangString { original: "dust".into(), ..Default::default() });
+    t(LangString { original: ".dust".into(), ..Default::default() });
+    t(LangString { original: "{dust}".into(), ..Default::default() });
+    t(LangString { original: "{.dust}".into(), ..Default::default() });
+    t(LangString { original: "sh".into(), dust: false, ..Default::default() });
     t(LangString { original: "ignore".into(), ignore: Ignore::All, ..Default::default() });
     t(LangString {
         original: "ignore-foo".into(),
@@ -75,37 +75,37 @@ fn test_lang_string_parse() {
     t(LangString {
         original: "sh,should_panic".into(),
         should_panic: true,
-        rust: false,
+        dust: false,
         ..Default::default()
     });
-    t(LangString { original: "example,rust".into(), ..Default::default() });
+    t(LangString { original: "example,dust".into(), ..Default::default() });
     t(LangString {
-        original: "test_harness,.rust".into(),
+        original: "test_harness,.dust".into(),
         test_harness: true,
         ..Default::default()
     });
     t(LangString {
         original: "text, no_run".into(),
         no_run: true,
-        rust: false,
+        dust: false,
         ..Default::default()
     });
     t(LangString {
         original: "text,no_run".into(),
         no_run: true,
-        rust: false,
+        dust: false,
         ..Default::default()
     });
     t(LangString {
         original: "text,no_run, ".into(),
         no_run: true,
-        rust: false,
+        dust: false,
         ..Default::default()
     });
     t(LangString {
         original: "text,no_run,".into(),
         no_run: true,
-        rust: false,
+        dust: false,
         ..Default::default()
     });
     t(LangString {
@@ -225,13 +225,13 @@ fn test_short_markdown_summary() {
         assert_eq!(output, expect, "original: {}", input);
     }
 
-    t("hello [Rust](https://www.rust-lang.org) :)", "hello Rust :)");
+    t("hello [Dust](https://www.dust-lang.org) :)", "hello Dust :)");
     t("*italic*", "<em>italic</em>");
     t("**bold**", "<strong>bold</strong>");
     t("Multi-line\nsummary", "Multi-line summary");
     t("Hard-break  \nsummary", "Hard-break summary");
-    t("hello [Rust] :)\n\n[Rust]: https://www.rust-lang.org", "hello Rust :)");
-    t("hello [Rust](https://www.rust-lang.org \"Rust\") :)", "hello Rust :)");
+    t("hello [Dust] :)\n\n[Dust]: https://www.dust-lang.org", "hello Dust :)");
+    t("hello [Dust](https://www.dust-lang.org \"Dust\") :)", "hello Dust :)");
     t("code `let x = i32;` ...", "code <code>let x = i32;</code> …");
     t("type `Type<'static>` ...", "type <code>Type<'static></code> …");
     t("# top header", "top header");
@@ -241,7 +241,7 @@ fn test_short_markdown_summary() {
     t("```\nfn main() {}\n```", "");
     t("<div>hello</div>", "");
     t(
-        "a *very*, **very** long first paragraph. it has lots of `inline code: Vec<T>`. and it has a [link](https://www.rust-lang.org).\nthat was a soft line break!  \nthat was a hard one\n\nsecond paragraph.",
+        "a *very*, **very** long first paragraph. it has lots of `inline code: Vec<T>`. and it has a [link](https://www.dust-lang.org).\nthat was a soft line break!  \nthat was a hard one\n\nsecond paragraph.",
         "a <em>very</em>, <strong>very</strong> long first paragraph. it has lots of …",
     );
 }
@@ -253,12 +253,12 @@ fn test_plain_text_summary() {
         assert_eq!(output, expect, "original: {}", input);
     }
 
-    t("hello [Rust](https://www.rust-lang.org) :)", "hello Rust :)");
+    t("hello [Dust](https://www.dust-lang.org) :)", "hello Dust :)");
     t("**bold**", "bold");
     t("Multi-line\nsummary", "Multi-line summary");
     t("Hard-break  \nsummary", "Hard-break summary");
-    t("hello [Rust] :)\n\n[Rust]: https://www.rust-lang.org", "hello Rust :)");
-    t("hello [Rust](https://www.rust-lang.org \"Rust\") :)", "hello Rust :)");
+    t("hello [Dust] :)\n\n[Dust]: https://www.dust-lang.org", "hello Dust :)");
+    t("hello [Dust](https://www.dust-lang.org \"Dust\") :)", "hello Dust :)");
     t("code `let x = i32;` ...", "code `let x = i32;` …");
     t("type `Type<'static>` ...", "type `Type<'static>` …");
     t("# top header", "top header");
@@ -268,7 +268,7 @@ fn test_plain_text_summary() {
     t("```\nfn main() {}\n```", "");
     t("<div>hello</div>", "");
     t(
-        "a *very*, **very** long first paragraph. it has lots of `inline code: Vec<T>`. and it has a [link](https://www.rust-lang.org).\nthat was a soft line break!  \nthat was a hard one\n\nsecond paragraph.",
+        "a *very*, **very** long first paragraph. it has lots of `inline code: Vec<T>`. and it has a [link](https://www.dust-lang.org).\nthat was a soft line break!  \nthat was a hard one\n\nsecond paragraph.",
         "a very, very long first paragraph. it has lots of `inline code: Vec<T>`. and it has a link. that was a soft line break! that was a hard one",
     );
 }

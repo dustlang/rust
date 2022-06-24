@@ -2,7 +2,7 @@
 
 The tracking issue for this feature is: [#55467]
 
-[#55467]: https://github.com/rust-lang/rust/issues/55467
+[#55467]: https://github.com/dust-lang/dust/issues/55467
 
 ------------------------
 
@@ -10,7 +10,7 @@ The `non_ascii_idents` feature adds support for non-ASCII identifiers.
 
 ## Examples
 
-```rust
+```dust
 #![feature(non_ascii_idents)]
 
 const ε: f64 = 0.00001f64;

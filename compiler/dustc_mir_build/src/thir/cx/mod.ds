@@ -6,13 +6,13 @@ use crate::thir::arena::Arena;
 use crate::thir::util::UserAnnotatedTyHelpers;
 use crate::thir::*;
 
-use rustc_ast as ast;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::Node;
-use rustc_middle::middle::region;
-use rustc_middle::mir::interpret::{LitToConstError, LitToConstInput};
-use rustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_ast as ast;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::Node;
+use dustc_middle::middle::region;
+use dustc_middle::mir::interpret::{LitToConstError, LitToConstInput};
+use dustc_middle::ty::{self, Ty, TyCtxt};
 
 pub fn build_thir<'thir, 'tcx>(
     tcx: TyCtxt<'tcx>,

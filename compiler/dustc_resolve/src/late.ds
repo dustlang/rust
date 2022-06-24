@@ -11,23 +11,23 @@ use crate::{path_names_to_string, BindingError, CrateLint, LexicalScopeBinding};
 use crate::{Module, ModuleOrUniformRoot, ParentScope, PathResult};
 use crate::{ResolutionError, Resolver, Segment, UseError};
 
-use rustc_ast::ptr::P;
-use rustc_ast::visit::{self, AssocCtxt, FnCtxt, FnKind, Visitor};
-use rustc_ast::*;
-use rustc_ast_lowering::ResolverAstLowering;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::DiagnosticId;
-use rustc_hir::def::Namespace::{self, *};
-use rustc_hir::def::{self, CtorKind, DefKind, PartialRes, PerNS};
-use rustc_hir::def_id::{DefId, CRATE_DEF_INDEX};
-use rustc_hir::{PrimTy, TraitCandidate};
-use rustc_middle::{bug, span_bug};
-use rustc_session::lint;
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast::ptr::P;
+use dustc_ast::visit::{self, AssocCtxt, FnCtxt, FnKind, Visitor};
+use dustc_ast::*;
+use dustc_ast_lowering::ResolverAstLowering;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::DiagnosticId;
+use dustc_hir::def::Namespace::{self, *};
+use dustc_hir::def::{self, CtorKind, DefKind, PartialRes, PerNS};
+use dustc_hir::def_id::{DefId, CRATE_DEF_INDEX};
+use dustc_hir::{PrimTy, TraitCandidate};
+use dustc_middle::{bug, span_bug};
+use dustc_session::lint;
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::Span;
 use smallvec::{smallvec, SmallVec};
 
-use rustc_span::source_map::{respan, Spanned};
+use dustc_span::source_map::{respan, Spanned};
 use std::collections::{hash_map::Entry, BTreeSet};
 use std::mem::{replace, take};
 use tracing::debug;
@@ -337,7 +337,7 @@ impl<'a> PathSource<'a> {
     }
 
     fn error_code(self, has_unexpected_resolution: bool) -> DiagnosticId {
-        use rustc_errors::error_code;
+        use dustc_errors::error_code;
         match (self, has_unexpected_resolution) {
             (PathSource::Trait(_), true) => error_code!(E0404),
             (PathSource::Trait(_), false) => error_code!(E0405),
@@ -418,7 +418,7 @@ struct LateResolutionVisitor<'a, 'b, 'ast> {
 
     /// State used to know whether to ignore resolution errors for function bodies.
     ///
-    /// In particular, rustdoc uses this to avoid giving errors for `cfg()` items.
+    /// In particular, dustdoc uses this to avoid giving errors for `cfg()` items.
     /// In most cases this will be `None`, in which case errors will always be reported.
     /// If it is `true`, then it will be updated when entering a nested function or trait body.
     in_func_body: bool,
@@ -533,7 +533,7 @@ impl<'a: 'ast, 'ast> Visitor<'ast> for LateResolutionVisitor<'a, '_, 'ast> {
 
                 visit::walk_fn_ret_ty(this, &declaration.output);
 
-                // Ignore errors in function bodies if this is rustdoc
+                // Ignore errors in function bodies if this is dustdoc
                 // Be sure not to set this until the function signature has been resolved.
                 let previous_state = replace(&mut this.in_func_body, true);
                 // Resolve the function body, potentially inside the body of an async closure
@@ -567,7 +567,7 @@ impl<'a: 'ast, 'ast> Visitor<'ast> for LateResolutionVisitor<'a, '_, 'ast> {
             },
         ));
 
-        // rust-lang/rust#61631: The type `Self` is essentially
+        // dust-lang/dust#61631: The type `Self` is essentially
         // another type parameter. For ADTs, we consider it
         // well-defined only after all of the ADT type parameters have
         // been provided. Therefore, we do not allow use of `Self`
@@ -759,7 +759,7 @@ impl<'a: 'ast, 'b, 'ast> LateResolutionVisitor<'a, 'b, 'ast> {
     // the value or type namespaces, we first look through all the ribs and
     // then query the module graph. When we resolve a name in the module
     // namespace, we can skip all the ribs (since nested modules are not
-    // allowed within blocks in Rust) and jump straight to the current module
+    // allowed within blocks in Dust) and jump straight to the current module
     // graph node.
     //
     // Named implementations are handled separately. When we find a method
@@ -891,7 +891,7 @@ impl<'a: 'ast, 'b, 'ast> LateResolutionVisitor<'a, 'b, 'ast> {
         let segments = &use_tree.prefix.segments;
         if !segments.is_empty() {
             let ident = segments[0].ident;
-            if ident.is_path_segment_keyword() || ident.span.rust_2015() {
+            if ident.is_path_segment_keyword() || ident.span.dust_2015() {
                 return;
             }
 
@@ -1984,7 +1984,7 @@ impl<'a: 'ast, 'b, 'ast> LateResolutionVisitor<'a, 'b, 'ast> {
 
     /// A wrapper around [`Resolver::report_error`].
     ///
-    /// This doesn't emit errors for function bodies if this is rustdoc.
+    /// This doesn't emit errors for function bodies if this is dustdoc.
     fn report_error(&self, span: Span, resolution_error: ResolutionError<'_>) {
         if self.should_report_errs() {
             self.r.report_error(span, resolution_error);
@@ -1992,9 +1992,9 @@ impl<'a: 'ast, 'b, 'ast> LateResolutionVisitor<'a, 'b, 'ast> {
     }
 
     #[inline]
-    /// If we're actually rustdoc then avoid giving a name resolution error for `cfg()` items.
+    /// If we're actually dustdoc then avoid giving a name resolution error for `cfg()` items.
     fn should_report_errs(&self) -> bool {
-        !(self.r.session.opts.actually_rustdoc && self.in_func_body)
+        !(self.r.session.opts.actually_dustdoc && self.in_func_body)
     }
 
     // Resolve in alternative namespaces if resolution in the primary namespace fails.

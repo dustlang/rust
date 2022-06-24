@@ -1,22 +1,22 @@
 use crate::base::ExtCtxt;
 
-use rustc_ast as ast;
-use rustc_ast::token;
-use rustc_ast::token::Nonterminal;
-use rustc_ast::token::NtIdent;
-use rustc_ast::tokenstream::{self, CanSynthesizeMissingTokens};
-use rustc_ast::tokenstream::{DelimSpan, Spacing::*, TokenStream, TreeAndSpacing};
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::Diagnostic;
-use rustc_lint_defs::builtin::PROC_MACRO_BACK_COMPAT;
-use rustc_lint_defs::BuiltinLintDiagnostics;
-use rustc_parse::lexer::nfc_normalize;
-use rustc_parse::{nt_to_tokenstream, parse_stream_from_source_str};
-use rustc_session::parse::ParseSess;
-use rustc_span::hygiene::ExpnKind;
-use rustc_span::symbol::{self, kw, sym, Symbol};
-use rustc_span::{BytePos, FileName, MultiSpan, Pos, RealFileName, SourceFile, Span};
+use dustc_ast as ast;
+use dustc_ast::token;
+use dustc_ast::token::Nonterminal;
+use dustc_ast::token::NtIdent;
+use dustc_ast::tokenstream::{self, CanSynthesizeMissingTokens};
+use dustc_ast::tokenstream::{DelimSpan, Spacing::*, TokenStream, TreeAndSpacing};
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::Diagnostic;
+use dustc_lint_defs::builtin::PROC_MACRO_BACK_COMPAT;
+use dustc_lint_defs::BuiltinLintDiagnostics;
+use dustc_parse::lexer::nfc_normalize;
+use dustc_parse::{nt_to_tokenstream, parse_stream_from_source_str};
+use dustc_session::parse::ParseSess;
+use dustc_span::hygiene::ExpnKind;
+use dustc_span::symbol::{self, kw, sym, Symbol};
+use dustc_span::{BytePos, FileName, MultiSpan, Pos, RealFileName, SourceFile, Span};
 
 use pm::bridge::{server, TokenTree};
 use pm::{Delimiter, Level, LineColumn, Spacing};
@@ -59,7 +59,7 @@ impl FromInternal<(TreeAndSpacing, &'_ ParseSess, &'_ mut Vec<Self>)>
     fn from_internal(
         ((tree, spacing), sess, stack): (TreeAndSpacing, &ParseSess, &mut Vec<Self>),
     ) -> Self {
-        use rustc_ast::token::*;
+        use dustc_ast::token::*;
 
         let joint = spacing == Joint;
         let Token { kind, span } = match tree {
@@ -200,7 +200,7 @@ impl FromInternal<(TreeAndSpacing, &'_ ParseSess, &'_ mut Vec<Self>)>
 
 impl ToInternal<TokenStream> for TokenTree<Group, Punct, Ident, Literal> {
     fn to_internal(self) -> TokenStream {
-        use rustc_ast::token::*;
+        use dustc_ast::token::*;
 
         let (ch, joint, span) = match self {
             TokenTree::Punct(Punct { ch, joint, span }) => (ch, joint, span),
@@ -269,13 +269,13 @@ impl ToInternal<TokenStream> for TokenTree<Group, Punct, Ident, Literal> {
     }
 }
 
-impl ToInternal<rustc_errors::Level> for Level {
-    fn to_internal(self) -> rustc_errors::Level {
+impl ToInternal<dustc_errors::Level> for Level {
+    fn to_internal(self) -> dustc_errors::Level {
         match self {
-            Level::Error => rustc_errors::Level::Error,
-            Level::Warning => rustc_errors::Level::Warning,
-            Level::Note => rustc_errors::Level::Note,
-            Level::Help => rustc_errors::Level::Help,
+            Level::Error => dustc_errors::Level::Error,
+            Level::Warning => dustc_errors::Level::Warning,
+            Level::Note => dustc_errors::Level::Note,
+            Level::Help => dustc_errors::Level::Help,
             _ => unreachable!("unknown proc_macro::Level variant: {:?}", self),
         }
     }
@@ -332,7 +332,7 @@ impl Ident {
     fn new(sess: &ParseSess, sym: Symbol, is_raw: bool, span: Span) -> Ident {
         let sym = nfc_normalize(&sym.as_str());
         let string = sym.as_str();
-        if !rustc_lexer::is_ident(&string) {
+        if !dustc_lexer::is_ident(&string) {
             panic!("`{:?}` is not a valid identifier", string)
         }
         if is_raw && !sym.can_be_raw() {
@@ -354,7 +354,7 @@ pub struct Literal {
     span: Span,
 }
 
-pub(crate) struct Rustc<'a> {
+pub(crate) struct Dustc<'a> {
     sess: &'a ParseSess,
     def_site: Span,
     call_site: Span,
@@ -362,10 +362,10 @@ pub(crate) struct Rustc<'a> {
     span_debug: bool,
 }
 
-impl<'a> Rustc<'a> {
+impl<'a> Dustc<'a> {
     pub fn new(cx: &'a ExtCtxt<'_>) -> Self {
         let expn_data = cx.current_expansion.id.expn_data();
-        Rustc {
+        Dustc {
             sess: &cx.sess.parse_sess,
             def_site: cx.with_def_site_ctxt(expn_data.def_site),
             call_site: cx.with_call_site_ctxt(expn_data.call_site),
@@ -379,7 +379,7 @@ impl<'a> Rustc<'a> {
     }
 }
 
-impl server::Types for Rustc<'_> {
+impl server::Types for Dustc<'_> {
     type FreeFunctions = FreeFunctions;
     type TokenStream = TokenStream;
     type TokenStreamBuilder = tokenstream::TokenStreamBuilder;
@@ -394,13 +394,13 @@ impl server::Types for Rustc<'_> {
     type Span = Span;
 }
 
-impl server::FreeFunctions for Rustc<'_> {
+impl server::FreeFunctions for Dustc<'_> {
     fn track_env_var(&mut self, var: &str, value: Option<&str>) {
         self.sess.env_depinfo.borrow_mut().insert((Symbol::intern(var), value.map(Symbol::intern)));
     }
 }
 
-impl server::TokenStream for Rustc<'_> {
+impl server::TokenStream for Dustc<'_> {
     fn new(&mut self) -> Self::TokenStream {
         TokenStream::default()
     }
@@ -416,7 +416,7 @@ impl server::TokenStream for Rustc<'_> {
         )
     }
     fn to_string(&mut self, stream: &Self::TokenStream) -> String {
-        pprust::tts_to_string(stream)
+        ppdust::tts_to_string(stream)
     }
     fn from_token_tree(
         &mut self,
@@ -429,7 +429,7 @@ impl server::TokenStream for Rustc<'_> {
     }
 }
 
-impl server::TokenStreamBuilder for Rustc<'_> {
+impl server::TokenStreamBuilder for Dustc<'_> {
     fn new(&mut self) -> Self::TokenStreamBuilder {
         tokenstream::TokenStreamBuilder::new()
     }
@@ -441,7 +441,7 @@ impl server::TokenStreamBuilder for Rustc<'_> {
     }
 }
 
-impl server::TokenStreamIter for Rustc<'_> {
+impl server::TokenStreamIter for Dustc<'_> {
     fn next(
         &mut self,
         iter: &mut Self::TokenStreamIter,
@@ -466,7 +466,7 @@ impl server::TokenStreamIter for Rustc<'_> {
     }
 }
 
-impl server::Group for Rustc<'_> {
+impl server::Group for Dustc<'_> {
     fn new(&mut self, delimiter: Delimiter, stream: Self::TokenStream) -> Self::Group {
         Group {
             delimiter,
@@ -495,7 +495,7 @@ impl server::Group for Rustc<'_> {
     }
 }
 
-impl server::Punct for Rustc<'_> {
+impl server::Punct for Dustc<'_> {
     fn new(&mut self, ch: char, spacing: Spacing) -> Self::Punct {
         Punct::new(ch, spacing == Spacing::Joint, server::Span::call_site(self))
     }
@@ -513,7 +513,7 @@ impl server::Punct for Rustc<'_> {
     }
 }
 
-impl server::Ident for Rustc<'_> {
+impl server::Ident for Dustc<'_> {
     fn new(&mut self, string: &str, span: Self::Span, is_raw: bool) -> Self::Ident {
         Ident::new(self.sess, Symbol::intern(string), is_raw, span)
     }
@@ -525,7 +525,7 @@ impl server::Ident for Rustc<'_> {
     }
 }
 
-impl server::Literal for Rustc<'_> {
+impl server::Literal for Dustc<'_> {
     fn debug_kind(&mut self, literal: &Self::Literal) -> String {
         format!("{:?}", literal.lit.kind)
     }
@@ -615,7 +615,7 @@ impl server::Literal for Rustc<'_> {
     }
 }
 
-impl server::SourceFile for Rustc<'_> {
+impl server::SourceFile for Dustc<'_> {
     fn eq(&mut self, file1: &Self::SourceFile, file2: &Self::SourceFile) -> bool {
         Lrc::ptr_eq(file1, file2)
     }
@@ -634,7 +634,7 @@ impl server::SourceFile for Rustc<'_> {
     }
 }
 
-impl server::MultiSpan for Rustc<'_> {
+impl server::MultiSpan for Dustc<'_> {
     fn new(&mut self) -> Self::MultiSpan {
         vec![]
     }
@@ -643,7 +643,7 @@ impl server::MultiSpan for Rustc<'_> {
     }
 }
 
-impl server::Diagnostic for Rustc<'_> {
+impl server::Diagnostic for Dustc<'_> {
     fn new(&mut self, level: Level, msg: &str, spans: Self::MultiSpan) -> Self::Diagnostic {
         let mut diag = Diagnostic::new(level.to_internal(), msg);
         diag.set_span(MultiSpan::from_spans(spans));
@@ -663,7 +663,7 @@ impl server::Diagnostic for Rustc<'_> {
     }
 }
 
-impl server::Span for Rustc<'_> {
+impl server::Span for Dustc<'_> {
     fn debug(&mut self, span: Self::Span) -> String {
         if self.span_debug {
             format!("{:?}", span)
@@ -720,7 +720,7 @@ fn ident_name_compatibility_hack(
     nt: &Nonterminal,
     orig_span: Span,
     sess: &ParseSess,
-) -> Option<(rustc_span::symbol::Ident, bool)> {
+) -> Option<(dustc_span::symbol::Ident, bool)> {
     if let NtIdent(ident, is_raw) = nt {
         if let ExpnKind::Macro(_, macro_name) = orig_span.ctxt().outer_expn_data().kind {
             let source_map = sess.source_map();
@@ -751,7 +751,7 @@ fn ident_name_compatibility_hack(
                                 ast::CRATE_NODE_ID,
                                 "using an old version of `time-macros-impl`",
                                 BuiltinLintDiagnostics::ProcMacroBackCompat(
-                                "the `time-macros-impl` crate will stop compiling in futures version of Rust. \
+                                "the `time-macros-impl` crate will stop compiling in futures version of Dust. \
                                 Please update to the latest version of the `time` crate to avoid breakage".to_string())
                             );
                         }

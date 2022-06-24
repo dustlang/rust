@@ -1,6 +1,6 @@
-//! Shim which is passed to Cargo as "rustdoc" when running the bootstrap.
+//! Shim which is passed to Cargo as "dustdoc" when running the bootstrap.
 //!
-//! See comments in `src/bootstrap/rustc.rs` for more information.
+//! See comments in `src/bootstrap/dustc.rs` for more information.
 
 use std::env;
 use std::ffi::OsString;
@@ -9,43 +9,43 @@ use std::process::Command;
 
 fn main() {
     let args = env::args_os().skip(1).collect::<Vec<_>>();
-    let rustdoc = env::var_os("RUSTDOC_REAL").expect("RUSTDOC_REAL was not set");
-    let libdir = env::var_os("RUSTDOC_LIBDIR").expect("RUSTDOC_LIBDIR was not set");
-    let sysroot = env::var_os("RUSTC_SYSROOT").expect("RUSTC_SYSROOT was not set");
+    let dustdoc = env::var_os("DUSTDOC_REAL").expect("DUSTDOC_REAL was not set");
+    let libdir = env::var_os("DUSTDOC_LIBDIR").expect("DUSTDOC_LIBDIR was not set");
+    let sysroot = env::var_os("DUSTC_SYSROOT").expect("DUSTC_SYSROOT was not set");
 
     use std::str::FromStr;
 
-    let verbose = match env::var("RUSTC_VERBOSE") {
-        Ok(s) => usize::from_str(&s).expect("RUSTC_VERBOSE should be an integer"),
+    let verbose = match env::var("DUSTC_VERBOSE") {
+        Ok(s) => usize::from_str(&s).expect("DUSTC_VERBOSE should be an integer"),
         Err(_) => 0,
     };
 
     let mut dylib_path = bootstrap::util::dylib_path();
     dylib_path.insert(0, PathBuf::from(libdir.clone()));
 
-    let mut cmd = Command::new(rustdoc);
+    let mut cmd = Command::new(dustdoc);
     cmd.args(&args)
         .arg("--sysroot")
         .arg(&sysroot)
         .env(bootstrap::util::dylib_path_var(), env::join_paths(&dylib_path).unwrap());
 
     // Force all crates compiled by this compiler to (a) be unstable and (b)
-    // allow the `rustc_private` feature to link to other unstable crates
+    // allow the `dustc_private` feature to link to other unstable crates
     // also in the sysroot.
-    if env::var_os("RUSTC_FORCE_UNSTABLE").is_some() {
+    if env::var_os("DUSTC_FORCE_UNSTABLE").is_some() {
         cmd.arg("-Z").arg("force-unstable-if-unmarked");
     }
-    if let Some(linker) = env::var_os("RUSTDOC_LINKER") {
+    if let Some(linker) = env::var_os("DUSTDOC_LINKER") {
         let mut arg = OsString::from("-Clinker=");
         arg.push(&linker);
         cmd.arg(arg);
     }
-    if env::var_os("RUSTDOC_FUSE_LD_LLD").is_some() {
+    if env::var_os("DUSTDOC_FUSE_LD_LLD").is_some() {
         cmd.arg("-Clink-args=-fuse-ld=lld");
     }
 
-    // Needed to be able to run all rustdoc tests.
-    if let Some(ref x) = env::var_os("RUSTDOC_RESOURCE_SUFFIX") {
+    // Needed to be able to run all dustdoc tests.
+    if let Some(ref x) = env::var_os("DUSTDOC_RESOURCE_SUFFIX") {
         // This "unstable-options" can be removed when `--resource-suffix` is stabilized
         cmd.arg("-Z").arg("unstable-options");
         cmd.arg("--resource-suffix").arg(x);
@@ -53,7 +53,7 @@ fn main() {
 
     if verbose > 1 {
         eprintln!(
-            "rustdoc command: {:?}={:?} {:?}",
+            "dustdoc command: {:?}={:?} {:?}",
             bootstrap::util::dylib_path_var(),
             env::join_paths(&dylib_path).unwrap(),
             cmd,

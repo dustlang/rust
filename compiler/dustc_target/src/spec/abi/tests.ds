@@ -2,9 +2,9 @@ use super::*;
 
 #[allow(non_snake_case)]
 #[test]
-fn lookup_Rust() {
-    let abi = lookup("Rust");
-    assert!(abi.is_some() && abi.unwrap().data().name == "Rust");
+fn lookup_Dust() {
+    let abi = lookup("Dust");
+    assert!(abi.is_some() && abi.unwrap().data().name == "Dust");
 }
 
 #[test]

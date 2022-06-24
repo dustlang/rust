@@ -1,14 +1,14 @@
-use rustc_hir as hir;
-use rustc_index::vec::Idx;
-use rustc_infer::infer::{InferCtxt, TyCtxtInferExt};
-use rustc_middle::mir::Field;
-use rustc_middle::ty::print::with_no_trimmed_paths;
-use rustc_middle::ty::{self, AdtDef, Ty, TyCtxt};
-use rustc_session::lint;
-use rustc_span::Span;
-use rustc_trait_selection::traits::predicate_for_trait_def;
-use rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
-use rustc_trait_selection::traits::{self, ObligationCause, PredicateObligation};
+use dustc_hir as hir;
+use dustc_index::vec::Idx;
+use dustc_infer::infer::{InferCtxt, TyCtxtInferExt};
+use dustc_middle::mir::Field;
+use dustc_middle::ty::print::with_no_trimmed_paths;
+use dustc_middle::ty::{self, AdtDef, Ty, TyCtxt};
+use dustc_session::lint;
+use dustc_span::Span;
+use dustc_trait_selection::traits::predicate_for_trait_def;
+use dustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
+use dustc_trait_selection::traits::{self, ObligationCause, PredicateObligation};
 
 use std::cell::Cell;
 
@@ -233,7 +233,7 @@ impl<'a, 'tcx> ConstToPat<'a, 'tcx> {
 
         let has_impl = self.infcx.predicate_may_hold(&obligation);
 
-        // Note: To fix rust-lang/rust#65466, we could just remove this type
+        // Note: To fix dust-lang/dust#65466, we could just remove this type
         // walk hack for function pointers, and unconditionally error
         // if `PartialEq` is not implemented. However, that breaks stable
         // code at the moment, because types like `for <'a> fn(&'a ())` do
@@ -310,7 +310,7 @@ impl<'a, 'tcx> ConstToPat<'a, 'tcx> {
             // FIXME: This code doesn't emit errors itself, the caller emits the errors.
             // So instead of specific errors, you just get blanket errors about the whole
             // const type. See
-            // https://github.com/rust-lang/rust/pull/70743#discussion_r404701963 for
+            // https://github.com/dust-lang/dust/pull/70743#discussion_r404701963 for
             // details.
             // Backwards compatibility hack because we can't cause hard errors on these
             // types, so we compare them via `PartialEq::eq` at runtime.
@@ -506,7 +506,7 @@ impl<'a, 'tcx> ConstToPat<'a, 'tcx> {
             }
             // FIXME: these can have very suprising behaviour where optimization levels or other
             // compilation choices change the runtime behaviour of the match.
-            // See https://github.com/rust-lang/rust/issues/70861 for examples.
+            // See https://github.com/dust-lang/dust/issues/70861 for examples.
             ty::FnPtr(..) | ty::RawPtr(..) => {
                 if self.include_lint_checks
                     && !self.saw_const_match_error.get()
@@ -515,7 +515,7 @@ impl<'a, 'tcx> ConstToPat<'a, 'tcx> {
                     self.saw_const_match_lint.set(true);
                     let msg = "function pointers and unsized pointers in patterns behave \
                         unpredictably and should not be relied upon. \
-                        See https://github.com/rust-lang/rust/issues/70861 for details.";
+                        See https://github.com/dust-lang/dust/issues/70861 for details.";
                     tcx.struct_span_lint_hir(
                         lint::builtin::POINTER_STRUCTURAL_MATCH,
                         id,

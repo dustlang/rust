@@ -1,8 +1,8 @@
 @echo off
 setlocal
 
-for /f "delims=" %%i in ('rustc --print=sysroot') do set rustc_sysroot=%%i
+for /f "delims=" %%i in ('dustc --print=sysroot') do set dustc_sysroot=%%i
 
-set rust_etc=%rustc_sysroot%\lib\rustlib\etc
+set dust_etc=%dustc_sysroot%\lib\dustlib\etc
 
-windbg -c ".nvload %rust_etc%\intrinsic.natvis; .nvload %rust_etc%\liballoc.natvis; .nvload %rust_etc%\libcore.natvis;" %*
+windbg -c ".nvload %dust_etc%\intrinsic.natvis; .nvload %dust_etc%\liballoc.natvis; .nvload %dust_etc%\libcore.natvis;" %*

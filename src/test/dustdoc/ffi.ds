@@ -1,7 +1,7 @@
-// aux-build:rustdoc-ffi.rs
+// aux-build:dustdoc-ffi.rs
 // ignore-cross-compile
 
-extern crate rustdoc_ffi as lib;
+extern crate dustdoc_ffi as lib;
 
 // @has ffi/fn.foreigner.html //pre 'pub unsafe extern "C" fn foreigner(cold_as_ice: u32)'
 pub use lib::foreigner;

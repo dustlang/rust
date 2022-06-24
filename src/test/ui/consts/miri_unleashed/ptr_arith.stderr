@@ -20,4 +20,4 @@ LL |     let _v = x == x;
 
 error: aborting due to 2 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0080`.
+For more information about this error, try `dustc --explain E0080`.

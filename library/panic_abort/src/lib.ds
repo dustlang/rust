@@ -1,4 +1,4 @@
-//! Implementation of Rust panics via process aborts
+//! Implementation of Dust panics via process aborts
 //!
 //! When compared to the implementation via unwinding, this crate is *much*
 //! simpler! That being said, it's not quite as versatile, but here goes!
@@ -6,8 +6,8 @@
 #![no_std]
 #![unstable(feature = "panic_abort", issue = "32837")]
 #![doc(
-    html_root_url = "https://doc.rust-lang.org/nightly/",
-    issue_tracker_base_url = "https://github.com/rust-lang/rust/issues/"
+    html_root_url = "https://doc.dust-lang.org/nightly/",
+    issue_tracker_base_url = "https://github.com/dust-lang/dust/issues/"
 )]
 #![panic_runtime]
 #![allow(unused_features)]
@@ -16,21 +16,21 @@
 #![feature(panic_runtime)]
 #![feature(std_internals)]
 #![feature(staged_api)]
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 #![feature(asm)]
 
 use core::any::Any;
 use core::panic::BoxMeUp;
 
-#[rustc_std_internal_symbol]
+#[dustc_std_internal_symbol]
 #[allow(improper_ctypes_definitions)]
-pub unsafe extern "C" fn __rust_panic_cleanup(_: *mut u8) -> *mut (dyn Any + Send + 'static) {
+pub unsafe extern "C" fn __dust_panic_cleanup(_: *mut u8) -> *mut (dyn Any + Send + 'static) {
     unreachable!()
 }
 
 // "Leak" the payload and shim to the relevant abort on the platform in question.
-#[rustc_std_internal_symbol]
-pub unsafe extern "C" fn __rust_start_panic(_payload: *mut &mut dyn BoxMeUp) -> u32 {
+#[dustc_std_internal_symbol]
+pub unsafe extern "C" fn __dust_start_panic(_payload: *mut &mut dyn BoxMeUp) -> u32 {
     abort();
 
     cfg_if::cfg_if! {
@@ -44,9 +44,9 @@ pub unsafe extern "C" fn __rust_start_panic(_payload: *mut &mut dyn BoxMeUp) -> 
             unsafe fn abort() -> ! {
                 // call std::sys::abort_internal
                 extern "C" {
-                    pub fn __rust_abort() -> !;
+                    pub fn __dust_abort() -> !;
                 }
-                __rust_abort();
+                __dust_abort();
             }
         } else if #[cfg(all(windows, not(miri)))] {
             // On Windows, use the processor-specific __fastfail mechanism. In Windows 8
@@ -90,7 +90,7 @@ pub unsafe extern "C" fn __rust_start_panic(_payload: *mut &mut dyn BoxMeUp) -> 
 // compatible with as many situations as possible. The compiler, however,
 // requires a "personality function" for all functions compiled with `-C
 // panic=unwind`. This personality function is hardcoded to the symbol
-// `rust_eh_personality` and is defined by the `eh_personality` lang item.
+// `dust_eh_personality` and is defined by the `eh_personality` lang item.
 //
 // So... why not just define that lang item here? Good question! The way that
 // panic runtimes are linked in is actually a little subtle in that they're
@@ -109,18 +109,18 @@ pub unsafe extern "C" fn __rust_start_panic(_payload: *mut &mut dyn BoxMeUp) -> 
 // binaries, but it should never be called as we don't link in an unwinding
 // runtime at all.
 pub mod personalities {
-    #[rustc_std_internal_symbol]
+    #[dustc_std_internal_symbol]
     #[cfg(not(any(
         all(target_arch = "wasm32", not(target_os = "emscripten"),),
         all(target_os = "windows", target_env = "gnu", target_arch = "x86_64",),
     )))]
-    pub extern "C" fn rust_eh_personality() {}
+    pub extern "C" fn dust_eh_personality() {}
 
     // On x86_64-pc-windows-gnu we use our own personality function that needs
     // to return `ExceptionContinueSearch` as we're passing on all our frames.
-    #[rustc_std_internal_symbol]
+    #[dustc_std_internal_symbol]
     #[cfg(all(target_os = "windows", target_env = "gnu", target_arch = "x86_64"))]
-    pub extern "C" fn rust_eh_personality(
+    pub extern "C" fn dust_eh_personality(
         _record: usize,
         _frame: usize,
         _context: usize,
@@ -135,17 +135,17 @@ pub mod personalities {
     // Since panics don't generate exceptions and foreign exceptions are
     // currently UB with -C panic=abort (although this may be subject to
     // change), any catch_unwind calls will never use this typeinfo.
-    #[rustc_std_internal_symbol]
+    #[dustc_std_internal_symbol]
     #[allow(non_upper_case_globals)]
     #[cfg(target_os = "emscripten")]
-    static rust_eh_catch_typeinfo: [usize; 2] = [0; 2];
+    static dust_eh_catch_typeinfo: [usize; 2] = [0; 2];
 
     // These two are called by our startup objects on i686-pc-windows-gnu, but
     // they don't need to do anything so the bodies are nops.
-    #[rustc_std_internal_symbol]
+    #[dustc_std_internal_symbol]
     #[cfg(all(target_os = "windows", target_env = "gnu", target_arch = "x86"))]
-    pub extern "C" fn rust_eh_register_frames() {}
-    #[rustc_std_internal_symbol]
+    pub extern "C" fn dust_eh_register_frames() {}
+    #[dustc_std_internal_symbol]
     #[cfg(all(target_os = "windows", target_env = "gnu", target_arch = "x86"))]
-    pub extern "C" fn rust_eh_unregister_frames() {}
+    pub extern "C" fn dust_eh_unregister_frames() {}
 }

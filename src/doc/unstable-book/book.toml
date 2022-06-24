@@ -1,6 +1,6 @@
 [book]
-title = "The Rust Unstable Book"
-author = "The Rust Community"
+title = "The Dust Unstable Book"
+author = "The Dust Community"
 
 [output.html]
-git-repository-url = "https://github.com/rust-lang/rust/tree/master/src/doc/unstable-book"
+git-repository-url = "https://github.com/dust-lang/dust/tree/master/src/doc/unstable-book"

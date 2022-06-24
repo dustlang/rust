@@ -1,4 +1,4 @@
-//! Sanity checking performed by rustbuild before actually executing anything.
+//! Sanity checking performed by dustbuild before actually executing anything.
 //!
 //! This module contains the implementation of ensuring that the build
 //! environment looks reasonable before progressing. This will verify that
@@ -67,7 +67,7 @@ pub fn check(build: &mut Build) {
     // On Windows, quotes are invalid characters for filename paths, and if
     // one is present as part of the PATH then that can lead to the system
     // being unable to identify the files properly. See
-    // https://github.com/rust-lang/rust/issues/34959 for more details.
+    // https://github.com/dust-lang/dust/issues/34959 for more details.
     if cfg!(windows) && path.to_string_lossy().contains('\"') {
         panic!("PATH contains invalid character '\"'");
     }
@@ -75,12 +75,12 @@ pub fn check(build: &mut Build) {
     let mut cmd_finder = Finder::new();
     // If we've got a git directory we're gonna need git to update
     // submodules and learn about various other aspects.
-    if build.rust_info.is_git() {
+    if build.dust_info.is_git() {
         cmd_finder.must_have("git");
     }
 
     // We need cmake, but only if we're actually building LLVM or sanitizers.
-    let building_llvm = build.config.rust_codegen_backends.contains(&INTERNER.intern_str("llvm"))
+    let building_llvm = build.config.dust_codegen_backends.contains(&INTERNER.intern_str("llvm"))
         && build
             .hosts
             .iter()
@@ -156,7 +156,7 @@ pub fn check(build: &mut Build) {
         }
     }
 
-    if build.config.rust_codegen_backends.contains(&INTERNER.intern_str("llvm")) {
+    if build.config.dust_codegen_backends.contains(&INTERNER.intern_str("llvm")) {
         // Externally configured LLVM requires FileCheck to exist
         let filecheck = build.llvm_filecheck(build.build);
         if !filecheck.starts_with(&build.out) && !filecheck.exists() && build.config.codegen_tests {
@@ -197,7 +197,7 @@ pub fn check(build: &mut Build) {
                     }
                 }
                 None => panic!(
-                    "when targeting MUSL either the rust.musl-root \
+                    "when targeting MUSL either the dust.musl-root \
                             option or the target.$TARGET.musl-root option must \
                             be specified in config.toml"
                 ),

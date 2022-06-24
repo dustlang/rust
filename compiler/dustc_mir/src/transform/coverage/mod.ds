@@ -15,23 +15,23 @@ use spans::{CoverageSpan, CoverageSpans};
 use crate::transform::MirPass;
 use crate::util::pretty;
 
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::graph::WithNumNodes;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::sync::Lrc;
-use rustc_index::vec::IndexVec;
-use rustc_middle::hir;
-use rustc_middle::hir::map::blocks::FnLikeNode;
-use rustc_middle::ich::StableHashingContext;
-use rustc_middle::mir::coverage::*;
-use rustc_middle::mir::{
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::graph::WithNumNodes;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::sync::Lrc;
+use dustc_index::vec::IndexVec;
+use dustc_middle::hir;
+use dustc_middle::hir::map::blocks::FnLikeNode;
+use dustc_middle::ich::StableHashingContext;
+use dustc_middle::mir::coverage::*;
+use dustc_middle::mir::{
     self, BasicBlock, BasicBlockData, Coverage, SourceInfo, Statement, StatementKind, Terminator,
     TerminatorKind,
 };
-use rustc_middle::ty::TyCtxt;
-use rustc_span::def_id::DefId;
-use rustc_span::source_map::SourceMap;
-use rustc_span::{CharPos, Pos, SourceFile, Span, Symbol};
+use dustc_middle::ty::TyCtxt;
+use dustc_span::def_id::DefId;
+use dustc_span::source_map::SourceMap;
+use dustc_span::{CharPos, Pos, SourceFile, Span, Symbol};
 
 /// A simple error message wrapper for `coverage::Error`s.
 #[derive(Debug)]
@@ -55,7 +55,7 @@ impl<'tcx> MirPass<'tcx> for InstrumentCoverage {
         let mir_source = mir_body.source;
 
         // If the InstrumentCoverage pass is called on promoted MIRs, skip them.
-        // See: https://github.com/rust-lang/rust/pull/73011#discussion_r438317601
+        // See: https://github.com/dust-lang/dust/pull/73011#discussion_r438317601
         if mir_source.promoted.is_some() {
             trace!(
                 "InstrumentCoverage skipped for {:?} (already promoted for Miri evaluation)",
@@ -524,7 +524,7 @@ fn make_code_region(
 fn fn_sig_and_body<'tcx>(
     tcx: TyCtxt<'tcx>,
     def_id: DefId,
-) -> (Option<&'tcx rustc_hir::FnSig<'tcx>>, &'tcx rustc_hir::Body<'tcx>) {
+) -> (Option<&'tcx dustc_hir::FnSig<'tcx>>, &'tcx dustc_hir::Body<'tcx>) {
     // FIXME(#79625): Consider improving MIR to provide the information needed, to avoid going back
     // to HIR for it.
     let hir_node = tcx.hir().get_if_local(def_id).expect("expected DefId is local");
@@ -532,7 +532,7 @@ fn fn_sig_and_body<'tcx>(
     (hir::map::fn_sig(hir_node), tcx.hir().body(fn_body_id))
 }
 
-fn hash_mir_source<'tcx>(tcx: TyCtxt<'tcx>, hir_body: &'tcx rustc_hir::Body<'tcx>) -> u64 {
+fn hash_mir_source<'tcx>(tcx: TyCtxt<'tcx>, hir_body: &'tcx dustc_hir::Body<'tcx>) -> u64 {
     let mut hcx = tcx.create_no_span_stable_hashing_context();
     hash(&mut hcx, &hir_body.value).to_smaller_hash()
 }

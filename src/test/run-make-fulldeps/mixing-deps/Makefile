@@ -1,7 +1,7 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) both.rs -C prefer-dynamic
-	$(RUSTC) dylib.rs -C prefer-dynamic
-	$(RUSTC) prog.rs
+	$(DUSTC) both.rs -C prefer-dynamic
+	$(DUSTC) dylib.rs -C prefer-dynamic
+	$(DUSTC) prog.rs
 	$(call RUN,prog)

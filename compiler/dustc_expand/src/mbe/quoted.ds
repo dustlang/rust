@@ -1,17 +1,17 @@
 use crate::mbe::macro_parser;
 use crate::mbe::{Delimited, KleeneOp, KleeneToken, SequenceRepetition, TokenTree};
 
-use rustc_ast::token::{self, Token};
-use rustc_ast::tokenstream;
-use rustc_ast::{NodeId, DUMMY_NODE_ID};
-use rustc_ast_pretty::pprust;
-use rustc_feature::Features;
-use rustc_session::parse::{feature_err, ParseSess};
-use rustc_span::symbol::{kw, sym, Ident};
+use dustc_ast::token::{self, Token};
+use dustc_ast::tokenstream;
+use dustc_ast::{NodeId, DUMMY_NODE_ID};
+use dustc_ast_pretty::ppdust;
+use dustc_feature::Features;
+use dustc_session::parse::{feature_err, ParseSess};
+use dustc_span::symbol::{kw, sym, Ident};
 
-use rustc_span::Span;
+use dustc_span::Span;
 
-use rustc_data_structures::sync::Lrc;
+use dustc_data_structures::sync::Lrc;
 
 const VALID_FRAGMENT_NAMES_MSG: &str = "valid fragment specifiers are \
                                         `ident`, `block`, `stmt`, `expr`, `pat`, `ty`, `lifetime`, \
@@ -161,7 +161,7 @@ fn parse_tree(
                 Some(tokenstream::TokenTree::Delimited(span, delim, tts)) => {
                     // Must have `(` not `{` or `[`
                     if delim != token::Paren {
-                        let tok = pprust::token_kind_to_string(&token::OpenDelim(delim));
+                        let tok = ppdust::token_kind_to_string(&token::OpenDelim(delim));
                         let msg = format!("expected `(`, found `{}`", tok);
                         sess.span_diagnostic.span_err(span.entire(), &msg);
                     }
@@ -199,7 +199,7 @@ fn parse_tree(
                 Some(tokenstream::TokenTree::Token(token)) => {
                     let msg = format!(
                         "expected identifier, found `{}`",
-                        pprust::token_to_string(&token),
+                        ppdust::token_to_string(&token),
                     );
                     sess.span_diagnostic.span_err(token.span, &msg);
                     TokenTree::MetaVar(token.span, Ident::invalid())

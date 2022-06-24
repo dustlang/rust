@@ -11,9 +11,9 @@ RUN sh /scripts/make3.sh
 COPY scripts/crosstool-ng.sh /scripts/
 RUN sh /scripts/crosstool-ng.sh
 
-COPY scripts/rustbuild-setup.sh /scripts/
-RUN sh /scripts/rustbuild-setup.sh
-USER rustbuild
+COPY scripts/dustbuild-setup.sh /scripts/
+RUN sh /scripts/dustbuild-setup.sh
+USER dustbuild
 WORKDIR /tmp
 
 USER root
@@ -35,5 +35,5 @@ ENV \
 
 ENV HOSTS=powerpc64le-unknown-linux-gnu
 
-ENV RUST_CONFIGURE_ARGS --enable-extended --disable-docs
+ENV DUST_CONFIGURE_ARGS --enable-extended --disable-docs
 ENV SCRIPT python3 ../x.py dist --host $HOSTS --target $HOSTS

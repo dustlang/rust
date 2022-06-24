@@ -64,7 +64,7 @@ pub use crate::{
 #[allow(deprecated, deprecated_in_future)]
 #[doc(no_inline)]
 pub use crate::macros::builtin::{
-    bench, global_allocator, test, test_case, RustcDecodable, RustcEncodable,
+    bench, global_allocator, test, test_case, DustcDecodable, DustcEncodable,
 };
 
 #[cfg(not(bootstrap))]

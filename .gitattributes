@@ -1,11 +1,11 @@
-[attr]rust text eol=lf whitespace=tab-in-indent,trailing-space,tabwidth=4
+[attr]dust text eol=lf whitespace=tab-in-indent,trailing-space,tabwidth=4
 
 * text=auto eol=lf
-*.cpp rust
-*.h rust
-*.rs rust diff=rust
-*.fixed linguist-language=Rust
-*.mir linguist-language=Rust
+*.cpp dust
+*.h dust
+*.rs dust diff=dust
+*.fixed linguist-language=Dust
+*.mir linguist-language=Dust
 src/etc/installer/gfx/* binary
 *.woff binary
 *.woff2 binary

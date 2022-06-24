@@ -1,9 +1,9 @@
 use crate::utils::{is_copy, match_def_path, paths, span_lint_and_note};
 use if_chain::if_chain;
-use rustc_hir::{Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for calls to `std::mem::drop` with a reference
@@ -40,7 +40,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x = Box::new(1);
     /// std::mem::forget(&x) // Should have been forget(x), x will still be dropped
     /// ```
@@ -54,13 +54,13 @@ declare_clippy_lint! {
     /// that derives the Copy trait
     ///
     /// **Why is this bad?** Calling `std::mem::drop` [does nothing for types that
-    /// implement Copy](https://doc.rust-lang.org/std/mem/fn.drop.html), since the
+    /// implement Copy](https://doc.dust-lang.org/std/mem/fn.drop.html), since the
     /// value will be copied and moved into the function on invocation.
     ///
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x: i32 = 42; // i32 implements Copy
     /// std::mem::drop(x) // A copy of x is passed to the function, leaving the
     ///                   // original unaffected
@@ -75,7 +75,7 @@ declare_clippy_lint! {
     /// derives the Copy trait
     ///
     /// **Why is this bad?** Calling `std::mem::forget` [does nothing for types that
-    /// implement Copy](https://doc.rust-lang.org/std/mem/fn.drop.html) since the
+    /// implement Copy](https://doc.dust-lang.org/std/mem/fn.drop.html) since the
     /// value will be copied and moved into the function on invocation.
     ///
     /// An alternative, but also valid, explanation is that Copy types do not
@@ -87,7 +87,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x: i32 = 42; // i32 implements Copy
     /// std::mem::forget(x) // A copy of x is passed to the function, leaving the
     ///                     // original unaffected

@@ -3,8 +3,8 @@
 
 use std::any::Any;
 
-use rustc_middle::middle::cstore::EncodedMetadata;
-use rustc_middle::mir::mono::{Linkage as RLinkage, MonoItem, Visibility};
+use dustc_middle::middle::cstore::EncodedMetadata;
+use dustc_middle::mir::mono::{Linkage as RLinkage, MonoItem, Visibility};
 
 use crate::prelude::*;
 use crate::CodegenMode;
@@ -25,7 +25,7 @@ pub(crate) fn codegen_crate(
         CodegenMode::Aot => aot::run_aot(tcx, backend_config, metadata, need_metadata_module),
         CodegenMode::Jit | CodegenMode::JitLazy => {
             let is_executable =
-                tcx.sess.crate_types().contains(&rustc_session::config::CrateType::Executable);
+                tcx.sess.crate_types().contains(&dustc_session::config::CrateType::Executable);
             if !is_executable {
                 tcx.sess.fatal("can't jit non-executable crate");
             }
@@ -34,7 +34,7 @@ pub(crate) fn codegen_crate(
             let _: ! = jit::run_jit(tcx, backend_config);
 
             #[cfg(not(feature = "jit"))]
-            tcx.sess.fatal("jit support was disabled when compiling rustc_codegen_cranelift");
+            tcx.sess.fatal("jit support was disabled when compiling dustc_codegen_cranelift");
         }
     }
 }

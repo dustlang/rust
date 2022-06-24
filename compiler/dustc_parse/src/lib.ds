@@ -8,15 +8,15 @@
 #![feature(box_patterns)]
 #![recursion_limit = "256"]
 
-use rustc_ast as ast;
-use rustc_ast::token::{self, Nonterminal};
-use rustc_ast::tokenstream::{self, CanSynthesizeMissingTokens, LazyTokenStream, TokenStream};
-use rustc_ast::AstLike;
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::{Diagnostic, FatalError, Level, PResult};
-use rustc_session::parse::ParseSess;
-use rustc_span::{FileName, SourceFile, Span};
+use dustc_ast as ast;
+use dustc_ast::token::{self, Nonterminal};
+use dustc_ast::tokenstream::{self, CanSynthesizeMissingTokens, LazyTokenStream, TokenStream};
+use dustc_ast::AstLike;
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::{Diagnostic, FatalError, Level, PResult};
+use dustc_session::parse::ParseSess;
+use dustc_span::{FileName, SourceFile, Span};
 
 use std::path::Path;
 use std::str;
@@ -39,7 +39,7 @@ pub mod validate_attr;
 /// A variant of 'panictry!' that works on a Vec<Diagnostic> instead of a single DiagnosticBuilder.
 macro_rules! panictry_buffer {
     ($handler:expr, $e:expr) => {{
-        use rustc_errors::FatalError;
+        use dustc_errors::FatalError;
         use std::result::Result::{Err, Ok};
         match $e {
             Ok(e) => e,
@@ -295,12 +295,12 @@ pub fn nt_to_tokenstream(
     } else if matches!(synthesize_tokens, CanSynthesizeMissingTokens::Yes) {
         return fake_token_stream(sess, nt);
     } else {
-        panic!("Missing tokens for nt at {:?}: {:?}", nt.span(), pprust::nonterminal_to_string(nt));
+        panic!("Missing tokens for nt at {:?}: {:?}", nt.span(), ppdust::nonterminal_to_string(nt));
     }
 }
 
 pub fn fake_token_stream(sess: &ParseSess, nt: &Nonterminal) -> TokenStream {
-    let source = pprust::nonterminal_to_string(nt);
+    let source = ppdust::nonterminal_to_string(nt);
     let filename = FileName::macro_expansion_source_code(&source);
     parse_stream_from_source_str(filename, source, sess, Some(nt.span()))
 }

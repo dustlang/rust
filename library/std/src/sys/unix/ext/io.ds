@@ -1,6 +1,6 @@
 //! Unix-specific extensions to general I/O primitives.
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 use crate::fs;
 use crate::io;
@@ -9,7 +9,7 @@ use crate::sys;
 use crate::sys_common::{AsInner, FromInner, IntoInner};
 
 /// Raw file descriptors.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub type RawFd = raw::c_int;
 
 /// A trait to extract the raw unix file descriptor from an underlying
@@ -18,7 +18,7 @@ pub type RawFd = raw::c_int;
 /// This is only available on unix platforms and must be imported in order
 /// to call the method. Windows platforms have a corresponding `AsRawHandle`
 /// and `AsRawSocket` set of traits.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait AsRawFd {
     /// Extracts the raw file descriptor.
     ///
@@ -38,7 +38,7 @@ pub trait AsRawFd {
     /// let raw_fd: RawFd = f.as_raw_fd();
     /// # Ok::<(), io::Error>(())
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn as_raw_fd(&self) -> RawFd;
 }
 
@@ -121,7 +121,7 @@ impl FromRawFd for RawFd {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl AsRawFd for fs::File {
     fn as_raw_fd(&self) -> RawFd {
         self.as_inner().fd().raw()

@@ -7,13 +7,13 @@ case $1 in
         TOOLCHAIN=$(date +%Y-%m-%d)
 
         echo "=> Installing new nightly"
-        rustup toolchain install --profile minimal "nightly-${TOOLCHAIN}" # Sanity check to see if the nightly exists
-        echo "nightly-${TOOLCHAIN}" > rust-toolchain
-        rustup component add rustfmt || true
+        dustup toolchain install --profile minimal "nightly-${TOOLCHAIN}" # Sanity check to see if the nightly exists
+        echo "nightly-${TOOLCHAIN}" > dust-toolchain
+        dustup component add dustfmt || true
 
         echo "=> Uninstalling all old nighlies"
-        for nightly in $(rustup toolchain list | grep nightly | grep -v "$TOOLCHAIN" | grep -v nightly-x86_64); do
-            rustup toolchain uninstall "$nightly"
+        for nightly in $(dustup toolchain list | grep nightly | grep -v "$TOOLCHAIN" | grep -v nightly-x86_64); do
+            dustup toolchain uninstall "$nightly"
         done
 
         ./clean_all.sh
@@ -23,36 +23,36 @@ case $1 in
 
         ;;
     "commit")
-        git add rust-toolchain build_sysroot/Cargo.lock
-        git commit -m "Rustup to $(rustc -V)"
+        git add dust-toolchain build_sysroot/Cargo.lock
+        git commit -m "Dustup to $(dustc -V)"
         ;;
     "push")
         cg_clif=$(pwd)
-        pushd ../rust
+        pushd ../dust
         git pull origin master
         branch=sync_cg_clif-$(date +%Y-%m-%d)
         git checkout -b "$branch"
-        git subtree pull --prefix=compiler/rustc_codegen_cranelift/ https://github.com/bjorn3/rustc_codegen_cranelift.git master
+        git subtree pull --prefix=compiler/dustc_codegen_cranelift/ https://github.com/bjorn3/dustc_codegen_cranelift.git master
         git push -u my "$branch"
 
         # immediately merge the merge commit into cg_clif to prevent merge conflicts when syncing
-        # from rust-lang/rust later
-        git subtree push --prefix=compiler/rustc_codegen_cranelift/ "$cg_clif" sync_from_rust
+        # from dust-lang/dust later
+        git subtree push --prefix=compiler/dustc_codegen_cranelift/ "$cg_clif" sync_from_dust
         popd
-        git merge sync_from_rust
+        git merge sync_from_dust
 	;;
     "pull")
         cg_clif=$(pwd)
-        pushd ../rust
+        pushd ../dust
         git pull origin master
-        rust_vers="$(git rev-parse HEAD)"
-        git subtree push --prefix=compiler/rustc_codegen_cranelift/ "$cg_clif" sync_from_rust
+        dust_vers="$(git rev-parse HEAD)"
+        git subtree push --prefix=compiler/dustc_codegen_cranelift/ "$cg_clif" sync_from_dust
         popd
-        git merge sync_from_rust -m "Sync from rust $rust_vers"
-        git branch -d sync_from_rust
+        git merge sync_from_dust -m "Sync from dust $dust_vers"
+        git branch -d sync_from_dust
         ;;
     *)
         echo "Unknown command '$1'"
-        echo "Usage: ./rustup.sh prepare|commit"
+        echo "Usage: ./dustup.sh prepare|commit"
         ;;
 esac

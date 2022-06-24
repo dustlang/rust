@@ -1,11 +1,11 @@
 # Command-line arguments
 
-Here's a list of command-line arguments to `rustc` and what they do.
+Here's a list of command-line arguments to `dustc` and what they do.
 
 <a id="option-help"></a>
 ## `-h`/`--help`: get help
 
-This flag will print out help information for `rustc`.
+This flag will print out help information for `dustc`.
 
 <a id="option-cfg"></a>
 ## `--cfg`: configure the compilation environment
@@ -62,15 +62,15 @@ and `LINK_NAME` is the name of the actual library that will be linked.
 <a id="option-crate-type"></a>
 ## `--crate-type`: a list of types of crates for the compiler to emit
 
-This instructs `rustc` on which crate type to build. This flag accepts a
+This instructs `dustc` on which crate type to build. This flag accepts a
 comma-separated list of values, and may be specified multiple times. The valid
 crate types are:
 
 - `lib` — Generates a library kind preferred by the compiler, currently
   defaults to `rlib`.
-- `rlib` — A Rust static library.
+- `rlib` — A Dust static library.
 - `staticlib` — A native static library.
-- `dylib` — A Rust dynamic library.
+- `dylib` — A Dust dynamic library.
 - `cdylib` — A native dynamic library.
 - `bin` — A runnable executable program.
 - `proc-macro` — Generates a format suitable for a procedural macro library
@@ -88,7 +88,7 @@ More details may be found in the [linkage chapter] of the reference.
 <a id="option-crate-name"></a>
 ## `--crate-name`: specify the name of the crate being built
 
-This informs `rustc` of the name of your crate.
+This informs `dustc` of the name of your crate.
 
 <a id="option-edition"></a>
 ## `--edition`: specify the edition to use
@@ -119,7 +119,7 @@ The valid emit kinds are:
   filename is `CRATE_NAME.ll`.
 - `metadata` — Generates a file containing metadata about the crate. The
   default output filename is `CRATE_NAME.rmeta`.
-- `mir` — Generates a file containing rustc's mid-level intermediate
+- `mir` — Generates a file containing dustc's mid-level intermediate
   representation. The default output filename is `CRATE_NAME.mir`.
 - `obj` — Generates a native object file. The default output filename is
   `CRATE_NAME.o`.
@@ -197,13 +197,13 @@ the [`-o` flag](#option-o-output) is used.
 <a id="option-explain"></a>
 ## `--explain`: provide a detailed explanation of an error message
 
-Each error of `rustc`'s comes with an error code; this will print
+Each error of `dustc`'s comes with an error code; this will print
 out a longer explanation of a given error.
 
 <a id="option-test"></a>
 ## `--test`: build a test harness
 
-When compiling this crate, `rustc` will ignore your `main` function
+When compiling this crate, `dustc` will ignore your `main` function
 and instead produce a test harness. See the [Tests chapter](tests/index.md)
 for more information about tests.
 
@@ -243,10 +243,10 @@ _Note:_ The order of these lint level arguments is taken into account, see [lint
 <a id="option-z-unstable"></a>
 ## `-Z`: set unstable options
 
-This flag will allow you to set unstable options of rustc. In order to set multiple options,
-the -Z flag can be used multiple times. For example: `rustc -Z verbose -Z time`.
+This flag will allow you to set unstable options of dustc. In order to set multiple options,
+the -Z flag can be used multiple times. For example: `dustc -Z verbose -Z time`.
 Specifying options with -Z is only available on nightly. To view all available options
-run: `rustc -Z help`.
+run: `dustc -Z help`.
 
 <a id="option-cap-lints"></a>
 ## `--cap-lints`: set the most restrictive lint level
@@ -261,7 +261,7 @@ This flag will allow you to set [codegen options](codegen-options/index.md).
 <a id="option-version"></a>
 ## `-V`/`--version`: print a version
 
-This flag will print out `rustc`'s version.
+This flag will print out `dustc`'s version.
 
 <a id="option-verbose"></a>
 ## `-v`/`--verbose`: use verbose output
@@ -307,7 +307,7 @@ path is used and the pathless flag has no effect.
 <a id="option-sysroot"></a>
 ## `--sysroot`: Override the system root
 
-The "sysroot" is where `rustc` looks for the crates that come with the Rust
+The "sysroot" is where `dustc` looks for the crates that come with the Dust
 distribution; this flag allows that to be overridden.
 
 <a id="option-error-format"></a>
@@ -349,7 +349,7 @@ pathname syntax. For example `--remap-path-prefix foo=bar` will match
 ## `--json`: configure json messages printed by the compiler
 
 When the [`--error-format=json` option](#option-error-format) is passed to
-rustc then all of the compiler's diagnostic output will be emitted in the form
+dustc then all of the compiler's diagnostic output will be emitted in the form
 of JSON blobs. The `--json` argument can be used in conjunction with
 `--error-format=json` to configure what the JSON blobs contain as well as
 which ones are emitted.
@@ -366,14 +366,14 @@ to customize the output:
 - `diagnostic-rendered-ansi` - by default JSON blobs in their `rendered` field
   will contain a plain text rendering of the diagnostic. This option instead
   indicates that the diagnostic should have embedded ANSI color codes intended
-  to be used to colorize the message in the manner rustc typically already does
+  to be used to colorize the message in the manner dustc typically already does
   for terminal outputs. Note that this is usefully combined with crates like
   [`fwdansi`](https://crates.io/crates/fwdansi) to translate these ANSI codes
   on Windows to console commands or
   [`strip-ansi-escapes`](https://crates.io/crates/strip-ansi-escapes) if you'd
   like to optionally remove the ansi colors afterwards.
 
-- `artifacts` - this instructs rustc to emit a JSON blob for each artifact that
+- `artifacts` - this instructs dustc to emit a JSON blob for each artifact that
   is emitted. An artifact corresponds to a request from the [`--emit` CLI
   argument](#option-emit), and as soon as the artifact is available on the
   filesystem a notification will be emitted.

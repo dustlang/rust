@@ -4,7 +4,7 @@
 pub const MIN_E: i16 = -305;
 pub const MAX_E: i16 = 305;
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub static POWERS: ([u64; 611], [i16; 611]) = (
     [
         0xe0b62e2929aba83c,
@@ -1234,7 +1234,7 @@ pub static POWERS: ([u64; 611], [i16; 611]) = (
     ],
 );
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub const F32_SHORT_POWERS: [f32; 11] = [
     1e0,
     1e1,
@@ -1249,7 +1249,7 @@ pub const F32_SHORT_POWERS: [f32; 11] = [
     1e10,
 ];
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 pub const F64_SHORT_POWERS: [f64; 23] = [
     1e0,
     1e1,

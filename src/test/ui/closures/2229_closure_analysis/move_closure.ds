@@ -3,17 +3,17 @@
 #![feature(capture_disjoint_fields)]
 //~^ WARNING: the feature `capture_disjoint_fields` is incomplete
 //~| NOTE: `#[warn(incomplete_features)]` on by default
-//~| NOTE: see issue #53488 <https://github.com/rust-lang/rust/issues/53488>
-#![feature(rustc_attrs)]
+//~| NOTE: see issue #53488 <https://github.com/dust-lang/dust/issues/53488>
+#![feature(dustc_attrs)]
 
 fn simple_move_closure() {
     struct S(String);
     struct T(S);
 
     let t = T(S("s".into()));
-    let mut c = #[rustc_capture_analysis]
+    let mut c = #[dustc_capture_analysis]
     //~^ ERROR: attributes on expressions are experimental
-    //~| NOTE: see issue #15701 <https://github.com/rust-lang/rust/issues/15701>
+    //~| NOTE: see issue #15701 <https://github.com/dust-lang/dust/issues/15701>
     move || {
     //~^ ERROR: First Pass analysis includes:
     //~| ERROR: Min Capture analysis includes:
@@ -29,9 +29,9 @@ fn simple_ref() {
     let mut s = 10;
     let ref_s = &mut s;
 
-    let mut c = #[rustc_capture_analysis]
+    let mut c = #[dustc_capture_analysis]
     //~^ ERROR: attributes on expressions are experimental
-    //~| NOTE: see issue #15701 <https://github.com/rust-lang/rust/issues/15701>
+    //~| NOTE: see issue #15701 <https://github.com/dust-lang/dust/issues/15701>
     move || {
     //~^ ERROR: First Pass analysis includes:
     //~| ERROR: Min Capture analysis includes:
@@ -50,9 +50,9 @@ fn struct_contains_ref_to_another_struct_1() {
     let mut s = S("s".into());
     let t = T(&mut s);
 
-    let mut c = #[rustc_capture_analysis]
+    let mut c = #[dustc_capture_analysis]
     //~^ ERROR: attributes on expressions are experimental
-    //~| NOTE: see issue #15701 <https://github.com/rust-lang/rust/issues/15701>
+    //~| NOTE: see issue #15701 <https://github.com/dust-lang/dust/issues/15701>
     move || {
     //~^ ERROR: First Pass analysis includes:
     //~| ERROR: Min Capture analysis includes:
@@ -73,9 +73,9 @@ fn struct_contains_ref_to_another_struct_2() {
     let s = S(0);
     let t = T(&s);
 
-    let mut c = #[rustc_capture_analysis]
+    let mut c = #[dustc_capture_analysis]
     //~^ ERROR: attributes on expressions are experimental
-    //~| NOTE: see issue #15701 <https://github.com/rust-lang/rust/issues/15701>
+    //~| NOTE: see issue #15701 <https://github.com/dust-lang/dust/issues/15701>
     move || {
     //~^ ERROR: First Pass analysis includes:
     //~| ERROR: Min Capture analysis includes:
@@ -95,9 +95,9 @@ fn struct_contains_ref_to_another_struct_3() {
     let s = S("s".into());
     let t = T(&s);
 
-    let mut c = #[rustc_capture_analysis]
+    let mut c = #[dustc_capture_analysis]
     //~^ ERROR: attributes on expressions are experimental
-    //~| NOTE: see issue #15701 <https://github.com/rust-lang/rust/issues/15701>
+    //~| NOTE: see issue #15701 <https://github.com/dust-lang/dust/issues/15701>
     move || {
     //~^ ERROR: First Pass analysis includes:
     //~| ERROR: Min Capture analysis includes:
@@ -116,9 +116,9 @@ fn truncate_box_derefs() {
 
     let b = Box::new(S(10));
 
-    let c = #[rustc_capture_analysis]
+    let c = #[dustc_capture_analysis]
     //~^ ERROR: attributes on expressions are experimental
-    //~| NOTE: see issue #15701 <https://github.com/rust-lang/rust/issues/15701>
+    //~| NOTE: see issue #15701 <https://github.com/dust-lang/dust/issues/15701>
     move || {
     //~^ ERROR: First Pass analysis includes:
     //~| ERROR: Min Capture analysis includes:

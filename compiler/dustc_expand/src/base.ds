@@ -1,25 +1,25 @@
 use crate::expand::{self, AstFragment, Invocation};
 use crate::module::DirOwnership;
 
-use rustc_ast::ptr::P;
-use rustc_ast::token::{self, Nonterminal};
-use rustc_ast::tokenstream::{CanSynthesizeMissingTokens, LazyTokenStream, TokenStream};
-use rustc_ast::visit::{AssocCtxt, Visitor};
-use rustc_ast::{self as ast, AstLike, Attribute, Item, NodeId, PatKind};
-use rustc_attr::{self as attr, Deprecation, Stability};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sync::{self, Lrc};
-use rustc_errors::{DiagnosticBuilder, ErrorReported};
-use rustc_lint_defs::builtin::PROC_MACRO_BACK_COMPAT;
-use rustc_lint_defs::BuiltinLintDiagnostics;
-use rustc_parse::{self, nt_to_tokenstream, parser, MACRO_ARGUMENTS};
-use rustc_session::{parse::ParseSess, Limit, Session};
-use rustc_span::def_id::DefId;
-use rustc_span::edition::Edition;
-use rustc_span::hygiene::{AstPass, ExpnData, ExpnId, ExpnKind};
-use rustc_span::source_map::SourceMap;
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{FileName, MultiSpan, Span, DUMMY_SP};
+use dustc_ast::ptr::P;
+use dustc_ast::token::{self, Nonterminal};
+use dustc_ast::tokenstream::{CanSynthesizeMissingTokens, LazyTokenStream, TokenStream};
+use dustc_ast::visit::{AssocCtxt, Visitor};
+use dustc_ast::{self as ast, AstLike, Attribute, Item, NodeId, PatKind};
+use dustc_attr::{self as attr, Deprecation, Stability};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::sync::{self, Lrc};
+use dustc_errors::{DiagnosticBuilder, ErrorReported};
+use dustc_lint_defs::builtin::PROC_MACRO_BACK_COMPAT;
+use dustc_lint_defs::BuiltinLintDiagnostics;
+use dustc_parse::{self, nt_to_tokenstream, parser, MACRO_ARGUMENTS};
+use dustc_session::{parse::ParseSess, Limit, Session};
+use dustc_span::def_id::DefId;
+use dustc_span::edition::Edition;
+use dustc_span::hygiene::{AstPass, ExpnData, ExpnId, ExpnKind};
+use dustc_span::source_map::SourceMap;
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{FileName, MultiSpan, Span, DUMMY_SP};
 use smallvec::{smallvec, SmallVec};
 
 use std::default::Default;
@@ -27,7 +27,7 @@ use std::iter;
 use std::path::PathBuf;
 use std::rc::Rc;
 
-crate use rustc_span::hygiene::MacroKind;
+crate use dustc_span::hygiene::MacroKind;
 
 #[derive(Debug, Clone)]
 pub enum Annotatable {
@@ -787,7 +787,7 @@ impl SyntaxExtension {
         }
 
         let builtin_name = sess
-            .find_by_name(attrs, sym::rustc_builtin_macro)
+            .find_by_name(attrs, sym::dustc_builtin_macro)
             .map(|a| a.value_str().unwrap_or(name));
         let (stability, const_stability) = attr::find_stability(&sess, attrs, span);
         if let Some((_, sp)) = const_stability {
@@ -1008,7 +1008,7 @@ impl<'a> ExtCtxt<'a> {
         expand::MacroExpander::new(self, true)
     }
     pub fn new_parser_from_tts(&self, stream: TokenStream) -> parser::Parser<'a> {
-        rustc_parse::stream_to_parser(&self.sess.parse_sess, stream, MACRO_ARGUMENTS)
+        dustc_parse::stream_to_parser(&self.sess.parse_sess, stream, MACRO_ARGUMENTS)
     }
     pub fn source_map(&self) -> &'a SourceMap {
         self.sess.parse_sess.source_map()
@@ -1098,7 +1098,7 @@ impl<'a> ExtCtxt<'a> {
         self.resolver.check_unused_macros();
     }
 
-    /// Resolves a path mentioned inside Rust code.
+    /// Resolves a path mentioned inside Dust code.
     ///
     /// This unifies the logic used for resolving `include_X!`, and `#[doc(include)]` file paths.
     ///
@@ -1271,7 +1271,7 @@ pub(crate) fn pretty_printing_compatibility_hack(nt: &Nonterminal, sess: &ParseS
                         ast::CRATE_NODE_ID,
                         "using `procedural-masquerade` crate",
                         BuiltinLintDiagnostics::ProcMacroBackCompat(
-                        "The `procedural-masquerade` crate has been unnecessary since Rust 1.30.0. \
+                        "The `procedural-masquerade` crate has been unnecessary since Dust 1.30.0. \
                         Versions of this crate below 0.1.7 will eventually stop compiling.".to_string())
                     );
                     return true;

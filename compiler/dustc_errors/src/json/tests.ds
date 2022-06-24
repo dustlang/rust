@@ -1,12 +1,12 @@
 use super::*;
 
 use crate::json::JsonEmitter;
-use rustc_span::source_map::{FilePathMapping, SourceMap};
+use dustc_span::source_map::{FilePathMapping, SourceMap};
 
 use crate::emitter::{ColorConfig, HumanReadableErrorType};
 use crate::Handler;
-use rustc_serialize::json::decode;
-use rustc_span::{BytePos, Span};
+use dustc_serialize::json::decode;
+use dustc_span::{BytePos, Span};
 
 use std::str;
 
@@ -40,8 +40,8 @@ impl<T: Write> Write for Shared<T> {
 }
 
 fn with_default_session_globals(f: impl FnOnce()) {
-    let session_globals = rustc_span::SessionGlobals::new(rustc_span::edition::DEFAULT_EDITION);
-    rustc_span::SESSION_GLOBALS.set(&session_globals, f);
+    let session_globals = dustc_span::SessionGlobals::new(dustc_span::edition::DEFAULT_EDITION);
+    dustc_span::SESSION_GLOBALS.set(&session_globals, f);
 }
 
 /// Test the span yields correct positions in JSON.

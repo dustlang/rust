@@ -4,11 +4,11 @@
 
 // pretty-expanded FIXME #23616
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_serialize;
+extern crate dustc_serialize;
 
-use rustc_serialize::{json, Decodable};
+use dustc_serialize::{json, Decodable};
 
 pub fn main() {
     let json = json::from_str("[1]").unwrap();

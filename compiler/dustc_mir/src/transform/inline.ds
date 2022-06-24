@@ -1,16 +1,16 @@
 //! Inlining pass for MIR functions
 
-use rustc_attr::InlineAttr;
-use rustc_hir as hir;
-use rustc_index::bit_set::BitSet;
-use rustc_index::vec::Idx;
-use rustc_middle::middle::codegen_fn_attrs::{CodegenFnAttrFlags, CodegenFnAttrs};
-use rustc_middle::mir::visit::*;
-use rustc_middle::mir::*;
-use rustc_middle::ty::subst::Subst;
-use rustc_middle::ty::{self, ConstKind, Instance, InstanceDef, ParamEnv, Ty, TyCtxt};
-use rustc_span::{hygiene::ExpnKind, ExpnData, Span};
-use rustc_target::spec::abi::Abi;
+use dustc_attr::InlineAttr;
+use dustc_hir as hir;
+use dustc_index::bit_set::BitSet;
+use dustc_index::vec::Idx;
+use dustc_middle::middle::codegen_fn_attrs::{CodegenFnAttrFlags, CodegenFnAttrs};
+use dustc_middle::mir::visit::*;
+use dustc_middle::mir::*;
+use dustc_middle::ty::subst::Subst;
+use dustc_middle::ty::{self, ConstKind, Instance, InstanceDef, ParamEnv, Ty, TyCtxt};
+use dustc_span::{hygiene::ExpnKind, ExpnData, Span};
+use dustc_target::spec::abi::Abi;
 
 use super::simplify::{remove_dead_blocks, CfgSimplifier};
 use crate::transform::MirPass;
@@ -421,7 +421,7 @@ impl Inliner<'tcx> {
                         }
                         // Don't give intrinsics the extra penalty for calls
                         let f = tcx.fn_sig(def_id);
-                        if f.abi() == Abi::RustIntrinsic || f.abi() == Abi::PlatformIntrinsic {
+                        if f.abi() == Abi::DustIntrinsic || f.abi() == Abi::PlatformIntrinsic {
                             cost += INSTR_COST;
                         } else {
                             cost += CALL_PENALTY;
@@ -656,7 +656,7 @@ impl Inliner<'tcx> {
         //     Fn::call(closure_ref, tuple_tmp)
         //
         // meanwhile the closure body expects the arguments (here, `a`, `b`, and `c`)
-        // as distinct arguments. (This is the "rust-call" ABI hack.) Normally, codegen has
+        // as distinct arguments. (This is the "dust-call" ABI hack.) Normally, codegen has
         // the job of unpacking this tuple. But here, we are codegen. =) So we want to create
         // a vector like
         //
@@ -672,7 +672,7 @@ impl Inliner<'tcx> {
         //     tmp2 = tuple_tmp.2
         //
         // and the vector is `[closure_ref, tmp0, tmp1, tmp2]`.
-        if callsite.fn_sig.abi() == Abi::RustCall && callee_body.spread_arg.is_none() {
+        if callsite.fn_sig.abi() == Abi::DustCall && callee_body.spread_arg.is_none() {
             let mut args = args.into_iter();
             let self_ = self.create_temp_if_necessary(args.next().unwrap(), callsite, caller_body);
             let tuple = self.create_temp_if_necessary(args.next().unwrap(), callsite, caller_body);

@@ -1,6 +1,6 @@
-use rustc_data_structures::fx::FxHashSet;
-use rustc_data_structures::sync::Lock;
-use rustc_target::abi::{Align, Size};
+use dustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::sync::Lock;
+use dustc_target::abi::{Align, Size};
 use std::cmp::{self, Ordering};
 
 #[derive(Clone, PartialEq, Eq, Hash, Debug)]

@@ -1,14 +1,14 @@
 use crate::methods::SelfKind;
 use crate::utils::span_lint;
-use rustc_lint::LateContext;
-use rustc_middle::ty::TyS;
-use rustc_span::source_map::Span;
+use dustc_lint::LateContext;
+use dustc_middle::ty::TyS;
+use dustc_span::source_map::Span;
 use std::fmt;
 
 use super::WRONG_PUB_SELF_CONVENTION;
 use super::WRONG_SELF_CONVENTION;
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 const CONVENTIONS: [(Convention, &[SelfKind]); 7] = [
     (Convention::Eq("new"), &[SelfKind::No]),
     (Convention::StartsWith("as_"), &[SelfKind::Ref, SelfKind::RefMut]),

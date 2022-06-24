@@ -5,7 +5,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error[E0271]: type mismatch resolving `<[closure@$DIR/issue-63279.rs:11:5: 11:28] as FnOnce<()>>::Output == ()`
   --> $DIR/issue-63279.rs:8:16
@@ -18,4 +18,4 @@ LL | type Closure = impl FnOnce();
 
 error: aborting due to previous error; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0271`.
+For more information about this error, try `dustc --explain E0271`.

@@ -5,7 +5,7 @@
 
 // compile-flags: -C overflow-checks=on
 
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 #[cfg(rpass1)]
 pub fn main() {
@@ -13,7 +13,7 @@ pub fn main() {
 }
 
 #[cfg(rpass2)]
-#[rustc_dirty(label="optimized_mir", cfg="rpass2")]
+#[dustc_dirty(label="optimized_mir", cfg="rpass2")]
 pub fn main() {
     let _ = 0u8 + 1;
 }

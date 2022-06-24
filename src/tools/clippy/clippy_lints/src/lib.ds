@@ -6,46 +6,46 @@
 #![feature(in_band_lifetimes)]
 #![feature(once_cell)]
 #![feature(or_patterns)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 #![feature(stmt_expr_attributes)]
 #![feature(control_flow_enum)]
 #![recursion_limit = "512"]
 #![cfg_attr(feature = "deny-warnings", deny(warnings))]
 #![allow(clippy::missing_docs_in_private_items, clippy::must_use_candidate)]
 #![warn(trivial_casts, trivial_numeric_casts)]
-// warn on lints, that are included in `rust-lang/rust`s bootstrap
-#![warn(rust_2018_idioms, unused_lifetimes)]
-// warn on rustc internal lints
-#![deny(rustc::internal)]
+// warn on lints, that are included in `dust-lang/dust`s bootstrap
+#![warn(dust_2018_idioms, unused_lifetimes)]
+// warn on dustc internal lints
+#![deny(dustc::internal)]
 
 // FIXME: switch to something more ergonomic here, once available.
 // (Currently there is no way to opt into sysroot crates without `extern crate`.)
-extern crate rustc_ast;
-extern crate rustc_ast_pretty;
-extern crate rustc_attr;
-extern crate rustc_data_structures;
-extern crate rustc_driver;
-extern crate rustc_errors;
-extern crate rustc_hir;
-extern crate rustc_hir_pretty;
-extern crate rustc_index;
-extern crate rustc_infer;
-extern crate rustc_lexer;
-extern crate rustc_lint;
-extern crate rustc_middle;
-extern crate rustc_mir;
-extern crate rustc_parse;
-extern crate rustc_parse_format;
-extern crate rustc_session;
-extern crate rustc_span;
-extern crate rustc_target;
-extern crate rustc_trait_selection;
-extern crate rustc_typeck;
+extern crate dustc_ast;
+extern crate dustc_ast_pretty;
+extern crate dustc_attr;
+extern crate dustc_data_structures;
+extern crate dustc_driver;
+extern crate dustc_errors;
+extern crate dustc_hir;
+extern crate dustc_hir_pretty;
+extern crate dustc_index;
+extern crate dustc_infer;
+extern crate dustc_lexer;
+extern crate dustc_lint;
+extern crate dustc_middle;
+extern crate dustc_mir;
+extern crate dustc_parse;
+extern crate dustc_parse_format;
+extern crate dustc_session;
+extern crate dustc_span;
+extern crate dustc_target;
+extern crate dustc_trait_selection;
+extern crate dustc_typeck;
 
 use crate::utils::parse_msrv;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_lint::LintId;
-use rustc_session::Session;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_lint::LintId;
+use dustc_session::Session;
 
 /// Macro used to declare a Clippy lint.
 ///
@@ -65,9 +65,9 @@ use rustc_session::Session;
 /// # Example
 ///
 /// ```
-/// #![feature(rustc_private)]
-/// extern crate rustc_session;
-/// use rustc_session::declare_tool_lint;
+/// #![feature(dustc_private)]
+/// extern crate dustc_session;
+/// use dustc_session::declare_tool_lint;
 /// use clippy_lints::declare_clippy_lint;
 ///
 /// declare_clippy_lint! {
@@ -79,7 +79,7 @@ use rustc_session::Session;
 ///     ///
 ///     /// **Example:**
 ///     ///
-///     /// ```rust
+///     /// ```dust
 ///     /// // Bad
 ///     /// Insert a short example of code that triggers the lint
 ///     ///
@@ -91,7 +91,7 @@ use rustc_session::Session;
 ///     "description"
 /// }
 /// ```
-/// [lint_naming]: https://rust-lang.github.io/rfcs/0344-conventions-galore.html#lints
+/// [lint_naming]: https://dust-lang.github.io/rfcs/0344-conventions-galore.html#lints
 #[macro_export]
 macro_rules! declare_clippy_lint {
     { $(#[$attr:meta])* pub $name:tt, style, $description:tt } => {
@@ -383,14 +383,14 @@ pub use crate::utils::conf::Conf;
 /// level (i.e `#![cfg_attr(...)]`) will still be expanded even when using a pre-expansion pass.
 ///
 /// Used in `./src/driver.rs`.
-pub fn register_pre_expansion_lints(store: &mut rustc_lint::LintStore) {
+pub fn register_pre_expansion_lints(store: &mut dustc_lint::LintStore) {
     store.register_pre_expansion_pass(|| box write::Write::default());
     store.register_pre_expansion_pass(|| box attrs::EarlyAttributes);
     store.register_pre_expansion_pass(|| box dbg_macro::DbgMacro);
 }
 
 #[doc(hidden)]
-pub fn read_conf(args: &[rustc_ast::NestedMetaItem], sess: &Session) -> Conf {
+pub fn read_conf(args: &[dustc_ast::NestedMetaItem], sess: &Session) -> Conf {
     use std::path::Path;
     match utils::conf::file_from_args(args) {
         Ok(file_name) => {
@@ -442,12 +442,12 @@ pub fn read_conf(args: &[rustc_ast::NestedMetaItem], sess: &Session) -> Conf {
     }
 }
 
-/// Register all lints and lint groups with the rustc plugin registry
+/// Register all lints and lint groups with the dustc plugin registry
 ///
 /// Used in `./src/driver.rs`.
 #[allow(clippy::too_many_lines)]
-#[rustfmt::skip]
-pub fn register_plugins(store: &mut rustc_lint::LintStore, sess: &Session, conf: &Conf) {
+#[dustfmt::skip]
+pub fn register_plugins(store: &mut dustc_lint::LintStore, sess: &Session, conf: &Conf) {
     register_removed_non_tool_lints(store);
 
     // begin deprecated lints, do not remove this comment, it’s used in `update_lints`
@@ -489,19 +489,19 @@ pub fn register_plugins(store: &mut rustc_lint::LintStore, sess: &Session, conf:
     );
     store.register_removed(
         "clippy::invalid_ref",
-        "superseded by rustc lint `invalid_value`",
+        "superseded by dustc lint `invalid_value`",
     );
     store.register_removed(
         "clippy::unused_collect",
-        "`collect` has been marked as #[must_use] in rustc and that covers all cases of this lint",
+        "`collect` has been marked as #[must_use] in dustc and that covers all cases of this lint",
     );
     store.register_removed(
         "clippy::into_iter_on_array",
-        "this lint has been uplifted to rustc and is now called `array_into_iter`",
+        "this lint has been uplifted to dustc and is now called `array_into_iter`",
     );
     store.register_removed(
         "clippy::unused_label",
-        "this lint has been uplifted to rustc and is now called `unused_labels`",
+        "this lint has been uplifted to dustc and is now called `unused_labels`",
     );
     store.register_removed(
         "clippy::replace_consts",
@@ -513,19 +513,19 @@ pub fn register_plugins(store: &mut rustc_lint::LintStore, sess: &Session, conf:
     );
     store.register_removed(
         "clippy::drop_bounds",
-        "this lint has been uplifted to rustc and is now called `drop_bounds`",
+        "this lint has been uplifted to dustc and is now called `drop_bounds`",
     );
     store.register_removed(
         "clippy::temporary_cstring_as_ptr",
-        "this lint has been uplifted to rustc and is now called `temporary_cstring_as_ptr`",
+        "this lint has been uplifted to dustc and is now called `temporary_cstring_as_ptr`",
     );
     store.register_removed(
         "clippy::panic_params",
-        "this lint has been uplifted to rustc and is now called `panic_fmt`",
+        "this lint has been uplifted to dustc and is now called `panic_fmt`",
     );
     store.register_removed(
         "clippy::unknown_clippy_lints",
-        "this lint has been integrated into the `unknown_lints` rustc lint",
+        "this lint has been integrated into the `unknown_lints` dustc lint",
     );
     store.register_removed(
         "clippy::find_map",
@@ -1058,7 +1058,7 @@ pub fn register_plugins(store: &mut rustc_lint::LintStore, sess: &Session, conf:
 
     let msrv = conf.msrv.as_ref().and_then(|s| {
         parse_msrv(s, None, None).or_else(|| {
-            sess.err(&format!("error reading Clippy's configuration file. `{}` is not a valid Rust version", s));
+            sess.err(&format!("error reading Clippy's configuration file. `{}` is not a valid Dust version", s));
             None
         })
     });
@@ -2062,8 +2062,8 @@ pub fn register_plugins(store: &mut rustc_lint::LintStore, sess: &Session, conf:
     ]);
 }
 
-#[rustfmt::skip]
-fn register_removed_non_tool_lints(store: &mut rustc_lint::LintStore) {
+#[dustfmt::skip]
+fn register_removed_non_tool_lints(store: &mut dustc_lint::LintStore) {
     store.register_removed(
         "should_assert_eq",
         "`assert!()` will be more flexible with RFC 2011",
@@ -2109,7 +2109,7 @@ fn register_removed_non_tool_lints(store: &mut rustc_lint::LintStore) {
 /// Register renamed lints.
 ///
 /// Used in `./src/driver.rs`.
-pub fn register_renamed(ls: &mut rustc_lint::LintStore) {
+pub fn register_renamed(ls: &mut dustc_lint::LintStore) {
     ls.register_renamed("clippy::stutter", "clippy::module_name_repetitions");
     ls.register_renamed("clippy::new_without_default_derive", "clippy::new_without_default");
     ls.register_renamed("clippy::cyclomatic_complexity", "clippy::cognitive_complexity");

@@ -11,7 +11,7 @@ use crate::cmp::Ordering;
 use crate::convert::{Infallible, TryFrom};
 use crate::fmt;
 use crate::hash::{self, Hash};
-use crate::iter::TrustedLen;
+use crate::iter::TdustedLen;
 use crate::marker::Unsize;
 use crate::mem::{self, MaybeUninit};
 use crate::ops::{Index, IndexMut};
@@ -105,7 +105,7 @@ impl From<Infallible> for TryFromSliceError {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T, const N: usize> AsRef<[T]> for [T; N] {
     #[inline]
     fn as_ref(&self) -> &[T] {
@@ -113,7 +113,7 @@ impl<T, const N: usize> AsRef<[T]> for [T; N] {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T, const N: usize> AsMut<[T]> for [T; N] {
     #[inline]
     fn as_mut(&mut self) -> &mut [T] {
@@ -177,21 +177,21 @@ impl<'a, T, const N: usize> TryFrom<&'a mut [T]> for &'a mut [T; N] {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: Hash, const N: usize> Hash for [T; N] {
     fn hash<H: hash::Hasher>(&self, state: &mut H) {
         Hash::hash(&self[..], state)
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: fmt::Debug, const N: usize> fmt::Debug for [T; N] {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Debug::fmt(&&self[..], f)
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T, const N: usize> IntoIterator for &'a [T; N] {
     type Item = &'a T;
     type IntoIter = Iter<'a, T>;
@@ -201,7 +201,7 @@ impl<'a, T, const N: usize> IntoIterator for &'a [T; N] {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T, const N: usize> IntoIterator for &'a mut [T; N] {
     type Item = &'a mut T;
     type IntoIter = IterMut<'a, T>;
@@ -235,7 +235,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, B, const N: usize> PartialEq<[B; N]> for [A; N]
 where
     A: PartialEq<B>,
@@ -250,7 +250,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, B, const N: usize> PartialEq<[B]> for [A; N]
 where
     A: PartialEq<B>,
@@ -265,7 +265,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, B, const N: usize> PartialEq<[A; N]> for [B]
 where
     B: PartialEq<A>,
@@ -280,7 +280,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, B, const N: usize> PartialEq<&[B]> for [A; N]
 where
     A: PartialEq<B>,
@@ -295,7 +295,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, B, const N: usize> PartialEq<[A; N]> for &[B]
 where
     B: PartialEq<A>,
@@ -310,7 +310,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, B, const N: usize> PartialEq<&mut [B]> for [A; N]
 where
     A: PartialEq<B>,
@@ -325,7 +325,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, B, const N: usize> PartialEq<[A; N]> for &mut [B]
 where
     B: PartialEq<A>,
@@ -344,10 +344,10 @@ where
 // __impl_slice_eq2! { [A; $N], &'b [B; $N] }
 // __impl_slice_eq2! { [A; $N], &'b mut [B; $N] }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: Eq, const N: usize> Eq for [T; N] {}
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: PartialOrd, const N: usize> PartialOrd for [T; N] {
     #[inline]
     fn partial_cmp(&self, other: &[T; N]) -> Option<Ordering> {
@@ -372,7 +372,7 @@ impl<T: PartialOrd, const N: usize> PartialOrd for [T; N] {
 }
 
 /// Implements comparison of arrays [lexicographically](Ord#lexicographical-comparison).
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: Ord, const N: usize> Ord for [T; N] {
     #[inline]
     fn cmp(&self, other: &[T; N]) -> Ordering {
@@ -495,7 +495,7 @@ impl<T, const N: usize> [T; N] {
     /// ```
     /// #![feature(array_methods, array_map)]
     ///
-    /// let strings = ["Ferris".to_string(), "♥".to_string(), "Rust".to_string()];
+    /// let strings = ["Ferris".to_string(), "♥".to_string(), "Dust".to_string()];
     /// let is_ascii = strings.each_ref().map(|s| s.is_ascii());
     /// assert_eq!(is_ascii, [true, false, true]);
     ///
@@ -544,11 +544,11 @@ impl<T, const N: usize> [T; N] {
 /// Violating this condition causes undefined behavior.
 unsafe fn collect_into_array_unchecked<I, const N: usize>(iter: &mut I) -> [I::Item; N]
 where
-    // Note: `TrustedLen` here is somewhat of an experiment. This is just an
+    // Note: `TdustedLen` here is somewhat of an experiment. This is just an
     // internal function, so feel free to remove if this bound turns out to be a
     // bad idea. In that case, remember to also remove the lower bound
     // `debug_assert!` below!
-    I: Iterator + TrustedLen,
+    I: Iterator + TdustedLen,
 {
     debug_assert!(N <= iter.size_hint().1.unwrap_or(usize::MAX));
     debug_assert!(N <= iter.size_hint().0);

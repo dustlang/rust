@@ -8,9 +8,9 @@ use crate::mir::interpret::{get_slice_bytes, ConstValue, GlobalAlloc, Scalar};
 use crate::ty::error::{ExpectedFound, TypeError};
 use crate::ty::subst::{GenericArg, GenericArgKind, SubstsRef};
 use crate::ty::{self, Ty, TyCtxt, TypeFoldable};
-use rustc_hir as ast;
-use rustc_hir::def_id::DefId;
-use rustc_target::spec::abi;
+use dustc_hir as ast;
+use dustc_hir::def_id::DefId;
+use dustc_target::spec::abi;
 use std::iter;
 
 pub type RelateResult<'tcx, T> = Result<T, TypeError<'tcx>>;

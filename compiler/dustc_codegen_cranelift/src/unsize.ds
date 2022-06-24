@@ -1,10 +1,10 @@
 //! Codegen of the [`PointerCast::Unsize`] operation.
 //!
-//! [`PointerCast::Unsize`]: `rustc_middle::ty::adjustment::PointerCast::Unsize`
+//! [`PointerCast::Unsize`]: `dustc_middle::ty::adjustment::PointerCast::Unsize`
 
 use crate::prelude::*;
 
-// Adapted from https://github.com/rust-lang/rust/blob/2a663555ddf36f6b041445894a8c175cd1bc718c/src/librustc_codegen_ssa/base.rs#L159-L307
+// Adapted from https://github.com/dust-lang/dust/blob/2a663555ddf36f6b041445894a8c175cd1bc718c/src/libdustc_codegen_ssa/base.rs#L159-L307
 
 /// Retrieve the information we are losing (making dynamic) in an unsizing
 /// adjustment.
@@ -128,7 +128,7 @@ pub(crate) fn coerce_unsized_into<'tcx>(
     }
 }
 
-// Adapted from https://github.com/rust-lang/rust/blob/2a663555ddf36f6b041445894a8c175cd1bc718c/src/librustc_codegen_ssa/glue.rs
+// Adapted from https://github.com/dust-lang/dust/blob/2a663555ddf36f6b041445894a8c175cd1bc718c/src/libdustc_codegen_ssa/glue.rs
 
 pub(crate) fn size_and_align_of_dst<'tcx>(
     fx: &mut FunctionCx<'_, '_, 'tcx>,

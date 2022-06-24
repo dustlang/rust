@@ -1,7 +1,7 @@
 #![feature(intrinsics)]
 
-pub mod rusti {
-    extern "rust-intrinsic" {
+pub mod dusti {
+    extern "dust-intrinsic" {
         pub fn atomic_xchg<T>(dst: *mut T, src: T) -> T;
     }
 }
@@ -9,6 +9,6 @@ pub mod rusti {
 #[inline(always)]
 pub fn atomic_xchg(dst: *mut isize, src: isize) -> isize {
     unsafe {
-        rusti::atomic_xchg(dst, src)
+        dusti::atomic_xchg(dst, src)
     }
 }

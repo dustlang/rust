@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_ast_lowering"
+name = "dustc_ast_lowering"
 version = "0.0.0"
 edition = "2018"
 
@@ -8,15 +8,15 @@ edition = "2018"
 doctest = false
 
 [dependencies]
-rustc_arena = { path = "../rustc_arena" }
+dustc_arena = { path = "../dustc_arena" }
 tracing = "0.1"
-rustc_ast_pretty = { path = "../rustc_ast_pretty" }
-rustc_hir = { path = "../rustc_hir" }
-rustc_target = { path = "../rustc_target" }
-rustc_data_structures = { path = "../rustc_data_structures" }
-rustc_index = { path = "../rustc_index" }
-rustc_span = { path = "../rustc_span" }
-rustc_errors = { path = "../rustc_errors" }
-rustc_session = { path = "../rustc_session" }
-rustc_ast = { path = "../rustc_ast" }
+dustc_ast_pretty = { path = "../dustc_ast_pretty" }
+dustc_hir = { path = "../dustc_hir" }
+dustc_target = { path = "../dustc_target" }
+dustc_data_structures = { path = "../dustc_data_structures" }
+dustc_index = { path = "../dustc_index" }
+dustc_span = { path = "../dustc_span" }
+dustc_errors = { path = "../dustc_errors" }
+dustc_session = { path = "../dustc_session" }
+dustc_ast = { path = "../dustc_ast" }
 smallvec = { version = "1.6.1", features = ["union", "may_dangle"] }

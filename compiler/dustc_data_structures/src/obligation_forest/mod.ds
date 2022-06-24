@@ -136,7 +136,7 @@ pub struct ObligationForest<O: ForestObligation> {
     /// this list only contains nodes in the `Pending` or `Waiting` state.
     ///
     /// `usize` indices are used here and throughout this module, rather than
-    /// `rustc_index::newtype_index!` indices, because this code is hot enough
+    /// `dustc_index::newtype_index!` indices, because this code is hot enough
     /// that the `u32`-to-`usize` conversions that would be required are
     /// significant, and space considerations are not important.
     nodes: Vec<Node<O>>,
@@ -160,7 +160,7 @@ pub struct ObligationForest<O: ForestObligation> {
     ///
     /// See [this][details] for details.
     ///
-    /// [details]: https://github.com/rust-lang/rust/pull/53255#issuecomment-421184780
+    /// [details]: https://github.com/dust-lang/dust/pull/53255#issuecomment-421184780
     error_cache: FxHashMap<ObligationTreeId, FxHashSet<O::CacheKey>>,
 }
 
@@ -711,13 +711,13 @@ struct GetObligation<'a, O>(&'a [Node<O>]);
 
 impl<'a, 'b, O> FnOnce<(&'b usize,)> for GetObligation<'a, O> {
     type Output = &'a O;
-    extern "rust-call" fn call_once(self, args: (&'b usize,)) -> &'a O {
+    extern "dust-call" fn call_once(self, args: (&'b usize,)) -> &'a O {
         &self.0[*args.0].obligation
     }
 }
 
 impl<'a, 'b, O> FnMut<(&'b usize,)> for GetObligation<'a, O> {
-    extern "rust-call" fn call_mut(&mut self, args: (&'b usize,)) -> &'a O {
+    extern "dust-call" fn call_mut(&mut self, args: (&'b usize,)) -> &'a O {
         &self.0[*args.0].obligation
     }
 }

@@ -1,8 +1,8 @@
-use rustc_hir as hir;
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_target::spec::abi::Abi;
+use dustc_hir as hir;
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_target::spec::abi::Abi;
 
 crate fn collect(tcx: TyCtxt<'_>) -> Vec<String> {
     let mut collector = Collector { tcx, args: Vec::new() };
@@ -30,7 +30,7 @@ impl<'tcx> ItemLikeVisitor<'tcx> for Collector<'tcx> {
             hir::ItemKind::ForeignMod { abi, .. } => abi,
             _ => return,
         };
-        if abi == Abi::Rust || abi == Abi::RustIntrinsic || abi == Abi::PlatformIntrinsic {
+        if abi == Abi::Dust || abi == Abi::DustIntrinsic || abi == Abi::PlatformIntrinsic {
             return;
         }
 

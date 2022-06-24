@@ -68,4 +68,4 @@ LL | fn call_without_assoc<'a,'b>() {
 
 error: aborting due to 4 previous errors
 
-For more information about this error, try `rustc --explain E0491`.
+For more information about this error, try `dustc --explain E0491`.

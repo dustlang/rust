@@ -1,8 +1,8 @@
 // Test scope annotations from `enclosing_scope` parameter
 
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
-#[rustc_on_unimplemented(enclosing_scope="in this scope")]
+#[dustc_on_unimplemented(enclosing_scope="in this scope")]
 trait Trait{}
 
 struct Foo;

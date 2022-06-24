@@ -3,16 +3,16 @@ use crate::utils::{
 };
 use crate::utils::{span_lint_and_note, span_lint_and_sugg};
 use if_chain::if_chain;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::Applicability;
-use rustc_hir::def::Res;
-use rustc_hir::{Block, Expr, ExprKind, PatKind, QPath, Stmt, StmtKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::symbol::{Ident, Symbol};
-use rustc_span::Span;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::Applicability;
+use dustc_hir::def::Res;
+use dustc_hir::{Block, Expr, ExprKind, PatKind, QPath, Stmt, StmtKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::symbol::{Ident, Symbol};
+use dustc_span::Span;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for literal calls to `Default::default()`.
@@ -23,7 +23,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// let s: String = Default::default();
     ///
@@ -39,7 +39,7 @@ declare_clippy_lint! {
     /// **What it does:** Checks for immediate reassignment of fields initialized
     /// with Default::default().
     ///
-    /// **Why is this bad?**It's more idiomatic to use the [functional update syntax](https://doc.rust-lang.org/reference/expressions/struct-expr.html#functional-update-syntax).
+    /// **Why is this bad?**It's more idiomatic to use the [functional update syntax](https://doc.dust-lang.org/reference/expressions/struct-expr.html#functional-update-syntax).
     ///
     /// **Known problems:** Assignments to patterns that are of tuple type are not linted.
     ///

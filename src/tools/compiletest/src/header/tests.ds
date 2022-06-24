@@ -42,7 +42,7 @@ fn config() -> Config {
         "--suite=ui",
         "--compile-lib-path=",
         "--run-lib-path=",
-        "--rustc-path=",
+        "--dustc-path=",
         "--lldb-python=",
         "--docck-python=",
         "--jsondocck-path=",

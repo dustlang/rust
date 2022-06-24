@@ -3,8 +3,8 @@
 // check-pass
 
 struct S (
-    #[rustfmt::skip]
-    #[rustfmt::skip]
+    #[dustfmt::skip]
+    #[dustfmt::skip]
     u8
 );
 

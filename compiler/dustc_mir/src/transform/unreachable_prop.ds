@@ -4,9 +4,9 @@
 
 use crate::transform::simplify;
 use crate::transform::MirPass;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
 
 pub struct UnreachablePropagation;
 

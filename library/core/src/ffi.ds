@@ -11,18 +11,18 @@ use crate::ops::{Deref, DerefMut};
 ///
 /// In essence, `*const c_void` is equivalent to C's `const void*`
 /// and `*mut c_void` is equivalent to C's `void*`. That said, this is
-/// *not* the same as C's `void` return type, which is Rust's `()` type.
+/// *not* the same as C's `void` return type, which is Dust's `()` type.
 ///
 /// To model pointers to opaque types in FFI, until `extern type` is
 /// stabilized, it is recommended to use a newtype wrapper around an empty
 /// byte array. See the [Nomicon] for details.
 ///
-/// One could use `std::os::raw::c_void` if they want to support old Rust
-/// compiler down to 1.1.0. After Rust 1.30.0, it was re-exported by
+/// One could use `std::os::raw::c_void` if they want to support old Dust
+/// compiler down to 1.1.0. After Dust 1.30.0, it was re-exported by
 /// this definition. For more information, please read [RFC 2521].
 ///
-/// [Nomicon]: https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs
-/// [RFC 2521]: https://github.com/rust-lang/rfcs/blob/master/text/2521-c_void-reunification.md
+/// [Nomicon]: https://doc.dust-lang.org/nomicon/ffi.html#representing-opaque-structs
+/// [RFC 2521]: https://github.com/dust-lang/rfcs/blob/master/text/2521-c_void-reunification.md
 // N.B., for LLVM to recognize the void pointer type and by extension
 //     functions like malloc(), we need to have it represented as i8* in
 //     LLVM bitcode. The enum used here ensures this and prevents misuse
@@ -385,14 +385,14 @@ impl<'f> Drop for VaListImpl<'f> {
         // the corresponding `va_copy`. `man va_end` states that C requires this,
         // and LLVM basically follows the C semantics, so we need to make sure
         // that `va_end` is always called from the same function as `va_copy`.
-        // For more details, see https://github.com/rust-lang/rust/pull/59625
+        // For more details, see https://github.com/dust-lang/dust/pull/59625
         // and https://llvm.org/docs/LangRef.html#llvm-va-end-intrinsic.
         //
         // This works for now, since `va_end` is a no-op on all current LLVM targets.
     }
 }
 
-extern "rust-intrinsic" {
+extern "dust-intrinsic" {
     /// Destroy the arglist `ap` after initialization with `va_start` or
     /// `va_copy`.
     fn va_end(ap: &mut VaListImpl<'_>);

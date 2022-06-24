@@ -10,10 +10,10 @@ function build {
         cp -a $TEST_DIR/enclave .
         pushd $CRATE
             echo ${WORK_DIR}
-            # HACK(eddyb) sets `RUSTC_BOOTSTRAP=1` so Cargo can accept nightly features.
-            # These come from the top-level Rust workspace, that this crate is not a
+            # HACK(eddyb) sets `DUSTC_BOOTSTRAP=1` so Cargo can accept nightly features.
+            # These come from the top-level Dust workspace, that this crate is not a
             # member of, but Cargo tries to load the workspace `Cargo.toml` anyway.
-            env RUSTC_BOOTSTRAP=1
+            env DUSTC_BOOTSTRAP=1
                 cargo -v run --target $TARGET
         popd
     popd
@@ -36,7 +36,7 @@ build
 check unw_getcontext unw_getcontext.checks
 check "libunwind::Registers_x86_64::jumpto()" jumpto.checks
 check "std::io::stdio::_print::h87f0c238421c45bc" print.checks
-check rust_plus_one_global_asm rust_plus_one_global_asm.checks \
+check dust_plus_one_global_asm dust_plus_one_global_asm.checks \
   || echo "warning: module level assembly currently not hardened"
 
 check cc_plus_one_c cc_plus_one_c.checks

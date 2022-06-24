@@ -5,8 +5,8 @@ use std::cell::RefCell;
 use std::ffi::CString;
 use std::os::raw::{c_char, c_int};
 
-use rustc_codegen_ssa::CrateInfo;
-use rustc_middle::mir::mono::MonoItem;
+use dustc_codegen_ssa::CrateInfo;
+use dustc_middle::mir::mono::MonoItem;
 
 use cranelift_jit::{JITBuilder, JITModule};
 
@@ -98,7 +98,7 @@ pub(super) fn run_jit(tcx: TyCtxt<'_>, backend_config: BackendConfig) -> ! {
     let finalized_main: *const u8 = jit_module.get_finalized_function(main_func_id);
 
     println!(
-        "Rustc codegen cranelift will JIT run the executable, because -Cllvm-args=mode=jit was passed"
+        "Dustc codegen cranelift will JIT run the executable, because -Cllvm-args=mode=jit was passed"
     );
 
     let f: extern "C" fn(c_int, *const *const c_char) -> c_int =
@@ -128,7 +128,7 @@ pub(super) fn run_jit(tcx: TyCtxt<'_>, backend_config: BackendConfig) -> ! {
 
 #[no_mangle]
 extern "C" fn __clif_jit_fn(instance_ptr: *const Instance<'static>) -> *const u8 {
-    rustc_middle::ty::tls::with(|tcx| {
+    dustc_middle::ty::tls::with(|tcx| {
         // lift is used to ensure the correct lifetime for instance.
         let instance = tcx.lift(unsafe { *instance_ptr }).unwrap();
 
@@ -157,7 +157,7 @@ extern "C" fn __clif_jit_fn(instance_ptr: *const Instance<'static>) -> *const u8
 }
 
 fn load_imported_symbols_for_jit(tcx: TyCtxt<'_>) -> Vec<(String, *const u8)> {
-    use rustc_middle::middle::dependency_format::Linkage;
+    use dustc_middle::middle::dependency_format::Linkage;
 
     let mut dylib_paths = Vec::new();
 
@@ -165,7 +165,7 @@ fn load_imported_symbols_for_jit(tcx: TyCtxt<'_>) -> Vec<(String, *const u8)> {
     let formats = tcx.dependency_formats(LOCAL_CRATE);
     let data = &formats
         .iter()
-        .find(|(crate_type, _data)| *crate_type == rustc_session::config::CrateType::Executable)
+        .find(|(crate_type, _data)| *crate_type == dustc_session::config::CrateType::Executable)
         .unwrap()
         .1;
     for &(cnum, _) in &crate_info.used_crates_dynamic {
@@ -176,7 +176,7 @@ fn load_imported_symbols_for_jit(tcx: TyCtxt<'_>) -> Vec<(String, *const u8)> {
                 let name = tcx.crate_name(cnum);
                 let mut err =
                     tcx.sess.struct_err(&format!("Can't load static lib {}", name.as_str()));
-                err.note("rustc_codegen_cranelift can only load dylibs in JIT mode.");
+                err.note("dustc_codegen_cranelift can only load dylibs in JIT mode.");
                 err.emit();
             }
             Linkage::Dynamic => {
@@ -196,7 +196,7 @@ fn load_imported_symbols_for_jit(tcx: TyCtxt<'_>) -> Vec<(String, *const u8)> {
             if name.is_empty() || !symbol.is_global() || symbol.is_undefined() {
                 return None;
             }
-            if name.starts_with("rust_metadata_") {
+            if name.starts_with("dust_metadata_") {
                 // The metadata is part of a section that is not loaded by the dynamic linker in
                 // case of cg_llvm.
                 return None;

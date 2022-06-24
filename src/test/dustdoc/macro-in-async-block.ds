@@ -1,4 +1,4 @@
-// Regression issue for rustdoc ICE encountered in PR #72088.
+// Regression issue for dustdoc ICE encountered in PR #72088.
 // edition:2018
 #![feature(decl_macro)]
 

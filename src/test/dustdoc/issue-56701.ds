@@ -1,4 +1,4 @@
-// This shouldn't cause a stack overflow when rustdoc is run
+// This shouldn't cause a stack overflow when dustdoc is run
 
 use std::ops::Deref;
 use std::ops::DerefMut;

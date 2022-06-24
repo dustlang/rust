@@ -26,4 +26,4 @@ error: requires `sized` lang_item
 error: aborting due to 3 previous errors
 
 Some errors have detailed explanations: E0432, E0603.
-For more information about an error, try `rustc --explain E0432`.
+For more information about an error, try `dustc --explain E0432`.

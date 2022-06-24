@@ -9,7 +9,7 @@
 #![feature(try_blocks)]
 
 #[macro_use]
-extern crate rustc_macros;
+extern crate dustc_macros;
 
 extern crate proc_macro as pm;
 
@@ -17,7 +17,7 @@ mod placeholders;
 mod proc_macro_server;
 
 pub use mbe::macro_rules::compile_declarative_macro;
-crate use rustc_span::hygiene;
+crate use dustc_span::hygiene;
 pub mod base;
 pub mod build;
 #[macro_use]

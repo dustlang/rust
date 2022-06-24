@@ -5,16 +5,16 @@ use crate::utils::{
     paths, snippet, span_lint_and_then, sugg, SpanlessEq,
 };
 use if_chain::if_chain;
-use rustc_ast::ast;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
-use rustc_hir::{BinOpKind, BorrowKind, Expr, ExprKind, HirId, Mutability, Pat, PatKind, QPath};
-use rustc_lint::LateContext;
-use rustc_middle::hir::map::Map;
-use rustc_middle::middle::region;
-use rustc_middle::ty::{self, Ty};
-use rustc_span::symbol::{sym, Symbol};
+use dustc_ast::ast;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
+use dustc_hir::{BinOpKind, BorrowKind, Expr, ExprKind, HirId, Mutability, Pat, PatKind, QPath};
+use dustc_lint::LateContext;
+use dustc_middle::hir::map::Map;
+use dustc_middle::middle::region;
+use dustc_middle::ty::{self, Ty};
+use dustc_span::symbol::{sym, Symbol};
 use std::iter::Iterator;
 use std::mem;
 

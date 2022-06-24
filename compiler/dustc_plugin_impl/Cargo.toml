@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_plugin_impl"
+name = "dustc_plugin_impl"
 version = "0.0.0"
 build = false
 edition = "2018"
@@ -9,11 +9,11 @@ edition = "2018"
 doctest = false
 
 [dependencies]
-rustc_middle = { path = "../rustc_middle" }
-rustc_errors = { path = "../rustc_errors" }
-rustc_hir = { path = "../rustc_hir" }
-rustc_lint = { path = "../rustc_lint" }
-rustc_metadata = { path = "../rustc_metadata" }
-rustc_ast = { path = "../rustc_ast" }
-rustc_session = { path = "../rustc_session" }
-rustc_span = { path = "../rustc_span" }
+dustc_middle = { path = "../dustc_middle" }
+dustc_errors = { path = "../dustc_errors" }
+dustc_hir = { path = "../dustc_hir" }
+dustc_lint = { path = "../dustc_lint" }
+dustc_metadata = { path = "../dustc_metadata" }
+dustc_ast = { path = "../dustc_ast" }
+dustc_session = { path = "../dustc_session" }
+dustc_span = { path = "../dustc_span" }

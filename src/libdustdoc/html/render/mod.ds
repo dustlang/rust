@@ -1,7 +1,7 @@
-//! Rustdoc's HTML rendering module.
+//! Dustdoc's HTML rendering module.
 //!
 //! This modules contains the bulk of the logic necessary for rendering a
-//! rustdoc `clean::Crate` instance to a set of static HTML pages. This
+//! dustdoc `clean::Crate` instance to a set of static HTML pages. This
 //! rendering process is largely driven by the `format!` syntax extension to
 //! perform all I/O into files and streams.
 //!
@@ -45,17 +45,17 @@ use std::string::ToString;
 use std::sync::mpsc::Receiver;
 
 use itertools::Itertools;
-use rustc_ast_pretty::pprust;
-use rustc_attr::{Deprecation, StabilityLevel};
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir as hir;
-use rustc_hir::def::CtorKind;
-use rustc_hir::def_id::DefId;
-use rustc_hir::Mutability;
-use rustc_middle::middle::stability;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::edition::Edition;
-use rustc_span::symbol::{kw, sym, Symbol};
+use dustc_ast_pretty::ppdust;
+use dustc_attr::{Deprecation, StabilityLevel};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir as hir;
+use dustc_hir::def::CtorKind;
+use dustc_hir::def_id::DefId;
+use dustc_hir::Mutability;
+use dustc_middle::middle::stability;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::edition::Edition;
+use dustc_span::symbol::{kw, sym, Symbol};
 use serde::ser::SerializeSeq;
 use serde::{Serialize, Serializer};
 
@@ -598,7 +598,7 @@ fn settings(root_path: &str, suffix: &str, themes: &[StylePath]) -> Result<Strin
 
     Ok(format!(
         "<h1 class=\"fqn\">\
-            <span class=\"in-band\">Rustdoc settings</span>\
+            <span class=\"in-band\">Dustdoc settings</span>\
         </h1>\
         <div class=\"settings\">{}</div>\
         <script src=\"{}settings{}.js\"></script>",
@@ -763,16 +763,16 @@ fn short_item_info(
     let mut extra_info = vec![];
     let error_codes = cx.shared.codes;
 
-    if let Some(Deprecation { note, since, is_since_rustc_version, suggestion: _ }) =
+    if let Some(Deprecation { note, since, is_since_dustc_version, suggestion: _ }) =
         item.deprecation(cx.tcx())
     {
-        // We display deprecation messages for #[deprecated] and #[rustc_deprecated]
-        // but only display the future-deprecation messages for #[rustc_deprecated].
+        // We display deprecation messages for #[deprecated] and #[dustc_deprecated]
+        // but only display the future-deprecation messages for #[dustc_deprecated].
         let mut message = if let Some(since) = since {
             let since = &since.as_str();
-            if !stability::deprecation_in_effect(is_since_rustc_version, Some(since)) {
+            if !stability::deprecation_in_effect(is_since_dustc_version, Some(since)) {
                 if *since == "TBD" {
-                    String::from("Deprecating in a future Rust version")
+                    String::from("Deprecating in a future Dust version")
                 } else {
                     format!("Deprecating in {}", Escape(since))
                 }
@@ -801,12 +801,12 @@ fn short_item_info(
         ));
     }
 
-    // Render unstable items. But don't render "rustc_private" crates (internal compiler crates).
+    // Render unstable items. But don't render "dustc_private" crates (internal compiler crates).
     // Those crates are permanently unstable so it makes no sense to render "unstable" everywhere.
     if let Some((StabilityLevel::Unstable { reason, issue, .. }, feature)) = item
         .stability(cx.tcx())
         .as_ref()
-        .filter(|stab| stab.feature != sym::rustc_private)
+        .filter(|stab| stab.feature != sym::dustc_private)
         .map(|stab| (stab.level, stab.feature))
     {
         let mut message =
@@ -960,14 +960,14 @@ fn render_stability_since_raw(
         (Some(v), Some(cv)) if const_ver != containing_const_ver => {
             write!(
                 w,
-                "<span class=\"since\" title=\"Stable since Rust version {0}, const since {1}\">{0} (const: {1})</span>",
+                "<span class=\"since\" title=\"Stable since Dust version {0}, const since {1}\">{0} (const: {1})</span>",
                 v, cv
             );
         }
         (Some(v), _) if ver != containing_ver => {
             write!(
                 w,
-                "<span class=\"since\" title=\"Stable since Rust version {0}\">{0}</span>",
+                "<span class=\"since\" title=\"Stable since Dust version {0}\">{0}</span>",
                 v
             );
         }
@@ -1103,7 +1103,7 @@ fn render_attributes(w: &mut Buffer, it: &clean::Item, top: bool) {
         .iter()
         .filter_map(|attr| {
             if ALLOWED_ATTRIBUTES.contains(&attr.name_or_empty()) {
-                Some(pprust::attribute_to_string(&attr))
+                Some(ppdust::attribute_to_string(&attr))
             } else {
                 None
             }
@@ -2382,7 +2382,7 @@ fn sidebar_foreign_type(cx: &Context<'_>, buf: &mut Buffer, it: &clean::Item) {
     }
 }
 
-crate const BASIC_KEYWORDS: &str = "rust, rustlang, rust-lang";
+crate const BASIC_KEYWORDS: &str = "dust, dustlang, dust-lang";
 
 /// Returns a list of all paths used in the type.
 /// This is used to help deduplicate imported impls

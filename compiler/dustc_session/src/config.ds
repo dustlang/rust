@@ -8,24 +8,24 @@ use crate::search_paths::SearchPath;
 use crate::utils::{CanonicalizedPath, NativeLibKind};
 use crate::{early_error, early_warn, Session};
 
-use rustc_data_structures::fx::FxHashSet;
-use rustc_data_structures::impl_stable_hash_via_hash;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::impl_stable_hash_via_hash;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
 
-use rustc_target::abi::{Align, TargetDataLayout};
-use rustc_target::spec::{SplitDebuginfo, Target, TargetTriple};
+use dustc_target::abi::{Align, TargetDataLayout};
+use dustc_target::spec::{SplitDebuginfo, Target, TargetTriple};
 
-use rustc_serialize::json;
+use dustc_serialize::json;
 
 use crate::parse::CrateConfig;
-use rustc_feature::UnstableFeatures;
-use rustc_span::edition::{Edition, DEFAULT_EDITION, EDITION_NAME_LIST};
-use rustc_span::source_map::{FileName, FilePathMapping};
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::SourceFileHashAlgorithm;
+use dustc_feature::UnstableFeatures;
+use dustc_span::edition::{Edition, DEFAULT_EDITION, EDITION_NAME_LIST};
+use dustc_span::source_map::{FileName, FilePathMapping};
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::SourceFileHashAlgorithm;
 
-use rustc_errors::emitter::HumanReadableErrorType;
-use rustc_errors::{ColorConfig, HandlerFlags};
+use dustc_errors::emitter::HumanReadableErrorType;
+use dustc_errors::{ColorConfig, HandlerFlags};
 
 use std::collections::btree_map::{
     Iter as BTreeMapIter, Keys as BTreeMapKeysIter, Values as BTreeMapValuesIter,
@@ -318,7 +318,7 @@ impl OutputType {
 pub enum ErrorOutputType {
     /// Output meant for the consumption of humans.
     HumanReadable(HumanReadableErrorType),
-    /// Output that's consumed by other tools such as `rustfix` or the `RLS`.
+    /// Output that's consumed by other tools such as `dustfix` or the `RLS`.
     Json {
         /// Render the JSON in a human readable way (with indents and newlines).
         pretty: bool,
@@ -464,11 +464,11 @@ pub enum ExternDepSpec {
     Json(json::Json),
 }
 
-impl<'a> From<&'a ExternDepSpec> for rustc_lint_defs::ExternDepSpec {
+impl<'a> From<&'a ExternDepSpec> for dustc_lint_defs::ExternDepSpec {
     fn from(from: &'a ExternDepSpec) -> Self {
         match from {
-            ExternDepSpec::Raw(s) => rustc_lint_defs::ExternDepSpec::Raw(s.clone()),
-            ExternDepSpec::Json(json) => rustc_lint_defs::ExternDepSpec::Json(json.clone()),
+            ExternDepSpec::Raw(s) => dustc_lint_defs::ExternDepSpec::Raw(s.clone()),
+            ExternDepSpec::Json(json) => dustc_lint_defs::ExternDepSpec::Json(json.clone()),
         }
     }
 }
@@ -569,7 +569,7 @@ impl Input {
     pub fn filestem(&self) -> &str {
         match *self {
             Input::File(ref ifile) => ifile.file_stem().unwrap().to_str().unwrap(),
-            Input::Str { .. } => "rust_out",
+            Input::Str { .. } => "dust_out",
         }
     }
 
@@ -599,7 +599,7 @@ pub struct OutputFilenames {
 impl_stable_hash_via_hash!(OutputFilenames);
 
 pub const RLINK_EXT: &str = "rlink";
-pub const RUST_CGU_EXT: &str = "rcgu";
+pub const DUST_CGU_EXT: &str = "rcgu";
 pub const DWARF_OBJECT_EXT: &str = "dwo";
 
 impl OutputFilenames {
@@ -651,7 +651,7 @@ impl OutputFilenames {
         if !ext.is_empty() {
             if !extension.is_empty() {
                 extension.push('.');
-                extension.push_str(RUST_CGU_EXT);
+                extension.push_str(DUST_CGU_EXT);
                 extension.push('.');
             }
 
@@ -695,7 +695,7 @@ pub fn host_triple() -> &'static str {
     // normalize all ix86 architectures to i386.
     //
     // Instead of grabbing the host triple (for the current host), we grab (at
-    // compile time) the target triple that this rustc is built with and
+    // compile time) the target triple that this dustc is built with and
     // calling that (at runtime) the host triple.
     (option_env!("CFG_COMPILER_HOST_TRIPLE")).expect("CFG_COMPILER_HOST_TRIPLE")
 }
@@ -727,7 +727,7 @@ impl Default for Options {
             libs: Vec::new(),
             unstable_features: UnstableFeatures::Disallow,
             debug_assertions: true,
-            actually_rustdoc: false,
+            actually_dustdoc: false,
             trimmed_def_paths: TrimmedDefPaths::default(),
             cli_forced_codegen_units: None,
             cli_forced_thinlto_off: false,
@@ -909,7 +909,7 @@ pub fn default_configuration(sess: &Session) -> CrateConfig {
 }
 
 /// Converts the crate `cfg!` configuration from `String` to `Symbol`.
-/// `rustc_interface::interface::Config` accepts this in the compiler configuration,
+/// `dustc_interface::interface::Config` accepts this in the compiler configuration,
 /// but the symbol interner is not yet set up then, so we must convert it later.
 pub fn to_crate_config(cfg: FxHashSet<(String, Option<String>)>) -> CrateConfig {
     cfg.into_iter().map(|(a, b)| (Symbol::intern(&a), b.map(|b| Symbol::intern(&b)))).collect()
@@ -960,34 +960,34 @@ pub enum OptionStability {
     Unstable,
 }
 
-pub struct RustcOptGroup {
+pub struct DustcOptGroup {
     pub apply: Box<dyn Fn(&mut getopts::Options) -> &mut getopts::Options>,
     pub name: &'static str,
     pub stability: OptionStability,
 }
 
-impl RustcOptGroup {
+impl DustcOptGroup {
     pub fn is_stable(&self) -> bool {
         self.stability == OptionStability::Stable
     }
 
-    pub fn stable<F>(name: &'static str, f: F) -> RustcOptGroup
+    pub fn stable<F>(name: &'static str, f: F) -> DustcOptGroup
     where
         F: Fn(&mut getopts::Options) -> &mut getopts::Options + 'static,
     {
-        RustcOptGroup { name, apply: Box::new(f), stability: OptionStability::Stable }
+        DustcOptGroup { name, apply: Box::new(f), stability: OptionStability::Stable }
     }
 
-    pub fn unstable<F>(name: &'static str, f: F) -> RustcOptGroup
+    pub fn unstable<F>(name: &'static str, f: F) -> DustcOptGroup
     where
         F: Fn(&mut getopts::Options) -> &mut getopts::Options + 'static,
     {
-        RustcOptGroup { name, apply: Box::new(f), stability: OptionStability::Unstable }
+        DustcOptGroup { name, apply: Box::new(f), stability: OptionStability::Unstable }
     }
 }
 
 // The `opt` local module holds wrappers around the `getopts` API that
-// adds extra rustc-specific metadata to each option; such metadata
+// adds extra dustc-specific metadata to each option; such metadata
 // is exposed by .  The public
 // functions below ending with `_u` are the functions that return
 // *unstable* options, i.e., options that are only enabled when the
@@ -997,23 +997,23 @@ mod opt {
     // in the future; do not warn about them not being used right now.
     #![allow(dead_code)]
 
-    use super::RustcOptGroup;
+    use super::DustcOptGroup;
 
-    pub type R = RustcOptGroup;
+    pub type R = DustcOptGroup;
     pub type S = &'static str;
 
     fn stable<F>(name: S, f: F) -> R
     where
         F: Fn(&mut getopts::Options) -> &mut getopts::Options + 'static,
     {
-        RustcOptGroup::stable(name, f)
+        DustcOptGroup::stable(name, f)
     }
 
     fn unstable<F>(name: S, f: F) -> R
     where
         F: Fn(&mut getopts::Options) -> &mut getopts::Options + 'static,
     {
-        RustcOptGroup::unstable(name, f)
+        DustcOptGroup::unstable(name, f)
     }
 
     fn longer(a: S, b: S) -> S {
@@ -1053,10 +1053,10 @@ mod opt {
     }
 }
 
-/// Returns the "short" subset of the rustc command line options,
+/// Returns the "short" subset of the dustc command line options,
 /// including metadata for each option, such as whether the option is
-/// part of the stable long-term interface for rustc.
-pub fn rustc_short_optgroups() -> Vec<RustcOptGroup> {
+/// part of the stable long-term interface for dustc.
+pub fn dustc_short_optgroups() -> Vec<DustcOptGroup> {
     vec![
         opt::flag_s("h", "help", "Display this message"),
         opt::multi_s("", "cfg", "Configure the compilation environment", "SPEC"),
@@ -1136,16 +1136,16 @@ pub fn rustc_short_optgroups() -> Vec<RustcOptGroup> {
     ]
 }
 
-/// Returns all rustc command line options, including metadata for
+/// Returns all dustc command line options, including metadata for
 /// each option, such as whether the option is part of the stable
-/// long-term interface for rustc.
-pub fn rustc_optgroups() -> Vec<RustcOptGroup> {
-    let mut opts = rustc_short_optgroups();
+/// long-term interface for dustc.
+pub fn dustc_optgroups() -> Vec<DustcOptGroup> {
+    let mut opts = dustc_short_optgroups();
     opts.extend(vec![
         opt::multi_s(
             "",
             "extern",
-            "Specify where an external rust library is located",
+            "Specify where an external dust library is located",
             "NAME[=PATH]",
         ),
         opt::multi_s(
@@ -1202,7 +1202,7 @@ pub fn get_cmd_lint_options(
         for (passed_arg_pos, lint_name) in matches.opt_strs_pos(level.as_str()) {
             let arg_pos = if let lint::Forbid = level {
                 // HACK: forbid is always specified last, so it can't be overridden.
-                // FIXME: remove this once <https://github.com/rust-lang/rust/issues/70819> is
+                // FIXME: remove this once <https://github.com/dust-lang/dust/issues/70819> is
                 // fixed and `forbid` works as expected.
                 usize::MAX
             } else {
@@ -1939,7 +1939,7 @@ pub fn build_session_options(matches: &getopts::Matches) -> Options {
         }
     }
 
-    if let Ok(graphviz_font) = std::env::var("RUSTC_GRAPHVIZ_FONT") {
+    if let Ok(graphviz_font) = std::env::var("DUSTC_GRAPHVIZ_FONT") {
         debugging_opts.graphviz_font = graphviz_font;
     }
 
@@ -2024,7 +2024,7 @@ pub fn build_session_options(matches: &getopts::Matches) -> Options {
         alt_std_name: None,
         libs,
         debug_assertions,
-        actually_rustdoc: false,
+        actually_dustdoc: false,
         trimmed_def_paths: TrimmedDefPaths::default(),
         cli_forced_codegen_units: codegen_units,
         cli_forced_thinlto_off: disable_thinlto,
@@ -2100,7 +2100,7 @@ fn parse_pretty(
     })
 }
 
-pub fn make_crate_type_option() -> RustcOptGroup {
+pub fn make_crate_type_option() -> DustcOptGroup {
     opt::multi_s(
         "",
         "crate-type",
@@ -2134,9 +2134,9 @@ pub fn parse_crate_types_from_list(list_list: Vec<String>) -> Result<Vec<CrateTy
 }
 
 pub mod nightly_options {
-    use super::{ErrorOutputType, OptionStability, RustcOptGroup};
+    use super::{ErrorOutputType, OptionStability, DustcOptGroup};
     use crate::early_error;
-    use rustc_feature::UnstableFeatures;
+    use dustc_feature::UnstableFeatures;
 
     pub fn is_unstable_enabled(matches: &getopts::Matches) -> bool {
         match_is_nightly_build(matches)
@@ -2151,7 +2151,7 @@ pub mod nightly_options {
         UnstableFeatures::from_environment(krate).is_nightly_build()
     }
 
-    pub fn check_nightly_options(matches: &getopts::Matches, flags: &[RustcOptGroup]) {
+    pub fn check_nightly_options(matches: &getopts::Matches, flags: &[DustcOptGroup]) {
         let has_z_unstable_option = matches.opt_strs("Z").iter().any(|x| *x == "unstable-options");
         let really_allows_unstable_options = match_is_nightly_build(matches);
 
@@ -2305,10 +2305,10 @@ crate mod dep_tracking {
     use crate::lint;
     use crate::options::WasiExecModel;
     use crate::utils::NativeLibKind;
-    use rustc_feature::UnstableFeatures;
-    use rustc_span::edition::Edition;
-    use rustc_target::spec::{CodeModel, MergeFunctions, PanicStrategy, RelocModel};
-    use rustc_target::spec::{RelroLevel, SplitDebuginfo, TargetTriple, TlsModel};
+    use dustc_feature::UnstableFeatures;
+    use dustc_span::edition::Edition;
+    use dustc_target::spec::{CodeModel, MergeFunctions, PanicStrategy, RelocModel};
+    use dustc_target::spec::{RelroLevel, SplitDebuginfo, TargetTriple, TlsModel};
     use std::collections::hash_map::DefaultHasher;
     use std::collections::BTreeMap;
     use std::hash::Hash;

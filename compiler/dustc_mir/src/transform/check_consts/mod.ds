@@ -4,12 +4,12 @@
 //! has interior mutability or needs to be dropped, as well as the visitor that emits errors when
 //! it finds operations that are invalid in a certain context.
 
-use rustc_attr as attr;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_middle::mir;
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_span::Symbol;
+use dustc_attr as attr;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_middle::mir;
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_span::Symbol;
 
 pub use self::qualifs::Qualif;
 
@@ -79,13 +79,13 @@ pub fn is_lang_panic_fn(tcx: TyCtxt<'tcx>, def_id: DefId) -> bool {
         || Some(def_id) == tcx.lang_items().begin_panic_fn()
 }
 
-pub fn rustc_allow_const_fn_unstable(
+pub fn dustc_allow_const_fn_unstable(
     tcx: TyCtxt<'tcx>,
     def_id: DefId,
     feature_gate: Symbol,
 ) -> bool {
     let attrs = tcx.get_attrs(def_id);
-    attr::rustc_allow_const_fn_unstable(&tcx.sess, attrs).any(|name| name == feature_gate)
+    attr::dustc_allow_const_fn_unstable(&tcx.sess, attrs).any(|name| name == feature_gate)
 }
 
 // Returns `true` if the given `const fn` is "const-stable".
@@ -102,7 +102,7 @@ pub fn is_const_stable_const_fn(tcx: TyCtxt<'tcx>, def_id: DefId) -> bool {
     // Const-stability is only relevant for `const fn`.
     assert!(tcx.is_const_fn_raw(def_id));
 
-    // Functions with `#[rustc_const_unstable]` are const-unstable.
+    // Functions with `#[dustc_const_unstable]` are const-unstable.
     match tcx.lookup_const_stability(def_id) {
         Some(ConstStability { level: StabilityLevel::Unstable { .. }, .. }) => return false,
         Some(ConstStability { level: StabilityLevel::Stable { .. }, .. }) => return true,

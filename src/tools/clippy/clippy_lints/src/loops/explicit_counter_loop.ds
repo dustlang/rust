@@ -3,10 +3,10 @@ use super::{
 };
 use crate::utils::{get_enclosing_block, is_integer_const, snippet_with_applicability, span_lint_and_sugg};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::intravisit::{walk_block, walk_expr};
-use rustc_hir::{Expr, Pat};
-use rustc_lint::LateContext;
+use dustc_errors::Applicability;
+use dustc_hir::intravisit::{walk_block, walk_expr};
+use dustc_hir::{Expr, Pat};
+use dustc_lint::LateContext;
 
 // To trigger the EXPLICIT_COUNTER_LOOP lint, a variable must be
 // incremented exactly once in the loop body, and initialized to zero

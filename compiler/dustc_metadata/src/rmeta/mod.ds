@@ -1,29 +1,29 @@
 use decoder::Metadata;
 use table::{Table, TableBuilder};
 
-use rustc_ast::{self as ast, MacroDef};
-use rustc_attr as attr;
-use rustc_data_structures::svh::Svh;
-use rustc_data_structures::sync::MetadataRef;
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, DefKind};
-use rustc_hir::def_id::{DefId, DefIndex, DefPathHash, StableCrateId};
-use rustc_hir::definitions::DefKey;
-use rustc_hir::lang_items;
-use rustc_index::{bit_set::FiniteBitSet, vec::IndexVec};
-use rustc_middle::hir::exports::Export;
-use rustc_middle::middle::cstore::{CrateDepKind, ForeignModule, LinkagePreference, NativeLib};
-use rustc_middle::middle::exported_symbols::{ExportedSymbol, SymbolExportLevel};
-use rustc_middle::mir;
-use rustc_middle::ty::{self, ReprOptions, Ty};
-use rustc_serialize::opaque::Encoder;
-use rustc_session::config::SymbolManglingVersion;
-use rustc_session::CrateDisambiguator;
-use rustc_span::edition::Edition;
-use rustc_span::hygiene::MacroKind;
-use rustc_span::symbol::{Ident, Symbol};
-use rustc_span::{self, ExpnData, ExpnId, Span};
-use rustc_target::spec::{PanicStrategy, TargetTriple};
+use dustc_ast::{self as ast, MacroDef};
+use dustc_attr as attr;
+use dustc_data_structures::svh::Svh;
+use dustc_data_structures::sync::MetadataRef;
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, DefKind};
+use dustc_hir::def_id::{DefId, DefIndex, DefPathHash, StableCrateId};
+use dustc_hir::definitions::DefKey;
+use dustc_hir::lang_items;
+use dustc_index::{bit_set::FiniteBitSet, vec::IndexVec};
+use dustc_middle::hir::exports::Export;
+use dustc_middle::middle::cstore::{CrateDepKind, ForeignModule, LinkagePreference, NativeLib};
+use dustc_middle::middle::exported_symbols::{ExportedSymbol, SymbolExportLevel};
+use dustc_middle::mir;
+use dustc_middle::ty::{self, ReprOptions, Ty};
+use dustc_serialize::opaque::Encoder;
+use dustc_session::config::SymbolManglingVersion;
+use dustc_session::CrateDisambiguator;
+use dustc_span::edition::Edition;
+use dustc_span::hygiene::MacroKind;
+use dustc_span::symbol::{Ident, Symbol};
+use dustc_span::{self, ExpnData, ExpnId, Span};
+use dustc_target::spec::{PanicStrategy, TargetTriple};
 
 use std::marker::PhantomData;
 use std::num::NonZeroUsize;
@@ -32,26 +32,26 @@ use decoder::DecodeContext;
 pub use decoder::{provide, provide_extern};
 crate use decoder::{CrateMetadata, CrateNumMap, MetadataBlob};
 use encoder::EncodeContext;
-use rustc_span::hygiene::SyntaxContextData;
+use dustc_span::hygiene::SyntaxContextData;
 
 mod decoder;
 mod encoder;
 mod table;
 
-crate fn rustc_version() -> String {
-    format!("rustc {}", option_env!("CFG_VERSION").unwrap_or("unknown version"))
+crate fn dustc_version() -> String {
+    format!("dustc {}", option_env!("CFG_VERSION").unwrap_or("unknown version"))
 }
 
 /// Metadata encoding version.
 /// N.B., increment this if you change the format of metadata such that
-/// the rustc version can't be found to compare with `rustc_version()`.
+/// the dustc version can't be found to compare with `dustc_version()`.
 const METADATA_VERSION: u8 = 5;
 
 /// Metadata header which includes `METADATA_VERSION`.
 ///
 /// This header is followed by the position of the `CrateRoot`,
 /// which is encoded as a 32-bit big-endian unsigned integer,
-/// and further followed by the rustc version string.
+/// and further followed by the dustc version string.
 crate const METADATA_HEADER: &[u8; 8] = &[b'r', b'u', b's', b't', 0, 0, 0, METADATA_VERSION];
 
 /// Additional metadata for a `Lazy<T>` where `T` may not be `Sized`,
@@ -230,7 +230,7 @@ crate struct CrateRoot<'tcx> {
     syntax_contexts: SyntaxContextTable,
     expn_data: ExpnDataTable,
 
-    source_map: Lazy<[rustc_span::SourceFile]>,
+    source_map: Lazy<[dustc_span::SourceFile]>,
 
     compiler_builtins: bool,
     needs_allocator: bool,
@@ -352,7 +352,7 @@ enum EntryKind {
 }
 
 /// Contains a constant which has been rendered to a String.
-/// Used by rustdoc.
+/// Used by dustdoc.
 #[derive(Encodable, Decodable)]
 struct RenderedConst(String);
 

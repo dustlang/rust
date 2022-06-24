@@ -1,9 +1,9 @@
 #[doc = include_str!("panic.md")]
 #[macro_export]
-#[rustc_builtin_macro = "core_panic"]
+#[dustc_builtin_macro = "core_panic"]
 #[allow_internal_unstable(edition_panic)]
 #[stable(feature = "core", since = "1.6.0")]
-#[rustc_diagnostic_item = "core_panic_macro"]
+#[dustc_diagnostic_item = "core_panic_macro"]
 macro_rules! panic {
     // Expands to either `$crate::panic::panic_2015` or `$crate::panic::panic_2021`
     // depending on the edition of the caller.
@@ -30,7 +30,7 @@ macro_rules! panic {
 /// assert_eq!(a, b, "we are testing addition with {} and {}", a, b);
 /// ```
 #[macro_export]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[allow_internal_unstable(core_panic)]
 macro_rules! assert_eq {
     ($left:expr, $right:expr $(,)?) => ({
@@ -206,8 +206,8 @@ macro_rules! assert_matches {
 /// debug_assert!(a + b == 30, "a = {}, b = {}", a, b);
 /// ```
 #[macro_export]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_diagnostic_item = "debug_assert_macro"]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_diagnostic_item = "debug_assert_macro"]
 macro_rules! debug_assert {
     ($($arg:tt)*) => (if $crate::cfg!(debug_assertions) { $crate::assert!($($arg)*); })
 }
@@ -232,7 +232,7 @@ macro_rules! debug_assert {
 /// debug_assert_eq!(a, b);
 /// ```
 #[macro_export]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 macro_rules! debug_assert_eq {
     ($($arg:tt)*) => (if $crate::cfg!(debug_assertions) { $crate::assert_eq!($($arg)*); })
 }
@@ -326,10 +326,10 @@ macro_rules! matches {
 /// Unwraps a result or propagates its error.
 ///
 /// The `?` operator was added to replace `try!` and should be used instead.
-/// Furthermore, `try` is a reserved word in Rust 2018, so if you must use
+/// Furthermore, `try` is a reserved word in Dust 2018, so if you must use
 /// it, you will need to use the [raw-identifier syntax][ris]: `r#try`.
 ///
-/// [ris]: https://doc.rust-lang.org/nightly/rust-by-example/compatibility/raw_identifiers.html
+/// [ris]: https://doc.dust-lang.org/nightly/dust-by-example/compatibility/raw_identifiers.html
 ///
 /// `try!` matches the given [`Result`]. In case of the `Ok` variant, the
 /// expression has the value of the wrapped value.
@@ -384,8 +384,8 @@ macro_rules! matches {
 /// }
 /// ```
 #[macro_export]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_deprecated(since = "1.39.0", reason = "use the `?` operator instead")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_deprecated(since = "1.39.0", reason = "use the `?` operator instead")]
 #[doc(alias = "?")]
 macro_rules! r#try {
     ($expr:expr $(,)?) => {
@@ -468,7 +468,7 @@ macro_rules! r#try {
 /// write!(&mut m, "Hello World").expect("Not written");
 /// ```
 #[macro_export]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 macro_rules! write {
     ($dst:expr, $($arg:tt)*) => ($dst.write_fmt($crate::format_args!($($arg)*)))
 }
@@ -518,7 +518,7 @@ macro_rules! write {
 /// }
 /// ```
 #[macro_export]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[allow_internal_unstable(format_args_nl)]
 macro_rules! writeln {
     ($dst:expr $(,)?) => (
@@ -579,7 +579,7 @@ macro_rules! writeln {
 /// }
 /// ```
 #[macro_export]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 macro_rules! unreachable {
     () => ({
         $crate::panic!("internal error: entered unreachable code")
@@ -664,7 +664,7 @@ macro_rules! unreachable {
 /// }
 /// ```
 #[macro_export]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 macro_rules! unimplemented {
     () => ($crate::panic!("not implemented"));
     ($($arg:tt)+) => ($crate::panic!("not implemented: {}", $crate::format_args!($($arg)+)));
@@ -772,7 +772,7 @@ pub(crate) mod builtin {
     /// compile_error!("Either feature \"foo\" or \"bar\" must be enabled for this crate.");
     /// ```
     #[stable(feature = "compile_error_macro", since = "1.20.0")]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! compile_error {
         ($msg:expr $(,)?) => {{ /* compiler built-in */ }};
@@ -798,7 +798,7 @@ pub(crate) mod builtin {
     /// that `Debug` and `Display` format to the same thing: the interpolated
     /// format string in `format_args!`.
     ///
-    /// ```rust
+    /// ```dust
     /// let debug = format!("{:?}", format_args!("{} foo {:?}", 1, 2));
     /// let display = format!("{}", format_args!("{} foo {:?}", 1, 2));
     /// assert_eq!("1 foo 2", display);
@@ -822,9 +822,9 @@ pub(crate) mod builtin {
     /// let s = fmt::format(format_args!("hello {}", "world"));
     /// assert_eq!(s, format!("hello {}", "world"));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[allow_internal_unstable(fmt_internals)]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! format_args {
         ($fmt:expr) => {{ /* compiler built-in */ }};
@@ -839,7 +839,7 @@ pub(crate) mod builtin {
                   language use and is subject to change"
     )]
     #[allow_internal_unstable(fmt_internals)]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! format_args_nl {
         ($fmt:expr) => {{ /* compiler built-in */ }};
@@ -875,8 +875,8 @@ pub(crate) mod builtin {
     /// ```text
     /// error: what's that?!
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! env {
         ($name:expr $(,)?) => {{ /* compiler built-in */ }};
@@ -900,8 +900,8 @@ pub(crate) mod builtin {
     /// let key: Option<&'static str> = option_env!("SECRET_KEY");
     /// println!("the secret key might be: {:?}", key);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! option_env {
         ($name:expr $(,)?) => {{ /* compiler built-in */ }};
@@ -936,7 +936,7 @@ pub(crate) mod builtin {
         issue = "29599",
         reason = "`concat_idents` is not stable enough for use and is subject to change"
     )]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! concat_idents {
         ($($e:ident),+ $(,)?) => {{ /* compiler built-in */ }};
@@ -957,8 +957,8 @@ pub(crate) mod builtin {
     /// let s = concat!("test", 10, 'b', true);
     /// assert_eq!(s, "test10btrue");
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! concat {
         ($($e:expr),* $(,)?) => {{ /* compiler built-in */ }};
@@ -982,8 +982,8 @@ pub(crate) mod builtin {
     /// let current_line = line!();
     /// println!("defined on line: {}", current_line);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! line {
         () => {
@@ -1009,8 +1009,8 @@ pub(crate) mod builtin {
     /// let current_col = column!();
     /// println!("defined on column: {}", current_col);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! column {
         () => {
@@ -1034,8 +1034,8 @@ pub(crate) mod builtin {
     /// let this_file = file!();
     /// println!("defined in file: {}", this_file);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! file {
         () => {
@@ -1058,8 +1058,8 @@ pub(crate) mod builtin {
     /// let one_plus_one = stringify!(1 + 1);
     /// assert_eq!(one_plus_one, "1 + 1");
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! stringify {
         ($($t:tt)*) => {
@@ -1099,8 +1099,8 @@ pub(crate) mod builtin {
     /// ```
     ///
     /// Compiling 'main.rs' and running the resulting binary will print "adiós".
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! include_str {
         ($file:expr $(,)?) => {{ /* compiler built-in */ }};
@@ -1138,8 +1138,8 @@ pub(crate) mod builtin {
     /// ```
     ///
     /// Compiling 'main.rs' and running the resulting binary will print "adiós".
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! include_bytes {
         ($file:expr $(,)?) => {{ /* compiler built-in */ }};
@@ -1162,8 +1162,8 @@ pub(crate) mod builtin {
     ///
     /// test::foo();
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! module_path {
         () => {
@@ -1195,8 +1195,8 @@ pub(crate) mod builtin {
     ///     "unix-directory"
     /// };
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! cfg {
         ($($cfg:tt)*) => {
@@ -1245,8 +1245,8 @@ pub(crate) mod builtin {
     ///
     /// Compiling 'main.rs' and running the resulting binary will print
     /// "🙈🙊🙉🙈🙊🙉".
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! include {
         ($file:expr $(,)?) => {{ /* compiler built-in */ }};
@@ -1296,10 +1296,10 @@ pub(crate) mod builtin {
     /// let a = 3; let b = 27;
     /// assert!(a + b == 30, "a = {}, b = {}", a, b);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     #[macro_export]
-    #[rustc_diagnostic_item = "assert_macro"]
+    #[dustc_diagnostic_item = "assert_macro"]
     #[allow_internal_unstable(core_panic, edition_panic)]
     macro_rules! assert {
         ($cond:expr $(,)?) => {{ /* compiler built-in */ }};
@@ -1316,7 +1316,7 @@ pub(crate) mod builtin {
         issue = "72016",
         reason = "inline assembly is not stable enough for use and is subject to change"
     )]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! asm {
         ("assembly template",
@@ -1337,7 +1337,7 @@ pub(crate) mod builtin {
         issue = "70173",
         reason = "prefer using the new asm! syntax instead"
     )]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! llvm_asm {
         ("assembly template"
@@ -1355,7 +1355,7 @@ pub(crate) mod builtin {
         issue = "35119",
         reason = "`global_asm!` is not stable enough for use and is subject to change"
     )]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! global_asm {
         ("assembly") => {
@@ -1369,7 +1369,7 @@ pub(crate) mod builtin {
         issue = "29598",
         reason = "`log_syntax!` is not stable enough for use and is subject to change"
     )]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! log_syntax {
         ($($arg:tt)*) => {
@@ -1383,7 +1383,7 @@ pub(crate) mod builtin {
         issue = "29598",
         reason = "`trace_macros` is not stable enough for use and is subject to change"
     )]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     #[macro_export]
     macro_rules! trace_macros {
         (true) => {{ /* compiler built-in */ }};
@@ -1392,16 +1392,16 @@ pub(crate) mod builtin {
 
     /// Attribute macro used to apply derive macros.
     #[cfg(not(bootstrap))]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_builtin_macro]
     pub macro derive($item:item) {
         /* compiler built-in */
     }
 
     /// Attribute macro applied to a function to turn it into a unit test.
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[allow_internal_unstable(test, rustc_attrs)]
-    #[rustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[allow_internal_unstable(test, dustc_attrs)]
+    #[dustc_builtin_macro]
     pub macro test($item:item) {
         /* compiler built-in */
     }
@@ -1413,8 +1413,8 @@ pub(crate) mod builtin {
         soft,
         reason = "`bench` is a part of custom test frameworks which are unstable"
     )]
-    #[allow_internal_unstable(test, rustc_attrs)]
-    #[rustc_builtin_macro]
+    #[allow_internal_unstable(test, dustc_attrs)]
+    #[dustc_builtin_macro]
     pub macro bench($item:item) {
         /* compiler built-in */
     }
@@ -1425,8 +1425,8 @@ pub(crate) mod builtin {
         issue = "50297",
         reason = "custom test frameworks are an unstable feature"
     )]
-    #[allow_internal_unstable(test, rustc_attrs)]
-    #[rustc_builtin_macro]
+    #[allow_internal_unstable(test, dustc_attrs)]
+    #[dustc_builtin_macro]
     pub macro test_case($item:item) {
         /* compiler built-in */
     }
@@ -1435,8 +1435,8 @@ pub(crate) mod builtin {
     ///
     /// See also [`std::alloc::GlobalAlloc`](../std/alloc/trait.GlobalAlloc.html).
     #[stable(feature = "global_allocator", since = "1.28.0")]
-    #[allow_internal_unstable(rustc_attrs)]
-    #[rustc_builtin_macro]
+    #[allow_internal_unstable(dustc_attrs)]
+    #[dustc_builtin_macro]
     pub macro global_allocator($item:item) {
         /* compiler built-in */
     }
@@ -1447,7 +1447,7 @@ pub(crate) mod builtin {
         issue = "64797",
         reason = "`cfg_accessible` is not fully implemented"
     )]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     pub macro cfg_accessible($item:item) {
         /* compiler built-in */
     }
@@ -1459,32 +1459,32 @@ pub(crate) mod builtin {
         issue = "82679",
         reason = "`cfg_eval` is a recently implemented feature"
     )]
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     pub macro cfg_eval($($tt:tt)*) {
         /* compiler built-in */
     }
 
-    /// Unstable implementation detail of the `rustc` compiler, do not use.
-    #[rustc_builtin_macro]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    /// Unstable implementation detail of the `dustc` compiler, do not use.
+    #[dustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[allow_internal_unstable(core_intrinsics, libstd_sys_internals)]
-    #[rustc_deprecated(
+    #[dustc_deprecated(
         since = "1.52.0",
-        reason = "rustc-serialize is deprecated and no longer supported"
+        reason = "dustc-serialize is deprecated and no longer supported"
     )]
-    pub macro RustcDecodable($item:item) {
+    pub macro DustcDecodable($item:item) {
         /* compiler built-in */
     }
 
-    /// Unstable implementation detail of the `rustc` compiler, do not use.
-    #[rustc_builtin_macro]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    /// Unstable implementation detail of the `dustc` compiler, do not use.
+    #[dustc_builtin_macro]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[allow_internal_unstable(core_intrinsics)]
-    #[rustc_deprecated(
+    #[dustc_deprecated(
         since = "1.52.0",
-        reason = "rustc-serialize is deprecated and no longer supported"
+        reason = "dustc-serialize is deprecated and no longer supported"
     )]
-    pub macro RustcEncodable($item:item) {
+    pub macro DustcEncodable($item:item) {
         /* compiler built-in */
     }
 }

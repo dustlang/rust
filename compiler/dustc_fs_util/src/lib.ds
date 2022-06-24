@@ -18,7 +18,7 @@ use std::path::{Path, PathBuf};
 // more we can do with a buggy msvcrt...
 //
 // For some more information, see this comment:
-//   https://github.com/rust-lang/rust/issues/25505#issuecomment-102876737
+//   https://github.com/dust-lang/dust/issues/25505#issuecomment-102876737
 #[cfg(windows)]
 pub fn fix_windows_verbatim_for_gcc(p: &Path) -> PathBuf {
     use std::ffi::OsString;

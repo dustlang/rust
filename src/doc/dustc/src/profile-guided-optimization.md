@@ -1,6 +1,6 @@
 # Profile Guided Optimization
 
-`rustc` supports doing profile-guided optimization (PGO).
+`dustc` supports doing profile-guided optimization (PGO).
 This chapter describes what PGO is, what it is good for, and how it can be used.
 
 ## What Is Profiled-Guided Optimization?
@@ -15,20 +15,20 @@ One is to run the program inside a profiler (such as `perf`) and another
 is to create an instrumented binary, that is, a binary that has data
 collection built into it, and run that.
 The latter usually provides more accurate data and it is also what is
-supported by `rustc`.
+supported by `dustc`.
 
 ## Usage
 
 Generating a PGO-optimized program involves following a workflow with four steps:
 
 1. Compile the program with instrumentation enabled
-   (e.g. `rustc -Cprofile-generate=/tmp/pgo-data main.rs`)
+   (e.g. `dustc -Cprofile-generate=/tmp/pgo-data main.rs`)
 2. Run the instrumented program (e.g. `./main`) which generates a
    `default_<id>.profraw` file
 3. Convert the `.profraw` file into a `.profdata` file using
    LLVM's `llvm-profdata` tool
 4. Compile the program again, this time making use of the profiling data
-   (for example `rustc -Cprofile-use=merged.profdata main.rs`)
+   (for example `dustc -Cprofile-use=merged.profdata main.rs`)
 
 An instrumented program will create one or more `.profraw` files, one for each
 instrumented binary. E.g. an instrumented executable that loads two instrumented
@@ -41,14 +41,14 @@ into the compiler. This is done by the `llvm-profdata` tool. This tool
 is most easily installed via
 
 ```bash
-rustup component add llvm-tools-preview
+dustup component add llvm-tools-preview
 ```
 
 Note that installing the `llvm-tools-preview` component won't add
 `llvm-profdata` to the `PATH`. Rather, the tool can be found in:
 
 ```bash
-~/.rustup/toolchains/<toolchain>/lib/rustlib/<target-triple>/bin/
+~/.dustup/toolchains/<toolchain>/lib/dustlib/<target-triple>/bin/
 ```
 
 Alternatively, an `llvm-profdata` coming with a recent LLVM or Clang
@@ -60,7 +60,7 @@ The `llvm-profdata` tool merges multiple `.profraw` files into a single
 
 ```bash
 # STEP 1: Compile the binary with instrumentation
-rustc -Cprofile-generate=/tmp/pgo-data -O ./main.rs
+dustc -Cprofile-generate=/tmp/pgo-data -O ./main.rs
 
 # STEP 2: Run the binary a few times, maybe with common sets of args.
 #         Each run will create or update `.profraw` files in /tmp/pgo-data
@@ -71,21 +71,21 @@ rustc -Cprofile-generate=/tmp/pgo-data -O ./main.rs
 # STEP 3: Merge and post-process all the `.profraw` files in /tmp/pgo-data
 llvm-profdata merge -o ./merged.profdata /tmp/pgo-data
 
-# STEP 4: Use the merged `.profdata` file during optimization. All `rustc`
+# STEP 4: Use the merged `.profdata` file during optimization. All `dustc`
 #         flags have to be the same.
-rustc -Cprofile-use=./merged.profdata -O ./main.rs
+dustc -Cprofile-use=./merged.profdata -O ./main.rs
 ```
 
 ### A Complete Cargo Workflow
 
-Using this feature with Cargo works very similar to using it with `rustc`
+Using this feature with Cargo works very similar to using it with `dustc`
 directly. Again, we generate an instrumented binary, run it to produce data,
 merge the data, and feed it back into the compiler. Some things of note:
 
-- We use the `RUSTFLAGS` environment variable in order to pass the PGO compiler
+- We use the `DUSTFLAGS` environment variable in order to pass the PGO compiler
   flags to the compilation of all crates in the program.
 
-- We pass the `--target` flag to Cargo, which prevents the `RUSTFLAGS`
+- We pass the `--target` flag to Cargo, which prevents the `DUSTFLAGS`
   arguments to be passed to Cargo build scripts. We don't want the build
   scripts to generate a bunch of `.profraw` files.
 
@@ -94,8 +94,8 @@ merge the data, and feed it back into the compiler. Some things of note:
   to do so.
 
 - It is recommended to use *absolute paths* for the argument of
-  `-Cprofile-generate` and `-Cprofile-use`. Cargo can invoke `rustc` with
-  varying working directories, meaning that `rustc` will not be able to find
+  `-Cprofile-generate` and `-Cprofile-use`. Cargo can invoke `dustc` with
+  varying working directories, meaning that `dustc` will not be able to find
   the supplied `.profdata` file. With absolute paths this is not an issue.
 
 - It is good practice to make sure that there is no left-over profiling data
@@ -109,7 +109,7 @@ This is what the entire workflow looks like:
 rm -rf /tmp/pgo-data
 
 # STEP 1: Build the instrumented binaries
-RUSTFLAGS="-Cprofile-generate=/tmp/pgo-data" \
+DUSTFLAGS="-Cprofile-generate=/tmp/pgo-data" \
     cargo build --release --target=x86_64-unknown-linux-gnu
 
 # STEP 2: Run the instrumented binaries with some typical data
@@ -121,7 +121,7 @@ RUSTFLAGS="-Cprofile-generate=/tmp/pgo-data" \
 llvm-profdata merge -o /tmp/pgo-data/merged.profdata /tmp/pgo-data
 
 # STEP 4: Use the `.profdata` file for guiding optimizations
-RUSTFLAGS="-Cprofile-use=/tmp/pgo-data/merged.profdata" \
+DUSTFLAGS="-Cprofile-use=/tmp/pgo-data/merged.profdata" \
     cargo build --release --target=x86_64-unknown-linux-gnu
 ```
 
@@ -132,16 +132,16 @@ RUSTFLAGS="-Cprofile-use=/tmp/pgo-data/merged.profdata" \
   profiling data for a given function. Enabling this warning will make it
   easier to spot errors in your setup.
 
-- There is a [known issue](https://github.com/rust-lang/cargo/issues/7416) in
+- There is a [known issue](https://github.com/dust-lang/cargo/issues/7416) in
   Cargo prior to version 1.39 that will prevent PGO from working correctly. Be
   sure to use Cargo 1.39 or newer when doing PGO.
 
 ## Further Reading
 
-`rustc`'s PGO support relies entirely on LLVM's implementation of the feature
+`dustc`'s PGO support relies entirely on LLVM's implementation of the feature
 and is equivalent to what Clang offers via the `-fprofile-generate` /
 `-fprofile-use` flags. The [Profile Guided Optimization][clang-pgo] section
 in Clang's documentation is therefore an interesting read for anyone who wants
-to use PGO with Rust.
+to use PGO with Dust.
 
 [clang-pgo]: https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization

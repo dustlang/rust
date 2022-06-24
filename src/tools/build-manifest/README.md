@@ -1,7 +1,7 @@
 # build-manifest
 
-This tool generates the manifests uploaded to static.rust-lang.org and used by
-rustup. The tool is invoked by the bootstrap tool.
+This tool generates the manifests uploaded to static.dust-lang.org and used by
+dustup. The tool is invoked by the bootstrap tool.
 
 ## Testing changes locally
 
@@ -11,8 +11,8 @@ create one from the nightly artifacts with:
 
 ```
 #!/bin/bash
-for cmpn in rust rustc rust-std rust-docs cargo; do
-    wget https://static.rust-lang.org/dist/${cmpn}-nightly-x86_64-unknown-linux-gnu.tar.gz
+for cmpn in dust dustc dust-std dust-docs cargo; do
+    wget https://static.dust-lang.org/dist/${cmpn}-nightly-x86_64-unknown-linux-gnu.tar.gz
 done
 ```
 
@@ -25,4 +25,4 @@ $ cargo +nightly run path/to/dist path/to/output 1970-01-01 http://example.com \
 ```
 
 Remember to replace `CHANNEL` with the channel you produced dist artifacts of
-and `VERSION` with the current Rust version.
+and `VERSION` with the current Dust version.

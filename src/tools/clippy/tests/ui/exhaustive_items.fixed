@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![deny(clippy::exhaustive_enums, clippy::exhaustive_structs)]
 #![allow(unused)]

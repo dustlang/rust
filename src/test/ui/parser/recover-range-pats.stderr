@@ -432,4 +432,4 @@ LL |     if let ....3 = 0 {}
 error: aborting due to 60 previous errors
 
 Some errors have detailed explanations: E0029, E0308, E0586.
-For more information about an error, try `rustc --explain E0029`.
+For more information about an error, try `dustc --explain E0029`.

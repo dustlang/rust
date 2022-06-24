@@ -7,16 +7,16 @@
 all:
 	# Test that `-O` and `-C opt-level` can be specified multiple times.
 	# The rightmost flag will be used over any previous flags.
-	$(RUSTC) -O -O main.rs
-	$(RUSTC) -O -C opt-level=0 main.rs
-	$(RUSTC) -C opt-level=0 -O main.rs
-	$(RUSTC) -C opt-level=0 -C opt-level=2 main.rs
-	$(RUSTC) -C opt-level=2 -C opt-level=0 main.rs
+	$(DUSTC) -O -O main.rs
+	$(DUSTC) -O -C opt-level=0 main.rs
+	$(DUSTC) -C opt-level=0 -O main.rs
+	$(DUSTC) -C opt-level=0 -C opt-level=2 main.rs
+	$(DUSTC) -C opt-level=2 -C opt-level=0 main.rs
 
 	# Test that `-g` and `-C debuginfo` can be specified multiple times.
 	# The rightmost flag will be used over any previous flags.
-	$(RUSTC) -g -g main.rs
-	$(RUSTC) -g -C debuginfo=0 main.rs
-	$(RUSTC) -C debuginfo=0 -g main.rs
-	$(RUSTC) -C debuginfo=0 -C debuginfo=2 main.rs
-	$(RUSTC) -C debuginfo=2 -C debuginfo=0 main.rs
+	$(DUSTC) -g -g main.rs
+	$(DUSTC) -g -C debuginfo=0 main.rs
+	$(DUSTC) -C debuginfo=0 -g main.rs
+	$(DUSTC) -C debuginfo=0 -C debuginfo=2 main.rs
+	$(DUSTC) -C debuginfo=2 -C debuginfo=0 main.rs

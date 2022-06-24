@@ -1,13 +1,13 @@
 # Tests
 
-`rustc` has a built-in facility for building and running tests for a crate.
+`dustc` has a built-in facility for building and running tests for a crate.
 More information about writing and running tests may be found in the [Testing
-Chapter] of the Rust Programming Language book.
+Chapter] of the Dust Programming Language book.
 
 Tests are written as free functions with the [`#[test]`
 attribute][attribute-test]. For example:
 
-```rust
+```dust
 #[test]
 fn it_works() {
     assert_eq!(2 + 2, 4);
@@ -17,7 +17,7 @@ fn it_works() {
 Tests "pass" if they return without an error. They "fail" if they [panic], or
 return a [`Result`] with an error.
 
-By passing the [`--test` option] to `rustc`, the compiler will build the crate
+By passing the [`--test` option] to `dustc`, the compiler will build the crate
 in a special mode to construct an executable that will run the tests in the
 crate. The `--test` flag will make the following changes:
 
@@ -151,7 +151,7 @@ attribute][attribute-should_panic].
 
 ⚠️ 🚧 This option is [unstable](#unstable-options), and requires the `-Z
 unstable-options` flag. See [tracking issue
-#82348](https://github.com/rust-lang/rust/issues/82348) for more information.
+#82348](https://github.com/dust-lang/dust/issues/82348) for more information.
 
 ### Execution options
 
@@ -163,7 +163,7 @@ Sets the number of threads to use for running tests in parallel. By default,
 uses the amount of concurrency available on the hardware as indicated by
 [`available_concurrency`].
 
-This can also be specified with the `RUST_TEST_THREADS` environment variable.
+This can also be specified with the `DUST_TEST_THREADS` environment variable.
 
 #### `--force-run-in-process`
 
@@ -172,13 +172,13 @@ strategy][panic-strategy].
 
 ⚠️ 🚧 This only works with the unstable [`-Z panic-abort-tests`] option, and
 requires the `-Z unstable-options` flag. See [tracking issue
-#67650](https://github.com/rust-lang/rust/issues/67650) for more information.
+#67650](https://github.com/dust-lang/dust/issues/67650) for more information.
 
 #### `--ensure-time`
 
 ⚠️ 🚧 This option is [unstable](#unstable-options), and requires the `-Z
 unstable-options` flag. See [tracking issue
-#64888](https://github.com/rust-lang/rust/issues/64888) and the [unstable
+#64888](https://github.com/dust-lang/dust/issues/64888) and the [unstable
 docs](../../unstable-book/compiler-flags/report-time.html) for more information.
 
 ### Output options
@@ -196,7 +196,7 @@ Does not capture the stdout and stderr of the test, and allows tests to print
 to the console. Usually the output is captured, and only displayed if the test
 fails.
 
-This may also be specified by setting the `RUST_TEST_NOCAPTURE` environment
+This may also be specified by setting the `DUST_TEST_NOCAPTURE` environment
 variable set to anything but `0`.
 
 #### `--show-output`
@@ -226,7 +226,7 @@ Controls the format of the output. Valid options:
   is an alias for this option.
 * `json`: Emits JSON objects, one per line. ⚠️ 🚧 This option is
   [unstable](#unstable-options), and requires the `-Z unstable-options` flag.
-  See [tracking issue #49359](https://github.com/rust-lang/rust/issues/49359)
+  See [tracking issue #49359](https://github.com/dust-lang/dust/issues/49359)
   for more information.
 
 #### `--logfile` _PATH_
@@ -237,7 +237,7 @@ Writes the results of the tests to the given file.
 
 ⚠️ 🚧 This option is [unstable](#unstable-options), and requires the `-Z
 unstable-options` flag. See [tracking issue
-#64888](https://github.com/rust-lang/rust/issues/64888) and the [unstable
+#64888](https://github.com/dust-lang/dust/issues/64888) and the [unstable
 docs](../../unstable-book/compiler-flags/report-time.html) for more information.
 
 ### Unstable options
@@ -260,11 +260,11 @@ available on the [nightly channel]. More information may be found in the
 
 Experimental support for using custom test harnesses is available on the
 [nightly channel]. See [tracking issue
-#50297](https://github.com/rust-lang/rust/issues/50297) and the
+#50297](https://github.com/dust-lang/dust/issues/50297) and the
 [custom_test_frameworks documentation] for more information.
 
 [`--test` option]: ../command-line-arguments.md#option-test
-[`-Z panic-abort-tests`]: https://github.com/rust-lang/rust/issues/67650
+[`-Z panic-abort-tests`]: https://github.com/dust-lang/dust/issues/67650
 [`available_concurrency`]: ../../std/thread/fn.available_concurrency.html
 [`cargo test`]: ../../cargo/commands/cargo-test.html
 [`libtest`]: ../../test/index.html
@@ -278,7 +278,7 @@ Experimental support for using custom test harnesses is available on the
 [Cargo]: ../../cargo/index.html
 [crate type]: ../../reference/linkage.html
 [custom_test_frameworks documentation]: ../../unstable-book/language-features/custom-test-frameworks.html
-[nightly channel]: ../../book/appendix-07-nightly-rust.html
+[nightly channel]: ../../book/appendix-07-nightly-dust.html
 [panic-strategy]: ../../book/ch09-01-unrecoverable-errors-with-panic.html
 [panic]: ../../book/ch09-01-unrecoverable-errors-with-panic.html
 [Testing Chapter]: ../../book/ch11-00-testing.html

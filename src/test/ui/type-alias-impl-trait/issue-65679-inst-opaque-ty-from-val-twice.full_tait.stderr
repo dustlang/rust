@@ -5,7 +5,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait, impl_trait_in_binding
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 warning: the feature `impl_trait_in_bindings` is incomplete and may not be safe to use and/or cause compiler crashes
   --> $DIR/issue-65679-inst-opaque-ty-from-val-twice.rs:5:55
@@ -13,9 +13,9 @@ warning: the feature `impl_trait_in_bindings` is incomplete and may not be safe 
 LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait, impl_trait_in_bindings))]
    |                                                       ^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #63065 <https://github.com/rust-lang/rust/issues/63065> for more information
+   = note: see issue #63065 <https://github.com/dust-lang/dust/issues/63065> for more information
 
-error: fatal error triggered by #[rustc_error]
+error: fatal error triggered by #[dustc_error]
   --> $DIR/issue-65679-inst-opaque-ty-from-val-twice.rs:19:1
    |
 LL | fn main() {

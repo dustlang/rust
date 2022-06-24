@@ -547,7 +547,7 @@ pub enum Conv {
     // General language calling conventions, for which every target
     // should have its own backend (e.g. LLVM) support.
     C,
-    Rust,
+    Dust,
 
     // Target-specific calling conventions.
     ArmAapcs,

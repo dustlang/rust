@@ -7,24 +7,24 @@ use super::TrailingToken;
 use super::{AttrWrapper, BlockMode, ForceCollect, Parser, Restrictions, SemiColonMode};
 use crate::maybe_whole;
 
-use rustc_ast as ast;
-use rustc_ast::ptr::P;
-use rustc_ast::token::{self, TokenKind};
-use rustc_ast::util::classify;
-use rustc_ast::AstLike;
-use rustc_ast::{AttrStyle, AttrVec, Attribute, MacCall, MacCallStmt, MacStmtStyle};
-use rustc_ast::{Block, BlockCheckMode, Expr, ExprKind, Local, Stmt};
-use rustc_ast::{StmtKind, DUMMY_NODE_ID};
-use rustc_errors::{Applicability, PResult};
-use rustc_span::source_map::{BytePos, Span};
-use rustc_span::symbol::{kw, sym};
+use dustc_ast as ast;
+use dustc_ast::ptr::P;
+use dustc_ast::token::{self, TokenKind};
+use dustc_ast::util::classify;
+use dustc_ast::AstLike;
+use dustc_ast::{AttrStyle, AttrVec, Attribute, MacCall, MacCallStmt, MacStmtStyle};
+use dustc_ast::{Block, BlockCheckMode, Expr, ExprKind, Local, Stmt};
+use dustc_ast::{StmtKind, DUMMY_NODE_ID};
+use dustc_errors::{Applicability, PResult};
+use dustc_span::source_map::{BytePos, Span};
+use dustc_span::symbol::{kw, sym};
 
 use std::mem;
 
 impl<'a> Parser<'a> {
     /// Parses a statement. This stops just before trailing semicolons on everything but items.
     /// e.g., a `StmtKind::Semi` parses to a `StmtKind::Expr`, leaving the trailing `;` unconsumed.
-    // Public for rustfmt usage.
+    // Public for dustfmt usage.
     pub fn parse_stmt(&mut self, force_collect: ForceCollect) -> PResult<'a, Option<Stmt>> {
         Ok(self.parse_stmt_without_recovery(false, force_collect).unwrap_or_else(|mut e| {
             e.emit();
@@ -337,7 +337,7 @@ impl<'a> Parser<'a> {
         //    if (cond)
         //      bar;
         //
-        // which is valid in other languages, but not Rust.
+        // which is valid in other languages, but not Dust.
         match self.parse_stmt_without_recovery(false, ForceCollect::No) {
             // If the next token is an open brace (e.g., `if a b {`), the place-
             // inside-a-block suggestion would be more likely wrong than right.

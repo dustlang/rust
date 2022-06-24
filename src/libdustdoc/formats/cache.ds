@@ -2,13 +2,13 @@ use std::collections::BTreeMap;
 use std::mem;
 use std::path::{Path, PathBuf};
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir::def_id::{CrateNum, DefId, CRATE_DEF_INDEX};
-use rustc_middle::middle::privacy::AccessLevels;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::source_map::FileName;
-use rustc_span::symbol::sym;
-use rustc_span::Symbol;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir::def_id::{CrateNum, DefId, CRATE_DEF_INDEX};
+use dustc_middle::middle::privacy::AccessLevels;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::source_map::FileName;
+use dustc_span::symbol::sym;
+use dustc_span::Symbol;
 
 use crate::clean::{self, GetDefId};
 use crate::fold::DocFolder;
@@ -86,12 +86,12 @@ crate struct Cache {
     crate crate_version: Option<String>,
 
     /// Whether to document private items.
-    /// This is stored in `Cache` so it doesn't need to be passed through all rustdoc functions.
+    /// This is stored in `Cache` so it doesn't need to be passed through all dustdoc functions.
     crate document_private: bool,
 
     /// Crates marked with [`#[doc(masked)]`][doc_masked].
     ///
-    /// [doc_masked]: https://doc.rust-lang.org/nightly/unstable-book/language-features/doc-masked.html
+    /// [doc_masked]: https://doc.dust-lang.org/nightly/unstable-book/language-features/doc-masked.html
     crate masked_crates: FxHashSet<CrateNum>,
 
     // Private fields only used when initially crawling a crate to build a cache
@@ -359,7 +359,7 @@ impl<'a, 'tcx> DocFolder for CacheBuilder<'a, 'tcx> {
                 if !self.cache.stripped_mod =>
             {
                 // Re-exported items mean that the same id can show up twice
-                // in the rustdoc ast that we're looking at. We know,
+                // in the dustdoc ast that we're looking at. We know,
                 // however, that a re-exported item doesn't show up in the
                 // `public_items` map, so we can skip inserting into the
                 // paths map if there was already an entry present and we're

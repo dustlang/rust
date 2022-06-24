@@ -13,6 +13,6 @@
 # crates that provide them.
 
 all:
-	$(RUSTC) a.rs
-	$(RUSTC) b.rs
-	$(RUSTC) c.rs
+	$(DUSTC) a.rs
+	$(DUSTC) b.rs
+	$(DUSTC) c.rs

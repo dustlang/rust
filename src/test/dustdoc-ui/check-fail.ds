@@ -1,9 +1,9 @@
 // compile-flags: -Z unstable-options --check
 
 #![deny(missing_docs)]
-#![deny(rustdoc::all)]
+#![deny(dustdoc::all)]
 
-//! ```rust,testharness
+//! ```dust,testharness
 //~^ ERROR
 //! let x = 12;
 //! ```
@@ -15,7 +15,7 @@ pub fn foo() {}
 /// hello
 //~^ ERROR
 ///
-/// ```rust,testharness
+/// ```dust,testharness
 /// let x = 12;
 /// ```
 pub fn bar() {}

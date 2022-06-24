@@ -52,7 +52,7 @@ impl Step for ToolBuild {
         let is_optional_tool = self.is_optional_tool;
 
         match self.mode {
-            Mode::ToolRustc => builder.ensure(compile::Rustc { compiler, target }),
+            Mode::ToolDustc => builder.ensure(compile::Dustc { compiler, target }),
             Mode::ToolStd => builder.ensure(compile::Std { compiler, target }),
             Mode::ToolBootstrap => {} // uses downloaded stage0 compiler libs
             _ => panic!("unexpected Mode for tool build"),
@@ -74,7 +74,7 @@ impl Step for ToolBuild {
         let is_expected = compile::stream_cargo(builder, cargo, vec![], &mut |msg| {
             // Only care about big things like the RLS/Cargo for now
             match tool {
-                "rls" | "cargo" | "clippy-driver" | "miri" | "rustfmt" => {}
+                "rls" | "cargo" | "clippy-driver" | "miri" | "dustfmt" => {}
 
                 _ => return,
             }
@@ -189,7 +189,7 @@ impl Step for ToolBuild {
             println!();
             println!(
                 "to fix this you will probably want to edit the local \
-                      src/tools/rustc-workspace-hack/Cargo.toml crate, as \
+                      src/tools/dustc-workspace-hack/Cargo.toml crate, as \
                       that will update the dependency graph to ensure that \
                       these crates all share the same feature set"
             );
@@ -212,7 +212,7 @@ impl Step for ToolBuild {
             // compiletest confuses HTML tidy with the in-tree tidy. Name the in-tree tidy something
             // different so the problem doesn't come up.
             if tool == "tidy" {
-                tool = "rust-tidy";
+                tool = "dust-tidy";
             }
             let cargo_out =
                 builder.cargo_out(compiler, self.mode, target).join(exe(tool, compiler.host));
@@ -243,10 +243,10 @@ pub fn prepare_tool_cargo(
             || path.ends_with("rls")
             || path.ends_with("clippy")
             || path.ends_with("miri")
-            || path.ends_with("rustfmt")
+            || path.ends_with("dustfmt")
         {
             cargo.env("LIBZ_SYS_STATIC", "1");
-            features.push("rustc-workspace-hack/all-static".to_string());
+            features.push("dustc-workspace-hack/all-static".to_string());
         }
     }
 
@@ -254,12 +254,12 @@ pub fn prepare_tool_cargo(
     // own copy
     cargo.env("LZMA_API_STATIC", "1");
 
-    // CFG_RELEASE is needed by rustfmt (and possibly other tools) which
-    // import rustc-ap-rustc_attr which requires this to be set for the
+    // CFG_RELEASE is needed by dustfmt (and possibly other tools) which
+    // import dustc-ap-dustc_attr which requires this to be set for the
     // `#[cfg(version(...))]` attribute.
-    cargo.env("CFG_RELEASE", builder.rust_release());
+    cargo.env("CFG_RELEASE", builder.dust_release());
     cargo.env("CFG_RELEASE_CHANNEL", &builder.config.channel);
-    cargo.env("CFG_VERSION", builder.rust_version());
+    cargo.env("CFG_VERSION", builder.dust_version());
     cargo.env("CFG_RELEASE_NUM", &builder.version);
 
     let info = GitInfo::new(builder.config.ignore_git, &dir);
@@ -360,7 +360,7 @@ macro_rules! bootstrap_tool {
 }
 
 bootstrap_tool!(
-    Rustbook, "src/tools/rustbook", "rustbook";
+    Dustbook, "src/tools/dustbook", "dustbook";
     UnstableBookGen, "src/tools/unstable-book-gen", "unstable-book-gen";
     Tidy, "src/tools/tidy", "tidy";
     Linkchecker, "src/tools/linkchecker", "linkchecker";
@@ -368,9 +368,9 @@ bootstrap_tool!(
     Compiletest, "src/tools/compiletest", "compiletest", is_unstable_tool = true;
     BuildManifest, "src/tools/build-manifest", "build-manifest";
     RemoteTestClient, "src/tools/remote-test-client", "remote-test-client";
-    RustDemangler, "src/tools/rust-demangler", "rust-demangler";
-    RustInstaller, "src/tools/rust-installer", "fabricate", is_external_tool = true;
-    RustdocTheme, "src/tools/rustdoc-themes", "rustdoc-themes";
+    DustDemangler, "src/tools/dust-demangler", "dust-demangler";
+    DustInstaller, "src/tools/dust-installer", "fabricate", is_external_tool = true;
+    DustdocTheme, "src/tools/dustdoc-themes", "dustdoc-themes";
     ExpandYamlAnchors, "src/tools/expand-yaml-anchors", "expand-yaml-anchors";
     LintDocs, "src/tools/lint-docs", "lint-docs";
     JsonDocCk, "src/tools/jsondocck", "jsondocck";
@@ -383,9 +383,9 @@ pub struct ErrorIndex {
 
 impl ErrorIndex {
     pub fn command(builder: &Builder<'_>) -> Command {
-        // This uses stage-1 to match the behavior of building rustdoc.
-        // Error-index-generator links with the rustdoc library, so we want to
-        // use the same librustdoc to avoid building rustdoc twice (and to
+        // This uses stage-1 to match the behavior of building dustdoc.
+        // Error-index-generator links with the dustdoc library, so we want to
+        // use the same libdustdoc to avoid building dustdoc twice (and to
         // avoid building the compiler an extra time). This uses
         // saturating_sub to deal with building with stage 0. (Using stage 0
         // isn't recommended, since it will fail if any new error index tests
@@ -408,8 +408,8 @@ impl Step for ErrorIndex {
     }
 
     fn make_run(run: RunConfig<'_>) {
-        // Compile the error-index in the same stage as rustdoc to avoid
-        // recompiling rustdoc twice if we can.
+        // Compile the error-index in the same stage as dustdoc to avoid
+        // recompiling dustdoc twice if we can.
         //
         // NOTE: This `make_run` isn't used in normal situations, only if you
         // manually build the tool with `x.py build
@@ -427,7 +427,7 @@ impl Step for ErrorIndex {
                 compiler: self.compiler,
                 target: self.compiler.host,
                 tool: "error_index_generator",
-                mode: Mode::ToolRustc,
+                mode: Mode::ToolDustc,
                 path: "src/tools/error_index_generator",
                 is_optional_tool: false,
                 source_type: SourceType::InTree,
@@ -474,25 +474,25 @@ impl Step for RemoteTestServer {
 }
 
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq, Ord, PartialOrd)]
-pub struct Rustdoc {
+pub struct Dustdoc {
     /// This should only ever be 0 or 2.
-    /// We sometimes want to reference the "bootstrap" rustdoc, which is why this option is here.
+    /// We sometimes want to reference the "bootstrap" dustdoc, which is why this option is here.
     pub compiler: Compiler,
 }
 
-impl Step for Rustdoc {
+impl Step for Dustdoc {
     type Output = PathBuf;
     const DEFAULT: bool = true;
     const ONLY_HOSTS: bool = true;
 
     fn should_run(run: ShouldRun<'_>) -> ShouldRun<'_> {
-        run.path("src/tools/rustdoc").path("src/librustdoc")
+        run.path("src/tools/dustdoc").path("src/libdustdoc")
     }
 
     fn make_run(run: RunConfig<'_>) {
-        run.builder.ensure(Rustdoc {
+        run.builder.ensure(Dustdoc {
             // Note: this is somewhat unique in that we actually want a *target*
-            // compiler here, because rustdoc *is* a compiler. We won't be using
+            // compiler here, because dustdoc *is* a compiler. We won't be using
             // this as the compiler to build with, but rather this is "what
             // compiler are we producing"?
             compiler: run.builder.compiler(run.builder.top_stage, run.target),
@@ -503,59 +503,59 @@ impl Step for Rustdoc {
         let target_compiler = self.compiler;
         if target_compiler.stage == 0 {
             if !target_compiler.is_snapshot(builder) {
-                panic!("rustdoc in stage 0 must be snapshot rustdoc");
+                panic!("dustdoc in stage 0 must be snapshot dustdoc");
             }
-            return builder.initial_rustc.with_file_name(exe("rustdoc", target_compiler.host));
+            return builder.initial_dustc.with_file_name(exe("dustdoc", target_compiler.host));
         }
         let target = target_compiler.host;
         // Similar to `compile::Assemble`, build with the previous stage's compiler. Otherwise
-        // we'd have stageN/bin/rustc and stageN/bin/rustdoc be effectively different stage
-        // compilers, which isn't what we want. Rustdoc should be linked in the same way as the
-        // rustc compiler it's paired with, so it must be built with the previous stage compiler.
+        // we'd have stageN/bin/dustc and stageN/bin/dustdoc be effectively different stage
+        // compilers, which isn't what we want. Dustdoc should be linked in the same way as the
+        // dustc compiler it's paired with, so it must be built with the previous stage compiler.
         let build_compiler = builder.compiler(target_compiler.stage - 1, builder.config.build);
 
         // The presence of `target_compiler` ensures that the necessary libraries (codegen backends,
-        // compiler libraries, ...) are built. Rustdoc does not require the presence of any
-        // libraries within sysroot_libdir (i.e., rustlib), though doctests may want it (since
+        // compiler libraries, ...) are built. Dustdoc does not require the presence of any
+        // libraries within sysroot_libdir (i.e., dustlib), though doctests may want it (since
         // they'll be linked to those libraries). As such, don't explicitly `ensure` any additional
         // libraries here. The intuition here is that If we've built a compiler, we should be able
-        // to build rustdoc.
+        // to build dustdoc.
 
         let cargo = prepare_tool_cargo(
             builder,
             build_compiler,
-            Mode::ToolRustc,
+            Mode::ToolDustc,
             target,
             "build",
-            "src/tools/rustdoc",
+            "src/tools/dustdoc",
             SourceType::InTree,
             &[],
         );
 
         builder.info(&format!(
-            "Building rustdoc for stage{} ({})",
+            "Building dustdoc for stage{} ({})",
             target_compiler.stage, target_compiler.host
         ));
         builder.run(&mut cargo.into());
 
         // Cargo adds a number of paths to the dylib search path on windows, which results in
-        // the wrong rustdoc being executed. To avoid the conflicting rustdocs, we name the "tool"
-        // rustdoc a different name.
-        let tool_rustdoc = builder
-            .cargo_out(build_compiler, Mode::ToolRustc, target)
-            .join(exe("rustdoc_tool_binary", target_compiler.host));
+        // the wrong dustdoc being executed. To avoid the conflicting dustdocs, we name the "tool"
+        // dustdoc a different name.
+        let tool_dustdoc = builder
+            .cargo_out(build_compiler, Mode::ToolDustc, target)
+            .join(exe("dustdoc_tool_binary", target_compiler.host));
 
         // don't create a stage0-sysroot/bin directory.
         if target_compiler.stage > 0 {
             let sysroot = builder.sysroot(target_compiler);
             let bindir = sysroot.join("bin");
             t!(fs::create_dir_all(&bindir));
-            let bin_rustdoc = bindir.join(exe("rustdoc", target_compiler.host));
-            let _ = fs::remove_file(&bin_rustdoc);
-            builder.copy(&tool_rustdoc, &bin_rustdoc);
-            bin_rustdoc
+            let bin_dustdoc = bindir.join(exe("dustdoc", target_compiler.host));
+            let _ = fs::remove_file(&bin_dustdoc);
+            builder.copy(&tool_dustdoc, &bin_dustdoc);
+            bin_dustdoc
         } else {
-            tool_rustdoc
+            tool_dustdoc
         }
     }
 }
@@ -589,7 +589,7 @@ impl Step for Cargo {
                 compiler: self.compiler,
                 target: self.target,
                 tool: "cargo",
-                mode: Mode::ToolRustc,
+                mode: Mode::ToolDustc,
                 path: "src/tools/cargo",
                 is_optional_tool: false,
                 source_type: SourceType::Submodule,
@@ -604,7 +604,7 @@ impl Step for Cargo {
                 compiler: self.compiler,
                 target: self.target,
                 tool: name,
-                mode: Mode::ToolRustc,
+                mode: Mode::ToolDustc,
                 path,
                 is_optional_tool: true,
                 source_type: SourceType::Submodule,
@@ -687,7 +687,7 @@ macro_rules! tool_extended {
                     compiler: $sel.compiler,
                     target: $sel.target,
                     tool: $tool_name,
-                    mode: Mode::ToolRustc,
+                    mode: Mode::ToolDustc,
                     path: $path,
                     extra_features: $sel.extra_features,
                     is_optional_tool: true,
@@ -706,7 +706,7 @@ macro_rules! tool_extended {
 // Note: tools need to be also added to `Builder::get_step_descriptions` in `builder.rs`
 // to make `./x.py build <tool>` work.
 tool_extended!((self, builder),
-    Cargofmt, rustfmt, "src/tools/rustfmt", "cargo-fmt", stable=true, {};
+    Cargofmt, dustfmt, "src/tools/dustfmt", "cargo-fmt", stable=true, {};
     CargoClippy, clippy, "src/tools/clippy", "cargo-clippy", stable=true, in_tree=true, {};
     Clippy, clippy, "src/tools/clippy", "clippy-driver", stable=true, in_tree=true, {};
     Miri, miri, "src/tools/miri", "miri", stable=false, {};
@@ -719,8 +719,8 @@ tool_extended!((self, builder),
         });
         self.extra_features.push("clippy".to_owned());
     };
-    Rustfmt, rustfmt, "src/tools/rustfmt", "rustfmt", stable=true, {};
-    RustAnalyzer, rust_analyzer, "src/tools/rust-analyzer/crates/rust-analyzer", "rust-analyzer", stable=false, {};
+    Dustfmt, dustfmt, "src/tools/dustfmt", "dustfmt", stable=true, {};
+    DustAnalyzer, dust_analyzer, "src/tools/dust-analyzer/crates/dust-analyzer", "dust-analyzer", stable=false, {};
 );
 
 impl<'a> Builder<'a> {
@@ -735,7 +735,7 @@ impl<'a> Builder<'a> {
         // Notably this munges the dynamic library lookup path to point to the
         // right location to run `compiler`.
         let mut lib_paths: Vec<PathBuf> = vec![
-            self.build.rustc_snapshot_libdir(),
+            self.build.dustc_snapshot_libdir(),
             self.cargo_out(compiler, Mode::ToolBootstrap, *host).join("deps"),
         ];
 
@@ -759,8 +759,8 @@ impl<'a> Builder<'a> {
 
         add_dylib_path(lib_paths, &mut cmd);
 
-        // Provide a RUSTC for this command to use.
-        cmd.env("RUSTC", &self.initial_rustc);
+        // Provide a DUSTC for this command to use.
+        cmd.env("DUSTC", &self.initial_dustc);
 
         cmd
     }

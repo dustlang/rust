@@ -1,10 +1,10 @@
 //! Allocator shim
-// Adapted from rustc
+// Adapted from dustc
 
 use crate::prelude::*;
 
-use rustc_ast::expand::allocator::{AllocatorKind, AllocatorTy, ALLOCATOR_METHODS};
-use rustc_span::symbol::sym;
+use dustc_ast::expand::allocator::{AllocatorKind, AllocatorTy, ALLOCATOR_METHODS};
+use dustc_span::symbol::sym;
 
 /// Returns whether an allocator shim was created
 pub(crate) fn codegen(
@@ -13,7 +13,7 @@ pub(crate) fn codegen(
     unwind_context: &mut UnwindContext<'_>,
 ) -> bool {
     let any_dynamic_crate = tcx.dependency_formats(LOCAL_CRATE).iter().any(|(_, list)| {
-        use rustc_middle::middle::dependency_format::Linkage;
+        use dustc_middle::middle::dependency_format::Linkage;
         list.iter().any(|&linkage| linkage == Linkage::Dynamic)
     });
     if any_dynamic_crate {
@@ -62,7 +62,7 @@ fn codegen_inner(
             returns: output.into_iter().map(AbiParam::new).collect(),
         };
 
-        let caller_name = format!("__rust_{}", method.name);
+        let caller_name = format!("__dust_{}", method.name);
         let callee_name = kind.fn_name(method.name);
         //eprintln!("Codegen allocator shim {} -> {} ({:?} -> {:?})", caller_name, callee_name, sig.params, sig.returns);
 
@@ -107,7 +107,7 @@ fn codegen_inner(
     //eprintln!("Codegen allocator shim {} -> {} ({:?} -> {:?})", caller_name, callee_name, sig.params, sig.returns);
 
     let func_id =
-        module.declare_function("__rust_alloc_error_handler", Linkage::Export, &sig).unwrap();
+        module.declare_function("__dust_alloc_error_handler", Linkage::Export, &sig).unwrap();
 
     let callee_func_id = module.declare_function(&callee_name, Linkage::Import, &sig).unwrap();
 

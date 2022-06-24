@@ -19,49 +19,49 @@ LL | #[builtin::imported_inline]
 error: cannot use a tool module through an import
   --> $DIR/prelude-fail-2.rs:17:3
    |
-LL | #[imported_rustfmt::skip]
+LL | #[imported_dustfmt::skip]
    |   ^^^^^^^^^^^^^^^^
    |
 note: the tool module imported here
   --> $DIR/prelude-fail-2.rs:10:5
    |
-LL | use rustfmt as imported_rustfmt;
+LL | use dustfmt as imported_dustfmt;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: cannot use a tool module through an import
   --> $DIR/prelude-fail-2.rs:19:13
    |
-LL | #[tool_mod::imported_rustfmt::skip]
+LL | #[tool_mod::imported_dustfmt::skip]
    |             ^^^^^^^^^^^^^^^^
    |
 note: the tool module imported here
   --> $DIR/prelude-fail-2.rs:12:13
    |
-LL |     pub use rustfmt as imported_rustfmt;
+LL |     pub use dustfmt as imported_dustfmt;
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: cannot use a tool module through an import
   --> $DIR/prelude-fail-2.rs:17:3
    |
-LL | #[imported_rustfmt::skip]
+LL | #[imported_dustfmt::skip]
    |   ^^^^^^^^^^^^^^^^
    |
 note: the tool module imported here
   --> $DIR/prelude-fail-2.rs:10:5
    |
-LL | use rustfmt as imported_rustfmt;
+LL | use dustfmt as imported_dustfmt;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: cannot use a tool module through an import
   --> $DIR/prelude-fail-2.rs:19:13
    |
-LL | #[tool_mod::imported_rustfmt::skip]
+LL | #[tool_mod::imported_dustfmt::skip]
    |             ^^^^^^^^^^^^^^^^
    |
 note: the tool module imported here
   --> $DIR/prelude-fail-2.rs:12:13
    |
-LL |     pub use rustfmt as imported_rustfmt;
+LL |     pub use dustfmt as imported_dustfmt;
    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: aborting due to 6 previous errors

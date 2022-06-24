@@ -13,26 +13,26 @@ use crate::errors::{
 };
 use crate::middle::resolve_lifetime as rl;
 use crate::require_c_abi_if_c_variadic;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::{struct_span_err, Applicability, ErrorReported, FatalError};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorOf, DefKind, Namespace, Res};
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::intravisit::{walk_generics, Visitor as _};
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{Constness, GenericArg, GenericArgs};
-use rustc_middle::ty::subst::{self, InternalSubsts, Subst, SubstsRef};
-use rustc_middle::ty::GenericParamDefKind;
-use rustc_middle::ty::{self, Const, DefIdTree, Ty, TyCtxt, TypeFoldable};
-use rustc_session::lint::builtin::AMBIGUOUS_ASSOCIATED_ITEMS;
-use rustc_span::lev_distance::find_best_match_for_name;
-use rustc_span::symbol::{Ident, Symbol};
-use rustc_span::{Span, DUMMY_SP};
-use rustc_target::spec::abi;
-use rustc_trait_selection::traits;
-use rustc_trait_selection::traits::astconv_object_safety_violations;
-use rustc_trait_selection::traits::error_reporting::report_object_safety_error;
-use rustc_trait_selection::traits::wf::object_region_bounds;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::{struct_span_err, Applicability, ErrorReported, FatalError};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorOf, DefKind, Namespace, Res};
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::intravisit::{walk_generics, Visitor as _};
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{Constness, GenericArg, GenericArgs};
+use dustc_middle::ty::subst::{self, InternalSubsts, Subst, SubstsRef};
+use dustc_middle::ty::GenericParamDefKind;
+use dustc_middle::ty::{self, Const, DefIdTree, Ty, TyCtxt, TypeFoldable};
+use dustc_session::lint::builtin::AMBIGUOUS_ASSOCIATED_ITEMS;
+use dustc_span::lev_distance::find_best_match_for_name;
+use dustc_span::symbol::{Ident, Symbol};
+use dustc_span::{Span, DUMMY_SP};
+use dustc_target::spec::abi;
+use dustc_trait_selection::traits;
+use dustc_trait_selection::traits::astconv_object_safety_violations;
+use dustc_trait_selection::traits::error_reporting::report_object_safety_error;
+use dustc_trait_selection::traits::wf::object_region_bounds;
 
 use smallvec::SmallVec;
 use std::array;
@@ -1213,7 +1213,7 @@ impl<'o, 'tcx> dyn AstConv<'tcx> + 'o {
             err.note(
                 "auto-traits like `Send` and `Sync` are traits that have special properties; \
                  for more information on them, visit \
-                 <https://doc.rust-lang.org/reference/special-types-and-traits.html#auto-traits>",
+                 <https://doc.dust-lang.org/reference/special-types-and-traits.html#auto-traits>",
             );
             err.emit();
         }
@@ -2412,7 +2412,7 @@ impl<'o, 'tcx> dyn AstConv<'tcx> + 'o {
         &self,
         constrained_regions: FxHashSet<ty::BoundRegionKind>,
         referenced_regions: FxHashSet<ty::BoundRegionKind>,
-        generate_err: impl Fn(&str) -> rustc_errors::DiagnosticBuilder<'tcx>,
+        generate_err: impl Fn(&str) -> dustc_errors::DiagnosticBuilder<'tcx>,
     ) {
         for br in referenced_regions.difference(&constrained_regions) {
             let br_name = match *br {

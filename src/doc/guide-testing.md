@@ -1,4 +1,4 @@
-% The (old) Rust Testing Guide
+% The (old) Dust Testing Guide
 
 This content has moved into
-[the Rust Programming Language book](book/ch11-00-testing.html).
+[the Dust Programming Language book](book/ch11-00-testing.html).

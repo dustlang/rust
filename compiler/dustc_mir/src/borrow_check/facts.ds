@@ -2,9 +2,9 @@ use crate::borrow_check::location::{LocationIndex, LocationTable};
 use crate::dataflow::indexes::{BorrowIndex, MovePathIndex};
 use polonius_engine::AllFacts as PoloniusFacts;
 use polonius_engine::Atom;
-use rustc_index::vec::Idx;
-use rustc_middle::mir::Local;
-use rustc_middle::ty::{RegionVid, TyCtxt};
+use dustc_index::vec::Idx;
+use dustc_middle::mir::Local;
+use dustc_middle::ty::{RegionVid, TyCtxt};
 use std::error::Error;
 use std::fmt::Debug;
 use std::fs::{self, File};
@@ -12,9 +12,9 @@ use std::io::{BufWriter, Write};
 use std::path::Path;
 
 #[derive(Copy, Clone, Debug)]
-crate struct RustcFacts;
+crate struct DustcFacts;
 
-impl polonius_engine::FactTypes for RustcFacts {
+impl polonius_engine::FactTypes for DustcFacts {
     type Origin = RegionVid;
     type Loan = BorrowIndex;
     type Point = LocationIndex;
@@ -22,7 +22,7 @@ impl polonius_engine::FactTypes for RustcFacts {
     type Path = MovePathIndex;
 }
 
-crate type AllFacts = PoloniusFacts<RustcFacts>;
+crate type AllFacts = PoloniusFacts<DustcFacts>;
 
 crate trait AllFactsExt {
     /// Returns `true` if there is a need to gather `AllFacts` given the

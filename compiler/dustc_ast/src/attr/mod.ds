@@ -8,10 +8,10 @@ use crate::ast::{Path, PathSegment};
 use crate::token::{self, CommentKind, Token};
 use crate::tokenstream::{DelimSpan, LazyTokenStream, TokenStream, TokenTree, TreeAndSpacing};
 
-use rustc_index::bit_set::GrowableBitSet;
-use rustc_span::source_map::BytePos;
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::Span;
+use dustc_index::bit_set::GrowableBitSet;
+use dustc_span::source_map::BytePos;
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::Span;
 
 use std::iter;
 

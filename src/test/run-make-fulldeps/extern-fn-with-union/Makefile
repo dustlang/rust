@@ -1,6 +1,6 @@
 -include ../tools.mk
 
 all: $(call NATIVE_STATICLIB,ctest)
-	$(RUSTC) testcrate.rs
-	$(RUSTC) test.rs
+	$(DUSTC) testcrate.rs
+	$(DUSTC) test.rs
 	$(call RUN,test) || exit 1

@@ -1,52 +1,52 @@
-error: cannot find derive macro `rustfmt` in this scope
+error: cannot find derive macro `dustfmt` in this scope
   --> $DIR/tool-attributes-misplaced-1.rs:4:10
    |
-LL | #[derive(rustfmt)]
+LL | #[derive(dustfmt)]
    |          ^^^^^^^
 
-error: cannot find derive macro `rustfmt` in this scope
+error: cannot find derive macro `dustfmt` in this scope
   --> $DIR/tool-attributes-misplaced-1.rs:4:10
    |
-LL | #[derive(rustfmt)]
+LL | #[derive(dustfmt)]
    |          ^^^^^^^
 
-error: cannot find attribute `rustfmt` in this scope
+error: cannot find attribute `dustfmt` in this scope
   --> $DIR/tool-attributes-misplaced-1.rs:9:3
    |
-LL | #[rustfmt]
+LL | #[dustfmt]
    |   ^^^^^^^
 
-error: cannot find macro `rustfmt` in this scope
+error: cannot find macro `dustfmt` in this scope
   --> $DIR/tool-attributes-misplaced-1.rs:15:5
    |
-LL |     rustfmt!();
+LL |     dustfmt!();
    |     ^^^^^^^
 
-error[E0573]: expected type, found tool module `rustfmt`
+error[E0573]: expected type, found tool module `dustfmt`
   --> $DIR/tool-attributes-misplaced-1.rs:1:10
    |
-LL | type A = rustfmt;
+LL | type A = dustfmt;
    |          ^^^^^^^ not a type
 
-error[E0573]: expected type, found tool attribute `rustfmt::skip`
+error[E0573]: expected type, found tool attribute `dustfmt::skip`
   --> $DIR/tool-attributes-misplaced-1.rs:2:10
    |
-LL | type B = rustfmt::skip;
+LL | type B = dustfmt::skip;
    |          ^^^^^^^^^^^^^ not a type
 
-error[E0423]: expected value, found tool module `rustfmt`
+error[E0423]: expected value, found tool module `dustfmt`
   --> $DIR/tool-attributes-misplaced-1.rs:14:5
    |
-LL |     rustfmt;
+LL |     dustfmt;
    |     ^^^^^^^ not a value
 
-error[E0423]: expected value, found tool attribute `rustfmt::skip`
+error[E0423]: expected value, found tool attribute `dustfmt::skip`
   --> $DIR/tool-attributes-misplaced-1.rs:17:5
    |
-LL |     rustfmt::skip;
+LL |     dustfmt::skip;
    |     ^^^^^^^^^^^^^ not a value
 
 error: aborting due to 8 previous errors
 
 Some errors have detailed explanations: E0423, E0573.
-For more information about an error, try `rustc --explain E0423`.
+For more information about an error, try `dustc --explain E0423`.

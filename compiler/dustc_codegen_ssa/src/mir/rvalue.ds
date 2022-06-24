@@ -7,15 +7,15 @@ use crate::common::{self, IntPredicate, RealPredicate};
 use crate::traits::*;
 use crate::MemFlags;
 
-use rustc_apfloat::{ieee, Float, Round, Status};
-use rustc_hir::lang_items::LangItem;
-use rustc_middle::mir;
-use rustc_middle::ty::cast::{CastTy, IntTy};
-use rustc_middle::ty::layout::{HasTyCtxt, TyAndLayout};
-use rustc_middle::ty::{self, adjustment::PointerCast, Instance, Ty, TyCtxt};
-use rustc_span::source_map::{Span, DUMMY_SP};
-use rustc_span::symbol::sym;
-use rustc_target::abi::{Abi, Int, LayoutOf, Variants};
+use dustc_apfloat::{ieee, Float, Round, Status};
+use dustc_hir::lang_items::LangItem;
+use dustc_middle::mir;
+use dustc_middle::ty::cast::{CastTy, IntTy};
+use dustc_middle::ty::layout::{HasTyCtxt, TyAndLayout};
+use dustc_middle::ty::{self, adjustment::PointerCast, Instance, Ty, TyCtxt};
+use dustc_span::source_map::{Span, DUMMY_SP};
+use dustc_span::symbol::sym;
+use dustc_target::abi::{Abi, Int, LayoutOf, Variants};
 
 impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
     pub fn codegen_rvalue(
@@ -187,7 +187,7 @@ impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
                     mir::CastKind::Pointer(PointerCast::ReifyFnPointer) => {
                         match *operand.layout.ty.kind() {
                             ty::FnDef(def_id, substs) => {
-                                if bx.cx().tcx().has_attr(def_id, sym::rustc_args_required_const) {
+                                if bx.cx().tcx().has_attr(def_id, sym::dustc_args_required_const) {
                                     bug!("reifying a fn ptr that requires const arguments");
                                 }
                                 let instance = ty::Instance::resolve_for_fn_ptr(
@@ -720,7 +720,7 @@ impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
         input_ty: Ty<'tcx>,
     ) -> OperandValue<Bx::Value> {
         // This case can currently arise only from functions marked
-        // with #[rustc_inherit_overflow_checks] and inlined from
+        // with #[dustc_inherit_overflow_checks] and inlined from
         // another crate (mostly core::num generic/#[inline] fns),
         // while the current crate doesn't use overflow checks.
         if !bx.cx().check_overflow() {

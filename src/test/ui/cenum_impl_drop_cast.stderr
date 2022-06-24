@@ -10,7 +10,7 @@ note: the lint level is defined here
 LL | #![deny(cenum_impl_drop_cast)]
    |         ^^^^^^^^^^^^^^^^^^^^
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #73333 <https://github.com/rust-lang/rust/issues/73333>
+   = note: for more information, see issue #73333 <https://github.com/dust-lang/dust/issues/73333>
 
 error: aborting due to previous error
 

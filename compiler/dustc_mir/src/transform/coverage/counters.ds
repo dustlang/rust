@@ -8,9 +8,9 @@ use debug::{DebugCounters, NESTED_INDENT};
 use graph::{BasicCoverageBlock, BcbBranch, CoverageGraph, TraverseCoverageGraphWithLoops};
 use spans::CoverageSpan;
 
-use rustc_data_structures::graph::WithNumNodes;
-use rustc_index::bit_set::BitSet;
-use rustc_middle::mir::coverage::*;
+use dustc_data_structures::graph::WithNumNodes;
+use dustc_index::bit_set::BitSet;
+use dustc_middle::mir::coverage::*;
 
 /// Manages the counter and expression indexes/IDs to generate `CoverageKind` components for MIR
 /// `Coverage` statements.

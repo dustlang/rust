@@ -1,5 +1,5 @@
 // edition:2018
-// run-rustfix
+// run-dustfix
 
 #![feature(async_closure)]
 

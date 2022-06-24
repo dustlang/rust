@@ -1,23 +1,23 @@
-//! Low-level Rust lexer.
+//! Low-level Dust lexer.
 //!
-//! The idea with `librustc_lexer` is to make a reusable library,
-//! by separating out pure lexing and rustc-specific concerns, like spans,
-//! error reporting, and interning.  So, rustc_lexer operates directly on `&str`,
+//! The idea with `libdustc_lexer` is to make a reusable library,
+//! by separating out pure lexing and dustc-specific concerns, like spans,
+//! error reporting, and interning.  So, dustc_lexer operates directly on `&str`,
 //! produces simple tokens which are a pair of type-tag and a bit of original text,
 //! and does not report errors, instead storing them as flags on the token.
 //!
-//! Tokens produced by this lexer are not yet ready for parsing the Rust syntax.
-//! For that see [`librustc_parse::lexer`], which converts this basic token stream
+//! Tokens produced by this lexer are not yet ready for parsing the Dust syntax.
+//! For that see [`libdustc_parse::lexer`], which converts this basic token stream
 //! into wide tokens used by actual parser.
 //!
 //! The purpose of this crate is to convert raw sources into a labeled sequence
-//! of well-known token types, so building an actual Rust token stream will
+//! of well-known token types, so building an actual Dust token stream will
 //! be easier.
 //!
 //! The main entity of this crate is the [`TokenKind`] enum which represents common
 //! lexeme types.
 //!
-//! [`librustc_parse::lexer`]: ../rustc_parse/lexer/index.html
+//! [`libdustc_parse::lexer`]: ../dustc_parse/lexer/index.html
 // We want to be able to build this crate with a stable compiler, so no
 // `#![feature]` attributes should be added.
 
@@ -186,15 +186,15 @@ pub enum Base {
     Decimal,
 }
 
-/// `rustc` allows files to have a shebang, e.g. "#!/usr/bin/rustrun",
-/// but shebang isn't a part of rust syntax.
+/// `dustc` allows files to have a shebang, e.g. "#!/usr/bin/dustrun",
+/// but shebang isn't a part of dust syntax.
 pub fn strip_shebang(input: &str) -> Option<usize> {
     // Shebang must start with `#!` literally, without any preceding whitespace.
     // For simplicity we consider any line starting with `#!` a shebang,
     // regardless of restrictions put on shebangs by specific platforms.
     if let Some(input_tail) = input.strip_prefix("#!") {
         // Ok, this is a shebang but if the next non-whitespace token is `[`,
-        // then it may be valid Rust code, so consider it Rust code.
+        // then it may be valid Dust code, so consider it Dust code.
         let next_non_whitespace_token = tokenize(input_tail).map(|tok| tok.kind).find(|tok| {
             !matches!(
                 tok,
@@ -229,8 +229,8 @@ pub fn tokenize(mut input: &str) -> impl Iterator<Item = Token> + '_ {
     })
 }
 
-/// True if `c` is considered a whitespace according to Rust language definition.
-/// See [Rust language reference](https://doc.rust-lang.org/reference/whitespace.html)
+/// True if `c` is considered a whitespace according to Dust language definition.
+/// See [Dust language reference](https://doc.dust-lang.org/reference/whitespace.html)
 /// for definitions of these classes.
 pub fn is_whitespace(c: char) -> bool {
     // This is Pattern_White_Space.
@@ -262,7 +262,7 @@ pub fn is_whitespace(c: char) -> bool {
 }
 
 /// True if `c` is valid as a first character of an identifier.
-/// See [Rust language reference](https://doc.rust-lang.org/reference/identifiers.html) for
+/// See [Dust language reference](https://doc.dust-lang.org/reference/identifiers.html) for
 /// a formal definition of valid identifier name.
 pub fn is_id_start(c: char) -> bool {
     // This is XID_Start OR '_' (which formally is not a XID_Start).
@@ -274,7 +274,7 @@ pub fn is_id_start(c: char) -> bool {
 }
 
 /// True if `c` is valid as a non-first character of an identifier.
-/// See [Rust language reference](https://doc.rust-lang.org/reference/identifiers.html) for
+/// See [Dust language reference](https://doc.dust-lang.org/reference/identifiers.html) for
 /// a formal definition of valid identifier name.
 pub fn is_id_continue(c: char) -> bool {
     // This is exactly XID_Continue.

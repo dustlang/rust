@@ -1,10 +1,10 @@
-#![feature(rustc_attrs, const_fn)]
+#![feature(dustc_attrs, const_fn)]
 
-#[rustc_args_required_const(0)]
+#[dustc_args_required_const(0)]
 fn foo(_a: i32) {
 }
 
-#[rustc_args_required_const(1)]
+#[dustc_args_required_const(1)]
 fn bar(_a: i32, _b: i32) {
 }
 

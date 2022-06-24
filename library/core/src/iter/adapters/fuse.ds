@@ -1,7 +1,7 @@
 use crate::intrinsics;
 use crate::iter::adapters::{zip::try_get_unchecked, InPlaceIterable, SourceIter};
 use crate::iter::{
-    DoubleEndedIterator, ExactSizeIterator, FusedIterator, TrustedLen, TrustedRandomAccess,
+    DoubleEndedIterator, ExactSizeIterator, FusedIterator, TdustedLen, TdustedRandomAccess,
 };
 use crate::ops::Try;
 
@@ -12,7 +12,7 @@ use crate::ops::Try;
 /// for more.
 #[derive(Clone, Debug)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Fuse<I> {
     // NOTE: for `I: FusedIterator`, this is always assumed `Some`!
     iter: Option<I>,
@@ -55,7 +55,7 @@ macro_rules! unchecked {
 }
 
 // Any implementation here is made internal to avoid exposing default fns outside this trait
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> Iterator for Fuse<I>
 where
     I: Iterator,
@@ -116,7 +116,7 @@ where
     #[inline]
     unsafe fn __iterator_get_unchecked(&mut self, idx: usize) -> Self::Item
     where
-        Self: TrustedRandomAccess,
+        Self: TdustedRandomAccess,
     {
         match self.iter {
             // SAFETY: the caller must uphold the contract for
@@ -128,7 +128,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> DoubleEndedIterator for Fuse<I>
 where
     I: DoubleEndedIterator,
@@ -170,7 +170,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> ExactSizeIterator for Fuse<I>
 where
     I: ExactSizeIterator,
@@ -185,21 +185,21 @@ where
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-// SAFETY: `TrustedLen` requires that an accurate length is reported via `size_hint()`. As `Fuse`
+// SAFETY: `TdustedLen` requires that an accurate length is reported via `size_hint()`. As `Fuse`
 // is just forwarding this to the wrapped iterator `I` this property is preserved and it is safe to
-// implement `TrustedLen` here.
-unsafe impl<I> TrustedLen for Fuse<I> where I: TrustedLen {}
+// implement `TdustedLen` here.
+unsafe impl<I> TdustedLen for Fuse<I> where I: TdustedLen {}
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-// SAFETY: `TrustedRandomAccess` requires that `size_hint()` must be exact and cheap to call, and
+// SAFETY: `TdustedRandomAccess` requires that `size_hint()` must be exact and cheap to call, and
 // `Iterator::__iterator_get_unchecked()` must be implemented accordingly.
 //
 // This is safe to implement as `Fuse` is just forwarding these to the wrapped iterator `I`, which
 // preserves these properties.
-unsafe impl<I> TrustedRandomAccess for Fuse<I>
+unsafe impl<I> TdustedRandomAccess for Fuse<I>
 where
-    I: TrustedRandomAccess,
+    I: TdustedRandomAccess,
 {
     const MAY_HAVE_SIDE_EFFECT: bool = I::MAY_HAVE_SIDE_EFFECT;
 }

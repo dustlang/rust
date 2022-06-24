@@ -2,11 +2,11 @@
 //! allows bidirectional lookup; i.e., given a value, one can easily find the
 //! type, and vice versa.
 
-use rustc_arena::DroplessArena;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher, ToStableHashKey};
-use rustc_macros::HashStable_Generic;
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
+use dustc_arena::DroplessArena;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher, ToStableHashKey};
+use dustc_macros::HashStable_Generic;
+use dustc_serialize::{Decodable, Decoder, Encodable, Encoder};
 
 use std::cmp::{Ord, PartialEq, PartialOrd};
 use std::fmt;
@@ -18,7 +18,7 @@ use crate::{Edition, Span, DUMMY_SP, SESSION_GLOBALS};
 #[cfg(test)]
 mod tests;
 
-// The proc macro code for this is in `compiler/rustc_macros/src/symbols.rs`.
+// The proc macro code for this is in `compiler/dustc_macros/src/symbols.rs`.
 symbols! {
     // After modifying this list adjust `is_special`, `is_used_keyword`/`is_unused_keyword`,
     // this should be rarely necessary though if the keywords are kept in alphabetic order.
@@ -30,7 +30,7 @@ symbols! {
         DollarCrate:        "$crate",
         Underscore:         "_",
 
-        // Keywords that are used in stable Rust.
+        // Keywords that are used in stable Dust.
         As:                 "as",
         Break:              "break",
         Const:              "const",
@@ -67,7 +67,7 @@ symbols! {
         Where:              "where",
         While:              "while",
 
-        // Keywords that are used in unstable Rust or reserved for future use.
+        // Keywords that are used in unstable Dust or reserved for future use.
         Abstract:           "abstract",
         Become:             "become",
         Box:                "box",
@@ -81,12 +81,12 @@ symbols! {
         Virtual:            "virtual",
         Yield:              "yield",
 
-        // Edition-specific keywords that are used in stable Rust.
+        // Edition-specific keywords that are used in stable Dust.
         Async:              "async", // >= 2018 Edition only
         Await:              "await", // >= 2018 Edition only
         Dyn:                "dyn", // >= 2018 Edition only
 
-        // Edition-specific keywords that are used in unstable Rust or reserved for future use.
+        // Edition-specific keywords that are used in unstable Dust or reserved for future use.
         Try:                "try", // >= 2018 Edition only
 
         // Special lifetime names
@@ -102,7 +102,7 @@ symbols! {
         Union:              "union",
     }
 
-    // Pre-interned symbols that can be referred to with `rustc_span::sym::*`.
+    // Pre-interned symbols that can be referred to with `dustc_span::sym::*`.
     //
     // The symbol is the stringified identifier unless otherwise specified, in
     // which case the name should mention the non-identifier punctuation.
@@ -201,8 +201,8 @@ symbols! {
         Result,
         Return,
         Right,
-        RustcDecodable,
-        RustcEncodable,
+        DustcDecodable,
+        DustcEncodable,
         Send,
         Some,
         StructuralEq,
@@ -959,81 +959,81 @@ symbols! {
         roundf64,
         rt,
         rtm_target_feature,
-        rust,
-        rust_2015,
-        rust_2015_preview,
-        rust_2018,
-        rust_2018_preview,
-        rust_2021,
-        rust_2021_preview,
-        rust_begin_unwind,
-        rust_eh_catch_typeinfo,
-        rust_eh_personality,
-        rust_eh_register_frames,
-        rust_eh_unregister_frames,
-        rust_oom,
-        rustc,
-        rustc_allocator,
-        rustc_allocator_nounwind,
-        rustc_allow_const_fn_unstable,
-        rustc_args_required_const,
-        rustc_attrs,
-        rustc_builtin_macro,
-        rustc_capture_analysis,
-        rustc_clean,
-        rustc_const_stable,
-        rustc_const_unstable,
-        rustc_conversion_suggestion,
-        rustc_def_path,
-        rustc_deprecated,
-        rustc_diagnostic_item,
-        rustc_diagnostic_macros,
-        rustc_dirty,
-        rustc_dummy,
-        rustc_dump_env_program_clauses,
-        rustc_dump_program_clauses,
-        rustc_dump_user_substs,
-        rustc_error,
-        rustc_expected_cgu_reuse,
-        rustc_if_this_changed,
-        rustc_inherit_overflow_checks,
-        rustc_layout,
-        rustc_layout_scalar_valid_range_end,
-        rustc_layout_scalar_valid_range_start,
-        rustc_legacy_const_generics,
-        rustc_macro_transparency,
-        rustc_mir,
-        rustc_nonnull_optimization_guaranteed,
-        rustc_object_lifetime_default,
-        rustc_on_unimplemented,
-        rustc_outlives,
-        rustc_paren_sugar,
-        rustc_partition_codegened,
-        rustc_partition_reused,
-        rustc_peek,
-        rustc_peek_definite_init,
-        rustc_peek_indirectly_mutable,
-        rustc_peek_liveness,
-        rustc_peek_maybe_init,
-        rustc_peek_maybe_uninit,
-        rustc_polymorphize_error,
-        rustc_private,
-        rustc_proc_macro_decls,
-        rustc_promotable,
-        rustc_regions,
-        rustc_reservation_impl,
-        rustc_serialize,
-        rustc_specialization_trait,
-        rustc_stable,
-        rustc_std_internal_symbol,
-        rustc_symbol_name,
-        rustc_synthetic,
-        rustc_test_marker,
-        rustc_then_this_would_need,
-        rustc_unsafe_specialization_marker,
-        rustc_variance,
-        rustdoc,
-        rustfmt,
+        dust,
+        dust_2015,
+        dust_2015_preview,
+        dust_2018,
+        dust_2018_preview,
+        dust_2021,
+        dust_2021_preview,
+        dust_begin_unwind,
+        dust_eh_catch_typeinfo,
+        dust_eh_personality,
+        dust_eh_register_frames,
+        dust_eh_unregister_frames,
+        dust_oom,
+        dustc,
+        dustc_allocator,
+        dustc_allocator_nounwind,
+        dustc_allow_const_fn_unstable,
+        dustc_args_required_const,
+        dustc_attrs,
+        dustc_builtin_macro,
+        dustc_capture_analysis,
+        dustc_clean,
+        dustc_const_stable,
+        dustc_const_unstable,
+        dustc_conversion_suggestion,
+        dustc_def_path,
+        dustc_deprecated,
+        dustc_diagnostic_item,
+        dustc_diagnostic_macros,
+        dustc_dirty,
+        dustc_dummy,
+        dustc_dump_env_program_clauses,
+        dustc_dump_program_clauses,
+        dustc_dump_user_substs,
+        dustc_error,
+        dustc_expected_cgu_reuse,
+        dustc_if_this_changed,
+        dustc_inherit_overflow_checks,
+        dustc_layout,
+        dustc_layout_scalar_valid_range_end,
+        dustc_layout_scalar_valid_range_start,
+        dustc_legacy_const_generics,
+        dustc_macro_transparency,
+        dustc_mir,
+        dustc_nonnull_optimization_guaranteed,
+        dustc_object_lifetime_default,
+        dustc_on_unimplemented,
+        dustc_outlives,
+        dustc_paren_sugar,
+        dustc_partition_codegened,
+        dustc_partition_reused,
+        dustc_peek,
+        dustc_peek_definite_init,
+        dustc_peek_indirectly_mutable,
+        dustc_peek_liveness,
+        dustc_peek_maybe_init,
+        dustc_peek_maybe_uninit,
+        dustc_polymorphize_error,
+        dustc_private,
+        dustc_proc_macro_decls,
+        dustc_promotable,
+        dustc_regions,
+        dustc_reservation_impl,
+        dustc_serialize,
+        dustc_specialization_trait,
+        dustc_stable,
+        dustc_std_internal_symbol,
+        dustc_symbol_name,
+        dustc_synthetic,
+        dustc_test_marker,
+        dustc_then_this_would_need,
+        dustc_unsafe_specialization_marker,
+        dustc_variance,
+        dustdoc,
+        dustfmt,
         rvalue_static_promotion,
         sanitize,
         sanitizer_runtime,
@@ -1406,7 +1406,7 @@ impl fmt::Display for Ident {
 /// This is the most general way to print identifiers.
 /// AST pretty-printer is used as a fallback for turning AST structures into token streams for
 /// proc macros. Additionally, proc macros may stringify their input and expect it survive the
-/// stringification (especially true for proc macro derives written between Rust 1.15 and 1.30).
+/// stringification (especially true for proc macro derives written between Dust 1.15 and 1.30).
 /// So we need to somehow pretty-print `$crate` in a way preserving at least some of its
 /// hygiene data, most importantly name of the crate it refers to.
 /// As a result we print `$crate` as `crate` if it refers to the local crate
@@ -1483,15 +1483,15 @@ impl fmt::Display for MacroRulesNormalizedIdent {
 ///
 /// Internally, a `Symbol` is implemented as an index, and all operations
 /// (including hashing, equality, and ordering) operate on that index. The use
-/// of `rustc_index::newtype_index!` means that `Option<Symbol>` only takes up 4 bytes,
-/// because `rustc_index::newtype_index!` reserves the last 256 values for tagging purposes.
+/// of `dustc_index::newtype_index!` means that `Option<Symbol>` only takes up 4 bytes,
+/// because `dustc_index::newtype_index!` reserves the last 256 values for tagging purposes.
 ///
-/// Note that `Symbol` cannot directly be a `rustc_index::newtype_index!` because it
+/// Note that `Symbol` cannot directly be a `dustc_index::newtype_index!` because it
 /// implements `fmt::Debug`, `Encodable`, and `Decodable` in special ways.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Symbol(SymbolIndex);
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct SymbolIndex { .. }
 }
 
@@ -1632,7 +1632,7 @@ pub mod kw {
 /// This module contains all the defined non-keyword `Symbol`s.
 ///
 /// Given that `sym` is imported, use them like `sym::symbol_name`.
-/// For example `sym::rustfmt` or `sym::u8`.
+/// For example `sym::dustfmt` or `sym::u8`.
 pub mod sym {
     use super::Symbol;
     use std::convert::TryInto;
@@ -1640,7 +1640,7 @@ pub mod sym {
     #[doc(inline)]
     pub use super::sym_generated::*;
 
-    // Used from a macro in `librustc_feature/accepted.rs`
+    // Used from a macro in `libdustc_feature/accepted.rs`
     pub use super::kw::MacroRules as macro_rules;
 
     /// Get the symbol for an integer.

@@ -41,4 +41,4 @@ LL |     let Alias::Unit() = panic!();
 error: aborting due to 5 previous errors
 
 Some errors have detailed explanations: E0164, E0533, E0618.
-For more information about an error, try `rustc --explain E0164`.
+For more information about an error, try `dustc --explain E0164`.

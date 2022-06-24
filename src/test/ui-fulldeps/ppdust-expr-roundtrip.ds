@@ -17,25 +17,25 @@
 //    and parser. So if all combinations of exprs involving `if` work correctly, then combinations
 //    using `while`, `if let`, and so on will likely work as well.
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_ast_pretty;
-extern crate rustc_data_structures;
-extern crate rustc_ast;
-extern crate rustc_parse;
-extern crate rustc_session;
-extern crate rustc_span;
+extern crate dustc_ast_pretty;
+extern crate dustc_data_structures;
+extern crate dustc_ast;
+extern crate dustc_parse;
+extern crate dustc_session;
+extern crate dustc_span;
 
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::thin_vec::ThinVec;
-use rustc_parse::new_parser_from_source_str;
-use rustc_session::parse::ParseSess;
-use rustc_span::source_map::{Spanned, DUMMY_SP, FileName};
-use rustc_span::source_map::FilePathMapping;
-use rustc_span::symbol::Ident;
-use rustc_ast::*;
-use rustc_ast::mut_visit::{self, MutVisitor, visit_clobber};
-use rustc_ast::ptr::P;
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::thin_vec::ThinVec;
+use dustc_parse::new_parser_from_source_str;
+use dustc_session::parse::ParseSess;
+use dustc_span::source_map::{Spanned, DUMMY_SP, FileName};
+use dustc_span::source_map::FilePathMapping;
+use dustc_span::symbol::Ident;
+use dustc_ast::*;
+use dustc_ast::mut_visit::{self, MutVisitor, visit_clobber};
+use dustc_ast::ptr::P;
 
 fn parse_expr(ps: &ParseSess, src: &str) -> Option<P<Expr>> {
     let src_as_string = src.to_string();
@@ -212,7 +212,7 @@ impl MutVisitor for AddParens {
 }
 
 fn main() {
-    rustc_span::with_default_session_globals(|| run());
+    dustc_span::with_default_session_globals(|| run());
 }
 
 fn run() {
@@ -221,7 +221,7 @@ fn run() {
     iter_exprs(2, &mut |mut e| {
         // If the pretty printer is correct, then `parse(print(e))` should be identical to `e`,
         // modulo placement of `Paren` nodes.
-        let printed = pprust::expr_to_string(&e);
+        let printed = ppdust::expr_to_string(&e);
         println!("printed: {}", printed);
 
         // Ignore expressions with chained comparisons that fail to parse
@@ -234,10 +234,10 @@ fn run() {
             // aren't relying on the correctness of the very thing we're testing.
             RemoveParens.visit_expr(&mut e);
             AddParens.visit_expr(&mut e);
-            let text1 = pprust::expr_to_string(&e);
+            let text1 = ppdust::expr_to_string(&e);
             RemoveParens.visit_expr(&mut parsed);
             AddParens.visit_expr(&mut parsed);
-            let text2 = pprust::expr_to_string(&parsed);
+            let text2 = ppdust::expr_to_string(&parsed);
             assert!(text1 == text2,
                     "exprs are not equal:\n  e =      {:?}\n  parsed = {:?}",
                     text1, text2);

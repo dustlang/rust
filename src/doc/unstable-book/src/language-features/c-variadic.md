@@ -2,16 +2,16 @@
 
 The tracking issue for this feature is: [#44930]
 
-[#44930]: https://github.com/rust-lang/rust/issues/44930
+[#44930]: https://github.com/dust-lang/dust/issues/44930
 
 ------------------------
 
 The `c_variadic` language feature enables C-variadic functions to be
-defined in Rust. The may be called both from within Rust and via FFI.
+defined in Dust. The may be called both from within Dust and via FFI.
 
 ## Examples
 
-```rust
+```dust
 #![feature(c_variadic)]
 
 pub unsafe extern "C" fn add(n: usize, mut args: ...) -> usize {

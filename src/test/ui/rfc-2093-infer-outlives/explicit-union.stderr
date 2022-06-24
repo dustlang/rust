@@ -1,4 +1,4 @@
-error: rustc_outlives
+error: dustc_outlives
   --> $DIR/explicit-union.rs:5:1
    |
 LL | / union Foo<'b, U: Copy> {

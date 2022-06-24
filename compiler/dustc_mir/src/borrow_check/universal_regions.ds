@@ -13,17 +13,17 @@
 //! just returns them for other code to use.
 
 use either::Either;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::DiagnosticBuilder;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{BodyOwnerKind, HirId};
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_infer::infer::{InferCtxt, NllRegionVariableOrigin};
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::subst::{InternalSubsts, Subst, SubstsRef};
-use rustc_middle::ty::{self, RegionVid, Ty, TyCtxt};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::DiagnosticBuilder;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{BodyOwnerKind, HirId};
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_infer::infer::{InferCtxt, NllRegionVariableOrigin};
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::subst::{InternalSubsts, Subst, SubstsRef};
+use dustc_middle::ty::{self, RegionVid, Ty, TyCtxt};
 use std::iter;
 
 use crate::borrow_check::nll::ToRegionVid;
@@ -331,7 +331,7 @@ impl<'tcx> UniversalRegions<'tcx> {
     }
 
     /// As part of the NLL unit tests, you can annotate a function with
-    /// `#[rustc_regions]`, and we will emit information about the region
+    /// `#[dustc_regions]`, and we will emit information about the region
     /// inference context and -- in particular -- the external constraints
     /// that this region imposes on others. The methods in this file
     /// handle the part about dumping the inference context internal

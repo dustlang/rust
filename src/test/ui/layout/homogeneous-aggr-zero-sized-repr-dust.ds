@@ -1,4 +1,4 @@
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 // Regression test for #56877. We want to ensure that the presence of
 // `PhantomData` does not prevent `Bar` from being considered a
@@ -17,57 +17,57 @@ pub struct WithPhantomData {
     pub _unit: std::marker::PhantomData<()>,
 }
 
-pub struct EmptyRustStruct {
+pub struct EmptyDustStruct {
 }
 
 #[repr(C)]
-pub struct WithEmptyRustStruct {
+pub struct WithEmptyDustStruct {
     pub a: f32,
     pub b: f32,
-    pub _unit: EmptyRustStruct,
+    pub _unit: EmptyDustStruct,
 }
 
-pub struct TransitivelyEmptyRustStruct {
-    field: EmptyRustStruct,
+pub struct TransitivelyEmptyDustStruct {
+    field: EmptyDustStruct,
     array: [u32; 0],
 }
 
 #[repr(C)]
-pub struct WithTransitivelyEmptyRustStruct {
+pub struct WithTransitivelyEmptyDustStruct {
     pub a: f32,
     pub b: f32,
-    pub _unit: TransitivelyEmptyRustStruct,
+    pub _unit: TransitivelyEmptyDustStruct,
 }
 
-pub enum EmptyRustEnum {
+pub enum EmptyDustEnum {
     Dummy,
 }
 
 #[repr(C)]
-pub struct WithEmptyRustEnum {
+pub struct WithEmptyDustEnum {
     pub a: f32,
     pub b: f32,
-    pub _unit: EmptyRustEnum,
+    pub _unit: EmptyDustEnum,
 }
 
-#[rustc_layout(homogeneous_aggregate)]
+#[dustc_layout(homogeneous_aggregate)]
 pub type Test1 = BaseCase;
 //~^ ERROR homogeneous_aggregate: Ok(Homogeneous(Reg { kind: Float, size: Size { raw: 4 } }))
 
-#[rustc_layout(homogeneous_aggregate)]
+#[dustc_layout(homogeneous_aggregate)]
 pub type Test2 = WithPhantomData;
 //~^ ERROR homogeneous_aggregate: Ok(Homogeneous(Reg { kind: Float, size: Size { raw: 4 } }))
 
-#[rustc_layout(homogeneous_aggregate)]
-pub type Test3 = WithEmptyRustStruct;
+#[dustc_layout(homogeneous_aggregate)]
+pub type Test3 = WithEmptyDustStruct;
 //~^ ERROR homogeneous_aggregate: Ok(Homogeneous(Reg { kind: Float, size: Size { raw: 4 } }))
 
-#[rustc_layout(homogeneous_aggregate)]
-pub type Test4 = WithTransitivelyEmptyRustStruct;
+#[dustc_layout(homogeneous_aggregate)]
+pub type Test4 = WithTransitivelyEmptyDustStruct;
 //~^ ERROR homogeneous_aggregate: Ok(Homogeneous(Reg { kind: Float, size: Size { raw: 4 } }))
 
-#[rustc_layout(homogeneous_aggregate)]
-pub type Test5 = WithEmptyRustEnum;
+#[dustc_layout(homogeneous_aggregate)]
+pub type Test5 = WithEmptyDustEnum;
 //~^ ERROR homogeneous_aggregate: Ok(Homogeneous(Reg { kind: Float, size: Size { raw: 4 } }))
 
 fn main() { }

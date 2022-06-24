@@ -20,4 +20,4 @@ LL | impl<Foo> Deref for Foo { }
 error: aborting due to 2 previous errors
 
 Some errors have detailed explanations: E0119, E0210.
-For more information about an error, try `rustc --explain E0119`.
+For more information about an error, try `dustc --explain E0119`.

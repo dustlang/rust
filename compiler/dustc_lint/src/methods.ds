@@ -1,9 +1,9 @@
 use crate::LateContext;
 use crate::LateLintPass;
 use crate::LintContext;
-use rustc_hir::{Expr, ExprKind, PathSegment};
-use rustc_middle::ty;
-use rustc_span::{symbol::sym, ExpnKind, Span};
+use dustc_hir::{Expr, ExprKind, PathSegment};
+use dustc_middle::ty;
+use dustc_span::{symbol::sym, ExpnKind, Span};
 
 declare_lint! {
     /// The `temporary_cstring_as_ptr` lint detects getting the inner pointer of
@@ -11,7 +11,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// # #![allow(unused)]
     /// # use std::ffi::CString;
     /// let c_str = CString::new("foo").unwrap().as_ptr();
@@ -79,8 +79,8 @@ impl<'tcx> LateLintPass<'tcx> for TemporaryCStringAsPtr {
 fn lint_cstring_as_ptr(
     cx: &LateContext<'_>,
     as_ptr_span: Span,
-    source: &rustc_hir::Expr<'_>,
-    unwrap: &rustc_hir::Expr<'_>,
+    source: &dustc_hir::Expr<'_>,
+    unwrap: &dustc_hir::Expr<'_>,
 ) {
     let source_type = cx.typeck_results().expr_ty(source);
     if let ty::Adt(def, substs) = source_type.kind() {
@@ -96,7 +96,7 @@ fn lint_cstring_as_ptr(
                             "this `CString` is deallocated at the end of the statement, bind it to a variable to extend its lifetime",
                         );
                         diag.note("pointers do not have a lifetime; when calling `as_ptr` the `CString` will be deallocated at the end of the statement because nothing is referencing it as far as the type system is concerned");
-                        diag.help("for more information, see https://doc.rust-lang.org/reference/destructors.html");
+                        diag.help("for more information, see https://doc.dust-lang.org/reference/destructors.html");
                         diag.emit();
                     });
                 }

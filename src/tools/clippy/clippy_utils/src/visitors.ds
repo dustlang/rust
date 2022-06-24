@@ -1,9 +1,9 @@
 use crate::path_to_local_id;
-use rustc_hir as hir;
-use rustc_hir::intravisit::{self, walk_expr, NestedVisitorMap, Visitor};
-use rustc_hir::{Arm, Body, Expr, HirId, Stmt};
-use rustc_lint::LateContext;
-use rustc_middle::hir::map::Map;
+use dustc_hir as hir;
+use dustc_hir::intravisit::{self, walk_expr, NestedVisitorMap, Visitor};
+use dustc_hir::{Arm, Body, Expr, HirId, Stmt};
+use dustc_lint::LateContext;
+use dustc_middle::hir::map::Map;
 
 /// returns `true` if expr contains match expr desugared from try
 fn contains_try(expr: &hir::Expr<'_>) -> bool {

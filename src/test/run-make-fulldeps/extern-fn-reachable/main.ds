@@ -1,8 +1,8 @@
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_metadata;
+extern crate dustc_metadata;
 
-use rustc_metadata::dynamic_lib::DynamicLibrary;
+use dustc_metadata::dynamic_lib::DynamicLibrary;
 use std::path::Path;
 
 pub fn main() {

@@ -1,11 +1,11 @@
 //! lint on inherent implementations
 
 use crate::utils::{in_macro, span_lint_and_then};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir::{def_id, Crate, Impl, Item, ItemKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::Span;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir::{def_id, Crate, Impl, Item, ItemKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::Span;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for multiple inherent implementations of a struct
@@ -15,7 +15,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// struct X;
     /// impl X {
     ///     fn one() {}
@@ -27,7 +27,7 @@ declare_clippy_lint! {
     ///
     /// Could be written:
     ///
-    /// ```rust
+    /// ```dust
     /// struct X;
     /// impl X {
     ///     fn one() {}

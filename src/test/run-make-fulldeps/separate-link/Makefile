@@ -1,6 +1,6 @@
 -include ../tools.mk
 
 all:
-	echo 'fn main(){}' | $(RUSTC) -Z no-link -
-	$(RUSTC) -Z link-only $(TMPDIR)/rust_out.rlink
-	$(call RUN,rust_out)
+	echo 'fn main(){}' | $(DUSTC) -Z no-link -
+	$(DUSTC) -Z link-only $(TMPDIR)/dust_out.rlink
+	$(call RUN,dust_out)

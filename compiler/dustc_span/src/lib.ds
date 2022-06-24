@@ -13,7 +13,7 @@
 //!
 //! This API is completely unstable and subject to change.
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(array_windows)]
 #![feature(crate_visibility_modifier)]
 #![feature(const_fn)]
@@ -24,11 +24,11 @@
 #![feature(option_expect_none)]
 
 #[macro_use]
-extern crate rustc_macros;
+extern crate dustc_macros;
 
-use rustc_data_structures::AtomicRef;
-use rustc_macros::HashStable_Generic;
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
+use dustc_data_structures::AtomicRef;
+use dustc_macros::HashStable_Generic;
+use dustc_serialize::{Decodable, Decoder, Encodable, Encoder};
 
 mod caching_source_map_view;
 pub mod source_map;
@@ -55,9 +55,9 @@ pub use symbol::{sym, Symbol};
 mod analyze_source_file;
 pub mod fatal_error;
 
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::sync::{Lock, Lrc};
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::sync::{Lock, Lrc};
 
 use std::borrow::Cow;
 use std::cell::RefCell;
@@ -115,10 +115,10 @@ pub fn with_default_session_globals<R>(f: impl FnOnce() -> R) -> R {
 // deserialization.
 scoped_tls::scoped_thread_local!(pub static SESSION_GLOBALS: SessionGlobals);
 
-// FIXME: Perhaps this should not implement Rustc{Decodable, Encodable}
+// FIXME: Perhaps this should not implement Dustc{Decodable, Encodable}
 //
 // FIXME: We should use this enum or something like it to get rid of the
-// use of magic `/rust/1.x/...` paths across the board.
+// use of magic `/dust/1.x/...` paths across the board.
 #[derive(Debug, Eq, PartialEq, Clone, Ord, PartialOrd, Hash)]
 #[derive(HashStable_Generic, Decodable, Encodable)]
 pub enum RealFileName {
@@ -128,7 +128,7 @@ pub enum RealFileName {
     Devirtualized {
         /// `local_path` is the (host-dependent) local path to the file.
         local_path: PathBuf,
-        /// `virtual_name` is the stable path rustc will store internally within
+        /// `virtual_name` is the stable path dustc will store internally within
         /// build artifacts.
         virtual_name: PathBuf,
     },
@@ -174,7 +174,7 @@ pub enum FileName {
     QuoteExpansion(u64),
     /// Command line.
     Anon(u64),
-    /// Hack in `src/librustc_ast/parse.rs`.
+    /// Hack in `src/libdustc_ast/parse.rs`.
     // FIXME(jseyfried)
     MacroExpansion(u64),
     ProcMacroSourceCode(u64),
@@ -479,17 +479,17 @@ impl Span {
     }
 
     #[inline]
-    pub fn rust_2015(&self) -> bool {
+    pub fn dust_2015(&self) -> bool {
         self.edition() == edition::Edition::Edition2015
     }
 
     #[inline]
-    pub fn rust_2018(&self) -> bool {
+    pub fn dust_2018(&self) -> bool {
         self.edition() >= edition::Edition::Edition2018
     }
 
     #[inline]
-    pub fn rust_2021(&self) -> bool {
+    pub fn dust_2021(&self) -> bool {
         self.edition() >= edition::Edition::Edition2021
     }
 
@@ -767,8 +767,8 @@ impl<D: Decoder> Decodable<D> for Span {
 /// any spans that are debug-printed during the closure's execution.
 ///
 /// Normally, the global `TyCtxt` is used to retrieve the `SourceMap`
-/// (see `rustc_interface::callbacks::span_debug1`). However, some parts
-/// of the compiler (e.g. `rustc_parse`) may debug-print `Span`s before
+/// (see `dustc_interface::callbacks::span_debug1`). However, some parts
+/// of the compiler (e.g. `dustc_parse`) may debug-print `Span`s before
 /// a `TyCtxt` is available. In this case, we fall back to
 /// the `SourceMap` provided to this function. If that is not available,
 /// we fall back to printing the raw `Span` field values.
@@ -1073,7 +1073,7 @@ impl FromStr for SourceFileHashAlgorithm {
     }
 }
 
-rustc_data_structures::impl_stable_hash_via_hash!(SourceFileHashAlgorithm);
+dustc_data_structures::impl_stable_hash_via_hash!(SourceFileHashAlgorithm);
 
 /// The hash of the on-disk source file used for debug info.
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
@@ -1744,13 +1744,13 @@ impl_pos! {
     pub struct CharPos(pub usize);
 }
 
-impl<S: rustc_serialize::Encoder> Encodable<S> for BytePos {
+impl<S: dustc_serialize::Encoder> Encodable<S> for BytePos {
     fn encode(&self, s: &mut S) -> Result<(), S::Error> {
         s.emit_u32(self.0)
     }
 }
 
-impl<D: rustc_serialize::Decoder> Decodable<D> for BytePos {
+impl<D: dustc_serialize::Decoder> Decodable<D> for BytePos {
     fn decode(d: &mut D) -> Result<BytePos, D::Error> {
         Ok(BytePos(d.read_u32()?))
     }
@@ -1864,7 +1864,7 @@ fn lookup_line(lines: &[BytePos], pos: BytePos) -> isize {
 /// Requirements for a `StableHashingContext` to be used in this crate.
 ///
 /// This is a hack to allow using the [`HashStable_Generic`] derive macro
-/// instead of implementing everything in rustc_middle.
+/// instead of implementing everything in dustc_middle.
 pub trait HashStableContext {
     fn hash_def_id(&mut self, _: DefId, hasher: &mut StableHasher);
     /// Obtains a cache for storing the `Fingerprint` of an `ExpnId`.

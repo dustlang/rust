@@ -1,4 +1,4 @@
-error: rustc_outlives
+error: dustc_outlives
   --> $DIR/infer-static.rs:5:1
    |
 LL | / struct Foo<U> {

@@ -1,8 +1,8 @@
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 macro_rules! check {
     ($expr: expr) => (
-        #[rustc_dummy = $expr]
+        #[dustc_dummy = $expr]
         use main as _;
     );
 }

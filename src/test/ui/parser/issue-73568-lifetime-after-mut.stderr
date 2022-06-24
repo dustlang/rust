@@ -50,4 +50,4 @@ LL | fn y<'a>(y: &mut 'a + Send) {
 error: aborting due to 5 previous errors; 2 warnings emitted
 
 Some errors have detailed explanations: E0178, E0224, E0423.
-For more information about an error, try `rustc --explain E0178`.
+For more information about an error, try `dustc --explain E0178`.

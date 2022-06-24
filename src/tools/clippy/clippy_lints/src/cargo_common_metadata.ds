@@ -3,14 +3,14 @@
 use std::path::PathBuf;
 
 use crate::utils::{run_lints, span_lint};
-use rustc_hir::{hir_id::CRATE_HIR_ID, Crate};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::DUMMY_SP;
+use dustc_hir::{hir_id::CRATE_HIR_ID, Crate};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::DUMMY_SP;
 
 declare_clippy_lint! {
     /// **What it does:** Checks to see if all common metadata is defined in
-    /// `Cargo.toml`. See: https://rust-lang-nursery.github.io/api-guidelines/documentation.html#cargotoml-includes-all-common-metadata-c-metadata
+    /// `Cargo.toml`. See: https://dust-lang-nursery.github.io/api-guidelines/documentation.html#cargotoml-includes-all-common-metadata-c-metadata
     ///
     /// **Why is this bad?** It will be more difficult for users to discover the
     /// purpose of the crate, and key information related to it.
@@ -23,8 +23,8 @@ declare_clippy_lint! {
     /// [package]
     /// name = "clippy"
     /// version = "0.0.212"
-    /// description = "A bunch of helpful lints to avoid common pitfalls in Rust"
-    /// repository = "https://github.com/rust-lang/rust-clippy"
+    /// description = "A bunch of helpful lints to avoid common pitfalls in Dust"
+    /// repository = "https://github.com/dust-lang/dust-clippy"
     /// readme = "README.md"
     /// license = "MIT OR Apache-2.0"
     /// keywords = ["clippy", "lint", "plugin"]
@@ -38,9 +38,9 @@ declare_clippy_lint! {
     /// [package]
     /// name = "clippy"
     /// version = "0.0.212"
-    /// authors = ["Someone <someone@rust-lang.org>"]
-    /// description = "A bunch of helpful lints to avoid common pitfalls in Rust"
-    /// repository = "https://github.com/rust-lang/rust-clippy"
+    /// authors = ["Someone <someone@dust-lang.org>"]
+    /// description = "A bunch of helpful lints to avoid common pitfalls in Dust"
+    /// repository = "https://github.com/dust-lang/dust-clippy"
     /// readme = "README.md"
     /// license = "MIT OR Apache-2.0"
     /// keywords = ["clippy", "lint", "plugin"]

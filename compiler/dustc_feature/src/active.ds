@@ -2,9 +2,9 @@
 
 use super::{to_nonzero, Feature, State};
 
-use rustc_span::edition::Edition;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::Span;
+use dustc_span::edition::Edition;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::Span;
 
 macro_rules! set {
     ($field: ident) => {{
@@ -91,7 +91,7 @@ impl Feature {
 // N.B., `tools/tidy/src/features.rs` parses this information directly out of the
 // source, so take care when modifying it.
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 declare_features! (
     // -------------------------------------------------------------------------
     // feature-group-start: internal feature gates
@@ -99,13 +99,13 @@ declare_features! (
 
     // no-tracking-issue-start
 
-    /// Allows using `rustc_*` attributes (RFC 572).
-    (active, rustc_attrs, "1.0.0", None, None),
+    /// Allows using `dustc_*` attributes (RFC 572).
+    (active, dustc_attrs, "1.0.0", None, None),
 
     /// Allows using compiler's own crates.
-    (active, rustc_private, "1.0.0", Some(27812), None),
+    (active, dustc_private, "1.0.0", Some(27812), None),
 
-    /// Allows using the `rust-intrinsic`'s "ABI".
+    /// Allows using the `dust-intrinsic`'s "ABI".
     (active, intrinsics, "1.0.0", None, None),
 
     /// Allows using `#[lang = ".."]` attribute for linking items to special compiler logic.
@@ -143,7 +143,7 @@ declare_features! (
     /// Allows using the `#[fundamental]` attribute.
     (active, fundamental, "1.0.0", Some(29635), None),
 
-    /// Allows using the `rust-call` ABI.
+    /// Allows using the `dust-call` ABI.
     (active, unboxed_closures, "1.0.0", Some(29625), None),
 
     /// Allows using the `#[linkage = ".."]` attribute.
@@ -203,14 +203,14 @@ declare_features! (
     /// Added for testing E0705; perma-unstable.
     (active, test_2018_feature, "1.31.0", None, Some(Edition::Edition2018)),
 
-    /// Allows `#[repr(no_niche)]` (an implementation detail of `rustc`,
+    /// Allows `#[repr(no_niche)]` (an implementation detail of `dustc`,
     /// it is not on path for eventual stabilization).
     (active, no_niche, "1.42.0", None, None),
 
-    /// Allows using `#[rustc_allow_const_fn_unstable]`.
+    /// Allows using `#[dustc_allow_const_fn_unstable]`.
     /// This is an attribute on `const fn` for the same
     /// purpose as `#[allow_internal_unstable]`.
-    (active, rustc_allow_const_fn_unstable, "1.49.0", Some(69399), None),
+    (active, dustc_allow_const_fn_unstable, "1.49.0", Some(69399), None),
 
     /// Allows features specific to auto traits.
     /// Renamed from `optin_builtin_traits`.
@@ -499,7 +499,7 @@ declare_features! (
 
     /// Allows making `dyn Trait` well-formed even if `Trait` is not object safe.
     /// In that case, `dyn Trait: Trait` does not hold. Moreover, coercions and
-    /// casts in safe Rust to `dyn Trait` for such a `Trait` is also forbidden.
+    /// casts in safe Dust to `dyn Trait` for such a `Trait` is also forbidden.
     (active, object_safe_for_dispatch, "1.40.0", Some(43561), None),
 
     /// Allows using the `efiapi` ABI.
@@ -548,7 +548,7 @@ declare_features! (
     /// Allows the use of `#[target_feature]` on safe functions.
     (active, target_feature_11, "1.45.0", Some(69098), None),
 
-    /// Allow conditional compilation depending on rust version
+    /// Allow conditional compilation depending on dust version
     (active, cfg_version, "1.45.0", Some(64796), None),
 
     /// Allows the use of `#[ffi_pure]` on foreign functions.
@@ -587,7 +587,7 @@ declare_features! (
     /// Allows to use the `#[cmse_nonsecure_entry]` attribute.
     (active, cmse_nonsecure_entry, "1.48.0", Some(75835), None),
 
-    /// Allows rustc to inject a default alloc_error_handler
+    /// Allows dustc to inject a default alloc_error_handler
     (active, default_alloc_error_handler, "1.48.0", Some(66741), None),
 
     /// Allows argument and return position `impl Trait` in a `const fn`.

@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_mir"
+name = "dustc_mir"
 version = "0.0.0"
 edition = "2018"
 
@@ -9,28 +9,28 @@ doctest = false
 
 [dependencies]
 either = "1.5.0"
-rustc_graphviz = { path = "../rustc_graphviz" }
+dustc_graphviz = { path = "../dustc_graphviz" }
 gsgdt = "0.1.2"
 itertools = "0.9"
 tracing = "0.1"
 polonius-engine = "0.12.0"
 regex = "1"
-rustc_middle = { path = "../rustc_middle" }
-rustc_attr = { path = "../rustc_attr" }
-rustc_data_structures = { path = "../rustc_data_structures" }
-rustc_errors = { path = "../rustc_errors" }
-rustc_hir = { path = "../rustc_hir" }
-rustc_index = { path = "../rustc_index" }
-rustc_infer = { path = "../rustc_infer" }
-rustc_lexer = { path = "../rustc_lexer" }
-rustc_macros = { path = "../rustc_macros" }
-rustc_serialize = { path = "../rustc_serialize" }
-rustc_session = { path = "../rustc_session" }
-rustc_target = { path = "../rustc_target" }
-rustc_trait_selection = { path = "../rustc_trait_selection" }
-rustc_ast = { path = "../rustc_ast" }
-rustc_span = { path = "../rustc_span" }
-rustc_apfloat = { path = "../rustc_apfloat" }
+dustc_middle = { path = "../dustc_middle" }
+dustc_attr = { path = "../dustc_attr" }
+dustc_data_structures = { path = "../dustc_data_structures" }
+dustc_errors = { path = "../dustc_errors" }
+dustc_hir = { path = "../dustc_hir" }
+dustc_index = { path = "../dustc_index" }
+dustc_infer = { path = "../dustc_infer" }
+dustc_lexer = { path = "../dustc_lexer" }
+dustc_macros = { path = "../dustc_macros" }
+dustc_serialize = { path = "../dustc_serialize" }
+dustc_session = { path = "../dustc_session" }
+dustc_target = { path = "../dustc_target" }
+dustc_trait_selection = { path = "../dustc_trait_selection" }
+dustc_ast = { path = "../dustc_ast" }
+dustc_span = { path = "../dustc_span" }
+dustc_apfloat = { path = "../dustc_apfloat" }
 smallvec = { version = "1.6.1", features = ["union", "may_dangle"] }
 
 [dev-dependencies]

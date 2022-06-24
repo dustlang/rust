@@ -1,13 +1,13 @@
-use rustc_data_structures::graph::iterate::{
+use dustc_data_structures::graph::iterate::{
     NodeStatus, TriColorDepthFirstSearch, TriColorVisitor,
 };
-use rustc_hir::intravisit::FnKind;
-use rustc_middle::hir::map::blocks::FnLikeNode;
-use rustc_middle::mir::{BasicBlock, Body, Operand, TerminatorKind};
-use rustc_middle::ty::subst::{GenericArg, InternalSubsts};
-use rustc_middle::ty::{self, AssocItem, AssocItemContainer, Instance, TyCtxt};
-use rustc_session::lint::builtin::UNCONDITIONAL_RECURSION;
-use rustc_span::Span;
+use dustc_hir::intravisit::FnKind;
+use dustc_middle::hir::map::blocks::FnLikeNode;
+use dustc_middle::mir::{BasicBlock, Body, Operand, TerminatorKind};
+use dustc_middle::ty::subst::{GenericArg, InternalSubsts};
+use dustc_middle::ty::{self, AssocItem, AssocItemContainer, Instance, TyCtxt};
+use dustc_session::lint::builtin::UNCONDITIONAL_RECURSION;
+use dustc_span::Span;
 use std::ops::ControlFlow;
 
 crate fn check<'tcx>(tcx: TyCtxt<'tcx>, body: &Body<'tcx>) {

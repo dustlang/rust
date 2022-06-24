@@ -1,6 +1,6 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) lib.rs
-	$(RUSTC) main.rs
+	$(DUSTC) lib.rs
+	$(DUSTC) main.rs
 	$(call RUN,main)

@@ -5,22 +5,22 @@ use crate::path_names_to_string;
 use crate::{CrateLint, Module, ModuleKind, ModuleOrUniformRoot};
 use crate::{PathResult, PathSource, Segment};
 
-use rustc_ast::visit::FnKind;
-use rustc_ast::{self as ast, Expr, ExprKind, Item, ItemKind, NodeId, Path, Ty, TyKind};
-use rustc_ast_pretty::pprust::path_segment_to_string;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def::Namespace::{self, *};
-use rustc_hir::def::{self, CtorKind, CtorOf, DefKind};
-use rustc_hir::def_id::{DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_hir::PrimTy;
-use rustc_session::parse::feature_err;
-use rustc_span::edition::Edition;
-use rustc_span::hygiene::MacroKind;
-use rustc_span::lev_distance::find_best_match_for_name;
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{BytePos, MultiSpan, Span, DUMMY_SP};
+use dustc_ast::visit::FnKind;
+use dustc_ast::{self as ast, Expr, ExprKind, Item, ItemKind, NodeId, Path, Ty, TyKind};
+use dustc_ast_pretty::ppdust::path_segment_to_string;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def::Namespace::{self, *};
+use dustc_hir::def::{self, CtorKind, CtorOf, DefKind};
+use dustc_hir::def_id::{DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_hir::PrimTy;
+use dustc_session::parse::feature_err;
+use dustc_span::edition::Edition;
+use dustc_span::hygiene::MacroKind;
+use dustc_span::lev_distance::find_best_match_for_name;
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{BytePos, MultiSpan, Span, DUMMY_SP};
 
 use tracing::debug;
 
@@ -190,7 +190,7 @@ impl<'a: 'ast, 'ast> LateResolutionVisitor<'a, '_, 'ast> {
             (
                 format!("cannot find {} `{}` in {}{}", expected, item_str, mod_prefix, mod_str),
                 if path_str == "async" && expected.starts_with("struct") {
-                    "`async` blocks are only allowed in Rust 2018 or later".to_string()
+                    "`async` blocks are only allowed in Dust 2018 or later".to_string()
                 } else {
                     format!("not found in {}", mod_str)
                 },
@@ -253,7 +253,7 @@ impl<'a: 'ast, 'ast> LateResolutionVisitor<'a, '_, 'ast> {
 
         // Emit special messages for unresolved `Self` and `self`.
         if is_self_type(path, ns) {
-            err.code(rustc_errors::error_code!(E0411));
+            err.code(dustc_errors::error_code!(E0411));
             err.span_label(
                 span,
                 "`Self` is only available in impls, traits, and type definitions".to_string(),
@@ -263,7 +263,7 @@ impl<'a: 'ast, 'ast> LateResolutionVisitor<'a, '_, 'ast> {
         if is_self_value(path, ns) {
             debug!("smart_resolve_path_fragment: E0424, source={:?}", source);
 
-            err.code(rustc_errors::error_code!(E0424));
+            err.code(dustc_errors::error_code!(E0424));
             err.span_label(span, match source {
                 PathSource::Pat => "`self` value is a keyword and may not be bound to variables or shadowed"
                                    .to_string(),
@@ -541,7 +541,7 @@ impl<'a: 'ast, 'ast> LateResolutionVisitor<'a, '_, 'ast> {
             }
         }
         if let Some(err_code) = &err.code {
-            if err_code == &rustc_errors::error_code!(E0425) {
+            if err_code == &dustc_errors::error_code!(E0425) {
                 for label_rib in &self.label_ribs {
                     for (label_ident, node_id) in &label_rib.bindings {
                         if format!("'{}", ident) == label_ident.to_string() {
@@ -563,8 +563,8 @@ impl<'a: 'ast, 'ast> LateResolutionVisitor<'a, '_, 'ast> {
                         }
                     }
                 }
-            } else if err_code == &rustc_errors::error_code!(E0412) {
-                if let Some(correct) = Self::likely_rust_type(path) {
+            } else if err_code == &dustc_errors::error_code!(E0412) {
+                if let Some(correct) = Self::likely_dust_type(path) {
                     err.span_suggestion(
                         span,
                         "perhaps you intended to use this type",
@@ -916,8 +916,8 @@ impl<'a: 'ast, 'ast> LateResolutionVisitor<'a, '_, 'ast> {
                     "!".to_string(),
                     Applicability::MaybeIncorrect,
                 );
-                if path_str == "try" && span.rust_2015() {
-                    err.note("if you want the `try` keyword, you need Rust 2018 or later");
+                if path_str == "try" && span.dust_2015() {
+                    err.note("if you want the `try` keyword, you need Dust 2018 or later");
                 }
             }
             (Res::Def(DefKind::TyAlias, def_id), PathSource::Trait(_)) => {
@@ -1014,7 +1014,7 @@ impl<'a: 'ast, 'ast> LateResolutionVisitor<'a, '_, 'ast> {
                         .collect();
 
                     if non_visible_spans.len() > 0 {
-                        let mut m: rustc_span::MultiSpan = non_visible_spans.clone().into();
+                        let mut m: dustc_span::MultiSpan = non_visible_spans.clone().into();
                         non_visible_spans
                             .into_iter()
                             .for_each(|s| m.push_span_label(s, "private field".to_string()));
@@ -1252,9 +1252,9 @@ impl<'a: 'ast, 'ast> LateResolutionVisitor<'a, '_, 'ast> {
         }
     }
 
-    // Returns the name of the Rust type approximately corresponding to
+    // Returns the name of the Dust type approximately corresponding to
     // a type name in another programming language.
-    fn likely_rust_type(path: &[Segment]) -> Option<Symbol> {
+    fn likely_dust_type(path: &[Segment]) -> Option<Symbol> {
         let name = path[path.len() - 1].ident.as_str();
         // Common Java types
         Some(match &*name {
@@ -1733,7 +1733,7 @@ impl<'tcx> LifetimeContext<'_, 'tcx> {
                     );
                     err.note(
                         "for more information on higher-ranked polymorphism, visit \
-                         https://doc.rust-lang.org/nomicon/hrtb.html",
+                         https://doc.dust-lang.org/nomicon/hrtb.html",
                     );
                 }
                 _ => {}
@@ -1764,7 +1764,7 @@ impl<'tcx> LifetimeContext<'_, 'tcx> {
         );
         err.note(
             "for more information, see issue #74052 \
-            <https://github.com/rust-lang/rust/issues/74052>",
+            <https://github.com/dust-lang/dust/issues/74052>",
         );
         err.emit();
     }
@@ -1841,7 +1841,7 @@ impl<'tcx> LifetimeContext<'_, 'tcx> {
                 );
                 err.note(
                     "for more information on higher-ranked polymorphism, visit \
-                    https://doc.rust-lang.org/nomicon/hrtb.html",
+                    https://doc.dust-lang.org/nomicon/hrtb.html",
                 );
                 let for_sugg = span_type.suggestion(&lt_name);
                 for param in params {
@@ -1907,7 +1907,7 @@ impl<'tcx> LifetimeContext<'_, 'tcx> {
                         should_break = false;
                         err.note(
                             "for more information on higher-ranked polymorphism, visit \
-                            https://doc.rust-lang.org/nomicon/hrtb.html",
+                            https://doc.dust-lang.org/nomicon/hrtb.html",
                         );
                         (*span, span_type.suggestion("'a"))
                     }

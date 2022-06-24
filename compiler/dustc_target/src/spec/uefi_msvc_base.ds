@@ -47,7 +47,7 @@ pub fn opts() -> TargetOptions {
         // "Windows".
         stack_probes: StackProbeType::Call,
         singlethread: true,
-        linker: Some("rust-lld".to_string()),
+        linker: Some("dust-lld".to_string()),
         ..base
     }
 }

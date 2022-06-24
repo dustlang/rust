@@ -1,19 +1,19 @@
 use crate::infer::type_variable::TypeVariableOriginKind;
 use crate::infer::InferCtxt;
-use rustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Namespace};
-use rustc_hir::def_id::DefId;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::{Body, Expr, ExprKind, FnRetTy, HirId, Local, Pat};
-use rustc_middle::hir::map::Map;
-use rustc_middle::infer::unify_key::ConstVariableOriginKind;
-use rustc_middle::ty::print::Print;
-use rustc_middle::ty::subst::{GenericArg, GenericArgKind};
-use rustc_middle::ty::{self, DefIdTree, InferConst, Ty, TyCtxt};
-use rustc_span::source_map::DesugaringKind;
-use rustc_span::symbol::kw;
-use rustc_span::Span;
+use dustc_errors::{pluralize, struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Namespace};
+use dustc_hir::def_id::DefId;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::{Body, Expr, ExprKind, FnRetTy, HirId, Local, Pat};
+use dustc_middle::hir::map::Map;
+use dustc_middle::infer::unify_key::ConstVariableOriginKind;
+use dustc_middle::ty::print::Print;
+use dustc_middle::ty::subst::{GenericArg, GenericArgKind};
+use dustc_middle::ty::{self, DefIdTree, InferConst, Ty, TyCtxt};
+use dustc_span::source_map::DesugaringKind;
+use dustc_span::symbol::kw;
+use dustc_span::Span;
 use std::borrow::Cow;
 
 struct FindHirNodeVisitor<'a, 'tcx> {
@@ -129,7 +129,7 @@ impl<'a, 'tcx> Visitor<'tcx> for FindHirNodeVisitor<'a, 'tcx> {
         // FIXME(const_generics): Currently, any uninferred `const` generics arguments
         // are handled specially, but instead they should be handled in `annotate_method_call`,
         // which currently doesn't work because this evaluates to `false` for const arguments.
-        // See https://github.com/rust-lang/rust/pull/77758 for more details.
+        // See https://github.com/dust-lang/dust/pull/77758 for more details.
         if let Some(ty) = self.node_ty_contains_target(expr.hir_id) {
             match expr.kind {
                 ExprKind::Closure(..) => self.found_closure = Some(&expr),
@@ -265,12 +265,12 @@ pub enum TypeAnnotationNeeded {
     E0284,
 }
 
-impl Into<rustc_errors::DiagnosticId> for TypeAnnotationNeeded {
-    fn into(self) -> rustc_errors::DiagnosticId {
+impl Into<dustc_errors::DiagnosticId> for TypeAnnotationNeeded {
+    fn into(self) -> dustc_errors::DiagnosticId {
         match self {
-            Self::E0282 => rustc_errors::error_code!(E0282),
-            Self::E0283 => rustc_errors::error_code!(E0283),
-            Self::E0284 => rustc_errors::error_code!(E0284),
+            Self::E0282 => dustc_errors::error_code!(E0282),
+            Self::E0283 => dustc_errors::error_code!(E0283),
+            Self::E0284 => dustc_errors::error_code!(E0284),
         }
     }
 }

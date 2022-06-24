@@ -1,3 +1,3 @@
-This directory is for tests that have to do with rustdoc, but test the behavior
-of rustc. For example, rustc should not warn that an attribute rustdoc uses is
+This directory is for tests that have to do with dustdoc, but test the behavior
+of dustc. For example, dustc should not warn that an attribute dustdoc uses is
 unknown.

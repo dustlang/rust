@@ -67,7 +67,7 @@ impl Foo for f64 {
 fn main() {
     macro_rules! test {
         ($from: ident, $to: ident) => {{
-            // force the casts to actually happen, or else LLVM/rustc
+            // force the casts to actually happen, or else LLVM/dustc
             // may fold them and get slightly different results.
             let (a, b, c, d) = test::black_box((A as $from, B as $from, C as $from, D as $from));
             // the SIMD vectors are all FOOx4, so we can concat_idents

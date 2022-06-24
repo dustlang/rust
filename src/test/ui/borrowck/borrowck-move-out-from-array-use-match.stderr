@@ -154,4 +154,4 @@ LL |     a[0].1 = Default::default();
 
 error: aborting due to 14 previous errors
 
-For more information about this error, try `rustc --explain E0382`.
+For more information about this error, try `dustc --explain E0382`.

@@ -5,16 +5,16 @@ use crate::common::CodegenCx;
 
 use libc::c_uint;
 use llvm::coverageinfo::CounterMappingRegion;
-use rustc_codegen_ssa::coverageinfo::map::{CounterExpression, FunctionCoverage};
-use rustc_codegen_ssa::traits::{
+use dustc_codegen_ssa::coverageinfo::map::{CounterExpression, FunctionCoverage};
+use dustc_codegen_ssa::traits::{
     BaseTypeMethods, CoverageInfoBuilderMethods, CoverageInfoMethods, MiscMethods, StaticMethods,
 };
-use rustc_data_structures::fx::FxHashMap;
-use rustc_llvm::RustString;
-use rustc_middle::mir::coverage::{
+use dustc_data_structures::fx::FxHashMap;
+use dustc_llvm::DustString;
+use dustc_middle::mir::coverage::{
     CodeRegion, CounterValueReference, ExpressionOperandId, InjectedExpressionId, Op,
 };
-use rustc_middle::ty::Instance;
+use dustc_middle::ty::Instance;
 
 use std::cell::RefCell;
 use std::ffi::CString;
@@ -55,7 +55,7 @@ impl CoverageInfoBuilderMethods<'tcx> for Builder<'a, 'll, 'tcx> {
         let llfn = self.cx.get_fn(instance);
         let mangled_fn_name = CString::new(self.tcx.symbol_name(instance).name)
             .expect("error converting function name to C string");
-        unsafe { llvm::LLVMRustCoverageCreatePGOFuncNameVar(llfn, mangled_fn_name.as_ptr()) }
+        unsafe { llvm::LLVMDustCoverageCreatePGOFuncNameVar(llfn, mangled_fn_name.as_ptr()) }
     }
 
     fn set_function_source_hash(
@@ -147,11 +147,11 @@ impl CoverageInfoBuilderMethods<'tcx> for Builder<'a, 'll, 'tcx> {
 
 pub(crate) fn write_filenames_section_to_buffer<'a>(
     filenames: impl IntoIterator<Item = &'a CString>,
-    buffer: &RustString,
+    buffer: &DustString,
 ) {
     let c_str_vec = filenames.into_iter().map(|cstring| cstring.as_ptr()).collect::<Vec<_>>();
     unsafe {
-        llvm::LLVMRustCoverageWriteFilenamesSectionToBuffer(
+        llvm::LLVMDustCoverageWriteFilenamesSectionToBuffer(
             c_str_vec.as_ptr(),
             c_str_vec.len(),
             buffer,
@@ -163,10 +163,10 @@ pub(crate) fn write_mapping_to_buffer(
     virtual_file_mapping: Vec<u32>,
     expressions: Vec<CounterExpression>,
     mapping_regions: Vec<CounterMappingRegion>,
-    buffer: &RustString,
+    buffer: &DustString,
 ) {
     unsafe {
-        llvm::LLVMRustCoverageWriteMappingToBuffer(
+        llvm::LLVMDustCoverageWriteMappingToBuffer(
             virtual_file_mapping.as_ptr(),
             virtual_file_mapping.len() as c_uint,
             expressions.as_ptr(),
@@ -179,15 +179,15 @@ pub(crate) fn write_mapping_to_buffer(
 }
 pub(crate) fn hash_str(strval: &str) -> u64 {
     let strval = CString::new(strval).expect("null error converting hashable str to C string");
-    unsafe { llvm::LLVMRustCoverageHashCString(strval.as_ptr()) }
+    unsafe { llvm::LLVMDustCoverageHashCString(strval.as_ptr()) }
 }
 
 pub(crate) fn hash_bytes(bytes: Vec<u8>) -> u64 {
-    unsafe { llvm::LLVMRustCoverageHashByteArray(bytes.as_ptr().cast(), bytes.len()) }
+    unsafe { llvm::LLVMDustCoverageHashByteArray(bytes.as_ptr().cast(), bytes.len()) }
 }
 
 pub(crate) fn mapping_version() -> u32 {
-    unsafe { llvm::LLVMRustCoverageMappingVersion() }
+    unsafe { llvm::LLVMDustCoverageMappingVersion() }
 }
 
 pub(crate) fn save_cov_data_to_mod<'ll, 'tcx>(
@@ -195,15 +195,15 @@ pub(crate) fn save_cov_data_to_mod<'ll, 'tcx>(
     cov_data_val: &'ll llvm::Value,
 ) {
     let covmap_var_name = llvm::build_string(|s| unsafe {
-        llvm::LLVMRustCoverageWriteMappingVarNameToString(s);
+        llvm::LLVMDustCoverageWriteMappingVarNameToString(s);
     })
-    .expect("Rust Coverage Mapping var name failed UTF-8 conversion");
+    .expect("Dust Coverage Mapping var name failed UTF-8 conversion");
     debug!("covmap var name: {:?}", covmap_var_name);
 
     let covmap_section_name = llvm::build_string(|s| unsafe {
-        llvm::LLVMRustCoverageWriteMapSectionNameToString(cx.llmod, s);
+        llvm::LLVMDustCoverageWriteMapSectionNameToString(cx.llmod, s);
     })
-    .expect("Rust Coverage section name failed UTF-8 conversion");
+    .expect("Dust Coverage section name failed UTF-8 conversion");
     debug!("covmap section name: {:?}", covmap_section_name);
 
     let llglobal = llvm::add_global(cx.llmod, cx.val_ty(cov_data_val), &covmap_var_name);
@@ -223,8 +223,8 @@ pub(crate) fn save_func_record_to_mod<'ll, 'tcx>(
 ) {
     // Assign a name to the function record. This is used to merge duplicates.
     //
-    // In LLVM, a "translation unit" (effectively, a `Crate` in Rust) can describe functions that
-    // are included-but-not-used. If (or when) Rust generates functions that are
+    // In LLVM, a "translation unit" (effectively, a `Crate` in Dust) can describe functions that
+    // are included-but-not-used. If (or when) Dust generates functions that are
     // included-but-not-used, note that a dummy description for a function included-but-not-used
     // in a Crate can be replaced by full description provided by a different Crate. The two kinds
     // of descriptions play distinct roles in LLVM IR; therefore, assign them different names (by
@@ -234,9 +234,9 @@ pub(crate) fn save_func_record_to_mod<'ll, 'tcx>(
     debug!("function record var name: {:?}", func_record_var_name);
 
     let func_record_section_name = llvm::build_string(|s| unsafe {
-        llvm::LLVMRustCoverageWriteFuncSectionNameToString(cx.llmod, s);
+        llvm::LLVMDustCoverageWriteFuncSectionNameToString(cx.llmod, s);
     })
-    .expect("Rust Coverage function record section name failed UTF-8 conversion");
+    .expect("Dust Coverage function record section name failed UTF-8 conversion");
     debug!("function record section name: {:?}", func_record_section_name);
 
     let llglobal = llvm::add_global(cx.llmod, cx.val_ty(func_record_val), &func_record_var_name);

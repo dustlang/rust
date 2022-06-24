@@ -4,7 +4,7 @@ error: pointers cannot be reliably compared during const eval.
 LL |     const A: bool = unsafe { id::<u8> as *const () < id::<u16> as *const () };
    |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #53020 <https://github.com/rust-lang/rust/issues/53020> for more information
+   = note: see issue #53020 <https://github.com/dust-lang/dust/issues/53020> for more information
 
 error: aborting due to previous error
 

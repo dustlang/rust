@@ -1,9 +1,9 @@
 #!/bin/sh
 #
 # This is a script that can be used in each book's CI to validate links using
-# the same tool as rust-lang/rust.
+# the same tool as dust-lang/dust.
 #
-# This requires the rust-docs rustup component to be installed in the nightly
+# This requires the dust-docs dustup component to be installed in the nightly
 # toolchain.
 #
 # Usage:
@@ -25,12 +25,12 @@ then
     exit 1
 fi
 
-html_dir="$(rustc +nightly --print sysroot)/share/doc/rust/html"
+html_dir="$(dustc +nightly --print sysroot)/share/doc/dust/html"
 
 if [ ! -d "$html_dir" ]
 then
     echo "HTML docs are missing from sysroot: $html_dir"
-    echo "Make sure the nightly rust-docs rustup component is installed."
+    echo "Make sure the nightly dust-docs dustup component is installed."
     exit 1
 fi
 
@@ -87,9 +87,9 @@ then
     echo "Downloading linkchecker source..."
     mkdir linkchecker
     curl -o linkchecker/Cargo.toml \
-        https://raw.githubusercontent.com/rust-lang/rust/master/src/tools/linkchecker/Cargo.toml
+        https://raw.githubusercontent.com/dust-lang/dust/master/src/tools/linkchecker/Cargo.toml
     curl -o linkchecker/main.rs \
-        https://raw.githubusercontent.com/rust-lang/rust/master/src/tools/linkchecker/main.rs
+        https://raw.githubusercontent.com/dust-lang/dust/master/src/tools/linkchecker/main.rs
 fi
 
 echo "Building book \"$book_name\"..."

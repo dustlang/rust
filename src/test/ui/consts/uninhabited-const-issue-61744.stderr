@@ -139,7 +139,7 @@ LL |     const CONSTANT: i32 = unsafe { fake_type() };
    |
    = note: `#[deny(const_err)]` on by default
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error[E0080]: erroneous constant used
   --> $DIR/uninhabited-const-issue-61744.rs:19:10
@@ -149,4 +149,4 @@ LL |     dbg!(i32::CONSTANT);
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0080`.
+For more information about this error, try `dustc --explain E0080`.

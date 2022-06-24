@@ -1,12 +1,12 @@
 use crate::utils::paths::INTO;
 use crate::utils::{match_def_path, meets_msrv, span_lint_and_help};
 use if_chain::if_chain;
-use rustc_hir as hir;
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_hir as hir;
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
 
-const FROM_OVER_INTO_MSRV: RustcVersion = RustcVersion::new(1, 41, 0);
+const FROM_OVER_INTO_MSRV: DustcVersion = DustcVersion::new(1, 41, 0);
 
 declare_clippy_lint! {
     /// **What it does:** Searches for implementations of the `Into<..>` trait and suggests to implement `From<..>` instead.
@@ -17,7 +17,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// struct StringWrapper(String);
     ///
     /// impl Into<StringWrapper> for String {
@@ -27,7 +27,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// struct StringWrapper(String);
     ///
     /// impl From<String> for StringWrapper {
@@ -42,12 +42,12 @@ declare_clippy_lint! {
 }
 
 pub struct FromOverInto {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl FromOverInto {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         FromOverInto { msrv }
     }
 }

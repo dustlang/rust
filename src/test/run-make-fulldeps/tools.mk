@@ -5,14 +5,14 @@ HOST_RPATH_ENV = \
 TARGET_RPATH_ENV = \
     $(LD_LIB_PATH_ENVVAR)="$(TMPDIR):$(TARGET_RPATH_DIR):$($(LD_LIB_PATH_ENVVAR))"
 
-RUSTC_ORIGINAL := $(RUSTC)
-BARE_RUSTC := $(HOST_RPATH_ENV) '$(RUSTC)'
-BARE_RUSTDOC := $(HOST_RPATH_ENV) '$(RUSTDOC)'
-RUSTC := $(BARE_RUSTC) --out-dir $(TMPDIR) -L $(TMPDIR) $(RUSTFLAGS)
-RUSTDOC := $(BARE_RUSTDOC) -L $(TARGET_RPATH_DIR)
-ifdef RUSTC_LINKER
-RUSTC := $(RUSTC) -Clinker='$(RUSTC_LINKER)'
-RUSTDOC := $(RUSTDOC) -Clinker='$(RUSTC_LINKER)'
+DUSTC_ORIGINAL := $(DUSTC)
+BARE_DUSTC := $(HOST_RPATH_ENV) '$(DUSTC)'
+BARE_DUSTDOC := $(HOST_RPATH_ENV) '$(DUSTDOC)'
+DUSTC := $(BARE_DUSTC) --out-dir $(TMPDIR) -L $(TMPDIR) $(DUSTFLAGS)
+DUSTDOC := $(BARE_DUSTDOC) -L $(TARGET_RPATH_DIR)
+ifdef DUSTC_LINKER
+DUSTC := $(DUSTC) -Clinker='$(DUSTC_LINKER)'
+DUSTDOC := $(DUSTDOC) -Clinker='$(DUSTC_LINKER)'
 endif
 #CC := $(CC) -L $(TMPDIR)
 HTMLDOCCK := '$(PYTHON)' '$(S)/src/etc/htmldocck.py'
@@ -21,7 +21,7 @@ CGREP := "$(S)/src/etc/cat-and-grep.sh"
 # diff with common flags for multi-platform diffs against text output
 DIFF := diff -u --strip-trailing-cr
 
-# Some of the Rust CI platforms use `/bin/dash` to run `shell` script in
+# Some of the Dust CI platforms use `/bin/dash` to run `shell` script in
 # Makefiles. Other platforms, including many developer platforms, default to
 # `/bin/bash`. (In many cases, `make` is actually using `/bin/sh`, but `sh`
 # is configured to execute one or the other shell binary). `dash` features
@@ -136,7 +136,7 @@ ifeq ($(UNAME),SunOS)
 else
 ifeq ($(UNAME),OpenBSD)
 	EXTRACFLAGS := -lm -lpthread -lc++abi
-	RUSTC := $(RUSTC) -C linker="$(word 1,$(CC:ccache=))"
+	DUSTC := $(DUSTC) -C linker="$(word 1,$(CC:ccache=))"
 else
 	EXTRACFLAGS := -lm -lrt -ldl -lpthread
 	EXTRACXXFLAGS := -lstdc++

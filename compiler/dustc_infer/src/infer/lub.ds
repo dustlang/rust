@@ -5,8 +5,8 @@ use super::Subtype;
 
 use crate::infer::combine::ConstEquateRelation;
 use crate::traits::ObligationCause;
-use rustc_middle::ty::relate::{Relate, RelateResult, TypeRelation};
-use rustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_middle::ty::relate::{Relate, RelateResult, TypeRelation};
+use dustc_middle::ty::{self, Ty, TyCtxt};
 
 /// "Least upper bound" (common supertype)
 pub struct Lub<'combine, 'infcx, 'tcx> {

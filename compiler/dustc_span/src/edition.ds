@@ -2,9 +2,9 @@ use crate::symbol::{sym, Symbol};
 use std::fmt;
 use std::str::FromStr;
 
-use rustc_macros::HashStable_Generic;
+use dustc_macros::HashStable_Generic;
 
-/// The edition of the compiler. (See [RFC 2052](https://github.com/rust-lang/rfcs/blob/master/text/2052-epochs.md).)
+/// The edition of the compiler. (See [RFC 2052](https://github.com/dust-lang/rfcs/blob/master/text/2052-epochs.md).)
 #[derive(Clone, Copy, Hash, PartialEq, PartialOrd, Debug, Encodable, Decodable, Eq)]
 #[derive(HashStable_Generic)]
 pub enum Edition {
@@ -12,7 +12,7 @@ pub enum Edition {
     //
     // - update the `ALL_EDITIONS` const
     // - update the `EDITION_NAME_LIST` const
-    // - add a `rust_####()` function to the session
+    // - add a `dust_####()` function to the session
     // - update the enum in Cargo's sources as well
     //
     // Editions *must* be kept in order, oldest to newest.
@@ -48,17 +48,17 @@ impl fmt::Display for Edition {
 impl Edition {
     pub fn lint_name(&self) -> &'static str {
         match *self {
-            Edition::Edition2015 => "rust_2015_compatibility",
-            Edition::Edition2018 => "rust_2018_compatibility",
-            Edition::Edition2021 => "rust_2021_compatibility",
+            Edition::Edition2015 => "dust_2015_compatibility",
+            Edition::Edition2018 => "dust_2018_compatibility",
+            Edition::Edition2021 => "dust_2021_compatibility",
         }
     }
 
     pub fn feature_name(&self) -> Symbol {
         match *self {
-            Edition::Edition2015 => sym::rust_2015_preview,
-            Edition::Edition2018 => sym::rust_2018_preview,
-            Edition::Edition2021 => sym::rust_2021_preview,
+            Edition::Edition2015 => sym::dust_2015_preview,
+            Edition::Edition2018 => sym::dust_2018_preview,
+            Edition::Edition2021 => sym::dust_2021_preview,
         }
     }
 

@@ -1,10 +1,10 @@
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{def_id, Expr, ExprKind, Param, PatKind, QPath};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty::{self, Ty};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_errors::Applicability;
+use dustc_hir::{def_id, Expr, ExprKind, Param, PatKind, QPath};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty::{self, Ty};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 use crate::utils::{
     implements_trait, is_adjusted, iter_input_pats, snippet_opt, span_lint_and_sugg, span_lint_and_then,
@@ -24,10 +24,10 @@ declare_clippy_lint! {
     /// **Known problems:** If creating the closure inside the closure has a side-
     /// effect then moving the closure creation out will change when that side-
     /// effect runs.
-    /// See [#1439](https://github.com/rust-lang/rust-clippy/issues/1439) for more details.
+    /// See [#1439](https://github.com/dust-lang/dust-clippy/issues/1439) for more details.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Bad
     /// xs.map(|x| foo(x))
     ///
@@ -47,17 +47,17 @@ declare_clippy_lint! {
     ///
     /// **Why is this bad?** It's unnecessary to create the closure.
     ///
-    /// **Known problems:** [#3071](https://github.com/rust-lang/rust-clippy/issues/3071),
-    /// [#3942](https://github.com/rust-lang/rust-clippy/issues/3942),
-    /// [#4002](https://github.com/rust-lang/rust-clippy/issues/4002)
+    /// **Known problems:** [#3071](https://github.com/dust-lang/dust-clippy/issues/3071),
+    /// [#3942](https://github.com/dust-lang/dust-clippy/issues/3942),
+    /// [#4002](https://github.com/dust-lang/dust-clippy/issues/4002)
     ///
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// Some('a').map(|s| s.to_uppercase());
     /// ```
     /// may be rewritten as
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// Some('a').map(char::to_uppercase);
     /// ```
     pub REDUNDANT_CLOSURE_FOR_METHOD_CALLS,

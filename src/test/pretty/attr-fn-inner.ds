@@ -4,13 +4,13 @@
 
 // pp-exact
 
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 fn main() {
-    #![rustc_dummy]
-    #[rustc_dummy]
+    #![dustc_dummy]
+    #[dustc_dummy]
     fn f() { }
 
-    #[rustc_dummy]
+    #[dustc_dummy]
     fn g() { }
 }

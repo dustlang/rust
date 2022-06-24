@@ -4,13 +4,13 @@ use crate::base;
 use crate::context::CodegenCx;
 use crate::llvm;
 use crate::type_of::LayoutLlvmExt;
-use rustc_codegen_ssa::traits::*;
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-pub use rustc_middle::mir::mono::MonoItem;
-use rustc_middle::mir::mono::{Linkage, Visibility};
-use rustc_middle::ty::layout::FnAbiExt;
-use rustc_middle::ty::{self, Instance, TypeFoldable};
-use rustc_target::abi::LayoutOf;
+use dustc_codegen_ssa::traits::*;
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+pub use dustc_middle::mir::mono::MonoItem;
+use dustc_middle::mir::mono::{Linkage, Visibility};
+use dustc_middle::ty::layout::FnAbiExt;
+use dustc_middle::ty::{self, Instance, TypeFoldable};
+use dustc_target::abi::LayoutOf;
 use tracing::debug;
 
 impl PreDefineMethods<'tcx> for CodegenCx<'ll, 'tcx> {
@@ -33,8 +33,8 @@ impl PreDefineMethods<'tcx> for CodegenCx<'ll, 'tcx> {
         });
 
         unsafe {
-            llvm::LLVMRustSetLinkage(g, base::linkage_to_llvm(linkage));
-            llvm::LLVMRustSetVisibility(g, base::visibility_to_llvm(visibility));
+            llvm::LLVMDustSetLinkage(g, base::linkage_to_llvm(linkage));
+            llvm::LLVMDustSetVisibility(g, base::visibility_to_llvm(visibility));
         }
 
         self.instances.borrow_mut().insert(instance, g);
@@ -51,7 +51,7 @@ impl PreDefineMethods<'tcx> for CodegenCx<'ll, 'tcx> {
 
         let fn_abi = FnAbi::of_instance(self, instance, &[]);
         let lldecl = self.declare_fn(symbol_name, &fn_abi);
-        unsafe { llvm::LLVMRustSetLinkage(lldecl, base::linkage_to_llvm(linkage)) };
+        unsafe { llvm::LLVMDustSetLinkage(lldecl, base::linkage_to_llvm(linkage)) };
         let attrs = self.tcx.codegen_fn_attrs(instance.def_id());
         base::set_link_section(lldecl, &attrs);
         if linkage == Linkage::LinkOnceODR || linkage == Linkage::WeakODR {
@@ -67,11 +67,11 @@ impl PreDefineMethods<'tcx> for CodegenCx<'ll, 'tcx> {
             && self.tcx.is_compiler_builtins(LOCAL_CRATE)
         {
             unsafe {
-                llvm::LLVMRustSetVisibility(lldecl, llvm::Visibility::Hidden);
+                llvm::LLVMDustSetVisibility(lldecl, llvm::Visibility::Hidden);
             }
         } else {
             unsafe {
-                llvm::LLVMRustSetVisibility(lldecl, base::visibility_to_llvm(visibility));
+                llvm::LLVMDustSetVisibility(lldecl, base::visibility_to_llvm(visibility));
             }
         }
 

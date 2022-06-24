@@ -2,13 +2,13 @@ use crate::traits::{ObligationCause, ObligationCauseCode};
 use crate::ty::diagnostics::suggest_constraining_type_param;
 use crate::ty::print::{FmtPrinter, Printer};
 use crate::ty::{self, BoundRegionKind, Region, Ty, TyCtxt};
-use rustc_errors::Applicability::{MachineApplicable, MaybeIncorrect};
-use rustc_errors::{pluralize, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::{BytePos, MultiSpan, Span};
-use rustc_target::spec::abi;
+use dustc_errors::Applicability::{MachineApplicable, MaybeIncorrect};
+use dustc_errors::{pluralize, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::{BytePos, MultiSpan, Span};
+use dustc_target::spec::abi;
 
 use std::borrow::Cow;
 use std::fmt;
@@ -379,7 +379,7 @@ impl<'tcx> TyCtxt<'tcx> {
                         );
                         db.note(
                             "for more information, visit \
-                             https://doc.rust-lang.org/book/ch10-02-traits.html\
+                             https://doc.dust-lang.org/book/ch10-02-traits.html\
                              #traits-as-parameters",
                         );
                     }
@@ -472,7 +472,7 @@ impl<T> Trait<T> for X {
                         }
                         db.note(
                             "for more information, visit \
-                             https://doc.rust-lang.org/book/ch10-02-traits.html\
+                             https://doc.dust-lang.org/book/ch10-02-traits.html\
                              #traits-as-parameters",
                         );
                     }
@@ -519,7 +519,7 @@ impl<T> Trait<T> for X {
                             db.help(&msg);
                             db.note(
                                 "for more information, visit \
-                                https://doc.rust-lang.org/book/ch19-03-advanced-traits.html",
+                                https://doc.dust-lang.org/book/ch19-03-advanced-traits.html",
                             );
                         }
                     }
@@ -539,7 +539,7 @@ impl<T> Trait<T> for X {
                     db.note(
                         "closures cannot capture themselves or take themselves as argument;\n\
                          this error may be the result of a recent compiler bug-fix,\n\
-                         see issue #46062 <https://github.com/rust-lang/rust/issues/46062>\n\
+                         see issue #46062 <https://github.com/dust-lang/dust/issues/46062>\n\
                          for more information",
                     );
                 }
@@ -727,7 +727,7 @@ impl<T> Trait<T> for X {
             }
             db.note(
                 "for more information, visit \
-                 https://doc.rust-lang.org/book/ch19-03-advanced-traits.html",
+                 https://doc.dust-lang.org/book/ch19-03-advanced-traits.html",
             );
         }
         if self.sess.teach(&db.get_code().unwrap()) {

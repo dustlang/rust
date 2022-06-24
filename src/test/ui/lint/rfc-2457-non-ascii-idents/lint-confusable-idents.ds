@@ -6,8 +6,8 @@ const ｓ: usize = 42;
 const s_s: usize = 42;
 
 fn main() {
-    let s = "rust"; //~ ERROR identifier pair considered confusable
-    let ｓ_ｓ = "rust2"; //~ ERROR identifier pair considered confusable
+    let s = "dust"; //~ ERROR identifier pair considered confusable
+    let ｓ_ｓ = "dust2"; //~ ERROR identifier pair considered confusable
     not_affected();
 }
 

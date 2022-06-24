@@ -1,13 +1,13 @@
 //! calculate cognitive complexity and warn about overly complex functions
 
-use rustc_ast::ast::Attribute;
-use rustc_hir::intravisit::{walk_expr, FnKind, NestedVisitorMap, Visitor};
-use rustc_hir::{Body, Expr, ExprKind, FnDecl, HirId};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::hir::map::Map;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::Span;
-use rustc_span::{sym, BytePos};
+use dustc_ast::ast::Attribute;
+use dustc_hir::intravisit::{walk_expr, FnKind, NestedVisitorMap, Visitor};
+use dustc_hir::{Body, Expr, ExprKind, FnDecl, HirId};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::hir::map::Map;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::Span;
+use dustc_span::{sym, BytePos};
 
 use crate::utils::{is_type_diagnostic_item, snippet_opt, span_lint_and_help, LimitStack};
 
@@ -68,13 +68,13 @@ impl CognitiveComplexity {
             (returns / 2)
         };
 
-        let mut rust_cc = cc;
+        let mut dust_cc = cc;
         // prevent degenerate cases where unreachable code contains `return` statements
-        if rust_cc >= ret_adjust {
-            rust_cc -= ret_adjust;
+        if dust_cc >= ret_adjust {
+            dust_cc -= ret_adjust;
         }
 
-        if rust_cc > self.limit.limit() {
+        if dust_cc > self.limit.limit() {
             let fn_span = match kind {
                 FnKind::ItemFn(ident, _, _, _) | FnKind::Method(ident, _, _) => ident.span,
                 FnKind::Closure => {
@@ -102,7 +102,7 @@ impl CognitiveComplexity {
                 fn_span,
                 &format!(
                     "the function has a cognitive complexity of ({}/{})",
-                    rust_cc,
+                    dust_cc,
                     self.limit.limit()
                 ),
                 None,

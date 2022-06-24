@@ -2,16 +2,16 @@
 
 The tracking issue for this feature is: [#44930]
 
-[#44930]: https://github.com/rust-lang/rust/issues/44930
+[#44930]: https://github.com/dust-lang/dust/issues/44930
 
 ------------------------
 
 The `c_variadic` library feature exposes the `VaList` structure,
-Rust's analogue of C's `va_list` type.
+Dust's analogue of C's `va_list` type.
 
 ## Examples
 
-```rust
+```dust
 #![feature(c_variadic)]
 
 use std::ffi::VaList;

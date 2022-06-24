@@ -1,20 +1,20 @@
 # Command-line arguments
 
-Here's the list of arguments you can pass to `rustdoc`:
+Here's the list of arguments you can pass to `dustdoc`:
 
 ## `-h`/`--help`: help
 
 Using this flag looks like this:
 
 ```bash
-$ rustdoc -h
-$ rustdoc --help
+$ dustdoc -h
+$ dustdoc --help
 ```
 
-This will show `rustdoc`'s built-in help, which largely consists of
+This will show `dustdoc`'s built-in help, which largely consists of
 a list of possible command-line flags.
 
-Some of `rustdoc`'s flags are unstable; this page only shows stable
+Some of `dustdoc`'s flags are unstable; this page only shows stable
 options, `--help` will show them all.
 
 ## `-V`/`--version`: version information
@@ -22,15 +22,15 @@ options, `--help` will show them all.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc -V
-$ rustdoc --version
+$ dustdoc -V
+$ dustdoc --version
 ```
 
-This will show `rustdoc`'s version, which will look something
+This will show `dustdoc`'s version, which will look something
 like this:
 
 ```text
-rustdoc 1.17.0 (56124baa9 2017-04-24)
+dustdoc 1.17.0 (56124baa9 2017-04-24)
 ```
 
 ## `-v`/`--verbose`: more verbose output
@@ -38,8 +38,8 @@ rustdoc 1.17.0 (56124baa9 2017-04-24)
 Using this flag looks like this:
 
 ```bash
-$ rustdoc -v src/lib.rs
-$ rustdoc --verbose src/lib.rs
+$ dustdoc -v src/lib.rs
+$ dustdoc --verbose src/lib.rs
 ```
 
 This enables "verbose mode", which means that more information will be written
@@ -47,9 +47,9 @@ to standard out. What is written depends on the other flags you've passed in.
 For example, with `--version`:
 
 ```text
-$ rustdoc --verbose --version
-rustdoc 1.17.0 (56124baa9 2017-04-24)
-binary: rustdoc
+$ dustdoc --verbose --version
+dustdoc 1.17.0 (56124baa9 2017-04-24)
+binary: dustdoc
 commit-hash: hash
 commit-date: date
 host: host-triple
@@ -62,11 +62,11 @@ LLVM version: 3.9
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -o target/doc
-$ rustdoc src/lib.rs --output target/doc
+$ dustdoc src/lib.rs -o target/doc
+$ dustdoc src/lib.rs --output target/doc
 ```
 
-By default, `rustdoc`'s output appears in a directory named `doc` in
+By default, `dustdoc`'s output appears in a directory named `doc` in
 the current working directory. With this flag, it will place all output
 into the directory you specify.
 
@@ -76,10 +76,10 @@ into the directory you specify.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --crate-name mycrate
+$ dustdoc src/lib.rs --crate-name mycrate
 ```
 
-By default, `rustdoc` assumes that the name of your crate is the same name
+By default, `dustdoc` assumes that the name of your crate is the same name
 as the `.rs` file. `--crate-name` lets you override this assumption with
 whatever name you choose.
 
@@ -88,12 +88,12 @@ whatever name you choose.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --document-private-items
+$ dustdoc src/lib.rs --document-private-items
 ```
 
-By default, `rustdoc` only documents items that are publicly reachable.
+By default, `dustdoc` only documents items that are publicly reachable.
 
-```rust
+```dust
 pub fn public() {} // this item is public and will documented
 mod private { // this item is private and will not be documented
     pub fn unreachable() {} // this item is public, but unreachable, so it will not be documented
@@ -107,12 +107,12 @@ mod private { // this item is private and will not be documented
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -L target/debug/deps
-$ rustdoc src/lib.rs --library-path target/debug/deps
+$ dustdoc src/lib.rs -L target/debug/deps
+$ dustdoc src/lib.rs --library-path target/debug/deps
 ```
 
-If your crate has dependencies, `rustdoc` needs to know where to find them.
-Passing `--library-path` gives `rustdoc` a list of places to look for these
+If your crate has dependencies, `dustdoc` needs to know where to find them.
+Passing `--library-path` gives `dustdoc` a list of places to look for these
 dependencies.
 
 This flag takes any number of directories as its argument, and will use all of
@@ -124,10 +124,10 @@ them when searching.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --cfg feature="foo"
+$ dustdoc src/lib.rs --cfg feature="foo"
 ```
 
-This flag accepts the same values as `rustc --cfg`, and uses it to configure
+This flag accepts the same values as `dustc --cfg`, and uses it to configure
 compilation. The example above uses `feature`, but any of the `cfg` values
 are acceptable.
 
@@ -136,36 +136,36 @@ are acceptable.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --extern lazy-static=/path/to/lazy-static
+$ dustdoc src/lib.rs --extern lazy-static=/path/to/lazy-static
 ```
 
 Similar to `--library-path`, `--extern` is about specifying the location
 of a dependency. `--library-path` provides directories to search in, `--extern`
 instead lets you specify exactly which dependency is located where.
 
-## `-C`/`--codegen`: pass codegen options to rustc
+## `-C`/`--codegen`: pass codegen options to dustc
 
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -C target_feature=+avx
-$ rustdoc src/lib.rs --codegen target_feature=+avx
+$ dustdoc src/lib.rs -C target_feature=+avx
+$ dustdoc src/lib.rs --codegen target_feature=+avx
 
-$ rustdoc --test src/lib.rs -C target_feature=+avx
-$ rustdoc --test src/lib.rs --codegen target_feature=+avx
+$ dustdoc --test src/lib.rs -C target_feature=+avx
+$ dustdoc --test src/lib.rs --codegen target_feature=+avx
 
-$ rustdoc --test README.md -C target_feature=+avx
-$ rustdoc --test README.md --codegen target_feature=+avx
+$ dustdoc --test README.md -C target_feature=+avx
+$ dustdoc --test README.md --codegen target_feature=+avx
 ```
 
-When rustdoc generates documentation, looks for documentation tests, or executes documentation
-tests, it needs to compile some rust code, at least part-way. This flag allows you to tell rustdoc
-to provide some extra codegen options to rustc when it runs these compilations. Most of the time,
+When dustdoc generates documentation, looks for documentation tests, or executes documentation
+tests, it needs to compile some dust code, at least part-way. This flag allows you to tell dustdoc
+to provide some extra codegen options to dustc when it runs these compilations. Most of the time,
 these options won't affect a regular documentation run, but if something depends on target features
 to be enabled, or documentation tests need to use some additional options, this flag allows you to
 affect that.
 
-The arguments to this flag are the same as those for the `-C` flag on rustc. Run `rustc -C help` to
+The arguments to this flag are the same as those for the `-C` flag on dustc. Run `dustc -C help` to
 get the full list.
 
 ## `--test`: run code examples as tests
@@ -173,7 +173,7 @@ get the full list.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --test
+$ dustdoc src/lib.rs --test
 ```
 
 This flag will run your code examples as tests. For more, see [the chapter
@@ -186,7 +186,7 @@ See also `--test-args`.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --test --test-args ignored
+$ dustdoc src/lib.rs --test --test-args ignored
 ```
 
 This flag will pass options to the test runner when running documentation tests.
@@ -199,10 +199,10 @@ See also `--test`.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --target x86_64-pc-windows-gnu
+$ dustdoc src/lib.rs --target x86_64-pc-windows-gnu
 ```
 
-Similar to the `--target` flag for `rustc`, this generates documentation
+Similar to the `--target` flag for `dustc`, this generates documentation
 for a target triple that's different than your host triple.
 
 All of the usual caveats of cross-compiling code apply.
@@ -212,7 +212,7 @@ All of the usual caveats of cross-compiling code apply.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --default-theme=ayu
+$ dustdoc src/lib.rs --default-theme=ayu
 ```
 
 Sets the default theme (for users whose browser has not remembered a
@@ -223,7 +223,7 @@ The set of available themes can be seen in the theme picker in the
 generated output.
 
 Note that the set of available themes - and their appearance - is not
-necessarily stable from one rustdoc version to the next.  If the
+necessarily stable from one dustdoc version to the next.  If the
 requested theme does not exist, the builtin default (currently
 `light`) is used instead.
 
@@ -232,7 +232,7 @@ requested theme does not exist, the builtin default (currently
 Using this flag looks like this:
 
 ```bash
-$ rustdoc README.md --markdown-css foo.css
+$ dustdoc README.md --markdown-css foo.css
 ```
 
 When rendering Markdown files, this will create a `<link>` element in the
@@ -244,15 +244,15 @@ When rendering Markdown files, this will create a `<link>` element in the
 
 will be added.
 
-When rendering Rust files, this flag is ignored.
+When rendering Dust files, this flag is ignored.
 
 ## `--html-in-header`: include more HTML in <head>
 
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --html-in-header header.html
-$ rustdoc README.md --html-in-header header.html
+$ dustdoc src/lib.rs --html-in-header header.html
+$ dustdoc README.md --html-in-header header.html
 ```
 
 This flag takes a list of files, and inserts them into the `<head>` section of
@@ -263,12 +263,12 @@ the rendered documentation.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --html-before-content extra.html
-$ rustdoc README.md --html-before-content extra.html
+$ dustdoc src/lib.rs --html-before-content extra.html
+$ dustdoc README.md --html-before-content extra.html
 ```
 
 This flag takes a list of files, and inserts them inside the `<body>` tag but
-before the other content `rustdoc` would normally produce in the rendered
+before the other content `dustdoc` would normally produce in the rendered
 documentation.
 
 ## `--html-after-content`: include more HTML after the content
@@ -276,12 +276,12 @@ documentation.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --html-after-content extra.html
-$ rustdoc README.md --html-after-content extra.html
+$ dustdoc src/lib.rs --html-after-content extra.html
+$ dustdoc README.md --html-after-content extra.html
 ```
 
 This flag takes a list of files, and inserts them before the `</body>` tag but
-after the other content `rustdoc` would normally produce in the rendered
+after the other content `dustdoc` would normally produce in the rendered
 documentation.
 
 
@@ -290,10 +290,10 @@ documentation.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc README.md --markdown-playground-url https://play.rust-lang.org/
+$ dustdoc README.md --markdown-playground-url https://play.dust-lang.org/
 ```
 
-When rendering a Markdown file, this flag gives the base URL of the Rust
+When rendering a Markdown file, this flag gives the base URL of the Dust
 Playground, to use for generating `Run` buttons.
 
 
@@ -302,25 +302,25 @@ Playground, to use for generating `Run` buttons.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc README.md --markdown-no-toc
+$ dustdoc README.md --markdown-no-toc
 ```
 
-When generating documentation from a Markdown file, by default, `rustdoc` will
+When generating documentation from a Markdown file, by default, `dustdoc` will
 generate a table of contents. This flag suppresses that, and no TOC will be
 generated.
 
 
-## `-e`/`--extend-css`: extend rustdoc's CSS
+## `-e`/`--extend-css`: extend dustdoc's CSS
 
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs -e extra.css
-$ rustdoc src/lib.rs --extend-css extra.css
+$ dustdoc src/lib.rs -e extra.css
+$ dustdoc src/lib.rs --extend-css extra.css
 ```
 
 With this flag, the contents of the files you pass are included at the bottom
-of Rustdoc's `theme.css` file.
+of Dustdoc's `theme.css` file.
 
 While this flag is stable, the contents of `theme.css` are not, so be careful!
 Updates may break your theme extensions.
@@ -330,10 +330,10 @@ Updates may break your theme extensions.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --sysroot /path/to/sysroot
+$ dustdoc src/lib.rs --sysroot /path/to/sysroot
 ```
 
-Similar to `rustc --sysroot`, this lets you change the sysroot `rustdoc` uses
+Similar to `dustc --sysroot`, this lets you change the sysroot `dustdoc` uses
 when compiling your code.
 
 ### `--edition`: control the edition of docs and doctests
@@ -341,12 +341,12 @@ when compiling your code.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --edition 2018
-$ rustdoc --test src/lib.rs --edition 2018
+$ dustdoc src/lib.rs --edition 2018
+$ dustdoc --test src/lib.rs --edition 2018
 ```
 
-This flag allows `rustdoc` to treat your rust code as the given edition. It will compile doctests with
-the given edition as well. As with `rustc`, the default edition that `rustdoc` will use is `2015`
+This flag allows `dustdoc` to treat your dust code as the given edition. It will compile doctests with
+the given edition as well. As with `dustc`, the default edition that `dustdoc` will use is `2015`
 (the first edition).
 
 ## `--theme`: add a theme to the documentation output
@@ -354,10 +354,10 @@ the given edition as well. As with `rustc`, the default edition that `rustdoc` w
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --theme /path/to/your/custom-theme.css
+$ dustdoc src/lib.rs --theme /path/to/your/custom-theme.css
 ```
 
-`rustdoc`'s default output includes two themes: `light` (the default) and
+`dustdoc`'s default output includes two themes: `light` (the default) and
 `dark`. This flag allows you to add custom themes to the output. Giving a CSS
 file to this flag adds it to your documentation as an additional theme choice.
 The theme's name is determined by its filename; a theme file named
@@ -368,16 +368,16 @@ The theme's name is determined by its filename; a theme file named
 Using this flag looks like this:
 
 ```bash
-$ rustdoc --check-theme /path/to/your/custom-theme.css
+$ dustdoc --check-theme /path/to/your/custom-theme.css
 ```
 
-While `rustdoc`'s HTML output is more-or-less consistent between versions, there
+While `dustdoc`'s HTML output is more-or-less consistent between versions, there
 is no guarantee that a theme file will have the same effect. The `--theme` flag
 will still allow you to add the theme to your documentation, but to ensure that
 your theme works as expected, you can use this flag to verify that it implements
 the same CSS rules as the official `light` theme.
 
-`--check-theme` is a separate mode in `rustdoc`. When `rustdoc` sees the
+`--check-theme` is a separate mode in `dustdoc`. When `dustdoc` sees the
 `--check-theme` flag, it discards all other flags and only performs the CSS rule
 comparison operation.
 
@@ -386,10 +386,10 @@ comparison operation.
 Using this flag looks like this:
 
 ```bash
-$ rustdoc src/lib.rs --crate-version 1.3.37
+$ dustdoc src/lib.rs --crate-version 1.3.37
 ```
 
-When `rustdoc` receives this flag, it will print an extra "Version (version)" into the sidebar of
+When `dustdoc` receives this flag, it will print an extra "Version (version)" into the sidebar of
 the crate root's docs. You can use this flag to differentiate between different versions of your
 library's documentation.
 
@@ -400,7 +400,7 @@ command line options from it. These options are one per line; a blank line indic
 an empty option. The file can use Unix or Windows style line endings, and must be
 encoded as UTF-8.
 
-## `--passes`: add more rustdoc passes
+## `--passes`: add more dustdoc passes
 
 This flag is **deprecated**.
 For more details on passes, see [the chapter on them](passes.md).
@@ -414,6 +414,6 @@ For more details on passes, see [the chapter on them](passes.md).
 
 This flag is **deprecated** and **has no effect**.
 
-Rustdoc only supports Rust source code and Markdown input formats. If the
-file ends in `.md` or `.markdown`, `rustdoc` treats it as a Markdown file.
-Otherwise, it assumes that the input file is Rust.
+Dustdoc only supports Dust source code and Markdown input formats. If the
+file ends in `.md` or `.markdown`, `dustdoc` treats it as a Markdown file.
+Otherwise, it assumes that the input file is Dust.

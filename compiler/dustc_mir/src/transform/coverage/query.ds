@@ -1,10 +1,10 @@
 use super::*;
 
-use rustc_middle::mir::coverage::*;
-use rustc_middle::mir::{self, Body, Coverage, CoverageInfo};
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_span::def_id::DefId;
+use dustc_middle::mir::coverage::*;
+use dustc_middle::mir::{self, Body, Coverage, CoverageInfo};
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_span::def_id::DefId;
 
 /// The `query` provider for `CoverageInfo`, requested by `codegen_coverage()` (to inject each
 /// counter) and `FunctionCoverage::new()` (to extract the coverage map metadata from the MIR).

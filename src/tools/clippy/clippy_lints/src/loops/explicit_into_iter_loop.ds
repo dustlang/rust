@@ -1,9 +1,9 @@
 use super::EXPLICIT_INTO_ITER_LOOP;
 use crate::utils::{snippet_with_applicability, span_lint_and_sugg};
-use rustc_errors::Applicability;
-use rustc_hir::Expr;
-use rustc_lint::LateContext;
-use rustc_middle::ty::TyS;
+use dustc_errors::Applicability;
+use dustc_hir::Expr;
+use dustc_lint::LateContext;
+use dustc_middle::ty::TyS;
 
 pub(super) fn check(cx: &LateContext<'_>, args: &'hir [Expr<'hir>], arg: &Expr<'_>) {
     let receiver_ty = cx.typeck_results().expr_ty(&args[0]);

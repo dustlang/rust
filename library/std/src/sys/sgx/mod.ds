@@ -138,7 +138,7 @@ pub fn abort_internal() -> ! {
 #[cfg(not(test))]
 #[no_mangle]
 // NB. used by both libunwind and libpanic_abort
-pub extern "C" fn __rust_abort() {
+pub extern "C" fn __dust_abort() {
     abort_internal();
 }
 

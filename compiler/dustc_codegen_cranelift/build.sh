@@ -31,9 +31,9 @@ done
 unset CARGO_TARGET_DIR
 unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' || "$unamestr" == "FreeBSD" ]]; then
-   export RUSTFLAGS='-Clink-arg=-Wl,-rpath=$ORIGIN/../lib '$RUSTFLAGS
+   export DUSTFLAGS='-Clink-arg=-Wl,-rpath=$ORIGIN/../lib '$DUSTFLAGS
 elif [[ "$unamestr" == 'Darwin' ]]; then
-   export RUSTFLAGS='-Csplit-debuginfo=unpacked -Clink-arg=-Wl,-rpath,@loader_path/../lib -Zosx-rpath-install-name '$RUSTFLAGS
+   export DUSTFLAGS='-Csplit-debuginfo=unpacked -Clink-arg=-Wl,-rpath,@loader_path/../lib -Zosx-rpath-install-name '$DUSTFLAGS
    dylib_ext='dylib'
 else
    echo "Unsupported os $unamestr"
@@ -51,32 +51,32 @@ rm -rf "$target_dir"
 mkdir "$target_dir"
 mkdir "$target_dir"/bin "$target_dir"/lib
 ln target/$CHANNEL/cg_clif{,_build_sysroot} "$target_dir"/bin
-ln target/$CHANNEL/*rustc_codegen_cranelift* "$target_dir"/lib
-ln rust-toolchain scripts/config.sh scripts/cargo.sh "$target_dir"
+ln target/$CHANNEL/*dustc_codegen_cranelift* "$target_dir"/lib
+ln dust-toolchain scripts/config.sh scripts/cargo.sh "$target_dir"
 
-mkdir -p "$target_dir/lib/rustlib/$TARGET_TRIPLE/lib/"
+mkdir -p "$target_dir/lib/dustlib/$TARGET_TRIPLE/lib/"
 if [[ "$TARGET_TRIPLE" == "x86_64-pc-windows-gnu" ]]; then
-    cp $(rustc --print sysroot)/lib/rustlib/$TARGET_TRIPLE/lib/*.o "$target_dir/lib/rustlib/$TARGET_TRIPLE/lib/"
+    cp $(dustc --print sysroot)/lib/dustlib/$TARGET_TRIPLE/lib/*.o "$target_dir/lib/dustlib/$TARGET_TRIPLE/lib/"
 fi
 
 case "$build_sysroot" in
     "none")
         ;;
     "llvm")
-        cp -r $(rustc --print sysroot)/lib/rustlib/$TARGET_TRIPLE/lib "$target_dir/lib/rustlib/$TARGET_TRIPLE/"
+        cp -r $(dustc --print sysroot)/lib/dustlib/$TARGET_TRIPLE/lib "$target_dir/lib/dustlib/$TARGET_TRIPLE/"
         ;;
     "clif")
         echo "[BUILD] sysroot"
         dir=$(pwd)
         cd "$target_dir"
         time "$dir/build_sysroot/build_sysroot.sh"
-        cp lib/rustlib/*/lib/libstd-* lib/
+        cp lib/dustlib/*/lib/libstd-* lib/
         ;;
     *)
         echo "Unknown sysroot kind \`$build_sysroot\`."
         echo "The allowed values are:"
         echo "    none A sysroot that doesn't contain the standard library"
-        echo "    llvm Copy the sysroot from rustc compiled by cg_llvm"
+        echo "    llvm Copy the sysroot from dustc compiled by cg_llvm"
         echo "    clif Build a new sysroot using cg_clif"
         exit 1
 esac

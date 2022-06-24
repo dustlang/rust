@@ -153,4 +153,4 @@ LL |     if let A::Tuple(3) = x { }
 error: aborting due to 6 previous errors
 
 Some errors have detailed explanations: E0423, E0532.
-For more information about an error, try `rustc --explain E0423`.
+For more information about an error, try `dustc --explain E0423`.

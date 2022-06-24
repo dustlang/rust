@@ -1,4 +1,4 @@
-//! Write the output of rustc's analysis to an implementor of Dump.
+//! Write the output of dustc's analysis to an implementor of Dump.
 //!
 //! Dumping the analysis is implemented by walking the AST and getting a bunch of
 //! info out from all over the place. We use `DefId`s to identify objects. The
@@ -13,21 +13,21 @@
 //! DumpVisitor walks the AST and processes it, and Dumper is used for
 //! recording the output.
 
-use rustc_ast as ast;
-use rustc_ast::walk_list;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind as HirDefKind, Res};
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::intravisit::{self, Visitor};
-use rustc_hir_pretty::{bounds_to_string, fn_to_string, generic_params_to_string, ty_to_string};
-use rustc_middle::hir::map::Map;
-use rustc_middle::span_bug;
-use rustc_middle::ty::{self, DefIdTree, TyCtxt};
-use rustc_session::config::Input;
-use rustc_span::source_map::respan;
-use rustc_span::symbol::Ident;
-use rustc_span::*;
+use dustc_ast as ast;
+use dustc_ast::walk_list;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind as HirDefKind, Res};
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::intravisit::{self, Visitor};
+use dustc_hir_pretty::{bounds_to_string, fn_to_string, generic_params_to_string, ty_to_string};
+use dustc_middle::hir::map::Map;
+use dustc_middle::span_bug;
+use dustc_middle::ty::{self, DefIdTree, TyCtxt};
+use dustc_session::config::Input;
+use dustc_span::source_map::respan;
+use dustc_span::symbol::Ident;
+use dustc_span::*;
 
 use std::env;
 use std::path::Path;
@@ -897,7 +897,7 @@ impl<'tcx> DumpVisitor<'tcx> {
                         .map(|t| t.to_string())
                         .unwrap_or_default();
 
-                    // Rust uses the id of the pattern for var lookups, so we'll use it too.
+                    // Dust uses the id of the pattern for var lookups, so we'll use it too.
                     if !self.span.filter_generated(ident.span) {
                         let qualname = format!("{}${}", ident.to_string(), hir_id);
                         let id = id_from_hir_id(hir_id, &self.save_ctxt);

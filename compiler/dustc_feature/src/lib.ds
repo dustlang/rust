@@ -1,7 +1,7 @@
 //! # Feature gates
 //!
 //! This crate declares the set of past and present unstable features in the compiler.
-//! Feature gate checking itself is done in `librustc_ast_passes/feature_gate.rs`
+//! Feature gate checking itself is done in `libdustc_ast_passes/feature_gate.rs`
 //! at the moment.
 //!
 //! Features are enabled in programs via the crate-level attributes of
@@ -21,7 +21,7 @@ mod removed;
 #[cfg(test)]
 mod tests;
 
-use rustc_span::{edition::Edition, symbol::Symbol, Span};
+use dustc_span::{edition::Edition, symbol::Symbol, Span};
 use std::fmt;
 use std::num::NonZeroU32;
 
@@ -71,15 +71,15 @@ pub enum UnstableFeatures {
     /// Errors are bypassed for bootstrapping. This is required any time
     /// during the build that feature-related lints are set to warn or above
     /// because the build turns on warnings-as-errors and uses lots of unstable
-    /// features. As a result, this is always required for building Rust itself.
+    /// features. As a result, this is always required for building Dust itself.
     Cheat,
 }
 
 impl UnstableFeatures {
-    /// This takes into account `RUSTC_BOOTSTRAP`.
+    /// This takes into account `DUSTC_BOOTSTRAP`.
     ///
-    /// If `krate` is [`Some`], then setting `RUSTC_BOOTSTRAP=krate` will enable the nightly features.
-    /// Otherwise, only `RUSTC_BOOTSTRAP=1` will work.
+    /// If `krate` is [`Some`], then setting `DUSTC_BOOTSTRAP=krate` will enable the nightly features.
+    /// Otherwise, only `DUSTC_BOOTSTRAP=1` will work.
     pub fn from_environment(krate: Option<&str>) -> Self {
         // `true` if this is a feature-staged build, i.e., on the beta or stable channel.
         let disable_unstable_features = option_env!("CFG_DISABLE_UNSTABLE_FEATURES").is_some();
@@ -88,7 +88,7 @@ impl UnstableFeatures {
             krate.map_or(false, |name| var.split(',').any(|new_krate| new_krate == name))
         };
         // `true` if we should enable unstable features for bootstrapping.
-        let bootstrap = std::env::var("RUSTC_BOOTSTRAP")
+        let bootstrap = std::env::var("DUSTC_BOOTSTRAP")
             .map_or(false, |var| var == "1" || is_unstable_crate(&var));
         match (disable_unstable_features, bootstrap) {
             (_, true) => UnstableFeatures::Cheat,
@@ -126,7 +126,7 @@ fn find_lang_feature_issue(feature: Symbol) -> Option<NonZeroU32> {
 
 const fn to_nonzero(n: Option<u32>) -> Option<NonZeroU32> {
     // Can be replaced with `n.and_then(NonZeroU32::new)` if that is ever usable
-    // in const context. Requires https://github.com/rust-lang/rfcs/pull/2632.
+    // in const context. Requires https://github.com/dust-lang/rfcs/pull/2632.
     match n {
         None => None,
         Some(n) => NonZeroU32::new(n),

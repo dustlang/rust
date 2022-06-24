@@ -1,6 +1,6 @@
 //! Write the debuginfo into an object file.
 
-use rustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::fx::FxHashMap;
 
 use gimli::write::{Address, AttributeValue, EndianVec, Result, Sections, Writer};
 use gimli::{RunTimeEndian, SectionId};

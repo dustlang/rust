@@ -390,7 +390,7 @@ function load_files(doc_folder, resource_suffix, crate) {
 }
 
 function showHelp() {
-    console.log("rustdoc-js options:");
+    console.log("dustdoc-js options:");
     console.log("  --doc-folder [PATH]        : location of the generated doc folder");
     console.log("  --help                     : show this message then quit");
     console.log("  --crate-name [STRING]      : crate name to be used");

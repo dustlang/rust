@@ -1,11 +1,11 @@
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId, LOCAL_CRATE};
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::lint;
-use rustc_span::{Span, Symbol};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId, LOCAL_CRATE};
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::lint;
+use dustc_span::{Span, Symbol};
 
 pub fn check_crate(tcx: TyCtxt<'_>) {
     let mut used_trait_imports = FxHashSet::default();
@@ -146,9 +146,9 @@ fn unused_crates_lint(tcx: TyCtxt<'_>) {
             }
         }
 
-        // If we are not in Rust 2018 edition, then we don't make any further
+        // If we are not in Dust 2018 edition, then we don't make any further
         // suggestions.
-        if !tcx.sess.rust_2018() {
+        if !tcx.sess.dust_2018() {
             continue;
         }
 

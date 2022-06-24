@@ -8,9 +8,9 @@ IFS=$'\n\t'
 source "$(cd "$(dirname "$0")" && pwd)/../shared.sh"
 
 if isWindows; then
-    path="/c/cache/rustsrc"
+    path="/c/cache/dustsrc"
 else
-    path="${HOME}/rustsrc"
+    path="${HOME}/dustsrc"
 fi
 
 mkdir -p "${path}"

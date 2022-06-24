@@ -38,17 +38,17 @@
 #[doc(alias = "alloc")]
 #[doc(alias = "malloc")]
 #[macro_export]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[allow_internal_unstable(box_syntax, liballoc_internals)]
 macro_rules! vec {
     () => (
-        $crate::__rust_force_expr!($crate::vec::Vec::new())
+        $crate::__dust_force_expr!($crate::vec::Vec::new())
     );
     ($elem:expr; $n:expr) => (
-        $crate::__rust_force_expr!($crate::vec::from_elem($elem, $n))
+        $crate::__dust_force_expr!($crate::vec::from_elem($elem, $n))
     );
     ($($x:expr),+ $(,)?) => (
-        $crate::__rust_force_expr!(<[_]>::into_vec(box [$($x),+]))
+        $crate::__dust_force_expr!(<[_]>::into_vec(box [$($x),+]))
     );
 }
 
@@ -106,8 +106,8 @@ macro_rules! vec {
 /// format!("x = {}, y = {y}", 10, y = 30);
 /// ```
 #[macro_export]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[cfg_attr(not(test), rustc_diagnostic_item = "format_macro")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[cfg_attr(not(test), dustc_diagnostic_item = "format_macro")]
 macro_rules! format {
     ($($arg:tt)*) => {{
         let res = $crate::fmt::format($crate::__export::format_args!($($arg)*));
@@ -119,7 +119,7 @@ macro_rules! format {
 #[doc(hidden)]
 #[macro_export]
 #[unstable(feature = "liballoc_internals", issue = "none", reason = "implementation detail")]
-macro_rules! __rust_force_expr {
+macro_rules! __dust_force_expr {
     ($e:expr) => {
         $e
     };

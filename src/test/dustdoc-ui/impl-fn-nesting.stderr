@@ -58,9 +58,9 @@ error[E0412]: cannot find type `UnknownType` in this scope
 LL |             pub fn doubly_nested(c: UnknownType) {
    |                                     ^^^^^^^^^^^ not found in this scope
 
-error: Compilation failed, aborting rustdoc
+error: Compilation failed, aborting dustdoc
 
 error: aborting due to 11 previous errors
 
 Some errors have detailed explanations: E0405, E0412.
-For more information about an error, try `rustc --explain E0405`.
+For more information about an error, try `dustc --explain E0405`.

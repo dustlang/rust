@@ -49,4 +49,4 @@ LL | fn allowed_in_ret_type() -> impl Fn() -> impl Into<u32> {
 error: aborting due to 6 previous errors
 
 Some errors have detailed explanations: E0562, E0666.
-For more information about an error, try `rustc --explain E0562`.
+For more information about an error, try `dustc --explain E0562`.

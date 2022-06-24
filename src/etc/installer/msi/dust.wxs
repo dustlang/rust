@@ -8,12 +8,12 @@
     <?endif?>
 
     <?if $(env.CFG_CHANNEL)="stable" ?>
-        <?define ProductName="Rust $(env.CFG_VER_MAJOR).$(env.CFG_VER_MINOR) ($(env.CFG_ABI)$(var.ArchSuffix))" ?>
+        <?define ProductName="Dust $(env.CFG_VER_MAJOR).$(env.CFG_VER_MINOR) ($(env.CFG_ABI)$(var.ArchSuffix))" ?>
     <?else?>
-        <?define ProductName="Rust $(env.CFG_CHANNEL) $(env.CFG_VER_MAJOR).$(env.CFG_VER_MINOR) ($(env.CFG_ABI)$(var.ArchSuffix))" ?>
+        <?define ProductName="Dust $(env.CFG_CHANNEL) $(env.CFG_VER_MAJOR).$(env.CFG_VER_MINOR) ($(env.CFG_ABI)$(var.ArchSuffix))" ?>
     <?endif?>
 
-    <?define BaseRegKey="Software\[Manufacturer]\Rust $(env.CFG_CHANNEL) ($(env.CFG_ABI)$(var.ArchSuffix))\$(env.CFG_VER_MAJOR).$(env.CFG_VER_MINOR)" ?>
+    <?define BaseRegKey="Software\[Manufacturer]\Dust $(env.CFG_CHANNEL) ($(env.CFG_ABI)$(var.ArchSuffix))\$(env.CFG_VER_MAJOR).$(env.CFG_VER_MINOR)" ?>
 
     <!-- Upgrade code should be different for each platform -->
     <?if $(sys.BUILDARCH)="x64" ?>
@@ -74,16 +74,16 @@
         UpgradeCode="$(var.UpgradeCode)"
         Manufacturer="The Rust Project Developers">
         <Package
-            Comments="Rust is a systems programming language that runs blazingly fast, prevents almost all crashes, and eliminates data races."
+            Comments="Dust is a systems programming language that runs blazingly fast, prevents almost all crashes, and eliminates data races."
             InstallerVersion="200"
             InstallPrivileges="elevated"
             Compressed="yes" />
 
-        <Icon Id="rust.ico" SourceFile="rust-logo.ico" />
-        <Property Id="ApplicationFolderName" Value="Rust $(env.CFG_CHANNEL) $(env.CFG_ABI) $(env.CFG_VER_MAJOR).$(env.CFG_VER_MINOR)" />
+        <Icon Id="dust.ico" SourceFile="dust-logo.ico" />
+        <Property Id="ApplicationFolderName" Value="Dust $(env.CFG_CHANNEL) $(env.CFG_ABI) $(env.CFG_VER_MAJOR).$(env.CFG_VER_MINOR)" />
         <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
-        <Property Id="ARPPRODUCTICON" Value="rust.ico" />
-        <Property Id="ARPURLINFOABOUT" Value="https://www.rust-lang.org/" />
+        <Property Id="ARPPRODUCTICON" Value="dust.ico" />
+        <Property Id="ARPURLINFOABOUT" Value="https://www.dust-lang.org/" />
         <Property Id="ARPCOMMENTS" Value="$(env.CFG_RELEASE_INFO)" />
         <!-- This is a dual-mode package. https://docs.microsoft.com/en-us/windows/win32/msi/single-package-authoring -->
         <Property Id="ALLUSERS" Value="2" Secure="yes" />
@@ -161,9 +161,9 @@
         <!-- Installation directory and files are defined in Files.wxs -->
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="$(var.PlatformProgramFilesFolder)">
-                <Directory Id="INSTALLDIR" Name="Rust">
+                <Directory Id="INSTALLDIR" Name="Dust">
                     <!-- Root directories for every feature should have different IDs for correct work of heat.exe -->
-                    <Directory Id="Rustc" Name="." />
+                    <Directory Id="Dustc" Name="." />
                     <?if $(env.CFG_MINGW)="1" ?>
                         <Directory Id="Gcc" Name="." />
                     <?endif?>
@@ -200,25 +200,25 @@
 
             <!-- Start Menu shortcuts -->
             <Directory Id="ProgramMenuFolder">
-                <Directory Id="ApplicationProgramsFolder" Name="Rust">
-                    <Component Id="RustShellShortcut" Guid="*">
-                        <Shortcut Id="RustShell"
+                <Directory Id="ApplicationProgramsFolder" Name="Dust">
+                    <Component Id="DustShellShortcut" Guid="*">
+                        <Shortcut Id="DustShell"
                                   Name="$(var.ProductName) Shell"
-                                  Description="Opens Command Prompt with Rust tools directory added to the PATH"
+                                  Description="Opens Command Prompt with Dust tools directory added to the PATH"
                                   Target="[SHORTCUTTARGET]"
                                   Arguments="/K path [INSTALLDIR]bin;%PATH%"
                                   WorkingDirectory="SHORTCUTWKDIR">
-                            <Icon Id="rust2.ico" SourceFile="rust-logo.ico" />
+                            <Icon Id="dust2.ico" SourceFile="dust-logo.ico" />
                         </Shortcut>
-                        <RegistryValue Root="HKMU" Key="$(var.BaseRegKey)" Name="RustShell" Type="integer" Value="1" KeyPath="yes" />
+                        <RegistryValue Root="HKMU" Key="$(var.BaseRegKey)" Name="DustShell" Type="integer" Value="1" KeyPath="yes" />
                         <RemoveFolder Id="ApplicationProgramsFolder1" On="uninstall" />
                     </Component>
                     <Component Id="DocIndexShortcut" Guid="*">
-                        <Shortcut Id="RustDocs"
+                        <Shortcut Id="DustDocs"
                                   Name="$(var.ProductName) Documentation"
-                                  Description="Opens Rust HTML documentation in the default browser"
-                                  Target="[INSTALLDIR]share\doc\rust\html\index.html" />
-                        <RegistryValue Root="HKMU" Key="$(var.BaseRegKey)" Name="RustDocs" Type="integer" Value="1" KeyPath="yes" />
+                                  Description="Opens Dust HTML documentation in the default browser"
+                                  Target="[INSTALLDIR]share\doc\dust\html\index.html" />
+                        <RegistryValue Root="HKMU" Key="$(var.BaseRegKey)" Name="DustDocs" Type="integer" Value="1" KeyPath="yes" />
                         <RemoveFolder Id="ApplicationProgramsFolder2" On="uninstall" />
                     </Component>
                 </Directory>
@@ -226,25 +226,25 @@
 
         </Directory>
 
-        <Feature Id="Rustc"
-                 Title="Rust compiler and standard crates"
+        <Feature Id="Dustc"
+                 Title="Dust compiler and standard crates"
                  Display="1"
                  Level="1"
                  Absent="disallow"
                  AllowAdvertise="no">
-                 <ComponentGroupRef Id="RustcGroup" />
-                 <ComponentRef Id="RustShellShortcut" />
+                 <ComponentGroupRef Id="DustcGroup" />
+                 <ComponentRef Id="DustShellShortcut" />
                  <ComponentRef Id="InstallDir" />
         </Feature>
         <Feature Id="Std"
-                 Title="The Rust standard library"
+                 Title="The Dust standard library"
                  Display="2"
                  Level="1"
                  AllowAdvertise="no">
                  <ComponentGroupRef Id="StdGroup" />
         </Feature>
         <Feature Id="Cargo"
-                 Title="Cargo, the Rust package manager"
+                 Title="Cargo, the Dust package manager"
                  Display="3"
                  Level="1"
                  AllowAdvertise="no">
@@ -270,7 +270,7 @@
         </Feature>
         <Feature Id="Path"
                  Title="Add to PATH"
-                 Description="Add Rust to PATH environment variable"
+                 Description="Add Dust to PATH environment variable"
                  Display="6"
                  Level="1"
                  AllowAdvertise="no">
@@ -279,7 +279,7 @@
         </Feature>
         <!-- tool-rls-start -->
         <Feature Id="RLS"
-                 Title="RLS, the Rust Language Server"
+                 Title="RLS, the Dust Language Server"
                  Display="7"
                  Level="2"
                  AllowAdvertise="no">
@@ -288,6 +288,6 @@
         </Feature>
         <!-- tool-rls-end -->
 
-        <UIRef Id="RustUI" />
+        <UIRef Id="DustUI" />
     </Product>
 </Wix>

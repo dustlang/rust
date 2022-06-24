@@ -2,13 +2,13 @@
 
 use std::convert::TryFrom;
 
-use rustc_hir::Mutability;
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_middle::{
+use dustc_hir::Mutability;
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_middle::{
     mir::{self, interpret::ConstAlloc},
     ty::ScalarInt,
 };
-use rustc_span::{source_map::DUMMY_SP, symbol::Symbol};
+use dustc_span::{source_map::DUMMY_SP, symbol::Symbol};
 
 use crate::interpret::{
     intern_const_alloc_recursive, ConstValue, InternKind, InterpCx, MPlaceTy, MemPlaceMeta, Scalar,

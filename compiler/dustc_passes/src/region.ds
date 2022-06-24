@@ -2,22 +2,22 @@
 //! the parent links in the region hierarchy.
 //!
 //! For more information about how MIR-based region-checking works,
-//! see the [rustc dev guide].
+//! see the [dustc dev guide].
 //!
-//! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/borrow_check.html
+//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/borrow_check.html
 
-use rustc_ast::walk_list;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::{Arm, Block, Expr, Local, Node, Pat, PatKind, Stmt};
-use rustc_index::vec::Idx;
-use rustc_middle::middle::region::*;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::source_map;
-use rustc_span::Span;
+use dustc_ast::walk_list;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::{Arm, Block, Expr, Local, Node, Pat, PatKind, Stmt};
+use dustc_index::vec::Idx;
+use dustc_middle::middle::region::*;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::source_map;
+use dustc_span::Span;
 
 use std::mem;
 
@@ -27,7 +27,7 @@ pub struct Context {
     /// of the innermost fn body. Each fn forms its own disjoint tree
     /// in the region hierarchy. These fn bodies are themselves
     /// arranged into a tree. See the "Modeling closures" section of
-    /// the README in `rustc_trait_selection::infer::region_constraints`
+    /// the README in `dustc_trait_selection::infer::region_constraints`
     /// for more details.
     root_id: Option<hir::ItemLocalId>,
 
@@ -267,7 +267,7 @@ fn resolve_expr<'tcx>(visitor: &mut RegionResolutionVisitor<'tcx>, expr: &'tcx h
             | hir::ExprKind::Unary(..)
             | hir::ExprKind::Call(..)
             | hir::ExprKind::MethodCall(..) => {
-                // FIXME(https://github.com/rust-lang/rfcs/issues/811) Nested method calls
+                // FIXME(https://github.com/dust-lang/rfcs/issues/811) Nested method calls
                 //
                 // The lifetimes for a call or method call look as follows:
                 //

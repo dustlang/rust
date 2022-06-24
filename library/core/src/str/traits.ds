@@ -14,7 +14,7 @@ use super::ParseBoolError;
 /// "alphabetical" order, which varies by language and locale. Sorting strings according to
 /// culturally-accepted standards requires locale-specific data that is outside the scope of
 /// the `str` type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Ord for str {
     #[inline]
     fn cmp(&self, other: &str) -> Ordering {
@@ -22,7 +22,7 @@ impl Ord for str {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl PartialEq for str {
     #[inline]
     fn eq(&self, other: &str) -> bool {
@@ -34,7 +34,7 @@ impl PartialEq for str {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Eq for str {}
 
 /// Implements comparison operations on strings.
@@ -44,7 +44,7 @@ impl Eq for str {}
 /// "alphabetical" order, which varies by language and locale. Comparing strings according to
 /// culturally-accepted standards requires locale-specific data that is outside the scope of
 /// the `str` type.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl PartialOrd for str {
     #[inline]
     fn partial_cmp(&self, other: &str) -> Option<Ordering> {
@@ -52,7 +52,7 @@ impl PartialOrd for str {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> ops::Index<I> for str
 where
     I: SliceIndex<str>,
@@ -65,7 +65,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> ops::IndexMut<I> for str
 where
     I: SliceIndex<str>,
@@ -526,10 +526,10 @@ unsafe impl SliceIndex<str> for ops::RangeToInclusive<usize> {
 /// let p = Point::from_str("(1,2)");
 /// assert_eq!(p.unwrap(), Point{ x: 1, y: 2} )
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait FromStr: Sized {
     /// The associated error which can be returned from parsing.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     type Err;
 
     /// Parses a string `s` to return a value of this type.
@@ -550,11 +550,11 @@ pub trait FromStr: Sized {
     ///
     /// assert_eq!(5, x);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn from_str(s: &str) -> Result<Self, Self::Err>;
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl FromStr for bool {
     type Err = ParseBoolError;
 

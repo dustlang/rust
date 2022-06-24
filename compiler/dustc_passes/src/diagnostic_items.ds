@@ -9,15 +9,15 @@
 //!
 //! * Compiler internal types like `Ty` and `TyCtxt`
 
-use rustc_ast as ast;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir as hir;
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::Session;
-use rustc_span::def_id::{DefId, LocalDefId, LOCAL_CRATE};
-use rustc_span::symbol::{sym, Symbol};
+use dustc_ast as ast;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir as hir;
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::Session;
+use dustc_span::def_id::{DefId, LocalDefId, LOCAL_CRATE};
+use dustc_span::symbol::{sym, Symbol};
 
 struct DiagnosticItemCollector<'tcx> {
     // items from this crate
@@ -91,10 +91,10 @@ fn collect_item(
     }
 }
 
-/// Extract the first `rustc_diagnostic_item = "$name"` out of a list of attributes.
+/// Extract the first `dustc_diagnostic_item = "$name"` out of a list of attributes.
 fn extract(sess: &Session, attrs: &[ast::Attribute]) -> Option<Symbol> {
     attrs.iter().find_map(|attr| {
-        if sess.check_name(attr, sym::rustc_diagnostic_item) { attr.value_str() } else { None }
+        if sess.check_name(attr, sym::dustc_diagnostic_item) { attr.value_str() } else { None }
     })
 }
 

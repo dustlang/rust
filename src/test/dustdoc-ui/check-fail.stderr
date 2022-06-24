@@ -19,14 +19,14 @@ LL | pub fn foo() {}
 note: the lint level is defined here
   --> $DIR/check-fail.rs:4:9
    |
-LL | #![deny(rustdoc::all)]
+LL | #![deny(dustdoc::all)]
    |         ^^^^^^^^^^^^
-   = note: `#[deny(rustdoc::missing_doc_code_examples)]` implied by `#[deny(rustdoc::all)]`
+   = note: `#[deny(dustdoc::missing_doc_code_examples)]` implied by `#[deny(dustdoc::all)]`
 
 error: unknown attribute `testharness`. Did you mean `test_harness`?
   --> $DIR/check-fail.rs:6:1
    |
-LL | / //! ```rust,testharness
+LL | / //! ```dust,testharness
 LL | |
 LL | | //! let x = 12;
 LL | | //! ```
@@ -35,10 +35,10 @@ LL | | //! ```
 note: the lint level is defined here
   --> $DIR/check-fail.rs:4:9
    |
-LL | #![deny(rustdoc::all)]
+LL | #![deny(dustdoc::all)]
    |         ^^^^^^^^^^^^
-   = note: `#[deny(rustdoc::invalid_codeblock_attributes)]` implied by `#[deny(rustdoc::all)]`
-   = help: the code block will either not be tested if not marked as a rust one or the code will be wrapped inside a main function
+   = note: `#[deny(dustdoc::invalid_codeblock_attributes)]` implied by `#[deny(dustdoc::all)]`
+   = help: the code block will either not be tested if not marked as a dust one or the code will be wrapped inside a main function
 
 error: unknown attribute `testharness`. Did you mean `test_harness`?
   --> $DIR/check-fail.rs:15:1
@@ -46,12 +46,12 @@ error: unknown attribute `testharness`. Did you mean `test_harness`?
 LL | / /// hello
 LL | |
 LL | | ///
-LL | | /// ```rust,testharness
+LL | | /// ```dust,testharness
 LL | | /// let x = 12;
 LL | | /// ```
    | |_______^
    |
-   = help: the code block will either not be tested if not marked as a rust one or the code will be wrapped inside a main function
+   = help: the code block will either not be tested if not marked as a dust one or the code will be wrapped inside a main function
 
 error: aborting due to 4 previous errors
 

@@ -2,20 +2,20 @@ use std::cell::Cell;
 use std::fmt;
 use std::mem;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_hir::{self as hir, def_id::DefId, definitions::DefPathData};
-use rustc_index::vec::IndexVec;
-use rustc_macros::HashStable;
-use rustc_middle::ich::StableHashingContext;
-use rustc_middle::mir;
-use rustc_middle::mir::interpret::{GlobalId, InterpResult, Pointer, Scalar};
-use rustc_middle::ty::layout::{self, TyAndLayout};
-use rustc_middle::ty::{
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_hir::{self as hir, def_id::DefId, definitions::DefPathData};
+use dustc_index::vec::IndexVec;
+use dustc_macros::HashStable;
+use dustc_middle::ich::StableHashingContext;
+use dustc_middle::mir;
+use dustc_middle::mir::interpret::{GlobalId, InterpResult, Pointer, Scalar};
+use dustc_middle::ty::layout::{self, TyAndLayout};
+use dustc_middle::ty::{
     self, query::TyCtxtAt, subst::SubstsRef, ParamEnv, Ty, TyCtxt, TypeFoldable,
 };
-use rustc_span::{Pos, Span};
-use rustc_target::abi::{Align, HasDataLayout, LayoutOf, Size, TargetDataLayout};
+use dustc_span::{Pos, Span};
+use dustc_target::abi::{Align, HasDataLayout, LayoutOf, Size, TargetDataLayout};
 
 use super::{
     Immediate, MPlaceTy, Machine, MemPlace, MemPlaceMeta, Memory, Operand, Place, PlaceTy,
@@ -30,7 +30,7 @@ pub struct InterpCx<'mir, 'tcx, M: Machine<'mir, 'tcx>> {
     /// Note: the stack is provided by the machine.
     pub machine: M,
 
-    /// The results of the type checker, from rustc.
+    /// The results of the type checker, from dustc.
     /// The span in this is the "root" of the evaluation, i.e., the const
     /// we are evaluating (if this is CTFE).
     pub tcx: TyCtxtAt<'tcx>,

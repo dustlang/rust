@@ -88,4 +88,4 @@ LL | pub const fn size_of<T>() -> usize {
 
 error: aborting due to 7 previous errors
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

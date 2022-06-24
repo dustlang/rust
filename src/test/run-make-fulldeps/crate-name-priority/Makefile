@@ -1,11 +1,11 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) foo.rs
+	$(DUSTC) foo.rs
 	rm $(TMPDIR)/$(call BIN,foo)
-	$(RUSTC) foo.rs --crate-name bar
+	$(DUSTC) foo.rs --crate-name bar
 	rm $(TMPDIR)/$(call BIN,bar)
-	$(RUSTC) foo1.rs
+	$(DUSTC) foo1.rs
 	rm $(TMPDIR)/$(call BIN,foo)
-	$(RUSTC) foo1.rs -o $(TMPDIR)/$(call BIN,bar1)
+	$(DUSTC) foo1.rs -o $(TMPDIR)/$(call BIN,bar1)
 	rm $(TMPDIR)/$(call BIN,bar1)

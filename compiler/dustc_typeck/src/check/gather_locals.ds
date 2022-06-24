@@ -1,11 +1,11 @@
 use crate::check::{FnCtxt, LocalTy, UserType};
-use rustc_hir as hir;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::PatKind;
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_middle::ty::Ty;
-use rustc_span::{sym, Span};
-use rustc_trait_selection::traits;
+use dustc_hir as hir;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::PatKind;
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_middle::ty::Ty;
+use dustc_span::{sym, Span};
+use dustc_trait_selection::traits;
 use std::mem;
 
 pub(super) struct GatherLocalsVisitor<'a, 'tcx> {

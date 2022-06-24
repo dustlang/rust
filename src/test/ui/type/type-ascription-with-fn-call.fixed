@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![feature(type_ascription)]
 
 fn main() {

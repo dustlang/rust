@@ -15,17 +15,17 @@
 //! for all lint attributes.
 
 use crate::{passes::LateLintPassObject, LateContext, LateLintPass, LintStore};
-use rustc_ast as ast;
-use rustc_data_structures::sync::{join, par_iter, ParallelIterator};
-use rustc_hir as hir;
-use rustc_hir::def_id::{LocalDefId, LOCAL_CRATE};
-use rustc_hir::intravisit as hir_visit;
-use rustc_hir::intravisit::Visitor;
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_session::lint::LintPass;
-use rustc_span::symbol::Symbol;
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_data_structures::sync::{join, par_iter, ParallelIterator};
+use dustc_hir as hir;
+use dustc_hir::def_id::{LocalDefId, LOCAL_CRATE};
+use dustc_hir::intravisit as hir_visit;
+use dustc_hir::intravisit::Visitor;
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_session::lint::LintPass;
+use dustc_span::symbol::Symbol;
+use dustc_span::Span;
 
 use std::any::Any;
 use std::cell::Cell;
@@ -343,7 +343,7 @@ struct LateLintPassObjects<'a> {
     lints: &'a mut [LateLintPassObject],
 }
 
-#[allow(rustc::lint_pass_impl_without_macro)]
+#[allow(dustc::lint_pass_impl_without_macro)]
 impl LintPass for LateLintPassObjects<'_> {
     fn name(&self) -> &'static str {
         panic!()

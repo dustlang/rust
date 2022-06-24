@@ -1,21 +1,21 @@
 use crate::Lint;
 use crate::{EarlyContext, EarlyLintPass, LateContext, LateLintPass, LintContext};
-use rustc_ast as ast;
-use rustc_ast::util::parser;
-use rustc_ast::{ExprKind, StmtKind};
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::{pluralize, Applicability};
-use rustc_feature::{AttributeType, BuiltinAttribute, BUILTIN_ATTRIBUTE_MAP};
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::DefId;
-use rustc_middle::ty::adjustment;
-use rustc_middle::ty::{self, Ty};
-use rustc_session::lint::builtin::UNUSED_ATTRIBUTES;
-use rustc_span::symbol::Symbol;
-use rustc_span::symbol::{kw, sym};
-use rustc_span::{BytePos, Span, DUMMY_SP};
+use dustc_ast as ast;
+use dustc_ast::util::parser;
+use dustc_ast::{ExprKind, StmtKind};
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::{pluralize, Applicability};
+use dustc_feature::{AttributeType, BuiltinAttribute, BUILTIN_ATTRIBUTE_MAP};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::DefId;
+use dustc_middle::ty::adjustment;
+use dustc_middle::ty::{self, Ty};
+use dustc_session::lint::builtin::UNUSED_ATTRIBUTES;
+use dustc_span::symbol::Symbol;
+use dustc_span::symbol::{kw, sym};
+use dustc_span::{BytePos, Span, DUMMY_SP};
 
 use tracing::debug;
 
@@ -25,7 +25,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// fn returns_result() -> Result<(), ()> {
     ///     Ok(())
     /// }
@@ -42,7 +42,7 @@ declare_lint! {
     /// The `#[must_use]` attribute is an indicator that it is a mistake to
     /// ignore the value. See [the reference] for more details.
     ///
-    /// [the reference]: https://doc.rust-lang.org/reference/attributes/diagnostics.html#the-must_use-attribute
+    /// [the reference]: https://doc.dust-lang.org/reference/attributes/diagnostics.html#the-must_use-attribute
     pub UNUSED_MUST_USE,
     Warn,
     "unused result of a type flagged as `#[must_use]`",
@@ -55,7 +55,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(unused_results)]
     /// fn foo<T>() -> T { panic!() }
     ///
@@ -81,7 +81,7 @@ declare_lint! {
     /// Using this lint would require explicitly ignoring or discarding such
     /// values.
     ///
-    /// [`must_use` attribute]: https://doc.rust-lang.org/reference/attributes/diagnostics.html#the-must_use-attribute
+    /// [`must_use` attribute]: https://doc.dust-lang.org/reference/attributes/diagnostics.html#the-must_use-attribute
     /// [`unused_must_use` lint]: warn-by-default.html#unused-must-use
     pub UNUSED_RESULTS,
     Allow,
@@ -127,7 +127,7 @@ impl<'tcx> LateLintPass<'tcx> for UnusedResults {
             fn_warned = check_must_use_def(cx, def_id, s.span, "return value of ", "");
         } else if type_permits_lack_of_use {
             // We don't warn about unused unit or uninhabited types.
-            // (See https://github.com/rust-lang/rust/issues/43806 for details.)
+            // (See https://github.com/dust-lang/dust/issues/43806 for details.)
             return;
         }
 
@@ -327,7 +327,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let x = 42;
     ///
     /// x;
@@ -472,7 +472,7 @@ trait UnusedDelimLint {
     /// that we should only lint `unused_parens` and not `unused_braces`
     /// in this case.
     ///
-    /// ```rust
+    /// ```dust
     /// let mut a = 7;
     /// let ref b = { a }; // We actually borrow a copy of `a` here.
     /// a += 1; // By mutating `a` we invalidate any borrows of `a`.
@@ -500,7 +500,7 @@ trait UnusedDelimLint {
             loop {
                 if let ExprKind::Binary(_, lhs, _rhs) = &innermost.kind {
                     innermost = lhs;
-                    if !rustc_ast::util::classify::expr_requires_semi_to_be_stmt(innermost) {
+                    if !dustc_ast::util::classify::expr_requires_semi_to_be_stmt(innermost) {
                         break true;
                     }
                 } else {
@@ -528,7 +528,7 @@ trait UnusedDelimLint {
         let expr_text = if let Ok(snippet) = cx.sess().source_map().span_to_snippet(value.span) {
             snippet
         } else {
-            pprust::expr_to_string(value)
+            ppdust::expr_to_string(value)
         };
         let keep_space = (
             left_pos.map_or(false, |s| s >= value.span.lo()),
@@ -545,7 +545,7 @@ trait UnusedDelimLint {
         msg: &str,
         keep_space: (bool, bool),
     ) {
-        // FIXME(flip1995): Quick and dirty fix for #70814. This should be fixed in rustdoc
+        // FIXME(flip1995): Quick and dirty fix for #70814. This should be fixed in dustdoc
         // properly.
         if span == DUMMY_SP {
             return;
@@ -601,13 +601,13 @@ trait UnusedDelimLint {
     }
 
     fn check_expr(&mut self, cx: &EarlyContext<'_>, e: &ast::Expr) {
-        use rustc_ast::ExprKind::*;
+        use dustc_ast::ExprKind::*;
         let (value, ctx, followed_by_block, left_pos, right_pos) = match e.kind {
             // Do not lint `unused_braces` in `if let` expressions.
             If(ref cond, ref block, _)
                 if !matches!(cond.kind, Let(_, _)) || Self::LINT_EXPR_IN_PATTERN_MATCHING_CTX =>
             {
-                let left = e.span.lo() + rustc_span::BytePos(2);
+                let left = e.span.lo() + dustc_span::BytePos(2);
                 let right = block.span.lo();
                 (cond, UnusedDelimsCtx::IfCond, true, Some(left), Some(right))
             }
@@ -616,7 +616,7 @@ trait UnusedDelimLint {
             While(ref cond, ref block, ..)
                 if !matches!(cond.kind, Let(_, _)) || Self::LINT_EXPR_IN_PATTERN_MATCHING_CTX =>
             {
-                let left = e.span.lo() + rustc_span::BytePos(5);
+                let left = e.span.lo() + dustc_span::BytePos(5);
                 let right = block.span.lo();
                 (cond, UnusedDelimsCtx::WhileCond, true, Some(left), Some(right))
             }
@@ -626,12 +626,12 @@ trait UnusedDelimLint {
             }
 
             Match(ref head, _) if Self::LINT_EXPR_IN_PATTERN_MATCHING_CTX => {
-                let left = e.span.lo() + rustc_span::BytePos(5);
+                let left = e.span.lo() + dustc_span::BytePos(5);
                 (head, UnusedDelimsCtx::MatchScrutineeExpr, true, Some(left), None)
             }
 
             Ret(Some(ref value)) => {
-                let left = e.span.lo() + rustc_span::BytePos(3);
+                let left = e.span.lo() + dustc_span::BytePos(3);
                 (value, UnusedDelimsCtx::ReturnValue, false, Some(left), None)
             }
 
@@ -715,7 +715,7 @@ declare_lint! {
     ///
     /// ### Examples
     ///
-    /// ```rust
+    /// ```dust
     /// if(true) {}
     /// ```
     ///
@@ -757,7 +757,7 @@ impl UnusedDelimLint for UnusedParens {
                     && !value.span.from_expansion()
                     && (ctx != UnusedDelimsCtx::LetScrutineeExpr
                         || !matches!(inner.kind, ast::ExprKind::Binary(
-                                rustc_span::source_map::Spanned { node, .. },
+                                dustc_span::source_map::Spanned { node, .. },
                                 _,
                                 _,
                             ) if node.lazy()))
@@ -809,7 +809,7 @@ impl UnusedParens {
                 if let Ok(snippet) = cx.sess().source_map().span_to_snippet(value.span) {
                     snippet
                 } else {
-                    pprust::pat_to_string(value)
+                    ppdust::pat_to_string(value)
                 };
             self.emit_unused_delims(cx, value.span, &pattern_text, "pattern", (false, false));
         }
@@ -908,7 +908,7 @@ impl EarlyLintPass for UnusedParens {
                         if let Ok(snippet) = cx.sess().source_map().span_to_snippet(ty.span) {
                             snippet
                         } else {
-                            pprust::ty_to_string(ty)
+                            ppdust::ty_to_string(ty)
                         };
 
                     self.emit_unused_delims(cx, ty.span, &pattern_text, "type", (false, false));
@@ -928,7 +928,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// if { true } {
     ///     // ...
     /// }
@@ -1103,7 +1103,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(unused_import_braces)]
     /// use test::{A};
     ///
@@ -1176,7 +1176,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![feature(box_syntax)]
     /// fn main() {
     ///     let a = (box [1, 2, 3]).len();

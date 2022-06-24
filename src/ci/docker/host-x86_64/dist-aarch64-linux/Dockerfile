@@ -11,9 +11,9 @@ RUN sh /scripts/make3.sh
 COPY scripts/crosstool-ng.sh /scripts/
 RUN sh /scripts/crosstool-ng.sh
 
-COPY scripts/rustbuild-setup.sh /scripts/
-RUN sh /scripts/rustbuild-setup.sh
-USER rustbuild
+COPY scripts/dustbuild-setup.sh /scripts/
+RUN sh /scripts/dustbuild-setup.sh
+USER dustbuild
 WORKDIR /tmp
 
 COPY host-x86_64/dist-aarch64-linux/aarch64-linux-gnu.config host-x86_64/dist-aarch64-linux/build-toolchains.sh /tmp/
@@ -35,7 +35,7 @@ ENV CC_aarch64_unknown_linux_gnu=aarch64-unknown-linux-gnueabi-gcc \
 
 ENV HOSTS=aarch64-unknown-linux-gnu
 
-ENV RUST_CONFIGURE_ARGS \
+ENV DUST_CONFIGURE_ARGS \
       --enable-full-tools \
       --enable-profiler \
       --enable-sanitizers

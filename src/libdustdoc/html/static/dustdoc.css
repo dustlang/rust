@@ -47,7 +47,7 @@
 	font-style: normal;
 	font-weight: 400;
 	/* Avoid using locally installed font because bad versions are in circulation:
-	 * see https://github.com/rust-lang/rust/issues/24355 */
+	 * see https://github.com/dust-lang/dust/issues/24355 */
 	src: url("SourceCodePro-Regular.woff") format('woff');
 	font-display: swap;
 }
@@ -339,13 +339,13 @@ nav.sub {
 	padding: 15px 0;
 }
 
-.source .content pre.rust {
+.source .content pre.dust {
 	white-space: pre;
 	overflow: auto;
 	padding-left: 0;
 }
 
-.rustdoc:not(.source) .example-wrap {
+.dustdoc:not(.source) .example-wrap {
 	display: inline-flex;
 	margin-bottom: 10px;
 }
@@ -364,12 +364,12 @@ nav.sub {
 	text-align: right;
 }
 
-.rustdoc:not(.source) .example-wrap > pre.rust {
+.dustdoc:not(.source) .example-wrap > pre.dust {
 	width: 100%;
 	overflow-x: auto;
 }
 
-.rustdoc:not(.source) .example-wrap > pre {
+.dustdoc:not(.source) .example-wrap > pre {
 	margin: 0;
 }
 
@@ -917,7 +917,7 @@ td.summary-column {
 	padding-right: 0px;
 }
 
-pre.rust .question-mark {
+pre.dust .question-mark {
 	font-weight: bold;
 }
 
@@ -1178,11 +1178,11 @@ h3 > .collapse-toggle, h4 > .collapse-toggle {
 }
 
 /* Example code has the "Run" button that needs to be positioned relative to the pre */
-pre.rust.rust-example-rendered {
+pre.dust.dust-example-rendered {
 	position: relative;
 }
 
-pre.rust {
+pre.dust {
 	tab-size: 4;
 	-moz-tab-size: 4;
 }
@@ -1356,7 +1356,7 @@ h4 > .notable-traits {
 		padding-top: 0px;
 	}
 
-	.rustdoc > .sidebar {
+	.dustdoc > .sidebar {
 		height: 45px;
 		min-height: 40px;
 		margin: 0;
@@ -1409,7 +1409,7 @@ h4 > .notable-traits {
 		height: 45px;
 	}
 
-	.rustdoc.source > .sidebar > .sidebar-menu {
+	.dustdoc.source > .sidebar > .sidebar-menu {
 		display: none;
 	}
 

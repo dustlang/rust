@@ -8,7 +8,7 @@
 // ignore-sgx no libc
 // ignore-vxworks no SIGWINCH in user space
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 extern crate libc;
 
 use libc::*;

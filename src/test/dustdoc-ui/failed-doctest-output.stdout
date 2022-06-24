@@ -14,7 +14,7 @@ LL | no
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0425`.
+For more information about this error, try `dustc --explain E0425`.
 Couldn't compile the test.
 ---- $DIR/failed-doctest-output.rs - SomeStruct (line 12) stdout ----
 Test executable failed (exit code 101).
@@ -27,7 +27,7 @@ stderr:
 stderr 1
 stderr 2
 thread 'main' panicked at 'oh no', $DIR/failed-doctest-output.rs:7:1
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+note: run with `DUST_BACKTRACE=1` environment variable to display a backtrace
 
 
 

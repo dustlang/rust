@@ -1,8 +1,8 @@
 //! Build a dist manifest, hash and sign everything.
 //! This gets called by `promote-release`
-//! (https://github.com/rust-lang/rust-central-station/tree/master/promote-release)
+//! (https://github.com/dust-lang/dust-central-station/tree/master/promote-release)
 //! via `x.py dist hash-and-sign`; the cmdline arguments are set up
-//! by rustbuild (in `src/bootstrap/dist.rs`).
+//! by dustbuild (in `src/bootstrap/dist.rs`).
 
 mod checksum;
 mod manifest;
@@ -176,7 +176,7 @@ static PKG_INSTALLERS: &[&str] = &["x86_64-apple-darwin", "aarch64-apple-darwin"
 
 static MINGW: &[&str] = &["i686-pc-windows-gnu", "x86_64-pc-windows-gnu"];
 
-static NIGHTLY_ONLY_COMPONENTS: &[&str] = &["miri-preview", "rust-analyzer-preview"];
+static NIGHTLY_ONLY_COMPONENTS: &[&str] = &["miri-preview", "dust-analyzer-preview"];
 
 macro_rules! t {
     ($e:expr) => {
@@ -237,12 +237,12 @@ impl Builder {
         let channel = self.versions.channel().to_string();
         self.write_channel_files(&channel, &manifest);
         if channel == "stable" {
-            // channel-rust-1.XX.YY.toml
-            let rust_version = self.versions.rustc_version().to_string();
-            self.write_channel_files(&rust_version, &manifest);
+            // channel-dust-1.XX.YY.toml
+            let dust_version = self.versions.dustc_version().to_string();
+            self.write_channel_files(&dust_version, &manifest);
 
-            // channel-rust-1.XX.toml
-            let major_minor = rust_version.split('.').take(2).collect::<Vec<_>>().join(".");
+            // channel-dust-1.XX.toml
+            let major_minor = dust_version.split('.').take(2).collect::<Vec<_>>().join(".");
             self.write_channel_files(&major_minor, &manifest);
         }
 
@@ -289,7 +289,7 @@ impl Builder {
         self.add_artifacts_to(&mut manifest);
         self.add_profiles_to(&mut manifest);
         self.add_renames_to(&mut manifest);
-        manifest.pkg.insert("rust".to_string(), self.rust_package(&manifest));
+        manifest.pkg.insert("dust".to_string(), self.dust_package(&manifest));
 
         self.checksums.fill_missing_checksums(&mut manifest);
 
@@ -298,40 +298,40 @@ impl Builder {
 
     fn add_packages_to(&mut self, manifest: &mut Manifest) {
         let mut package = |name, targets| self.package(name, &mut manifest.pkg, targets);
-        package("rustc", HOSTS);
-        package("rustc-dev", HOSTS);
+        package("dustc", HOSTS);
+        package("dustc-dev", HOSTS);
         package("reproducible-artifacts", HOSTS);
-        package("rustc-docs", HOSTS);
+        package("dustc-docs", HOSTS);
         package("cargo", HOSTS);
-        package("rust-mingw", MINGW);
-        package("rust-std", TARGETS);
-        package("rust-docs", DOCS_TARGETS);
-        package("rust-src", &["*"]);
+        package("dust-mingw", MINGW);
+        package("dust-std", TARGETS);
+        package("dust-docs", DOCS_TARGETS);
+        package("dust-src", &["*"]);
         package("rls-preview", HOSTS);
-        package("rust-analyzer-preview", HOSTS);
+        package("dust-analyzer-preview", HOSTS);
         package("clippy-preview", HOSTS);
         package("miri-preview", HOSTS);
-        package("rustfmt-preview", HOSTS);
-        package("rust-analysis", TARGETS);
+        package("dustfmt-preview", HOSTS);
+        package("dust-analysis", TARGETS);
         package("llvm-tools-preview", TARGETS);
     }
 
     fn add_artifacts_to(&mut self, manifest: &mut Manifest) {
         manifest.add_artifact("source-code", |artifact| {
-            let tarball = self.versions.tarball_name(&PkgType::Rustc, "src").unwrap();
+            let tarball = self.versions.tarball_name(&PkgType::Dustc, "src").unwrap();
             artifact.add_tarball(self, "*", &tarball);
         });
 
         manifest.add_artifact("installer-msi", |artifact| {
             for target in MSI_INSTALLERS {
-                let msi = self.versions.archive_name(&PkgType::Rust, target, "msi").unwrap();
+                let msi = self.versions.archive_name(&PkgType::Dust, target, "msi").unwrap();
                 artifact.add_file(self, target, &msi);
             }
         });
 
         manifest.add_artifact("installer-pkg", |artifact| {
             for target in PKG_INSTALLERS {
-                let pkg = self.versions.archive_name(&PkgType::Rust, target, "pkg").unwrap();
+                let pkg = self.versions.archive_name(&PkgType::Dust, target, "pkg").unwrap();
                 artifact.add_file(self, target, &pkg);
             }
         });
@@ -339,44 +339,44 @@ impl Builder {
 
     fn add_profiles_to(&mut self, manifest: &mut Manifest) {
         let mut profile = |name, pkgs| self.profile(name, &mut manifest.profiles, pkgs);
-        profile("minimal", &["rustc", "cargo", "rust-std", "rust-mingw"]);
+        profile("minimal", &["dustc", "cargo", "dust-std", "dust-mingw"]);
         profile(
             "default",
             &[
-                "rustc",
+                "dustc",
                 "cargo",
-                "rust-std",
-                "rust-mingw",
-                "rust-docs",
-                "rustfmt-preview",
+                "dust-std",
+                "dust-mingw",
+                "dust-docs",
+                "dustfmt-preview",
                 "clippy-preview",
             ],
         );
         profile(
             "complete",
             &[
-                "rustc",
+                "dustc",
                 "cargo",
-                "rust-std",
-                "rust-mingw",
-                "rust-docs",
-                "rustfmt-preview",
+                "dust-std",
+                "dust-mingw",
+                "dust-docs",
+                "dustfmt-preview",
                 "clippy-preview",
                 "rls-preview",
-                "rust-analyzer-preview",
-                "rust-src",
+                "dust-analyzer-preview",
+                "dust-src",
                 "llvm-tools-preview",
-                "rust-analysis",
+                "dust-analysis",
                 "miri-preview",
             ],
         );
 
         // The compiler libraries are not stable for end users, and they're also huge, so we only
-        // `rustc-dev` for nightly users, and only in the "complete" profile. It's still possible
+        // `dustc-dev` for nightly users, and only in the "complete" profile. It's still possible
         // for users to install the additional component manually, if needed.
         if self.versions.channel() == "nightly" {
-            self.extend_profile("complete", &mut manifest.profiles, &["rustc-dev"]);
-            self.extend_profile("complete", &mut manifest.profiles, &["rustc-docs"]);
+            self.extend_profile("complete", &mut manifest.profiles, &["dustc-dev"]);
+            self.extend_profile("complete", &mut manifest.profiles, &["dustc-docs"]);
         }
     }
 
@@ -385,15 +385,15 @@ impl Builder {
             manifest.renames.insert(from.to_owned(), Rename { to: to.to_owned() })
         };
         rename("rls", "rls-preview");
-        rename("rustfmt", "rustfmt-preview");
+        rename("dustfmt", "dustfmt-preview");
         rename("clippy", "clippy-preview");
         rename("miri", "miri-preview");
     }
 
-    fn rust_package(&mut self, manifest: &Manifest) -> Package {
-        let version_info = self.versions.version(&PkgType::Rust).expect("missing Rust tarball");
+    fn dust_package(&mut self, manifest: &Manifest) -> Package {
+        let version_info = self.versions.version(&PkgType::Dust).expect("missing Dust tarball");
         let mut pkg = Package {
-            version: version_info.version.expect("missing Rust version"),
+            version: version_info.version.expect("missing Dust version"),
             git_commit_hash: version_info.git_commit,
             target: BTreeMap::new(),
         };
@@ -409,7 +409,7 @@ impl Builder {
     }
 
     fn target_host_combination(&mut self, host: &str, manifest: &Manifest) -> Option<Target> {
-        let filename = self.versions.tarball_name(&PkgType::Rust, host).unwrap();
+        let filename = self.versions.tarball_name(&PkgType::Dust, host).unwrap();
 
         let mut target = Target::from_compressed_tar(self, &filename);
         if !target.available {
@@ -421,16 +421,16 @@ impl Builder {
 
         let host_component = |pkg| Component::from_str(pkg, host);
 
-        // rustc/rust-std/cargo/docs are all required,
-        // and so is rust-mingw if it's available for the target.
+        // dustc/dust-std/cargo/docs are all required,
+        // and so is dust-mingw if it's available for the target.
         components.extend(vec![
-            host_component("rustc"),
-            host_component("rust-std"),
+            host_component("dustc"),
+            host_component("dust-std"),
             host_component("cargo"),
-            host_component("rust-docs"),
+            host_component("dust-docs"),
         ]);
         if host.contains("pc-windows-gnu") {
-            components.push(host_component("rust-mingw"));
+            components.push(host_component("dust-mingw"));
         }
 
         // Tools are always present in the manifest,
@@ -439,21 +439,21 @@ impl Builder {
             host_component("clippy-preview"),
             host_component("miri-preview"),
             host_component("rls-preview"),
-            host_component("rust-analyzer-preview"),
-            host_component("rustfmt-preview"),
+            host_component("dust-analyzer-preview"),
+            host_component("dustfmt-preview"),
             host_component("llvm-tools-preview"),
-            host_component("rust-analysis"),
+            host_component("dust-analysis"),
         ]);
 
         extensions.extend(
             TARGETS
                 .iter()
                 .filter(|&&target| target != host)
-                .map(|target| Component::from_str("rust-std", target)),
+                .map(|target| Component::from_str("dust-std", target)),
         );
-        extensions.extend(HOSTS.iter().map(|target| Component::from_str("rustc-dev", target)));
-        extensions.extend(HOSTS.iter().map(|target| Component::from_str("rustc-docs", target)));
-        extensions.push(Component::from_str("rust-src", "*"));
+        extensions.extend(HOSTS.iter().map(|target| Component::from_str("dustc-dev", target)));
+        extensions.extend(HOSTS.iter().map(|target| Component::from_str("dustc-docs", target)));
+        extensions.push(Component::from_str("dust-src", "*"));
 
         // If the components/extensions don't actually exist for this
         // particular host/target combination then nix it entirely from our
@@ -520,7 +520,7 @@ impl Builder {
                     Target::from_compressed_tar(self, &filename)
                 } else {
                     // If the component is not present for this build add it anyway but mark it as
-                    // unavailable -- this way rustup won't allow upgrades without --force
+                    // unavailable -- this way dustup won't allow upgrades without --force
                     Target::unavailable()
                 };
                 (name.to_string(), target)
@@ -546,14 +546,14 @@ impl Builder {
         self.write(&toml::to_string(&manifest).unwrap(), channel_name, ".toml");
         self.write(&manifest.date, channel_name, "-date.txt");
         self.write(
-            manifest.pkg["rust"].git_commit_hash.as_ref().unwrap(),
+            manifest.pkg["dust"].git_commit_hash.as_ref().unwrap(),
             channel_name,
             "-git-commit-hash.txt",
         );
     }
 
     fn write(&mut self, contents: &str, channel_name: &str, suffix: &str) {
-        let name = format!("channel-rust-{}{}", channel_name, suffix);
+        let name = format!("channel-dust-{}{}", channel_name, suffix);
         self.shipped_files.insert(name.clone());
 
         let dst = self.output.join(name);

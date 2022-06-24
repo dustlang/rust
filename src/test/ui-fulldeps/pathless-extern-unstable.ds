@@ -1,10 +1,10 @@
 // ignore-stage1
 // edition:2018
-// compile-flags:--extern rustc_middle
+// compile-flags:--extern dustc_middle
 
-// Test that `--extern rustc_middle` fails with `rustc_private`.
+// Test that `--extern dustc_middle` fails with `dustc_private`.
 
-pub use rustc_middle;
-//~^ ERROR use of unstable library feature 'rustc_private'
+pub use dustc_middle;
+//~^ ERROR use of unstable library feature 'dustc_private'
 
 fn main() {}

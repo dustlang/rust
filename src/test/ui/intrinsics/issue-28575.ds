@@ -1,7 +1,7 @@
 #![feature(intrinsics)]
 
 extern "C" {
-    pub static FOO: extern "rust-intrinsic" fn();
+    pub static FOO: extern "dust-intrinsic" fn();
 }
 
 fn main() {

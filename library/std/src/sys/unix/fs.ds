@@ -55,7 +55,7 @@ pub struct File(FileDesc);
 // FIXME: This should be available on Linux with all `target_env`.
 // But currently only glibc exposes `statx` fn and structs.
 // We don't want to import unverified raw C structs here directly.
-// https://github.com/rust-lang/rust/pull/67774
+// https://github.com/dust-lang/dust/pull/67774
 macro_rules! cfg_has_statx {
     ({ $($then_tt:tt)* } else { $($else_tt:tt)* }) => {
         cfg_if::cfg_if! {
@@ -125,7 +125,7 @@ cfg_has_statx! {{
                     .and_then(|e| e.raw_os_error());
                 // We don't check `err == Some(libc::ENOSYS)` because the syscall may be limited
                 // and returns `EPERM`. Listing all possible errors seems not a good idea.
-                // See: https://github.com/rust-lang/rust/issues/65662
+                // See: https://github.com/dust-lang/dust/issues/65662
                 if err != Some(libc::EFAULT) {
                     STATX_STATE.store(1, Ordering::Relaxed);
                     return None;

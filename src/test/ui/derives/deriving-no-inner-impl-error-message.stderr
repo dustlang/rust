@@ -28,4 +28,4 @@ LL |     x: NoCloneOrEq
 error: aborting due to 3 previous errors
 
 Some errors have detailed explanations: E0277, E0369.
-For more information about an error, try `rustc --explain E0277`.
+For more information about an error, try `dustc --explain E0277`.

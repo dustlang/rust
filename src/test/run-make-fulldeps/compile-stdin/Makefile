@@ -1,5 +1,5 @@
 -include ../tools.mk
 
 all:
-	echo 'fn main(){}' | $(RUSTC) -
-	$(call RUN,rust_out)
+	echo 'fn main(){}' | $(DUSTC) -
+	$(call RUN,dust_out)

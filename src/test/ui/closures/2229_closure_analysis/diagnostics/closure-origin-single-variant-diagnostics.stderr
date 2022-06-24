@@ -5,7 +5,7 @@ LL | #![feature(capture_disjoint_fields)]
    |            ^^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #53488 <https://github.com/rust-lang/rust/issues/53488> for more information
+   = note: see issue #53488 <https://github.com/dust-lang/dust/issues/53488> for more information
 
 error[E0382]: use of moved value: `c`
   --> $DIR/closure-origin-single-variant-diagnostics.rs:21:13
@@ -23,4 +23,4 @@ LL |         let SingleVariant::Point(ref mut x, _) = point;
 
 error: aborting due to previous error; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0382`.
+For more information about this error, try `dustc --explain E0382`.

@@ -1,10 +1,10 @@
-use rustc_data_structures::graph::dominators::Dominators;
-use rustc_middle::mir::visit::Visitor;
-use rustc_middle::mir::{BasicBlock, Body, Location, Place, Rvalue};
-use rustc_middle::mir::{BorrowKind, Mutability, Operand};
-use rustc_middle::mir::{InlineAsmOperand, Terminator, TerminatorKind};
-use rustc_middle::mir::{Statement, StatementKind};
-use rustc_middle::ty::TyCtxt;
+use dustc_data_structures::graph::dominators::Dominators;
+use dustc_middle::mir::visit::Visitor;
+use dustc_middle::mir::{BasicBlock, Body, Location, Place, Rvalue};
+use dustc_middle::mir::{BorrowKind, Mutability, Operand};
+use dustc_middle::mir::{InlineAsmOperand, Terminator, TerminatorKind};
+use dustc_middle::mir::{Statement, StatementKind};
+use dustc_middle::ty::TyCtxt;
 
 use crate::dataflow::indexes::BorrowIndex;
 
@@ -92,7 +92,7 @@ impl<'cx, 'tcx> Visitor<'tcx> for InvalidationGenerator<'cx, 'tcx> {
                     self.consume_operand(location, input);
                 }
             }
-            StatementKind::CopyNonOverlapping(box rustc_middle::mir::CopyNonOverlapping {
+            StatementKind::CopyNonOverlapping(box dustc_middle::mir::CopyNonOverlapping {
                 ref src,
                 ref dst,
                 ref count,
@@ -164,7 +164,7 @@ impl<'cx, 'tcx> Visitor<'tcx> for InvalidationGenerator<'cx, 'tcx> {
             }
             TerminatorKind::Assert { ref cond, expected: _, ref msg, target: _, cleanup: _ } => {
                 self.consume_operand(location, cond);
-                use rustc_middle::mir::AssertKind;
+                use dustc_middle::mir::AssertKind;
                 if let AssertKind::BoundsCheck { ref len, ref index } = *msg {
                     self.consume_operand(location, len);
                     self.consume_operand(location, index);

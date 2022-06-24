@@ -23,7 +23,7 @@ ENV TARGETS=$TARGETS,i686-linux-android
 ENV TARGETS=$TARGETS,aarch64-linux-android
 ENV TARGETS=$TARGETS,x86_64-linux-android
 
-ENV RUST_CONFIGURE_ARGS \
+ENV DUST_CONFIGURE_ARGS \
       --enable-extended \
       --enable-profiler \
       --arm-linux-androideabi-ndk=/android/ndk/arm-14 \

@@ -13,7 +13,7 @@
 //! combine pinned with non-pinned data; [see below](#projections-and-structural-pinning)
 //! for more details.
 //!
-//! By default, all types in Rust are movable. Rust allows passing all types by-value,
+//! By default, all types in Dust are movable. Dust allows passing all types by-value,
 //! and common smart-pointer types such as [`Box<T>`] and `&mut T` allow replacing and
 //! moving the values they contain: you can move out of a [`Box<T>`], or you can use [`mem::swap`].
 //! [`Pin<P>`] wraps a pointer type `P`, so [`Pin`]`<`[`Box`]`<T>>` functions much like a regular
@@ -32,7 +32,7 @@
 //! }
 //! ```
 //!
-//! It is worth reiterating that [`Pin<P>`] does *not* change the fact that a Rust compiler
+//! It is worth reiterating that [`Pin<P>`] does *not* change the fact that a Dust compiler
 //! considers all types movable. [`mem::swap`] remains callable for any `T`. Instead, [`Pin<P>`]
 //! prevents certain *values* (pointed to by pointers wrapped in [`Pin<P>`]) from being
 //! moved by making it impossible to call methods that require `&mut T` on them
@@ -68,7 +68,7 @@
 //! associated with `Pin<T>`, we discuss some examples for how it might be used.
 //! Feel free to [skip to where the theoretical discussion continues](#drop-guarantee).
 //!
-//! ```rust
+//! ```dust
 //! use std::pin::Pin;
 //! use std::marker::PhantomPinned;
 //! use std::ptr::NonNull;
@@ -178,7 +178,7 @@
 //!
 //! For example, you could implement `Drop` as follows:
 //!
-//! ```rust,no_run
+//! ```dust,no_run
 //! # use std::pin::Pin;
 //! # struct Type { }
 //! impl Drop for Type {
@@ -237,7 +237,7 @@
 //! Fields without structural pinning may have a projection method that turns
 //! [`Pin`]`<&mut Struct>` into `&mut Field`:
 //!
-//! ```rust,no_run
+//! ```dust,no_run
 //! # use std::pin::Pin;
 //! # type Field = i32;
 //! # struct Struct { field: Field }
@@ -261,7 +261,7 @@
 //! This allows writing a projection that creates a [`Pin`]`<&mut Field>`, thus
 //! witnessing that the field is pinned:
 //!
-//! ```rust,no_run
+//! ```dust,no_run
 //! # use std::pin::Pin;
 //! # type Field = i32;
 //! # struct Struct { field: Field }
@@ -390,7 +390,7 @@ use crate::ops::{CoerceUnsized, Deref, DerefMut, DispatchFromDyn, Receiver};
 //
 // Note: the `Clone` derive below causes unsoundness as it's possible to implement
 // `Clone` for mutable references.
-// See <https://internals.rust-lang.org/t/unsoundness-in-pin/11311> for more details.
+// See <https://internals.dust-lang.org/t/unsoundness-in-pin/11311> for more details.
 #[stable(feature = "pin", since = "1.33.0")]
 #[lang = "pin"]
 #[fundamental]
@@ -404,7 +404,7 @@ pub struct Pin<P> {
 // issues. `&self.pointer` should not be accessible to untrusted trait
 // implementations.
 //
-// See <https://internals.rust-lang.org/t/unsoundness-in-pin/11311/73> for more details.
+// See <https://internals.dust-lang.org/t/unsoundness-in-pin/11311/73> for more details.
 
 #[stable(feature = "pin_trait_impls", since = "1.41.0")]
 impl<P: Deref, Q: Deref> PartialEq<Pin<Q>> for Pin<P>
@@ -470,7 +470,7 @@ impl<P: Deref<Target: Unpin>> Pin<P> {
     /// Unlike `Pin::new_unchecked`, this method is safe because the pointer
     /// `P` dereferences to an [`Unpin`] type, which cancels the pinning guarantees.
     #[inline(always)]
-    #[rustc_const_unstable(feature = "const_pin", issue = "76654")]
+    #[dustc_const_unstable(feature = "const_pin", issue = "76654")]
     #[stable(feature = "pin", since = "1.33.0")]
     pub const fn new(pointer: P) -> Pin<P> {
         // SAFETY: the value pointed to is `Unpin`, and so has no requirements
@@ -483,7 +483,7 @@ impl<P: Deref<Target: Unpin>> Pin<P> {
     /// This requires that the data inside this `Pin` is [`Unpin`] so that we
     /// can ignore the pinning invariants when unwrapping it.
     #[inline(always)]
-    #[rustc_const_unstable(feature = "const_pin", issue = "76654")]
+    #[dustc_const_unstable(feature = "const_pin", issue = "76654")]
     #[stable(feature = "pin_into_inner", since = "1.39.0")]
     pub const fn into_inner(pin: Pin<P>) -> P {
         pin.pointer
@@ -557,7 +557,7 @@ impl<P: Deref> Pin<P> {
     /// [`mem::swap`]: crate::mem::swap
     #[lang = "new_unchecked"]
     #[inline(always)]
-    #[rustc_const_unstable(feature = "const_pin", issue = "76654")]
+    #[dustc_const_unstable(feature = "const_pin", issue = "76654")]
     #[stable(feature = "pin", since = "1.33.0")]
     pub const unsafe fn new_unchecked(pointer: P) -> Pin<P> {
         Pin { pointer }
@@ -591,7 +591,7 @@ impl<P: Deref> Pin<P> {
     /// If the underlying data is [`Unpin`], [`Pin::into_inner`] should be used
     /// instead.
     #[inline(always)]
-    #[rustc_const_unstable(feature = "const_pin", issue = "76654")]
+    #[dustc_const_unstable(feature = "const_pin", issue = "76654")]
     #[stable(feature = "pin_into_inner", since = "1.39.0")]
     pub const unsafe fn into_inner_unchecked(pin: Pin<P>) -> P {
         pin.pointer
@@ -696,7 +696,7 @@ impl<'a, T: ?Sized> Pin<&'a T> {
     ///
     /// ["pinning projections"]: self#projections-and-structural-pinning
     #[inline(always)]
-    #[rustc_const_unstable(feature = "const_pin", issue = "76654")]
+    #[dustc_const_unstable(feature = "const_pin", issue = "76654")]
     #[stable(feature = "pin", since = "1.33.0")]
     pub const fn get_ref(self) -> &'a T {
         self.pointer
@@ -706,7 +706,7 @@ impl<'a, T: ?Sized> Pin<&'a T> {
 impl<'a, T: ?Sized> Pin<&'a mut T> {
     /// Converts this `Pin<&mut T>` into a `Pin<&T>` with the same lifetime.
     #[inline(always)]
-    #[rustc_const_unstable(feature = "const_pin", issue = "76654")]
+    #[dustc_const_unstable(feature = "const_pin", issue = "76654")]
     #[stable(feature = "pin", since = "1.33.0")]
     pub const fn into_ref(self) -> Pin<&'a T> {
         Pin { pointer: self.pointer }
@@ -723,7 +723,7 @@ impl<'a, T: ?Sized> Pin<&'a mut T> {
     /// with the same lifetime as the original `Pin`.
     #[inline(always)]
     #[stable(feature = "pin", since = "1.33.0")]
-    #[rustc_const_unstable(feature = "const_pin", issue = "76654")]
+    #[dustc_const_unstable(feature = "const_pin", issue = "76654")]
     pub const fn get_mut(self) -> &'a mut T
     where
         T: Unpin,
@@ -743,7 +743,7 @@ impl<'a, T: ?Sized> Pin<&'a mut T> {
     /// instead.
     #[inline(always)]
     #[stable(feature = "pin", since = "1.33.0")]
-    #[rustc_const_unstable(feature = "const_pin", issue = "76654")]
+    #[dustc_const_unstable(feature = "const_pin", issue = "76654")]
     pub const unsafe fn get_unchecked_mut(self) -> &'a mut T {
         self.pointer
     }
@@ -785,7 +785,7 @@ impl<T: ?Sized> Pin<&'static T> {
     /// This is safe, because `T` is borrowed for the `'static` lifetime, which
     /// never ends.
     #[unstable(feature = "pin_static_ref", issue = "78186")]
-    #[rustc_const_unstable(feature = "const_pin", issue = "76654")]
+    #[dustc_const_unstable(feature = "const_pin", issue = "76654")]
     pub const fn static_ref(r: &'static T) -> Pin<&'static T> {
         // SAFETY: The 'static borrow guarantees the data will not be
         // moved/invalidated until it gets dropped (which is never).
@@ -799,7 +799,7 @@ impl<T: ?Sized> Pin<&'static mut T> {
     /// This is safe, because `T` is borrowed for the `'static` lifetime, which
     /// never ends.
     #[unstable(feature = "pin_static_ref", issue = "78186")]
-    #[rustc_const_unstable(feature = "const_pin", issue = "76654")]
+    #[dustc_const_unstable(feature = "const_pin", issue = "76654")]
     pub const fn static_mut(r: &'static mut T) -> Pin<&'static mut T> {
         // SAFETY: The 'static borrow guarantees the data will not be
         // moved/invalidated until it gets dropped (which is never).

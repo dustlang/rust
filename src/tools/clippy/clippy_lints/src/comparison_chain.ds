@@ -1,9 +1,9 @@
 use crate::utils::{
     get_trait_def_id, if_sequence, implements_trait, parent_node_is_if_expr, paths, span_lint_and_help, SpanlessEq,
 };
-use rustc_hir::{BinOpKind, Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{BinOpKind, Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks comparison chains written with `if` that can be
@@ -13,10 +13,10 @@ declare_clippy_lint! {
     /// repetitive
     ///
     /// **Known problems:** The match statement may be slower due to the compiler
-    /// not inlining the call to cmp. See issue [#5354](https://github.com/rust-lang/rust-clippy/issues/5354)
+    /// not inlining the call to cmp. See issue [#5354](https://github.com/dust-lang/dust-clippy/issues/5354)
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// # fn a() {}
     /// # fn b() {}
     /// # fn c() {}
@@ -33,7 +33,7 @@ declare_clippy_lint! {
     ///
     /// Could be written:
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// use std::cmp::Ordering;
     /// # fn a() {}
     /// # fn b() {}

@@ -43,7 +43,7 @@
 //! an identifier in the source code. For example, the `x`s in the
 //! following snippet
 //!
-//! ```rust
+//! ```dust
 //! # #![allow(dead_code)]
 //! struct A { x : i32 }
 //!
@@ -77,7 +77,7 @@
 //!
 //! The following simplified `PartialEq` is used for in-code examples:
 //!
-//! ```rust
+//! ```dust
 //! trait PartialEq {
 //!     fn eq(&self, other: &Self) -> bool;
 //! }
@@ -181,14 +181,14 @@ use std::cell::RefCell;
 use std::iter;
 use std::vec;
 
-use rustc_ast::ptr::P;
-use rustc_ast::{self as ast, BinOpKind, EnumDef, Expr, Generics, PatKind};
-use rustc_ast::{GenericArg, GenericParamKind, VariantData};
-use rustc_attr as attr;
-use rustc_data_structures::map_in_place::MapInPlace;
-use rustc_expand::base::{Annotatable, ExtCtxt};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast::ptr::P;
+use dustc_ast::{self as ast, BinOpKind, EnumDef, Expr, Generics, PatKind};
+use dustc_ast::{GenericArg, GenericParamKind, VariantData};
+use dustc_attr as attr;
+use dustc_data_structures::map_in_place::MapInPlace;
+use dustc_expand::base::{Annotatable, ExtCtxt};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::Span;
 
 use ty::{Bounds, Path, Ptr, PtrTy, Self_, Ty};
 
@@ -340,7 +340,7 @@ fn find_type_parameters(
     ty_param_names: &[Symbol],
     cx: &ExtCtxt<'_>,
 ) -> Vec<P<ast::Ty>> {
-    use rustc_ast::visit;
+    use dustc_ast::visit;
 
     struct Visitor<'a, 'b> {
         cx: &'a ExtCtxt<'b>,
@@ -670,11 +670,11 @@ impl<'a> TraitDef<'a> {
         cx.sess.mark_attr_used(&attr);
         let opt_trait_ref = Some(trait_ref);
         let unused_qual = {
-            let word = rustc_ast::attr::mk_nested_word_item(Ident::new(
+            let word = dustc_ast::attr::mk_nested_word_item(Ident::new(
                 sym::unused_qualifications,
                 self.span,
             ));
-            let list = rustc_ast::attr::mk_list_item(Ident::new(sym::allow, self.span), vec![word]);
+            let list = dustc_ast::attr::mk_list_item(Ident::new(sym::allow, self.span), vec![word]);
             cx.attribute(list)
         };
 
@@ -1414,7 +1414,7 @@ impl<'a> MethodDef<'a> {
             //
             // This means that the strategy of building up a tuple of
             // all Self arguments fails when Self is a zero variant
-            // enum: rustc rejects the expanded program, even though
+            // enum: dustc rejects the expanded program, even though
             // the actual code tends to be impossible to execute (at
             // least safely), according to the type system.
             //

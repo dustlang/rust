@@ -2,11 +2,11 @@
 
 use crate::ty;
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::{GenericParam, ItemLocalId};
-use rustc_hir::{GenericParamKind, LifetimeParamKind};
-use rustc_macros::HashStable;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::{GenericParam, ItemLocalId};
+use dustc_hir::{GenericParamKind, LifetimeParamKind};
+use dustc_macros::HashStable;
 
 /// The origin of a named lifetime definition.
 ///

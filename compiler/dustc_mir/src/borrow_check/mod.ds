@@ -1,25 +1,25 @@
 //! This query borrow-checks the MIR to (further) ensure it is not broken.
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::graph::dominators::Dominators;
-use rustc_errors::{Applicability, Diagnostic, DiagnosticBuilder, ErrorReported};
-use rustc_hir as hir;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::Node;
-use rustc_index::bit_set::BitSet;
-use rustc_index::vec::IndexVec;
-use rustc_infer::infer::{InferCtxt, TyCtxtInferExt};
-use rustc_middle::mir::{
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::graph::dominators::Dominators;
+use dustc_errors::{Applicability, Diagnostic, DiagnosticBuilder, ErrorReported};
+use dustc_hir as hir;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::Node;
+use dustc_index::bit_set::BitSet;
+use dustc_index::vec::IndexVec;
+use dustc_infer::infer::{InferCtxt, TyCtxtInferExt};
+use dustc_middle::mir::{
     traversal, Body, ClearCrossCrate, Local, Location, Mutability, Operand, Place, PlaceElem,
     PlaceRef, VarDebugInfoContents,
 };
-use rustc_middle::mir::{AggregateKind, BasicBlock, BorrowCheckResult, BorrowKind};
-use rustc_middle::mir::{Field, ProjectionElem, Promoted, Rvalue, Statement, StatementKind};
-use rustc_middle::mir::{InlineAsmOperand, Terminator, TerminatorKind};
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{self, CapturedPlace, ParamEnv, RegionVid, TyCtxt};
-use rustc_session::lint::builtin::{MUTABLE_BORROW_RESERVATION_CONFLICT, UNUSED_MUT};
-use rustc_span::{Span, Symbol, DUMMY_SP};
+use dustc_middle::mir::{AggregateKind, BasicBlock, BorrowCheckResult, BorrowKind};
+use dustc_middle::mir::{Field, ProjectionElem, Promoted, Rvalue, Statement, StatementKind};
+use dustc_middle::mir::{InlineAsmOperand, Terminator, TerminatorKind};
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{self, CapturedPlace, ParamEnv, RegionVid, TyCtxt};
+use dustc_session::lint::builtin::{MUTABLE_BORROW_RESERVATION_CONFLICT, UNUSED_MUT};
+use dustc_span::{Span, Symbol, DUMMY_SP};
 
 use either::Either;
 use smallvec::SmallVec;
@@ -225,7 +225,7 @@ fn do_mir_borrowck<'a, 'tcx>(
     // write unit-tests, as well as helping with debugging.
     nll::dump_mir_results(infcx, &body, &regioncx, &opt_closure_req);
 
-    // We also have a `#[rustc_regions]` annotation that causes us to dump
+    // We also have a `#[dustc_regions]` annotation that causes us to dump
     // information.
     nll::dump_annotation(
         infcx,
@@ -627,7 +627,7 @@ impl<'cx, 'tcx> dataflow::ResultsVisitor<'cx, 'tcx> for MirBorrowckCtxt<'cx, 'tc
                 }
             }
 
-            StatementKind::CopyNonOverlapping(box rustc_middle::mir::CopyNonOverlapping {
+            StatementKind::CopyNonOverlapping(box dustc_middle::mir::CopyNonOverlapping {
                 ..
             }) => {
                 span_bug!(
@@ -712,7 +712,7 @@ impl<'cx, 'tcx> dataflow::ResultsVisitor<'cx, 'tcx> for MirBorrowckCtxt<'cx, 'tc
             }
             TerminatorKind::Assert { ref cond, expected: _, ref msg, target: _, cleanup: _ } => {
                 self.consume_operand(loc, (cond, span), flow_state);
-                use rustc_middle::mir::AssertKind;
+                use dustc_middle::mir::AssertKind;
                 if let AssertKind::BoundsCheck { ref len, ref index } = *msg {
                     self.consume_operand(loc, (len, span), flow_state);
                     self.consume_operand(loc, (index, span), flow_state);
@@ -1118,7 +1118,7 @@ impl<'cx, 'tcx> MirBorrowckCtxt<'cx, 'tcx> {
                          borrow index {:?} as warning",
                         place_span.0, bi,
                     );
-                    // rust-lang/rust#56254 - This was previously permitted on
+                    // dust-lang/dust#56254 - This was previously permitted on
                     // the 2018 edition so we emit it as a warning. We buffer
                     // these sepately so that we only emit a warning if borrow
                     // checking was otherwise successful.
@@ -1888,7 +1888,7 @@ impl<'cx, 'tcx> MirBorrowckCtxt<'cx, 'tcx> {
                         ty::Adt(..) | ty::Tuple(..) => {
                             check_parent_of_field(self, location, place_base, span, flow_state);
 
-                            // rust-lang/rust#21232, #54499, #54986: during period where we reject
+                            // dust-lang/dust#21232, #54499, #54986: during period where we reject
                             // partial initialization, do not complain about unnecessary `mut` on
                             // an attempt to do a partial initialization.
                             self.used_mut.insert(place.local);
@@ -1907,7 +1907,7 @@ impl<'cx, 'tcx> MirBorrowckCtxt<'cx, 'tcx> {
             span: Span,
             flow_state: &Flows<'cx, 'tcx>,
         ) {
-            // rust-lang/rust#21232: Until Rust allows reads from the
+            // dust-lang/dust#21232: Until Dust allows reads from the
             // initialized parts of partially initialized structs, we
             // will, starting with the 2018 edition, reject attempts
             // to write to structs that are not fully initialized.
@@ -2059,7 +2059,7 @@ impl<'cx, 'tcx> MirBorrowckCtxt<'cx, 'tcx> {
                     self.is_mutable(place.as_ref(), is_local_mutation_allowed),
                     self.errors_buffer.is_empty(),
                 ) {
-                    // rust-lang/rust#46908: In pure NLL mode this code path should be
+                    // dust-lang/dust#46908: In pure NLL mode this code path should be
                     // unreachable, but we use `delay_span_bug` because we can hit this when
                     // dereferencing a non-Copy raw pointer *and* have `-Ztreat-err-as-bug`
                     // enabled. We don't want to ICE for that case, as other errors will have
@@ -2092,7 +2092,7 @@ impl<'cx, 'tcx> MirBorrowckCtxt<'cx, 'tcx> {
             }
         }
 
-        // rust-lang/rust#21232, #54986: during period where we reject
+        // dust-lang/dust#21232, #54986: during period where we reject
         // partial initialization, do not complain about mutability
         // errors except for actual mutation (as opposed to an attempt
         // to do a partial initialization).

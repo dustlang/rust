@@ -28,7 +28,7 @@ fn main() {
 
 This is the error message generated, before the issue was fixed:
 
-error: internal compiler error: compiler/rustc_mir/src/transform/coverage/mod.rs:374:42:
+error: internal compiler error: compiler/dustc_mir/src/transform/coverage/mod.rs:374:42:
 Error processing: DefId(0:6 ~ bug_incomplete_cov_graph_traversal_simplified[317d]::{impl#0}::fmt):
 Error { message: "`TraverseCoverageGraphWithLoops` missed some `BasicCoverageBlock`s:
 [bcb6, bcb7, bcb9]" }

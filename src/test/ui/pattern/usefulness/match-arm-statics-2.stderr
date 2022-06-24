@@ -15,7 +15,7 @@ LL |     match Some(Some(North)) {
    | 
   ::: $SRC_DIR/core/src/option.rs:LL:COL
    |
-LL |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+LL |     Some(#[stable(feature = "dust1", since = "1.0.0")] T),
    |     ----
    |     |
    |     not covered
@@ -41,4 +41,4 @@ LL |       match (Foo { bar: Some(North), baz: NewBool(true) }) {
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0004`.
+For more information about this error, try `dustc --explain E0004`.

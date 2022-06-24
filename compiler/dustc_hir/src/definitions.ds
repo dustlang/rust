@@ -10,13 +10,13 @@ use crate::def_id::{
 };
 use crate::hir;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stable_hasher::StableHasher;
-use rustc_data_structures::unhash::UnhashMap;
-use rustc_index::vec::IndexVec;
-use rustc_span::crate_disambiguator::CrateDisambiguator;
-use rustc_span::hygiene::ExpnId;
-use rustc_span::symbol::{kw, sym, Symbol};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stable_hasher::StableHasher;
+use dustc_data_structures::unhash::UnhashMap;
+use dustc_index::vec::IndexVec;
+use dustc_span::crate_disambiguator::CrateDisambiguator;
+use dustc_span::hygiene::ExpnId;
+use dustc_span::symbol::{kw, sym, Symbol};
 
 use std::fmt::{self, Write};
 use std::hash::Hash;

@@ -1,19 +1,19 @@
-//! See Rustc Dev Guide chapters on [trait-resolution] and [trait-specialization] for more info on
+//! See Dustc Dev Guide chapters on [trait-resolution] and [trait-specialization] for more info on
 //! how this works.
 //!
-//! [trait-resolution]: https://rustc-dev-guide.rust-lang.org/traits/resolution.html
-//! [trait-specialization]: https://rustc-dev-guide.rust-lang.org/traits/specialization.html
+//! [trait-resolution]: https://dustc-dev-guide.dust-lang.org/traits/resolution.html
+//! [trait-specialization]: https://dustc-dev-guide.dust-lang.org/traits/specialization.html
 
 use crate::infer::{CombinedSnapshot, InferOk, TyCtxtInferExt};
 use crate::traits::select::IntercrateAmbiguityCause;
 use crate::traits::SkipLeakCheck;
 use crate::traits::{self, Normalized, Obligation, ObligationCause, SelectionContext};
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::subst::Subst;
-use rustc_middle::ty::{self, fast_reject, Ty, TyCtxt};
-use rustc_span::symbol::sym;
-use rustc_span::DUMMY_SP;
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::subst::Subst;
+use dustc_middle::ty::{self, fast_reject, Ty, TyCtxt};
+use dustc_span::symbol::sym;
+use dustc_span::DUMMY_SP;
 use std::iter;
 
 /// Whether we do the orphan check relative to this crate or
@@ -39,10 +39,10 @@ pub struct OverlapResult<'tcx> {
     pub involves_placeholder: bool,
 }
 
-pub fn add_placeholder_note(err: &mut rustc_errors::DiagnosticBuilder<'_>) {
+pub fn add_placeholder_note(err: &mut dustc_errors::DiagnosticBuilder<'_>) {
     err.note(
         "this behavior recently changed as a result of a bug fix; \
-         see rust-lang/rust#56105 for details",
+         see dust-lang/dust#56105 for details",
     );
 }
 

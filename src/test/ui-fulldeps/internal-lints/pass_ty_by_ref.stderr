@@ -7,7 +7,7 @@ LL |     ty_ref: &Ty<'_>,
 note: the lint level is defined here
   --> $DIR/pass_ty_by_ref.rs:4:9
    |
-LL | #![deny(rustc::ty_pass_by_reference)]
+LL | #![deny(dustc::ty_pass_by_reference)]
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: passing `TyCtxt<'_>` by reference

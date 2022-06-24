@@ -1,4 +1,4 @@
-use rustc_ast::ast::{Lit, LitFloatType, LitIntType, LitKind};
+use dustc_ast::ast::{Lit, LitFloatType, LitIntType, LitKind};
 
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub enum Radix {

@@ -1,14 +1,14 @@
-//! Diagnostics creation and emission for `rustc`.
+//! Diagnostics creation and emission for `dustc`.
 //!
 //! This module contains the code for creating and emitting diagnostics.
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(crate_visibility_modifier)]
 #![feature(backtrace)]
 #![feature(nll)]
 
 #[macro_use]
-extern crate rustc_macros;
+extern crate dustc_macros;
 
 pub use emitter::ColorConfig;
 
@@ -17,16 +17,16 @@ use Level::*;
 
 use emitter::{is_case_difference, Emitter, EmitterWriter};
 use registry::Registry;
-use rustc_data_structures::fx::{FxHashSet, FxIndexMap};
-use rustc_data_structures::stable_hasher::StableHasher;
-use rustc_data_structures::sync::{self, Lock, Lrc};
-use rustc_data_structures::AtomicRef;
-use rustc_lint_defs::FutureBreakage;
-pub use rustc_lint_defs::{pluralize, Applicability};
-use rustc_serialize::json::Json;
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
-use rustc_span::source_map::SourceMap;
-use rustc_span::{Loc, MultiSpan, Span};
+use dustc_data_structures::fx::{FxHashSet, FxIndexMap};
+use dustc_data_structures::stable_hasher::StableHasher;
+use dustc_data_structures::sync::{self, Lock, Lrc};
+use dustc_data_structures::AtomicRef;
+use dustc_lint_defs::FutureBreakage;
+pub use dustc_lint_defs::{pluralize, Applicability};
+use dustc_serialize::json::Json;
+use dustc_serialize::{Decodable, Decoder, Encodable, Encoder};
+use dustc_span::source_map::SourceMap;
+use dustc_span::{Loc, MultiSpan, Span};
 
 use std::borrow::Cow;
 use std::hash::{Hash, Hasher};
@@ -53,7 +53,7 @@ pub type PResult<'a, T> = Result<T, DiagnosticBuilder<'a>>;
 // `PResult` is used a lot. Make sure it doesn't unintentionally get bigger.
 // (See also the comment on `DiagnosticBuilderInner`.)
 #[cfg(all(target_arch = "x86_64", target_pointer_width = "64"))]
-rustc_data_structures::static_assert_size!(PResult<'_, bool>, 16);
+dustc_data_structures::static_assert_size!(PResult<'_, bool>, 16);
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Hash, Encodable, Decodable)]
 pub enum SuggestionStyle {
@@ -141,7 +141,7 @@ pub struct CodeSuggestion {
     ///
     /// Sometimes we may show suggestions with placeholders,
     /// which are useful for users but not useful for
-    /// tools like rustfix
+    /// tools like dustfix
     pub applicability: Applicability,
     /// Tool-specific metadata
     pub tool_metadata: ToolMetadata,
@@ -163,7 +163,7 @@ impl CodeSuggestion {
     /// Returns the assembled code suggestions, whether they should be shown with an underline
     /// and whether the substitution only differs in capitalization.
     pub fn splice_lines(&self, sm: &SourceMap) -> Vec<(String, Vec<SubstitutionPart>, bool)> {
-        use rustc_span::{CharPos, Pos};
+        use dustc_span::{CharPos, Pos};
 
         fn push_trailing(
             buf: &mut String,
@@ -275,7 +275,7 @@ impl CodeSuggestion {
     }
 }
 
-pub use rustc_span::fatal_error::{FatalError, FatalErrorMarker};
+pub use dustc_span::fatal_error::{FatalError, FatalErrorMarker};
 
 /// Signifies that the compiler died with an explicit call to `.bug`
 /// or `.span_bug` rather than a failed assertion, etc.
@@ -322,7 +322,7 @@ struct HandlerInner {
     /// would be uneccessary repetition.
     taught_diagnostics: FxHashSet<DiagnosticId>,
 
-    /// Used to suggest rustc --explain <error code>
+    /// Used to suggest dustc --explain <error code>
     emitted_diagnostic_codes: FxHashSet<DiagnosticId>,
 
     /// This set contains a hash of every diagnostic that has been emitted by
@@ -356,19 +356,19 @@ pub static TRACK_DIAGNOSTICS: AtomicRef<fn(&Diagnostic)> =
 #[derive(Copy, Clone, Default)]
 pub struct HandlerFlags {
     /// If false, warning-level lints are suppressed.
-    /// (rustc: see `--allow warnings` and `--cap-lints`)
+    /// (dustc: see `--allow warnings` and `--cap-lints`)
     pub can_emit_warnings: bool,
     /// If true, error-level diagnostics are upgraded to bug-level.
-    /// (rustc: see `-Z treat-err-as-bug`)
+    /// (dustc: see `-Z treat-err-as-bug`)
     pub treat_err_as_bug: Option<NonZeroUsize>,
     /// If true, immediately emit diagnostics that would otherwise be buffered.
-    /// (rustc: see `-Z dont-buffer-diagnostics` and `-Z treat-err-as-bug`)
+    /// (dustc: see `-Z dont-buffer-diagnostics` and `-Z treat-err-as-bug`)
     pub dont_buffer_diagnostics: bool,
     /// If true, immediately print bugs registered with `delay_span_bug`.
-    /// (rustc: see `-Z report-delayed-bugs`)
+    /// (dustc: see `-Z report-delayed-bugs`)
     pub report_delayed_bugs: bool,
     /// Show macro backtraces.
-    /// (rustc: see `-Z macro-backtrace`)
+    /// (dustc: see `-Z macro-backtrace`)
     pub macro_backtrace: bool,
     /// If true, identical diagnostics are reported only once.
     pub deduplicate_diagnostics: bool,
@@ -459,14 +459,14 @@ impl Handler {
     }
 
     // This is here to not allow mutation of flags;
-    // as of this writing it's only used in tests in librustc_middle.
+    // as of this writing it's only used in tests in libdustc_middle.
     pub fn can_emit_warnings(&self) -> bool {
         self.flags.can_emit_warnings
     }
 
     /// Resets the diagnostic error count as well as the cached emitted diagnostics.
     ///
-    /// NOTE: *do not* call this function from rustc. It is only meant to be called from external
+    /// NOTE: *do not* call this function from dustc. It is only meant to be called from external
     /// tools that want to reuse a `Parser` cleaning the previously emitted diagnostics as well as
     /// the overall count of emitted error diagnostics.
     pub fn reset_err_count(&self) {
@@ -901,13 +901,13 @@ impl HandlerInner {
                     ));
                     self.failure(&format!(
                         "For more information about an error, try \
-                         `rustc --explain {}`.",
+                         `dustc --explain {}`.",
                         &error_codes[0]
                     ));
                 } else {
                     self.failure(&format!(
                         "For more information about this error, try \
-                         `rustc --explain {}`.",
+                         `dustc --explain {}`.",
                         &error_codes[0]
                     ));
                 }
@@ -1142,4 +1142,4 @@ pub fn add_elided_lifetime_in_path_suggestion(
 #[derive(Clone, Copy, Debug, Encodable, Decodable, Hash, PartialEq, Eq)]
 pub struct ErrorReported;
 
-rustc_data_structures::impl_stable_hash_via_hash!(ErrorReported);
+dustc_data_structures::impl_stable_hash_via_hash!(ErrorReported);

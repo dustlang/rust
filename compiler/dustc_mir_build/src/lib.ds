@@ -16,13 +16,13 @@
 #[macro_use]
 extern crate tracing;
 #[macro_use]
-extern crate rustc_middle;
+extern crate dustc_middle;
 
 mod build;
 mod lints;
 pub mod thir;
 
-use rustc_middle::ty::query::Providers;
+use dustc_middle::ty::query::Providers;
 
 pub fn provide(providers: &mut Providers) {
     providers.check_match = thir::pattern::check_match;

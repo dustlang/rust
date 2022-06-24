@@ -1,23 +1,23 @@
 use crate::utils::{in_macro, meets_msrv, snippet_opt, span_lint_and_sugg};
 use if_chain::if_chain;
 
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::def::DefKind;
-use rustc_hir::{
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::def::DefKind;
+use dustc_hir::{
     def,
     def_id::LocalDefId,
     intravisit::{walk_ty, NestedVisitorMap, Visitor},
     Expr, ExprKind, FnRetTy, FnSig, GenericArg, HirId, Impl, ImplItemKind, Item, ItemKind, Node, Path, PathSegment,
     QPath, TyKind,
 };
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty::{AssocKind, Ty, TyS};
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::{BytePos, Span};
-use rustc_typeck::hir_ty_to_ty;
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty::{AssocKind, Ty, TyS};
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::{BytePos, Span};
+use dustc_typeck::hir_ty_to_ty;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for unnecessary repetition of structure name when a
@@ -33,7 +33,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// struct Foo {}
     /// impl Foo {
     ///     fn new() -> Foo {
@@ -42,7 +42,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     /// could be
-    /// ```rust
+    /// ```dust
     /// struct Foo {}
     /// impl Foo {
     ///     fn new() -> Self {
@@ -57,15 +57,15 @@ declare_clippy_lint! {
 
 #[derive(Default)]
 pub struct UseSelf {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
     stack: Vec<StackItem>,
 }
 
-const USE_SELF_MSRV: RustcVersion = RustcVersion::new(1, 37, 0);
+const USE_SELF_MSRV: DustcVersion = DustcVersion::new(1, 37, 0);
 
 impl UseSelf {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self {
             msrv,
             ..Self::default()
@@ -192,7 +192,7 @@ impl<'tcx> LateLintPass<'tcx> for UseSelf {
                 // avoids suggestions to e.g. replace `Vec<u8>` with `Vec<Self>`, in an `impl Trait
                 // for u8`, when the trait always uses `Vec<u8>`.
                 //
-                // See also https://github.com/rust-lang/rust-clippy/issues/2894.
+                // See also https://github.com/dust-lang/dust-clippy/issues/2894.
                 for (impl_hir_ty, trait_sem_ty) in impl_inputs_outputs.zip(trait_method_sig.inputs_and_output) {
                     if trait_sem_ty.walk().any(|inner| inner == self_ty.into()) {
                         let mut visitor = SkipTyCollector::default();
@@ -261,7 +261,7 @@ impl<'tcx> LateLintPass<'tcx> for UseSelf {
         if lint_dependend_on_expr_kind {
             // FIXME: this span manipulation should not be necessary
             // @flip1995 found an ast lowering issue in
-            // https://github.com/rust-lang/rust/blob/master/src/librustc_ast_lowering/path.rs#l142-l162
+            // https://github.com/dust-lang/dust/blob/master/src/libdustc_ast_lowering/path.rs#l142-l162
             let hir = cx.tcx.hir();
             let id = hir.get_parent_node(hir_ty.hir_id);
 

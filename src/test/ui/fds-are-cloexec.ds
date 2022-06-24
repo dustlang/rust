@@ -5,7 +5,7 @@
 // ignore-haiku
 // ignore-sgx no processes
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
 extern crate libc;
 

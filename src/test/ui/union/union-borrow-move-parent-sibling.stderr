@@ -57,4 +57,4 @@ LL |     use_borrow(a);
 error: aborting due to 5 previous errors
 
 Some errors have detailed explanations: E0382, E0502.
-For more information about an error, try `rustc --explain E0382`.
+For more information about an error, try `dustc --explain E0382`.

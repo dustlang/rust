@@ -9,25 +9,25 @@
 
 // FIXME: spec the JSON output properly.
 
-use rustc_span::source_map::{FilePathMapping, SourceMap};
+use dustc_span::source_map::{FilePathMapping, SourceMap};
 
 use crate::emitter::{Emitter, HumanReadableErrorType};
 use crate::registry::Registry;
 use crate::DiagnosticId;
 use crate::ToolMetadata;
 use crate::{CodeSuggestion, SubDiagnostic};
-use rustc_lint_defs::{Applicability, FutureBreakage};
+use dustc_lint_defs::{Applicability, FutureBreakage};
 
-use rustc_data_structures::sync::Lrc;
-use rustc_span::hygiene::ExpnData;
-use rustc_span::{MultiSpan, Span, SpanLabel};
+use dustc_data_structures::sync::Lrc;
+use dustc_span::hygiene::ExpnData;
+use dustc_span::{MultiSpan, Span, SpanLabel};
 use std::io::{self, Write};
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::vec;
 
-use rustc_serialize::json::{as_json, as_pretty_json};
-use rustc_serialize::{Encodable, Encoder};
+use dustc_serialize::json::{as_json, as_pretty_json};
+use dustc_serialize::{Encodable, Encoder};
 
 #[cfg(test)]
 mod tests;
@@ -181,7 +181,7 @@ struct Diagnostic {
     spans: Vec<DiagnosticSpan>,
     /// Associated diagnostic messages.
     children: Vec<Diagnostic>,
-    /// The message as rustc would render it.
+    /// The message as dustc would render it.
     rendered: Option<String>,
     /// Extra tool metadata
     tool_metadata: ToolMetadata,
@@ -487,7 +487,7 @@ impl DiagnosticSpan {
 
 impl DiagnosticSpanLine {
     fn line_from_source_file(
-        sf: &rustc_span::SourceFile,
+        sf: &dustc_span::SourceFile,
         index: usize,
         h_start: usize,
         h_end: usize,

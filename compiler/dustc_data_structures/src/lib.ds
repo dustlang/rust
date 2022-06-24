@@ -1,12 +1,12 @@
-//! Various data structures used by the Rust compiler. The intention
-//! is that code in here should be not be *specific* to rustc, so that
+//! Various data structures used by the Dust compiler. The intention
+//! is that code in here should be not be *specific* to dustc, so that
 //! it can be easily unit tested and so forth.
 //!
 //! # Note
 //!
 //! This API is completely unstable and subject to change.
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(array_windows)]
 #![feature(control_flow_enum)]
 #![feature(in_band_lifetimes)]
@@ -29,7 +29,7 @@
 #![feature(new_uninit)]
 #![feature(once_cell)]
 #![feature(maybe_uninit_uninit_array)]
-#![allow(rustc::default_hash_types)]
+#![allow(dustc::default_hash_types)]
 #![deny(unaligned_references)]
 
 #[macro_use]
@@ -37,7 +37,7 @@ extern crate tracing;
 #[macro_use]
 extern crate cfg_if;
 #[macro_use]
-extern crate rustc_macros;
+extern crate dustc_macros;
 
 #[inline(never)]
 #[cold]
@@ -129,6 +129,6 @@ impl<F: Fn()> Drop for OnDrop<F> {
     }
 }
 
-// See comments in src/librustc_middle/lib.rs
+// See comments in src/libdustc_middle/lib.rs
 #[doc(hidden)]
 pub fn __noop_fix_for_27438() {}

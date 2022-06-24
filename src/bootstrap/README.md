@@ -1,12 +1,12 @@
-# rustbuild - Bootstrapping Rust
+# dustbuild - Bootstrapping Dust
 
-This is an in-progress README which is targeted at helping to explain how Rust
+This is an in-progress README which is targeted at helping to explain how Dust
 is bootstrapped and in general some of the technical details of the build
 system.
 
-## Using rustbuild
+## Using dustbuild
 
-The rustbuild build system has a primary entry point, a top level `x.py` script:
+The dustbuild build system has a primary entry point, a top level `x.py` script:
 
 ```sh
 $ python ./x.py build
@@ -78,11 +78,11 @@ The script accepts commands, flags, and arguments to determine what to do:
 * `doc` - a command for building documentation. Like above can take arguments
   for what to document.
 
-## Configuring rustbuild
+## Configuring dustbuild
 
-There are currently two methods for configuring the rustbuild build system.
+There are currently two methods for configuring the dustbuild build system.
 
-First, rustbuild offers a TOML-based configuration system with a `config.toml`
+First, dustbuild offers a TOML-based configuration system with a `config.toml`
 file. An example of this configuration can be found at `config.toml.example`,
 and the configuration file can also be passed as `--config path/to/config.toml`
 if the build system is being invoked manually (via the python script).
@@ -93,7 +93,7 @@ handled naturally. `./configure` should almost never be used for local
 installations, and is primarily useful for CI. Prefer to customize behavior
 using `config.toml`.
 
-Finally, rustbuild makes use of the [cc-rs crate] which has [its own
+Finally, dustbuild makes use of the [cc-rs crate] which has [its own
 method][env-vars] of configuring C compilers and C flags via environment
 variables.
 
@@ -102,14 +102,14 @@ variables.
 
 ## Build stages
 
-The rustbuild build system goes through a few phases to actually build the
-compiler. What actually happens when you invoke rustbuild is:
+The dustbuild build system goes through a few phases to actually build the
+compiler. What actually happens when you invoke dustbuild is:
 
 1. The entry point script, `x.py` is run. This script is
    responsible for downloading the stage0 compiler/Cargo binaries, and it then
    compiles the build system itself (this folder). Finally, it then invokes the
    actual `bootstrap` binary build system.
-2. In Rust, `bootstrap` will slurp up all configuration, perform a number of
+2. In Dust, `bootstrap` will slurp up all configuration, perform a number of
    sanity checks (compilers exist for example), and then start building the
    stage0 artifacts.
 3. The stage0 `cargo` downloaded earlier is used to build the standard library
@@ -119,11 +119,11 @@ compiler. What actually happens when you invoke rustbuild is:
    artifacts are generated using that compiler.
 
 The goal of each stage is to (a) leverage Cargo as much as possible and failing
-that (b) leverage Rust as much as possible!
+that (b) leverage Dust as much as possible!
 
 ## Incremental builds
 
-You can configure rustbuild to use incremental compilation with the
+You can configure dustbuild to use incremental compilation with the
 `--incremental` flag:
 
 ```sh
@@ -157,12 +157,12 @@ build/
     ...
 
   # Output directory for building this build system itself. The stage0
-  # cargo/rustc are used to build the build system into this location.
+  # cargo/dustc are used to build the build system into this location.
   bootstrap/
     debug/
     release/
 
-  # Output of the dist-related steps like dist-std, dist-rustc, and dist-docs
+  # Output of the dist-related steps like dist-std, dist-dustc, and dist-docs
   dist/
 
   # Temporary directory used for various input/output as part of various stages
@@ -204,7 +204,7 @@ build/
       debuginfo/
       ...
 
-    # Location where the stage0 Cargo and Rust compiler are unpacked. This
+    # Location where the stage0 Cargo and Dust compiler are unpacked. This
     # directory is purely an extracted and overlaid tarball of these two (done
     # by the bootstrapy python script). In theory the build system does not
     # modify anything under this directory afterwards.
@@ -220,7 +220,7 @@ build/
     # with the right variables to ensure these are filled in correctly.
     stageN-std/
     stageN-test/
-    stageN-rustc/
+    stageN-dustc/
     stageN-tools/
 
     # This is a special case of the above directories, **not** filled in via
@@ -239,7 +239,7 @@ build/
 
     # These output directories are intended to be standalone working
     # implementations of the compiler (corresponding to each stage). The build
-    # system will link (using hard links) output from stageN-{std,rustc} into
+    # system will link (using hard links) output from stageN-{std,dustc} into
     # each of these directories.
     #
     # In theory there is no extra build output in these directories.
@@ -255,7 +255,7 @@ directory, but rather the compiler is split into three different Cargo projects:
 
 * `library/std` - the standard library
 * `library/test` - testing support, depends on libstd
-* `compiler/rustc` - the actual compiler itself
+* `compiler/dustc` - the actual compiler itself
 
 Each "project" has a corresponding Cargo.lock file with all dependencies, and
 this means that building the compiler involves running Cargo three times. The
@@ -268,11 +268,11 @@ structure here serves two goals:
    code for an arbitrary target you don't need the entire compiler, but you'll
    end up needing libraries like libtest that depend on std but also want to use
    crates.io dependencies. Hence, libtest is split out as its own project that
-   is sequenced after `std` but before `rustc`. This project is built for all
+   is sequenced after `std` but before `dustc`. This project is built for all
    targets.
 
 There is some loss in build parallelism here because libtest can be compiled in
-parallel with a number of rustc artifacts, but in theory the loss isn't too bad!
+parallel with a number of dustc artifacts, but in theory the loss isn't too bad!
 
 ## Build tools
 
@@ -281,22 +281,22 @@ and for testing. To organize these, each tool is a project in `src/tools` with a
 corresponding `Cargo.toml`. All tools are compiled with Cargo (currently having
 independent `Cargo.lock` files) and do not currently explicitly depend on the
 compiler or standard library. Compiling each tool is sequenced after the
-appropriate libstd/libtest/librustc compile above.
+appropriate libstd/libtest/libdustc compile above.
 
-## Extending rustbuild
+## Extending dustbuild
 
-So you'd like to add a feature to the rustbuild build system or just fix a bug.
+So you'd like to add a feature to the dustbuild build system or just fix a bug.
 Great! One of the major motivational factors for moving away from `make` is that
-Rust is in theory much easier to read, modify, and write. If you find anything
+Dust is in theory much easier to read, modify, and write. If you find anything
 excessively confusing, please open an issue on this and we'll try to get it
 documented or simplified pronto.
 
 First up, you'll probably want to read over the documentation above as that'll
-give you a high level overview of what rustbuild is doing. You also probably
+give you a high level overview of what dustbuild is doing. You also probably
 want to play around a bit yourself by just getting it up and running before you
 dive too much into the actual build system itself.
 
-After that, each module in rustbuild should have enough documentation to keep
+After that, each module in dustbuild should have enough documentation to keep
 you up and running. Some general areas that you may be interested in modifying
 are:
 
@@ -324,10 +324,10 @@ A 'major change' includes
 * A change in the default options.
 
 Changes that do not affect contributors to the compiler or users
-building rustc from source don't need an update to `VERSION`.
+building dustc from source don't need an update to `VERSION`.
 
 If you have any questions feel free to reach out on the `#t-infra` channel in
-the [Rust Zulip server][rust-zulip] or ask on internals.rust-lang.org. When
-you encounter bugs, please file issues on the rust-lang/rust issue tracker.
+the [Dust Zulip server][dust-zulip] or ask on internals.dust-lang.org. When
+you encounter bugs, please file issues on the dust-lang/dust issue tracker.
 
-[rust-zulip]: https://rust-lang.zulipchat.com/#narrow/stream/242791-t-infra
+[dust-zulip]: https://dust-lang.zulipchat.com/#narrow/stream/242791-t-infra

@@ -6,7 +6,7 @@ use crate::html::markdown::opts;
 use core::ops::Range;
 use pulldown_cmark::{Event, LinkType, Parser, Tag};
 use regex::Regex;
-use rustc_errors::Applicability;
+use dustc_errors::Applicability;
 
 crate const CHECK_NON_AUTOLINKS: Pass = Pass {
     name: "check-non-autolinks",

@@ -7,9 +7,9 @@ use std::io;
 
 use crate::transform::MirPass;
 use crate::util as mir_util;
-use rustc_middle::mir::Body;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::config::{OutputFilenames, OutputType};
+use dustc_middle::mir::Body;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::config::{OutputFilenames, OutputType};
 
 pub struct Marker(pub &'static str);
 

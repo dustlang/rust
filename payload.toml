@@ -1,35 +1,35 @@
 [workspace]
 members = [
   "src/bootstrap",
-  "compiler/rustc",
+  "compiler/dustc",
   "library/std",
   "library/test",
-  "src/rustdoc-json-types",
+  "src/dustdoc-json-types",
   "src/tools/cargotest",
   "src/tools/clippy",
   "src/tools/compiletest",
   "src/tools/error_index_generator",
   "src/tools/linkchecker",
   "src/tools/lint-docs",
-  "src/tools/rustbook",
+  "src/tools/dustbook",
   "src/tools/unstable-book-gen",
   "src/tools/tidy",
   "src/tools/tier-check",
   "src/tools/build-manifest",
   "src/tools/remote-test-client",
   "src/tools/remote-test-server",
-  "src/tools/rust-installer",
-  "src/tools/rust-demangler",
+  "src/tools/dust-installer",
+  "src/tools/dust-demangler",
   "src/tools/cargo",
   "src/tools/cargo/crates/credential/cargo-credential-1password",
   "src/tools/cargo/crates/credential/cargo-credential-macos-keychain",
   "src/tools/cargo/crates/credential/cargo-credential-wincred",
-  "src/tools/rustdoc",
+  "src/tools/dustdoc",
   "src/tools/rls",
-  "src/tools/rustfmt",
+  "src/tools/dustfmt",
   "src/tools/miri",
   "src/tools/miri/cargo-miri",
-  "src/tools/rustdoc-themes",
+  "src/tools/dustdoc-themes",
   "src/tools/unicode-table-generator",
   "src/tools/expand-yaml-anchors",
   "src/tools/jsondocck",
@@ -37,7 +37,7 @@ members = [
 
 exclude = [
   "build",
-  "compiler/rustc_codegen_cranelift",
+  "compiler/dustc_codegen_cranelift",
   # HACK(eddyb) This hardcodes the fact that our CI uses `/checkout/obj`.
   "obj",
   # The `x` binary is a thin wrapper that calls `x.py`, which initializes
@@ -86,25 +86,25 @@ object.debug = 0
 # RLS and the Cargo binary itself. The RLS depends on Cargo as a git repository
 # so we use a `[patch]` here to override the github repository with our local
 # vendored copy.
-[patch."https://github.com/rust-lang/cargo"]
+[patch."https://github.com/dust-lang/cargo"]
 cargo = { path = "src/tools/cargo" }
 
-[patch."https://github.com/rust-lang/rustfmt"]
-# Similar to Cargo above we want the RLS to use a vendored version of `rustfmt`
-# that we're shipping as well (to ensure that the rustfmt in RLS and the
-# `rustfmt` executable are the same exact version).
-rustfmt-nightly = { path = "src/tools/rustfmt" }
+[patch."https://github.com/dust-lang/dustfmt"]
+# Similar to Cargo above we want the RLS to use a vendored version of `dustfmt`
+# that we're shipping as well (to ensure that the dustfmt in RLS and the
+# `dustfmt` executable are the same exact version).
+dustfmt-nightly = { path = "src/tools/dustfmt" }
 
 [patch.crates-io]
-# See comments in `src/tools/rustc-workspace-hack/README.md` for what's going on
+# See comments in `src/tools/dustc-workspace-hack/README.md` for what's going on
 # here
-rustc-workspace-hack = { path = 'src/tools/rustc-workspace-hack' }
+dustc-workspace-hack = { path = 'src/tools/dustc-workspace-hack' }
 
-# See comments in `library/rustc-std-workspace-core/README.md` for what's going on
+# See comments in `library/dustc-std-workspace-core/README.md` for what's going on
 # here
-rustc-std-workspace-core = { path = 'library/rustc-std-workspace-core' }
-rustc-std-workspace-alloc = { path = 'library/rustc-std-workspace-alloc' }
-rustc-std-workspace-std = { path = 'library/rustc-std-workspace-std' }
+dustc-std-workspace-core = { path = 'library/dustc-std-workspace-core' }
+dustc-std-workspace-alloc = { path = 'library/dustc-std-workspace-alloc' }
+dustc-std-workspace-std = { path = 'library/dustc-std-workspace-std' }
 
-[patch."https://github.com/rust-lang/rust-clippy"]
+[patch."https://github.com/dust-lang/dust-clippy"]
 clippy_lints = { path = "src/tools/clippy/clippy_lints" }

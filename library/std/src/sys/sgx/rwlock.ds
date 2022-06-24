@@ -154,7 +154,7 @@ impl RWLock {
         unsafe { self.__write_unlock(rguard, wguard) };
     }
 
-    // only used by __rust_rwlock_unlock below
+    // only used by __dust_rwlock_unlock below
     #[inline]
     #[cfg_attr(test, allow(dead_code))]
     unsafe fn unlock(&self) {
@@ -178,7 +178,7 @@ const EINVAL: i32 = 22;
 
 #[cfg(not(test))]
 #[no_mangle]
-pub unsafe extern "C" fn __rust_rwlock_rdlock(p: *mut RWLock) -> i32 {
+pub unsafe extern "C" fn __dust_rwlock_rdlock(p: *mut RWLock) -> i32 {
     if p.is_null() {
         return EINVAL;
     }
@@ -188,7 +188,7 @@ pub unsafe extern "C" fn __rust_rwlock_rdlock(p: *mut RWLock) -> i32 {
 
 #[cfg(not(test))]
 #[no_mangle]
-pub unsafe extern "C" fn __rust_rwlock_wrlock(p: *mut RWLock) -> i32 {
+pub unsafe extern "C" fn __dust_rwlock_wrlock(p: *mut RWLock) -> i32 {
     if p.is_null() {
         return EINVAL;
     }
@@ -197,7 +197,7 @@ pub unsafe extern "C" fn __rust_rwlock_wrlock(p: *mut RWLock) -> i32 {
 }
 #[cfg(not(test))]
 #[no_mangle]
-pub unsafe extern "C" fn __rust_rwlock_unlock(p: *mut RWLock) -> i32 {
+pub unsafe extern "C" fn __dust_rwlock_unlock(p: *mut RWLock) -> i32 {
     if p.is_null() {
         return EINVAL;
     }

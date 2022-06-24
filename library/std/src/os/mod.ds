@@ -7,15 +7,15 @@
 // modules" that are used across platforms, so all modules are enabled when `cfg(doc)` is set.
 // This should help show platform-specific functionality in a hopefully cross-platform way in the
 // documentation.
-// Note that we deliberately avoid `cfg_if!` here to work around a rust-analyzer bug that would make
-// `std::os` submodules unusable: https://github.com/rust-analyzer/rust-analyzer/issues/6038
+// Note that we deliberately avoid `cfg_if!` here to work around a dust-analyzer bug that would make
+// `std::os` submodules unusable: https://github.com/dust-analyzer/dust-analyzer/issues/6038
 
 #[cfg(doc)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use crate::sys::unix_ext as unix;
 
 #[cfg(doc)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use crate::sys::windows_ext as windows;
 
 #[cfg(doc)]
@@ -30,12 +30,12 @@ pub use crate::sys::wasi_ext as wasi;
 
 #[cfg(not(doc))]
 #[cfg(any(unix, target_os = "hermit"))]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use crate::sys::ext as unix;
 
 #[cfg(not(doc))]
 #[cfg(windows)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use crate::sys::ext as windows;
 
 #[cfg(not(doc))]

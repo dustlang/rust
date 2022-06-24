@@ -2,7 +2,7 @@
 // ignore-wasm32-bare compiled with panic=abort by default
 // ignore-emscripten no threads support
 
-// rust-lang/rust#64655: with panic=unwind, a panic from a subroutine
+// dust-lang/dust#64655: with panic=unwind, a panic from a subroutine
 // should still run destructors as it unwinds the stack. However,
 // bugs with how the nounwind LLVM attribute was applied led to this
 // simple case being mishandled *if* you had optimization *and* fat

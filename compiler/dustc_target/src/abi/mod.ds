@@ -9,10 +9,10 @@ use std::num::NonZeroUsize;
 use std::ops::{Add, AddAssign, Deref, Mul, Range, RangeInclusive, Sub};
 use std::str::FromStr;
 
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_macros::HashStable_Generic;
-use rustc_serialize::json::{Json, ToJson};
-use rustc_span::Span;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_macros::HashStable_Generic;
+use dustc_serialize::json::{Json, ToJson};
+use dustc_span::Span;
 
 pub mod call;
 
@@ -657,7 +657,7 @@ impl Primitive {
     }
 }
 
-/// Information about one scalar component of a Rust type.
+/// Information about one scalar component of a Dust type.
 #[derive(Clone, PartialEq, Eq, Hash, Debug)]
 #[derive(HashStable_Generic)]
 pub struct Scalar {
@@ -889,7 +889,7 @@ impl Abi {
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct VariantIdx {
         derive [HashStable_Generic]
     }
@@ -1046,7 +1046,7 @@ impl Layout {
 ///
 /// Note that the layout is NOT guaranteed to always be identical
 /// to that obtained from `layout_of(ty)`, as we need to produce
-/// layouts for which Rust types do not exist, such as enum variants
+/// layouts for which Dust types do not exist, such as enum variants
 /// or synthetic fields of enums (i.e., discriminants) and fat pointers.
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct TyAndLayout<'a, Ty> {

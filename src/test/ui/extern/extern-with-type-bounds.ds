@@ -1,6 +1,6 @@
 #![feature(intrinsics)]
 
-extern "rust-intrinsic" {
+extern "dust-intrinsic" {
     // Real example from libcore
     fn type_id<T: ?Sized + 'static>() -> u64;
 

@@ -84,21 +84,21 @@
 use self::LiveNodeKind::*;
 use self::VarKind::*;
 
-use rustc_ast::InlineAsmOptions;
-use rustc_data_structures::fx::FxIndexMap;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::def::*;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::{Expr, HirId, HirIdMap, HirIdSet};
-use rustc_index::vec::IndexVec;
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{self, DefIdTree, TyCtxt};
-use rustc_session::lint;
-use rustc_span::symbol::{kw, sym, Symbol};
-use rustc_span::Span;
+use dustc_ast::InlineAsmOptions;
+use dustc_data_structures::fx::FxIndexMap;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::def::*;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::{Expr, HirId, HirIdMap, HirIdSet};
+use dustc_index::vec::IndexVec;
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{self, DefIdTree, TyCtxt};
+use dustc_session::lint;
+use dustc_span::symbol::{kw, sym, Symbol};
+use dustc_span::Span;
 
 use std::collections::VecDeque;
 use std::io;
@@ -107,13 +107,13 @@ use std::rc::Rc;
 
 mod rwu_table;
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct Variable {
         DEBUG_FORMAT = "v({})",
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct LiveNode {
         DEBUG_FORMAT = "ln({})",
     }
@@ -271,7 +271,7 @@ impl IrMaps<'tcx> {
         let mut pats = VecDeque::new();
         pats.push_back(pat);
         while let Some(pat) = pats.pop_front() {
-            use rustc_hir::PatKind::*;
+            use dustc_hir::PatKind::*;
             match &pat.kind {
                 Binding(.., inner_pat) => {
                     pats.extend(inner_pat.iter());
@@ -369,7 +369,7 @@ impl<'tcx> Visitor<'tcx> for IrMaps<'tcx> {
     fn visit_param(&mut self, param: &'tcx hir::Param<'tcx>) {
         param.pat.each_binding(|_bm, hir_id, _x, ident| {
             let var = match param.pat.kind {
-                rustc_hir::PatKind::Struct(_, fields, _) => Local(LocalInfo {
+                dustc_hir::PatKind::Struct(_, fields, _) => Local(LocalInfo {
                     id: hir_id,
                     name: ident.name,
                     is_shorthand: fields

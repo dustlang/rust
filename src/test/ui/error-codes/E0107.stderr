@@ -46,4 +46,4 @@ LL | struct Foo<'a>(&'a str);
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0107`.
+For more information about this error, try `dustc --explain E0107`.

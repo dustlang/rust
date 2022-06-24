@@ -1,8 +1,8 @@
 // check-pass
-// run-rustfix
+// run-dustfix
 
 #![warn(unused_braces, unused_parens)]
-#![allow(unreachable_code, unused_unsafe)] // for rustfix
+#![allow(unreachable_code, unused_unsafe)] // for dustfix
 
 fn consume<T>(_: T) {}
 

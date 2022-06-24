@@ -12,4 +12,4 @@ LL |     fn param(1234567890123456789012345678901234567890e-340: f64) {}
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0080`.
+For more information about this error, try `dustc --explain E0080`.

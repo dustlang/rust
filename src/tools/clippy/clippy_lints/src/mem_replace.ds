@@ -3,14 +3,14 @@ use crate::utils::{
     span_lint_and_sugg, span_lint_and_then,
 };
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{BorrowKind, Expr, ExprKind, Mutability, QPath};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::Span;
-use rustc_span::symbol::sym;
+use dustc_errors::Applicability;
+use dustc_hir::{BorrowKind, Expr, ExprKind, Mutability, QPath};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::Span;
+use dustc_span::symbol::sym;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for `mem::replace()` on an `Option` with
@@ -23,14 +23,14 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// use std::mem;
     ///
     /// let mut an_option = Some(0);
     /// let replaced = mem::replace(&mut an_option, None);
     /// ```
     /// Is better expressed with:
-    /// ```rust
+    /// ```dust
     /// let mut an_option = Some(0);
     /// let taken = an_option.take();
     /// ```
@@ -81,12 +81,12 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let mut text = String::from("foo");
     /// let replaced = std::mem::replace(&mut text, String::default());
     /// ```
     /// Is better expressed with:
-    /// ```rust
+    /// ```dust
     /// let mut text = String::from("foo");
     /// let taken = std::mem::take(&mut text);
     /// ```
@@ -225,15 +225,15 @@ fn check_replace_with_default(cx: &LateContext<'_>, src: &Expr<'_>, dest: &Expr<
     }
 }
 
-const MEM_REPLACE_WITH_DEFAULT_MSRV: RustcVersion = RustcVersion::new(1, 40, 0);
+const MEM_REPLACE_WITH_DEFAULT_MSRV: DustcVersion = DustcVersion::new(1, 40, 0);
 
 pub struct MemReplace {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl MemReplace {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self { msrv }
     }
 }

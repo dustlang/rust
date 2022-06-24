@@ -138,4 +138,4 @@ LL |     0b101f64;
 
 error: aborting due to 23 previous errors
 
-For more information about this error, try `rustc --explain E0768`.
+For more information about this error, try `dustc --explain E0768`.

@@ -1,14 +1,14 @@
 use crate::abi::FnAbi;
 use crate::common::*;
 use crate::type_::Type;
-use rustc_codegen_ssa::traits::*;
-use rustc_middle::bug;
-use rustc_middle::ty::layout::{FnAbiExt, TyAndLayout};
-use rustc_middle::ty::print::with_no_trimmed_paths;
-use rustc_middle::ty::{self, Ty, TypeFoldable};
-use rustc_target::abi::{Abi, AddressSpace, Align, FieldsShape};
-use rustc_target::abi::{Int, Pointer, F32, F64};
-use rustc_target::abi::{LayoutOf, PointeeInfo, Scalar, Size, TyAndLayoutMethods, Variants};
+use dustc_codegen_ssa::traits::*;
+use dustc_middle::bug;
+use dustc_middle::ty::layout::{FnAbiExt, TyAndLayout};
+use dustc_middle::ty::print::with_no_trimmed_paths;
+use dustc_middle::ty::{self, Ty, TypeFoldable};
+use dustc_target::abi::{Abi, AddressSpace, Align, FieldsShape};
+use dustc_target::abi::{Int, Pointer, F32, F64};
+use dustc_target::abi::{LayoutOf, PointeeInfo, Scalar, Size, TyAndLayoutMethods, Variants};
 use tracing::debug;
 
 use std::fmt::Write;
@@ -197,7 +197,7 @@ impl<'tcx> LayoutLlvmExt<'tcx> for TyAndLayout<'tcx> {
         }
     }
 
-    /// Gets the LLVM type corresponding to a Rust type, i.e., `rustc_middle::ty::Ty`.
+    /// Gets the LLVM type corresponding to a Dust type, i.e., `dustc_middle::ty::Ty`.
     /// The pointee type of the pointer in `PlaceRef` is always this type.
     /// For sized types, it is also the right LLVM type for an `alloca`
     /// containing a value of that type, and most immediates (except `bool`).
@@ -243,7 +243,7 @@ impl<'tcx> LayoutLlvmExt<'tcx> for TyAndLayout<'tcx> {
         assert!(!self.ty.has_escaping_bound_vars(), "{:?} has escaping bound vars", self.ty);
 
         // Make sure lifetimes are erased, to avoid generating distinct LLVM
-        // types for Rust types that only differ in the choice of lifetimes.
+        // types for Dust types that only differ in the choice of lifetimes.
         let normal_ty = cx.tcx.erase_regions(self.ty);
 
         let mut defer = None;

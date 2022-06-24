@@ -5,9 +5,9 @@ use crate::Substitution;
 use crate::SubstitutionPart;
 use crate::SuggestionStyle;
 use crate::ToolMetadata;
-use rustc_lint_defs::Applicability;
-use rustc_serialize::json::Json;
-use rustc_span::{MultiSpan, Span, DUMMY_SP};
+use dustc_lint_defs::Applicability;
+use dustc_serialize::json::Json;
+use dustc_span::{MultiSpan, Span, DUMMY_SP};
 use std::fmt;
 
 #[must_use]
@@ -371,7 +371,7 @@ impl Diagnostic {
 
     /// Prints out a message with a suggested edit of the code.
     ///
-    /// In case of short messages and a simple suggestion, rustc displays it as a label:
+    /// In case of short messages and a simple suggestion, dustc displays it as a label:
     ///
     /// ```text
     /// try adding parentheses: `(tup.0).1`
@@ -529,7 +529,7 @@ impl Diagnostic {
     }
 
     /// Adds a suggestion intended only for a tool. The intent is that the metadata encodes
-    /// the suggestion in a tool-specific way, as it may not even directly involve Rust code.
+    /// the suggestion in a tool-specific way, as it may not even directly involve Dust code.
     pub fn tool_only_suggestion_with_metadata(
         &mut self,
         msg: &str,

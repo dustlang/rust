@@ -1,4 +1,4 @@
-//! Codegen of intrinsics. This includes `extern "rust-intrinsic"`, `extern "platform-intrinsic"`
+//! Codegen of intrinsics. This includes `extern "dust-intrinsic"`, `extern "platform-intrinsic"`
 //! and LLVM intrinsics that have symbol names starting with `llvm.`.
 
 mod cpuid;
@@ -10,7 +10,7 @@ pub(crate) use llvm::codegen_llvm_intrinsic_call;
 
 use crate::prelude::*;
 use cranelift_codegen::ir::AtomicRmwOp;
-use rustc_middle::ty::print::with_no_trimmed_paths;
+use dustc_middle::ty::print::with_no_trimmed_paths;
 
 macro intrinsic_pat {
     (_) => {

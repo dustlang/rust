@@ -1,4 +1,4 @@
-warning: use of deprecated attribute `plugin`: compiler plugins are deprecated. See https://github.com/rust-lang/rust/pull/64675
+warning: use of deprecated attribute `plugin`: compiler plugins are deprecated. See https://github.com/dust-lang/dust/pull/64675
   --> <crate attribute>:1:1
    |
 LL | plugin(lint_plugin_test)

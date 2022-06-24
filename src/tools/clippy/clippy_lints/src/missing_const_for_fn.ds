@@ -2,17 +2,17 @@ use crate::utils::qualify_min_const_fn::is_min_const_fn;
 use crate::utils::{
     fn_has_unsatisfiable_preds, has_drop, is_entrypoint_fn, meets_msrv, span_lint, trait_ref_of_method,
 };
-use rustc_hir as hir;
-use rustc_hir::intravisit::FnKind;
-use rustc_hir::{Body, Constness, FnDecl, GenericParamKind, HirId};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::Span;
-use rustc_typeck::hir_ty_to_ty;
+use dustc_hir as hir;
+use dustc_hir::intravisit::FnKind;
+use dustc_hir::{Body, Constness, FnDecl, GenericParamKind, HirId};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::Span;
+use dustc_typeck::hir_ty_to_ty;
 
-const MISSING_CONST_FOR_FN_MSRV: RustcVersion = RustcVersion::new(1, 37, 0);
+const MISSING_CONST_FOR_FN_MSRV: DustcVersion = DustcVersion::new(1, 37, 0);
 
 declare_clippy_lint! {
     /// **What it does:**
@@ -31,7 +31,7 @@ declare_clippy_lint! {
     ///
     /// Also, the lint only runs one pass over the code. Consider these two non-const functions:
     ///
-    /// ```rust
+    /// ```dust
     /// fn a() -> i32 {
     ///     0
     /// }
@@ -46,7 +46,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # struct Foo {
     /// #     random_number: usize,
     /// # }
@@ -59,7 +59,7 @@ declare_clippy_lint! {
     ///
     /// Could be a const fn:
     ///
-    /// ```rust
+    /// ```dust
     /// # struct Foo {
     /// #     random_number: usize,
     /// # }
@@ -77,12 +77,12 @@ declare_clippy_lint! {
 impl_lint_pass!(MissingConstForFn => [MISSING_CONST_FOR_FN]);
 
 pub struct MissingConstForFn {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl MissingConstForFn {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self { msrv }
     }
 }
@@ -139,7 +139,7 @@ impl<'tcx> LateLintPass<'tcx> for MissingConstForFn {
         let mir = cx.tcx.optimized_mir(def_id);
 
         if let Err((span, err)) = is_min_const_fn(cx.tcx, &mir) {
-            if rustc_mir::const_eval::is_min_const_fn(cx.tcx, def_id.to_def_id()) {
+            if dustc_mir::const_eval::is_min_const_fn(cx.tcx, def_id.to_def_id()) {
                 cx.tcx.sess.span_err(span, &err);
             }
         } else {

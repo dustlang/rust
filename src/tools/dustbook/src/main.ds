@@ -15,7 +15,7 @@ fn main() {
     let dir_message = "[dir]
 'A directory for your book{n}(Defaults to Current Directory when omitted)'";
 
-    let matches = App::new("rustbook")
+    let matches = App::new("dustbook")
         .about("Build a book with mdBook")
         .author("Steve Klabnik <steve@steveklabnik.com>")
         .version(&*format!("v{}", crate_version!()))
@@ -28,7 +28,7 @@ fn main() {
         )
         .subcommand(
             SubCommand::with_name("test")
-                .about("Tests that a book's Rust code samples compile")
+                .about("Tests that a book's Dust code samples compile")
                 .arg_from_usage(dir_message),
         )
         .get_matches();

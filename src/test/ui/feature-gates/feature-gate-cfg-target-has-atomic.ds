@@ -1,9 +1,9 @@
-#![feature(intrinsics, lang_items, no_core, rustc_attrs)]
+#![feature(intrinsics, lang_items, no_core, dustc_attrs)]
 
 #![crate_type="rlib"]
 #![no_core]
 
-extern "rust-intrinsic" {
+extern "dust-intrinsic" {
     fn atomic_xadd<T>(dst: *mut T, src: T) -> T;
 }
 
@@ -114,5 +114,5 @@ fn main() {
 }
 
 #[macro_export]
-#[rustc_builtin_macro]
+#[dustc_builtin_macro]
 macro_rules! cfg { () => () }

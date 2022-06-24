@@ -2,8 +2,8 @@
 
 use crate::prelude::*;
 
-use rustc_index::vec::IndexVec;
-use rustc_middle::mir::StatementKind::*;
+use dustc_index::vec::IndexVec;
+use dustc_middle::mir::StatementKind::*;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub(crate) enum SsaKind {

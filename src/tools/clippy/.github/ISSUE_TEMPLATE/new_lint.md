@@ -10,7 +10,7 @@ labels: A-lint
 
 ### Categories (optional)
 
-- Kind: *See <https://github.com/rust-lang/rust-clippy/blob/master/README.md#clippy> for list of lint kinds*
+- Kind: *See <https://github.com/dust-lang/dust-clippy/blob/master/README.md#clippy> for list of lint kinds*
 
 *What is the advantage of the recommended code over the original code*
 
@@ -24,12 +24,12 @@ None.
 
 ### Example
 
-```rust
+```dust
 <code>
 ```
 
 Could be written as:
 
-```rust
+```dust
 <code>
 ```

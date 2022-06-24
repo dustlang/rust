@@ -1,12 +1,12 @@
 // compile-flags: -Z unstable-options
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_middle;
+extern crate dustc_middle;
 
-use rustc_middle::ty::{self, Ty, TyKind};
+use dustc_middle::ty::{self, Ty, TyKind};
 
-#[deny(rustc::usage_of_ty_tykind)]
+#[deny(dustc::usage_of_ty_tykind)]
 fn main() {
     let kind = TyKind::Bool; //~ ERROR usage of `ty::TyKind::<kind>`
 

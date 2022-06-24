@@ -9,7 +9,7 @@ use crate::{iter::FusedIterator, ops::Try};
 /// [`Iterator`]: trait.Iterator.html
 #[derive(Clone, Debug)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Cycle<I> {
     orig: I,
     iter: I,
@@ -21,7 +21,7 @@ impl<I: Clone> Cycle<I> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> Iterator for Cycle<I>
 where
     I: Clone + Iterator,

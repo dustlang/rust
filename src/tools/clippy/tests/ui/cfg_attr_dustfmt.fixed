@@ -1,13 +1,13 @@
-// run-rustfix
+// run-dustfix
 #![feature(stmt_expr_attributes)]
 
 #![allow(unused, clippy::no_effect)]
 #![warn(clippy::deprecated_cfg_attr)]
 
 // This doesn't get linted, see known problems
-#![cfg_attr(rustfmt, rustfmt_skip)]
+#![cfg_attr(dustfmt, dustfmt_skip)]
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 trait Foo
 {
 fn foo(
@@ -15,17 +15,17 @@ fn foo(
 }
 
 fn skip_on_statements() {
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     5+3;
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn main() {
     foo::f();
 }
 
 mod foo {
-    #![cfg_attr(rustfmt, rustfmt_skip)]
+    #![cfg_attr(dustfmt, dustfmt_skip)]
 
     pub fn f() {}
 }

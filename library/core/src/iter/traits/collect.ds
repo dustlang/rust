@@ -83,8 +83,8 @@
 ///
 /// assert_eq!(c.0, vec![0, 1, 2, 3, 4]);
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_on_unimplemented(
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_on_unimplemented(
     message = "a value of type `{Self}` cannot be built from an iterator \
                over elements of type `{A}`",
     label = "value of type `{Self}` cannot be built from `std::iter::Iterator<Item={A}>`"
@@ -109,7 +109,7 @@ pub trait FromIterator<A>: Sized {
     ///
     /// assert_eq!(v, vec![5, 5, 5, 5, 5]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn from_iter<T: IntoIterator<Item = A>>(iter: T) -> Self;
 }
 
@@ -120,7 +120,7 @@ pub trait FromIterator<A>: Sized {
 /// collection of some kind.
 ///
 /// One benefit of implementing `IntoIterator` is that your type will [work
-/// with Rust's `for` loop syntax](crate::iter#for-loops-and-intoiterator).
+/// with Dust's `for` loop syntax](crate::iter#for-loops-and-intoiterator).
 ///
 /// See also: [`FromIterator`].
 ///
@@ -185,7 +185,7 @@ pub trait FromIterator<A>: Sized {
 /// iterator. Additional bounds can be specified by restricting on
 /// `Item`:
 ///
-/// ```rust
+/// ```dust
 /// fn collect_as_strings<T>(collection: T) -> Vec<String>
 /// where
 ///     T: IntoIterator,
@@ -197,15 +197,15 @@ pub trait FromIterator<A>: Sized {
 ///         .collect()
 /// }
 /// ```
-#[rustc_diagnostic_item = "IntoIterator"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[dustc_diagnostic_item = "IntoIterator"]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait IntoIterator {
     /// The type of the elements being iterated over.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     type Item;
 
     /// Which kind of iterator are we turning this into?
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     type IntoIter: Iterator<Item = Self::Item>;
 
     /// Creates an iterator from a value.
@@ -228,11 +228,11 @@ pub trait IntoIterator {
     /// assert_eq!(None, iter.next());
     /// ```
     #[lang = "into_iter"]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn into_iter(self) -> Self::IntoIter;
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I: Iterator> IntoIterator for I {
     type Item = I::Item;
     type IntoIter = I;
@@ -311,7 +311,7 @@ impl<I: Iterator> IntoIterator for I {
 /// // we've added these elements onto the end
 /// assert_eq!("MyCollection([5, 6, 7, 1, 2, 3])", format!("{:?}", c));
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait Extend<A> {
     /// Extends a collection with the contents of an iterator.
     ///
@@ -332,7 +332,7 @@ pub trait Extend<A> {
     ///
     /// assert_eq!("abcdef", &message);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn extend<T: IntoIterator<Item = A>>(&mut self, iter: T);
 
     /// Extends a collection with exactly one element.

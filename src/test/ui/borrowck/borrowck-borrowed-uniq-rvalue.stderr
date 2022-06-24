@@ -13,4 +13,4 @@ LL |     buggy_map.insert(43, &*tmp);
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0716`.
+For more information about this error, try `dustc --explain E0716`.

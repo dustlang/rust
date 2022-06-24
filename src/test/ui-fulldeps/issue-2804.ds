@@ -2,12 +2,12 @@
 
 #![allow(non_camel_case_types)]
 #![allow(dead_code)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_serialize;
+extern crate dustc_serialize;
 
 use std::collections::HashMap;
-use rustc_serialize::json::{self, Json};
+use dustc_serialize::json::{self, Json};
 use std::option;
 
 enum object {

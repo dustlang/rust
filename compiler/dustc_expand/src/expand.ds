@@ -6,30 +6,30 @@ use crate::mbe::macro_rules::annotate_err_with_kind;
 use crate::module::{mod_dir_path, parse_external_mod, DirOwnership, ParsedExternalMod};
 use crate::placeholders::{placeholder, PlaceholderExpander};
 
-use rustc_ast as ast;
-use rustc_ast::mut_visit::*;
-use rustc_ast::ptr::P;
-use rustc_ast::token;
-use rustc_ast::tokenstream::TokenStream;
-use rustc_ast::visit::{self, AssocCtxt, Visitor};
-use rustc_ast::{AstLike, AttrItem, AttrStyle, Block, Inline, ItemKind, LitKind, MacArgs};
-use rustc_ast::{MacCallStmt, MacStmtStyle, MetaItemKind, ModKind, NestedMetaItem};
-use rustc_ast::{NodeId, PatKind, Path, StmtKind, Unsafe};
-use rustc_ast_pretty::pprust;
-use rustc_attr::{self as attr, is_builtin_attr};
-use rustc_data_structures::map_in_place::MapInPlace;
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::{Applicability, PResult};
-use rustc_feature::Features;
-use rustc_parse::parser::{AttemptLocalParseRecovery, ForceCollect, GateOr, Parser, RecoverComma};
-use rustc_parse::validate_attr;
-use rustc_session::lint::builtin::UNUSED_DOC_COMMENTS;
-use rustc_session::lint::BuiltinLintDiagnostics;
-use rustc_session::parse::{feature_err, ParseSess};
-use rustc_session::Limit;
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::{ExpnId, FileName, Span, DUMMY_SP};
+use dustc_ast as ast;
+use dustc_ast::mut_visit::*;
+use dustc_ast::ptr::P;
+use dustc_ast::token;
+use dustc_ast::tokenstream::TokenStream;
+use dustc_ast::visit::{self, AssocCtxt, Visitor};
+use dustc_ast::{AstLike, AttrItem, AttrStyle, Block, Inline, ItemKind, LitKind, MacArgs};
+use dustc_ast::{MacCallStmt, MacStmtStyle, MetaItemKind, ModKind, NestedMetaItem};
+use dustc_ast::{NodeId, PatKind, Path, StmtKind, Unsafe};
+use dustc_ast_pretty::ppdust;
+use dustc_attr::{self as attr, is_builtin_attr};
+use dustc_data_structures::map_in_place::MapInPlace;
+use dustc_data_structures::stack::ensure_sufficient_stack;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::{Applicability, PResult};
+use dustc_feature::Features;
+use dustc_parse::parser::{AttemptLocalParseRecovery, ForceCollect, GateOr, Parser, RecoverComma};
+use dustc_parse::validate_attr;
+use dustc_session::lint::builtin::UNUSED_DOC_COMMENTS;
+use dustc_session::lint::BuiltinLintDiagnostics;
+use dustc_session::parse::{feature_err, ParseSess};
+use dustc_session::Limit;
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::{ExpnId, FileName, Span, DUMMY_SP};
 
 use smallvec::{smallvec, SmallVec};
 use std::io::ErrorKind;
@@ -644,7 +644,7 @@ impl<'a, 'b> MacroExpander<'a, 'b> {
         let msg = format!(
             "non-{kind} macro in {kind} position: {path}",
             kind = kind.name(),
-            path = pprust::path_to_string(&mac.path),
+            path = ppdust::path_to_string(&mac.path),
         );
         self.cx.span_err(span, &msg);
         self.cx.trace_macros_diag();
@@ -700,7 +700,7 @@ impl<'a, 'b> MacroExpander<'a, 'b> {
                     let tokens = match attr.style {
                         AttrStyle::Outer => item.into_tokens(&self.cx.sess.parse_sess),
                         // FIXME: Properly collect tokens for inner attributes
-                        AttrStyle::Inner => rustc_parse::fake_token_stream(
+                        AttrStyle::Inner => dustc_parse::fake_token_stream(
                             &self.cx.sess.parse_sess,
                             &item.into_nonterminal(),
                         ),
@@ -936,7 +936,7 @@ pub fn ensure_complete_parse<'a>(
     span: Span,
 ) {
     if this.token != token::Eof {
-        let token = pprust::token_to_string(&this.token);
+        let token = ppdust::token_to_string(&this.token);
         let msg = format!("macro expansion ignores token `{}` and any following", token);
         // Avoid emitting backtrace info twice.
         let def_site_span = this.token.span.with_ctxt(SyntaxContext::root());
@@ -944,7 +944,7 @@ pub fn ensure_complete_parse<'a>(
         err.span_label(span, "caused by the macro expansion here");
         let msg = format!(
             "the usage of `{}!` is likely invalid in {} context",
-            pprust::path_to_string(macro_path),
+            ppdust::path_to_string(macro_path),
             kind_name,
         );
         err.note(&msg);
@@ -1055,7 +1055,7 @@ impl<'a, 'b> InvocationCollector<'a, 'b> {
     fn check_attributes(&mut self, attrs: &[ast::Attribute]) {
         let features = self.cx.ecfg.features.unwrap();
         for attr in attrs.iter() {
-            rustc_ast_passes::feature_gate::check_attribute(attr, self.cx.sess, features);
+            dustc_ast_passes::feature_gate::check_attribute(attr, self.cx.sess, features);
             validate_attr::check_meta(&self.cx.sess.parse_sess, attr);
             if attr.doc_str().is_some() {
                 self.cx.sess.parse_sess.buffer_lint_with_diagnostic(

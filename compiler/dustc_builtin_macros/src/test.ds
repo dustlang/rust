@@ -2,14 +2,14 @@
 /// Ideally, this code would be in libtest but for efficiency and error messages it lives here.
 use crate::util::check_builtin_macro_attribute;
 
-use rustc_ast as ast;
-use rustc_ast::attr;
-use rustc_ast::ptr::P;
-use rustc_ast_pretty::pprust;
-use rustc_expand::base::*;
-use rustc_session::Session;
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_ast::attr;
+use dustc_ast::ptr::P;
+use dustc_ast_pretty::ppdust;
+use dustc_expand::base::*;
+use dustc_session::Session;
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::Span;
 
 use std::iter;
 
@@ -18,7 +18,7 @@ use std::iter;
 // Otherwise, we'll omit the item. This behavior means that any item annotated
 // with #[test_case] is never addressable.
 //
-// We mark item with an inert attribute "rustc_test_marker" which the test generation
+// We mark item with an inert attribute "dustc_test_marker" which the test generation
 // logic will pick up on.
 pub fn expand_test_case(
     ecx: &mut ExtCtxt<'_>,
@@ -41,7 +41,7 @@ pub fn expand_test_case(
             tokens: None,
         };
         item.ident.span = item.ident.span.with_ctxt(sp.ctxt());
-        item.attrs.push(ecx.attribute(ecx.meta_word(sp, sym::rustc_test_marker)));
+        item.attrs.push(ecx.attribute(ecx.meta_word(sp, sym::dustc_test_marker)));
         item
     });
 
@@ -208,8 +208,8 @@ pub fn expand_test_or_bench(
                 Ident::new(sym::cfg, attr_sp),
                 vec![attr::mk_nested_word_item(Ident::new(sym::test, attr_sp))],
             )),
-            // #[rustc_test_marker]
-            cx.attribute(cx.meta_word(attr_sp, sym::rustc_test_marker)),
+            // #[dustc_test_marker]
+            cx.attribute(cx.meta_word(attr_sp, sym::dustc_test_marker)),
         ],
         // const $ident: test::TestDescAndFn =
         ast::ItemKind::Const(
@@ -311,7 +311,7 @@ pub fn expand_test_or_bench(
     // extern crate test
     let test_extern = cx.item(sp, test_id, vec![], ast::ItemKind::ExternCrate(None));
 
-    tracing::debug!("synthetic test item:\n{}\n", pprust::item_to_string(&test_const));
+    tracing::debug!("synthetic test item:\n{}\n", ppdust::item_to_string(&test_const));
 
     if is_stmt {
         vec![

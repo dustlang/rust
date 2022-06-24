@@ -4,21 +4,21 @@ use crate::mir::{GeneratorLayout, GeneratorSavedLocal};
 use crate::ty::subst::Subst;
 use crate::ty::{self, subst::SubstsRef, ReprOptions, Ty, TyCtxt, TypeFoldable};
 
-use rustc_ast as ast;
-use rustc_attr as attr;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_hir as hir;
-use rustc_hir::lang_items::LangItem;
-use rustc_index::bit_set::BitSet;
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_session::{DataTypeKind, FieldInfo, SizeKind, VariantInfo};
-use rustc_span::symbol::{Ident, Symbol};
-use rustc_span::DUMMY_SP;
-use rustc_target::abi::call::{
+use dustc_ast as ast;
+use dustc_attr as attr;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_hir as hir;
+use dustc_hir::lang_items::LangItem;
+use dustc_index::bit_set::BitSet;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_session::{DataTypeKind, FieldInfo, SizeKind, VariantInfo};
+use dustc_span::symbol::{Ident, Symbol};
+use dustc_span::DUMMY_SP;
+use dustc_target::abi::call::{
     ArgAbi, ArgAttribute, ArgAttributes, ArgExtension, Conv, FnAbi, PassMode, Reg, RegKind,
 };
-use rustc_target::abi::*;
-use rustc_target::spec::{abi::Abi as SpecAbi, HasTargetSpec, PanicStrategy};
+use dustc_target::abi::*;
+use dustc_target::spec::{abi::Abi as SpecAbi, HasTargetSpec, PanicStrategy};
 
 use std::cmp;
 use std::fmt;
@@ -436,7 +436,7 @@ impl<'tcx> LayoutCx<'tcx, TyCtxt<'tcx>> {
                             Abi::Scalar(_) | Abi::Vector { .. } if optimize => {
                                 abi = field.abi.clone();
                             }
-                            // But scalar pairs are Rust-specific and get
+                            // But scalar pairs are Dust-specific and get
                             // treated as aggregates by C ABIs anyway.
                             Abi::ScalarPair(..) => {
                                 abi = field.abi.clone();
@@ -909,7 +909,7 @@ impl<'tcx> LayoutCx<'tcx, TyCtxt<'tcx>> {
                     match st.abi {
                         Abi::Scalar(ref mut scalar) | Abi::ScalarPair(ref mut scalar, _) => {
                             // the asserts ensure that we are not using the
-                            // `#[rustc_layout_scalar_valid_range(n)]`
+                            // `#[dustc_layout_scalar_valid_range(n)]`
                             // attribute to widen the range of anything as that would probably
                             // result in UB somewhere
                             // FIXME(eddyb) the asserts are probably not needed,
@@ -2011,7 +2011,7 @@ impl<'tcx, T: HasTyCtxt<'tcx>> HasTyCtxt<'tcx> for LayoutCx<'tcx, T> {
     }
 }
 
-pub type TyAndLayout<'tcx> = rustc_target::abi::TyAndLayout<'tcx, Ty<'tcx>>;
+pub type TyAndLayout<'tcx> = dustc_target::abi::TyAndLayout<'tcx, Ty<'tcx>>;
 
 impl<'tcx> LayoutOf for LayoutCx<'tcx, TyCtxt<'tcx>> {
     type Ty = Ty<'tcx>;
@@ -2105,7 +2105,7 @@ where
                 // If all variants but one are uninhabited, the variant layout is the enum layout.
                 if index == variant_index &&
                 // Don't confuse variants of uninhabited enums with the enum itself.
-                // For more details see https://github.com/rust-lang/rust/issues/69763.
+                // For more details see https://github.com/dust-lang/dust/issues/69763.
                 this.fields != FieldsShape::Primitive =>
             {
                 this.layout
@@ -2517,7 +2517,7 @@ impl<'tcx> ty::Instance<'tcx> {
                         &ret_ty,
                         false,
                         hir::Unsafety::Normal,
-                        rustc_target::spec::abi::Abi::Rust,
+                        dustc_target::spec::abi::Abi::Dust,
                     )
                 })
             }
@@ -2571,25 +2571,25 @@ fn fn_can_unwind(
     } else if codegen_fn_attr_flags.contains(CodegenFnAttrFlags::UNWIND) {
         // If a specific #[unwind] attribute is present, use that.
         true
-    } else if codegen_fn_attr_flags.contains(CodegenFnAttrFlags::RUSTC_ALLOCATOR_NOUNWIND) {
+    } else if codegen_fn_attr_flags.contains(CodegenFnAttrFlags::DUSTC_ALLOCATOR_NOUNWIND) {
         // Special attribute for allocator functions, which can't unwind.
         false
     } else {
-        if call_conv == Conv::Rust {
-            // Any Rust method (or `extern "Rust" fn` or `extern
-            // "rust-call" fn`) is explicitly allowed to unwind
+        if call_conv == Conv::Dust {
+            // Any Dust method (or `extern "Dust" fn` or `extern
+            // "dust-call" fn`) is explicitly allowed to unwind
             // (unless it has no-unwind attribute, handled above).
             true
         } else {
             // Anything else is either:
             //
-            //  1. A foreign item using a non-Rust ABI (like `extern "C" { fn foo(); }`), or
+            //  1. A foreign item using a non-Dust ABI (like `extern "C" { fn foo(); }`), or
             //
-            //  2. A Rust item using a non-Rust ABI (like `extern "C" fn foo() { ... }`).
+            //  2. A Dust item using a non-Dust ABI (like `extern "C" fn foo() { ... }`).
             //
             // In both of these cases, we should refer to the ABI to determine whether or not we
-            // should unwind. See Rust RFC 2945 for more information on this behavior, here:
-            // https://github.com/rust-lang/rfcs/blob/master/text/2945-c-unwind-abi.md
+            // should unwind. See Dust RFC 2945 for more information on this behavior, here:
+            // https://github.com/dust-lang/rfcs/blob/master/text/2945-c-unwind-abi.md
             use SpecAbi::*;
             match abi {
                 C { unwind } | Stdcall { unwind } | System { unwind } | Thiscall { unwind } => {
@@ -2609,11 +2609,11 @@ fn fn_can_unwind(
                 | AvrInterrupt
                 | AvrNonBlockingInterrupt
                 | CCmseNonSecureCall
-                | RustIntrinsic
+                | DustIntrinsic
                 | PlatformIntrinsic
                 | Unadjusted => false,
-                // In the `if` above, we checked for functions with the Rust calling convention.
-                Rust | RustCall => unreachable!(),
+                // In the `if` above, we checked for functions with the Dust calling convention.
+                Dust | DustCall => unreachable!(),
             }
         }
     }
@@ -2667,9 +2667,9 @@ where
 
         let sig = cx.tcx().normalize_erasing_late_bound_regions(ty::ParamEnv::reveal_all(), sig);
 
-        use rustc_target::spec::abi::Abi::*;
+        use dustc_target::spec::abi::Abi::*;
         let conv = match cx.tcx().sess.target.adjust_abi(sig.abi) {
-            RustIntrinsic | PlatformIntrinsic | Rust | RustCall => Conv::Rust,
+            DustIntrinsic | PlatformIntrinsic | Dust | DustCall => Conv::Dust,
 
             // It's the ABI's job to select this, not ours.
             System { .. } => bug!("system abi should be selected elsewhere"),
@@ -2697,7 +2697,7 @@ where
         };
 
         let mut inputs = sig.inputs();
-        let extra_args = if sig.abi == RustCall {
+        let extra_args = if sig.abi == DustCall {
             assert!(!sig.c_variadic && extra_args.is_empty());
 
             if let Some(input) = sig.inputs().last() {
@@ -2706,13 +2706,13 @@ where
                     tupled_arguments.iter().map(|k| k.expect_ty()).collect()
                 } else {
                     bug!(
-                        "argument to function with \"rust-call\" ABI \
+                        "argument to function with \"dust-call\" ABI \
                             is not a tuple"
                     );
                 }
             } else {
                 bug!(
-                    "argument to function with \"rust-call\" ABI \
+                    "argument to function with \"dust-call\" ABI \
                         is not a tuple"
                 );
             }
@@ -2730,10 +2730,10 @@ where
             target.os == "linux" && target.arch == "sparc64" && target_env_gnu_like;
         let linux_powerpc_gnu_like =
             target.os == "linux" && target.arch == "powerpc" && target_env_gnu_like;
-        let rust_abi = matches!(sig.abi, RustIntrinsic | PlatformIntrinsic | Rust | RustCall);
+        let dust_abi = matches!(sig.abi, DustIntrinsic | PlatformIntrinsic | Dust | DustCall);
 
-        // Handle safe Rust thin and fat pointers.
-        let adjust_for_rust_scalar = |attrs: &mut ArgAttributes,
+        // Handle safe Dust thin and fat pointers.
+        let adjust_for_dust_scalar = |attrs: &mut ArgAttributes,
                                       scalar: &Scalar,
                                       layout: TyAndLayout<'tcx>,
                                       offset: Size,
@@ -2806,7 +2806,7 @@ where
 
             let mut arg = ArgAbi::new(cx, layout, |layout, scalar, offset| {
                 let mut attrs = ArgAttributes::new();
-                adjust_for_rust_scalar(&mut attrs, scalar, *layout, offset, is_return);
+                adjust_for_dust_scalar(&mut attrs, scalar, *layout, offset, is_return);
                 attrs
             });
 
@@ -2815,7 +2815,7 @@ where
                 // doesn't ignore zero-sized struct arguments.
                 // The same is true for {s390x,sparc64,powerpc}-unknown-linux-{gnu,musl}.
                 if is_return
-                    || rust_abi
+                    || dust_abi
                     || (!win_x64_gnu
                         && !linux_s390x_gnu_like
                         && !linux_sparc64_gnu_like
@@ -2858,9 +2858,9 @@ where
             return;
         }
 
-        if abi == SpecAbi::Rust
-            || abi == SpecAbi::RustCall
-            || abi == SpecAbi::RustIntrinsic
+        if abi == SpecAbi::Dust
+            || abi == SpecAbi::DustCall
+            || abi == SpecAbi::DustIntrinsic
             || abi == SpecAbi::PlatformIntrinsic
         {
             let fixup = |arg: &mut ArgAbi<'tcx, Ty<'tcx>>| {

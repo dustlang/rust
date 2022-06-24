@@ -3,14 +3,14 @@
 
 use std::path::PathBuf;
 
-use rustc_codegen_ssa::back::linker::LinkerInfo;
-use rustc_codegen_ssa::{CodegenResults, CompiledModule, CrateInfo, ModuleKind};
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_middle::dep_graph::{WorkProduct, WorkProductId};
-use rustc_middle::middle::cstore::EncodedMetadata;
-use rustc_middle::mir::mono::{CodegenUnit, MonoItem};
-use rustc_session::cgu_reuse_tracker::CguReuse;
-use rustc_session::config::{DebugInfo, OutputType};
+use dustc_codegen_ssa::back::linker::LinkerInfo;
+use dustc_codegen_ssa::{CodegenResults, CompiledModule, CrateInfo, ModuleKind};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_middle::dep_graph::{WorkProduct, WorkProductId};
+use dustc_middle::middle::cstore::EncodedMetadata;
+use dustc_middle::mir::mono::{CodegenUnit, MonoItem};
+use dustc_session::cgu_reuse_tracker::CguReuse;
+use dustc_session::config::{DebugInfo, OutputType};
 
 use cranelift_object::ObjectModule;
 
@@ -55,7 +55,7 @@ fn emit_module(
     let work_product = if std::env::var("CG_CLIF_INCR_CACHE_DISABLED").is_ok() {
         None
     } else {
-        rustc_incremental::copy_cgu_workproduct_to_incr_comp_cache_dir(
+        dustc_incremental::copy_cgu_workproduct_to_incr_comp_cache_dir(
             tcx.sess,
             &name,
             &Some(tmp_file.clone()),
@@ -81,8 +81,8 @@ fn reuse_workproduct_for_cgu(
             .output_filenames(LOCAL_CRATE)
             .temp_path(OutputType::Object, Some(&cgu.name().as_str()));
         object = Some(obj_out.clone());
-        let source_file = rustc_incremental::in_incr_comp_dir(&incr_comp_session_dir, &saved_file);
-        if let Err(err) = rustc_fs_util::link_or_copy(&source_file, &obj_out) {
+        let source_file = dustc_incremental::in_incr_comp_dir(&incr_comp_session_dir, &saved_file);
+        if let Err(err) = dustc_fs_util::link_or_copy(&source_file, &obj_out) {
             tcx.sess.err(&format!(
                 "unable to copy {} to {}: {}",
                 source_file.display(),
@@ -105,7 +105,7 @@ fn reuse_workproduct_for_cgu(
 
 fn module_codegen(
     tcx: TyCtxt<'_>,
-    (backend_config, cgu_name): (BackendConfig, rustc_span::Symbol),
+    (backend_config, cgu_name): (BackendConfig, dustc_span::Symbol),
 ) -> ModuleCodegenResult {
     let cgu = tcx.codegen_unit(cgu_name);
     let mono_items = cgu.items_in_deterministic_order(tcx);
@@ -130,7 +130,7 @@ fn module_codegen(
             }
             MonoItem::GlobalAsm(item_id) => {
                 let item = cx.tcx.hir().item(item_id);
-                if let rustc_hir::ItemKind::GlobalAsm(rustc_hir::GlobalAsm { asm }) = item.kind {
+                if let dustc_hir::ItemKind::GlobalAsm(dustc_hir::GlobalAsm { asm }) = item.kind {
                     cx.global_asm.push_str(&*asm.as_str());
                     cx.global_asm.push_str("\n\n");
                 } else {
@@ -200,7 +200,7 @@ pub(super) fn run_aot(
                     tcx,
                     (backend_config, cgu.name()),
                     module_codegen,
-                    rustc_middle::dep_graph::hash_result,
+                    dustc_middle::dep_graph::hash_result,
                 );
 
                 if let Some((id, product)) = work_product {
@@ -239,7 +239,7 @@ pub(super) fn run_aot(
     let metadata_module = if need_metadata_module {
         let _timer = tcx.prof.generic_activity("codegen crate metadata");
         let (metadata_cgu_name, tmp_file) = tcx.sess.time("write compressed metadata", || {
-            use rustc_middle::mir::mono::CodegenUnitNameBuilder;
+            use dustc_middle::mir::mono::CodegenUnitNameBuilder;
 
             let cgu_name_builder = &mut CodegenUnitNameBuilder::new(tcx);
             let metadata_cgu_name = cgu_name_builder
@@ -300,14 +300,14 @@ fn codegen_global_asm(tcx: TyCtxt<'_>, cgu_name: &str, global_asm: &str) {
         || tcx.sess.target.is_like_osx
         || tcx.sess.target.is_like_windows
     {
-        if global_asm.contains("__rust_probestack") {
+        if global_asm.contains("__dust_probestack") {
             return;
         }
 
         // FIXME fix linker error on macOS
         if cfg!(not(feature = "inline_asm")) {
             tcx.sess.fatal(
-                "asm! and global_asm! support is disabled while compiling rustc_codegen_cranelift",
+                "asm! and global_asm! support is disabled while compiling dustc_codegen_cranelift",
             );
         } else {
             tcx.sess.fatal("asm! and global_asm! are not yet supported on macOS and Windows");
@@ -375,7 +375,7 @@ fn add_file_stem_postfix(mut path: PathBuf, postfix: &str) -> PathBuf {
     path
 }
 
-// Adapted from https://github.com/rust-lang/rust/blob/303d8aff6092709edd4dbd35b1c88e9aa40bf6d8/src/librustc_codegen_ssa/base.rs#L922-L953
+// Adapted from https://github.com/dust-lang/dust/blob/303d8aff6092709edd4dbd35b1c88e9aa40bf6d8/src/libdustc_codegen_ssa/base.rs#L922-L953
 fn determine_cgu_reuse<'tcx>(tcx: TyCtxt<'tcx>, cgu: &CodegenUnit<'tcx>) -> CguReuse {
     if !tcx.dep_graph.is_fully_enabled() {
         return CguReuse::No;

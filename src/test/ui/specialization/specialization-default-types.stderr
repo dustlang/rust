@@ -5,7 +5,7 @@ LL | #![feature(specialization)]
    |            ^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #31844 <https://github.com/rust-lang/rust/issues/31844> for more information
+   = note: see issue #31844 <https://github.com/dust-lang/dust/issues/31844> for more information
    = help: consider using `min_specialization` instead, which is more stable and complete
 
 error[E0308]: mismatched types
@@ -32,8 +32,8 @@ LL |     Example::generate(t)
    = note:       expected struct `Box<T>`
            found associated type `<T as Example>::Output`
    = help: consider constraining the associated type `<T as Example>::Output` to `Box<T>`
-   = note: for more information, visit https://doc.rust-lang.org/book/ch19-03-advanced-traits.html
+   = note: for more information, visit https://doc.dust-lang.org/book/ch19-03-advanced-traits.html
 
 error: aborting due to 2 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0308`.
+For more information about this error, try `dustc --explain E0308`.

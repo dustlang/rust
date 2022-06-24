@@ -2,10 +2,10 @@
 //! anonymous regions.
 
 use crate::infer::error_reporting::nice_region_error::NiceRegionError;
-use rustc_hir as hir;
-use rustc_hir::def_id::LocalDefId;
-use rustc_middle::ty::{self, DefIdTree, Region, Ty};
-use rustc_span::Span;
+use dustc_hir as hir;
+use dustc_hir::def_id::LocalDefId;
+use dustc_middle::ty::{self, DefIdTree, Region, Ty};
+use dustc_span::Span;
 
 /// Information about the anonymous region we are searching for.
 #[derive(Debug)]
@@ -88,9 +88,9 @@ impl<'a, 'tcx> NiceRegionError<'a, 'tcx> {
     pub(super) fn future_return_type(
         &self,
         local_def_id: LocalDefId,
-    ) -> Option<&rustc_hir::Ty<'_>> {
+    ) -> Option<&dustc_hir::Ty<'_>> {
         if let Some(hir::IsAsync::Async) = self.asyncness(local_def_id) {
-            if let rustc_middle::ty::Opaque(def_id, _) =
+            if let dustc_middle::ty::Opaque(def_id, _) =
                 self.tcx().type_of(local_def_id).fn_sig(self.tcx()).output().skip_binder().kind()
             {
                 match self.tcx().hir().get_if_local(*def_id) {
@@ -112,7 +112,7 @@ impl<'a, 'tcx> NiceRegionError<'a, 'tcx> {
                             ) = b
                             {
                                 for type_binding in generic_args.bindings.iter() {
-                                    if type_binding.ident.name == rustc_span::sym::Output {
+                                    if type_binding.ident.name == dustc_span::sym::Output {
                                         if let hir::TypeBindingKind::Equality { ty } =
                                             type_binding.kind
                                         {
@@ -131,10 +131,10 @@ impl<'a, 'tcx> NiceRegionError<'a, 'tcx> {
     }
 
     pub(super) fn asyncness(&self, local_def_id: LocalDefId) -> Option<hir::IsAsync> {
-        // similar to the asyncness fn in rustc_ty_utils::ty
+        // similar to the asyncness fn in dustc_ty_utils::ty
         let hir_id = self.tcx().hir().local_def_id_to_hir_id(local_def_id);
         let node = self.tcx().hir().get(hir_id);
-        let fn_like = rustc_middle::hir::map::blocks::FnLikeNode::from_node(node)?;
+        let fn_like = dustc_middle::hir::map::blocks::FnLikeNode::from_node(node)?;
 
         Some(fn_like.asyncness())
     }

@@ -95,4 +95,4 @@ LL | | fn main() {}
 
 error: aborting due to 5 previous errors
 
-For more information about this error, try `rustc --explain E0391`.
+For more information about this error, try `dustc --explain E0391`.

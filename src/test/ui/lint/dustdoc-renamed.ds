@@ -4,12 +4,12 @@
 #![deny(renamed_and_removed_lints)]
 //~^ NOTE lint level is defined
 
-// both allowed, since the compiler doesn't yet know what rustdoc lints are valid
-#![deny(rustdoc::x)]
-#![deny(rustdoc::intra_doc_link_resolution_failure)]
+// both allowed, since the compiler doesn't yet know what dustdoc lints are valid
+#![deny(dustdoc::x)]
+#![deny(dustdoc::intra_doc_link_resolution_failure)]
 
 #![deny(intra_doc_link_resolution_failure)]
-//~^ ERROR removed: use `rustdoc::broken_intra_doc_links`
+//~^ ERROR removed: use `dustdoc::broken_intra_doc_links`
 #![deny(non_autolinks)]
-// FIXME: the old names for rustdoc lints should warn by default once `rustdoc::` makes it to the
+// FIXME: the old names for dustdoc lints should warn by default once `dustdoc::` makes it to the
 // stable channel.

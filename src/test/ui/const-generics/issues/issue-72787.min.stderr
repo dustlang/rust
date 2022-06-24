@@ -58,4 +58,4 @@ LL |     IsLessOrEqual<I, 8>: True,
 
 error: aborting due to 6 previous errors
 
-For more information about this error, try `rustc --explain E0283`.
+For more information about this error, try `dustc --explain E0283`.

@@ -31,10 +31,10 @@
 //! These methods return true to indicate that the visitor has found what it is
 //! looking for, and does not need to visit anything else.
 use crate::ty::{self, flags::FlagComputation, Binder, Ty, TyCtxt, TypeFlags};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
 
-use rustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::fx::FxHashSet;
 use std::collections::BTreeMap;
 use std::fmt;
 use std::ops::ControlFlow;
@@ -42,7 +42,7 @@ use std::ops::ControlFlow;
 /// This trait is implemented for every type that can be folded.
 /// Basically, every type that has a corresponding method in `TypeFolder`.
 ///
-/// To implement this conveniently, use the derive macro located in librustc_macros.
+/// To implement this conveniently, use the derive macro located in libdustc_macros.
 pub trait TypeFoldable<'tcx>: fmt::Debug + Clone {
     fn super_fold_with<F: TypeFolder<'tcx>>(self, folder: &mut F) -> Self;
     fn fold_with<F: TypeFolder<'tcx>>(self, folder: &mut F) -> Self {

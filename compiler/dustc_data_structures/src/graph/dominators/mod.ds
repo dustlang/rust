@@ -7,7 +7,7 @@
 
 use super::iterate::reverse_post_order;
 use super::ControlFlowGraph;
-use rustc_index::vec::{Idx, IndexVec};
+use dustc_index::vec::{Idx, IndexVec};
 use std::cmp::Ordering;
 
 #[cfg(test)]

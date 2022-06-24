@@ -1,15 +1,15 @@
-use rustc_hir::intravisit;
-use rustc_hir::{self, AssocItemKind, Body, FnDecl, HirId, HirIdSet, Impl, ItemKind, Node};
-use rustc_infer::infer::TyCtxtInferExt;
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::mir::FakeReadCause;
-use rustc_middle::ty::{self, TraitRef, Ty};
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::Span;
-use rustc_span::symbol::kw;
-use rustc_target::abi::LayoutOf;
-use rustc_target::spec::abi::Abi;
-use rustc_typeck::expr_use_visitor::{ConsumeMode, Delegate, ExprUseVisitor, PlaceBase, PlaceWithHirId};
+use dustc_hir::intravisit;
+use dustc_hir::{self, AssocItemKind, Body, FnDecl, HirId, HirIdSet, Impl, ItemKind, Node};
+use dustc_infer::infer::TyCtxtInferExt;
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::mir::FakeReadCause;
+use dustc_middle::ty::{self, TraitRef, Ty};
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::Span;
+use dustc_span::symbol::kw;
+use dustc_target::abi::LayoutOf;
+use dustc_target::spec::abi::Abi;
+use dustc_typeck::expr_use_visitor::{ConsumeMode, Delegate, ExprUseVisitor, PlaceBase, PlaceWithHirId};
 
 use crate::utils::{contains_ty, span_lint};
 
@@ -29,7 +29,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # fn foo(bar: usize) {}
     /// // Bad
     /// let x = Box::new(1);
@@ -70,7 +70,7 @@ impl<'tcx> LateLintPass<'tcx> for BoxedLocal {
         hir_id: HirId,
     ) {
         if let Some(header) = fn_kind.header() {
-            if header.abi != Abi::Rust {
+            if header.abi != Abi::Dust {
                 return;
             }
         }
@@ -123,7 +123,7 @@ impl<'tcx> LateLintPass<'tcx> for BoxedLocal {
 }
 
 // TODO: Replace with Map::is_argument(..) when it's fixed
-fn is_argument(map: rustc_middle::hir::map::Map<'_>, id: HirId) -> bool {
+fn is_argument(map: dustc_middle::hir::map::Map<'_>, id: HirId) -> bool {
     match map.find(id) {
         Some(Node::Binding(_)) => (),
         _ => return false,
@@ -186,7 +186,7 @@ impl<'a, 'tcx> Delegate<'tcx> for EscapeDelegate<'a, 'tcx> {
         }
     }
 
-    fn fake_read(&mut self, _: rustc_typeck::expr_use_visitor::Place<'tcx>, _: FakeReadCause, _: HirId) { }
+    fn fake_read(&mut self, _: dustc_typeck::expr_use_visitor::Place<'tcx>, _: FakeReadCause, _: HirId) { }
 }
 
 impl<'a, 'tcx> EscapeDelegate<'a, 'tcx> {

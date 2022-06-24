@@ -1,13 +1,13 @@
 use std::cmp::Ordering;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir as hir;
-use rustc_hir::def::CtorKind;
-use rustc_hir::def_id::DefId;
-use rustc_middle::middle::stability;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::hygiene::MacroKind;
-use rustc_span::symbol::{kw, sym, Symbol};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir as hir;
+use dustc_hir::def::CtorKind;
+use dustc_hir::def_id::DefId;
+use dustc_middle::middle::stability;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::hygiene::MacroKind;
+use dustc_span::symbol::{kw, sym, Symbol};
 
 use super::{
     collect_paths_for_type, document, ensure_trailing_slash, item_ty_to_strs, render_assoc_item,
@@ -331,7 +331,7 @@ fn extra_info_tags(item: &clean::Item, parent: &clean::Item, tcx: TyCtxt<'_>) ->
     if let Some(depr) = &item.deprecation(tcx) {
         let mut message = "Deprecated";
         if !stability::deprecation_in_effect(
-            depr.is_since_rustc_version,
+            depr.is_since_dustc_version,
             depr.since.map(|s| s.as_str()).as_deref(),
         ) {
             message = "Deprecation planned";
@@ -339,12 +339,12 @@ fn extra_info_tags(item: &clean::Item, parent: &clean::Item, tcx: TyCtxt<'_>) ->
         tags += &tag_html("deprecated", "", message);
     }
 
-    // The "rustc_private" crates are permanently unstable so it makes no sense
+    // The "dustc_private" crates are permanently unstable so it makes no sense
     // to render "unstable" everywhere.
     if item
         .stability(tcx)
         .as_ref()
-        .map(|s| s.level.is_unstable() && s.feature != sym::rustc_private)
+        .map(|s| s.level.is_unstable() && s.feature != sym::dustc_private)
         == Some(true)
     {
         tags += &tag_html("unstable", "", "Experimental");
@@ -375,7 +375,7 @@ fn item_function(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, f: &clean::
         f.generics.print(cx.cache())
     )
     .len();
-    w.write_str("<pre class=\"rust fn\">");
+    w.write_str("<pre class=\"dust fn\">");
     render_attributes(w, it, false);
     write!(
         w,
@@ -406,7 +406,7 @@ fn item_trait(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, t: &clean::Tra
 
     // Output the trait definition
     wrap_into_docblock(w, |w| {
-        w.write_str("<pre class=\"rust trait\">");
+        w.write_str("<pre class=\"dust trait\">");
         render_attributes(w, it, true);
         write!(
             w,
@@ -694,7 +694,7 @@ fn item_trait(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, t: &clean::Tra
 }
 
 fn item_trait_alias(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, t: &clean::TraitAlias) {
-    w.write_str("<pre class=\"rust trait-alias\">");
+    w.write_str("<pre class=\"dust trait-alias\">");
     render_attributes(w, it, false);
     write!(
         w,
@@ -715,7 +715,7 @@ fn item_trait_alias(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, t: &clea
 }
 
 fn item_opaque_ty(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, t: &clean::OpaqueTy) {
-    w.write_str("<pre class=\"rust opaque\">");
+    w.write_str("<pre class=\"dust opaque\">");
     render_attributes(w, it, false);
     write!(
         w,
@@ -737,7 +737,7 @@ fn item_opaque_ty(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, t: &clean:
 }
 
 fn item_typedef(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, t: &clean::Typedef) {
-    w.write_str("<pre class=\"rust typedef\">");
+    w.write_str("<pre class=\"dust typedef\">");
     render_attributes(w, it, false);
     write!(
         w,
@@ -760,7 +760,7 @@ fn item_typedef(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, t: &clean::T
 
 fn item_union(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, s: &clean::Union) {
     wrap_into_docblock(w, |w| {
-        w.write_str("<pre class=\"rust union\">");
+        w.write_str("<pre class=\"dust union\">");
         render_attributes(w, it, true);
         render_union(w, it, Some(&s.generics), &s.fields, "", true, cx);
         w.write_str("</pre>")
@@ -806,7 +806,7 @@ fn item_union(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, s: &clean::Uni
 
 fn item_enum(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, e: &clean::Enum) {
     wrap_into_docblock(w, |w| {
-        w.write_str("<pre class=\"rust enum\">");
+        w.write_str("<pre class=\"dust enum\">");
         render_attributes(w, it, true);
         write!(
             w,
@@ -947,17 +947,17 @@ fn item_proc_macro(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, m: &clean
     let name = it.name.as_ref().expect("proc-macros always have names");
     match m.kind {
         MacroKind::Bang => {
-            w.push_str("<pre class=\"rust macro\">");
+            w.push_str("<pre class=\"dust macro\">");
             write!(w, "{}!() {{ /* proc-macro */ }}", name);
             w.push_str("</pre>");
         }
         MacroKind::Attr => {
-            w.push_str("<pre class=\"rust attr\">");
+            w.push_str("<pre class=\"dust attr\">");
             write!(w, "#[{}]", name);
             w.push_str("</pre>");
         }
         MacroKind::Derive => {
-            w.push_str("<pre class=\"rust derive\">");
+            w.push_str("<pre class=\"dust derive\">");
             write!(w, "#[derive({})]", name);
             if !m.helpers.is_empty() {
                 w.push_str("\n{\n");
@@ -979,7 +979,7 @@ fn item_primitive(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item) {
 }
 
 fn item_constant(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, c: &clean::Constant) {
-    w.write_str("<pre class=\"rust const\">");
+    w.write_str("<pre class=\"dust const\">");
     render_attributes(w, it, false);
 
     write!(
@@ -1015,7 +1015,7 @@ fn item_constant(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, c: &clean::
 
 fn item_struct(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, s: &clean::Struct) {
     wrap_into_docblock(w, |w| {
-        w.write_str("<pre class=\"rust struct\">");
+        w.write_str("<pre class=\"dust struct\">");
         render_attributes(w, it, true);
         render_struct(w, it, Some(&s.generics), s.struct_type, &s.fields, "", true, cx);
         w.write_str("</pre>")
@@ -1064,7 +1064,7 @@ fn item_struct(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, s: &clean::St
 }
 
 fn item_static(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, s: &clean::Static) {
-    w.write_str("<pre class=\"rust static\">");
+    w.write_str("<pre class=\"dust static\">");
     render_attributes(w, it, false);
     write!(
         w,
@@ -1078,7 +1078,7 @@ fn item_static(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item, s: &clean::St
 }
 
 fn item_foreign_type(w: &mut Buffer, cx: &Context<'_>, it: &clean::Item) {
-    w.write_str("<pre class=\"rust foreigntype\">extern {\n");
+    w.write_str("<pre class=\"dust foreigntype\">extern {\n");
     render_attributes(w, it, false);
     write!(
         w,

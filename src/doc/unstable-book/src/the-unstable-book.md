@@ -2,9 +2,9 @@
 
 Welcome to the Unstable Book! This book consists of a number of chapters,
 each one organized by a "feature flag." That is, when using an unstable
-feature of Rust, you must use a flag, like this:
+feature of Dust, you must use a flag, like this:
 
-```rust
+```dust
 #![feature(box_syntax)]
 
 fn main() {

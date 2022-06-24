@@ -6,7 +6,7 @@
 // `use` items.
 //
 // Unused trait imports can't be checked until the method resolution. We save
-// candidates here, and do the actual check in librustc_typeck/check_unused.rs.
+// candidates here, and do the actual check in libdustc_typeck/check_unused.rs.
 //
 // Checking for unused imports is split into three steps:
 //
@@ -16,8 +16,8 @@
 //
 //  - `calc_unused_spans` then walks over all the `use` items marked in the
 //    previous step to collect the spans associated with the `NodeId`s and to
-//    calculate the spans that can be removed by rustfix; This is done in a
-//    separate step to be able to collapse the adjacent spans that rustfix
+//    calculate the spans that can be removed by dustfix; This is done in a
+//    separate step to be able to collapse the adjacent spans that dustfix
 //    will remove
 //
 //  - `check_crate` finally emits the diagnostics based on the data generated
@@ -26,16 +26,16 @@
 use crate::imports::ImportKind;
 use crate::Resolver;
 
-use rustc_ast as ast;
-use rustc_ast::node_id::NodeMap;
-use rustc_ast::visit::{self, Visitor};
-use rustc_ast_lowering::ResolverAstLowering;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::pluralize;
-use rustc_middle::ty;
-use rustc_session::lint::builtin::{MACRO_USE_EXTERN_CRATE, UNUSED_IMPORTS};
-use rustc_session::lint::BuiltinLintDiagnostics;
-use rustc_span::{MultiSpan, Span, DUMMY_SP};
+use dustc_ast as ast;
+use dustc_ast::node_id::NodeMap;
+use dustc_ast::visit::{self, Visitor};
+use dustc_ast_lowering::ResolverAstLowering;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::pluralize;
+use dustc_middle::ty;
+use dustc_session::lint::builtin::{MACRO_USE_EXTERN_CRATE, UNUSED_IMPORTS};
+use dustc_session::lint::BuiltinLintDiagnostics;
+use dustc_span::{MultiSpan, Span, DUMMY_SP};
 
 struct UnusedImport<'a> {
     use_tree: &'a ast::UseTree,
@@ -146,7 +146,7 @@ fn calc_unused_spans(
     use_tree_id: ast::NodeId,
 ) -> UnusedSpanResult {
     // The full span is the whole item's span if this current tree is not nested inside another
-    // This tells rustfix to remove the whole item if all the imports are unused
+    // This tells dustfix to remove the whole item if all the imports are unused
     let full_span = if unused_import.use_tree.span == use_tree.span {
         unused_import.item_span
     } else {
@@ -203,7 +203,7 @@ fn calc_unused_spans(
                     };
 
                     // Try to collapse adjacent spans into a single one. This prevents all cases of
-                    // overlapping removals, which are not supported by rustfix
+                    // overlapping removals, which are not supported by dustfix
                     if previous_unused && !to_remove.is_empty() {
                         let previous = to_remove.pop().unwrap();
                         to_remove.push(previous.to(remove_span));

@@ -1,12 +1,12 @@
 [package]
-name = "rustc_tools_util"
+name = "dustc_tools_util"
 version = "0.2.0"
-authors = ["The Rust Clippy Developers"]
+authors = ["The Dust Clippy Developers"]
 description = "small helper to generate version information for git packages"
-repository = "https://github.com/rust-lang/rust-clippy"
+repository = "https://github.com/dust-lang/dust-clippy"
 readme = "README.md"
 license = "MIT OR Apache-2.0"
-keywords = ["rustc", "tool", "git", "version", "hash"]
+keywords = ["dustc", "tool", "git", "version", "hash"]
 categories = ["development-tools"]
 edition = "2018"
 

@@ -12,7 +12,7 @@ note: the lint level is defined here
 LL | #![warn(const_err)]
    |         ^^^^^^^^^
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error[E0080]: erroneous constant used
   --> $DIR/const-err.rs:16:16
@@ -28,4 +28,4 @@ LL |     black_box((FOO, FOO));
 
 error: aborting due to 2 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0080`.
+For more information about this error, try `dustc --explain E0080`.

@@ -1,11 +1,11 @@
 pub use self::AssocItemContainer::*;
 
 use crate::ty;
-use rustc_data_structures::sorted_map::SortedIndexMultiMap;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Namespace};
-use rustc_hir::def_id::DefId;
-use rustc_span::symbol::{Ident, Symbol};
+use dustc_data_structures::sorted_map::SortedIndexMultiMap;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Namespace};
+use dustc_hir::def_id::DefId;
+use dustc_span::symbol::{Ident, Symbol};
 
 use super::{TyCtxt, Visibility};
 

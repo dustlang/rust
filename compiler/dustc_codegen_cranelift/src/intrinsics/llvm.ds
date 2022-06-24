@@ -3,7 +3,7 @@
 use crate::intrinsics::*;
 use crate::prelude::*;
 
-use rustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::subst::SubstsRef;
 
 pub(crate) fn codegen_llvm_intrinsic_call<'tcx>(
     fx: &mut FunctionCx<'_, '_, 'tcx>,

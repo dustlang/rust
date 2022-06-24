@@ -2,17 +2,17 @@ use crate::middle::cstore::{ExternCrate, ExternCrateSource};
 use crate::mir::interpret::{AllocId, ConstValue, GlobalAlloc, Pointer, Scalar};
 use crate::ty::subst::{GenericArg, GenericArgKind, Subst};
 use crate::ty::{self, ConstInt, DefIdTree, ParamConst, ScalarInt, Ty, TyCtxt, TypeFoldable};
-use rustc_apfloat::ieee::{Double, Single};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir as hir;
-use rustc_hir::def::{self, CtorKind, DefKind, Namespace};
-use rustc_hir::def_id::{CrateNum, DefId, DefIdSet, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_hir::definitions::{DefPathData, DefPathDataName, DisambiguatedDefPathData};
-use rustc_hir::ItemKind;
-use rustc_session::config::TrimmedDefPaths;
-use rustc_span::symbol::{kw, Ident, Symbol};
-use rustc_target::abi::Size;
-use rustc_target::spec::abi::Abi;
+use dustc_apfloat::ieee::{Double, Single};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir as hir;
+use dustc_hir::def::{self, CtorKind, DefKind, Namespace};
+use dustc_hir::def_id::{CrateNum, DefId, DefIdSet, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_hir::definitions::{DefPathData, DefPathDataName, DisambiguatedDefPathData};
+use dustc_hir::ItemKind;
+use dustc_session::config::TrimmedDefPaths;
+use dustc_span::symbol::{kw, Ident, Symbol};
+use dustc_target::abi::Size;
+use dustc_target::spec::abi::Abi;
 
 use std::cell::Cell;
 use std::char;
@@ -99,7 +99,7 @@ pub fn with_crate_prefix<F: FnOnce() -> R, R>(f: F) -> R {
 }
 
 /// Prevent path trimming if it is turned on. Path trimming affects `Display` impl
-/// of various rustc types, for example `std::vec::Vec` would be trimmed to `Vec`,
+/// of various dustc types, for example `std::vec::Vec` would be trimmed to `Vec`,
 /// if no other `Vec` is found.
 pub fn with_no_trimmed_paths<F: FnOnce() -> R, R>(f: F) -> R {
     NO_TRIMMED_PATH.with(|flag| {
@@ -600,7 +600,7 @@ pub trait PrettyPrinter<'tcx>:
                 // We use verbose printing in 'NO_QUERIES' mode, to
                 // avoid needing to call `predicates_of`. This should
                 // only affect certain debug messages (e.g. messages printed
-                // from `rustc_middle::ty` during the computation of `tcx.predicates_of`),
+                // from `dustc_middle::ty` during the computation of `tcx.predicates_of`),
                 // and should have no effect on any compiler output.
                 if self.tcx().sess.verbose() || NO_QUERIES.with(|q| q.get()) {
                     p!(write("Opaque({:?}, {:?})", def_id, substs));
@@ -728,7 +728,7 @@ pub trait PrettyPrinter<'tcx>:
                     p!(write("{:?}", sz));
                 } else if let ty::ConstKind::Unevaluated(..) = sz.val {
                     // Do not try to evaluate unevaluated constants. If we are const evaluating an
-                    // array length anon const, rustc will (with debug assertions) print the
+                    // array length anon const, dustc will (with debug assertions) print the
                     // constant's path. Which will end up here again.
                     p!("_");
                 } else if let Some(n) = sz.val.try_to_bits(self.tcx().data_layout.pointer_size) {
@@ -1443,8 +1443,8 @@ impl<F: fmt::Write> Printer<'tcx> for FmtPrinter<'_, 'tcx, F> {
     fn path_crate(mut self, cnum: CrateNum) -> Result<Self::Path, Self::Error> {
         self.empty_path = true;
         if cnum == LOCAL_CRATE {
-            if self.tcx.sess.rust_2018() {
-                // We add the `crate::` keyword on Rust 2018, only when desired.
+            if self.tcx.sess.dust_2018() {
+                // We add the `crate::` keyword on Dust 2018, only when desired.
                 if SHOULD_PREFIX_WITH_CRATE.with(|flag| flag.get()) {
                     write!(self, "{}", kw::Crate)?;
                     self.empty_path = false;
@@ -2028,7 +2028,7 @@ define_print_and_forward_display! {
     ty::FnSig<'tcx> {
         p!(write("{}", self.unsafety.prefix_str()));
 
-        if self.abi != Abi::Rust {
+        if self.abi != Abi::Dust {
             p!(write("extern {} ", self.abi));
         }
 
@@ -2199,7 +2199,7 @@ fn trimmed_def_paths(tcx: TyCtxt<'_>, crate_num: CrateNum) -> FxHashMap<DefId, S
     let mut map = FxHashMap::default();
 
     if let TrimmedDefPaths::GoodPath = tcx.sess.opts.trimmed_def_paths {
-        // For good paths causing this bug, the `rustc_middle::ty::print::with_no_trimmed_paths`
+        // For good paths causing this bug, the `dustc_middle::ty::print::with_no_trimmed_paths`
         // wrapper can be used to suppress this query, in exchange for full paths being formatted.
         tcx.sess.delay_good_path_bug("trimmed_def_paths constructed");
     }

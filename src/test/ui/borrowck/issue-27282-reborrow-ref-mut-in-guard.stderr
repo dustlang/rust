@@ -10,4 +10,4 @@ LL |         ref mut r if { (|| { let bar = &mut *r; **bar = false; })();
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0596`.
+For more information about this error, try `dustc --explain E0596`.

@@ -1,4 +1,4 @@
-use rustc_middle::ty::TyCtxt;
+use dustc_middle::ty::TyCtxt;
 
 use super::TraitEngine;
 use super::{ChalkFulfillmentContext, FulfillmentContext};

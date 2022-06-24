@@ -11,7 +11,7 @@
 //! These values are then translated to file URLs if possible and then the
 //! destination is asserted to exist.
 //!
-//! A few exceptions are allowed as there's known bugs in rustdoc, but this
+//! A few exceptions are allowed as there's known bugs in dustdoc, but this
 //! should catch the majority of "broken link" cases.
 
 #![cfg_attr(bootstrap, feature(str_split_once))]
@@ -34,14 +34,14 @@ use crate::Redirect::*;
 // [(generated_documentation_page, &[broken_links])]
 const LINKCHECK_EXCEPTIONS: &[(&str, &[&str])] = &[
     // These try to link to std::collections, but are defined in alloc
-    // https://github.com/rust-lang/rust/issues/74481
+    // https://github.com/dust-lang/dust/issues/74481
     ("std/collections/btree_map/struct.BTreeMap.html", &["#insert-and-complex-keys"]),
     ("std/collections/btree_set/struct.BTreeSet.html", &["#insert-and-complex-keys"]),
     ("alloc/collections/btree_map/struct.BTreeMap.html", &["#insert-and-complex-keys"]),
     ("alloc/collections/btree_set/struct.BTreeSet.html", &["#insert-and-complex-keys"]),
 ];
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 const INTRA_DOC_LINK_EXCEPTIONS: &[(&str, &[&str])] = &[
     // This will never have links that are not in other pages.
     // To avoid repeating the exceptions twice, an empty list means all broken links are allowed.
@@ -331,8 +331,8 @@ fn check(cache: &mut Cache, root: &Path, file: &Path, errors: &mut bool) -> Opti
         }
     });
 
-    // Search for intra-doc links that rustdoc didn't warn about
-    // FIXME(#77199, 77200) Rustdoc should just warn about these directly.
+    // Search for intra-doc links that dustdoc didn't warn about
+    // FIXME(#77199, 77200) Dustdoc should just warn about these directly.
     // NOTE: only looks at one line at a time; in practice this should find most links
     for (i, line) in contents.lines().enumerate() {
         for broken_link in BROKEN_INTRA_DOC_LINK.captures_iter(line) {

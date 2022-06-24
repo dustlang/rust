@@ -3,30 +3,30 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 
-// This module takes an absolute path to a rustc repo and alters the dependencies to point towards
-// the respective rustc subcrates instead of using extern crate xyz.
-// This allows rust analyzer to analyze rustc internals and show proper information inside clippy
-// code. See https://github.com/rust-analyzer/rust-analyzer/issues/3517 and https://github.com/rust-lang/rust-clippy/issues/5514 for details
+// This module takes an absolute path to a dustc repo and alters the dependencies to point towards
+// the respective dustc subcrates instead of using extern crate xyz.
+// This allows dust analyzer to analyze dustc internals and show proper information inside clippy
+// code. See https://github.com/dust-analyzer/dust-analyzer/issues/3517 and https://github.com/dust-lang/dust-clippy/issues/5514 for details
 
 /// # Panics
 ///
-/// Panics if `rustc_path` does not lead to a rustc repo or the files could not be read
-pub fn run(rustc_path: Option<&str>) {
+/// Panics if `dustc_path` does not lead to a dustc repo or the files could not be read
+pub fn run(dustc_path: Option<&str>) {
     // we can unwrap here because the arg is required by clap
-    let rustc_path = PathBuf::from(rustc_path.unwrap())
+    let dustc_path = PathBuf::from(dustc_path.unwrap())
         .canonicalize()
         .expect("failed to get the absolute repo path");
-    assert!(rustc_path.is_dir(), "path is not a directory");
-    let rustc_source_basedir = rustc_path.join("compiler");
+    assert!(dustc_path.is_dir(), "path is not a directory");
+    let dustc_source_basedir = dustc_path.join("compiler");
     assert!(
-        rustc_source_basedir.is_dir(),
-        "are you sure the path leads to a rustc repo?"
+        dustc_source_basedir.is_dir(),
+        "are you sure the path leads to a dustc repo?"
     );
 
     let clippy_root_manifest = fs::read_to_string("Cargo.toml").expect("failed to read ./Cargo.toml");
     let clippy_root_lib_rs = fs::read_to_string("src/driver.rs").expect("failed to read ./src/driver.rs");
     inject_deps_into_manifest(
-        &rustc_source_basedir,
+        &dustc_source_basedir,
         "Cargo.toml",
         &clippy_root_manifest,
         &clippy_root_lib_rs,
@@ -38,7 +38,7 @@ pub fn run(rustc_path: Option<&str>) {
     let clippy_lints_lib_rs =
         fs::read_to_string("clippy_lints/src/lib.rs").expect("failed to read ./clippy_lints/src/lib.rs");
     inject_deps_into_manifest(
-        &rustc_source_basedir,
+        &dustc_source_basedir,
         "clippy_lints/Cargo.toml",
         &clippy_lints_manifest,
         &clippy_lints_lib_rs,
@@ -47,7 +47,7 @@ pub fn run(rustc_path: Option<&str>) {
 }
 
 fn inject_deps_into_manifest(
-    rustc_source_dir: &Path,
+    dustc_source_dir: &Path,
     manifest_path: &str,
     cargo_toml: &str,
     lib_rs: &str,
@@ -67,7 +67,7 @@ fn inject_deps_into_manifest(
         .filter(|line| line.starts_with("extern crate"))
         // we have something like "extern crate foo;", we only care about the "foo"
         //              ↓          ↓
-        // extern crate rustc_middle;
+        // extern crate dustc_middle;
         .map(|s| &s[13..(s.len() - 1)]);
 
     let new_deps = extern_crates.map(|dep| {
@@ -75,7 +75,7 @@ fn inject_deps_into_manifest(
         format!(
             "{dep} = {{ path = \"{source_path}/{dep}\" }}\n",
             dep = dep,
-            source_path = rustc_source_dir.display()
+            source_path = dustc_source_dir.display()
         )
     });
 

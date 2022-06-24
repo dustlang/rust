@@ -4,12 +4,12 @@
 pub use PtrTy::*;
 pub use Ty::*;
 
-use rustc_ast::ptr::P;
-use rustc_ast::{self as ast, Expr, GenericArg, GenericParamKind, Generics, SelfKind};
-use rustc_expand::base::ExtCtxt;
-use rustc_span::source_map::{respan, DUMMY_SP};
-use rustc_span::symbol::{kw, Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast::ptr::P;
+use dustc_ast::{self as ast, Expr, GenericArg, GenericParamKind, Generics, SelfKind};
+use dustc_expand::base::ExtCtxt;
+use dustc_span::source_map::{respan, DUMMY_SP};
+use dustc_span::symbol::{kw, Ident, Symbol};
+use dustc_span::Span;
 
 /// The types of pointers
 #[derive(Clone)]

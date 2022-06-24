@@ -1,26 +1,26 @@
 // Note: More specifically this lint is largely inspired (aka copied) from
-// *rustc*'s
+// *dustc*'s
 // [`missing_doc`].
 //
-// [`missing_doc`]: https://github.com/rust-lang/rust/blob/cf9cf7c923eb01146971429044f216a3ca905e06/compiler/rustc_lint/src/builtin.rs#L415
+// [`missing_doc`]: https://github.com/dust-lang/dust/blob/cf9cf7c923eb01146971429044f216a3ca905e06/compiler/dustc_lint/src/builtin.rs#L415
 //
 
 use crate::utils::span_lint;
 use if_chain::if_chain;
-use rustc_ast::ast::{self, MetaItem, MetaItemKind};
-use rustc_ast::attr;
-use rustc_hir as hir;
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::ty;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::Span;
-use rustc_span::sym;
+use dustc_ast::ast::{self, MetaItem, MetaItemKind};
+use dustc_ast::attr;
+use dustc_hir as hir;
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::ty;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::Span;
+use dustc_span::sym;
 
 declare_clippy_lint! {
     /// **What it does:** Warns if there is missing doc for any documentable item
     /// (public or private).
     ///
-    /// **Why is this bad?** Doc is good. *rustc* has a `MISSING_DOCS`
+    /// **Why is this bad?** Doc is good. *dustc* has a `MISSING_DOCS`
     /// allowed-by-default lint for
     /// public members, but has no way to enforce documentation of private items.
     /// This lint fixes that.

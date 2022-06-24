@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![warn(clippy::if_let_some_result)]
 
@@ -10,7 +10,7 @@ fn str_to_int_ok(x: &str) -> i32 {
     if let Ok(y) = x.parse() { y } else { 0 }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn strange_some_no_else(x: &str) -> i32 {
     {
         if let Some(y) = x   .   parse()   .   ok   ()    {

@@ -1,6 +1,6 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) checkrust.rs
-	$(CC) test.c $(call STATICLIB,checkrust) $(call OUT_EXE,test) $(EXTRACFLAGS)
+	$(DUSTC) checkdust.rs
+	$(CC) test.c $(call STATICLIB,checkdust) $(call OUT_EXE,test) $(EXTRACFLAGS)
 	$(call RUN,test)

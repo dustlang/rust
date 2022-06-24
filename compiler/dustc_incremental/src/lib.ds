@@ -1,12 +1,12 @@
 //! Support for serializing the dep-graph and reloading it.
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(in_band_lifetimes)]
 #![feature(nll)]
 #![recursion_limit = "256"]
 
 #[macro_use]
-extern crate rustc_middle;
+extern crate dustc_middle;
 #[macro_use]
 extern crate tracing;
 

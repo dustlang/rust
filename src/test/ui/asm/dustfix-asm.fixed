@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 // only-x86_64
 
 #![feature(asm, llvm_asm)]

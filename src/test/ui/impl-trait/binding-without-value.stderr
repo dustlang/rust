@@ -13,4 +13,4 @@ LL |     let _ : impl Copy = /* value */;
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0720`.
+For more information about this error, try `dustc --explain E0720`.

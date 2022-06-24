@@ -5,8 +5,8 @@
 
 use super::{OutlivesConstraint, RegionInferenceContext};
 use crate::borrow_check::type_check::Locations;
-use rustc_infer::infer::NllRegionVariableOrigin;
-use rustc_middle::ty::TyCtxt;
+use dustc_infer::infer::NllRegionVariableOrigin;
+use dustc_middle::ty::TyCtxt;
 use std::io::{self, Write};
 
 // Room for "'_#NNNNr" before things get misaligned.

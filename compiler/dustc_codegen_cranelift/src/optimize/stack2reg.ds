@@ -13,7 +13,7 @@ use std::collections::BTreeMap;
 use std::fmt;
 use std::ops::Not;
 
-use rustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::fx::FxHashSet;
 
 use cranelift_codegen::cursor::{Cursor, FuncCursor};
 use cranelift_codegen::ir::immediates::Offset32;

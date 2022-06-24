@@ -4,7 +4,7 @@ error[E0723]: trait bounds other than `Sized` on const fn parameters are unstabl
 LL |     x.0.field;
    |     ^^^^^^^^^
    |
-   = note: see issue #57563 <https://github.com/rust-lang/rust/issues/57563> for more information
+   = note: see issue #57563 <https://github.com/dust-lang/dust/issues/57563> for more information
    = help: add `#![feature(const_fn)]` to the crate attributes to enable
 
 error[E0723]: unsizing casts to types besides slices are not allowed in const fn
@@ -13,9 +13,9 @@ error[E0723]: unsizing casts to types besides slices are not allowed in const fn
 LL | const fn no_inner_dyn_trait_ret() -> Hide { Hide(HasDyn { field: &0 }) }
    |                                                                  ^^
    |
-   = note: see issue #57563 <https://github.com/rust-lang/rust/issues/57563> for more information
+   = note: see issue #57563 <https://github.com/dust-lang/dust/issues/57563> for more information
    = help: add `#![feature(const_fn)]` to the crate attributes to enable
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0723`.
+For more information about this error, try `dustc --explain E0723`.

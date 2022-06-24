@@ -37,7 +37,7 @@ It most recently worked on: <!-- version -->
 Provide the version you are using that has the regression.
 -->
 
-`rustc --version --verbose`:
+`dustc --version --verbose`:
 ```
 <version>
 ```

@@ -5,9 +5,9 @@
 
 use std::str::FromStr;
 
-use rustc_ast as ast;
-use rustc_ast::visit;
-use rustc_ast::visit::Visitor;
+use dustc_ast as ast;
+use dustc_ast::visit;
+use dustc_ast::visit::Visitor;
 
 enum Mode {
     Expression,
@@ -29,7 +29,7 @@ impl FromStr for Mode {
 }
 
 struct ShowSpanVisitor<'a> {
-    span_diagnostic: &'a rustc_errors::Handler,
+    span_diagnostic: &'a dustc_errors::Handler,
     mode: Mode,
 }
 
@@ -56,7 +56,7 @@ impl<'a> Visitor<'a> for ShowSpanVisitor<'a> {
     }
 }
 
-pub fn run(span_diagnostic: &rustc_errors::Handler, mode: &str, krate: &ast::Crate) {
+pub fn run(span_diagnostic: &dustc_errors::Handler, mode: &str, krate: &ast::Crate) {
     let mode = match mode.parse().ok() {
         Some(mode) => mode,
         None => return,

@@ -1,6 +1,6 @@
 #![feature(intrinsics)]
 
-extern "rust-intrinsic" {
+extern "dust-intrinsic" {
     fn size_of<T>(); //~ ERROR E0308
 }
 

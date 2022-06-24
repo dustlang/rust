@@ -1,10 +1,10 @@
 use crate::utils::{differing_macro_contexts, snippet_opt, span_lint_and_help, span_lint_and_note};
 use if_chain::if_chain;
-use rustc_ast::ast::{BinOpKind, Block, Expr, ExprKind, StmtKind, UnOp};
-use rustc_lint::{EarlyContext, EarlyLintPass};
-use rustc_middle::lint::in_external_macro;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
+use dustc_ast::ast::{BinOpKind, Block, Expr, ExprKind, StmtKind, UnOp};
+use dustc_lint::{EarlyContext, EarlyLintPass};
+use dustc_middle::lint::in_external_macro;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for use of the non-existent `=*`, `=!` and `=-`
@@ -16,7 +16,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// a =- 42; // confusing, should it be `a -= 42` or `a = -42`?
     /// ```
     pub SUSPICIOUS_ASSIGNMENT_FORMATTING,
@@ -34,7 +34,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// if foo <- 30 { // this should be `foo < -30` but looks like a different operator
     /// }
     ///
@@ -56,7 +56,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// if foo {
     /// } { // looks like an `else` is missing here
     /// }
@@ -91,7 +91,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// let a = &[
     ///     -1, -2, -3 // <= no comma here
     ///     -4, -5, -6
@@ -203,7 +203,7 @@ fn check_else(cx: &EarlyContext<'_>, expr: &Expr) {
         if !differing_macro_contexts(then.span, else_.span);
         if !then.span.from_expansion() && !in_external_macro(cx.sess, expr.span);
 
-        // workaround for rust-lang/rust#43081
+        // workaround for dust-lang/dust#43081
         if expr.span.lo().0 != 0 && expr.span.hi().0 != 0;
 
         // this will be a span from the closing ‘}’ of the “then” block (excluding) to

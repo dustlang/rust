@@ -1,4 +1,4 @@
-// these are rustfixable, but run-rustfix tests cannot handle them
+// these are dustfixable, but run-dustfix tests cannot handle them
 
 const VAR_FIVE: &'static [&[&'static str]] = &[&["test"], &["other one"]]; // ERROR Consider removing 'static
 

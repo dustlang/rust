@@ -1,4 +1,4 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) foo.rs --emit dep-info
+	$(DUSTC) foo.rs --emit dep-info

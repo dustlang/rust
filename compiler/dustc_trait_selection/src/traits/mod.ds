@@ -1,6 +1,6 @@
-//! Trait Resolution. See the [rustc dev guide] for more information on how this works.
+//! Trait Resolution. See the [dustc dev guide] for more information on how this works.
 //!
-//! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/traits/resolution.html
+//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/traits/resolution.html
 
 pub mod auto_trait;
 mod chalk_fulfill;
@@ -25,15 +25,15 @@ use crate::infer::outlives::env::OutlivesEnvironment;
 use crate::infer::{InferCtxt, RegionckMode, TyCtxtInferExt};
 use crate::traits::error_reporting::InferCtxtExt as _;
 use crate::traits::query::evaluate_obligation::InferCtxtExt as _;
-use rustc_errors::ErrorReported;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::subst::{InternalSubsts, SubstsRef};
-use rustc_middle::ty::{
+use dustc_errors::ErrorReported;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::subst::{InternalSubsts, SubstsRef};
+use dustc_middle::ty::{
     self, GenericParamDefKind, ParamEnv, ToPredicate, Ty, TyCtxt, WithConstness,
 };
-use rustc_span::Span;
+use dustc_span::Span;
 
 use std::fmt::Debug;
 
@@ -71,7 +71,7 @@ pub use self::util::{
 
 pub use self::chalk_fulfill::FulfillmentContext as ChalkFulfillmentContext;
 
-pub use rustc_infer::traits::*;
+pub use dustc_infer::traits::*;
 
 /// Whether to skip the leak check, as part of a future compatibility warning step.
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]

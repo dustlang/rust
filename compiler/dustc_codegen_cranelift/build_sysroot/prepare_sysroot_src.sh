@@ -2,11 +2,11 @@
 set -e
 cd "$(dirname "$0")"
 
-SRC_DIR="$(dirname "$(rustup which rustc)")/../lib/rustlib/src/rust/"
+SRC_DIR="$(dirname "$(dustup which dustc)")/../lib/dustlib/src/dust/"
 DST_DIR="sysroot_src"
 
 if [ ! -e "$SRC_DIR" ]; then
-    echo "Please install rust-src component"
+    echo "Please install dust-src component"
     exit 1
 fi
 
@@ -29,7 +29,7 @@ git commit --no-gpg-sign -m "Patch $file"
 done
 popd
 
-git clone https://github.com/rust-lang/compiler-builtins.git || echo "rust-lang/compiler-builtins has already been cloned"
+git clone https://github.com/dust-lang/compiler-builtins.git || echo "dust-lang/compiler-builtins has already been cloned"
 pushd compiler-builtins
 git checkout -- .
 git checkout 0.1.39

@@ -1,7 +1,7 @@
 use std::iter;
 
 use super::MirPass;
-use rustc_middle::{
+use dustc_middle::{
     mir::{
         interpret::Scalar, BasicBlock, BinOp, Body, Operand, Place, Rvalue, Statement,
         StatementKind, SwitchTargets, TerminatorKind,
@@ -153,7 +153,7 @@ impl<'a, 'tcx> OptimizationFinder<'a, 'tcx> {
                 // find switch
                 let (place_switched_on, targets, place_switched_on_moved) =
                     match &bb.terminator().kind {
-                        rustc_middle::mir::TerminatorKind::SwitchInt { discr, targets, .. } => {
+                        dustc_middle::mir::TerminatorKind::SwitchInt { discr, targets, .. } => {
                             Some((discr.place()?, targets, discr.is_move()))
                         }
                         _ => None,
@@ -162,7 +162,7 @@ impl<'a, 'tcx> OptimizationFinder<'a, 'tcx> {
                 // find the statement that assigns the place being switched on
                 bb.statements.iter().enumerate().rev().find_map(|(stmt_idx, stmt)| {
                     match &stmt.kind {
-                        rustc_middle::mir::StatementKind::Assign(box (lhs, rhs))
+                        dustc_middle::mir::StatementKind::Assign(box (lhs, rhs))
                             if *lhs == place_switched_on =>
                         {
                             match rhs {

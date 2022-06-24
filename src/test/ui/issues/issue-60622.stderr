@@ -14,7 +14,7 @@ LL | #![deny(warnings)]
    |         ^^^^^^^^
    = note: `#[deny(late_bound_lifetime_arguments)]` implied by `#[deny(warnings)]`
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #42868 <https://github.com/rust-lang/rust/issues/42868>
+   = note: for more information, see issue #42868 <https://github.com/dust-lang/dust/issues/42868>
 
 error[E0107]: this associated function takes 0 type arguments but 1 type argument was supplied
   --> $DIR/issue-60622.rs:12:7
@@ -32,4 +32,4 @@ LL |     fn a(&self) {}
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0107`.
+For more information about this error, try `dustc --explain E0107`.

@@ -1,11 +1,11 @@
 error[E0425]: cannot find value `Opaque` in this scope
-  --> $DIR/rustc-macro-transparency.rs:26:5
+  --> $DIR/dustc-macro-transparency.rs:26:5
    |
 LL |     Opaque;
    |     ^^^^^^ help: a local variable with a similar name exists (notice the capitalization): `opaque`
 
 error[E0423]: expected value, found macro `semitransparent`
-  --> $DIR/rustc-macro-transparency.rs:29:5
+  --> $DIR/dustc-macro-transparency.rs:29:5
    |
 LL |     semitransparent;
    |     ^^^^^^^^^^^^^^^ not a value
@@ -16,7 +16,7 @@ LL |     semitransparent!;
    |                    ^
 
 error[E0423]: expected value, found macro `opaque`
-  --> $DIR/rustc-macro-transparency.rs:30:5
+  --> $DIR/dustc-macro-transparency.rs:30:5
    |
 LL |     opaque;
    |     ^^^^^^ not a value
@@ -29,4 +29,4 @@ LL |     opaque!;
 error: aborting due to 3 previous errors
 
 Some errors have detailed explanations: E0423, E0425.
-For more information about an error, try `rustc --explain E0423`.
+For more information about an error, try `dustc --explain E0423`.

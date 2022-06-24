@@ -1,6 +1,6 @@
 -include ../tools.mk
 
 all: $(TMPDIR)/libbar.a
-	$(RUSTC) foo.rs -lstatic=bar
-	$(RUSTC) main.rs
+	$(DUSTC) foo.rs -lstatic=bar
+	$(DUSTC) main.rs
 	$(call RUN,main)

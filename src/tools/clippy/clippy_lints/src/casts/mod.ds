@@ -12,11 +12,11 @@ mod ptr_as_ptr;
 mod unnecessary_cast;
 mod utils;
 
-use rustc_hir::{Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_hir::{Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
 
 use crate::utils::is_hir_ty_cfg_dependant;
 
@@ -36,7 +36,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x = u64::MAX;
     /// x as f64;
     /// ```
@@ -57,7 +57,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let y: i8 = -1;
     /// y as u128; // will return 18446744073709551615
     /// ```
@@ -78,7 +78,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// fn as_u8(x: u64) -> u8 {
     ///     x as u8
     /// }
@@ -103,7 +103,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// u32::MAX as i32; // will yield a value of `-1`
     /// ```
     pub CAST_POSSIBLE_WRAP,
@@ -115,7 +115,7 @@ declare_clippy_lint! {
     /// **What it does:** Checks for casts between numerical types that may
     /// be replaced by safe conversion functions.
     ///
-    /// **Why is this bad?** Rust's `as` keyword will perform many kinds of
+    /// **Why is this bad?** Dust's `as` keyword will perform many kinds of
     /// conversions, including silently lossy conversions. Conversion functions such
     /// as `i32::from` will only perform lossless conversions. Using the conversion
     /// functions prevents conversions from turning into silent lossy conversions if
@@ -125,7 +125,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// fn as_u64(x: u8) -> u64 {
     ///     x as u64
     /// }
@@ -133,7 +133,7 @@ declare_clippy_lint! {
     ///
     /// Using `::from` would look like this:
     ///
-    /// ```rust
+    /// ```dust
     /// fn as_u64(x: u8) -> u64 {
     ///     u64::from(x)
     /// }
@@ -152,14 +152,14 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let _ = 2i32 as i32;
     /// let _ = 0.5 as f32;
     /// ```
     ///
     /// Better:
     ///
-    /// ```rust
+    /// ```dust
     /// let _ = 2_i32;
     /// let _ = 0.5_f32;
     /// ```
@@ -180,7 +180,7 @@ declare_clippy_lint! {
     /// u64-> u8 -> u16 can be fine. Miri is able to do a more in-depth analysis.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let _ = (&1u8 as *const u8) as *const u16;
     /// let _ = (&mut 1u8 as *mut u8) as *mut u16;
     ///
@@ -205,7 +205,7 @@ declare_clippy_lint! {
     ///
     /// **Example**
     ///
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// fn fun() -> i32 { 1 }
     /// let a = fun as i64;
@@ -230,7 +230,7 @@ declare_clippy_lint! {
     ///
     /// **Example**
     ///
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// fn fn1() -> i16 {
     ///     1
@@ -259,7 +259,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// fn x(r: &i32) {
     ///     unsafe {
     ///         *(r as *const _ as *mut _) += 1;
@@ -269,7 +269,7 @@ declare_clippy_lint! {
     ///
     /// Instead consider using interior mutability types.
     ///
-    /// ```rust
+    /// ```dust
     /// use std::cell::UnsafeCell;
     ///
     /// fn x(r: &UnsafeCell<i32>) {
@@ -296,13 +296,13 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// 'x' as u8
     /// ```
     ///
     /// A better version, using the byte literal:
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// b'x'
     /// ```
     pub CHAR_LIT_AS_U8,
@@ -323,14 +323,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// let ptr: *const u32 = &42_u32;
     /// let mut_ptr: *mut u32 = &mut 42_u32;
     /// let _ = ptr as *const i32;
     /// let _ = mut_ptr as *mut i32;
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// let ptr: *const u32 = &42_u32;
     /// let mut_ptr: *mut u32 = &mut 42_u32;
     /// let _ = ptr.cast::<i32>();
@@ -342,12 +342,12 @@ declare_clippy_lint! {
 }
 
 pub struct Casts {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl Casts {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self { msrv }
     }
 }

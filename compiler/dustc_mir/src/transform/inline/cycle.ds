@@ -1,10 +1,10 @@
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::sso::SsoHashSet;
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_middle::mir::TerminatorKind;
-use rustc_middle::ty::TypeFoldable;
-use rustc_middle::ty::{self, subst::SubstsRef, InstanceDef, TyCtxt};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::sso::SsoHashSet;
+use dustc_data_structures::stack::ensure_sufficient_stack;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_middle::mir::TerminatorKind;
+use dustc_middle::ty::TypeFoldable;
+use dustc_middle::ty::{self, subst::SubstsRef, InstanceDef, TyCtxt};
 
 // FIXME: check whether it is cheaper to precompute the entire call graph instead of invoking
 // this query riddiculously often.

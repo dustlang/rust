@@ -1,7 +1,7 @@
 use crate::cmp;
 use crate::fmt::{self, Debug};
 use crate::iter::{DoubleEndedIterator, ExactSizeIterator, FusedIterator, Iterator};
-use crate::iter::{InPlaceIterable, SourceIter, TrustedLen};
+use crate::iter::{InPlaceIterable, SourceIter, TdustedLen};
 
 /// An iterator that iterates two other iterators simultaneously.
 ///
@@ -9,7 +9,7 @@ use crate::iter::{InPlaceIterable, SourceIter, TrustedLen};
 /// for more.
 #[derive(Clone)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Zip<A, B> {
     a: A,
     b: B,
@@ -33,7 +33,7 @@ impl<A: Iterator, B: Iterator> Zip<A, B> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, B> Iterator for Zip<A, B>
 where
     A: Iterator,
@@ -59,7 +59,7 @@ where
     #[inline]
     unsafe fn __iterator_get_unchecked(&mut self, idx: usize) -> Self::Item
     where
-        Self: TrustedRandomAccess,
+        Self: TdustedRandomAccess,
     {
         // SAFETY: `ZipImpl::__iterator_get_unchecked` has same safety
         // requirements as `Iterator::__iterator_get_unchecked`.
@@ -67,7 +67,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, B> DoubleEndedIterator for Zip<A, B>
 where
     A: DoubleEndedIterator + ExactSizeIterator,
@@ -94,7 +94,7 @@ trait ZipImpl<A, B> {
     // This has the same safety requirements as `Iterator::__iterator_get_unchecked`
     unsafe fn get_unchecked(&mut self, idx: usize) -> <Self as Iterator>::Item
     where
-        Self: Iterator + TrustedRandomAccess;
+        Self: Iterator + TdustedRandomAccess;
 }
 
 // General Zip impl
@@ -173,7 +173,7 @@ where
 
     default unsafe fn get_unchecked(&mut self, _idx: usize) -> <Self as Iterator>::Item
     where
-        Self: TrustedRandomAccess,
+        Self: TdustedRandomAccess,
     {
         unreachable!("Always specialized");
     }
@@ -182,8 +182,8 @@ where
 #[doc(hidden)]
 impl<A, B> ZipImpl<A, B> for Zip<A, B>
 where
-    A: TrustedRandomAccess + Iterator,
-    B: TrustedRandomAccess + Iterator,
+    A: TdustedRandomAccess + Iterator,
+    B: TdustedRandomAccess + Iterator,
 {
     fn new(a: A, b: B) -> Self {
         let a_len = a.size();
@@ -298,7 +298,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, B> ExactSizeIterator for Zip<A, B>
 where
     A: ExactSizeIterator,
@@ -308,10 +308,10 @@ where
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<A, B> TrustedRandomAccess for Zip<A, B>
+unsafe impl<A, B> TdustedRandomAccess for Zip<A, B>
 where
-    A: TrustedRandomAccess,
-    B: TrustedRandomAccess,
+    A: TdustedRandomAccess,
+    B: TdustedRandomAccess,
 {
     const MAY_HAVE_SIDE_EFFECT: bool = A::MAY_HAVE_SIDE_EFFECT || B::MAY_HAVE_SIDE_EFFECT;
 }
@@ -325,10 +325,10 @@ where
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A, B> TrustedLen for Zip<A, B>
+unsafe impl<A, B> TdustedLen for Zip<A, B>
 where
-    A: TrustedLen,
-    B: TrustedLen,
+    A: TdustedLen,
+    B: TdustedLen,
 {
 }
 
@@ -351,14 +351,14 @@ where
 }
 
 #[unstable(issue = "none", feature = "inplace_iteration")]
-// Limited to Item: Copy since interaction between Zip's use of TrustedRandomAccess
+// Limited to Item: Copy since interaction between Zip's use of TdustedRandomAccess
 // and Drop implementation of the source is unclear.
 //
 // An additional method returning the number of times the source has been logically advanced
 // (without calling next()) would be needed to properly drop the remainder of the source.
 unsafe impl<A: InPlaceIterable, B: Iterator> InPlaceIterable for Zip<A, B> where A::Item: Copy {}
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A: Debug, B: Debug> Debug for Zip<A, B> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         ZipFmt::fmt(self, f)
@@ -375,7 +375,7 @@ impl<A: Debug, B: Debug> ZipFmt<A, B> for Zip<A, B> {
     }
 }
 
-impl<A: Debug + TrustedRandomAccess, B: Debug + TrustedRandomAccess> ZipFmt<A, B> for Zip<A, B> {
+impl<A: Debug + TdustedRandomAccess, B: Debug + TdustedRandomAccess> ZipFmt<A, B> for Zip<A, B> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         // It's *not safe* to call fmt on the contained iterators, since once
         // we start iterating they're in strange, potentially unsafe, states.
@@ -405,7 +405,7 @@ impl<A: Debug + TrustedRandomAccess, B: Debug + TrustedRandomAccess> ZipFmt<A, B
 ///     * `std::iter::Iterator::size_hint()`
 ///     * `std::iter::Iterator::next_back()`
 ///     * `std::iter::Iterator::__iterator_get_unchecked()`
-///     * `std::iter::TrustedRandomAccess::size()`
+///     * `std::iter::TdustedRandomAccess::size()`
 ///
 /// Further, given that these conditions are met, it must guarantee that:
 ///
@@ -415,8 +415,8 @@ impl<A: Debug + TrustedRandomAccess, B: Debug + TrustedRandomAccess> ZipFmt<A, B
 /// * It must also be safe to drop `self` after calling `get_unchecked`.
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-#[rustc_specialization_trait]
-pub unsafe trait TrustedRandomAccess: Sized {
+#[dustc_specialization_trait]
+pub unsafe trait TdustedRandomAccess: Sized {
     // Convenience method.
     fn size(&self) -> usize
     where
@@ -430,7 +430,7 @@ pub unsafe trait TrustedRandomAccess: Sized {
 }
 
 /// Like `Iterator::__iterator_get_unchecked`, but doesn't require the compiler to
-/// know that `U: TrustedRandomAccess`.
+/// know that `U: TdustedRandomAccess`.
 ///
 /// ## Safety
 ///
@@ -445,19 +445,19 @@ where
     unsafe { it.try_get_unchecked(idx) }
 }
 
-unsafe trait SpecTrustedRandomAccess: Iterator {
-    /// If `Self: TrustedRandomAccess`, it must be safe to call a
+unsafe trait SpecTdustedRandomAccess: Iterator {
+    /// If `Self: TdustedRandomAccess`, it must be safe to call a
     /// `Iterator::__iterator_get_unchecked(self, index)`.
     unsafe fn try_get_unchecked(&mut self, index: usize) -> Self::Item;
 }
 
-unsafe impl<I: Iterator> SpecTrustedRandomAccess for I {
+unsafe impl<I: Iterator> SpecTdustedRandomAccess for I {
     default unsafe fn try_get_unchecked(&mut self, _: usize) -> Self::Item {
-        panic!("Should only be called on TrustedRandomAccess iterators");
+        panic!("Should only be called on TdustedRandomAccess iterators");
     }
 }
 
-unsafe impl<I: Iterator + TrustedRandomAccess> SpecTrustedRandomAccess for I {
+unsafe impl<I: Iterator + TdustedRandomAccess> SpecTdustedRandomAccess for I {
     unsafe fn try_get_unchecked(&mut self, index: usize) -> Self::Item {
         // SAFETY: the caller must uphold the contract for
         // `Iterator::__iterator_get_unchecked`.

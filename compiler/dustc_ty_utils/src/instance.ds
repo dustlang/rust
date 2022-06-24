@@ -1,11 +1,11 @@
-use rustc_errors::ErrorReported;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_infer::infer::TyCtxtInferExt;
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::{self, Instance, TyCtxt, TypeFoldable};
-use rustc_span::{sym, DUMMY_SP};
-use rustc_target::spec::abi::Abi;
-use rustc_trait_selection::traits;
+use dustc_errors::ErrorReported;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_infer::infer::TyCtxtInferExt;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::{self, Instance, TyCtxt, TypeFoldable};
+use dustc_span::{sym, DUMMY_SP};
+use dustc_target::spec::abi::Abi;
+use dustc_trait_selection::traits;
 use traits::{translate_substs, Reveal};
 
 use tracing::debug;
@@ -58,7 +58,7 @@ fn inner_resolve_instance<'tcx>(
             ty::FnDef(..)
                 if {
                     let f = item_type.fn_sig(tcx);
-                    f.abi() == Abi::RustIntrinsic || f.abi() == Abi::PlatformIntrinsic
+                    f.abi() == Abi::DustIntrinsic || f.abi() == Abi::PlatformIntrinsic
                 } =>
             {
                 debug!(" => intrinsic");
@@ -153,7 +153,7 @@ fn resolve_associated_item<'tcx>(
             // Since this is a trait item, we need to see if the item is either a trait default item
             // or a specialization because we can't resolve those unless we can `Reveal::All`.
             // NOTE: This should be kept in sync with the similar code in
-            // `rustc_trait_selection::traits::project::assemble_candidates_from_impls()`.
+            // `dustc_trait_selection::traits::project::assemble_candidates_from_impls()`.
             let eligible = if leaf_def.is_final() {
                 // Non-specializable items are always projectable.
                 true
@@ -184,7 +184,7 @@ fn resolve_associated_item<'tcx>(
             // we know the error would've been caught (e.g. in an upstream crate).
             //
             // A better approach might be to just introduce a query (returning
-            // `Result<(), ErrorReported>`) for the check that `rustc_typeck`
+            // `Result<(), ErrorReported>`) for the check that `dustc_typeck`
             // performs (i.e. that the definition's type in the `impl` matches
             // the declaration in the `trait`), so that we can cheaply check
             // here if it failed, instead of approximating it.

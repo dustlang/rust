@@ -32,20 +32,20 @@ use super::FnCtxt;
 
 use crate::hir::def_id::DefId;
 use crate::type_error_struct;
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder, ErrorReported};
-use rustc_hir as hir;
-use rustc_hir::lang_items::LangItem;
-use rustc_middle::ty::adjustment::AllowTwoPhase;
-use rustc_middle::ty::cast::{CastKind, CastTy};
-use rustc_middle::ty::error::TypeError;
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::{self, Ty, TypeAndMut, TypeFoldable};
-use rustc_session::lint;
-use rustc_session::Session;
-use rustc_span::symbol::sym;
-use rustc_span::Span;
-use rustc_trait_selection::traits;
-use rustc_trait_selection::traits::error_reporting::report_object_safety_error;
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder, ErrorReported};
+use dustc_hir as hir;
+use dustc_hir::lang_items::LangItem;
+use dustc_middle::ty::adjustment::AllowTwoPhase;
+use dustc_middle::ty::cast::{CastKind, CastTy};
+use dustc_middle::ty::error::TypeError;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::{self, Ty, TypeAndMut, TypeFoldable};
+use dustc_session::lint;
+use dustc_session::Session;
+use dustc_span::symbol::sym;
+use dustc_span::Span;
+use dustc_trait_selection::traits;
+use dustc_trait_selection::traits::error_reporting::report_object_safety_error;
 
 /// Reifies a cast check to be checked once we have full type information for
 /// a function context.
@@ -594,8 +594,8 @@ impl<'a, 'tcx> CastCheck<'tcx> {
     /// can return Ok and create type errors in the fcx rather than returning
     /// directly. coercion-cast is handled in check instead of here.
     pub fn do_check(&self, fcx: &FnCtxt<'a, 'tcx>) -> Result<CastKind, CastError> {
-        use rustc_middle::ty::cast::CastTy::*;
-        use rustc_middle::ty::cast::IntTy::*;
+        use dustc_middle::ty::cast::CastTy::*;
+        use dustc_middle::ty::cast::IntTy::*;
 
         let (t_from, t_cast) = match (CastTy::from_ty(self.expr_ty), CastTy::from_ty(self.cast_ty))
         {

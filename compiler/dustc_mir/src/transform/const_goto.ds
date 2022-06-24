@@ -1,5 +1,5 @@
 //! This pass optimizes the following sequence
-//! ```rust,ignore (example)
+//! ```dust,ignore (example)
 //! bb2: {
 //!     _2 = const true;
 //!     goto -> bb3;
@@ -10,7 +10,7 @@
 //! }
 //! ```
 //! into
-//! ```rust,ignore (example)
+//! ```dust,ignore (example)
 //! bb2: {
 //!     _2 = const true;
 //!     goto -> bb5;
@@ -18,9 +18,9 @@
 //! ```
 
 use crate::transform::MirPass;
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
-use rustc_middle::{mir::visit::Visitor, ty::ParamEnv};
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
+use dustc_middle::{mir::visit::Visitor, ty::ParamEnv};
 
 use super::simplify::{simplify_cfg, simplify_locals};
 

@@ -60,10 +60,10 @@ impl<T> RawVec<T, Global> {
     /// introduce anything that would truly violate `min_const_fn`.
     ///
     /// NOTE: We could avoid this hack and check conformance with some
-    /// `#[rustc_force_min_const_fn]` attribute which requires conformance
+    /// `#[dustc_force_min_const_fn]` attribute which requires conformance
     /// with `min_const_fn` but does not necessarily allow calling it in
     /// `stable(...) const fn` / user code not enabling `foo` when
-    /// `#[rustc_const_unstable(feature = "foo", issue = "01234")]` is present.
+    /// `#[dustc_const_unstable(feature = "foo", issue = "01234")]` is present.
     pub const NEW: Self = Self::new();
 
     /// Creates the biggest possible `RawVec` (on the system heap)
@@ -129,7 +129,7 @@ impl<T, A: Allocator> RawVec<T, A> {
 
     /// Like `new`, but parameterized over the choice of allocator for
     /// the returned `RawVec`.
-    #[rustc_allow_const_fn_unstable(const_fn)]
+    #[dustc_allow_const_fn_unstable(const_fn)]
     pub const fn new_in(alloc: A) -> Self {
         // `cap: 0` means "unallocated". zero-sized types are ignored.
         Self { ptr: Unique::dangling(), cap: 0, alloc }

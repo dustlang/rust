@@ -51,7 +51,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error[E0121]: the type placeholder `_` is not allowed within types on item signatures
   --> $DIR/typeck_type_placeholder_item.rs:10:14
@@ -644,4 +644,4 @@ LL |     const D: _ = 42;
 error: aborting due to 69 previous errors; 1 warning emitted
 
 Some errors have detailed explanations: E0121, E0282, E0403.
-For more information about an error, try `rustc --explain E0121`.
+For more information about an error, try `dustc --explain E0121`.

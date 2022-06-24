@@ -1,11 +1,11 @@
 use crate::utils::{is_type_diagnostic_item, is_type_lang_item, snippet, span_lint_and_sugg};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{Expr, ExprKind, LangItem, MatchSource};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::sym;
+use dustc_errors::Applicability;
+use dustc_hir::{Expr, ExprKind, LangItem, MatchSource};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::sym;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for `match vec[idx]` or `match vec[n..m]`.
@@ -15,7 +15,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust, no_run
+    /// ```dust, no_run
     /// let arr = vec![0, 1, 2, 3];
     /// let idx = 1;
     ///
@@ -27,7 +27,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     /// Use instead:
-    /// ```rust, no_run
+    /// ```dust, no_run
     /// let arr = vec![0, 1, 2, 3];
     /// let idx = 1;
     ///

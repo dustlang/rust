@@ -1,12 +1,12 @@
-.TH RUSTC "1" "<INSERT DATE HERE>" "rustc <INSERT VERSION HERE>" "User Commands"
+.TH DUSTC "1" "<INSERT DATE HERE>" "dustc <INSERT VERSION HERE>" "User Commands"
 .SH NAME
-rustc \- The Rust compiler
+dustc \- The Dust compiler
 .SH SYNOPSIS
-.B rustc
+.B dustc
 [\fIOPTIONS\fR] \fIINPUT\fR
 
 .SH DESCRIPTION
-This program is a compiler for the Rust language, available at https://www.rust\-lang.org.
+This program is a compiler for the Dust language, available at https://www.dust\-lang.org.
 
 .SH OPTIONS
 
@@ -51,7 +51,7 @@ Comma separated list of types of crates for the compiler to emit.
 Specify the name of the crate being built.
 .TP
 \fB\-\-emit\fR [asm|llvm\-bc|llvm\-ir|obj|link|dep\-info|mir][=\fIPATH\fR]
-Configure the output that \fBrustc\fR will produce. Each emission may also have
+Configure the output that \fBdustc\fR will produce. Each emission may also have
 an optional explicit output \fIPATH\fR specified for that particular emission
 kind. This path takes precedence over the \fB-o\fR option.
 .TP
@@ -136,7 +136,7 @@ the current system's pathname syntax. For example \fI\-\-remap\-path\-prefix foo
 match \fBfoo/lib.rs\fR but not \fB./foo/lib.rs\fR.
 .TP
 \fB\-\-extern\fR \fINAME\fR=\fIPATH\fR
-Specify where an external rust library is located. These should match
+Specify where an external dust library is located. These should match
 \fIextern\fR declarations in the crate's source code.
 .TP
 \fB\-\-sysroot\fR \fIPATH\fR
@@ -185,7 +185,7 @@ Available features can be discovered through \fIllc -mcpu=help\fR.
 .TP
 \fBpasses\fR=\fIval\fR
 A space\[hy]separated list of extra LLVM passes to run.
-A value of 'list' will cause \fBrustc\fR to print all known passes and
+A value of 'list' will cause \fBdustc\fR to print all known passes and
 exit.
 The passes specified are appended at the end of the normal pass manager.
 .TP
@@ -265,50 +265,50 @@ Optimize with possible levels 0\[en]3, s (optimize for size), or z (for minimal 
 
 .SH ENVIRONMENT
 
-Some of these affect only test harness programs (generated via rustc --test);
-others affect all programs which link to the Rust standard library.
+Some of these affect only test harness programs (generated via dustc --test);
+others affect all programs which link to the Dust standard library.
 
 .TP
-\fBRUST_TEST_THREADS\fR
-The test framework Rust provides executes tests in parallel. This variable sets
+\fBDUST_TEST_THREADS\fR
+The test framework Dust provides executes tests in parallel. This variable sets
 the maximum number of threads used for this purpose. This setting is overridden
 by the --test-threads option.
 
 .TP
-\fBRUST_TEST_NOCAPTURE\fR
+\fBDUST_TEST_NOCAPTURE\fR
 If set to a value other than "0", a synonym for the --nocapture flag.
 
 .TP
-\fBRUST_MIN_STACK\fR
+\fBDUST_MIN_STACK\fR
 Sets the minimum stack size for new threads.
 
 .TP
-\fBRUST_BACKTRACE\fR
+\fBDUST_BACKTRACE\fR
 If set to a value different than "0", produces a backtrace in the output of a program which panics.
 
 .SH "EXAMPLES"
 To build an executable from a source file with a main function:
-    $ rustc \-o hello hello.rs
+    $ dustc \-o hello hello.rs
 
 To build a library from a source file:
-    $ rustc \-\-crate\-type=lib hello\-lib.rs
+    $ dustc \-\-crate\-type=lib hello\-lib.rs
 
 To build either with a crate (.rs) file:
-    $ rustc hello.rs
+    $ dustc hello.rs
 
 To build an executable with debug info:
-    $ rustc \-g \-o hello hello.rs
+    $ dustc \-g \-o hello hello.rs
 
 .SH "SEE ALSO"
 
-.BR rustdoc (1)
+.BR dustdoc (1)
 
 .SH "BUGS"
-See https://github.com/rust\-lang/rust/issues for issues.
+See https://github.com/dust\-lang/dust/issues for issues.
 
 .SH "AUTHOR"
-See https://github.com/rust\-lang/rust/graphs/contributors or use `git log --all --format='%cN <%cE>' | sort -u` in the rust source distribution.
+See https://github.com/dust\-lang/dust/graphs/contributors or use `git log --all --format='%cN <%cE>' | sort -u` in the dust source distribution.
 
 .SH "COPYRIGHT"
 This work is dual\[hy]licensed under Apache\ 2.0 and MIT terms.
-See \fICOPYRIGHT\fR file in the rust source distribution.
+See \fICOPYRIGHT\fR file in the dust source distribution.

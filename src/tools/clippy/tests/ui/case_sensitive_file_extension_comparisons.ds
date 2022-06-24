@@ -8,7 +8,7 @@ impl TestStruct {
     fn ends_with(self, arg: &str) {}
 }
 
-fn is_rust_file(filename: &str) -> bool {
+fn is_dust_file(filename: &str) -> bool {
     filename.ends_with(".rs")
 }
 

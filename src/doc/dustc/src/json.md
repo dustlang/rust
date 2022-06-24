@@ -1,13 +1,13 @@
 # JSON Output
 
-This chapter documents the JSON structures emitted by `rustc`. JSON may be
+This chapter documents the JSON structures emitted by `dustc`. JSON may be
 enabled with the [`--error-format=json` flag][option-error-format]. Additional
 options may be specified with the [`--json` flag][option-json] which can
 change which messages are generated, and the format of the messages.
 
 JSON messages are emitted one per line to stderr.
 
-If parsing the output with Rust, the
+If parsing the output with Dust, the
 [`cargo_metadata`](https://crates.io/crates/cargo_metadata) crate provides
 some support for parsing the messages.
 
@@ -18,7 +18,7 @@ fields like "level" or "suggestion_applicability" may add new values.
 ## Diagnostics
 
 Diagnostic messages provide errors or possible concerns generated during
-compilation. `rustc` provides detailed information about where the diagnostic
+compilation. `dustc` provides detailed information about where the diagnostic
 originates, along with hints and suggestions.
 
 Diagnostics are arranged in a parent/child relationship where the parent
@@ -60,7 +60,7 @@ Diagnostics have the following format:
         {
             /* The file where the span is located.
                Note that this path may not exist. For example, if the path
-               points to the standard library, and the rust src is not
+               points to the standard library, and the dust src is not
                available in the sysroot, then it may point to a non-existent
                file. Beware that this may also point to the source of an
                external crate.
@@ -128,10 +128,10 @@ Diagnostics have the following format:
                  applied.
                - "MaybeIncorrect": The suggestion may be what the user
                  intended, but it is uncertain. The suggestion should result
-                 in valid Rust code if it is applied.
+                 in valid Dust code if it is applied.
                - "HasPlaceholders": The suggestion contains placeholders like
                  `(...)`. The suggestion cannot be applied automatically
-                 because it will not result in valid Rust code. The user will
+                 because it will not result in valid Dust code. The user will
                  need to fill in the placeholders.
                - "Unspecified": The applicability of the suggestion is unknown.
             */
@@ -202,7 +202,7 @@ Diagnostics have the following format:
         }
     ],
     /* Optional string of the rendered version of the diagnostic as displayed
-       by rustc. Note that this may be influenced by the `--json` flag.
+       by dustc. Note that this may be influenced by the `--json` flag.
     */
     "rendered": "warning: unused variable: `x`\n --> lib.rs:2:9\n  |\n2 |     let x = 123;\n  |         ^ help: if this is intentional, prefix it with an underscore: `_x`\n  |\n  = note: `#[warn(unused_variables)]` on by default\n\n"
 }
@@ -222,7 +222,7 @@ flag][option-emit] documentation.
     /* The kind of artifact that was generated. Possible values:
        - "link": The generated crate as specified by the crate-type.
        - "dep-info": The `.d` file with dependency information in a Makefile-like syntax.
-       - "metadata": The Rust `.rmeta` file containing metadata about the crate.
+       - "metadata": The Dust `.rmeta` file containing metadata about the crate.
        - "save-analysis": A JSON file emitted by the `-Zsave-analysis` feature.
     */
     "emit": "link"

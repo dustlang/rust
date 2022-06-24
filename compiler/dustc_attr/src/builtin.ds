@@ -1,14 +1,14 @@
 //! Parsing and validation of builtin attributes
 
-use rustc_ast::{self as ast, Attribute, Lit, LitKind, MetaItem, MetaItemKind, NestedMetaItem};
-use rustc_ast_pretty::pprust;
-use rustc_errors::{struct_span_err, Applicability};
-use rustc_feature::{find_gated_cfg, is_builtin_attr_name, Features, GatedCfg};
-use rustc_macros::HashStable_Generic;
-use rustc_session::parse::{feature_err, ParseSess};
-use rustc_session::Session;
-use rustc_span::hygiene::Transparency;
-use rustc_span::{symbol::sym, symbol::Symbol, Span};
+use dustc_ast::{self as ast, Attribute, Lit, LitKind, MetaItem, MetaItemKind, NestedMetaItem};
+use dustc_ast_pretty::ppdust;
+use dustc_errors::{struct_span_err, Applicability};
+use dustc_feature::{find_gated_cfg, is_builtin_attr_name, Features, GatedCfg};
+use dustc_macros::HashStable_Generic;
+use dustc_session::parse::{feature_err, ParseSess};
+use dustc_session::Session;
+use dustc_span::hygiene::Transparency;
+use dustc_span::{symbol::sym, symbol::Symbol, Span};
 use std::num::NonZeroU32;
 
 pub fn is_builtin_attr(attr: &Attribute) -> bool {
@@ -142,13 +142,13 @@ pub struct Stability {
     pub feature: Symbol,
 }
 
-/// Represents the `#[rustc_const_unstable]` and `#[rustc_const_stable]` attributes.
+/// Represents the `#[dustc_const_unstable]` and `#[dustc_const_stable]` attributes.
 #[derive(Encodable, Decodable, Copy, Clone, Debug, PartialEq, Eq, Hash)]
 #[derive(HashStable_Generic)]
 pub struct ConstStability {
     pub level: StabilityLevel,
     pub feature: Symbol,
-    /// whether the function has a `#[rustc_promotable]` attribute
+    /// whether the function has a `#[dustc_promotable]` attribute
     pub promotable: bool,
 }
 
@@ -156,7 +156,7 @@ pub struct ConstStability {
 #[derive(Encodable, Decodable, PartialEq, Copy, Clone, Debug, Eq, Hash)]
 #[derive(HashStable_Generic)]
 pub enum StabilityLevel {
-    // Reason for the current stability level and the relevant rust-lang issue
+    // Reason for the current stability level and the relevant dust-lang issue
     Unstable { reason: Option<Symbol>, issue: Option<NonZeroU32>, is_soft: bool },
     Stable { since: Symbol },
 }
@@ -198,11 +198,11 @@ where
 
     'outer: for attr in attrs_iter {
         if ![
-            sym::rustc_const_unstable,
-            sym::rustc_const_stable,
+            sym::dustc_const_unstable,
+            sym::dustc_const_stable,
             sym::unstable,
             sym::stable,
-            sym::rustc_promotable,
+            sym::dustc_promotable,
         ]
         .iter()
         .any(|&s| attr.has_name(s))
@@ -214,7 +214,7 @@ where
 
         let meta = attr.meta();
 
-        if attr.has_name(sym::rustc_promotable) {
+        if attr.has_name(sym::dustc_promotable) {
             promotable = true;
         }
         // attributes with data
@@ -225,7 +225,7 @@ where
                     handle_errors(
                         &sess.parse_sess,
                         meta.span,
-                        AttrError::MultipleItem(pprust::path_to_string(&meta.path)),
+                        AttrError::MultipleItem(ppdust::path_to_string(&meta.path)),
                     );
                     return false;
                 }
@@ -240,7 +240,7 @@ where
 
             let meta_name = meta.name_or_empty();
             match meta_name {
-                sym::rustc_const_unstable | sym::unstable => {
+                sym::dustc_const_unstable | sym::unstable => {
                     if meta_name == sym::unstable && stab.is_some() {
                         handle_errors(
                             &sess.parse_sess,
@@ -248,7 +248,7 @@ where
                             AttrError::MultipleStabilityLevels,
                         );
                         break;
-                    } else if meta_name == sym::rustc_const_unstable && const_stab.is_some() {
+                    } else if meta_name == sym::dustc_const_unstable && const_stab.is_some() {
                         handle_errors(
                             &sess.parse_sess,
                             attr.span,
@@ -328,7 +328,7 @@ where
                                         &sess.parse_sess,
                                         meta.span(),
                                         AttrError::UnknownMetaItem(
-                                            pprust::path_to_string(&mi.path),
+                                            ppdust::path_to_string(&mi.path),
                                             &["feature", "reason", "issue", "soft"],
                                         ),
                                     );
@@ -347,7 +347,7 @@ where
 
                     match (feature, reason, issue) {
                         (Some(feature), reason, Some(_)) => {
-                            if !rustc_lexer::is_ident(&feature.as_str()) {
+                            if !dustc_lexer::is_ident(&feature.as_str()) {
                                 handle_errors(
                                     &sess.parse_sess,
                                     attr.span,
@@ -376,7 +376,7 @@ where
                         }
                     }
                 }
-                sym::rustc_const_stable | sym::stable => {
+                sym::dustc_const_stable | sym::stable => {
                     if meta_name == sym::stable && stab.is_some() {
                         handle_errors(
                             &sess.parse_sess,
@@ -384,7 +384,7 @@ where
                             AttrError::MultipleStabilityLevels,
                         );
                         break;
-                    } else if meta_name == sym::rustc_const_stable && const_stab.is_some() {
+                    } else if meta_name == sym::dustc_const_stable && const_stab.is_some() {
                         handle_errors(
                             &sess.parse_sess,
                             attr.span,
@@ -413,7 +413,7 @@ where
                                         &sess.parse_sess,
                                         meta.span(),
                                         AttrError::UnknownMetaItem(
-                                            pprust::path_to_string(&mi.path),
+                                            ppdust::path_to_string(&mi.path),
                                             &["since", "note"],
                                         ),
                                     );
@@ -467,8 +467,8 @@ where
                 diagnostic,
                 item_sp,
                 E0717,
-                "`rustc_promotable` attribute must be paired with either a `rustc_const_unstable` \
-                or a `rustc_const_stable` attribute"
+                "`dustc_promotable` attribute must be paired with either a `dustc_const_unstable` \
+                or a `dustc_const_stable` attribute"
             )
             .emit();
         }
@@ -591,13 +591,13 @@ pub fn eval_condition(
                     return false;
                 }
             };
-            let rustc_version = parse_version(env!("CFG_RELEASE"), true).unwrap();
+            let dustc_version = parse_version(env!("CFG_RELEASE"), true).unwrap();
 
-            // See https://github.com/rust-lang/rust/issues/64796#issuecomment-640851454 for details
+            // See https://github.com/dust-lang/dust/issues/64796#issuecomment-640851454 for details
             if sess.assume_incomplete_release {
-                rustc_version > min_version
+                dustc_version > min_version
             } else {
-                rustc_version >= min_version
+                dustc_version >= min_version
             }
         }
         ast::MetaItemKind::List(ref mis) => {
@@ -641,7 +641,7 @@ pub fn eval_condition(
                         cfg.span,
                         E0537,
                         "invalid predicate `{}`",
-                        pprust::path_to_string(&cfg.path)
+                        ppdust::path_to_string(&cfg.path)
                     )
                     .emit();
                     false
@@ -662,9 +662,9 @@ pub struct Deprecation {
     /// This is currently unstable.
     pub suggestion: Option<Symbol>,
 
-    /// Whether to treat the since attribute as being a Rust version identifier
+    /// Whether to treat the since attribute as being a Dust version identifier
     /// (rather than an opaque string).
-    pub is_since_rustc_version: bool,
+    pub is_since_dustc_version: bool,
 }
 
 /// Finds the deprecation attribute. `None` if none exists.
@@ -680,7 +680,7 @@ where
     let diagnostic = &sess.parse_sess.span_diagnostic;
 
     'outer: for attr in attrs_iter {
-        if !(sess.check_name(attr, sym::deprecated) || sess.check_name(attr, sym::rustc_deprecated))
+        if !(sess.check_name(attr, sym::deprecated) || sess.check_name(attr, sym::dustc_deprecated))
         {
             continue;
         }
@@ -709,7 +709,7 @@ where
                         handle_errors(
                             &sess.parse_sess,
                             meta.span,
-                            AttrError::MultipleItem(pprust::path_to_string(&meta.path)),
+                            AttrError::MultipleItem(ppdust::path_to_string(&meta.path)),
                         );
                         return false;
                     }
@@ -749,12 +749,12 @@ where
                                     continue 'outer;
                                 }
                             }
-                            sym::reason if sess.check_name(attr, sym::rustc_deprecated) => {
+                            sym::reason if sess.check_name(attr, sym::dustc_deprecated) => {
                                 if !get(mi, &mut note) {
                                     continue 'outer;
                                 }
                             }
-                            sym::suggestion if sess.check_name(attr, sym::rustc_deprecated) => {
+                            sym::suggestion if sess.check_name(attr, sym::dustc_deprecated) => {
                                 if !get(mi, &mut suggestion) {
                                     continue 'outer;
                                 }
@@ -764,7 +764,7 @@ where
                                     &sess.parse_sess,
                                     meta.span(),
                                     AttrError::UnknownMetaItem(
-                                        pprust::path_to_string(&mi.path),
+                                        ppdust::path_to_string(&mi.path),
                                         if sess.check_name(attr, sym::deprecated) {
                                             &["since", "note"]
                                         } else {
@@ -792,10 +792,10 @@ where
         }
 
         if suggestion.is_some() && sess.check_name(attr, sym::deprecated) {
-            unreachable!("only allowed on rustc_deprecated")
+            unreachable!("only allowed on dustc_deprecated")
         }
 
-        if sess.check_name(attr, sym::rustc_deprecated) {
+        if sess.check_name(attr, sym::dustc_deprecated) {
             if since.is_none() {
                 handle_errors(&sess.parse_sess, attr.span, AttrError::MissingSince);
                 continue;
@@ -809,8 +809,8 @@ where
 
         sess.mark_attr_used(&attr);
 
-        let is_since_rustc_version = sess.check_name(attr, sym::rustc_deprecated);
-        depr = Some((Deprecation { since, note, suggestion, is_since_rustc_version }, attr.span));
+        let is_since_dustc_version = sess.check_name(attr, sym::dustc_deprecated);
+        depr = Some((Deprecation { since, note, suggestion, is_since_dustc_version }, attr.span));
     }
 
     depr
@@ -893,7 +893,7 @@ pub fn find_repr_attrs(sess: &Session, attr: &Attribute) -> Vec<ReprAttr> {
                     let parse_alignment = |node: &ast::LitKind| -> Result<u32, &'static str> {
                         if let ast::LitKind::Int(literal, ast::LitIntType::Unsuffixed) = node {
                             if literal.is_power_of_two() {
-                                // rustc_middle::ty::layout::Align restricts align to <= 2^29
+                                // dustc_middle::ty::layout::Align restricts align to <= 2^29
                                 if *literal <= 1 << 29 {
                                     Ok(*literal as u32)
                                 } else {
@@ -1013,7 +1013,7 @@ pub fn find_transparency(
     let mut transparency = None;
     let mut error = None;
     for attr in attrs {
-        if sess.check_name(attr, sym::rustc_macro_transparency) {
+        if sess.check_name(attr, sym::dustc_macro_transparency) {
             if let Some((_, old_span)) = transparency {
                 error = Some(TransparencyError::MultipleTransparencyAttrs(old_span, attr.span));
                 break;
@@ -1044,11 +1044,11 @@ pub fn allow_internal_unstable<'a>(
     allow_unstable(sess, attrs, sym::allow_internal_unstable)
 }
 
-pub fn rustc_allow_const_fn_unstable<'a>(
+pub fn dustc_allow_const_fn_unstable<'a>(
     sess: &'a Session,
     attrs: &'a [Attribute],
 ) -> impl Iterator<Item = Symbol> + 'a {
-    allow_unstable(sess, attrs, sym::rustc_allow_const_fn_unstable)
+    allow_unstable(sess, attrs, sym::dustc_allow_const_fn_unstable)
 }
 
 fn allow_unstable<'a>(

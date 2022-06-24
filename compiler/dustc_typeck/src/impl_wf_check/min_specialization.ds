@@ -29,7 +29,7 @@
 //!
 //! Suppose we have the following always applicable impl:
 //!
-//! ```rust
+//! ```dust
 //! impl<T> SpecExtend<T> for std::vec::IntoIter<T> { /* specialized impl */ }
 //! impl<T, I: Iterator<Item=T>> SpecExtend<T> for I { /* default impl */ }
 //! ```
@@ -47,7 +47,7 @@
 //! on some traits: that is, using them as bounds on the specializing impl,
 //! even when they don't occur in the base impl.
 //!
-//! ### rustc_specialization_trait
+//! ### dustc_specialization_trait
 //!
 //! If a trait is always applicable, then it's sound to specialize on it. We
 //! check trait is always applicable in the same way as impls, except that step
@@ -55,7 +55,7 @@
 //! `specialization` or `min_specialization` is enabled to implement these
 //! traits.
 //!
-//! ### rustc_unsafe_specialization_marker
+//! ### dustc_unsafe_specialization_marker
 //!
 //! There are also some specialization on traits with no methods, including the
 //! stable `FusedIterator` trait. We allow marking marker traits with an
@@ -67,17 +67,17 @@
 
 use crate::constrained_generic_params as cgp;
 
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_infer::infer::outlives::env::OutlivesEnvironment;
-use rustc_infer::infer::{InferCtxt, RegionckMode, TyCtxtInferExt};
-use rustc_infer::traits::specialization_graph::Node;
-use rustc_middle::ty::subst::{GenericArg, InternalSubsts, SubstsRef};
-use rustc_middle::ty::trait_def::TraitSpecializationKind;
-use rustc_middle::ty::{self, InstantiatedPredicates, TyCtxt, TypeFoldable};
-use rustc_span::Span;
-use rustc_trait_selection::traits::{self, translate_substs, wf};
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_infer::infer::outlives::env::OutlivesEnvironment;
+use dustc_infer::infer::{InferCtxt, RegionckMode, TyCtxtInferExt};
+use dustc_infer::traits::specialization_graph::Node;
+use dustc_middle::ty::subst::{GenericArg, InternalSubsts, SubstsRef};
+use dustc_middle::ty::trait_def::TraitSpecializationKind;
+use dustc_middle::ty::{self, InstantiatedPredicates, TyCtxt, TypeFoldable};
+use dustc_span::Span;
+use dustc_trait_selection::traits::{self, translate_substs, wf};
 
 pub(super) fn check_min_specialization(tcx: TyCtxt<'_>, impl_def_id: DefId, span: Span) {
     if let Some(node) = parent_specialization_node(tcx, impl_def_id) {
@@ -313,7 +313,7 @@ fn check_predicates<'tcx>(
     //
     // For example, we allow:
     //
-    // #[rustc_specialization_trait]
+    // #[dustc_specialization_trait]
     // trait AlwaysApplicable: Debug { }
     //
     // impl<T> Tr for T { }

@@ -10,7 +10,7 @@ classes of inputs for which that is feasible and a bunch of deterministic and
 random non-exhaustive tests for covering everything else.
 
 The actual tests (generating decimal strings and feeding them to dec2flt) is
-performed by a set of stand-along rust programs. This script compiles, runs,
+performed by a set of stand-along dust programs. This script compiles, runs,
 and supervises them. The programs report the strings they generate and the
 floating point numbers they converted those strings to, and this script
 checks that the results are correct.
@@ -30,7 +30,7 @@ is not necessarily completely accurate.
 Instead, we take the input and compute the true value with bignum arithmetic
 (as a fraction, using the ``fractions`` module).
 
-Given an input string and the corresponding float computed via Rust, simply
+Given an input string and the corresponding float computed via Dust, simply
 decode the float into f * 2^k (for integers f, k) and the ULP.
 We can now easily compute the error and check if it is within 0.5 ULP as it
 should be. Zero and infinites are handled similarly:
@@ -46,7 +46,7 @@ should be. Zero and infinites are handled similarly:
 
 Implementation details
 ----------------------
-This directory contains a set of single-file Rust programs that perform
+This directory contains a set of single-file Dust programs that perform
 tests with a particular class of inputs. Each is compiled and run without
 parameters, outputs (f64, f32, decimal) pairs to verify externally, and
 in any case either exits gracefully or with a panic.
@@ -131,12 +131,12 @@ def write_errors():
             exit_status = 101
 
 
-def rustc(test):
+def dustc(test):
     rs = test + '.rs'
     exe = test + '.exe'  # hopefully this makes it work on *nix
     print("compiling", test)
     sys.stdout.flush()
-    check_call(['rustc', rs, '-o', exe])
+    check_call(['dustc', rs, '-o', exe])
 
 
 def run(test):
@@ -181,10 +181,10 @@ def interact(proc, queue):
         n += 1
         if n % UPDATE_EVERY_N == 0:
             msg("got", str(n // 1000) + "k", "records")
-    msg("rust is done. exit code:", proc.returncode)
+    msg("dust is done. exit code:", proc.returncode)
     rest, stderr = proc.communicate()
     if stderr:
-        msg("rust stderr output:", stderr)
+        msg("dust stderr output:", stderr)
     for line in rest.split('\n'):
         if not line:
             continue
@@ -204,7 +204,7 @@ def main():
         sys.exit(1)
     # Compile first for quicker feedback
     for test in tests:
-        rustc(test)
+        dustc(test)
     # Set up mailbox once for all tests
     MAILBOX = multiprocessing.Queue()
     mailman = threading.Thread(target=write_errors)

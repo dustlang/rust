@@ -52,7 +52,7 @@ struct Exception {
 pub unsafe fn panic(data: Box<dyn Any + Send>) -> u32 {
     let exception = Box::new(Exception {
         _uwe: uw::_Unwind_Exception {
-            exception_class: rust_exception_class(),
+            exception_class: dust_exception_class(),
             exception_cleanup,
             private: [0; uw::unwinder_private_data_size],
         },
@@ -67,25 +67,25 @@ pub unsafe fn panic(data: Box<dyn Any + Send>) -> u32 {
     ) {
         unsafe {
             let _: Box<Exception> = Box::from_raw(exception as *mut Exception);
-            super::__rust_drop_panic();
+            super::__dust_drop_panic();
         }
     }
 }
 
 pub unsafe fn cleanup(ptr: *mut u8) -> Box<dyn Any + Send> {
     let exception = ptr as *mut uw::_Unwind_Exception;
-    if (*exception).exception_class != rust_exception_class() {
+    if (*exception).exception_class != dust_exception_class() {
         uw::_Unwind_DeleteException(exception);
-        super::__rust_foreign_exception();
+        super::__dust_foreign_exception();
     } else {
         let exception = Box::from_raw(exception as *mut Exception);
         exception.cause
     }
 }
 
-// Rust's exception class identifier.  This is used by personality routines to
+// Dust's exception class identifier.  This is used by personality routines to
 // determine whether the exception was thrown by their own runtime.
-fn rust_exception_class() -> uw::_Unwind_Exception_Class {
+fn dust_exception_class() -> uw::_Unwind_Exception_Class {
     // M O Z \0  R U S T -- vendor, language
     0x4d4f5a_00_52555354
 }
@@ -134,7 +134,7 @@ cfg_if::cfg_if! {
         //
         // iOS uses the default routine instead since it uses SjLj unwinding.
         #[lang = "eh_personality"]
-        unsafe extern "C" fn rust_eh_personality(state: uw::_Unwind_State,
+        unsafe extern "C" fn dust_eh_personality(state: uw::_Unwind_State,
                                                  exception_object: *mut uw::_Unwind_Exception,
                                                  context: *mut uw::_Unwind_Context)
                                                  -> uw::_Unwind_Reason_Code {
@@ -144,7 +144,7 @@ cfg_if::cfg_if! {
                 // Backtraces on ARM will call the personality routine with
                 // state == _US_VIRTUAL_UNWIND_FRAME | _US_FORCE_UNWIND. In those cases
                 // we want to continue unwinding the stack, otherwise all our backtraces
-                // would end at __rust_try
+                // would end at __dust_try
                 if state & uw::_US_FORCE_UNWIND as c_int != 0 {
                     return continue_unwind(exception_object, context);
                 }
@@ -223,7 +223,7 @@ cfg_if::cfg_if! {
     } else {
         // Default personality routine, which is used directly on most targets
         // and indirectly on Windows x86_64 via SEH.
-        unsafe extern "C" fn rust_eh_personality_impl(version: c_int,
+        unsafe extern "C" fn dust_eh_personality_impl(version: c_int,
                                                       actions: uw::_Unwind_Action,
                                                       _exception_class: uw::_Unwind_Exception_Class,
                                                       exception_object: *mut uw::_Unwind_Exception,
@@ -265,7 +265,7 @@ cfg_if::cfg_if! {
                 // handler data (aka LSDA) uses GCC-compatible encoding.
                 #[lang = "eh_personality"]
                 #[allow(nonstandard_style)]
-                unsafe extern "C" fn rust_eh_personality(exceptionRecord: *mut uw::EXCEPTION_RECORD,
+                unsafe extern "C" fn dust_eh_personality(exceptionRecord: *mut uw::EXCEPTION_RECORD,
                         establisherFrame: uw::LPVOID,
                         contextRecord: *mut uw::CONTEXT,
                         dispatcherContext: *mut uw::DISPATCHER_CONTEXT)
@@ -274,18 +274,18 @@ cfg_if::cfg_if! {
                                              establisherFrame,
                                              contextRecord,
                                              dispatcherContext,
-                                             rust_eh_personality_impl)
+                                             dust_eh_personality_impl)
                 }
             } else {
                 // The personality routine for most of our targets.
                 #[lang = "eh_personality"]
-                unsafe extern "C" fn rust_eh_personality(version: c_int,
+                unsafe extern "C" fn dust_eh_personality(version: c_int,
                         actions: uw::_Unwind_Action,
                         exception_class: uw::_Unwind_Exception_Class,
                         exception_object: *mut uw::_Unwind_Exception,
                         context: *mut uw::_Unwind_Context)
                         -> uw::_Unwind_Reason_Code {
-                    rust_eh_personality_impl(version,
+                    dust_eh_personality_impl(version,
                                              actions,
                                              exception_class,
                                              exception_object,
@@ -325,7 +325,7 @@ unsafe fn find_eh_action(context: *mut uw::_Unwind_Context) -> Result<EHAction, 
 // This module defines two symbols which are referenced and called from
 // rsbegin.rs to register our information with the GCC runtime. The
 // implementation of stack unwinding is (for now) deferred to libgcc_eh, however
-// Rust crates use these Rust-specific entry points to avoid potential clashes
+// Dust crates use these Dust-specific entry points to avoid potential clashes
 // with any GCC runtime.
 #[cfg(all(target_os = "windows", target_arch = "x86", target_env = "gnu"))]
 pub mod eh_frame_registry {
@@ -334,13 +334,13 @@ pub mod eh_frame_registry {
         fn __deregister_frame_info(eh_frame_begin: *const u8, object: *mut u8);
     }
 
-    #[rustc_std_internal_symbol]
-    pub unsafe extern "C" fn rust_eh_register_frames(eh_frame_begin: *const u8, object: *mut u8) {
+    #[dustc_std_internal_symbol]
+    pub unsafe extern "C" fn dust_eh_register_frames(eh_frame_begin: *const u8, object: *mut u8) {
         __register_frame_info(eh_frame_begin, object);
     }
 
-    #[rustc_std_internal_symbol]
-    pub unsafe extern "C" fn rust_eh_unregister_frames(eh_frame_begin: *const u8, object: *mut u8) {
+    #[dustc_std_internal_symbol]
+    pub unsafe extern "C" fn dust_eh_unregister_frames(eh_frame_begin: *const u8, object: *mut u8) {
         __deregister_frame_info(eh_frame_begin, object);
     }
 }

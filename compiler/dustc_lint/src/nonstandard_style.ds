@@ -1,15 +1,15 @@
 use crate::{EarlyContext, EarlyLintPass, LateContext, LateLintPass, LintContext};
-use rustc_ast as ast;
-use rustc_attr as attr;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::intravisit::FnKind;
-use rustc_hir::{GenericParamKind, PatKind};
-use rustc_middle::ty;
-use rustc_span::symbol::sym;
-use rustc_span::{symbol::Ident, BytePos, Span};
-use rustc_target::spec::abi::Abi;
+use dustc_ast as ast;
+use dustc_attr as attr;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::intravisit::FnKind;
+use dustc_hir::{GenericParamKind, PatKind};
+use dustc_middle::ty;
+use dustc_span::symbol::sym;
+use dustc_span::{symbol::Ident, BytePos, Span};
+use dustc_target::spec::abi::Abi;
 
 #[derive(PartialEq)]
 pub enum MethodLateContext {
@@ -36,7 +36,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// struct my_struct;
     /// ```
     ///
@@ -203,7 +203,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let MY_VALUE = 5;
     /// ```
     ///
@@ -403,7 +403,7 @@ impl<'tcx> LateLintPass<'tcx> for NonSnakeCase {
             FnKind::ItemFn(ident, _, header, _) => {
                 let attrs = cx.tcx.hir().attrs(id);
                 // Skip foreign-ABI #[no_mangle] functions (Issue #31924)
-                if header.abi != Abi::Rust && cx.sess().contains_name(attrs, sym::no_mangle) {
+                if header.abi != Abi::Dust && cx.sess().contains_name(attrs, sym::no_mangle) {
                     return;
                 }
                 self.check_snake_case(cx, "function", ident);
@@ -459,7 +459,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// static max_points: i32 = 5;
     /// ```
     ///

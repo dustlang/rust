@@ -6,9 +6,9 @@ RUN sh /scripts/cross-apt-packages.sh
 COPY host-x86_64/dist-riscv64-linux/crosstool-ng.sh /scripts/
 RUN sh /scripts/crosstool-ng.sh
 
-COPY scripts/rustbuild-setup.sh /scripts/
-RUN sh /scripts/rustbuild-setup.sh
-USER rustbuild
+COPY scripts/dustbuild-setup.sh /scripts/
+RUN sh /scripts/dustbuild-setup.sh
+USER dustbuild
 WORKDIR /tmp
 
 COPY host-x86_64/dist-riscv64-linux/build-toolchains.sh host-x86_64/dist-riscv64-linux/riscv64-unknown-linux-gnu.config /tmp/
@@ -30,5 +30,5 @@ ENV CC_riscv64gc_unknown_linux_gnu=riscv64-unknown-linux-gnu-gcc \
 
 ENV HOSTS=riscv64gc-unknown-linux-gnu
 
-ENV RUST_CONFIGURE_ARGS --enable-extended --disable-docs
+ENV DUST_CONFIGURE_ARGS --enable-extended --disable-docs
 ENV SCRIPT python3 ../x.py dist --target $HOSTS --host $HOSTS

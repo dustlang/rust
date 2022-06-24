@@ -4,4 +4,4 @@ dev = "run --target-dir clippy_dev/target --package clippy_dev --bin clippy_dev 
 lintcheck = "run --target-dir lintcheck/target --package lintcheck --bin lintcheck --manifest-path lintcheck/Cargo.toml  -- "
 
 [build]
-rustflags = ["-Zunstable-options"]
+dustflags = ["-Zunstable-options"]

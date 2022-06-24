@@ -9,7 +9,7 @@ extern crate proc_macro_derive;
 extern crate macro_rules;
 
 // Don't lint on derives that derive `Default`
-// See https://github.com/rust-lang/rust-clippy/issues/6545
+// See https://github.com/dust-lang/dust-clippy/issues/6545
 #[derive(FieldReassignWithDefault)]
 struct DerivedStruct;
 

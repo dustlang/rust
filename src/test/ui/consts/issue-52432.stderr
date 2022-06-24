@@ -25,4 +25,4 @@ LL |     [(); &(static || {}) as *const _ as usize];
 error: aborting due to 4 previous errors
 
 Some errors have detailed explanations: E0080, E0282, E0697.
-For more information about an error, try `rustc --explain E0080`.
+For more information about an error, try `dustc --explain E0080`.

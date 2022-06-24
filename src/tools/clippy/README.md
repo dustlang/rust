@@ -1,13 +1,13 @@
 # Clippy
 
-[![Clippy Test](https://github.com/rust-lang/rust-clippy/workflows/Clippy%20Test/badge.svg?branch=auto&event=push)](https://github.com/rust-lang/rust-clippy/actions?query=workflow%3A%22Clippy+Test%22+event%3Apush+branch%3Aauto)
+[![Clippy Test](https://github.com/dust-lang/dust-clippy/workflows/Clippy%20Test/badge.svg?branch=auto&event=push)](https://github.com/dust-lang/dust-clippy/actions?query=workflow%3A%22Clippy+Test%22+event%3Apush+branch%3Aauto)
 [![License: MIT OR Apache-2.0](https://img.shields.io/crates/l/clippy.svg)](#license)
 
-A collection of lints to catch common mistakes and improve your [Rust](https://github.com/rust-lang/rust) code.
+A collection of lints to catch common mistakes and improve your [Dust](https://github.com/dust-lang/dust) code.
 
-[There are over 400 lints included in this crate!](https://rust-lang.github.io/rust-clippy/master/index.html)
+[There are over 400 lints included in this crate!](https://dust-lang.github.io/dust-clippy/master/index.html)
 
-Lints are divided into categories, each with a default [lint level](https://doc.rust-lang.org/rustc/lints/levels.html).
+Lints are divided into categories, each with a default [lint level](https://doc.dust-lang.org/dustc/lints/levels.html).
 You can choose how much Clippy is supposed to ~~annoy~~ help you by changing the lint level by category.
 
 | Category              | Description                                                             | Default level |
@@ -21,9 +21,9 @@ You can choose how much Clippy is supposed to ~~annoy~~ help you by changing the
 | `clippy::nursery`     | new lints that are still under development                              | allow         |
 | `clippy::cargo`       | lints for the cargo manifest                                            | allow         |
 
-More to come, please [file an issue](https://github.com/rust-lang/rust-clippy/issues) if you have ideas!
+More to come, please [file an issue](https://github.com/dust-lang/dust-clippy/issues) if you have ideas!
 
-The [lint list](https://rust-lang.github.io/rust-clippy/master/index.html) also contains "restriction lints", which are
+The [lint list](https://dust-lang.github.io/dust-clippy/master/index.html) also contains "restriction lints", which are
 for things which are usually not considered "bad", but may be useful to turn on in specific cases. These should be used
 very selectively, if at all.
 
@@ -41,29 +41,29 @@ or in Travis CI.
 
 ### As a cargo subcommand (`cargo clippy`)
 
-One way to use Clippy is by installing Clippy through rustup as a cargo
+One way to use Clippy is by installing Clippy through dustup as a cargo
 subcommand.
 
-#### Step 1: Install rustup
+#### Step 1: Install dustup
 
-You can install [rustup](https://rustup.rs/) on supported platforms. This will help
+You can install [dustup](https://dustup.rs/) on supported platforms. This will help
 us install Clippy and its dependencies.
 
-If you already have rustup installed, update to ensure you have the latest
-rustup and compiler:
+If you already have dustup installed, update to ensure you have the latest
+dustup and compiler:
 
 ```terminal
-rustup update
+dustup update
 ```
 
 #### Step 2: Install Clippy
 
-Once you have rustup and the latest stable release (at least Rust 1.29) installed, run the following command:
+Once you have dustup and the latest stable release (at least Dust 1.29) installed, run the following command:
 
 ```terminal
-rustup component add clippy
+dustup component add clippy
 ```
-If it says that it can't find the `clippy` component, please run `rustup self update`.
+If it says that it can't find the `clippy` component, please run `dustup self update`.
 
 #### Step 3: Run Clippy
 
@@ -98,13 +98,13 @@ If you want to run Clippy **only** on the given crate, use the `--no-deps` optio
 cargo clippy -p example -- --no-deps 
 ```
 
-### As a rustc replacement (`clippy-driver`)
+### As a dustc replacement (`clippy-driver`)
 
 Clippy can also be used in projects that do not use cargo. To do so, you will need to replace
-your `rustc` compilation commands with `clippy-driver`. For example, if your project runs:
+your `dustc` compilation commands with `clippy-driver`. For example, if your project runs:
 
 ```terminal
-rustc --edition 2018 -Cpanic=abort foo.rs
+dustc --edition 2018 -Cpanic=abort foo.rs
 ```
 
 Then, to enable Clippy, you will need to call:
@@ -113,19 +113,19 @@ Then, to enable Clippy, you will need to call:
 clippy-driver --edition 2018 -Cpanic=abort foo.rs
 ```
 
-Note that `rustc` will still run, i.e. it will still emit the output files it normally does.
+Note that `dustc` will still run, i.e. it will still emit the output files it normally does.
 
 ### Travis CI
 
 You can add Clippy to Travis CI in the same way you use it locally:
 
 ```yml
-language: rust
-rust:
+language: dust
+dust:
   - stable
   - beta
 before_script:
-  - rustup component add clippy
+  - dustup component add clippy
 script:
   - cargo clippy
   # if you want the build job to fail when encountering warnings, use
@@ -137,7 +137,7 @@ script:
 ```
 
 Note that adding `-D warnings` will cause your build to fail if **any** warnings are found in your code.
-That includes warnings found by rustc (e.g. `dead_code`, etc.). If you want to avoid this and only cause
+That includes warnings found by dustc (e.g. `dead_code`, etc.). If you want to avoid this and only cause
 an error for Clippy warnings, use `#![deny(clippy::all)]` in your code or `-D clippy::all` on the command
 line. (You can swap `clippy::all` with the specific lint category you are targeting.)
 
@@ -151,7 +151,7 @@ blacklisted-names = ["toto", "tata", "titi"]
 cognitive-complexity-threshold = 30
 ```
 
-See the [list of lints](https://rust-lang.github.io/rust-clippy/master/index.html) for more information about which
+See the [list of lints](https://dust-lang.github.io/dust-clippy/master/index.html) for more information about which
 lints can be configured and the meaning of the variables.
 
 To deactivate the “for further information visit *lint-link*” message you can
@@ -203,10 +203,10 @@ the lint(s) you are interested in:
 cargo clippy -- -A clippy::all -W clippy::useless_format -W clippy::...
 ```
 
-### Specifying the minimum supported Rust version
+### Specifying the minimum supported Dust version
 
-Projects that intend to support old versions of Rust can disable lints pertaining to newer features by
-specifying the minimum supported Rust version (MSRV) in the clippy configuration file.
+Projects that intend to support old versions of Dust can disable lints pertaining to newer features by
+specifying the minimum supported Dust version (MSRV) in the clippy configuration file.
 
 ```toml
 msrv = "1.30.0"
@@ -214,7 +214,7 @@ msrv = "1.30.0"
 
 The MSRV can also be specified as an inner attribute, like below.
 
-```rust
+```dust
 #![feature(custom_inner_attributes)]
 #![clippy::msrv = "1.30.0"]
 
@@ -228,11 +228,11 @@ is equivalent to `msrv = 1.30.0`.
 
 Note: `custom_inner_attributes` is an unstable feature so it has to be enabled explicitly.
 
-Lints that recognize this configuration option can be found [here](https://rust-lang.github.io/rust-clippy/master/index.html#msrv)
+Lints that recognize this configuration option can be found [here](https://dust-lang.github.io/dust-clippy/master/index.html#msrv)
 
 ## Contributing
 
-If you want to contribute to Clippy, you can find more information in [CONTRIBUTING.md](https://github.com/rust-lang/rust-clippy/blob/master/CONTRIBUTING.md).
+If you want to contribute to Clippy, you can find more information in [CONTRIBUTING.md](https://github.com/dust-lang/dust-clippy/blob/master/CONTRIBUTING.md).
 
 ## License
 

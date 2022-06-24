@@ -8,7 +8,7 @@ fn foo() -> bool {
     true
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn main() {
     // weird op_eq formatting:
     let mut a = 42;

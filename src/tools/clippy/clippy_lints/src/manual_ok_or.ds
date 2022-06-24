@@ -3,13 +3,13 @@ use crate::utils::{
     span_lint_and_sugg,
 };
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{Expr, ExprKind, PatKind};
-use rustc_lint::LintContext;
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::lint::in_external_macro;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::symbol::sym;
+use dustc_errors::Applicability;
+use dustc_hir::{Expr, ExprKind, PatKind};
+use dustc_lint::LintContext;
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::lint::in_external_macro;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::symbol::sym;
 
 declare_clippy_lint! {
     /// **What it does:**
@@ -21,13 +21,13 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Examples:**
-    /// ```rust
+    /// ```dust
     /// let foo: Option<i32> = None;
     /// foo.map_or(Err("error"), |v| Ok(v));
     /// ```
     ///
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// let foo: Option<i32> = None;
     /// foo.ok_or("error");
     /// ```

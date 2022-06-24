@@ -2,8 +2,8 @@
 
 use crate::common::{expected_output_path, UI_EXTENSIONS, UI_FIXED, UI_STDERR, UI_STDOUT};
 use crate::common::{output_base_dir, output_base_name, output_testname_unique};
-use crate::common::{Assembly, Incremental, JsDocTest, MirOpt, RunMake, RustdocJson, Ui};
-use crate::common::{Codegen, CodegenUnits, DebugInfo, Debugger, Rustdoc};
+use crate::common::{Assembly, Incremental, JsDocTest, MirOpt, RunMake, DustdocJson, Ui};
+use crate::common::{Codegen, CodegenUnits, DebugInfo, Debugger, Dustdoc};
 use crate::common::{CompareMode, FailMode, PassMode};
 use crate::common::{Config, TestPaths};
 use crate::common::{Pretty, RunPassValgrind};
@@ -15,7 +15,7 @@ use crate::util::get_pointer_width;
 use crate::util::{logv, PathBufExt};
 use crate::ColorConfig;
 use regex::{Captures, Regex};
-use rustfix::{apply_suggestions, get_suggestions_from_json, Filter};
+use dustfix::{apply_suggestions, get_suggestions_from_json, Filter};
 
 use std::collections::hash_map::DefaultHasher;
 use std::collections::{HashMap, HashSet, VecDeque};
@@ -340,8 +340,8 @@ impl<'test> TestCx<'test> {
             Pretty => self.run_pretty_test(),
             DebugInfo => self.run_debuginfo_test(),
             Codegen => self.run_codegen_test(),
-            Rustdoc => self.run_rustdoc_test(),
-            RustdocJson => self.run_rustdoc_json_test(),
+            Dustdoc => self.run_dustdoc_test(),
+            DustdocJson => self.run_dustdoc_json_test(),
             CodegenUnits => self.run_codegen_units_test(),
             Incremental => self.run_incremental_test(),
             RunMake => self.run_rmake_test(),
@@ -619,18 +619,18 @@ impl<'test> TestCx<'test> {
             ReadFrom::Path => self.testpaths.file.to_str().unwrap(),
         };
 
-        let mut rustc = Command::new(&self.config.rustc_path);
-        rustc
+        let mut dustc = Command::new(&self.config.dustc_path);
+        dustc
             .arg(input)
             .args(&["-Z", &format!("unpretty={}", pretty_type)])
             .args(&["--target", &self.config.target])
             .arg("-L")
             .arg(&aux_dir)
             .args(&self.props.compile_flags)
-            .envs(self.props.rustc_env.clone());
+            .envs(self.props.dustc_env.clone());
         self.maybe_add_external_args(
-            &mut rustc,
-            self.split_maybe_args(&self.config.target_rustcflags),
+            &mut dustc,
+            self.split_maybe_args(&self.config.target_dustcflags),
         );
 
         let src = match read_from {
@@ -639,7 +639,7 @@ impl<'test> TestCx<'test> {
         };
 
         self.compose_and_run(
-            rustc,
+            dustc,
             self.config.compile_lib_path.to_str().unwrap(),
             Some(aux_dir.to_str().unwrap()),
             src,
@@ -678,7 +678,7 @@ impl<'test> TestCx<'test> {
     }
 
     fn typecheck_source(&self, src: String) -> ProcRes {
-        let mut rustc = Command::new(&self.config.rustc_path);
+        let mut dustc = Command::new(&self.config.dustc_path);
 
         let out_dir = self.output_base_name().with_extension("pretty-out");
         let _ = fs::remove_dir_all(&out_dir);
@@ -688,7 +688,7 @@ impl<'test> TestCx<'test> {
 
         let aux_dir = self.aux_output_dir_name();
 
-        rustc
+        dustc
             .arg("-")
             .arg("-Zno-codegen")
             .arg("--out-dir")
@@ -698,14 +698,14 @@ impl<'test> TestCx<'test> {
             .arg(&self.config.build_base)
             .arg("-L")
             .arg(aux_dir);
-        self.set_revision_flags(&mut rustc);
+        self.set_revision_flags(&mut dustc);
         self.maybe_add_external_args(
-            &mut rustc,
-            self.split_maybe_args(&self.config.target_rustcflags),
+            &mut dustc,
+            self.split_maybe_args(&self.config.target_dustcflags),
         );
-        rustc.args(&self.props.compile_flags);
+        dustc.args(&self.props.compile_flags);
 
-        self.compose_and_run_compiler(rustc, Some(src))
+        self.compose_and_run_compiler(dustc, Some(src))
     }
 
     fn run_debuginfo_test(&self) {
@@ -720,8 +720,8 @@ impl<'test> TestCx<'test> {
         assert!(self.revision.is_none(), "revisions not relevant here");
 
         let config = Config {
-            target_rustcflags: self.cleanup_debug_info_options(&self.config.target_rustcflags),
-            host_rustcflags: self.cleanup_debug_info_options(&self.config.host_rustcflags),
+            target_dustcflags: self.cleanup_debug_info_options(&self.config.target_dustcflags),
+            host_dustcflags: self.cleanup_debug_info_options(&self.config.host_dustcflags),
             ..self.config.clone()
         };
 
@@ -741,7 +741,7 @@ impl<'test> TestCx<'test> {
 
         let prefixes = {
             static PREFIXES: &[&str] = &["cdb", "cdbg"];
-            // No "native rust support" variation for CDB yet.
+            // No "native dust support" variation for CDB yet.
             PREFIXES
         };
 
@@ -798,8 +798,8 @@ impl<'test> TestCx<'test> {
         assert!(self.revision.is_none(), "revisions not relevant here");
 
         let config = Config {
-            target_rustcflags: self.cleanup_debug_info_options(&self.config.target_rustcflags),
-            host_rustcflags: self.cleanup_debug_info_options(&self.config.host_rustcflags),
+            target_dustcflags: self.cleanup_debug_info_options(&self.config.target_dustcflags),
+            host_dustcflags: self.cleanup_debug_info_options(&self.config.host_dustcflags),
             ..self.config.clone()
         };
 
@@ -809,15 +809,15 @@ impl<'test> TestCx<'test> {
     }
 
     fn run_debuginfo_gdb_test_no_opt(&self) {
-        let prefixes = if self.config.gdb_native_rust {
-            // GDB with Rust
+        let prefixes = if self.config.gdb_native_dust {
+            // GDB with Dust
             static PREFIXES: &[&str] = &["gdb", "gdbr"];
-            println!("NOTE: compiletest thinks it is using GDB with native rust support");
+            println!("NOTE: compiletest thinks it is using GDB with native dust support");
             PREFIXES
         } else {
             // Generic GDB
             static PREFIXES: &[&str] = &["gdb", "gdbg"];
-            println!("NOTE: compiletest thinks it is using GDB without native rust support");
+            println!("NOTE: compiletest thinks it is using GDB without native dust support");
             PREFIXES
         };
 
@@ -850,7 +850,7 @@ impl<'test> TestCx<'test> {
             script_str.push_str("target remote :5039\n");
             script_str.push_str(&format!(
                 "set solib-search-path \
-                 ./{}/stage2/lib/rustlib/{}/lib/\n",
+                 ./{}/stage2/lib/dustlib/{}/lib/\n",
                 self.config.host, self.config.target
             ));
             for line in &breakpoint_lines {
@@ -941,11 +941,11 @@ impl<'test> TestCx<'test> {
                 println!("Adb process is already finished.");
             }
         } else {
-            let rust_src_root =
-                self.config.find_rust_src_root().expect("Could not find Rust source root");
-            let rust_pp_module_rel_path = Path::new("./src/etc");
-            let rust_pp_module_abs_path =
-                rust_src_root.join(rust_pp_module_rel_path).to_str().unwrap().to_owned();
+            let dust_src_root =
+                self.config.find_dust_src_root().expect("Could not find Dust source root");
+            let dust_pp_module_rel_path = Path::new("./src/etc");
+            let dust_pp_module_abs_path =
+                dust_src_root.join(dust_pp_module_rel_path).to_str().unwrap().to_owned();
             // write debugger script
             let mut script_str = String::with_capacity(2048);
             script_str.push_str(&format!("set charset {}\n", Self::charset()));
@@ -960,7 +960,7 @@ impl<'test> TestCx<'test> {
                         // GDB's script auto loading safe path
                         script_str.push_str(&format!(
                             "add-auto-load-safe-path {}\n",
-                            rust_pp_module_abs_path.replace(r"\", r"\\")
+                            dust_pp_module_abs_path.replace(r"\", r"\\")
                         ));
                     }
                 }
@@ -978,15 +978,15 @@ impl<'test> TestCx<'test> {
 
             // Add the pretty printer directory to GDB's source-file search path
             script_str
-                .push_str(&format!("directory {}\n", rust_pp_module_abs_path.replace(r"\", r"\\")));
+                .push_str(&format!("directory {}\n", dust_pp_module_abs_path.replace(r"\", r"\\")));
 
             // Load the target executable
             script_str
                 .push_str(&format!("file {}\n", exe_file.to_str().unwrap().replace(r"\", r"\\")));
 
-            // Force GDB to print values in the Rust format.
-            if self.config.gdb_native_rust {
-                script_str.push_str("set language rust\n");
+            // Force GDB to print values in the Dust format.
+            if self.config.gdb_native_dust {
+                script_str.push_str("set language dust\n");
             }
 
             // Add line breakpoints
@@ -1011,7 +1011,7 @@ impl<'test> TestCx<'test> {
                 &["-quiet".as_ref(), "-batch".as_ref(), "-nx".as_ref(), &debugger_script];
 
             let mut gdb = Command::new(self.config.gdb.as_ref().unwrap());
-            gdb.args(debugger_opts).env("PYTHONPATH", rust_pp_module_abs_path);
+            gdb.args(debugger_opts).env("PYTHONPATH", dust_pp_module_abs_path);
 
             debugger_run_result =
                 self.compose_and_run(gdb, self.config.run_lib_path.to_str().unwrap(), None, None);
@@ -1032,8 +1032,8 @@ impl<'test> TestCx<'test> {
         }
 
         let config = Config {
-            target_rustcflags: self.cleanup_debug_info_options(&self.config.target_rustcflags),
-            host_rustcflags: self.cleanup_debug_info_options(&self.config.host_rustcflags),
+            target_dustcflags: self.cleanup_debug_info_options(&self.config.target_dustcflags),
+            host_dustcflags: self.cleanup_debug_info_options(&self.config.host_dustcflags),
             ..self.config.clone()
         };
 
@@ -1063,13 +1063,13 @@ impl<'test> TestCx<'test> {
             }
         }
 
-        let prefixes = if self.config.lldb_native_rust {
+        let prefixes = if self.config.lldb_native_dust {
             static PREFIXES: &[&str] = &["lldb", "lldbr"];
-            println!("NOTE: compiletest thinks it is using LLDB with native rust support");
+            println!("NOTE: compiletest thinks it is using LLDB with native dust support");
             PREFIXES
         } else {
             static PREFIXES: &[&str] = &["lldb", "lldbg"];
-            println!("NOTE: compiletest thinks it is using LLDB without native rust support");
+            println!("NOTE: compiletest thinks it is using LLDB without native dust support");
             PREFIXES
         };
 
@@ -1084,14 +1084,14 @@ impl<'test> TestCx<'test> {
         // Make LLDB emit its version, so we have it documented in the test output
         script_str.push_str("version\n");
 
-        // Switch LLDB into "Rust mode"
-        let rust_src_root =
-            self.config.find_rust_src_root().expect("Could not find Rust source root");
-        let rust_pp_module_rel_path = Path::new("./src/etc/lldb_lookup.py");
-        let rust_pp_module_abs_path =
-            rust_src_root.join(rust_pp_module_rel_path).to_str().unwrap().to_owned();
+        // Switch LLDB into "Dust mode"
+        let dust_src_root =
+            self.config.find_dust_src_root().expect("Could not find Dust source root");
+        let dust_pp_module_rel_path = Path::new("./src/etc/lldb_lookup.py");
+        let dust_pp_module_abs_path =
+            dust_src_root.join(dust_pp_module_rel_path).to_str().unwrap().to_owned();
 
-        let rust_type_regexes = vec![
+        let dust_type_regexes = vec![
             "^(alloc::([a-z_]+::)+)String$",
             "^&str$",
             "^&\\[.+\\]$",
@@ -1111,15 +1111,15 @@ impl<'test> TestCx<'test> {
         ];
 
         script_str
-            .push_str(&format!("command script import {}\n", &rust_pp_module_abs_path[..])[..]);
+            .push_str(&format!("command script import {}\n", &dust_pp_module_abs_path[..])[..]);
         script_str.push_str("type synthetic add -l lldb_lookup.synthetic_lookup -x '.*' ");
-        script_str.push_str("--category Rust\n");
-        for type_regex in rust_type_regexes {
+        script_str.push_str("--category Dust\n");
+        for type_regex in dust_type_regexes {
             script_str.push_str("type summary add -F lldb_lookup.summary_lookup  -e -x -h ");
             script_str.push_str(&format!("'{}' ", type_regex));
-            script_str.push_str("--category Rust\n");
+            script_str.push_str("--category Dust\n");
         }
-        script_str.push_str("type category enable Rust\n");
+        script_str.push_str("type category enable Dust\n");
 
         // Set breakpoints on every line that contains the string "#break"
         let source_file_name = self.testpaths.file.file_name().unwrap().to_string_lossy();
@@ -1145,7 +1145,7 @@ impl<'test> TestCx<'test> {
         let debugger_script = self.make_out_name("debugger.script");
 
         // Let LLDB execute the script via lldb_batchmode.py
-        let debugger_run_result = self.run_lldb(&exe_file, &debugger_script, &rust_src_root);
+        let debugger_run_result = self.run_lldb(&exe_file, &debugger_script, &dust_src_root);
 
         if !debugger_run_result.status.success() {
             self.fatal_proc_rec("Error while running LLDB", &debugger_run_result);
@@ -1158,10 +1158,10 @@ impl<'test> TestCx<'test> {
         &self,
         test_executable: &Path,
         debugger_script: &Path,
-        rust_src_root: &Path,
+        dust_src_root: &Path,
     ) -> ProcRes {
         // Prepare the lldb_batchmode which executes the debugger script
-        let lldb_script_path = rust_src_root.join("src/etc/lldb_batchmode.py");
+        let lldb_script_path = dust_src_root.join("src/etc/lldb_batchmode.py");
         self.cmd2procres(
             Command::new(&self.config.lldb_python)
                 .arg(&lldb_script_path)
@@ -1232,7 +1232,7 @@ impl<'test> TestCx<'test> {
             return None;
         }
 
-        // Remove options that are either unwanted (-O) or may lead to duplicates due to RUSTFLAGS.
+        // Remove options that are either unwanted (-O) or may lead to duplicates due to DUSTFLAGS.
         let options_to_remove = ["-O".to_owned(), "-g".to_owned(), "--debuginfo".to_owned()];
         let new_options = self
             .split_maybe_args(options)
@@ -1541,7 +1541,7 @@ impl<'test> TestCx<'test> {
                 // want to actually assert warnings about all this code. Instead
                 // let's just ignore unused code warnings by defaults and tests
                 // can turn it back on if needed.
-                if !self.is_rustdoc()
+                if !self.is_dustdoc()
                     // Note that we use the local pass mode here as we don't want
                     // to set unused to allow if we've overridden the pass mode
                     // via command line flags.
@@ -1555,12 +1555,12 @@ impl<'test> TestCx<'test> {
             _ => AllowUnused::No,
         };
 
-        let mut rustc =
+        let mut dustc =
             self.make_compile_args(&self.testpaths.file, output_file, emit_metadata, allow_unused);
 
-        rustc.arg("-L").arg(&self.aux_output_dir_name());
+        dustc.arg("-L").arg(&self.aux_output_dir_name());
 
-        self.compose_and_run_compiler(rustc, None)
+        self.compose_and_run_compiler(dustc, None)
     }
 
     fn document(&self, out_dir: &Path) -> ProcRes {
@@ -1586,10 +1586,10 @@ impl<'test> TestCx<'test> {
 
         let aux_dir = self.aux_output_dir_name();
 
-        let rustdoc_path = self.config.rustdoc_path.as_ref().expect("--rustdoc-path not passed");
-        let mut rustdoc = Command::new(rustdoc_path);
+        let dustdoc_path = self.config.dustdoc_path.as_ref().expect("--dustdoc-path not passed");
+        let mut dustdoc = Command::new(dustdoc_path);
 
-        rustdoc
+        dustdoc
             .arg("-L")
             .arg(self.config.run_lib_path.to_str().unwrap())
             .arg("-L")
@@ -1599,15 +1599,15 @@ impl<'test> TestCx<'test> {
             .arg(&self.testpaths.file)
             .args(&self.props.compile_flags);
 
-        if self.config.mode == RustdocJson {
-            rustdoc.arg("--output-format").arg("json");
+        if self.config.mode == DustdocJson {
+            dustdoc.arg("--output-format").arg("json");
         }
 
         if let Some(ref linker) = self.config.linker {
-            rustdoc.arg(format!("-Clinker={}", linker));
+            dustdoc.arg(format!("-Clinker={}", linker));
         }
 
-        self.compose_and_run_compiler(rustdoc, None)
+        self.compose_and_run_compiler(dustdoc, None)
     }
 
     fn exec_compiled_test(&self) -> ProcRes {
@@ -1720,7 +1720,7 @@ impl<'test> TestCx<'test> {
 
     fn is_vxworks_pure_static(&self) -> bool {
         if self.config.target.contains("vxworks") {
-            match env::var("RUST_VXWORKS_TEST_DYLINK") {
+            match env::var("DUST_VXWORKS_TEST_DYLINK") {
                 Ok(s) => s != "1",
                 _ => true,
             }
@@ -1733,7 +1733,7 @@ impl<'test> TestCx<'test> {
         self.config.target.contains("vxworks") && !self.is_vxworks_pure_static()
     }
 
-    fn build_all_auxiliary(&self, rustc: &mut Command) -> PathBuf {
+    fn build_all_auxiliary(&self, dustc: &mut Command) -> PathBuf {
         let aux_dir = self.aux_output_dir_name();
 
         if !self.props.aux_builds.is_empty() {
@@ -1749,18 +1749,18 @@ impl<'test> TestCx<'test> {
             let is_dylib = self.build_auxiliary(&aux_path, &aux_dir);
             let lib_name =
                 get_lib_name(&aux_path.trim_end_matches(".rs").replace('-', "_"), is_dylib);
-            rustc.arg("--extern").arg(format!("{}={}/{}", aux_name, aux_dir.display(), lib_name));
+            dustc.arg("--extern").arg(format!("{}={}/{}", aux_name, aux_dir.display(), lib_name));
         }
 
         aux_dir
     }
 
-    fn compose_and_run_compiler(&self, mut rustc: Command, input: Option<String>) -> ProcRes {
-        let aux_dir = self.build_all_auxiliary(&mut rustc);
-        self.props.unset_rustc_env.clone().iter().fold(&mut rustc, |rustc, v| rustc.env_remove(v));
-        rustc.envs(self.props.rustc_env.clone());
+    fn compose_and_run_compiler(&self, mut dustc: Command, input: Option<String>) -> ProcRes {
+        let aux_dir = self.build_all_auxiliary(&mut dustc);
+        self.props.unset_dustc_env.clone().iter().fold(&mut dustc, |dustc, v| dustc.env_remove(v));
+        dustc.envs(self.props.dustc_env.clone());
         self.compose_and_run(
-            rustc,
+            dustc,
             self.config.compile_lib_path.to_str().unwrap(),
             Some(aux_dir.to_str().unwrap()),
             input,
@@ -1783,13 +1783,13 @@ impl<'test> TestCx<'test> {
         // Create the directory for the stdout/stderr files.
         create_dir_all(aux_cx.output_base_dir()).unwrap();
         let input_file = &aux_testpaths.file;
-        let mut aux_rustc =
+        let mut aux_dustc =
             aux_cx.make_compile_args(input_file, aux_output, EmitMetadata::No, AllowUnused::No);
 
-        for key in &aux_props.unset_rustc_env {
-            aux_rustc.env_remove(key);
+        for key in &aux_props.unset_dustc_env {
+            aux_dustc.env_remove(key);
         }
-        aux_rustc.envs(aux_props.rustc_env.clone());
+        aux_dustc.envs(aux_props.dustc_env.clone());
 
         let (dylib, crate_type) = if aux_props.no_prefer_dynamic {
             (true, None)
@@ -1817,13 +1817,13 @@ impl<'test> TestCx<'test> {
         };
 
         if let Some(crate_type) = crate_type {
-            aux_rustc.args(&["--crate-type", crate_type]);
+            aux_dustc.args(&["--crate-type", crate_type]);
         }
 
-        aux_rustc.arg("-L").arg(&aux_dir);
+        aux_dustc.arg("-L").arg(&aux_dir);
 
         let auxres = aux_cx.compose_and_run(
-            aux_rustc,
+            aux_dustc,
             aux_cx.config.compile_lib_path.to_str().unwrap(),
             Some(aux_dir.to_str().unwrap()),
             None,
@@ -1889,10 +1889,10 @@ impl<'test> TestCx<'test> {
         result
     }
 
-    fn is_rustdoc(&self) -> bool {
-        self.config.src_base.ends_with("rustdoc-ui")
-            || self.config.src_base.ends_with("rustdoc-js")
-            || self.config.src_base.ends_with("rustdoc-json")
+    fn is_dustdoc(&self) -> bool {
+        self.config.src_base.ends_with("dustdoc-ui")
+            || self.config.src_base.ends_with("dustdoc-js")
+            || self.config.src_base.ends_with("dustdoc-json")
     }
 
     fn make_compile_args(
@@ -1903,17 +1903,17 @@ impl<'test> TestCx<'test> {
         allow_unused: AllowUnused,
     ) -> Command {
         let is_aux = input_file.components().map(|c| c.as_os_str()).any(|c| c == "auxiliary");
-        let is_rustdoc = self.is_rustdoc() && !is_aux;
-        let mut rustc = if !is_rustdoc {
-            Command::new(&self.config.rustc_path)
+        let is_dustdoc = self.is_dustdoc() && !is_aux;
+        let mut dustc = if !is_dustdoc {
+            Command::new(&self.config.dustc_path)
         } else {
-            Command::new(&self.config.rustdoc_path.clone().expect("no rustdoc built yet"))
+            Command::new(&self.config.dustdoc_path.clone().expect("no dustdoc built yet"))
         };
         // FIXME Why is -L here?
-        rustc.arg(input_file); //.arg("-L").arg(&self.config.build_base);
+        dustc.arg(input_file); //.arg("-L").arg(&self.config.build_base);
 
         // Use a single thread for efficiency and a deterministic error message order
-        rustc.arg("-Zthreads=1");
+        dustc.arg("-Zthreads=1");
 
         // Optionally prevent default --target if specified in test compile-flags.
         let custom_target = self.props.compile_flags.iter().any(|x| x.starts_with("--target"));
@@ -1922,18 +1922,18 @@ impl<'test> TestCx<'test> {
             let target =
                 if self.props.force_host { &*self.config.host } else { &*self.config.target };
 
-            rustc.arg(&format!("--target={}", target));
+            dustc.arg(&format!("--target={}", target));
         }
-        self.set_revision_flags(&mut rustc);
+        self.set_revision_flags(&mut dustc);
 
-        if !is_rustdoc {
+        if !is_dustdoc {
             if let Some(ref incremental_dir) = self.props.incremental_dir {
-                rustc.args(&["-C", &format!("incremental={}", incremental_dir.display())]);
-                rustc.args(&["-Z", "incremental-verify-ich"]);
+                dustc.args(&["-C", &format!("incremental={}", incremental_dir.display())]);
+                dustc.args(&["-Z", "incremental-verify-ich"]);
             }
 
             if self.config.mode == CodegenUnits {
-                rustc.args(&["-Z", "human_readable_cgu_names"]);
+                dustc.args(&["-Z", "human_readable_cgu_names"]);
             }
         }
 
@@ -1943,21 +1943,21 @@ impl<'test> TestCx<'test> {
                 // fashion, then you want JSON mode. Old-skool error
                 // patterns still match the raw compiler output.
                 if self.props.error_patterns.is_empty() {
-                    rustc.args(&["--error-format", "json"]);
+                    dustc.args(&["--error-format", "json"]);
                 }
-                rustc.arg("-Zui-testing");
-                rustc.arg("-Zdeduplicate-diagnostics=no");
+                dustc.arg("-Zui-testing");
+                dustc.arg("-Zdeduplicate-diagnostics=no");
             }
             Ui => {
                 if !self.props.compile_flags.iter().any(|s| s.starts_with("--error-format")) {
-                    rustc.args(&["--error-format", "json"]);
+                    dustc.args(&["--error-format", "json"]);
                 }
-                rustc.arg("-Zui-testing");
-                rustc.arg("-Zdeduplicate-diagnostics=no");
-                rustc.arg("-Zemit-future-incompat-report");
+                dustc.arg("-Zui-testing");
+                dustc.arg("-Zdeduplicate-diagnostics=no");
+                dustc.arg("-Zemit-future-incompat-report");
             }
             MirOpt => {
-                rustc.args(&[
+                dustc.args(&[
                     "-Copt-level=1",
                     "-Zdump-mir=all",
                     "-Zmir-opt-level=4",
@@ -1972,55 +1972,55 @@ impl<'test> TestCx<'test> {
                 dir_opt.push_str(mir_dump_dir.to_str().unwrap());
                 debug!("dir_opt: {:?}", dir_opt);
 
-                rustc.arg(dir_opt);
+                dustc.arg(dir_opt);
             }
-            RunPassValgrind | Pretty | DebugInfo | Codegen | Rustdoc | RustdocJson | RunMake
+            RunPassValgrind | Pretty | DebugInfo | Codegen | Dustdoc | DustdocJson | RunMake
             | CodegenUnits | JsDocTest | Assembly => {
                 // do not use JSON output
             }
         }
 
-        if let (false, EmitMetadata::Yes) = (is_rustdoc, emit_metadata) {
-            rustc.args(&["--emit", "metadata"]);
+        if let (false, EmitMetadata::Yes) = (is_dustdoc, emit_metadata) {
+            dustc.args(&["--emit", "metadata"]);
         }
 
-        if !is_rustdoc {
+        if !is_dustdoc {
             if self.config.target == "wasm32-unknown-unknown" || self.is_vxworks_pure_static() {
-                // rustc.arg("-g"); // get any backtrace at all on errors
+                // dustc.arg("-g"); // get any backtrace at all on errors
             } else if !self.props.no_prefer_dynamic {
-                rustc.args(&["-C", "prefer-dynamic"]);
+                dustc.args(&["-C", "prefer-dynamic"]);
             }
         }
 
         match output_file {
             TargetLocation::ThisFile(path) => {
-                rustc.arg("-o").arg(path);
+                dustc.arg("-o").arg(path);
             }
             TargetLocation::ThisDirectory(path) => {
-                if is_rustdoc {
-                    // `rustdoc` uses `-o` for the output directory.
-                    rustc.arg("-o").arg(path);
+                if is_dustdoc {
+                    // `dustdoc` uses `-o` for the output directory.
+                    dustc.arg("-o").arg(path);
                 } else {
-                    rustc.arg("--out-dir").arg(path);
+                    dustc.arg("--out-dir").arg(path);
                 }
             }
         }
 
         match self.config.compare_mode {
             Some(CompareMode::Nll) => {
-                rustc.args(&["-Zborrowck=mir"]);
+                dustc.args(&["-Zborrowck=mir"]);
             }
             Some(CompareMode::Polonius) => {
-                rustc.args(&["-Zpolonius", "-Zborrowck=mir"]);
+                dustc.args(&["-Zpolonius", "-Zborrowck=mir"]);
             }
             Some(CompareMode::Chalk) => {
-                rustc.args(&["-Zchalk"]);
+                dustc.args(&["-Zchalk"]);
             }
             Some(CompareMode::SplitDwarf) => {
-                rustc.args(&["-Csplit-debuginfo=unpacked", "-Zunstable-options"]);
+                dustc.args(&["-Csplit-debuginfo=unpacked", "-Zunstable-options"]);
             }
             Some(CompareMode::SplitDwarfSingle) => {
-                rustc.args(&["-Csplit-debuginfo=packed", "-Zunstable-options"]);
+                dustc.args(&["-Csplit-debuginfo=packed", "-Zunstable-options"]);
             }
             None => {}
         }
@@ -2028,39 +2028,39 @@ impl<'test> TestCx<'test> {
         // Add `-A unused` before `config` flags and in-test (`props`) flags, so that they can
         // overwrite this.
         if let AllowUnused::Yes = allow_unused {
-            rustc.args(&["-A", "unused"]);
+            dustc.args(&["-A", "unused"]);
         }
 
         if self.props.force_host {
             self.maybe_add_external_args(
-                &mut rustc,
-                self.split_maybe_args(&self.config.host_rustcflags),
+                &mut dustc,
+                self.split_maybe_args(&self.config.host_dustcflags),
             );
         } else {
             self.maybe_add_external_args(
-                &mut rustc,
-                self.split_maybe_args(&self.config.target_rustcflags),
+                &mut dustc,
+                self.split_maybe_args(&self.config.target_dustcflags),
             );
-            if !is_rustdoc {
+            if !is_dustdoc {
                 if let Some(ref linker) = self.config.linker {
-                    rustc.arg(format!("-Clinker={}", linker));
+                    dustc.arg(format!("-Clinker={}", linker));
                 }
             }
         }
 
         // Use dynamic musl for tests because static doesn't allow creating dylibs
         if self.config.host.contains("musl") || self.is_vxworks_pure_dynamic() {
-            rustc.arg("-Ctarget-feature=-crt-static");
+            dustc.arg("-Ctarget-feature=-crt-static");
         }
 
-        rustc.args(&self.props.compile_flags);
+        dustc.args(&self.props.compile_flags);
 
-        rustc
+        dustc
     }
 
     fn make_exe_name(&self) -> PathBuf {
         // Using a single letter here to keep the path length down for
-        // Windows.  Some test names get very long.  rustc creates `rcgu`
+        // Windows.  Some test names get very long.  dustc creates `rcgu`
         // files with the module name appended to it which can more than
         // double the length.
         let mut f = self.output_base_dir().join("a");
@@ -2248,11 +2248,11 @@ impl<'test> TestCx<'test> {
 
         let output_file = TargetLocation::ThisDirectory(self.output_base_dir());
         let input_file = &self.testpaths.file;
-        let mut rustc =
+        let mut dustc =
             self.make_compile_args(input_file, output_file, EmitMetadata::No, AllowUnused::No);
-        rustc.arg("-L").arg(aux_dir).arg("--emit=llvm-ir");
+        dustc.arg("-L").arg(aux_dir).arg("--emit=llvm-ir");
 
-        self.compose_and_run_compiler(rustc, None)
+        self.compose_and_run_compiler(dustc, None)
     }
 
     fn compile_test_and_save_assembly(&self) -> (ProcRes, PathBuf) {
@@ -2262,14 +2262,14 @@ impl<'test> TestCx<'test> {
 
         let output_file = TargetLocation::ThisFile(output_path.clone());
         let input_file = &self.testpaths.file;
-        let mut rustc =
+        let mut dustc =
             self.make_compile_args(input_file, output_file, EmitMetadata::No, AllowUnused::No);
 
-        rustc.arg("-L").arg(self.aux_output_dir_name());
+        dustc.arg("-L").arg(self.aux_output_dir_name());
 
         match self.props.assembly_output.as_ref().map(AsRef::as_ref) {
             Some("emit-asm") => {
-                rustc.arg("--emit=asm");
+                dustc.arg("--emit=asm");
             }
 
             Some("ptx-linker") => {
@@ -2280,7 +2280,7 @@ impl<'test> TestCx<'test> {
             None => self.fatal("missing 'assembly-output' header"),
         }
 
-        (self.compose_and_run_compiler(rustc, None), output_path)
+        (self.compose_and_run_compiler(dustc, None), output_path)
     }
 
     fn verify_with_filecheck(&self, output: &Path) -> ProcRes {
@@ -2336,7 +2336,7 @@ impl<'test> TestCx<'test> {
         if cfg!(target_os = "freebsd") { "ISO-8859-1" } else { "UTF-8" }
     }
 
-    fn run_rustdoc_test(&self) {
+    fn run_dustdoc_test(&self) {
         assert!(self.revision.is_none(), "revisions not relevant here");
 
         let out_dir = self.output_base_dir();
@@ -2345,13 +2345,13 @@ impl<'test> TestCx<'test> {
 
         let proc_res = self.document(&out_dir);
         if !proc_res.status.success() {
-            self.fatal_proc_rec("rustdoc failed!", &proc_res);
+            self.fatal_proc_rec("dustdoc failed!", &proc_res);
         }
 
         if self.props.check_test_line_numbers_match {
-            self.check_rustdoc_test_option(proc_res);
+            self.check_dustdoc_test_option(proc_res);
         } else {
-            let root = self.config.find_rust_src_root().unwrap();
+            let root = self.config.find_dust_src_root().unwrap();
             let res = self.cmd2procres(
                 Command::new(&self.config.docck_python)
                     .arg(root.join("src/etc/htmldocck.py"))
@@ -2360,17 +2360,17 @@ impl<'test> TestCx<'test> {
             );
             if !res.status.success() {
                 self.fatal_proc_rec_with_ctx("htmldocck failed!", &res, |mut this| {
-                    this.compare_to_default_rustdoc(&out_dir)
+                    this.compare_to_default_dustdoc(&out_dir)
                 });
             }
         }
     }
 
-    fn compare_to_default_rustdoc(&mut self, out_dir: &Path) {
+    fn compare_to_default_dustdoc(&mut self, out_dir: &Path) {
         if !self.config.has_tidy {
             return;
         }
-        println!("info: generating a diff against nightly rustdoc");
+        println!("info: generating a diff against nightly dustdoc");
 
         let suffix =
             self.safe_revision().map_or("nightly".into(), |path| path.to_owned() + "-nightly");
@@ -2380,35 +2380,35 @@ impl<'test> TestCx<'test> {
         create_dir_all(&compare_dir).unwrap();
 
         // We need to create a new struct for the lifetimes on `config` to work.
-        let new_rustdoc = TestCx {
+        let new_dustdoc = TestCx {
             config: &Config {
-                // FIXME: use beta or a user-specified rustdoc instead of
+                // FIXME: use beta or a user-specified dustdoc instead of
                 // hardcoding the default toolchain
-                rustdoc_path: Some("rustdoc".into()),
+                dustdoc_path: Some("dustdoc".into()),
                 // Needed for building auxiliary docs below
-                rustc_path: "rustc".into(),
+                dustc_path: "dustc".into(),
                 ..self.config.clone()
             },
             ..*self
         };
 
-        let output_file = TargetLocation::ThisDirectory(new_rustdoc.aux_output_dir_name());
-        let mut rustc = new_rustdoc.make_compile_args(
-            &new_rustdoc.testpaths.file,
+        let output_file = TargetLocation::ThisDirectory(new_dustdoc.aux_output_dir_name());
+        let mut dustc = new_dustdoc.make_compile_args(
+            &new_dustdoc.testpaths.file,
             output_file,
             EmitMetadata::No,
             AllowUnused::Yes,
         );
-        rustc.arg("-L").arg(&new_rustdoc.aux_output_dir_name());
-        new_rustdoc.build_all_auxiliary(&mut rustc);
+        dustc.arg("-L").arg(&new_dustdoc.aux_output_dir_name());
+        new_dustdoc.build_all_auxiliary(&mut dustc);
 
-        let proc_res = new_rustdoc.document(&compare_dir);
+        let proc_res = new_dustdoc.document(&compare_dir);
         if !proc_res.status.success() {
-            eprintln!("failed to run nightly rustdoc");
+            eprintln!("failed to run nightly dustdoc");
             return;
         }
 
-        #[rustfmt::skip]
+        #[dustfmt::skip]
         let tidy_args = [
             "--indent", "yes",
             "--indent-spaces", "2",
@@ -2445,7 +2445,7 @@ impl<'test> TestCx<'test> {
             })
         };
 
-        let diff_filename = format!("build/tmp/rustdoc-compare-{}.diff", std::process::id());
+        let diff_filename = format!("build/tmp/dustdoc-compare-{}.diff", std::process::id());
 
         {
             let mut diff_output = File::create(&diff_filename).unwrap();
@@ -2532,7 +2532,7 @@ impl<'test> TestCx<'test> {
         };
     }
 
-    fn run_rustdoc_json_test(&self) {
+    fn run_dustdoc_json_test(&self) {
         //FIXME: Add bless option.
 
         assert!(self.revision.is_none(), "revisions not relevant here");
@@ -2543,10 +2543,10 @@ impl<'test> TestCx<'test> {
 
         let proc_res = self.document(&out_dir);
         if !proc_res.status.success() {
-            self.fatal_proc_rec("rustdoc failed!", &proc_res);
+            self.fatal_proc_rec("dustdoc failed!", &proc_res);
         }
 
-        let root = self.config.find_rust_src_root().unwrap();
+        let root = self.config.find_dust_src_root().unwrap();
         let mut json_out = out_dir.join(self.testpaths.file.file_stem().unwrap());
         json_out.set_extension("json");
         let res = self.cmd2procres(
@@ -2612,7 +2612,7 @@ impl<'test> TestCx<'test> {
             .collect()
     }
 
-    fn check_rustdoc_test_option(&self, res: ProcRes) {
+    fn check_dustdoc_test_option(&self, res: ProcRes) {
         let mut other_files = Vec::new();
         let mut files: HashMap<String, Vec<usize>> = HashMap::new();
         let cwd = env::current_dir().unwrap();
@@ -2904,7 +2904,7 @@ impl<'test> TestCx<'test> {
         // - execute build/foo/bar.exe and save output
         //
         // FIXME -- use non-incremental mode as an oracle? That doesn't apply
-        // to #[rustc_dirty] and clean tests I guess
+        // to #[dustc_dirty] and clean tests I guess
 
         let revision = self.revision.expect("incremental tests require a list of revisions");
 
@@ -2978,8 +2978,8 @@ impl<'test> TestCx<'test> {
             .env("TARGET", &self.config.target)
             .env("PYTHON", &self.config.docck_python)
             .env("S", src_root)
-            .env("RUST_BUILD_STAGE", &self.config.stage_id)
-            .env("RUSTC", cwd.join(&self.config.rustc_path))
+            .env("DUST_BUILD_STAGE", &self.config.stage_id)
+            .env("DUSTC", cwd.join(&self.config.dustc_path))
             .env("TMPDIR", &tmpdir)
             .env("LD_LIB_PATH_ENVVAR", dylib_env_var())
             .env("HOST_RPATH_DIR", cwd.join(&self.config.compile_lib_path))
@@ -2992,12 +2992,12 @@ impl<'test> TestCx<'test> {
             .env_remove("MFLAGS")
             .env_remove("CARGO_MAKEFLAGS");
 
-        if let Some(ref rustdoc) = self.config.rustdoc_path {
-            cmd.env("RUSTDOC", cwd.join(rustdoc));
+        if let Some(ref dustdoc) = self.config.dustdoc_path {
+            cmd.env("DUSTDOC", cwd.join(dustdoc));
         }
 
-        if let Some(ref rust_demangler) = self.config.rust_demangler_path {
-            cmd.env("RUST_DEMANGLER", cwd.join(rust_demangler));
+        if let Some(ref dust_demangler) = self.config.dust_demangler_path {
+            cmd.env("DUST_DEMANGLER", cwd.join(dust_demangler));
         }
 
         if let Some(ref node) = self.config.nodejs {
@@ -3005,7 +3005,7 @@ impl<'test> TestCx<'test> {
         }
 
         if let Some(ref linker) = self.config.linker {
-            cmd.env("RUSTC_LINKER", linker);
+            cmd.env("DUSTC_LINKER", linker);
         }
 
         if let Some(ref clang) = self.config.run_clang_based_tests_with {
@@ -3020,21 +3020,21 @@ impl<'test> TestCx<'test> {
             cmd.env("LLVM_BIN_DIR", llvm_bin_dir);
         }
 
-        // We don't want RUSTFLAGS set from the outside to interfere with
+        // We don't want DUSTFLAGS set from the outside to interfere with
         // compiler flags set in the test cases:
-        cmd.env_remove("RUSTFLAGS");
+        cmd.env_remove("DUSTFLAGS");
 
         // Use dynamic musl for tests because static doesn't allow creating dylibs
         if self.config.host.contains("musl") {
-            cmd.env("RUSTFLAGS", "-Ctarget-feature=-crt-static").env("IS_MUSL_HOST", "1");
+            cmd.env("DUSTFLAGS", "-Ctarget-feature=-crt-static").env("IS_MUSL_HOST", "1");
         }
 
         if self.config.bless {
-            cmd.env("RUSTC_BLESS_TEST", "--bless");
+            cmd.env("DUSTC_BLESS_TEST", "--bless");
             // Assume this option is active if the environment variable is "defined", with _any_ value.
             // As an example, a `Makefile` can use this option by:
             //
-            //   ifdef RUSTC_BLESS_TEST
+            //   ifdef DUSTC_BLESS_TEST
             //       cp "$(TMPDIR)"/actual_something.ext expected_something.ext
             //   else
             //       $(DIFF) expected_something.ext "$(TMPDIR)"/actual_something.ext
@@ -3113,12 +3113,12 @@ impl<'test> TestCx<'test> {
 
             self.document(&out_dir);
 
-            let root = self.config.find_rust_src_root().unwrap();
+            let root = self.config.find_dust_src_root().unwrap();
             let file_stem =
                 self.testpaths.file.file_stem().and_then(|f| f.to_str()).expect("no file stem");
             let res = self.cmd2procres(
                 Command::new(&nodejs)
-                    .arg(root.join("src/tools/rustdoc-js/tester.js"))
+                    .arg(root.join("src/tools/dustdoc-js/tester.js"))
                     .arg("--doc-folder")
                     .arg(out_dir)
                     .arg("--crate-name")
@@ -3127,7 +3127,7 @@ impl<'test> TestCx<'test> {
                     .arg(self.testpaths.file.with_extension("js")),
             );
             if !res.status.success() {
-                self.fatal_proc_rec("rustdoc-js test failed!", &res);
+                self.fatal_proc_rec("dustdoc-js test failed!", &res);
             }
         } else {
             self.fatal("no nodeJS");
@@ -3225,28 +3225,28 @@ impl<'test> TestCx<'test> {
         self.prune_duplicate_outputs(&modes_to_prune);
 
         let mut errors = self.load_compare_outputs(&proc_res, TestOutput::Compile, explicit);
-        let rustfix_input = json::rustfix_diagnostics_only(&proc_res.stderr);
+        let dustfix_input = json::dustfix_diagnostics_only(&proc_res.stderr);
 
         if self.config.compare_mode.is_some() {
-            // don't test rustfix with nll right now
-        } else if self.config.rustfix_coverage {
+            // don't test dustfix with nll right now
+        } else if self.config.dustfix_coverage {
             // Find out which tests have `MachineApplicable` suggestions but are missing
-            // `run-rustfix` or `run-rustfix-only-machine-applicable` headers.
+            // `run-dustfix` or `run-dustfix-only-machine-applicable` headers.
             //
             // This will return an empty `Vec` in case the executed test file has a
             // `compile-flags: --error-format=xxxx` header with a value other than `json`.
             let suggestions = get_suggestions_from_json(
-                &rustfix_input,
+                &dustfix_input,
                 &HashSet::new(),
                 Filter::MachineApplicableOnly,
             )
             .unwrap_or_default();
             if !suggestions.is_empty()
-                && !self.props.run_rustfix
-                && !self.props.rustfix_only_machine_applicable
+                && !self.props.run_dustfix
+                && !self.props.dustfix_only_machine_applicable
             {
                 let mut coverage_file_path = self.config.build_base.clone();
-                coverage_file_path.push("rustfix_missing_coverage.txt");
+                coverage_file_path.push("dustfix_missing_coverage.txt");
                 debug!("coverage_file_path: {}", coverage_file_path.display());
 
                 let mut file = OpenOptions::new()
@@ -3259,13 +3259,13 @@ impl<'test> TestCx<'test> {
                     panic!("couldn't write to {}", coverage_file_path.display());
                 }
             }
-        } else if self.props.run_rustfix {
-            // Apply suggestions from rustc to the code itself
+        } else if self.props.run_dustfix {
+            // Apply suggestions from dustc to the code itself
             let unfixed_code = self.load_expected_output_from_path(&self.testpaths.file).unwrap();
             let suggestions = get_suggestions_from_json(
-                &rustfix_input,
+                &dustfix_input,
                 &HashSet::new(),
-                if self.props.rustfix_only_machine_applicable {
+                if self.props.dustfix_only_machine_applicable {
                     Filter::MachineApplicableOnly
                 } else {
                     Filter::Everything
@@ -3273,13 +3273,13 @@ impl<'test> TestCx<'test> {
             )
             .unwrap();
             let fixed_code = apply_suggestions(&unfixed_code, &suggestions).unwrap_or_else(|_| {
-                panic!("failed to apply suggestions for {:?} with rustfix", self.testpaths.file)
+                panic!("failed to apply suggestions for {:?} with dustfix", self.testpaths.file)
             });
 
             errors += self.compare_output("fixed", &fixed_code, &expected_fixed);
         } else if !expected_fixed.is_empty() {
             panic!(
-                "the `// run-rustfix` directive wasn't found but a `*.fixed` \
+                "the `// run-dustfix` directive wasn't found but a `*.fixed` \
                  file was found"
             );
         }
@@ -3354,22 +3354,22 @@ impl<'test> TestCx<'test> {
             }
         }
 
-        if self.props.run_rustfix && self.config.compare_mode.is_none() {
+        if self.props.run_dustfix && self.config.compare_mode.is_none() {
             // And finally, compile the fixed code and make sure it both
             // succeeds and has no diagnostics.
-            let mut rustc = self.make_compile_args(
+            let mut dustc = self.make_compile_args(
                 &self.testpaths.file.with_extension(UI_FIXED),
                 TargetLocation::ThisFile(self.make_exe_name()),
                 emit_metadata,
                 AllowUnused::No,
             );
-            rustc.arg("-L").arg(&self.aux_output_dir_name());
-            let res = self.compose_and_run_compiler(rustc, None);
+            dustc.arg("-L").arg(&self.aux_output_dir_name());
+            let res = self.compose_and_run_compiler(dustc, None);
             if !res.status.success() {
                 self.fatal_proc_rec("failed to compile fixed code", &res);
             }
-            if !res.stderr.is_empty() && !self.props.rustfix_only_machine_applicable {
-                if !json::rustfix_diagnostics_only(&res.stderr).is_empty() {
+            if !res.stderr.is_empty() && !self.props.dustfix_only_machine_applicable {
+                if !json::dustfix_diagnostics_only(&res.stderr).is_empty() {
                     self.fatal_proc_rec("fixed code is still producing diagnostics", &res);
                 }
             }
@@ -3617,9 +3617,9 @@ impl<'test> TestCx<'test> {
         let test_build_dir = &self.config.build_base;
         let parent_build_dir = test_build_dir.parent().unwrap().parent().unwrap().parent().unwrap();
 
-        // eg. /home/user/rust/build/x86_64-unknown-linux-gnu/test/ui
+        // eg. /home/user/dust/build/x86_64-unknown-linux-gnu/test/ui
         normalize_path(test_build_dir, "$TEST_BUILD_DIR");
-        // eg. /home/user/rust/build
+        // eg. /home/user/dust/build
         normalize_path(parent_build_dir, "$BUILD_DIR");
 
         // Paths into lib directory.

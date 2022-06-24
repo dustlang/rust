@@ -5,20 +5,20 @@
 //! generic parameters are unused (and eventually, in what ways generic parameters are used - only
 //! for their size, offset of a field, etc.).
 
-use rustc_hir::{def::DefKind, def_id::DefId, ConstContext};
-use rustc_index::bit_set::FiniteBitSet;
-use rustc_middle::mir::{
+use dustc_hir::{def::DefKind, def_id::DefId, ConstContext};
+use dustc_index::bit_set::FiniteBitSet;
+use dustc_middle::mir::{
     visit::{TyContext, Visitor},
     Local, LocalDecl, Location,
 };
-use rustc_middle::ty::{
+use dustc_middle::ty::{
     self,
     fold::{TypeFoldable, TypeVisitor},
     query::Providers,
     subst::SubstsRef,
     Const, Ty, TyCtxt,
 };
-use rustc_span::symbol::sym;
+use dustc_span::symbol::sym;
 use std::convert::TryInto;
 use std::ops::ControlFlow;
 
@@ -194,7 +194,7 @@ fn mark_used_by_predicates<'tcx>(
     }
 }
 
-/// Emit errors for the function annotated by `#[rustc_polymorphize_error]`, labelling each generic
+/// Emit errors for the function annotated by `#[dustc_polymorphize_error]`, labelling each generic
 /// parameter which was unused.
 #[instrument(skip(tcx, generics))]
 fn emit_unused_generic_params_error<'tcx>(
@@ -207,7 +207,7 @@ fn emit_unused_generic_params_error<'tcx>(
     if !tcx
         .get_attrs(base_def_id)
         .iter()
-        .any(|a| tcx.sess.check_name(a, sym::rustc_polymorphize_error))
+        .any(|a| tcx.sess.check_name(a, sym::dustc_polymorphize_error))
     {
         return;
     }

@@ -5,7 +5,7 @@ use std::collections::{BTreeSet, HashSet};
 use std::path::Path;
 
 /// These are licenses that are allowed for all crates, including the runtime,
-/// rustc, tools, etc.
+/// dustc, tools, etc.
 const LICENSES: &[&str] = &[
     "MIT/Apache-2.0",
     "MIT / Apache-2.0",
@@ -21,28 +21,28 @@ const LICENSES: &[&str] = &[
     "Zlib OR Apache-2.0 OR MIT", // tinyvec
 ];
 
-/// These are exceptions to Rust's permissive licensing policy, and
-/// should be considered bugs. Exceptions are only allowed in Rust
+/// These are exceptions to Dust's permissive licensing policy, and
+/// should be considered bugs. Exceptions are only allowed in Dust
 /// tooling. It is _crucial_ that no exception crates be dependencies
-/// of the Rust runtime (std/test).
+/// of the Dust runtime (std/test).
 const EXCEPTIONS: &[(&str, &str)] = &[
     ("mdbook", "MPL-2.0"),                                  // mdbook
     ("openssl", "Apache-2.0"),                              // cargo, mdbook
-    ("fuchsia-zircon-sys", "BSD-3-Clause"),                 // rustdoc, rustc, cargo
-    ("fuchsia-zircon", "BSD-3-Clause"), // rustdoc, rustc, cargo (jobserver & tempdir)
-    ("colored", "MPL-2.0"),             // rustfmt
+    ("fuchsia-zircon-sys", "BSD-3-Clause"),                 // dustdoc, dustc, cargo
+    ("fuchsia-zircon", "BSD-3-Clause"), // dustdoc, dustc, cargo (jobserver & tempdir)
+    ("colored", "MPL-2.0"),             // dustfmt
     ("ordslice", "Apache-2.0"),         // rls
     ("cloudabi", "BSD-2-Clause"),       // (rls -> crossbeam-channel 0.2 -> rand 0.5)
     ("ryu", "Apache-2.0 OR BSL-1.0"),   // rls/cargo/... (because of serde)
     ("bytesize", "Apache-2.0"),         // cargo
     ("im-rc", "MPL-2.0+"),              // cargo
-    ("constant_time_eq", "CC0-1.0"),    // rustfmt
+    ("constant_time_eq", "CC0-1.0"),    // dustfmt
     ("sized-chunks", "MPL-2.0+"),       // cargo via im-rc
     ("bitmaps", "MPL-2.0+"),            // cargo via im-rc
     ("crossbeam-queue", "MIT/Apache-2.0 AND BSD-2-Clause"), // rls via rayon
-    ("arrayref", "BSD-2-Clause"),       // cargo-miri/directories/.../rust-argon2 (redox)
-    ("instant", "BSD-3-Clause"),        // rustc_driver/tracing-subscriber/parking_lot
-    ("snap", "BSD-3-Clause"),           // rustc
+    ("arrayref", "BSD-2-Clause"),       // cargo-miri/directories/.../dust-argon2 (redox)
+    ("instant", "BSD-3-Clause"),        // dustc_driver/tracing-subscriber/parking_lot
+    ("snap", "BSD-3-Clause"),           // dustc
     // FIXME: this dependency violates the documentation comment above:
     ("fortanix-sgx-abi", "MPL-2.0"), // libstd but only for `sgx` target
 ];
@@ -52,12 +52,12 @@ const EXCEPTIONS: &[(&str, &str)] = &[
 const RUNTIME_CRATES: &[&str] = &["std", "core", "alloc", "test", "panic_abort", "panic_unwind"];
 
 /// Crates whose dependencies must be explicitly permitted.
-const RESTRICTED_DEPENDENCY_CRATES: &[&str] = &["rustc_middle", "rustc_codegen_llvm"];
+const RESTRICTED_DEPENDENCY_CRATES: &[&str] = &["dustc_middle", "dustc_codegen_llvm"];
 
-/// Crates rustc is allowed to depend on. Avoid adding to the list if possible.
+/// Crates dustc is allowed to depend on. Avoid adding to the list if possible.
 ///
 /// This list is here to provide a speed-bump to adding a new dependency to
-/// rustc. Please check with the compiler team before adding an entry.
+/// dustc. Please check with the compiler team before adding an entry.
 const PERMITTED_DEPENDENCIES: &[&str] = &[
     "addr2line",
     "adler",
@@ -152,11 +152,11 @@ const PERMITTED_DEPENDENCIES: &[&str] = &[
     "regex",
     "regex-syntax",
     "remove_dir_all",
-    "rustc-demangle",
-    "rustc-hash",
-    "rustc-rayon",
-    "rustc-rayon-core",
-    "rustc_version",
+    "dustc-demangle",
+    "dustc-hash",
+    "dustc-rayon",
+    "dustc-rayon-core",
+    "dustc_version",
     "scoped-tls",
     "scopeguard",
     "semver",
@@ -284,7 +284,7 @@ fn check_exceptions(metadata: &Metadata, bad: &mut bool) {
             if pkg.name == "fortanix-sgx-abi" {
                 // This is a specific exception because SGX is considered
                 // "third party". See
-                // https://github.com/rust-lang/rust/issues/62620 for more. In
+                // https://github.com/dust-lang/dust/issues/62620 for more. In
                 // general, these should never be added.
                 continue;
             }
@@ -374,7 +374,7 @@ fn check_crate_duplicate(metadata: &Metadata, bad: &mut bool) {
         // to accidentally sneak into our dependency graph, in order to ensure we keep our CI times
         // under control.
         "cargo",
-        "rustc-ap-rustc_ast",
+        "dustc-ap-dustc_ast",
     ];
 
     for &name in FORBIDDEN_TO_HAVE_DUPLICATES {
@@ -432,7 +432,7 @@ fn pkg_from_name<'a>(metadata: &'a Metadata, name: &'static str) -> &'a Package 
     result
 }
 
-/// Finds all the packages that are in the rust runtime.
+/// Finds all the packages that are in the dust runtime.
 fn compute_runtime_crates<'a>(metadata: &'a Metadata) -> HashSet<&'a PackageId> {
     let resolve = metadata.resolve.as_ref().unwrap();
     let mut result = HashSet::new();

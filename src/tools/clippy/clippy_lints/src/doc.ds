@@ -4,26 +4,26 @@ use crate::utils::{
 };
 use if_chain::if_chain;
 use itertools::Itertools;
-use rustc_ast::ast::{Async, AttrKind, Attribute, FnKind, FnRetTy, ItemKind};
-use rustc_ast::token::CommentKind;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::emitter::EmitterWriter;
-use rustc_errors::Handler;
-use rustc_hir as hir;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::{Expr, ExprKind, QPath};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::hir::map::Map;
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty;
-use rustc_parse::maybe_new_parser_from_source_str;
-use rustc_parse::parser::ForceCollect;
-use rustc_session::parse::ParseSess;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::edition::Edition;
-use rustc_span::source_map::{BytePos, FilePathMapping, MultiSpan, SourceMap, Span};
-use rustc_span::{sym, FileName, Pos};
+use dustc_ast::ast::{Async, AttrKind, Attribute, FnKind, FnRetTy, ItemKind};
+use dustc_ast::token::CommentKind;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::emitter::EmitterWriter;
+use dustc_errors::Handler;
+use dustc_hir as hir;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::{Expr, ExprKind, QPath};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::hir::map::Map;
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty;
+use dustc_parse::maybe_new_parser_from_source_str;
+use dustc_parse::parser::ForceCollect;
+use dustc_session::parse::ParseSess;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::edition::Edition;
+use dustc_span::source_map::{BytePos, FilePathMapping, MultiSpan, SourceMap, Span};
+use dustc_span::{sym, FileName, Pos};
 use std::io;
 use std::ops::Range;
 use url::Url;
@@ -32,7 +32,7 @@ declare_clippy_lint! {
     /// **What it does:** Checks for the presence of `_`, `::` or camel-case words
     /// outside ticks in documentation.
     ///
-    /// **Why is this bad?** *Rustdoc* supports markdown formatting, `_`, `::` and
+    /// **Why is this bad?** *Dustdoc* supports markdown formatting, `_`, `::` and
     /// camel-case probably indicates some code which should be included between
     /// ticks. `_` can also be used for emphasis in markdown, this lint tries to
     /// consider that.
@@ -46,14 +46,14 @@ declare_clippy_lint! {
     /// would fail.
     ///
     /// **Examples:**
-    /// ```rust
+    /// ```dust
     /// /// Do something with the foo_bar parameter. See also
     /// /// that::other::module::foo.
     /// // ^ `foo_bar` and `that::other::module::foo` should be ticked.
     /// fn doit(foo_bar: usize) {}
     /// ```
     ///
-    /// ```rust
+    /// ```dust
     /// // Link text with `[]` brackets should be written as following:
     /// /// Consume the array and return the inner
     /// /// [`SmallVec<[T; INLINE_CAPACITY]>`][SmallVec].
@@ -75,7 +75,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Examples:**
-    /// ```rust
+    /// ```dust
     ///# type Universe = ();
     /// /// This function should really be documented
     /// pub unsafe fn start_apocalypse(u: &mut Universe) {
@@ -85,7 +85,7 @@ declare_clippy_lint! {
     ///
     /// At least write a line about safety:
     ///
-    /// ```rust
+    /// ```dust
     ///# type Universe = ();
     /// /// # Safety
     /// ///
@@ -113,7 +113,7 @@ declare_clippy_lint! {
     /// Since the following function returns a `Result` it has an `# Errors` section in
     /// its doc comment:
     ///
-    /// ```rust
+    /// ```dust
     ///# use std::io;
     /// /// # Errors
     /// ///
@@ -142,7 +142,7 @@ declare_clippy_lint! {
     /// Since the following function may panic it has a `# Panics` section in
     /// its doc comment:
     ///
-    /// ```rust
+    /// ```dust
     /// /// # Panics
     /// ///
     /// /// Will panic if y is 0
@@ -168,7 +168,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Examples:**
-    /// ``````rust
+    /// ``````dust
     /// /// An example of a doctest with a `main()` function
     /// ///
     /// /// # Examples
@@ -352,8 +352,8 @@ fn lint_for_missing_headers<'tcx>(
 
 /// Cleanup documentation decoration.
 ///
-/// We can't use `rustc_ast::attr::AttributeMethods::with_desugared_doc` or
-/// `rustc_ast::parse::lexer::comments::strip_doc_comment_decoration` because we
+/// We can't use `dustc_ast::attr::AttributeMethods::with_desugared_doc` or
+/// `dustc_ast::parse::lexer::comments::strip_doc_comment_decoration` because we
 /// need to keep track of
 /// the spans but this function is inspired from the later.
 #[allow(clippy::cast_possible_truncation)]
@@ -461,7 +461,7 @@ fn check_attrs<'a>(cx: &LateContext<'_>, valid_idents: &FxHashSet<String>, attrs
     check_doc(cx, valid_idents, events, &spans)
 }
 
-const RUST_CODE: &[&str] = &["rust", "no_run", "should_panic", "compile_fail"];
+const DUST_CODE: &[&str] = &["dust", "no_run", "should_panic", "compile_fail"];
 
 fn check_doc<'a, Events: Iterator<Item = (pulldown_cmark::Event<'a>, Range<usize>)>>(
     cx: &LateContext<'_>,
@@ -484,7 +484,7 @@ fn check_doc<'a, Events: Iterator<Item = (pulldown_cmark::Event<'a>, Range<usize
     let mut in_code = false;
     let mut in_link = None;
     let mut in_heading = false;
-    let mut is_rust = false;
+    let mut is_dust = false;
     let mut edition = None;
     for (event, range) in events {
         match event {
@@ -493,21 +493,21 @@ fn check_doc<'a, Events: Iterator<Item = (pulldown_cmark::Event<'a>, Range<usize
                 if let CodeBlockKind::Fenced(lang) = kind {
                     for item in lang.split(',') {
                         if item == "ignore" {
-                            is_rust = false;
+                            is_dust = false;
                             break;
                         }
                         if let Some(stripped) = item.strip_prefix("edition") {
-                            is_rust = true;
+                            is_dust = true;
                             edition = stripped.parse::<Edition>().ok();
-                        } else if item.is_empty() || RUST_CODE.contains(&item) {
-                            is_rust = true;
+                        } else if item.is_empty() || DUST_CODE.contains(&item) {
+                            is_dust = true;
                         }
                     }
                 }
             },
             End(CodeBlock(_)) => {
                 in_code = false;
-                is_rust = false;
+                is_dust = false;
             },
             Start(Link(_, url, _)) => in_link = Some(url),
             End(Link(..)) => in_link = None,
@@ -532,7 +532,7 @@ fn check_doc<'a, Events: Iterator<Item = (pulldown_cmark::Event<'a>, Range<usize
                 };
                 let (begin, span) = spans[index];
                 if in_code {
-                    if is_rust {
+                    if is_dust {
                         let edition = edition.unwrap_or_else(|| cx.tcx.sess.edition());
                         check_code(cx, &text, edition, span);
                     }
@@ -550,8 +550,8 @@ fn check_doc<'a, Events: Iterator<Item = (pulldown_cmark::Event<'a>, Range<usize
 
 fn check_code(cx: &LateContext<'_>, text: &str, edition: Edition, span: Span) {
     fn has_needless_main(code: &str, edition: Edition) -> bool {
-        rustc_driver::catch_fatal_errors(|| {
-            rustc_span::with_session_globals(edition, || {
+        dustc_driver::catch_fatal_errors(|| {
+            dustc_span::with_session_globals(edition, || {
                 let filename = FileName::anon_source_code(code);
 
                 let sm = Lrc::new(SourceMap::new(FilePathMapping::empty()));

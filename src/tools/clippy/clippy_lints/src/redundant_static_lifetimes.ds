@@ -1,11 +1,11 @@
 use crate::utils::{meets_msrv, snippet, span_lint_and_then};
-use rustc_ast::ast::{Item, ItemKind, Ty, TyKind};
-use rustc_errors::Applicability;
-use rustc_lint::{EarlyContext, EarlyLintPass};
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_ast::ast::{Item, ItemKind, Ty, TyKind};
+use dustc_errors::Applicability;
+use dustc_lint::{EarlyContext, EarlyLintPass};
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
 
-const REDUNDANT_STATIC_LIFETIMES_MSRV: RustcVersion = RustcVersion::new(1, 17, 0);
+const REDUNDANT_STATIC_LIFETIMES_MSRV: DustcVersion = DustcVersion::new(1, 17, 0);
 
 declare_clippy_lint! {
     /// **What it does:** Checks for constants and statics with an explicit `'static` lifetime.
@@ -33,12 +33,12 @@ declare_clippy_lint! {
 }
 
 pub struct RedundantStaticLifetimes {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl RedundantStaticLifetimes {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self { msrv }
     }
 }
@@ -64,7 +64,7 @@ impl RedundantStaticLifetimes {
                 if let Some(lifetime) = *optional_lifetime {
                     match borrow_type.ty.kind {
                         TyKind::Path(..) | TyKind::Slice(..) | TyKind::Array(..) | TyKind::Tup(..) => {
-                            if lifetime.ident.name == rustc_span::symbol::kw::StaticLifetime {
+                            if lifetime.ident.name == dustc_span::symbol::kw::StaticLifetime {
                                 let snip = snippet(cx, borrow_type.ty.span, "<type>");
                                 let sugg = format!("&{}", snip);
                                 span_lint_and_then(

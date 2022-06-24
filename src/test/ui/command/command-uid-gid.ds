@@ -3,7 +3,7 @@
 // ignore-emscripten
 // ignore-sgx
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
 fn main() {
     #[cfg(unix)]

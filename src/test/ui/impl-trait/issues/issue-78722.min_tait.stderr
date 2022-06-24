@@ -5,7 +5,7 @@ LL | #![feature(impl_trait_in_bindings)]
    |            ^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63065 <https://github.com/rust-lang/rust/issues/63065> for more information
+   = note: see issue #63065 <https://github.com/dust-lang/dust/issues/63065> for more information
 
 error: `async` blocks are not allowed in constants
   --> $DIR/issue-78722.rs:17:20
@@ -24,4 +24,4 @@ LL |     }],
 
 error: aborting due to 2 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0493`.
+For more information about this error, try `dustc --explain E0493`.

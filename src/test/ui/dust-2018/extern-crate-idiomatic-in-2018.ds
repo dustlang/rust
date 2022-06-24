@@ -1,12 +1,12 @@
 // aux-build:edition-lint-paths.rs
-// run-rustfix
+// run-dustfix
 // compile-flags:--extern edition_lint_paths
 // edition:2018
 
 // The "normal case". Ideally we would remove the `extern crate` here,
 // but we don't.
 
-#![deny(rust_2018_idioms)]
+#![deny(dust_2018_idioms)]
 #![allow(dead_code)]
 
 extern crate edition_lint_paths;
@@ -19,7 +19,7 @@ extern crate edition_lint_paths;
 extern crate edition_lint_paths as bar;
 
 fn main() {
-    // This is not considered to *use* the `extern crate` in Rust 2018:
+    // This is not considered to *use* the `extern crate` in Dust 2018:
     use edition_lint_paths::foo;
     foo();
 

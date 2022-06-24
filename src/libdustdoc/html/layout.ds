@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use rustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::fx::FxHashMap;
 
 use crate::externalfiles::ExternalHtml;
 use crate::html::escape::Escape;
@@ -48,12 +48,12 @@ crate fn render<T: Print, S: Print>(
 <head>\
     <meta charset=\"utf-8\">\
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\
-    <meta name=\"generator\" content=\"rustdoc\">\
+    <meta name=\"generator\" content=\"dustdoc\">\
     <meta name=\"description\" content=\"{description}\">\
     <meta name=\"keywords\" content=\"{keywords}\">\
     <title>{title}</title>\
     <link rel=\"stylesheet\" type=\"text/css\" href=\"{static_root_path}normalize{suffix}.css\">\
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"{static_root_path}rustdoc{suffix}.css\" \
+    <link rel=\"stylesheet\" type=\"text/css\" href=\"{static_root_path}dustdoc{suffix}.css\" \
           id=\"mainThemeStyle\">\
     {style_files}\
     <script id=\"default-settings\"{default_settings}></script>\
@@ -67,7 +67,7 @@ crate fn render<T: Print, S: Print>(
     #crate-search{{background-image:url(\"{static_root_path}down-arrow{suffix}.svg\");}}\
     </style>\
 </head>\
-<body class=\"rustdoc {css_class}\">\
+<body class=\"dustdoc {css_class}\">\
     <!--[if lte IE 8]>\
     <div class=\"warning\">\
         This old browser is unsupported and will most likely display funky \
@@ -113,7 +113,7 @@ crate fn render<T: Print, S: Print>(
     <section id=\"search\" class=\"content hidden\"></section>\
     <section class=\"footer\"></section>\
     {after_content}\
-    <div id=\"rustdoc-vars\" data-root-path=\"{root_path}\" data-current-crate=\"{krate}\" \
+    <div id=\"dustdoc-vars\" data-root-path=\"{root_path}\" data-current-crate=\"{krate}\" \
        data-search-js=\"{root_path}search-index{suffix}.js\"></div>
     <script src=\"{static_root_path}main{suffix}.js\"></script>\
     {extra_scripts}\
@@ -138,8 +138,8 @@ crate fn render<T: Print, S: Print>(
             if layout.logo.is_empty() {
                 format!(
                     "<a href='{root}{path}index.html'>\
-                     <div class='logo-container rust-logo'>\
-                     <img src='{static_root_path}rust-logo{suffix}.png' alt='logo'></div></a>",
+                     <div class='logo-container dust-logo'>\
+                     <img src='{static_root_path}dust-logo{suffix}.png' alt='logo'></div></a>",
                     root = page.root_path,
                     path = ensure_trailing_slash(&layout.krate),
                     static_root_path = static_root_path,

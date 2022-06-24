@@ -38,11 +38,11 @@ if (!DOMTokenList.prototype.remove) {
 }
 
 (function () {
-    var rustdocVars = document.getElementById("rustdoc-vars");
-    if (rustdocVars) {
-        window.rootPath = rustdocVars.attributes["data-root-path"].value;
-        window.currentCrate = rustdocVars.attributes["data-current-crate"].value;
-        window.searchJS = rustdocVars.attributes["data-search-js"].value;
+    var dustdocVars = document.getElementById("dustdoc-vars");
+    if (dustdocVars) {
+        window.rootPath = dustdocVars.attributes["data-root-path"].value;
+        window.currentCrate = dustdocVars.attributes["data-current-crate"].value;
+        window.searchJS = dustdocVars.attributes["data-search-js"].value;
     }
     var sidebarVars = document.getElementById("sidebar-vars");
     if (sidebarVars) {
@@ -111,7 +111,7 @@ function defocusSearchBar() {
     "use strict";
 
     // This mapping table should match the discriminants of
-    // `rustdoc::html::item_type::ItemType` type in Rust.
+    // `dustdoc::html::item_type::ItemType` type in Dust.
     var itemTypes = ["mod",
                      "externcrate",
                      "import",
@@ -223,7 +223,7 @@ function defocusSearchBar() {
         document.title = titleBeforeSearch;
         // We also remove the query parameter from the URL.
         if (browserSupportsHistoryApi()) {
-            history.replaceState("", window.currentCrate + " - Rust",
+            history.replaceState("", window.currentCrate + " - Dust",
                 getNakedUrl() + window.location.hash);
         }
     }
@@ -1633,14 +1633,14 @@ function defocusSearchBar() {
             } else {
                 output = "<div class=\"search-failed\"" + extraStyle + ">No results :(<br/>" +
                     "Try on <a href=\"https://duckduckgo.com/?q=" +
-                    encodeURIComponent("rust " + query.query) +
+                    encodeURIComponent("dust " + query.query) +
                     "\">DuckDuckGo</a>?<br/><br/>" +
                     "Or try looking in one of these:<ul><li>The <a " +
-                    "href=\"https://doc.rust-lang.org/reference/index.html\">Rust Reference</a> " +
+                    "href=\"https://doc.dust-lang.org/reference/index.html\">Dust Reference</a> " +
                     " for technical details about the language.</li><li><a " +
-                    "href=\"https://doc.rust-lang.org/rust-by-example/index.html\">Rust By " +
+                    "href=\"https://doc.dust-lang.org/dust-by-example/index.html\">Dust By " +
                     "Example</a> for expository code examples.</a></li><li>The <a " +
-                    "href=\"https://doc.rust-lang.org/book/index.html\">Rust Book</a> for " +
+                    "href=\"https://doc.dust-lang.org/book/index.html\">Dust Book</a> for " +
                     "introductions to language features and the language itself.</li><li><a " +
                     "href=\"https://docs.rs\">Docs.rs</a> for documentation of crates released on" +
                     " <a href=\"https://crates.io/\">crates.io</a>.</li></ul></div>";
@@ -1815,7 +1815,7 @@ function defocusSearchBar() {
             }
 
             // Update document title to maintain a meaningful browser history
-            searchTitle = "Results for " + query.query + " - Rust";
+            searchTitle = "Results for " + query.query + " - Dust";
 
             // Because searching is incremental by character, only the most
             // recent search query is added to the browser history.
@@ -1956,7 +1956,7 @@ function defocusSearchBar() {
                 clearInputTimeout();
                 if (search_input.value.length === 0) {
                     if (browserSupportsHistoryApi()) {
-                        history.replaceState("", window.currentCrate + " - Rust",
+                        history.replaceState("", window.currentCrate + " - Dust",
                             getNakedUrl() + window.location.hash);
                     }
                     hideSearchResults();
@@ -1988,7 +1988,7 @@ function defocusSearchBar() {
             var selectCrate = document.getElementById("crate-search");
             if (selectCrate) {
                 selectCrate.onchange = function() {
-                    updateLocalStorage("rustdoc-saved-filter-crate", selectCrate.value);
+                    updateLocalStorage("dustdoc-saved-filter-crate", selectCrate.value);
                     search(undefined, true);
                 };
             }
@@ -2242,7 +2242,7 @@ function defocusSearchBar() {
             return;
         }
         if (hasClass(innerToggle, "will-expand")) {
-            updateLocalStorage("rustdoc-collapse", "false");
+            updateLocalStorage("dustdoc-collapse", "false");
             removeClass(innerToggle, "will-expand");
             onEveryMatchingChild(innerToggle, "inner", function(e) {
                 e.innerHTML = labelForToggleButton(false);
@@ -2254,7 +2254,7 @@ function defocusSearchBar() {
                 });
             }
         } else {
-            updateLocalStorage("rustdoc-collapse", "true");
+            updateLocalStorage("dustdoc-collapse", "true");
             addClass(innerToggle, "will-expand");
             onEveryMatchingChild(innerToggle, "inner", function(e) {
                 var parent = e.parentNode;
@@ -2601,7 +2601,7 @@ function defocusSearchBar() {
         var currentType = document.getElementsByClassName("type-decl")[0];
         var className = null;
         if (currentType) {
-            currentType = currentType.getElementsByClassName("rust")[0];
+            currentType = currentType.getElementsByClassName("dust")[0];
             if (currentType) {
                 currentType.classList.forEach(function(item) {
                     if (item !== "main") {
@@ -2714,7 +2714,7 @@ function defocusSearchBar() {
     }
 
     (function() {
-        // To avoid checking on "rustdoc-item-attributes" value on every loop...
+        // To avoid checking on "dustdoc-item-attributes" value on every loop...
         var itemAttributesFunc = function() {};
         if (getSettingValue("auto-hide-attributes") !== "false") {
             itemAttributesFunc = function(x) {
@@ -2733,7 +2733,7 @@ function defocusSearchBar() {
     }());
 
     (function() {
-        // To avoid checking on "rustdoc-line-numbers" value on every loop...
+        // To avoid checking on "dustdoc-line-numbers" value on every loop...
         var lineNumbersFunc = function() {};
         if (getSettingValue("line-numbers") === "true") {
             lineNumbersFunc = function(x) {
@@ -2748,7 +2748,7 @@ function defocusSearchBar() {
                 x.parentNode.insertBefore(node, x);
             };
         }
-        onEachLazy(document.getElementsByClassName("rust-example-rendered"), function(e) {
+        onEachLazy(document.getElementsByClassName("dust-example-rendered"), function(e) {
             if (hasClass(e, "compile_fail")) {
                 e.addEventListener("mouseover", function() {
                     this.parentElement.previousElementSibling.childNodes[0].style.color = "#f00";
@@ -2877,7 +2877,7 @@ function defocusSearchBar() {
             // filter.
             //
             // If not, ignore the crate filter -- we want to support filtering for crates on sites
-            // like doc.rust-lang.org where the crates may differ from page to page while on the
+            // like doc.dust-lang.org where the crates may differ from page to page while on the
             // same domain.
             if (crates[i] === savedCrate) {
                 elem.value = savedCrate;
@@ -2892,7 +2892,7 @@ function defocusSearchBar() {
 
         var book_info = document.createElement("span");
         book_info.innerHTML = "You can find more information in \
-            <a href=\"https://doc.rust-lang.org/rustdoc/\">the rustdoc book</a>.";
+            <a href=\"https://doc.dust-lang.org/dustdoc/\">the dustdoc book</a>.";
 
         var container = document.createElement("div");
         var shortcuts = [

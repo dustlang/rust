@@ -1,9 +1,9 @@
 use std::fmt;
 
 use crate::utils::span_lint_and_help;
-use rustc_ast::ast::{Expr, ExprKind, InlineAsmOptions};
-use rustc_lint::{EarlyContext, EarlyLintPass, Lint};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_ast::ast::{Expr, ExprKind, InlineAsmOptions};
+use dustc_lint::{EarlyContext, EarlyLintPass, Lint};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum AsmStyle {
@@ -62,14 +62,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// # #![feature(asm)]
     /// # unsafe { let ptr = "".as_ptr();
     /// asm!("lea {}, [{}]", lateout(reg) _, in(reg) ptr);
     /// # }
     /// ```
     /// Use instead:
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// # #![feature(asm)]
     /// # unsafe { let ptr = "".as_ptr();
     /// asm!("lea ({}), {}", in(reg) ptr, lateout(reg) _, options(att_syntax));
@@ -98,14 +98,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// # #![feature(asm)]
     /// # unsafe { let ptr = "".as_ptr();
     /// asm!("lea ({}), {}", in(reg) ptr, lateout(reg) _, options(att_syntax));
     /// # }
     /// ```
     /// Use instead:
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// # #![feature(asm)]
     /// # unsafe { let ptr = "".as_ptr();
     /// asm!("lea {}, [{}]", lateout(reg) _, in(reg) ptr);

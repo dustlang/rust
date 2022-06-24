@@ -1,27 +1,27 @@
 #![feature(box_patterns)]
 #![feature(in_band_lifetimes)]
 #![feature(or_patterns)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 #![recursion_limit = "512"]
 #![allow(clippy::missing_errors_doc, clippy::missing_panics_doc, clippy::must_use_candidate)]
 
 // FIXME: switch to something more ergonomic here, once available.
 // (Currently there is no way to opt into sysroot crates without `extern crate`.)
-extern crate rustc_ast;
-extern crate rustc_ast_pretty;
-extern crate rustc_data_structures;
-extern crate rustc_errors;
-extern crate rustc_hir;
-extern crate rustc_infer;
-extern crate rustc_lexer;
-extern crate rustc_lint;
-extern crate rustc_middle;
-extern crate rustc_mir;
-extern crate rustc_session;
-extern crate rustc_span;
-extern crate rustc_target;
-extern crate rustc_trait_selection;
-extern crate rustc_typeck;
+extern crate dustc_ast;
+extern crate dustc_ast_pretty;
+extern crate dustc_data_structures;
+extern crate dustc_errors;
+extern crate dustc_hir;
+extern crate dustc_infer;
+extern crate dustc_lexer;
+extern crate dustc_lint;
+extern crate dustc_middle;
+extern crate dustc_mir;
+extern crate dustc_session;
+extern crate dustc_span;
+extern crate dustc_target;
+extern crate dustc_trait_selection;
+extern crate dustc_typeck;
 
 #[macro_use]
 pub mod sym_helper;
@@ -53,51 +53,51 @@ use std::collections::hash_map::Entry;
 use std::hash::BuildHasherDefault;
 
 use if_chain::if_chain;
-use rustc_ast::ast::{self, Attribute, BorrowKind, LitKind, Mutability};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::Node;
-use rustc_hir::{
+use dustc_ast::ast::{self, Attribute, BorrowKind, LitKind, Mutability};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::Node;
+use dustc_hir::{
     def, Arm, Block, Body, Constness, Expr, ExprKind, FnDecl, GenericArgs, HirId, Impl, ImplItem, ImplItemKind, Item,
     ItemKind, LangItem, MatchSource, Param, Pat, PatKind, Path, PathSegment, QPath, TraitItem, TraitItemKind, TraitRef,
     TyKind, Unsafety,
 };
-use rustc_infer::infer::TyCtxtInferExt;
-use rustc_lint::{LateContext, Level, Lint, LintContext};
-use rustc_middle::hir::exports::Export;
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty::subst::{GenericArg, GenericArgKind};
-use rustc_middle::ty::{self, layout::IntegerExt, DefIdTree, IntTy, Ty, TyCtxt, TypeFoldable, UintTy};
-use rustc_semver::RustcVersion;
-use rustc_session::Session;
-use rustc_span::hygiene::{self, ExpnKind, MacroKind};
-use rustc_span::source_map::original_sp;
-use rustc_span::sym;
-use rustc_span::symbol::{kw, Symbol};
-use rustc_span::{BytePos, Pos, Span, SyntaxContext, DUMMY_SP};
-use rustc_target::abi::Integer;
-use rustc_trait_selection::traits::query::normalize::AtExt;
+use dustc_infer::infer::TyCtxtInferExt;
+use dustc_lint::{LateContext, Level, Lint, LintContext};
+use dustc_middle::hir::exports::Export;
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty::subst::{GenericArg, GenericArgKind};
+use dustc_middle::ty::{self, layout::IntegerExt, DefIdTree, IntTy, Ty, TyCtxt, TypeFoldable, UintTy};
+use dustc_semver::DustcVersion;
+use dustc_session::Session;
+use dustc_span::hygiene::{self, ExpnKind, MacroKind};
+use dustc_span::source_map::original_sp;
+use dustc_span::sym;
+use dustc_span::symbol::{kw, Symbol};
+use dustc_span::{BytePos, Pos, Span, SyntaxContext, DUMMY_SP};
+use dustc_target::abi::Integer;
+use dustc_trait_selection::traits::query::normalize::AtExt;
 use smallvec::SmallVec;
 
 use crate::consts::{constant, Constant};
 use std::collections::HashMap;
 
-pub fn parse_msrv(msrv: &str, sess: Option<&Session>, span: Option<Span>) -> Option<RustcVersion> {
-    if let Ok(version) = RustcVersion::parse(msrv) {
+pub fn parse_msrv(msrv: &str, sess: Option<&Session>, span: Option<Span>) -> Option<DustcVersion> {
+    if let Ok(version) = DustcVersion::parse(msrv) {
         return Some(version);
     } else if let Some(sess) = sess {
         if let Some(span) = span {
-            sess.span_err(span, &format!("`{}` is not a valid Rust version", msrv));
+            sess.span_err(span, &format!("`{}` is not a valid Dust version", msrv));
         }
     }
     None
 }
 
-pub fn meets_msrv(msrv: Option<&RustcVersion>, lint_msrv: &RustcVersion) -> bool {
+pub fn meets_msrv(msrv: Option<&DustcVersion>, lint_msrv: &DustcVersion) -> bool {
     msrv.map_or(true, |msrv| msrv.meets(*lint_msrv))
 }
 
@@ -110,7 +110,7 @@ macro_rules! extract_msrv_attr {
         extract_msrv_attr!(@EarlyContext);
     };
     (@$context:ident$(, $call:tt)?) => {
-        fn enter_lint_attrs(&mut self, cx: &rustc_lint::$context<'tcx>, attrs: &'tcx [rustc_ast::ast::Attribute]) {
+        fn enter_lint_attrs(&mut self, cx: &dustc_lint::$context<'tcx>, attrs: &'tcx [dustc_ast::ast::Attribute]) {
             use $crate::get_unique_inner_attr;
             match get_unique_inner_attr(cx.sess$($call)?, attrs, "msrv") {
                 Some(msrv_attr) => {
@@ -141,7 +141,7 @@ pub fn differing_macro_contexts(lhs: Span, rhs: Span) -> bool {
 ///
 /// # Example
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 /// if in_constant(cx, expr.hir_id) {
 ///     // Do something
 /// }
@@ -343,11 +343,11 @@ pub fn single_segment_path<'tcx>(path: &QPath<'tcx>) -> Option<&'tcx PathSegment
 
 /// Matches a `QPath` against a slice of segment string literals.
 ///
-/// There is also `match_path` if you are dealing with a `rustc_hir::Path` instead of a
-/// `rustc_hir::QPath`.
+/// There is also `match_path` if you are dealing with a `dustc_hir::Path` instead of a
+/// `dustc_hir::QPath`.
 ///
 /// # Examples
-/// ```rust,ignore
+/// ```dust,ignore
 /// match_qpath(path, &["std", "rt", "begin_unwind"])
 /// ```
 pub fn match_qpath(path: &QPath<'_>, segments: &[&str]) -> bool {
@@ -370,18 +370,18 @@ pub fn match_qpath(path: &QPath<'_>, segments: &[&str]) -> bool {
 
 /// Matches a `Path` against a slice of segment string literals.
 ///
-/// There is also `match_qpath` if you are dealing with a `rustc_hir::QPath` instead of a
-/// `rustc_hir::Path`.
+/// There is also `match_qpath` if you are dealing with a `dustc_hir::QPath` instead of a
+/// `dustc_hir::Path`.
 ///
 /// # Examples
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 /// if match_path(&trait_ref.path, &paths::HASH) {
 ///     // This is the `std::hash::Hash` trait.
 /// }
 ///
-/// if match_path(ty_path, &["rustc", "lint", "Lint"]) {
-///     // This is a `rustc_middle::lint::Lint`.
+/// if match_path(ty_path, &["dustc", "lint", "Lint"]) {
+///     // This is a `dustc_middle::lint::Lint`.
 /// }
 /// ```
 pub fn match_path(path: &Path<'_>, segments: &[&str]) -> bool {
@@ -395,7 +395,7 @@ pub fn match_path(path: &Path<'_>, segments: &[&str]) -> bool {
 /// Matches a `Path` against a slice of segment string literals, e.g.
 ///
 /// # Examples
-/// ```rust,ignore
+/// ```dust,ignore
 /// match_path_ast(path, &["std", "rt", "begin_unwind"])
 /// ```
 pub fn match_path_ast(path: &ast::Path, segments: &[&str]) -> bool {
@@ -503,7 +503,7 @@ pub fn implements_trait<'tcx>(
 ///
 /// Use this if you want to find the `TraitRef` of the `Add` trait in this example:
 ///
-/// ```rust
+/// ```dust
 /// struct Point(isize, isize);
 ///
 /// impl std::ops::Add for Point {
@@ -733,7 +733,7 @@ pub fn find_macro_calls(names: &[&str], body: &Body<'_>) -> Vec<Span> {
 /// to convert a given `Span` to a `str`.
 ///
 /// # Example
-/// ```rust,ignore
+/// ```dust,ignore
 /// snippet(cx, expr.span, "..")
 /// ```
 pub fn snippet<'a, T: LintContext>(cx: &T, span: Span, default: &'a str) -> Cow<'a, str> {
@@ -787,7 +787,7 @@ pub fn snippet_opt<T: LintContext>(cx: &T, span: Span) -> Option<String> {
 ///
 /// # Example
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 /// snippet_block(cx, block.span, "..", None)
 /// // where, `block` is the block of the if expr
 ///     if x {
@@ -799,7 +799,7 @@ pub fn snippet_opt<T: LintContext>(cx: &T, span: Span) -> Option<String> {
 /// }
 /// ```
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 /// snippet_block(cx, block.span, "..", Some(if_expr.span))
 /// // where, `block` is the block of the if expr
 ///     if x {
@@ -868,7 +868,7 @@ pub fn snippet_with_context(
 /// Returns a new Span that extends the original Span to the first non-whitespace char of the first
 /// line.
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 ///     let x = ();
 /// //          ^^
 /// // will be converted to
@@ -889,7 +889,7 @@ fn first_char_in_first_line<T: LintContext>(cx: &T, span: Span) -> Option<BytePo
 
 /// Returns the indentation of the line of a span
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 /// let x = ();
 /// //      ^^ -- will return 0
 ///     let x = ();
@@ -901,7 +901,7 @@ pub fn indent_of<T: LintContext>(cx: &T, span: Span) -> Option<usize> {
 
 /// Returns the positon just before rarrow
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 /// fn into(self) -> () {}
 ///              ^
 /// // in case of unformatted code
@@ -929,7 +929,7 @@ pub fn position_before_rarrow(s: &str) -> Option<usize> {
 
 /// Extends the span to the beginning of the spans line, incl. whitespaces.
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 ///        let x = ();
 /// //             ^^
 /// // will be converted to
@@ -1110,9 +1110,9 @@ pub fn is_integer_literal(expr: &Expr<'_>, value: u128) -> bool {
 /// Returns `true` if the given `Expr` has been coerced before.
 ///
 /// Examples of coercions can be found in the Nomicon at
-/// <https://doc.rust-lang.org/nomicon/coercions.html>.
+/// <https://doc.dust-lang.org/nomicon/coercions.html>.
 ///
-/// See `rustc_middle::ty::adjustment::Adjustment` and `rustc_typeck::check::coercion` for more
+/// See `dustc_middle::ty::adjustment::Adjustment` and `dustc_typeck::check::coercion` for more
 /// information on adjustments and coercions.
 pub fn is_adjusted(cx: &LateContext<'_>, e: &Expr<'_>) -> bool {
     cx.typeck_results().adjustments().get(e.hir_id).is_some()
@@ -1144,7 +1144,7 @@ pub fn is_expn_of(mut span: Span, name: &str) -> Option<Span> {
 /// Returns the pre-expansion span if the span directly comes from an expansion
 /// of the macro `name`.
 /// The difference with `is_expn_of` is that in
-/// ```rust,ignore
+/// ```dust,ignore
 /// foo!(bar!(42));
 /// ```
 /// `42` is considered expanded from `foo!` and `bar!` by `is_expn_of` but only
@@ -1209,7 +1209,7 @@ pub fn is_ctor_or_promotable_const_function(cx: &LateContext<'_>, expr: &Expr<'_
 }
 
 /// Returns `true` if a pattern is refutable.
-// TODO: should be implemented using rustc/mir_build/thir machinery
+// TODO: should be implemented using dustc/mir_build/thir machinery
 pub fn is_refutable(cx: &LateContext<'_>, pat: &Pat<'_>) -> bool {
     fn is_enum_variant(cx: &LateContext<'_>, qpath: &QPath<'_>, id: HirId) -> bool {
         matches!(
@@ -1386,7 +1386,7 @@ pub fn clip(tcx: TyCtxt<'_>, u: u128, ity: ty::UintTy) -> u128 {
 ///
 /// # Examples
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 /// without_block_comments(vec!["/*", "foo", "*/"]);
 /// // => vec![]
 ///
@@ -1474,7 +1474,7 @@ pub fn has_iter_method(cx: &LateContext<'_>, probably_ref_ty: Ty<'_>) -> Option<
 ///
 /// Usage:
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 /// if let Some(args) = match_function_call(cx, cmp_max_call, &paths::CMP_MAX);
 /// ```
 pub fn match_function_call<'tcx>(
@@ -1494,7 +1494,7 @@ pub fn match_function_call<'tcx>(
     None
 }
 
-// FIXME: Per https://doc.rust-lang.org/nightly/nightly-rustc/rustc_trait_selection/infer/at/struct.At.html#method.normalize
+// FIXME: Per https://doc.dust-lang.org/nightly/nightly-dustc/dustc_trait_selection/infer/at/struct.At.html#method.normalize
 // this function can be removed once the `normalizie` method does not panic when normalization does
 // not succeed
 /// Checks if `Ty` is normalizable. This function is useful
@@ -1515,7 +1515,7 @@ fn is_normalizable_helper<'tcx>(
     // prevent recursive loops, false-negative is better than endless loop leading to stack overflow
     cache.insert(ty, false);
     let result = cx.tcx.infer_ctxt().enter(|infcx| {
-        let cause = rustc_middle::traits::ObligationCause::dummy();
+        let cause = dustc_middle::traits::ObligationCause::dummy();
         if infcx.at(&cause, param_env).normalize(ty).is_ok() {
             match ty.kind() {
                 ty::Adt(def, substs) => def.variants.iter().all(|variant| {
@@ -1540,7 +1540,7 @@ fn is_normalizable_helper<'tcx>(
 }
 
 pub fn match_def_path<'tcx>(cx: &LateContext<'tcx>, did: DefId, syms: &[&str]) -> bool {
-    // We have to convert `syms` to `&[Symbol]` here because rustc's `match_def_path`
+    // We have to convert `syms` to `&[Symbol]` here because dustc's `match_def_path`
     // accepts only that. We should probably move to Symbols in Clippy as well.
     let syms = syms.iter().map(|p| Symbol::intern(p)).collect::<Vec<Symbol>>();
     cx.match_def_path(did, &syms)
@@ -1693,7 +1693,7 @@ pub fn is_no_std_crate(cx: &LateContext<'_>) -> bool {
 
 /// Check if parent of a hir node is a trait implementation block.
 /// For example, `f` in
-/// ```rust,ignore
+/// ```dust,ignore
 /// impl Trait for S {
 ///     fn f() {}
 /// }
@@ -1716,7 +1716,7 @@ pub fn is_trait_impl_item(cx: &LateContext<'_>, hir_id: HirId) -> bool {
 /// }
 /// ```
 pub fn fn_has_unsatisfiable_preds(cx: &LateContext<'_>, did: DefId) -> bool {
-    use rustc_trait_selection::traits;
+    use dustc_trait_selection::traits;
     let predicates = cx
         .tcx
         .predicates_of(did)
@@ -1970,7 +1970,7 @@ mod test {
     }
 
     #[test]
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     fn test_reindent_multiline_block() {
         assert_eq!("\
     if x {
@@ -1995,7 +1995,7 @@ mod test {
     }
 
     #[test]
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     fn test_reindent_multiline_empty_line() {
         assert_eq!("\
     if x {
@@ -2012,7 +2012,7 @@ mod test {
     }
 
     #[test]
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     fn test_reindent_multiline_lines_deeper() {
         assert_eq!("\
         if x {
@@ -2036,7 +2036,7 @@ mod test {
         let result = without_block_comments(vec!["", "/*", "", "*/", "#[crate_type = \"lib\"]", "/*", "", "*/", ""]);
         assert_eq!(result, vec!["", "#[crate_type = \"lib\"]", ""]);
 
-        let result = without_block_comments(vec!["/* rust", "", "*/"]);
+        let result = without_block_comments(vec!["/* dust", "", "*/"]);
         assert!(result.is_empty());
 
         let result = without_block_comments(vec!["/* one-line comment */"]);

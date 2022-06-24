@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![warn(clippy::redundant_field_names)]
 #![allow(clippy::no_effect, dead_code, unused_variables)]
 

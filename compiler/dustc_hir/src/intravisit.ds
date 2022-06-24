@@ -28,16 +28,16 @@
 //! before HIR node B, then A appears in traversal pre/postorder before B,
 //! respectively. (This follows from RPO respecting CFG domination).
 //!
-//! This order consistency is required in a few places in rustc, for
+//! This order consistency is required in a few places in dustc, for
 //! example generator inference, and possibly also HIR borrowck.
 
 use crate::hir::*;
 use crate::hir_id::CRATE_HIR_ID;
 use crate::itemlikevisit::{ItemLikeVisitor, ParItemLikeVisitor};
-use rustc_ast::walk_list;
-use rustc_ast::{Attribute, Label};
-use rustc_span::symbol::{Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast::walk_list;
+use dustc_ast::{Attribute, Label};
+use dustc_span::symbol::{Ident, Symbol};
+use dustc_span::Span;
 
 pub struct DeepVisitor<'v, V> {
     visitor: &'v mut V,
@@ -120,7 +120,7 @@ impl<'a> FnKind<'a> {
     }
 }
 
-/// An abstract representation of the HIR `rustc_middle::hir::map::Map`.
+/// An abstract representation of the HIR `dustc_middle::hir::map::Map`.
 pub trait Map<'hir> {
     /// Retrieves the `Node` corresponding to `id`, returning `None` if cannot be found.
     fn find(&self, hir_id: HirId) -> Option<Node<'hir>>;

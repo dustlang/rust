@@ -1,14 +1,14 @@
 // Spans are encoded using 1-bit tag and 2 different encoding formats (one for each tag value).
 // One format is used for keeping span data inline,
 // another contains index into an out-of-line span interner.
-// The encoding format for inline spans were obtained by optimizing over crates in rustc/libstd.
-// See https://internals.rust-lang.org/t/rfc-compiler-refactoring-spans/1357/28
+// The encoding format for inline spans were obtained by optimizing over crates in dustc/libstd.
+// See https://internals.dust-lang.org/t/rfc-compiler-refactoring-spans/1357/28
 
 use crate::hygiene::SyntaxContext;
 use crate::SESSION_GLOBALS;
 use crate::{BytePos, SpanData};
 
-use rustc_data_structures::fx::FxIndexSet;
+use dustc_data_structures::fx::FxIndexSet;
 
 /// A compressed span.
 ///
@@ -52,7 +52,7 @@ use rustc_data_structures::fx::FxIndexSet;
 /// - `ctxt` is 16 bits in `Span` and 32 bits in `SpanData`, which means that
 ///   large `ctxt` values will cause interning. The number of bits needed for
 ///   `ctxt` values depend partly on the crate size and partly on the form of
-///   the code. No crates in `rustc-perf` need more than 15 bits for `ctxt`,
+///   the code. No crates in `dustc-perf` need more than 15 bits for `ctxt`,
 ///   but larger crates might need more than 16 bits.
 ///
 #[derive(Clone, Copy, Eq, PartialEq, Hash)]

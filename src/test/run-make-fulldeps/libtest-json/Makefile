@@ -6,9 +6,9 @@ OUTPUT_FILE_DEFAULT := $(TMPDIR)/libtest-json-output-default.json
 OUTPUT_FILE_STDOUT_SUCCESS := $(TMPDIR)/libtest-json-output-stdout-success.json
 
 all:
-	$(RUSTC) --test f.rs
-	RUST_BACKTRACE=0 $(call RUN,f) -Z unstable-options --test-threads=1 --format=json > $(OUTPUT_FILE_DEFAULT) || true
-	RUST_BACKTRACE=0 $(call RUN,f) -Z unstable-options --test-threads=1 --format=json --show-output > $(OUTPUT_FILE_STDOUT_SUCCESS) || true
+	$(DUSTC) --test f.rs
+	DUST_BACKTRACE=0 $(call RUN,f) -Z unstable-options --test-threads=1 --format=json > $(OUTPUT_FILE_DEFAULT) || true
+	DUST_BACKTRACE=0 $(call RUN,f) -Z unstable-options --test-threads=1 --format=json --show-output > $(OUTPUT_FILE_STDOUT_SUCCESS) || true
 
 	cat $(OUTPUT_FILE_DEFAULT) | "$(PYTHON)" validate_json.py
 	cat $(OUTPUT_FILE_STDOUT_SUCCESS) | "$(PYTHON)" validate_json.py

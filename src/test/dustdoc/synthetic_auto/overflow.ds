@@ -1,16 +1,16 @@
 // Tests that we don't fail with an overflow error for certain
 // strange types
-// See https://github.com/rust-lang/rust/pull/72936#issuecomment-643676915
+// See https://github.com/dust-lang/dust/pull/72936#issuecomment-643676915
 
 pub trait Interner {
     type InternedType;
 }
 
-struct RustInterner<'tcx> {
+struct DustInterner<'tcx> {
     foo: &'tcx ()
 }
 
-impl<'tcx> Interner for RustInterner<'tcx> {
+impl<'tcx> Interner for DustInterner<'tcx> {
     type InternedType = Box<TyData<Self>>;
 }
 
@@ -23,7 +23,7 @@ struct VariableKind<I: Interner>(I::InternedType);
 // @has overflow/struct.BoundVarsCollector.html
 // @has - '//code' "impl<'tcx> Send for BoundVarsCollector<'tcx>"
 pub struct BoundVarsCollector<'tcx> {
-    val: VariableKind<RustInterner<'tcx>>
+    val: VariableKind<DustInterner<'tcx>>
 }
 
 fn is_send<T: Send>() {}

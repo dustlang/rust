@@ -3,8 +3,8 @@
 
 
 // These examples should live in edition-lint-infer-outlives.rs, but are split
-// into this separate file because they can't be `rustfix`'d (and thus, can't
-// be part of a `run-rustfix` test file) until rust-lang-nursery/rustfix#141
+// into this separate file because they can't be `dustfix`'d (and thus, can't
+// be part of a `run-dustfix` test file) until dust-lang-nursery/dustfix#141
 // is solved
 
 mod structs {

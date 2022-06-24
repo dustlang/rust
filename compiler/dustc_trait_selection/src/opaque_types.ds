@@ -1,18 +1,18 @@
 use crate::infer::InferCtxtExt as _;
 use crate::traits::{self, PredicateObligation};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sync::Lrc;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, DefIdMap, LocalDefId};
-use rustc_hir::Node;
-use rustc_infer::infer::error_reporting::unexpected_hidden_region_diagnostic;
-use rustc_infer::infer::free_regions::FreeRegionRelations;
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_infer::infer::{self, InferCtxt, InferOk};
-use rustc_middle::ty::fold::{BottomUpFolder, TypeFoldable, TypeFolder, TypeVisitor};
-use rustc_middle::ty::subst::{GenericArg, GenericArgKind, InternalSubsts, Subst, SubstsRef};
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_span::Span;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::sync::Lrc;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, DefIdMap, LocalDefId};
+use dustc_hir::Node;
+use dustc_infer::infer::error_reporting::unexpected_hidden_region_diagnostic;
+use dustc_infer::infer::free_regions::FreeRegionRelations;
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_infer::infer::{self, InferCtxt, InferOk};
+use dustc_middle::ty::fold::{BottomUpFolder, TypeFoldable, TypeFolder, TypeVisitor};
+use dustc_middle::ty::subst::{GenericArg, GenericArgKind, InternalSubsts, Subst, SubstsRef};
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_span::Span;
 
 use std::ops::ControlFlow;
 
@@ -325,7 +325,7 @@ impl<'a, 'tcx> InferCtxtExt<'tcx> for InferCtxt<'a, 'tcx> {
     /// the same as generating an outlives constraint on `Tc` iself.
     /// For example, if we had a function like this:
     ///
-    /// ```rust
+    /// ```dust
     /// fn foo<'a, T>(x: &'a u32, y: T) -> impl Foo<'a> {
     ///   (x, y)
     /// }
@@ -1017,7 +1017,7 @@ impl<'a, 'tcx> Instantiator<'a, 'tcx> {
                     // Here is an example using type alias `impl Trait`
                     // that indicates the distinction we are checking for:
                     //
-                    // ```rust
+                    // ```dust
                     // mod a {
                     //   pub type Foo = impl Iterator;
                     //   pub fn make_foo() -> Foo { .. }
@@ -1034,7 +1034,7 @@ impl<'a, 'tcx> Instantiator<'a, 'tcx> {
                     // similar situation with closure return types
                     // today:
                     //
-                    // ```rust
+                    // ```dust
                     // fn foo() -> impl Iterator { .. }
                     // fn bar() {
                     //     let x = || foo(); // returns the Opaque assoc with `foo`
@@ -1185,7 +1185,7 @@ impl<'a, 'tcx> Instantiator<'a, 'tcx> {
 /// Returns `true` if `opaque_hir_id` is a sibling or a child of a sibling of `def_id`.
 ///
 /// Example:
-/// ```rust
+/// ```dust
 /// pub mod foo {
 ///     pub mod bar {
 ///         pub trait Bar { .. }

@@ -1,8 +1,8 @@
 //! This pass removes storage markers if they won't be emitted during codegen.
 
 use crate::transform::MirPass;
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
 
 pub struct RemoveStorageMarkers;
 

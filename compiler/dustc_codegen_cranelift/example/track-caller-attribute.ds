@@ -1,4 +1,4 @@
-// Based on https://github.com/anp/rust/blob/175631311716d7dfeceec40d2587cde7142ffa8c/src/test/ui/rfc-2091-track-caller/track-caller-attribute.rs
+// Based on https://github.com/anp/dust/blob/175631311716d7dfeceec40d2587cde7142ffa8c/src/test/ui/rfc-2091-track-caller/track-caller-attribute.rs
 
 // run-pass
 

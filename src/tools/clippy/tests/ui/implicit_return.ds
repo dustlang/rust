@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![warn(clippy::implicit_return)]
 #![allow(clippy::needless_return, unused)]
@@ -17,7 +17,7 @@ fn test_if_block() -> bool {
     if true { true } else { false }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn test_match(x: bool) -> bool {
     match x {
         true => false,
@@ -70,7 +70,7 @@ fn test_loop_with_if_let() -> bool {
 }
 
 fn test_closure() {
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     let _ = || { true };
     let _ = || true;
 }

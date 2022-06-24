@@ -1,4 +1,4 @@
-// Make sure rustdoc accepts asm! for a foreign architecture.
+// Make sure dustdoc accepts asm! for a foreign architecture.
 
 #![feature(asm)]
 

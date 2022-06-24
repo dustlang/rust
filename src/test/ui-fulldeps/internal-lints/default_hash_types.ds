@@ -1,13 +1,13 @@
 // compile-flags: -Z unstable-options
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_data_structures;
+extern crate dustc_data_structures;
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
 use std::collections::{HashMap, HashSet};
 
-#[deny(rustc::default_hash_types)]
+#[deny(dustc::default_hash_types)]
 fn main() {
     let _map: HashMap<String, String> = HashMap::default();
     //~^ ERROR Prefer FxHashMap over HashMap, it has better performance

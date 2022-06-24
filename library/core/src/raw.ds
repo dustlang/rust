@@ -7,7 +7,7 @@
 //! the raw representations directly.
 //!
 //! Their definition should always match the ABI defined in
-//! `rustc_middle::ty::layout`.
+//! `dustc_middle::ty::layout`.
 
 /// The representation of a trait object like `&dyn SomeTrait`.
 ///

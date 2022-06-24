@@ -14,4 +14,4 @@ $(TMPDIR)/$(call BIN,bar): $(call DYLIB,foo)
 endif
 
 $(call DYLIB,foo): foo.rs
-	$(RUSTC) foo.rs
+	$(DUSTC) foo.rs

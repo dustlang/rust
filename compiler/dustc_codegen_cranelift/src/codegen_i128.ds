@@ -45,12 +45,12 @@ pub(crate) fn maybe_codegen<'tcx>(
             ];
             let args = [out_place.to_ptr().get_addr(fx), lhs.load_scalar(fx), rhs.load_scalar(fx)];
             let name = match (bin_op, is_signed) {
-                (BinOp::Add, false) => "__rust_u128_addo",
-                (BinOp::Add, true) => "__rust_i128_addo",
-                (BinOp::Sub, false) => "__rust_u128_subo",
-                (BinOp::Sub, true) => "__rust_i128_subo",
-                (BinOp::Mul, false) => "__rust_u128_mulo",
-                (BinOp::Mul, true) => "__rust_i128_mulo",
+                (BinOp::Add, false) => "__dust_u128_addo",
+                (BinOp::Add, true) => "__dust_i128_addo",
+                (BinOp::Sub, false) => "__dust_u128_subo",
+                (BinOp::Sub, true) => "__dust_i128_subo",
+                (BinOp::Mul, false) => "__dust_u128_mulo",
+                (BinOp::Mul, true) => "__dust_i128_mulo",
                 _ => unreachable!(),
             };
             fx.lib_call(name, param_types, vec![], &args);

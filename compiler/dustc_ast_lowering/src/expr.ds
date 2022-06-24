@@ -1,21 +1,21 @@
 use super::{ImplTraitContext, LoweringContext, ParamMode, ParenthesizedGenericArgs};
 
-use rustc_ast::attr;
-use rustc_ast::ptr::P as AstP;
-use rustc_ast::*;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_data_structures::thin_vec::ThinVec;
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::def::Res;
-use rustc_hir::definitions::DefPathData;
-use rustc_session::parse::feature_err;
-use rustc_span::hygiene::ExpnId;
-use rustc_span::source_map::{respan, DesugaringKind, Span, Spanned};
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::{hygiene::ForLoopLoc, DUMMY_SP};
-use rustc_target::asm;
+use dustc_ast::attr;
+use dustc_ast::ptr::P as AstP;
+use dustc_ast::*;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stack::ensure_sufficient_stack;
+use dustc_data_structures::thin_vec::ThinVec;
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::def::Res;
+use dustc_hir::definitions::DefPathData;
+use dustc_session::parse::feature_err;
+use dustc_span::hygiene::ExpnId;
+use dustc_span::source_map::{respan, DesugaringKind, Span, Spanned};
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::{hygiene::ForLoopLoc, DUMMY_SP};
+use dustc_target::asm;
 use std::collections::hash_map::Entry;
 use std::fmt::Write;
 
@@ -381,7 +381,7 @@ impl<'hir> LoweringContext<'_, 'hir> {
             .multipart_suggestion(
                 "`if let` needs to be written without parentheses",
                 vec![(start, String::new()), (end, String::new())],
-                rustc_errors::Applicability::MachineApplicable,
+                dustc_errors::Applicability::MachineApplicable,
             )
             .emit();
         // Ideally, we'd remove the feature gating of a `let` expression since we are already
@@ -390,7 +390,7 @@ impl<'hir> LoweringContext<'_, 'hir> {
     }
 
     /// Emit an error and lower `ast::ExprKind::Let(pat, scrutinee)` into:
-    /// ```rust
+    /// ```dust
     /// match scrutinee { pats => true, _ => false }
     /// ```
     fn lower_expr_let(&mut self, span: Span, pat: &Pat, scrutinee: &Expr) -> hir::ExprKind<'hir> {
@@ -706,7 +706,7 @@ impl<'hir> LoweringContext<'_, 'hir> {
     }
 
     /// Desugar `<expr>.await` into:
-    /// ```rust
+    /// ```dust
     /// match <expr> {
     ///     mut pinned => loop {
     ///         match unsafe { ::std::future::Future::poll(
@@ -1141,7 +1141,7 @@ impl<'hir> LoweringContext<'_, 'hir> {
                                 e.span,
                                 "consider removing the trailing pattern",
                                 String::new(),
-                                rustc_errors::Applicability::MachineApplicable,
+                                dustc_errors::Applicability::MachineApplicable,
                             )
                             .emit();
                         true
@@ -1227,7 +1227,7 @@ impl<'hir> LoweringContext<'_, 'hir> {
         e2: Option<&Expr>,
         lims: RangeLimits,
     ) -> hir::ExprKind<'hir> {
-        use rustc_ast::RangeLimits::*;
+        use dustc_ast::RangeLimits::*;
 
         let lang_item = match (e1, e2, lims) {
             (None, None, HalfOpen) => hir::LangItem::RangeFull,
@@ -1332,15 +1332,15 @@ impl<'hir> LoweringContext<'_, 'hir> {
     }
 
     fn lower_expr_asm(&mut self, sp: Span, asm: &InlineAsm) -> hir::ExprKind<'hir> {
-        // Rustdoc needs to support asm! from foriegn architectures: don't try
+        // Dustdoc needs to support asm! from foriegn architectures: don't try
         // lowering the register contraints in this case.
-        let asm_arch = if self.sess.opts.actually_rustdoc { None } else { self.sess.asm_arch };
-        if asm_arch.is_none() && !self.sess.opts.actually_rustdoc {
+        let asm_arch = if self.sess.opts.actually_dustdoc { None } else { self.sess.asm_arch };
+        if asm_arch.is_none() && !self.sess.opts.actually_dustdoc {
             struct_span_err!(self.sess, sp, E0472, "asm! is unsupported on this target").emit();
         }
         if asm.options.contains(InlineAsmOptions::ATT_SYNTAX)
             && !matches!(asm_arch, Some(asm::InlineAsmArch::X86 | asm::InlineAsmArch::X86_64))
-            && !self.sess.opts.actually_rustdoc
+            && !self.sess.opts.actually_dustdoc
         {
             self.sess
                 .struct_span_err(sp, "the `att_syntax` option is only supported on x86")
@@ -1690,7 +1690,7 @@ impl<'hir> LoweringContext<'_, 'hir> {
     }
 
     /// Desugar `ExprForLoop` from: `[opt_ident]: for <pat> in <head> <body>` into:
-    /// ```rust
+    /// ```dust
     /// {
     ///     let result = match ::std::iter::IntoIterator::into_iter(<head>) {
     ///         mut iter => {
@@ -1855,7 +1855,7 @@ impl<'hir> LoweringContext<'_, 'hir> {
     }
 
     /// Desugar `ExprKind::Try` from: `<expr>?` into:
-    /// ```rust
+    /// ```dust
     /// match Try::into_result(<expr>) {
     ///     Ok(val) => #[allow(unreachable_code)] val,
     ///     Err(err) => #[allow(unreachable_code)]

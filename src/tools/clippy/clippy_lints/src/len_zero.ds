@@ -3,17 +3,17 @@ use crate::utils::{
     span_lint_and_then,
 };
 use if_chain::if_chain;
-use rustc_ast::ast::LitKind;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::Applicability;
-use rustc_hir::{
+use dustc_ast::ast::LitKind;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::Applicability;
+use dustc_hir::{
     def_id::DefId, AssocItemKind, BinOpKind, Expr, ExprKind, FnRetTy, ImplItem, ImplItemKind, ImplicitSelfKind, Item,
     ItemKind, Mutability, Node, TraitItemRef, TyKind,
 };
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty::{self, AssocKind, FnSig};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::{Span, Spanned, Symbol};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty::{self, AssocKind, FnSig};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::{Span, Spanned, Symbol};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for getting the length of something via `.len()`
@@ -198,7 +198,7 @@ fn check_trait_items(cx: &LateContext<'_>, visited_trait: &Item<'_>, trait_items
     // fill the set with current and super traits
     fn fill_trait_set(traitt: DefId, set: &mut FxHashSet<DefId>, cx: &LateContext<'_>) {
         if set.insert(traitt) {
-            for supertrait in rustc_trait_selection::traits::supertrait_def_ids(cx.tcx, traitt) {
+            for supertrait in dustc_trait_selection::traits::supertrait_def_ids(cx.tcx, traitt) {
                 fill_trait_set(supertrait, set, cx);
             }
         }

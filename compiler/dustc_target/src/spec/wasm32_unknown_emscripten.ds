@@ -6,7 +6,7 @@ pub fn target() -> Target {
 
     let clang_args = options.pre_link_args.get_mut(&LinkerFlavor::Gcc).unwrap();
 
-    // Rust really needs a way for users to specify exports and imports in
+    // Dust really needs a way for users to specify exports and imports in
     // the source code. --export-dynamic isn't the right tool for this job,
     // however it does have the side effect of automatically exporting a lot
     // of symbols, which approximates what people want when compiling for

@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![warn(clippy::stable_sort_primitive)]
 
 fn main() {

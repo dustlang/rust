@@ -1,13 +1,13 @@
 use super::{ImplTraitContext, LoweringContext, ParamMode};
 
-use rustc_ast::ptr::P;
-use rustc_ast::*;
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::def::Res;
-use rustc_span::symbol::Ident;
-use rustc_span::{source_map::Spanned, Span};
+use dustc_ast::ptr::P;
+use dustc_ast::*;
+use dustc_data_structures::stack::ensure_sufficient_stack;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::def::Res;
+use dustc_span::symbol::Ident;
+use dustc_span::{source_map::Spanned, Span};
 
 impl<'a, 'hir> LoweringContext<'a, 'hir> {
     crate fn lower_pat(&mut self, mut pattern: &Pat) -> &'hir hir::Pat<'hir> {

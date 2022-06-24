@@ -4,15 +4,15 @@ use std::borrow::BorrowMut;
 use std::ffi::OsString;
 use std::path::PathBuf;
 
-use rustc_ast as ast;
-use rustc_data_structures::work_queue::WorkQueue;
-use rustc_graphviz as dot;
-use rustc_hir::def_id::DefId;
-use rustc_index::bit_set::BitSet;
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_middle::mir::{self, traversal, BasicBlock};
-use rustc_middle::ty::TyCtxt;
-use rustc_span::symbol::{sym, Symbol};
+use dustc_ast as ast;
+use dustc_data_structures::work_queue::WorkQueue;
+use dustc_graphviz as dot;
+use dustc_hir::def_id::DefId;
+use dustc_index::bit_set::BitSet;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_middle::mir::{self, traversal, BasicBlock};
+use dustc_middle::ty::TyCtxt;
+use dustc_span::symbol::{sym, Symbol};
 
 use super::fmt::DebugWithContext;
 use super::graphviz;
@@ -256,7 +256,7 @@ where
 // Graphviz
 
 /// Writes a DOT file containing the results of a dataflow analysis if the user requested it via
-/// `rustc_mir` attributes.
+/// `dustc_mir` attributes.
 fn write_graphviz_results<A>(
     tcx: TyCtxt<'tcx>,
     body: &mir::Body<'tcx>,
@@ -271,10 +271,10 @@ where
     use std::io::{self, Write};
 
     let def_id = body.source.def_id();
-    let attrs = match RustcMirAttrs::parse(tcx, def_id) {
+    let attrs = match DustcMirAttrs::parse(tcx, def_id) {
         Ok(attrs) => attrs,
 
-        // Invalid `rustc_mir` attrs are reported in `RustcMirAttrs::parse`
+        // Invalid `dustc_mir` attrs are reported in `DustcMirAttrs::parse`
         Err(()) => return Ok(()),
     };
 
@@ -324,24 +324,24 @@ where
 }
 
 #[derive(Default)]
-struct RustcMirAttrs {
+struct DustcMirAttrs {
     basename_and_suffix: Option<PathBuf>,
     formatter: Option<Symbol>,
 }
 
-impl RustcMirAttrs {
+impl DustcMirAttrs {
     fn parse(tcx: TyCtxt<'tcx>, def_id: DefId) -> Result<Self, ()> {
         let attrs = tcx.get_attrs(def_id);
 
         let mut result = Ok(());
-        let mut ret = RustcMirAttrs::default();
+        let mut ret = DustcMirAttrs::default();
 
-        let rustc_mir_attrs = attrs
+        let dustc_mir_attrs = attrs
             .iter()
-            .filter(|attr| tcx.sess.check_name(attr, sym::rustc_mir))
+            .filter(|attr| tcx.sess.check_name(attr, sym::dustc_mir))
             .flat_map(|attr| attr.meta_item_list().into_iter().flat_map(|v| v.into_iter()));
 
-        for attr in rustc_mir_attrs {
+        for attr in dustc_mir_attrs {
             let attr_result = if attr.has_name(sym::borrowck_graphviz_postflow) {
                 Self::set_field(&mut ret.basename_and_suffix, tcx, &attr, |s| {
                     let path = PathBuf::from(s.to_string());

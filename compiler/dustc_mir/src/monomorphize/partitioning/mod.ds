@@ -95,15 +95,15 @@
 mod default;
 mod merging;
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::sync;
-use rustc_hir::def_id::{CrateNum, DefIdSet, LOCAL_CRATE};
-use rustc_middle::mir::mono::MonoItem;
-use rustc_middle::mir::mono::{CodegenUnit, Linkage};
-use rustc_middle::ty::print::with_no_trimmed_paths;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::symbol::Symbol;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::sync;
+use dustc_hir::def_id::{CrateNum, DefIdSet, LOCAL_CRATE};
+use dustc_middle::mir::mono::MonoItem;
+use dustc_middle::mir::mono::{CodegenUnit, Linkage};
+use dustc_middle::ty::print::with_no_trimmed_paths;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::symbol::Symbol;
 
 use crate::monomorphize::collector::InliningMap;
 use crate::monomorphize::collector::{self, MonoItemCollectionMode};

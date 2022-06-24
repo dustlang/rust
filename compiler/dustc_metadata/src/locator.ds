@@ -39,7 +39,7 @@
 //!
 //! The compiler has two forms of intermediate dependencies. These are dubbed
 //! rlibs and dylibs for the static and dynamic variants, respectively. An rlib
-//! is a rustc-defined file format (currently just an ar archive) while a dylib
+//! is a dustc-defined file format (currently just an ar archive) while a dylib
 //! is a platform-defined dynamic library. Each library has a metadata somewhere
 //! inside of it.
 //!
@@ -62,7 +62,7 @@
 //!
 //! We can't exactly scan your whole hard drive when looking for dependencies,
 //! so we need to places to look. Currently the compiler will implicitly add the
-//! target lib search path ($prefix/lib/rustlib/$target/lib) to any compilation,
+//! target lib search path ($prefix/lib/dustlib/$target/lib) to any compilation,
 //! and otherwise all -L flags are added to the search paths.
 //!
 //! ## What criterion to select on?
@@ -77,7 +77,7 @@
 //!    we're looking for was originally compiled with -C extra-filename, the
 //!    extra filename will be included in this prefix to reduce reading
 //!    metadata from crates that would otherwise share our prefix.
-//! 3. Is the file an actual rust library? This is done by loading the metadata
+//! 3. Is the file an actual dust library? This is done by loading the metadata
 //!    from the library and making sure it's actually there.
 //! 4. Does the name in the metadata agree with the name of the library?
 //! 5. Does the target in the metadata agree with the current target?
@@ -126,7 +126,7 @@
 //!
 //! This flag is basically the following letter to the compiler:
 //!
-//! > Dear rustc,
+//! > Dear dustc,
 //! >
 //! > When you are attempting to load the immediate dependency `crate-name`, I
 //! > would like you to assume that the library is located at
@@ -134,7 +134,7 @@
 //! > assume that the path I specified has the name `crate-name`.
 //!
 //! This flag basically overrides most matching logic except for validating that
-//! the file is indeed a rust library. The same `crate-name` can be specified
+//! the file is indeed a dust library. The same `crate-name` can be specified
 //! twice to specify the rlib/dylib pair.
 //!
 //! ## Enabling "multiple versions"
@@ -153,7 +153,7 @@
 //! and the compiler would be invoked as:
 //!
 //! ```text
-//! rustc a.rs --extern b1=path/to/libb1.rlib --extern b2=path/to/libb2.rlib
+//! dustc a.rs --extern b1=path/to/libb1.rlib --extern b2=path/to/libb2.rlib
 //! ```
 //!
 //! In this scenario there are two crates named `b` and the compiler must be
@@ -163,7 +163,7 @@
 //!
 //! One of the immediate problems with linking the same library together twice
 //! in the same problem is dealing with duplicate symbols. The primary way to
-//! deal with this in rustc is to add hashes to the end of each symbol.
+//! deal with this in dustc is to add hashes to the end of each symbol.
 //!
 //! In order to force hashes to change between versions of a library, if
 //! desired, the compiler exposes an option `-C metadata=foo`, which is used to
@@ -213,22 +213,22 @@
 //! metadata::locator or metadata::creader for all the juicy details!
 
 use crate::creader::Library;
-use crate::rmeta::{rustc_version, MetadataBlob, METADATA_HEADER};
+use crate::rmeta::{dustc_version, MetadataBlob, METADATA_HEADER};
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::owning_ref::OwningRef;
-use rustc_data_structures::svh::Svh;
-use rustc_data_structures::sync::MetadataRef;
-use rustc_errors::struct_span_err;
-use rustc_middle::middle::cstore::{CrateSource, MetadataLoader};
-use rustc_session::config::{self, CrateType};
-use rustc_session::filesearch::{FileDoesntMatch, FileMatches, FileSearch};
-use rustc_session::search_paths::PathKind;
-use rustc_session::utils::CanonicalizedPath;
-use rustc_session::{CrateDisambiguator, Session};
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::Span;
-use rustc_target::spec::{Target, TargetTriple};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::owning_ref::OwningRef;
+use dustc_data_structures::svh::Svh;
+use dustc_data_structures::sync::MetadataRef;
+use dustc_errors::struct_span_err;
+use dustc_middle::middle::cstore::{CrateSource, MetadataLoader};
+use dustc_session::config::{self, CrateType};
+use dustc_session::filesearch::{FileDoesntMatch, FileMatches, FileSearch};
+use dustc_session::search_paths::PathKind;
+use dustc_session::utils::CanonicalizedPath;
+use dustc_session::{CrateDisambiguator, Session};
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::Span;
+use dustc_target::spec::{Target, TargetTriple};
 
 use snap::read::FrameDecoder;
 use std::io::{Read, Result as IoResult, Write};
@@ -505,7 +505,7 @@ impl<'a> CrateLocator<'a> {
     //
     // With only one library in the set, this function will extract it, and then
     // read the metadata from it if `*slot` is `None`. If the metadata couldn't
-    // be read, it is assumed that the file isn't a valid rust library (no
+    // be read, it is assumed that the file isn't a valid dust library (no
     // errors are emitted).
     fn extract_one(
         &mut self,
@@ -580,7 +580,7 @@ impl<'a> CrateLocator<'a> {
             // we can choose either of them to link. As a stupidly gross hack,
             // however, we favor crate in the sysroot.
             //
-            // You can find more info in rust-lang/rust#39518 and various linked
+            // You can find more info in dust-lang/dust#39518 and various linked
             // issues, but the general gist is that during testing libstd the
             // compilers has two candidates to choose from: one in the sysroot
             // and one in the deps folder. These two crates are the exact same
@@ -609,10 +609,10 @@ impl<'a> CrateLocator<'a> {
     }
 
     fn crate_matches(&mut self, metadata: &MetadataBlob, libpath: &Path) -> Option<Svh> {
-        let rustc_version = rustc_version();
-        let found_version = metadata.get_rustc_version();
-        if found_version != rustc_version {
-            info!("Rejecting via version: expected {} got {}", rustc_version, found_version);
+        let dustc_version = dustc_version();
+        let found_version = metadata.get_dustc_version();
+        if found_version != dustc_version {
+            info!("Rejecting via version: expected {} got {}", dustc_version, found_version);
             self.rejected_via_version
                 .push(CrateMismatch { path: libpath.to_path_buf(), got: found_version });
             return None;
@@ -769,7 +769,7 @@ fn get_metadata_section(
             debug!("inflating {} bytes of compressed metadata", compressed_bytes.len());
             let mut inflated = Vec::new();
             match FrameDecoder::new(compressed_bytes).read_to_end(&mut inflated) {
-                Ok(_) => rustc_erase_owner!(OwningRef::new(inflated).map_owner_box()),
+                Ok(_) => dustc_erase_owner!(OwningRef::new(inflated).map_owner_box()),
                 Err(_) => {
                     return Err(format!("failed to decompress metadata: {}", filename.display()));
                 }
@@ -783,7 +783,7 @@ fn get_metadata_section(
             let mmap = mmap
                 .map_err(|_| format!("failed to mmap rmeta metadata: '{}'", filename.display()))?;
 
-            rustc_erase_owner!(OwningRef::new(StableDerefMmap(mmap)).map_owner_box())
+            dustc_erase_owner!(OwningRef::new(StableDerefMmap(mmap)).map_owner_box())
         }
     };
     let blob = MetadataBlob::new(raw_bytes);
@@ -1049,13 +1049,13 @@ impl CrateError {
                         sess,
                         span,
                         E0514,
-                        "found crate `{}` compiled by an incompatible version of rustc{}",
+                        "found crate `{}` compiled by an incompatible version of dustc{}",
                         crate_name,
                         add,
                     );
                     err.help(&format!(
                         "please recompile that crate using this compiler ({})",
-                        rustc_version(),
+                        dustc_version(),
                     ));
                     let mismatches = locator.rejected_via_version.iter();
                     for CrateMismatch { path, got } in mismatches {

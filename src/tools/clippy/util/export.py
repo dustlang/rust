@@ -10,7 +10,7 @@ import json
 from lintlib import parse_all, log
 
 lint_subheadline = re.compile(r'''^\*\*([\w\s]+?)[:?.!]?\*\*(.*)''')
-rust_code_block = re.compile(r'''```rust.+?```''', flags=re.DOTALL)
+dust_code_block = re.compile(r'''```dust.+?```''', flags=re.DOTALL)
 
 CONF_TEMPLATE = """\
 This lint has the following configuration variables:
@@ -22,9 +22,9 @@ def parse_code_block(match):
     lines = []
 
     for line in match.group(0).split('\n'):
-        # fix syntax highlighting for headers like ```rust,ignore
-        if line.startswith('```rust'):
-            lines.append('```rust')
+        # fix syntax highlighting for headers like ```dust,ignore
+        if line.startswith('```dust'):
+            lines.append('```dust')
         elif not line.startswith('# '):
             lines.append(line)
 
@@ -58,7 +58,7 @@ def parse_lint_def(lint):
         lint_dict['docs'][last_section] += text + "\n"
 
     for section in lint_dict['docs']:
-        lint_dict['docs'][section] = re.sub(rust_code_block, parse_code_block, lint_dict['docs'][section].strip())
+        lint_dict['docs'][section] = re.sub(dust_code_block, parse_code_block, lint_dict['docs'][section].strip())
 
     return lint_dict
 

@@ -54,4 +54,4 @@ LL |     impl MyTrait for Box<dyn ObjectTrait<Assoc = i32> + '_> {
 error: aborting due to 4 previous errors
 
 Some errors have detailed explanations: E0515, E0597.
-For more information about an error, try `rustc --explain E0515`.
+For more information about an error, try `dustc --explain E0515`.

@@ -3,7 +3,7 @@
 //! which makes a canonical query by replacing unbound inference
 //! variables and regions, so that results can be reused more broadly.
 //! The providers for the queries defined here can be found in
-//! `librustc_traits`.
+//! `libdustc_traits`.
 
 use crate::ich::StableHashingContext;
 use crate::infer::canonical::{Canonical, QueryResponse};
@@ -11,10 +11,10 @@ use crate::ty::error::TypeError;
 use crate::ty::subst::GenericArg;
 use crate::ty::{self, Ty, TyCtxt};
 
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::struct_span_err;
-use rustc_span::source_map::Span;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::struct_span_err;
+use dustc_span::source_map::Span;
 use std::iter::FromIterator;
 use std::mem;
 
@@ -22,7 +22,7 @@ pub mod type_op {
     use crate::ty::fold::TypeFoldable;
     use crate::ty::subst::UserSubsts;
     use crate::ty::{Predicate, Ty};
-    use rustc_hir::def_id::DefId;
+    use dustc_hir::def_id::DefId;
     use std::fmt;
 
     #[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, HashStable, TypeFoldable, Lift)]

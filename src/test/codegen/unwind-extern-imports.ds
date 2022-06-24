@@ -18,25 +18,25 @@ extern "C" {
     fn aborting_extern_fn(); // FIXME: we want to have the attribute here
 }
 
-extern "Rust" {
+extern "Dust" {
 // CHECK-NOT: nounwind
-// CHECK: declare void @rust_extern_fn
-    fn rust_extern_fn();
+// CHECK: declare void @dust_extern_fn
+    fn dust_extern_fn();
 // CHECK-NOT: nounwind
-// CHECK: declare void @rust_unwinding_extern_fn
+// CHECK: declare void @dust_unwinding_extern_fn
     #[unwind(allowed)]
-    fn rust_unwinding_extern_fn();
+    fn dust_unwinding_extern_fn();
 // CHECK-NOT: nounwind
-// CHECK: declare void @rust_aborting_extern_fn
+// CHECK: declare void @dust_aborting_extern_fn
     #[unwind(aborts)]
-    fn rust_aborting_extern_fn(); // FIXME: we want to have the attribute here
+    fn dust_aborting_extern_fn(); // FIXME: we want to have the attribute here
 }
 
 pub unsafe fn force_declare() {
     extern_fn();
     unwinding_extern_fn();
     aborting_extern_fn();
-    rust_extern_fn();
-    rust_unwinding_extern_fn();
-    rust_aborting_extern_fn();
+    dust_extern_fn();
+    dust_unwinding_extern_fn();
+    dust_aborting_extern_fn();
 }

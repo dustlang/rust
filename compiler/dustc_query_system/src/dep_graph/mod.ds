@@ -11,9 +11,9 @@ pub use prev::PreviousDepGraph;
 pub use query::DepGraphQuery;
 pub use serialized::{SerializedDepGraph, SerializedDepNodeIndex};
 
-use rustc_data_structures::profiling::SelfProfilerRef;
-use rustc_data_structures::sync::Lock;
-use rustc_session::Session;
+use dustc_data_structures::profiling::SelfProfilerRef;
+use dustc_data_structures::sync::Lock;
+use dustc_session::Session;
 
 use std::fmt;
 use std::hash::Hash;

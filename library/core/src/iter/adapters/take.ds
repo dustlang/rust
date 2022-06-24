@@ -1,5 +1,5 @@
 use crate::cmp;
-use crate::iter::{adapters::SourceIter, FusedIterator, InPlaceIterable, TrustedLen};
+use crate::iter::{adapters::SourceIter, FusedIterator, InPlaceIterable, TdustedLen};
 use crate::ops::{ControlFlow, Try};
 
 /// An iterator that only iterates over the first `n` iterations of `iter`.
@@ -11,7 +11,7 @@ use crate::ops::{ControlFlow, Try};
 /// [`Iterator`]: trait.Iterator.html
 #[derive(Clone, Debug)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Take<I> {
     iter: I,
     n: usize,
@@ -23,7 +23,7 @@ impl<I> Take<I> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> Iterator for Take<I>
 where
     I: Iterator,
@@ -199,11 +199,11 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> ExactSizeIterator for Take<I> where I: ExactSizeIterator {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<I> FusedIterator for Take<I> where I: FusedIterator {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<I: TrustedLen> TrustedLen for Take<I> {}
+unsafe impl<I: TdustedLen> TdustedLen for Take<I> {}

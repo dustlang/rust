@@ -1,6 +1,6 @@
 // ignore-tidy-filelength
 //! "Collection" is the process of determining the type and other external
-//! details of each item in Rust. Collection is specifically concerned
+//! details of each item in Dust. Collection is specifically concerned
 //! with *inter-procedural* things -- for example, for a function
 //! definition, collection will figure out the type and signature of the
 //! function, but it will not visit the *body* of the function in any way,
@@ -21,35 +21,35 @@ use crate::check::intrinsic::intrinsic_operation_unsafety;
 use crate::constrained_generic_params as cgp;
 use crate::errors;
 use crate::middle::resolve_lifetime as rl;
-use rustc_ast as ast;
-use rustc_ast::{MetaItemKind, NestedMetaItem};
-use rustc_attr::{list_contains_name, InlineAttr, InstructionSetAttr, OptimizeAttr};
-use rustc_data_structures::captures::Captures;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexSet};
-use rustc_errors::{struct_span_err, Applicability};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, DefKind, Res};
-use rustc_hir::def_id::{DefId, LocalDefId, LOCAL_CRATE};
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::weak_lang_items;
-use rustc_hir::{GenericParamKind, HirId, Node};
-use rustc_middle::hir::map::blocks::FnLikeNode;
-use rustc_middle::hir::map::Map;
-use rustc_middle::middle::codegen_fn_attrs::{CodegenFnAttrFlags, CodegenFnAttrs};
-use rustc_middle::mir::mono::Linkage;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::subst::InternalSubsts;
-use rustc_middle::ty::util::Discr;
-use rustc_middle::ty::util::IntTypeExt;
-use rustc_middle::ty::{self, AdtKind, Const, DefIdTree, ToPolyTraitRef, Ty, TyCtxt};
-use rustc_middle::ty::{ReprOptions, ToPredicate, WithConstness};
-use rustc_session::config::SanitizerSet;
-use rustc_session::lint;
-use rustc_session::parse::feature_err;
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{Span, DUMMY_SP};
-use rustc_target::spec::abi;
-use rustc_trait_selection::traits::error_reporting::suggestions::NextTypeParamName;
+use dustc_ast as ast;
+use dustc_ast::{MetaItemKind, NestedMetaItem};
+use dustc_attr::{list_contains_name, InlineAttr, InstructionSetAttr, OptimizeAttr};
+use dustc_data_structures::captures::Captures;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexSet};
+use dustc_errors::{struct_span_err, Applicability};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, DefKind, Res};
+use dustc_hir::def_id::{DefId, LocalDefId, LOCAL_CRATE};
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::weak_lang_items;
+use dustc_hir::{GenericParamKind, HirId, Node};
+use dustc_middle::hir::map::blocks::FnLikeNode;
+use dustc_middle::hir::map::Map;
+use dustc_middle::middle::codegen_fn_attrs::{CodegenFnAttrFlags, CodegenFnAttrs};
+use dustc_middle::mir::mono::Linkage;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::subst::InternalSubsts;
+use dustc_middle::ty::util::Discr;
+use dustc_middle::ty::util::IntTypeExt;
+use dustc_middle::ty::{self, AdtKind, Const, DefIdTree, ToPolyTraitRef, Ty, TyCtxt};
+use dustc_middle::ty::{ReprOptions, ToPredicate, WithConstness};
+use dustc_session::config::SanitizerSet;
+use dustc_session::lint;
+use dustc_session::parse::feature_err;
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{Span, DUMMY_SP};
+use dustc_target::spec::abi;
+use dustc_trait_selection::traits::error_reporting::suggestions::NextTypeParamName;
 
 mod item_bounds;
 mod type_of;
@@ -290,7 +290,7 @@ impl Visitor<'tcx> for CollectItemTypesVisitor<'tcx> {
 fn bad_placeholder_type(
     tcx: TyCtxt<'tcx>,
     mut spans: Vec<Span>,
-) -> rustc_errors::DiagnosticBuilder<'tcx> {
+) -> dustc_errors::DiagnosticBuilder<'tcx> {
     spans.sort();
     let mut err = struct_span_err!(
         tcx.sess,
@@ -537,7 +537,7 @@ fn type_param_predicates(
     tcx: TyCtxt<'_>,
     (item_def_id, def_id, assoc_name): (DefId, LocalDefId, Ident),
 ) -> ty::GenericPredicates<'_> {
-    use rustc_hir::*;
+    use dustc_hir::*;
 
     // In the AST, bounds can derive from two places. Either
     // written inline like `<T: Foo>` or in a where-clause like
@@ -972,7 +972,7 @@ fn convert_variant(
 }
 
 fn adt_def(tcx: TyCtxt<'_>, def_id: DefId) -> &ty::AdtDef {
-    use rustc_hir::*;
+    use dustc_hir::*;
 
     let def_id = def_id.expect_local();
     let hir_id = tcx.hir().local_def_id_to_hir_id(def_id);
@@ -1165,12 +1165,12 @@ fn trait_def(tcx: TyCtxt<'_>, def_id: DefId) -> ty::TraitDef {
         _ => span_bug!(item.span, "trait_def_of_item invoked on non-trait"),
     };
 
-    let paren_sugar = tcx.has_attr(def_id, sym::rustc_paren_sugar);
+    let paren_sugar = tcx.has_attr(def_id, sym::dustc_paren_sugar);
     if paren_sugar && !tcx.features().unboxed_closures {
         tcx.sess
             .struct_span_err(
                 item.span,
-                "the `#[rustc_paren_sugar]` attribute is a temporary means of controlling \
+                "the `#[dustc_paren_sugar]` attribute is a temporary means of controlling \
                  which traits can use parenthetical notation",
             )
             .help("add `#![feature(unboxed_closures)]` to the crate attributes to use it")
@@ -1178,9 +1178,9 @@ fn trait_def(tcx: TyCtxt<'_>, def_id: DefId) -> ty::TraitDef {
     }
 
     let is_marker = tcx.has_attr(def_id, sym::marker);
-    let spec_kind = if tcx.has_attr(def_id, sym::rustc_unsafe_specialization_marker) {
+    let spec_kind = if tcx.has_attr(def_id, sym::dustc_unsafe_specialization_marker) {
         ty::trait_def::TraitSpecializationKind::Marker
-    } else if tcx.has_attr(def_id, sym::rustc_specialization_trait) {
+    } else if tcx.has_attr(def_id, sym::dustc_specialization_trait) {
         ty::trait_def::TraitSpecializationKind::AlwaysApplicable
     } else {
         ty::trait_def::TraitSpecializationKind::None
@@ -1332,7 +1332,7 @@ impl<'v> Visitor<'v> for AnonConstInParamListDetector {
 }
 
 fn generics_of(tcx: TyCtxt<'_>, def_id: DefId) -> ty::Generics {
-    use rustc_hir::*;
+    use dustc_hir::*;
 
     let hir_id = tcx.hir().local_def_id_to_hir_id(def_id.expect_local());
 
@@ -1638,8 +1638,8 @@ pub fn get_infer_ret_ty(output: &'hir hir::FnRetTy<'hir>) -> Option<&'hir hir::T
 }
 
 fn fn_sig(tcx: TyCtxt<'_>, def_id: DefId) -> ty::PolyFnSig<'_> {
-    use rustc_hir::Node::*;
-    use rustc_hir::*;
+    use dustc_hir::Node::*;
+    use dustc_hir::*;
 
     let def_id = def_id.expect_local();
     let hir_id = tcx.hir().local_def_id_to_hir_id(def_id);
@@ -1688,7 +1688,7 @@ fn fn_sig(tcx: TyCtxt<'_>, def_id: DefId) -> ty::PolyFnSig<'_> {
                             // to prevent the user from getting a papercut while trying to use the unique closure
                             // syntax (e.g. `[closure@src/lib.rs:2:5: 2:9]`).
                             diag.help("consider using an `Fn`, `FnMut`, or `FnOnce` trait bound");
-                            diag.note("for more information on `Fn` traits and closure types, see https://doc.rust-lang.org/book/ch13-01-closures.html");
+                            diag.note("for more information on `Fn` traits and closure types, see https://doc.dust-lang.org/book/ch13-01-closures.html");
                         }
                     }
                     diag.emit();
@@ -1740,7 +1740,7 @@ fn fn_sig(tcx: TyCtxt<'_>, def_id: DefId) -> ty::PolyFnSig<'_> {
                 ty,
                 false,
                 hir::Unsafety::Normal,
-                abi::Abi::Rust,
+                abi::Abi::Dust,
             ))
         }
 
@@ -1781,7 +1781,7 @@ fn impl_trait_ref(tcx: TyCtxt<'_>, def_id: DefId) -> Option<ty::TraitRef<'_>> {
 
 fn impl_polarity(tcx: TyCtxt<'_>, def_id: DefId) -> ty::ImplPolarity {
     let hir_id = tcx.hir().local_def_id_to_hir_id(def_id.expect_local());
-    let is_rustc_reservation = tcx.has_attr(def_id, sym::rustc_reservation_impl);
+    let is_dustc_reservation = tcx.has_attr(def_id, sym::dustc_reservation_impl);
     let item = tcx.hir().expect_item(hir_id);
     match &item.kind {
         hir::ItemKind::Impl(hir::Impl {
@@ -1789,7 +1789,7 @@ fn impl_polarity(tcx: TyCtxt<'_>, def_id: DefId) -> ty::ImplPolarity {
             of_trait,
             ..
         }) => {
-            if is_rustc_reservation {
+            if is_dustc_reservation {
                 let span = span.to(of_trait.as_ref().map_or(*span, |t| t.path.span));
                 tcx.sess.span_err(span, "reservation impls can't be negative");
             }
@@ -1800,7 +1800,7 @@ fn impl_polarity(tcx: TyCtxt<'_>, def_id: DefId) -> ty::ImplPolarity {
             of_trait: None,
             ..
         }) => {
-            if is_rustc_reservation {
+            if is_dustc_reservation {
                 tcx.sess.span_err(item.span, "reservation impls can't be inherent");
             }
             ty::ImplPolarity::Positive
@@ -1810,7 +1810,7 @@ fn impl_polarity(tcx: TyCtxt<'_>, def_id: DefId) -> ty::ImplPolarity {
             of_trait: Some(_),
             ..
         }) => {
-            if is_rustc_reservation {
+            if is_dustc_reservation {
                 ty::ImplPolarity::Reservation
             } else {
                 ty::ImplPolarity::Positive
@@ -1875,7 +1875,7 @@ fn predicates_of(tcx: TyCtxt<'_>, def_id: DefId) -> ty::GenericPredicates<'_> {
         //
         // In the chalk setup, this predicate is not part of the
         // "predicates" for a trait item. But it is useful in
-        // rustc because if you directly (e.g.) invoke a trait
+        // dustc because if you directly (e.g.) invoke a trait
         // method like `Trait::method(...)`, you must naturally
         // prove that the trait applies to the types that were
         // used, and adding the predicate into this list ensures
@@ -1894,7 +1894,7 @@ fn predicates_of(tcx: TyCtxt<'_>, def_id: DefId) -> ty::GenericPredicates<'_> {
 /// Returns a list of user-specified type predicates for the definition with ID `def_id`.
 /// N.B., this does not include any implied/inferred constraints.
 fn gather_explicit_predicates_of(tcx: TyCtxt<'_>, def_id: DefId) -> ty::GenericPredicates<'_> {
-    use rustc_hir::*;
+    use dustc_hir::*;
 
     debug!("explicit_predicates_of(def_id={:?})", def_id);
 
@@ -2384,7 +2384,7 @@ fn compute_sig_of_foreign_fn_decl<'tcx>(
     abi: abi::Abi,
     ident: Ident,
 ) -> ty::PolyFnSig<'tcx> {
-    let unsafety = if abi == abi::Abi::RustIntrinsic {
+    let unsafety = if abi == abi::Abi::DustIntrinsic {
         intrinsic_operation_unsafety(tcx.item_name(def_id))
     } else {
         hir::Unsafety::Unsafe
@@ -2401,7 +2401,7 @@ fn compute_sig_of_foreign_fn_decl<'tcx>(
 
     // Feature gate SIMD types in FFI, since I am not sure that the
     // ABIs are handled at all correctly. -huonw
-    if abi != abi::Abi::RustIntrinsic
+    if abi != abi::Abi::DustIntrinsic
         && abi != abi::Abi::PlatformIntrinsic
         && !tcx.features().simd_ffi
     {
@@ -2460,8 +2460,8 @@ fn static_mutability(tcx: TyCtxt<'_>, def_id: DefId) -> Option<hir::Mutability> 
 
 fn generator_kind(tcx: TyCtxt<'_>, def_id: DefId) -> Option<hir::GeneratorKind> {
     match tcx.hir().get_if_local(def_id) {
-        Some(Node::Expr(&rustc_hir::Expr {
-            kind: rustc_hir::ExprKind::Closure(_, _, body_id, _, _),
+        Some(Node::Expr(&dustc_hir::Expr {
+            kind: dustc_hir::ExprKind::Closure(_, _, body_id, _, _),
             ..
         })) => tcx.hir().body(body_id).generator_kind(),
         Some(_) => None,
@@ -2488,7 +2488,7 @@ fn from_target_feature(
             .span_suggestion(span, "must be of the form", code, Applicability::HasPlaceholders)
             .emit();
     };
-    let rust_features = tcx.features();
+    let dust_features = tcx.features();
     for item in list {
         // Only `enable = ...` is accepted in the meta-item list.
         if !item.has_name(sym::enable) {
@@ -2530,22 +2530,22 @@ fn from_target_feature(
 
             // Only allow features whose feature gates have been enabled.
             let allowed = match feature_gate.as_ref().copied() {
-                Some(sym::arm_target_feature) => rust_features.arm_target_feature,
-                Some(sym::aarch64_target_feature) => rust_features.aarch64_target_feature,
-                Some(sym::hexagon_target_feature) => rust_features.hexagon_target_feature,
-                Some(sym::powerpc_target_feature) => rust_features.powerpc_target_feature,
-                Some(sym::mips_target_feature) => rust_features.mips_target_feature,
-                Some(sym::riscv_target_feature) => rust_features.riscv_target_feature,
-                Some(sym::avx512_target_feature) => rust_features.avx512_target_feature,
-                Some(sym::sse4a_target_feature) => rust_features.sse4a_target_feature,
-                Some(sym::tbm_target_feature) => rust_features.tbm_target_feature,
-                Some(sym::wasm_target_feature) => rust_features.wasm_target_feature,
-                Some(sym::cmpxchg16b_target_feature) => rust_features.cmpxchg16b_target_feature,
-                Some(sym::adx_target_feature) => rust_features.adx_target_feature,
-                Some(sym::movbe_target_feature) => rust_features.movbe_target_feature,
-                Some(sym::rtm_target_feature) => rust_features.rtm_target_feature,
-                Some(sym::f16c_target_feature) => rust_features.f16c_target_feature,
-                Some(sym::ermsb_target_feature) => rust_features.ermsb_target_feature,
+                Some(sym::arm_target_feature) => dust_features.arm_target_feature,
+                Some(sym::aarch64_target_feature) => dust_features.aarch64_target_feature,
+                Some(sym::hexagon_target_feature) => dust_features.hexagon_target_feature,
+                Some(sym::powerpc_target_feature) => dust_features.powerpc_target_feature,
+                Some(sym::mips_target_feature) => dust_features.mips_target_feature,
+                Some(sym::riscv_target_feature) => dust_features.riscv_target_feature,
+                Some(sym::avx512_target_feature) => dust_features.avx512_target_feature,
+                Some(sym::sse4a_target_feature) => dust_features.sse4a_target_feature,
+                Some(sym::tbm_target_feature) => dust_features.tbm_target_feature,
+                Some(sym::wasm_target_feature) => dust_features.wasm_target_feature,
+                Some(sym::cmpxchg16b_target_feature) => dust_features.cmpxchg16b_target_feature,
+                Some(sym::adx_target_feature) => dust_features.adx_target_feature,
+                Some(sym::movbe_target_feature) => dust_features.movbe_target_feature,
+                Some(sym::rtm_target_feature) => dust_features.rtm_target_feature,
+                Some(sym::f16c_target_feature) => dust_features.f16c_target_feature,
+                Some(sym::ermsb_target_feature) => dust_features.ermsb_target_feature,
                 Some(name) => bug!("unknown target feature gate {}", name),
                 None => true,
             };
@@ -2564,11 +2564,11 @@ fn from_target_feature(
 }
 
 fn linkage_by_name(tcx: TyCtxt<'_>, def_id: DefId, name: &str) -> Linkage {
-    use rustc_middle::mir::mono::Linkage::*;
+    use dustc_middle::mir::mono::Linkage::*;
 
     // Use the names from src/llvm/docs/LangRef.rst here. Most types are only
     // applicable to variable declarations and may not really make sense for
-    // Rust code in the first place but allow them anyway and trust that the
+    // Dust code in the first place but allow them anyway and trust that the
     // user knows what s/he's doing. Who knows, unanticipated use cases may pop
     // up in the future.
     //
@@ -2613,7 +2613,7 @@ fn codegen_fn_attrs(tcx: TyCtxt<'_>, id: DefId) -> CodegenFnAttrs {
     for attr in attrs.iter() {
         if tcx.sess.check_name(attr, sym::cold) {
             codegen_fn_attrs.flags |= CodegenFnAttrFlags::COLD;
-        } else if tcx.sess.check_name(attr, sym::rustc_allocator) {
+        } else if tcx.sess.check_name(attr, sym::dustc_allocator) {
             codegen_fn_attrs.flags |= CodegenFnAttrFlags::ALLOCATOR;
         } else if tcx.sess.check_name(attr, sym::unwind) {
             codegen_fn_attrs.flags |= CodegenFnAttrFlags::UNWIND;
@@ -2667,14 +2667,14 @@ fn codegen_fn_attrs(tcx: TyCtxt<'_>, id: DefId) -> CodegenFnAttrs {
                 )
                 .emit();
             }
-        } else if tcx.sess.check_name(attr, sym::rustc_allocator_nounwind) {
-            codegen_fn_attrs.flags |= CodegenFnAttrFlags::RUSTC_ALLOCATOR_NOUNWIND;
+        } else if tcx.sess.check_name(attr, sym::dustc_allocator_nounwind) {
+            codegen_fn_attrs.flags |= CodegenFnAttrFlags::DUSTC_ALLOCATOR_NOUNWIND;
         } else if tcx.sess.check_name(attr, sym::naked) {
             codegen_fn_attrs.flags |= CodegenFnAttrFlags::NAKED;
         } else if tcx.sess.check_name(attr, sym::no_mangle) {
             codegen_fn_attrs.flags |= CodegenFnAttrFlags::NO_MANGLE;
-        } else if tcx.sess.check_name(attr, sym::rustc_std_internal_symbol) {
-            codegen_fn_attrs.flags |= CodegenFnAttrFlags::RUSTC_STD_INTERNAL_SYMBOL;
+        } else if tcx.sess.check_name(attr, sym::dustc_std_internal_symbol) {
+            codegen_fn_attrs.flags |= CodegenFnAttrFlags::DUSTC_STD_INTERNAL_SYMBOL;
         } else if tcx.sess.check_name(attr, sym::used) {
             codegen_fn_attrs.flags |= CodegenFnAttrFlags::USED;
         } else if tcx.sess.check_name(attr, sym::cmse_nonsecure_entry) {
@@ -2688,15 +2688,15 @@ fn codegen_fn_attrs(tcx: TyCtxt<'_>, id: DefId) -> CodegenFnAttrs {
                 .emit();
             }
             if !tcx.sess.target.llvm_target.contains("thumbv8m") {
-                struct_span_err!(tcx.sess, attr.span, E0775, "`#[cmse_nonsecure_entry]` is only valid for targets with the TrustZone-M extension")
+                struct_span_err!(tcx.sess, attr.span, E0775, "`#[cmse_nonsecure_entry]` is only valid for targets with the TdustZone-M extension")
                     .emit();
             }
             codegen_fn_attrs.flags |= CodegenFnAttrFlags::CMSE_NONSECURE_ENTRY;
         } else if tcx.sess.check_name(attr, sym::thread_local) {
             codegen_fn_attrs.flags |= CodegenFnAttrFlags::THREAD_LOCAL;
         } else if tcx.sess.check_name(attr, sym::track_caller) {
-            if tcx.is_closure(id) || tcx.fn_sig(id).abi() != abi::Abi::Rust {
-                struct_span_err!(tcx.sess, attr.span, E0737, "`#[track_caller]` requires Rust ABI")
+            if tcx.is_closure(id) || tcx.fn_sig(id).abi() != abi::Abi::Dust {
+                struct_span_err!(tcx.sess, attr.span, E0737, "`#[track_caller]` requires Dust ABI")
                     .emit();
             }
             codegen_fn_attrs.flags |= CodegenFnAttrFlags::TRACK_CALLER;
@@ -2973,7 +2973,7 @@ fn codegen_fn_attrs(tcx: TyCtxt<'_>, id: DefId) -> CodegenFnAttrs {
     //
     // Additionally weak lang items have predetermined symbol names.
     if tcx.is_weak_lang_item(id) {
-        codegen_fn_attrs.flags |= CodegenFnAttrFlags::RUSTC_STD_INTERNAL_SYMBOL;
+        codegen_fn_attrs.flags |= CodegenFnAttrFlags::DUSTC_STD_INTERNAL_SYMBOL;
     }
     let check_name = |attr, sym| tcx.sess.check_name(attr, sym);
     if let Some(name) = weak_lang_items::link_name(check_name, &attrs) {
@@ -2985,7 +2985,7 @@ fn codegen_fn_attrs(tcx: TyCtxt<'_>, id: DefId) -> CodegenFnAttrs {
     // Internal symbols to the standard library all have no_mangle semantics in
     // that they have defined symbol names present in the function name. This
     // also applies to weak symbols where they all have known symbol names.
-    if codegen_fn_attrs.flags.contains(CodegenFnAttrFlags::RUSTC_STD_INTERNAL_SYMBOL) {
+    if codegen_fn_attrs.flags.contains(CodegenFnAttrFlags::DUSTC_STD_INTERNAL_SYMBOL) {
         codegen_fn_attrs.flags |= CodegenFnAttrFlags::NO_MANGLE;
     }
 
@@ -3019,7 +3019,7 @@ fn should_inherit_track_caller(tcx: TyCtxt<'_>, def_id: DefId) -> bool {
 }
 
 fn check_link_ordinal(tcx: TyCtxt<'_>, attr: &ast::Attribute) -> Option<usize> {
-    use rustc_ast::{Lit, LitIntType, LitKind};
+    use dustc_ast::{Lit, LitIntType, LitKind};
     let meta_item_list = attr.meta_item_list();
     let meta_item_list: Option<&[ast::NestedMetaItem]> = meta_item_list.as_ref().map(Vec::as_ref);
     let sole_meta_list = match meta_item_list {

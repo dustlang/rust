@@ -5,17 +5,17 @@ use crate::astconv::{
 };
 use crate::errors::AssocTypeBindingNotAllowed;
 use crate::structured_errors::{StructuredDiagnostic, WrongNumberOfGenericArgs};
-use rustc_ast::ast::ParamKindOrd;
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder, ErrorReported};
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::DefId;
-use rustc_hir::GenericArg;
-use rustc_middle::ty::{
+use dustc_ast::ast::ParamKindOrd;
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder, ErrorReported};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::DefId;
+use dustc_hir::GenericArg;
+use dustc_middle::ty::{
     self, subst, subst::SubstsRef, GenericParamDef, GenericParamDefKind, Ty, TyCtxt,
 };
-use rustc_session::lint::builtin::LATE_BOUND_LIFETIME_ARGUMENTS;
-use rustc_span::{symbol::kw, MultiSpan, Span};
+use dustc_session::lint::builtin::LATE_BOUND_LIFETIME_ARGUMENTS;
+use dustc_span::{symbol::kw, MultiSpan, Span};
 use smallvec::SmallVec;
 
 impl<'o, 'tcx> dyn AstConv<'tcx> + 'o {
@@ -61,7 +61,7 @@ impl<'o, 'tcx> dyn AstConv<'tcx> + 'o {
         match (arg, &param.kind) {
             (
                 GenericArg::Type(hir::Ty {
-                    kind: hir::TyKind::Path(rustc_hir::QPath::Resolved(_, path)),
+                    kind: hir::TyKind::Path(dustc_hir::QPath::Resolved(_, path)),
                     ..
                 }),
                 GenericParamDefKind::Const,

@@ -1,16 +1,16 @@
 use crate::consts::constant_simple;
 use crate::utils::span_lint;
-use rustc_hir as hir;
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::Span;
+use dustc_hir as hir;
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::Span;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for integer arithmetic operations which could overflow or panic.
     ///
     /// Specifically, checks for any operators (`+`, `-`, `*`, `<<`, etc) which are capable
-    /// of overflowing according to the [Rust
-    /// Reference](https://doc.rust-lang.org/reference/expressions/operator-expr.html#overflow),
+    /// of overflowing according to the [Dust
+    /// Reference](https://doc.dust-lang.org/reference/expressions/operator-expr.html#overflow),
     /// or which can panic (`/`, `%`). No bounds analysis or sophisticated reasoning is
     /// attempted.
     ///
@@ -21,7 +21,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let a = 0;
     /// a + 1;
     /// ```
@@ -39,7 +39,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let a = 0.0;
     /// a + 1.0;
     /// ```
@@ -93,7 +93,7 @@ impl<'tcx> LateLintPass<'tcx> for Arithmetic {
                             hir::ExprKind::Lit(_lit) => (),
                             hir::ExprKind::Unary(hir::UnOp::Neg, expr) => {
                                 if let hir::ExprKind::Lit(lit) = &expr.kind {
-                                    if let rustc_ast::ast::LitKind::Int(1, _) = lit.node {
+                                    if let dustc_ast::ast::LitKind::Int(1, _) = lit.node {
                                         span_lint(cx, INTEGER_ARITHMETIC, expr.span, "integer arithmetic detected");
                                         self.expr_span = Some(expr.span);
                                     }

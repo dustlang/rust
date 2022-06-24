@@ -1,10 +1,10 @@
-//! Documenting the kinds of lints emitted by rustdoc.
+//! Documenting the kinds of lints emitted by dustdoc.
 //!
 //! ```
 //! println!("sup");
 //! ```
 
-#![deny(rustdoc::all)]
+#![deny(dustdoc::all)]
 
 /// what up, let's make an [error]
 ///

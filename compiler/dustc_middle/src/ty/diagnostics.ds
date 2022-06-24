@@ -2,10 +2,10 @@
 
 use crate::ty::TyKind::*;
 use crate::ty::{InferTy, TyCtxt, TyS};
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_hir::{QPath, TyKind, WhereBoundPredicate, WherePredicate};
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_hir::{QPath, TyKind, WhereBoundPredicate, WherePredicate};
 
 impl<'tcx> TyS<'tcx> {
     /// Similar to `TyS::is_primitive`, but also considers inferred numeric values to be primitive.
@@ -299,7 +299,7 @@ pub fn suggest_constraining_type_param(
 pub struct TraitObjectVisitor<'tcx>(pub Vec<&'tcx hir::Ty<'tcx>>, pub crate::hir::map::Map<'tcx>);
 
 impl<'v> hir::intravisit::Visitor<'v> for TraitObjectVisitor<'v> {
-    type Map = rustc_hir::intravisit::ErasedMap<'v>;
+    type Map = dustc_hir::intravisit::ErasedMap<'v>;
 
     fn nested_visit_map(&mut self) -> hir::intravisit::NestedVisitorMap<Self::Map> {
         hir::intravisit::NestedVisitorMap::None

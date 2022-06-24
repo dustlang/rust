@@ -6,4 +6,4 @@ LL | impl<T> Bar<T> for [u8; T] {}
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0423`.
+For more information about this error, try `dustc --explain E0423`.

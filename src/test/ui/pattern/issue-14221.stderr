@@ -29,4 +29,4 @@ LL | #![deny(unreachable_patterns)]
 
 error: aborting due to previous error; 2 warnings emitted
 
-For more information about this error, try `rustc --explain E0170`.
+For more information about this error, try `dustc --explain E0170`.

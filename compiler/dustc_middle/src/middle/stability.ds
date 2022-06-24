@@ -4,22 +4,22 @@
 pub use self::StabilityLevel::*;
 
 use crate::ty::{self, TyCtxt};
-use rustc_ast::NodeId;
-use rustc_attr::{self as attr, ConstStability, Deprecation, Stability};
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_feature::GateIssue;
-use rustc_hir as hir;
-use rustc_hir::def::DefKind;
-use rustc_hir::def_id::{CrateNum, DefId, CRATE_DEF_INDEX};
-use rustc_hir::{self, HirId};
-use rustc_middle::ty::print::with_no_trimmed_paths;
-use rustc_session::lint::builtin::{DEPRECATED, DEPRECATED_IN_FUTURE, SOFT_UNSTABLE};
-use rustc_session::lint::{BuiltinLintDiagnostics, Lint, LintBuffer};
-use rustc_session::parse::feature_err_issue;
-use rustc_session::{DiagnosticMessageId, Session};
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::{MultiSpan, Span};
+use dustc_ast::NodeId;
+use dustc_attr::{self as attr, ConstStability, Deprecation, Stability};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_feature::GateIssue;
+use dustc_hir as hir;
+use dustc_hir::def::DefKind;
+use dustc_hir::def_id::{CrateNum, DefId, CRATE_DEF_INDEX};
+use dustc_hir::{self, HirId};
+use dustc_middle::ty::print::with_no_trimmed_paths;
+use dustc_session::lint::builtin::{DEPRECATED, DEPRECATED_IN_FUTURE, SOFT_UNSTABLE};
+use dustc_session::lint::{BuiltinLintDiagnostics, Lint, LintBuffer};
+use dustc_session::parse::feature_err_issue;
+use dustc_session::{DiagnosticMessageId, Session};
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::{MultiSpan, Span};
 
 use std::num::NonZeroU32;
 
@@ -130,16 +130,16 @@ pub fn report_unstable(
 }
 
 /// Checks whether an item marked with `deprecated(since="X")` is currently
-/// deprecated (i.e., whether X is not greater than the current rustc version).
-pub fn deprecation_in_effect(is_since_rustc_version: bool, since: Option<&str>) -> bool {
+/// deprecated (i.e., whether X is not greater than the current dustc version).
+pub fn deprecation_in_effect(is_since_dustc_version: bool, since: Option<&str>) -> bool {
     fn parse_version(ver: &str) -> Vec<u32> {
         // We ignore non-integer components of the version (e.g., "nightly").
         ver.split(|c| c == '.' || c == '-').flat_map(|s| s.parse()).collect()
     }
 
-    if !is_since_rustc_version {
+    if !is_since_dustc_version {
         // The `since` field doesn't have semantic purpose in the stable `deprecated`
-        // attribute, only in `rustc_deprecated`.
+        // attribute, only in `dustc_deprecated`.
         return true;
     }
 
@@ -148,20 +148,20 @@ pub fn deprecation_in_effect(is_since_rustc_version: bool, since: Option<&str>) 
             return false;
         }
 
-        if let Some(rustc) = option_env!("CFG_RELEASE") {
+        if let Some(dustc) = option_env!("CFG_RELEASE") {
             let since: Vec<u32> = parse_version(&since);
-            let rustc: Vec<u32> = parse_version(rustc);
+            let dustc: Vec<u32> = parse_version(dustc);
             // We simply treat invalid `since` attributes as relating to a previous
-            // Rust version, thus always displaying the warning.
+            // Dust version, thus always displaying the warning.
             if since.len() != 3 {
                 return true;
             }
-            return since <= rustc;
+            return since <= dustc;
         }
     };
 
     // Assume deprecation is in effect if "since" field is missing
-    // or if we can't determine the current Rust version.
+    // or if we can't determine the current Dust version.
     true
 }
 
@@ -183,13 +183,13 @@ pub fn deprecation_suggestion(
 
 pub fn deprecation_message(depr: &Deprecation, kind: &str, path: &str) -> (String, &'static Lint) {
     let since = depr.since.map(Symbol::as_str);
-    let (message, lint) = if deprecation_in_effect(depr.is_since_rustc_version, since.as_deref()) {
+    let (message, lint) = if deprecation_in_effect(depr.is_since_dustc_version, since.as_deref()) {
         (format!("use of deprecated {} `{}`", kind, path), DEPRECATED)
     } else {
         (
             if since.as_deref() == Some("TBD") {
                 format!(
-                    "use of {} `{}` that will be deprecated in a future Rust version",
+                    "use of {} `{}` that will be deprecated in a future Dust version",
                     kind, path
                 )
             } else {
@@ -300,9 +300,9 @@ impl<'tcx> TyCtxt<'tcx> {
                 // topmost deprecation. For example, if a struct is deprecated,
                 // the use of a field won't be linted.
                 //
-                // #[rustc_deprecated] however wants to emit down the whole
+                // #[dustc_deprecated] however wants to emit down the whole
                 // hierarchy.
-                if !skip || depr_entry.attr.is_since_rustc_version {
+                if !skip || depr_entry.attr.is_since_dustc_version {
                     let path = &with_no_trimmed_paths(|| self.def_path_str(def_id));
                     let kind = self.def_kind(def_id).descr(def_id);
                     let (message, lint) = deprecation_message(&depr_entry.attr, kind, path);
@@ -360,11 +360,11 @@ impl<'tcx> TyCtxt<'tcx> {
                 // crates also pulled in from crates.io. We want to ideally be
                 // able to compile everything without requiring upstream
                 // modifications, so in the case that this looks like a
-                // `rustc_private` crate (e.g., a compiler crate) and we also have
+                // `dustc_private` crate (e.g., a compiler crate) and we also have
                 // the `-Z force-unstable-if-unmarked` flag present (we're
                 // compiling a compiler crate), then let this missing feature
                 // annotation slide.
-                if feature == sym::rustc_private && issue == NonZeroU32::new(27812) {
+                if feature == sym::dustc_private && issue == NonZeroU32::new(27812) {
                     if self.sess.opts.debugging_opts.force_unstable_if_unmarked {
                         return EvalResult::Allow;
                     }

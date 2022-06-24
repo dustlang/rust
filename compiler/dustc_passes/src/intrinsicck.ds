@@ -1,18 +1,18 @@
-use rustc_ast::InlineAsmTemplatePiece;
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_index::vec::Idx;
-use rustc_middle::ty::layout::{LayoutError, SizeSkeleton};
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{self, FloatTy, IntTy, Ty, TyCtxt, UintTy};
-use rustc_session::lint;
-use rustc_span::{sym, Span, Symbol, DUMMY_SP};
-use rustc_target::abi::{Pointer, VariantIdx};
-use rustc_target::asm::{InlineAsmRegOrRegClass, InlineAsmType};
-use rustc_target::spec::abi::Abi::RustIntrinsic;
+use dustc_ast::InlineAsmTemplatePiece;
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_index::vec::Idx;
+use dustc_middle::ty::layout::{LayoutError, SizeSkeleton};
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{self, FloatTy, IntTy, Ty, TyCtxt, UintTy};
+use dustc_session::lint;
+use dustc_span::{sym, Span, Symbol, DUMMY_SP};
+use dustc_target::abi::{Pointer, VariantIdx};
+use dustc_target::asm::{InlineAsmRegOrRegClass, InlineAsmType};
+use dustc_target::spec::abi::Abi::DustIntrinsic;
 
 fn check_mod_intrinsics(tcx: TyCtxt<'_>, module_def_id: LocalDefId) {
     tcx.hir().visit_item_likes_in_module(module_def_id, &mut ItemVisitor { tcx }.as_deep_visitor());
@@ -64,7 +64,7 @@ fn unpack_option_like<'tcx>(tcx: TyCtxt<'tcx>, ty: Ty<'tcx>) -> Ty<'tcx> {
 
 impl ExprVisitor<'tcx> {
     fn def_id_is_transmute(&self, def_id: DefId) -> bool {
-        self.tcx.fn_sig(def_id).abi() == RustIntrinsic
+        self.tcx.fn_sig(def_id).abi() == DustIntrinsic
             && self.tcx.item_name(def_id) == sym::transmute
     }
 

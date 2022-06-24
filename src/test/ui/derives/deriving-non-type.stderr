@@ -54,4 +54,4 @@ LL | #[derive(PartialEq)]
 
 error: aborting due to 9 previous errors
 
-For more information about this error, try `rustc --explain E0774`.
+For more information about this error, try `dustc --explain E0774`.

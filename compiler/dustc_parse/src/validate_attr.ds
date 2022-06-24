@@ -2,13 +2,13 @@
 
 use crate::parse_in;
 
-use rustc_ast::tokenstream::{DelimSpan, TokenTree};
-use rustc_ast::{self as ast, Attribute, MacArgs, MacDelimiter, MetaItem, MetaItemKind};
-use rustc_errors::{Applicability, PResult};
-use rustc_feature::{AttributeTemplate, BUILTIN_ATTRIBUTE_MAP};
-use rustc_session::lint::builtin::ILL_FORMED_ATTRIBUTE_INPUT;
-use rustc_session::parse::ParseSess;
-use rustc_span::{sym, Symbol};
+use dustc_ast::tokenstream::{DelimSpan, TokenTree};
+use dustc_ast::{self as ast, Attribute, MacArgs, MacDelimiter, MetaItem, MetaItemKind};
+use dustc_errors::{Applicability, PResult};
+use dustc_feature::{AttributeTemplate, BUILTIN_ATTRIBUTE_MAP};
+use dustc_session::lint::builtin::ILL_FORMED_ATTRIBUTE_INPUT;
+use dustc_session::parse::ParseSess;
+use dustc_span::{sym, Symbol};
 
 pub fn check_meta(sess: &ParseSess, attr: &Attribute) {
     if attr.is_doc_comment() {
@@ -20,8 +20,8 @@ pub fn check_meta(sess: &ParseSess, attr: &Attribute) {
 
     // Check input tokens for built-in and key-value attributes.
     match attr_info {
-        // `rustc_dummy` doesn't have any restrictions specific to built-in attributes.
-        Some((name, _, template, _)) if name != sym::rustc_dummy => {
+        // `dustc_dummy` doesn't have any restrictions specific to built-in attributes.
+        Some((name, _, template, _)) if name != sym::dustc_dummy => {
             check_builtin_attribute(sess, attr, name, template)
         }
         _ => {

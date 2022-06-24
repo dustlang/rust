@@ -2,22 +2,22 @@
 
 use super::method::MethodCallee;
 use super::FnCtxt;
-use rustc_ast as ast;
-use rustc_errors::{self, struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_middle::ty::adjustment::{
+use dustc_ast as ast;
+use dustc_errors::{self, struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_middle::ty::adjustment::{
     Adjust, Adjustment, AllowTwoPhase, AutoBorrow, AutoBorrowMutability,
 };
-use rustc_middle::ty::fold::TypeFolder;
-use rustc_middle::ty::TyKind::{Adt, Array, Char, FnDef, Never, Ref, Str, Tuple, Uint};
-use rustc_middle::ty::{
+use dustc_middle::ty::fold::TypeFolder;
+use dustc_middle::ty::TyKind::{Adt, Array, Char, FnDef, Never, Ref, Str, Tuple, Uint};
+use dustc_middle::ty::{
     self, suggest_constraining_type_param, Ty, TyCtxt, TypeFoldable, TypeVisitor,
 };
-use rustc_span::source_map::Spanned;
-use rustc_span::symbol::{sym, Ident};
-use rustc_span::Span;
-use rustc_trait_selection::infer::InferCtxtExt;
+use dustc_span::source_map::Spanned;
+use dustc_span::symbol::{sym, Ident};
+use dustc_span::Span;
+use dustc_trait_selection::infer::InferCtxtExt;
 
 use std::ops::ControlFlow;
 
@@ -122,7 +122,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
         debug_assert!(is_builtin_binop(lhs_ty, rhs_ty, op));
 
         // Special-case a single layer of referencing, so that things like `5.0 + &6.0f32` work.
-        // (See https://github.com/rust-lang/rust/issues/57447.)
+        // (See https://github.com/dust-lang/dust/issues/57447.)
         let (lhs_ty, rhs_ty) = (deref_ty_if_possible(lhs_ty), deref_ty_if_possible(rhs_ty));
 
         let tcx = self.tcx;
@@ -180,7 +180,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                 self.demand_coerce(lhs_expr, lhs_ty, fresh_var, Some(rhs_expr), AllowTwoPhase::No)
             }
             IsAssign::Yes => {
-                // rust-lang/rust#52126: We have to use strict
+                // dust-lang/dust#52126: We have to use strict
                 // equivalence on the LHS of an assign-op like `+=`;
                 // overwritten or mutably-borrowed places cannot be
                 // coerced to a supertype.
@@ -421,7 +421,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                                 lhs_expr.span.shrink_to_lo(),
                                 msg,
                                 "*".to_string(),
-                                rustc_errors::Applicability::MachineApplicable,
+                                dustc_errors::Applicability::MachineApplicable,
                             );
                             suggested_deref = true;
                         }
@@ -490,7 +490,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     /// suggest calling the function. Returns `true` if suggestion would apply (even if not given).
     fn add_type_neq_err_label(
         &self,
-        err: &mut rustc_errors::DiagnosticBuilder<'_>,
+        err: &mut dustc_errors::DiagnosticBuilder<'_>,
         span: Span,
         ty: Ty<'tcx>,
         other_ty: Ty<'tcx>,
@@ -557,7 +557,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
         rhs_expr: &'tcx hir::Expr<'tcx>,
         lhs_ty: Ty<'tcx>,
         rhs_ty: Ty<'tcx>,
-        err: &mut rustc_errors::DiagnosticBuilder<'_>,
+        err: &mut dustc_errors::DiagnosticBuilder<'_>,
         is_assign: IsAssign,
         op: hir::BinOp,
     ) -> bool {
@@ -901,7 +901,7 @@ fn deref_ty_if_possible(ty: Ty<'tcx>) -> Ty<'tcx> {
 /// the fact, and it worked fine, except for SIMD types. -nmatsakis
 fn is_builtin_binop<'tcx>(lhs: Ty<'tcx>, rhs: Ty<'tcx>, op: hir::BinOp) -> bool {
     // Special-case a single layer of referencing, so that things like `5.0 + &6.0f32` work.
-    // (See https://github.com/rust-lang/rust/issues/57447.)
+    // (See https://github.com/dust-lang/dust/issues/57447.)
     let (lhs, rhs) = (deref_ty_if_possible(lhs), deref_ty_if_possible(rhs));
 
     match BinOpCategory::from(op) {

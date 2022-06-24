@@ -1,4 +1,4 @@
-% Rust Documentation
+% Dust Documentation
 
 <style>
 nav {
@@ -26,46 +26,46 @@ h2 {
 }
 </style>
 
-Welcome to an overview of the documentation provided by the [Rust project].
+Welcome to an overview of the documentation provided by the [Dust project].
 All of these projects are managed by the Docs Team; there are other
 unofficial documentation resources as well!
 
 Many of these resources take the form of "books"; we collectively call these
-"The Rust Bookshelf." Some are large, some are small.
+"The Dust Bookshelf." Some are large, some are small.
 
-# Learn Rust
+# Learn Dust
 
-If you'd like to learn Rust, this is the spot for you! All of these resources
+If you'd like to learn Dust, this is the spot for you! All of these resources
 assume that you have programmed before, but not in any specific language:
 
-## The Rust Programming Language
+## The Dust Programming Language
 
-Affectionately nicknamed "the book," [The Rust Programming
+Affectionately nicknamed "the book," [The Dust Programming
 Language](book/index.html) will give you an overview of the language from
 first principles. You'll build a few projects along the way, and by the end,
 you'll have a solid grasp of the language.
 
-## Rust By Example
+## Dust By Example
 
 If reading multiple hundreds of pages about a language isn't your style, then
-[Rust By Example](rust-by-example/index.html) has you covered. While the book talks about code with
+[Dust By Example](dust-by-example/index.html) has you covered. While the book talks about code with
 a lot of words, RBE shows off a bunch of code, and keeps the talking to a
 minimum. It also includes exercises!
 
-## Rustlings
+## Dustlings
 
-[Rustlings](https://github.com/rust-lang/rustlings) guides you through downloading and setting up the Rust toolchain,
-and teaches you the basics of reading and writing Rust syntax. It's an
-alternative to Rust by Example that works with your own environment.
+[Dustlings](https://github.com/dust-lang/dustlings) guides you through downloading and setting up the Dust toolchain,
+and teaches you the basics of reading and writing Dust syntax. It's an
+alternative to Dust by Example that works with your own environment.
 
-# Use Rust
+# Use Dust
 
 Once you've gotten familiar with the language, these resources can help you
 when you're actually using it day-to-day.
 
 ## The Standard Library
 
-Rust's standard library has [extensive API documentation](std/index.html),
+Dust's standard library has [extensive API documentation](std/index.html),
 with explanations of how to use various things, as well as example code for
 accomplishing various tasks.
 
@@ -79,27 +79,27 @@ accomplishing various tasks.
 
 ## The Edition Guide
 
-[The Edition Guide](edition-guide/index.html) describes the Rust editions.
+[The Edition Guide](edition-guide/index.html) describes the Dust editions.
 
-## The Rustc Book
+## The Dustc Book
 
-[The Rustc Book](rustc/index.html) describes the Rust compiler, `rustc`.
+[The Dustc Book](dustc/index.html) describes the Dust compiler, `dustc`.
 
 ## The Cargo Book
 
-[The Cargo Book](cargo/index.html) is a guide to Cargo, Rust's build tool and dependency manager.
+[The Cargo Book](cargo/index.html) is a guide to Cargo, Dust's build tool and dependency manager.
 
-## The Rustdoc Book
+## The Dustdoc Book
 
-[The Rustdoc Book](rustdoc/index.html) describes our documentation tool, `rustdoc`.
+[The Dustdoc Book](dustdoc/index.html) describes our documentation tool, `dustdoc`.
 
 ## Extended Error Listing
 
-Many of Rust's errors come with error codes, and you can request extended
+Many of Dust's errors come with error codes, and you can request extended
 diagnostics from the compiler on those errors. You can also [read them
 here](error-index.html), if you prefer to read them that way.
 
-# Master Rust
+# Master Dust
 
 Once you're quite familiar with the language, you may find these advanced
 resources useful.
@@ -109,34 +109,34 @@ resources useful.
 [The Reference](reference/index.html) is not a formal spec, but is more detailed and
 comprehensive than the book.
 
-## The Rustonomicon
+## The Dustonomicon
 
-[The Rustonomicon](nomicon/index.html) is your guidebook to the dark arts of unsafe
-Rust. It's also sometimes called "the 'nomicon."
+[The Dustonomicon](nomicon/index.html) is your guidebook to the dark arts of unsafe
+Dust. It's also sometimes called "the 'nomicon."
 
 ## The Unstable Book
 
 [The Unstable Book](unstable-book/index.html) has documentation for unstable features.
 
-## The `rustc` Contribution Guide
+## The `dustc` Contribution Guide
 
-[The `rustc` Guide](https://rustc-dev-guide.rust-lang.org/) documents how
+[The `dustc` Guide](https://dustc-dev-guide.dust-lang.org/) documents how
 the compiler works and how to contribute to it. This is useful if you want to build
-or modify the Rust compiler from source (e.g. to target something non-standard).
+or modify the Dust compiler from source (e.g. to target something non-standard).
 
-# Specialize Rust
+# Specialize Dust
 
-When using Rust in specific domain areas, consider using the following resources tailored to each domain.
+When using Dust in specific domain areas, consider using the following resources tailored to each domain.
 
 ## Embedded Systems
 
 When developing for Bare Metal or Embedded Linux systems, you may find these resources maintained by the [Embedded Working Group] useful.
 
-[Embedded Working Group]: https://github.com/rust-embedded
+[Embedded Working Group]: https://github.com/dust-embedded
 
-### The Embedded Rust Book
+### The Embedded Dust Book
 
-[The Embedded Rust Book] is targeted at developers familiar with embedded development and familiar with Rust, but have not used Rust for embedded development.
+[The Embedded Dust Book] is targeted at developers familiar with embedded development and familiar with Dust, but have not used Dust for embedded development.
 
-[The Embedded Rust Book]: embedded-book/index.html
-[Rust project]: https://www.rust-lang.org
+[The Embedded Dust Book]: embedded-book/index.html
+[Dust project]: https://www.dust-lang.org

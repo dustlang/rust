@@ -1,7 +1,7 @@
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
 
-use rustc_codegen_ssa::coverageinfo::map as coverage_map;
+use dustc_codegen_ssa::coverageinfo::map as coverage_map;
 
 use super::debuginfo::{
     DIArray, DIBasicType, DIBuilder, DICompositeType, DIDerivedType, DIDescriptor, DIEnumerator,
@@ -15,7 +15,7 @@ use libc::{c_ulonglong, c_void};
 
 use std::marker::PhantomData;
 
-use super::RustString;
+use super::DustString;
 
 pub type Bool = c_uint;
 
@@ -25,7 +25,7 @@ pub const False: Bool = 0 as Bool;
 #[derive(Copy, Clone, PartialEq)]
 #[repr(C)]
 #[allow(dead_code)] // Variants constructed by C++.
-pub enum LLVMRustResult {
+pub enum LLVMDustResult {
     Success,
     Failure,
 }
@@ -53,7 +53,7 @@ pub enum CallConv {
     AmdGpuKernel = 91,
 }
 
-/// LLVMRustLinkage
+/// LLVMDustLinkage
 #[derive(PartialEq)]
 #[repr(C)]
 pub enum Linkage {
@@ -70,7 +70,7 @@ pub enum Linkage {
     CommonLinkage = 10,
 }
 
-// LLVMRustVisibility
+// LLVMDustVisibility
 #[repr(C)]
 pub enum Visibility {
     Default = 0,
@@ -97,7 +97,7 @@ pub enum DLLStorageClass {
     DllExport = 2, // Function to be accessible from DLL.
 }
 
-/// Matches LLVMRustAttribute in LLVMWrapper.h
+/// Matches LLVMDustAttribute in LLVMWrapper.h
 /// Semantically a subset of the C++ enum llvm::Attribute::AttrKind,
 /// though it is not ABI compatible (since it's a C++ enum)
 #[repr(C)]
@@ -152,18 +152,18 @@ pub enum IntPredicate {
 }
 
 impl IntPredicate {
-    pub fn from_generic(intpre: rustc_codegen_ssa::common::IntPredicate) -> Self {
+    pub fn from_generic(intpre: dustc_codegen_ssa::common::IntPredicate) -> Self {
         match intpre {
-            rustc_codegen_ssa::common::IntPredicate::IntEQ => IntPredicate::IntEQ,
-            rustc_codegen_ssa::common::IntPredicate::IntNE => IntPredicate::IntNE,
-            rustc_codegen_ssa::common::IntPredicate::IntUGT => IntPredicate::IntUGT,
-            rustc_codegen_ssa::common::IntPredicate::IntUGE => IntPredicate::IntUGE,
-            rustc_codegen_ssa::common::IntPredicate::IntULT => IntPredicate::IntULT,
-            rustc_codegen_ssa::common::IntPredicate::IntULE => IntPredicate::IntULE,
-            rustc_codegen_ssa::common::IntPredicate::IntSGT => IntPredicate::IntSGT,
-            rustc_codegen_ssa::common::IntPredicate::IntSGE => IntPredicate::IntSGE,
-            rustc_codegen_ssa::common::IntPredicate::IntSLT => IntPredicate::IntSLT,
-            rustc_codegen_ssa::common::IntPredicate::IntSLE => IntPredicate::IntSLE,
+            dustc_codegen_ssa::common::IntPredicate::IntEQ => IntPredicate::IntEQ,
+            dustc_codegen_ssa::common::IntPredicate::IntNE => IntPredicate::IntNE,
+            dustc_codegen_ssa::common::IntPredicate::IntUGT => IntPredicate::IntUGT,
+            dustc_codegen_ssa::common::IntPredicate::IntUGE => IntPredicate::IntUGE,
+            dustc_codegen_ssa::common::IntPredicate::IntULT => IntPredicate::IntULT,
+            dustc_codegen_ssa::common::IntPredicate::IntULE => IntPredicate::IntULE,
+            dustc_codegen_ssa::common::IntPredicate::IntSGT => IntPredicate::IntSGT,
+            dustc_codegen_ssa::common::IntPredicate::IntSGE => IntPredicate::IntSGE,
+            dustc_codegen_ssa::common::IntPredicate::IntSLT => IntPredicate::IntSLT,
+            dustc_codegen_ssa::common::IntPredicate::IntSLE => IntPredicate::IntSLE,
         }
     }
 }
@@ -191,26 +191,26 @@ pub enum RealPredicate {
 }
 
 impl RealPredicate {
-    pub fn from_generic(realpred: rustc_codegen_ssa::common::RealPredicate) -> Self {
+    pub fn from_generic(realpred: dustc_codegen_ssa::common::RealPredicate) -> Self {
         match realpred {
-            rustc_codegen_ssa::common::RealPredicate::RealPredicateFalse => {
+            dustc_codegen_ssa::common::RealPredicate::RealPredicateFalse => {
                 RealPredicate::RealPredicateFalse
             }
-            rustc_codegen_ssa::common::RealPredicate::RealOEQ => RealPredicate::RealOEQ,
-            rustc_codegen_ssa::common::RealPredicate::RealOGT => RealPredicate::RealOGT,
-            rustc_codegen_ssa::common::RealPredicate::RealOGE => RealPredicate::RealOGE,
-            rustc_codegen_ssa::common::RealPredicate::RealOLT => RealPredicate::RealOLT,
-            rustc_codegen_ssa::common::RealPredicate::RealOLE => RealPredicate::RealOLE,
-            rustc_codegen_ssa::common::RealPredicate::RealONE => RealPredicate::RealONE,
-            rustc_codegen_ssa::common::RealPredicate::RealORD => RealPredicate::RealORD,
-            rustc_codegen_ssa::common::RealPredicate::RealUNO => RealPredicate::RealUNO,
-            rustc_codegen_ssa::common::RealPredicate::RealUEQ => RealPredicate::RealUEQ,
-            rustc_codegen_ssa::common::RealPredicate::RealUGT => RealPredicate::RealUGT,
-            rustc_codegen_ssa::common::RealPredicate::RealUGE => RealPredicate::RealUGE,
-            rustc_codegen_ssa::common::RealPredicate::RealULT => RealPredicate::RealULT,
-            rustc_codegen_ssa::common::RealPredicate::RealULE => RealPredicate::RealULE,
-            rustc_codegen_ssa::common::RealPredicate::RealUNE => RealPredicate::RealUNE,
-            rustc_codegen_ssa::common::RealPredicate::RealPredicateTrue => {
+            dustc_codegen_ssa::common::RealPredicate::RealOEQ => RealPredicate::RealOEQ,
+            dustc_codegen_ssa::common::RealPredicate::RealOGT => RealPredicate::RealOGT,
+            dustc_codegen_ssa::common::RealPredicate::RealOGE => RealPredicate::RealOGE,
+            dustc_codegen_ssa::common::RealPredicate::RealOLT => RealPredicate::RealOLT,
+            dustc_codegen_ssa::common::RealPredicate::RealOLE => RealPredicate::RealOLE,
+            dustc_codegen_ssa::common::RealPredicate::RealONE => RealPredicate::RealONE,
+            dustc_codegen_ssa::common::RealPredicate::RealORD => RealPredicate::RealORD,
+            dustc_codegen_ssa::common::RealPredicate::RealUNO => RealPredicate::RealUNO,
+            dustc_codegen_ssa::common::RealPredicate::RealUEQ => RealPredicate::RealUEQ,
+            dustc_codegen_ssa::common::RealPredicate::RealUGT => RealPredicate::RealUGT,
+            dustc_codegen_ssa::common::RealPredicate::RealUGE => RealPredicate::RealUGE,
+            dustc_codegen_ssa::common::RealPredicate::RealULT => RealPredicate::RealULT,
+            dustc_codegen_ssa::common::RealPredicate::RealULE => RealPredicate::RealULE,
+            dustc_codegen_ssa::common::RealPredicate::RealUNE => RealPredicate::RealUNE,
+            dustc_codegen_ssa::common::RealPredicate::RealPredicateTrue => {
                 RealPredicate::RealPredicateTrue
             }
         }
@@ -244,28 +244,28 @@ pub enum TypeKind {
 }
 
 impl TypeKind {
-    pub fn to_generic(self) -> rustc_codegen_ssa::common::TypeKind {
+    pub fn to_generic(self) -> dustc_codegen_ssa::common::TypeKind {
         match self {
-            TypeKind::Void => rustc_codegen_ssa::common::TypeKind::Void,
-            TypeKind::Half => rustc_codegen_ssa::common::TypeKind::Half,
-            TypeKind::Float => rustc_codegen_ssa::common::TypeKind::Float,
-            TypeKind::Double => rustc_codegen_ssa::common::TypeKind::Double,
-            TypeKind::X86_FP80 => rustc_codegen_ssa::common::TypeKind::X86_FP80,
-            TypeKind::FP128 => rustc_codegen_ssa::common::TypeKind::FP128,
-            TypeKind::PPC_FP128 => rustc_codegen_ssa::common::TypeKind::PPC_FP128,
-            TypeKind::Label => rustc_codegen_ssa::common::TypeKind::Label,
-            TypeKind::Integer => rustc_codegen_ssa::common::TypeKind::Integer,
-            TypeKind::Function => rustc_codegen_ssa::common::TypeKind::Function,
-            TypeKind::Struct => rustc_codegen_ssa::common::TypeKind::Struct,
-            TypeKind::Array => rustc_codegen_ssa::common::TypeKind::Array,
-            TypeKind::Pointer => rustc_codegen_ssa::common::TypeKind::Pointer,
-            TypeKind::Vector => rustc_codegen_ssa::common::TypeKind::Vector,
-            TypeKind::Metadata => rustc_codegen_ssa::common::TypeKind::Metadata,
-            TypeKind::X86_MMX => rustc_codegen_ssa::common::TypeKind::X86_MMX,
-            TypeKind::Token => rustc_codegen_ssa::common::TypeKind::Token,
-            TypeKind::ScalableVector => rustc_codegen_ssa::common::TypeKind::ScalableVector,
-            TypeKind::BFloat => rustc_codegen_ssa::common::TypeKind::BFloat,
-            TypeKind::X86_AMX => rustc_codegen_ssa::common::TypeKind::X86_AMX,
+            TypeKind::Void => dustc_codegen_ssa::common::TypeKind::Void,
+            TypeKind::Half => dustc_codegen_ssa::common::TypeKind::Half,
+            TypeKind::Float => dustc_codegen_ssa::common::TypeKind::Float,
+            TypeKind::Double => dustc_codegen_ssa::common::TypeKind::Double,
+            TypeKind::X86_FP80 => dustc_codegen_ssa::common::TypeKind::X86_FP80,
+            TypeKind::FP128 => dustc_codegen_ssa::common::TypeKind::FP128,
+            TypeKind::PPC_FP128 => dustc_codegen_ssa::common::TypeKind::PPC_FP128,
+            TypeKind::Label => dustc_codegen_ssa::common::TypeKind::Label,
+            TypeKind::Integer => dustc_codegen_ssa::common::TypeKind::Integer,
+            TypeKind::Function => dustc_codegen_ssa::common::TypeKind::Function,
+            TypeKind::Struct => dustc_codegen_ssa::common::TypeKind::Struct,
+            TypeKind::Array => dustc_codegen_ssa::common::TypeKind::Array,
+            TypeKind::Pointer => dustc_codegen_ssa::common::TypeKind::Pointer,
+            TypeKind::Vector => dustc_codegen_ssa::common::TypeKind::Vector,
+            TypeKind::Metadata => dustc_codegen_ssa::common::TypeKind::Metadata,
+            TypeKind::X86_MMX => dustc_codegen_ssa::common::TypeKind::X86_MMX,
+            TypeKind::Token => dustc_codegen_ssa::common::TypeKind::Token,
+            TypeKind::ScalableVector => dustc_codegen_ssa::common::TypeKind::ScalableVector,
+            TypeKind::BFloat => dustc_codegen_ssa::common::TypeKind::BFloat,
+            TypeKind::X86_AMX => dustc_codegen_ssa::common::TypeKind::X86_AMX,
         }
     }
 }
@@ -288,19 +288,19 @@ pub enum AtomicRmwBinOp {
 }
 
 impl AtomicRmwBinOp {
-    pub fn from_generic(op: rustc_codegen_ssa::common::AtomicRmwBinOp) -> Self {
+    pub fn from_generic(op: dustc_codegen_ssa::common::AtomicRmwBinOp) -> Self {
         match op {
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicXchg => AtomicRmwBinOp::AtomicXchg,
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicAdd => AtomicRmwBinOp::AtomicAdd,
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicSub => AtomicRmwBinOp::AtomicSub,
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicAnd => AtomicRmwBinOp::AtomicAnd,
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicNand => AtomicRmwBinOp::AtomicNand,
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicOr => AtomicRmwBinOp::AtomicOr,
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicXor => AtomicRmwBinOp::AtomicXor,
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicMax => AtomicRmwBinOp::AtomicMax,
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicMin => AtomicRmwBinOp::AtomicMin,
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicUMax => AtomicRmwBinOp::AtomicUMax,
-            rustc_codegen_ssa::common::AtomicRmwBinOp::AtomicUMin => AtomicRmwBinOp::AtomicUMin,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicXchg => AtomicRmwBinOp::AtomicXchg,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicAdd => AtomicRmwBinOp::AtomicAdd,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicSub => AtomicRmwBinOp::AtomicSub,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicAnd => AtomicRmwBinOp::AtomicAnd,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicNand => AtomicRmwBinOp::AtomicNand,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicOr => AtomicRmwBinOp::AtomicOr,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicXor => AtomicRmwBinOp::AtomicXor,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicMax => AtomicRmwBinOp::AtomicMax,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicMin => AtomicRmwBinOp::AtomicMin,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicUMax => AtomicRmwBinOp::AtomicUMax,
+            dustc_codegen_ssa::common::AtomicRmwBinOp::AtomicUMin => AtomicRmwBinOp::AtomicUMin,
         }
     }
 }
@@ -321,24 +321,24 @@ pub enum AtomicOrdering {
 }
 
 impl AtomicOrdering {
-    pub fn from_generic(ao: rustc_codegen_ssa::common::AtomicOrdering) -> Self {
+    pub fn from_generic(ao: dustc_codegen_ssa::common::AtomicOrdering) -> Self {
         match ao {
-            rustc_codegen_ssa::common::AtomicOrdering::NotAtomic => AtomicOrdering::NotAtomic,
-            rustc_codegen_ssa::common::AtomicOrdering::Unordered => AtomicOrdering::Unordered,
-            rustc_codegen_ssa::common::AtomicOrdering::Monotonic => AtomicOrdering::Monotonic,
-            rustc_codegen_ssa::common::AtomicOrdering::Acquire => AtomicOrdering::Acquire,
-            rustc_codegen_ssa::common::AtomicOrdering::Release => AtomicOrdering::Release,
-            rustc_codegen_ssa::common::AtomicOrdering::AcquireRelease => {
+            dustc_codegen_ssa::common::AtomicOrdering::NotAtomic => AtomicOrdering::NotAtomic,
+            dustc_codegen_ssa::common::AtomicOrdering::Unordered => AtomicOrdering::Unordered,
+            dustc_codegen_ssa::common::AtomicOrdering::Monotonic => AtomicOrdering::Monotonic,
+            dustc_codegen_ssa::common::AtomicOrdering::Acquire => AtomicOrdering::Acquire,
+            dustc_codegen_ssa::common::AtomicOrdering::Release => AtomicOrdering::Release,
+            dustc_codegen_ssa::common::AtomicOrdering::AcquireRelease => {
                 AtomicOrdering::AcquireRelease
             }
-            rustc_codegen_ssa::common::AtomicOrdering::SequentiallyConsistent => {
+            dustc_codegen_ssa::common::AtomicOrdering::SequentiallyConsistent => {
                 AtomicOrdering::SequentiallyConsistent
             }
         }
     }
 }
 
-/// LLVMRustSynchronizationScope
+/// LLVMDustSynchronizationScope
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub enum SynchronizationScope {
@@ -347,19 +347,19 @@ pub enum SynchronizationScope {
 }
 
 impl SynchronizationScope {
-    pub fn from_generic(sc: rustc_codegen_ssa::common::SynchronizationScope) -> Self {
+    pub fn from_generic(sc: dustc_codegen_ssa::common::SynchronizationScope) -> Self {
         match sc {
-            rustc_codegen_ssa::common::SynchronizationScope::SingleThread => {
+            dustc_codegen_ssa::common::SynchronizationScope::SingleThread => {
                 SynchronizationScope::SingleThread
             }
-            rustc_codegen_ssa::common::SynchronizationScope::CrossThread => {
+            dustc_codegen_ssa::common::SynchronizationScope::CrossThread => {
                 SynchronizationScope::CrossThread
             }
         }
     }
 }
 
-/// LLVMRustFileType
+/// LLVMDustFileType
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub enum FileType {
@@ -385,7 +385,7 @@ pub enum MetadataType {
     MD_nonnull = 11,
 }
 
-/// LLVMRustAsmDialect
+/// LLVMDustAsmDialect
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub enum AsmDialect {
@@ -394,15 +394,15 @@ pub enum AsmDialect {
 }
 
 impl AsmDialect {
-    pub fn from_generic(asm: rustc_ast::LlvmAsmDialect) -> Self {
+    pub fn from_generic(asm: dustc_ast::LlvmAsmDialect) -> Self {
         match asm {
-            rustc_ast::LlvmAsmDialect::Att => AsmDialect::Att,
-            rustc_ast::LlvmAsmDialect::Intel => AsmDialect::Intel,
+            dustc_ast::LlvmAsmDialect::Att => AsmDialect::Att,
+            dustc_ast::LlvmAsmDialect::Intel => AsmDialect::Intel,
         }
     }
 }
 
-/// LLVMRustCodeGenOptLevel
+/// LLVMDustCodeGenOptLevel
 #[derive(Copy, Clone, PartialEq)]
 #[repr(C)]
 pub enum CodeGenOptLevel {
@@ -412,7 +412,7 @@ pub enum CodeGenOptLevel {
     Aggressive,
 }
 
-/// LLVMRustPassBuilderOptLevel
+/// LLVMDustPassBuilderOptLevel
 #[repr(C)]
 pub enum PassBuilderOptLevel {
     O0,
@@ -423,7 +423,7 @@ pub enum PassBuilderOptLevel {
     Oz,
 }
 
-/// LLVMRustOptStage
+/// LLVMDustOptStage
 #[derive(PartialEq)]
 #[repr(C)]
 pub enum OptStage {
@@ -434,7 +434,7 @@ pub enum OptStage {
     FatLTO,
 }
 
-/// LLVMRustSanitizerOptions
+/// LLVMDustSanitizerOptions
 #[repr(C)]
 pub struct SanitizerOptions {
     pub sanitize_address: bool,
@@ -459,7 +459,7 @@ pub enum RelocModel {
     ROPI_RWPI,
 }
 
-/// LLVMRustCodeModel
+/// LLVMDustCodeModel
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub enum CodeModel {
@@ -471,7 +471,7 @@ pub enum CodeModel {
     None,
 }
 
-/// LLVMRustDiagnosticKind
+/// LLVMDustDiagnosticKind
 #[derive(Copy, Clone)]
 #[repr(C)]
 #[allow(dead_code)] // Variants constructed by C++.
@@ -493,7 +493,7 @@ pub enum DiagnosticKind {
     Unsupported,
 }
 
-/// LLVMRustDiagnosticLevel
+/// LLVMDustDiagnosticLevel
 #[derive(Copy, Clone)]
 #[repr(C)]
 #[allow(dead_code)] // Variants constructed by C++.
@@ -504,7 +504,7 @@ pub enum DiagnosticLevel {
     Remark,
 }
 
-/// LLVMRustArchiveKind
+/// LLVMDustArchiveKind
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub enum ArchiveKind {
@@ -514,7 +514,7 @@ pub enum ArchiveKind {
     K_COFF,
 }
 
-/// LLVMRustPassKind
+/// LLVMDustPassKind
 #[derive(Copy, Clone, PartialEq, Debug)]
 #[repr(C)]
 #[allow(dead_code)] // Variants constructed by C++.
@@ -524,21 +524,21 @@ pub enum PassKind {
     Module,
 }
 
-/// LLVMRustThinLTOData
+/// LLVMDustThinLTOData
 extern "C" {
     pub type ThinLTOData;
 }
 
-/// LLVMRustThinLTOBuffer
+/// LLVMDustThinLTOBuffer
 extern "C" {
     pub type ThinLTOBuffer;
 }
 
-// LLVMRustModuleNameCallback
+// LLVMDustModuleNameCallback
 pub type ThinLTOModuleNameCallback =
     unsafe extern "C" fn(*mut c_void, *const c_char, *const c_char);
 
-/// LLVMRustThinLTOModule
+/// LLVMDustThinLTOModule
 #[repr(C)]
 pub struct ThinLTOModule {
     pub identifier: *const c_char,
@@ -557,7 +557,7 @@ pub enum ThreadLocalMode {
     LocalExec,
 }
 
-/// LLVMRustChecksumKind
+/// LLVMDustChecksumKind
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub enum ChecksumKind {
@@ -636,7 +636,7 @@ extern "C" {
     pub type SMDiagnostic;
 }
 #[repr(C)]
-pub struct RustArchiveMember<'a>(InvariantOpaque<'a>);
+pub struct DustArchiveMember<'a>(InvariantOpaque<'a>);
 #[repr(C)]
 pub struct OperandBundleDef<'a>(InvariantOpaque<'a>);
 #[repr(C)]
@@ -648,7 +648,7 @@ pub type InlineAsmDiagHandler = unsafe extern "C" fn(&SMDiagnostic, *const c_voi
 pub mod coverageinfo {
     use super::coverage_map;
 
-    /// Aligns with [llvm::coverage::CounterMappingRegion::RegionKind](https://github.com/rust-lang/llvm-project/blob/rustc/11.0-2020-10-12/llvm/include/llvm/ProfileData/Coverage/CoverageMapping.h#L206-L222)
+    /// Aligns with [llvm::coverage::CounterMappingRegion::RegionKind](https://github.com/dust-lang/llvm-project/blob/dustc/11.0-2020-10-12/llvm/include/llvm/ProfileData/Coverage/CoverageMapping.h#L206-L222)
     #[derive(Copy, Clone, Debug)]
     #[repr(C)]
     pub enum RegionKind {
@@ -671,13 +671,13 @@ pub mod coverageinfo {
 
     /// This struct provides LLVM's representation of a "CoverageMappingRegion", encoded into the
     /// coverage map, in accordance with the
-    /// [LLVM Code Coverage Mapping Format](https://github.com/rust-lang/llvm-project/blob/rustc/11.0-2020-10-12/llvm/docs/CoverageMappingFormat.rst#llvm-code-coverage-mapping-format).
+    /// [LLVM Code Coverage Mapping Format](https://github.com/dust-lang/llvm-project/blob/dustc/11.0-2020-10-12/llvm/docs/CoverageMappingFormat.rst#llvm-code-coverage-mapping-format).
     /// The struct composes fields representing the `Counter` type and value(s) (injected counter
     /// ID, or expression type and operands), the source file (an indirect index into a "filenames
     /// array", encoded separately), and source location (start and end positions of the represented
     /// code region).
     ///
-    /// Matches LLVMRustCounterMappingRegion.
+    /// Matches LLVMDustCounterMappingRegion.
     #[derive(Copy, Clone, Debug)]
     #[repr(C)]
     pub struct CounterMappingRegion {
@@ -817,7 +817,7 @@ pub mod debuginfo {
     pub type DIEnumerator = DIDescriptor;
     pub type DITemplateTypeParameter = DIDescriptor;
 
-    // These values **must** match with LLVMRustDIFlags!!
+    // These values **must** match with LLVMDustDIFlags!!
     bitflags! {
         #[repr(transparent)]
         #[derive(Default)]
@@ -846,7 +846,7 @@ pub mod debuginfo {
         }
     }
 
-    // These values **must** match with LLVMRustDISPFlags!!
+    // These values **must** match with LLVMDustDISPFlags!!
     bitflags! {
         #[repr(transparent)]
         #[derive(Default)]
@@ -861,7 +861,7 @@ pub mod debuginfo {
         }
     }
 
-    /// LLVMRustDebugEmissionKind
+    /// LLVMDustDebugEmissionKind
     #[derive(Copy, Clone)]
     #[repr(C)]
     pub enum DebugEmissionKind {
@@ -871,8 +871,8 @@ pub mod debuginfo {
     }
 
     impl DebugEmissionKind {
-        pub fn from_generic(kind: rustc_session::config::DebugInfo) -> Self {
-            use rustc_session::config::DebugInfo;
+        pub fn from_generic(kind: dustc_session::config::DebugInfo) -> Self {
+            use dustc_session::config::DebugInfo;
             match kind {
                 DebugInfo::None => DebugEmissionKind::NoDebug,
                 DebugInfo::Limited => DebugEmissionKind::LineTablesOnly,
@@ -891,10 +891,10 @@ pub type SelfProfileBeforePassCallback =
 pub type SelfProfileAfterPassCallback = unsafe extern "C" fn(*mut c_void);
 
 extern "C" {
-    pub fn LLVMRustInstallFatalErrorHandler();
+    pub fn LLVMDustInstallFatalErrorHandler();
 
     // Create and destroy contexts.
-    pub fn LLVMRustContextCreate(shouldDiscardNames: bool) -> &'static mut Context;
+    pub fn LLVMDustContextCreate(shouldDiscardNames: bool) -> &'static mut Context;
     pub fn LLVMContextDispose(C: &'static mut Context);
     pub fn LLVMGetMDKindIDInContext(C: &Context, Name: *const c_char, SLen: c_uint) -> c_uint;
 
@@ -909,10 +909,10 @@ extern "C" {
 
     /// See Module::setModuleInlineAsm.
     pub fn LLVMSetModuleInlineAsm2(M: &Module, Asm: *const c_char, AsmLen: size_t);
-    pub fn LLVMRustAppendModuleInlineAsm(M: &Module, Asm: *const c_char, AsmLen: size_t);
+    pub fn LLVMDustAppendModuleInlineAsm(M: &Module, Asm: *const c_char, AsmLen: size_t);
 
     /// See llvm::LLVMTypeKind::getTypeID.
-    pub fn LLVMRustGetTypeKind(Ty: &Type) -> TypeKind;
+    pub fn LLVMDustGetTypeKind(Ty: &Type) -> TypeKind;
 
     // Operations on integer types
     pub fn LLVMInt1TypeInContext(C: &Context) -> &Type;
@@ -947,7 +947,7 @@ extern "C" {
     ) -> &'a Type;
 
     // Operations on array, pointer, and vector types (sequence types)
-    pub fn LLVMRustArrayType(ElementType: &Type, ElementCount: u64) -> &Type;
+    pub fn LLVMDustArrayType(ElementType: &Type, ElementCount: u64) -> &Type;
     pub fn LLVMPointerType(ElementType: &Type, AddressSpace: c_uint) -> &Type;
     pub fn LLVMVectorType(ElementType: &Type, ElementCount: c_uint) -> &Type;
 
@@ -956,7 +956,7 @@ extern "C" {
 
     // Operations on other types
     pub fn LLVMVoidTypeInContext(C: &Context) -> &Type;
-    pub fn LLVMRustMetadataTypeInContext(C: &Context) -> &Type;
+    pub fn LLVMDustMetadataTypeInContext(C: &Context) -> &Type;
 
     // Operations on all values
     pub fn LLVMTypeOf(Val: &Value) -> &Type;
@@ -979,7 +979,7 @@ extern "C" {
     pub fn LLVMConstIntOfArbitraryPrecision(IntTy: &Type, Wn: c_uint, Ws: *const u64) -> &Value;
     pub fn LLVMConstReal(RealTy: &Type, N: f64) -> &Value;
     pub fn LLVMConstIntGetZExtValue(ConstantVal: &ConstantInt) -> c_ulonglong;
-    pub fn LLVMRustConstInt128Get(
+    pub fn LLVMDustConstInt128Get(
         ConstantVal: &ConstantInt,
         SExt: bool,
         high: &mut u64,
@@ -1026,11 +1026,11 @@ extern "C" {
 
     // Operations on global variables, functions, and aliases (globals)
     pub fn LLVMIsDeclaration(Global: &Value) -> Bool;
-    pub fn LLVMRustGetLinkage(Global: &Value) -> Linkage;
-    pub fn LLVMRustSetLinkage(Global: &Value, RustLinkage: Linkage);
+    pub fn LLVMDustGetLinkage(Global: &Value) -> Linkage;
+    pub fn LLVMDustSetLinkage(Global: &Value, DustLinkage: Linkage);
     pub fn LLVMSetSection(Global: &Value, Section: *const c_char);
-    pub fn LLVMRustGetVisibility(Global: &Value) -> Visibility;
-    pub fn LLVMRustSetVisibility(Global: &Value, Viz: Visibility);
+    pub fn LLVMDustGetVisibility(Global: &Value) -> Visibility;
+    pub fn LLVMDustSetVisibility(Global: &Value, Viz: Visibility);
     pub fn LLVMGetAlignment(Global: &Value) -> c_uint;
     pub fn LLVMSetAlignment(Global: &Value, Bytes: c_uint);
     pub fn LLVMSetDLLStorageClass(V: &Value, C: DLLStorageClass);
@@ -1039,13 +1039,13 @@ extern "C" {
     pub fn LLVMIsAGlobalVariable(GlobalVar: &Value) -> Option<&Value>;
     pub fn LLVMAddGlobal(M: &'a Module, Ty: &'a Type, Name: *const c_char) -> &'a Value;
     pub fn LLVMGetNamedGlobal(M: &Module, Name: *const c_char) -> Option<&Value>;
-    pub fn LLVMRustGetOrInsertGlobal(
+    pub fn LLVMDustGetOrInsertGlobal(
         M: &'a Module,
         Name: *const c_char,
         NameLen: size_t,
         T: &'a Type,
     ) -> &'a Value;
-    pub fn LLVMRustInsertPrivateGlobal(M: &'a Module, T: &'a Type) -> &'a Value;
+    pub fn LLVMDustInsertPrivateGlobal(M: &'a Module, T: &'a Type) -> &'a Value;
     pub fn LLVMGetFirstGlobal(M: &Module) -> Option<&Value>;
     pub fn LLVMGetNextGlobal(GlobalVar: &Value) -> Option<&Value>;
     pub fn LLVMDeleteGlobal(GlobalVar: &Value);
@@ -1055,7 +1055,7 @@ extern "C" {
     pub fn LLVMSetThreadLocalMode(GlobalVar: &Value, Mode: ThreadLocalMode);
     pub fn LLVMIsGlobalConstant(GlobalVar: &Value) -> Bool;
     pub fn LLVMSetGlobalConstant(GlobalVar: &Value, IsConstant: Bool);
-    pub fn LLVMRustGetNamedValue(
+    pub fn LLVMDustGetNamedValue(
         M: &Module,
         Name: *const c_char,
         NameLen: size_t,
@@ -1063,26 +1063,26 @@ extern "C" {
     pub fn LLVMSetTailCall(CallInst: &Value, IsTailCall: Bool);
 
     // Operations on functions
-    pub fn LLVMRustGetOrInsertFunction(
+    pub fn LLVMDustGetOrInsertFunction(
         M: &'a Module,
         Name: *const c_char,
         NameLen: size_t,
         FunctionTy: &'a Type,
     ) -> &'a Value;
     pub fn LLVMSetFunctionCallConv(Fn: &Value, CC: c_uint);
-    pub fn LLVMRustAddAlignmentAttr(Fn: &Value, index: c_uint, bytes: u32);
-    pub fn LLVMRustAddDereferenceableAttr(Fn: &Value, index: c_uint, bytes: u64);
-    pub fn LLVMRustAddDereferenceableOrNullAttr(Fn: &Value, index: c_uint, bytes: u64);
-    pub fn LLVMRustAddByValAttr(Fn: &Value, index: c_uint, ty: &Type);
-    pub fn LLVMRustAddStructRetAttr(Fn: &Value, index: c_uint, ty: &Type);
-    pub fn LLVMRustAddFunctionAttribute(Fn: &Value, index: c_uint, attr: Attribute);
-    pub fn LLVMRustAddFunctionAttrStringValue(
+    pub fn LLVMDustAddAlignmentAttr(Fn: &Value, index: c_uint, bytes: u32);
+    pub fn LLVMDustAddDereferenceableAttr(Fn: &Value, index: c_uint, bytes: u64);
+    pub fn LLVMDustAddDereferenceableOrNullAttr(Fn: &Value, index: c_uint, bytes: u64);
+    pub fn LLVMDustAddByValAttr(Fn: &Value, index: c_uint, ty: &Type);
+    pub fn LLVMDustAddStructRetAttr(Fn: &Value, index: c_uint, ty: &Type);
+    pub fn LLVMDustAddFunctionAttribute(Fn: &Value, index: c_uint, attr: Attribute);
+    pub fn LLVMDustAddFunctionAttrStringValue(
         Fn: &Value,
         index: c_uint,
         Name: *const c_char,
         Value: *const c_char,
     );
-    pub fn LLVMRustRemoveFunctionAttributes(Fn: &Value, index: c_uint, attr: Attribute);
+    pub fn LLVMDustRemoveFunctionAttributes(Fn: &Value, index: c_uint, attr: Attribute);
 
     // Operations on parameters
     pub fn LLVMIsAArgument(Val: &Value) -> Option<&Value>;
@@ -1104,13 +1104,13 @@ extern "C" {
 
     // Operations on call sites
     pub fn LLVMSetInstructionCallConv(Instr: &Value, CC: c_uint);
-    pub fn LLVMRustAddCallSiteAttribute(Instr: &Value, index: c_uint, attr: Attribute);
-    pub fn LLVMRustAddCallSiteAttrString(Instr: &Value, index: c_uint, Name: *const c_char);
-    pub fn LLVMRustAddAlignmentCallSiteAttr(Instr: &Value, index: c_uint, bytes: u32);
-    pub fn LLVMRustAddDereferenceableCallSiteAttr(Instr: &Value, index: c_uint, bytes: u64);
-    pub fn LLVMRustAddDereferenceableOrNullCallSiteAttr(Instr: &Value, index: c_uint, bytes: u64);
-    pub fn LLVMRustAddByValCallSiteAttr(Instr: &Value, index: c_uint, ty: &Type);
-    pub fn LLVMRustAddStructRetCallSiteAttr(Instr: &Value, index: c_uint, ty: &Type);
+    pub fn LLVMDustAddCallSiteAttribute(Instr: &Value, index: c_uint, attr: Attribute);
+    pub fn LLVMDustAddCallSiteAttrString(Instr: &Value, index: c_uint, Name: *const c_char);
+    pub fn LLVMDustAddAlignmentCallSiteAttr(Instr: &Value, index: c_uint, bytes: u32);
+    pub fn LLVMDustAddDereferenceableCallSiteAttr(Instr: &Value, index: c_uint, bytes: u64);
+    pub fn LLVMDustAddDereferenceableOrNullCallSiteAttr(Instr: &Value, index: c_uint, bytes: u64);
+    pub fn LLVMDustAddByValCallSiteAttr(Instr: &Value, index: c_uint, ty: &Type);
+    pub fn LLVMDustAddStructRetCallSiteAttr(Instr: &Value, index: c_uint, ty: &Type);
 
     // Operations on load/store instructions (only)
     pub fn LLVMSetVolatile(MemoryAccessInst: &Value, volatile: Bool);
@@ -1148,7 +1148,7 @@ extern "C" {
         Else: &'a BasicBlock,
         NumCases: c_uint,
     ) -> &'a Value;
-    pub fn LLVMRustBuildInvoke(
+    pub fn LLVMDustBuildInvoke(
         B: &Builder<'a>,
         Fn: &'a Value,
         Args: *const &'a Value,
@@ -1168,38 +1168,38 @@ extern "C" {
     pub fn LLVMBuildResume(B: &Builder<'a>, Exn: &'a Value) -> &'a Value;
     pub fn LLVMBuildUnreachable(B: &Builder<'a>) -> &'a Value;
 
-    pub fn LLVMRustBuildCleanupPad(
+    pub fn LLVMDustBuildCleanupPad(
         B: &Builder<'a>,
         ParentPad: Option<&'a Value>,
         ArgCnt: c_uint,
         Args: *const &'a Value,
         Name: *const c_char,
     ) -> Option<&'a Value>;
-    pub fn LLVMRustBuildCleanupRet(
+    pub fn LLVMDustBuildCleanupRet(
         B: &Builder<'a>,
         CleanupPad: &'a Value,
         UnwindBB: Option<&'a BasicBlock>,
     ) -> Option<&'a Value>;
-    pub fn LLVMRustBuildCatchPad(
+    pub fn LLVMDustBuildCatchPad(
         B: &Builder<'a>,
         ParentPad: &'a Value,
         ArgCnt: c_uint,
         Args: *const &'a Value,
         Name: *const c_char,
     ) -> Option<&'a Value>;
-    pub fn LLVMRustBuildCatchRet(
+    pub fn LLVMDustBuildCatchRet(
         B: &Builder<'a>,
         Pad: &'a Value,
         BB: &'a BasicBlock,
     ) -> Option<&'a Value>;
-    pub fn LLVMRustBuildCatchSwitch(
+    pub fn LLVMDustBuildCatchSwitch(
         Builder: &Builder<'a>,
         ParentPad: Option<&'a Value>,
         BB: Option<&'a BasicBlock>,
         NumHandlers: c_uint,
         Name: *const c_char,
     ) -> Option<&'a Value>;
-    pub fn LLVMRustAddHandler(CatchSwitch: &'a Value, Handler: &'a BasicBlock);
+    pub fn LLVMDustAddHandler(CatchSwitch: &'a Value, Handler: &'a BasicBlock);
     pub fn LLVMSetPersonalityFn(Func: &'a Value, Pers: &'a Value);
 
     // Add a case to the switch instruction
@@ -1371,7 +1371,7 @@ extern "C" {
     pub fn LLVMBuildNeg(B: &Builder<'a>, V: &'a Value, Name: *const c_char) -> &'a Value;
     pub fn LLVMBuildFNeg(B: &Builder<'a>, V: &'a Value, Name: *const c_char) -> &'a Value;
     pub fn LLVMBuildNot(B: &Builder<'a>, V: &'a Value, Name: *const c_char) -> &'a Value;
-    pub fn LLVMRustSetHasUnsafeAlgebra(Instr: &Value);
+    pub fn LLVMDustSetHasUnsafeAlgebra(Instr: &Value);
 
     // Memory
     pub fn LLVMBuildAlloca(B: &Builder<'a>, Ty: &'a Type, Name: *const c_char) -> &'a Value;
@@ -1485,7 +1485,7 @@ extern "C" {
         DestTy: &'a Type,
         Name: *const c_char,
     ) -> &'a Value;
-    pub fn LLVMRustBuildIntCast(
+    pub fn LLVMDustBuildIntCast(
         B: &Builder<'a>,
         Val: &'a Value,
         DestTy: &'a Type,
@@ -1510,15 +1510,15 @@ extern "C" {
 
     // Miscellaneous instructions
     pub fn LLVMBuildPhi(B: &Builder<'a>, Ty: &'a Type, Name: *const c_char) -> &'a Value;
-    pub fn LLVMRustGetInstrProfIncrementIntrinsic(M: &Module) -> &'a Value;
-    pub fn LLVMRustBuildCall(
+    pub fn LLVMDustGetInstrProfIncrementIntrinsic(M: &Module) -> &'a Value;
+    pub fn LLVMDustBuildCall(
         B: &Builder<'a>,
         Fn: &'a Value,
         Args: *const &'a Value,
         NumArgs: c_uint,
         Bundle: Option<&OperandBundleDef<'a>>,
     ) -> &'a Value;
-    pub fn LLVMRustBuildMemCpy(
+    pub fn LLVMDustBuildMemCpy(
         B: &Builder<'a>,
         Dst: &'a Value,
         DstAlign: c_uint,
@@ -1527,7 +1527,7 @@ extern "C" {
         Size: &'a Value,
         IsVolatile: bool,
     ) -> &'a Value;
-    pub fn LLVMRustBuildMemMove(
+    pub fn LLVMDustBuildMemMove(
         B: &Builder<'a>,
         Dst: &'a Value,
         DstAlign: c_uint,
@@ -1536,7 +1536,7 @@ extern "C" {
         Size: &'a Value,
         IsVolatile: bool,
     ) -> &'a Value;
-    pub fn LLVMRustBuildMemSet(
+    pub fn LLVMDustBuildMemSet(
         B: &Builder<'a>,
         Dst: &'a Value,
         DstAlign: c_uint,
@@ -1591,55 +1591,55 @@ extern "C" {
         Name: *const c_char,
     ) -> &'a Value;
 
-    pub fn LLVMRustBuildVectorReduceFAdd(
+    pub fn LLVMDustBuildVectorReduceFAdd(
         B: &Builder<'a>,
         Acc: &'a Value,
         Src: &'a Value,
     ) -> &'a Value;
-    pub fn LLVMRustBuildVectorReduceFMul(
+    pub fn LLVMDustBuildVectorReduceFMul(
         B: &Builder<'a>,
         Acc: &'a Value,
         Src: &'a Value,
     ) -> &'a Value;
-    pub fn LLVMRustBuildVectorReduceAdd(B: &Builder<'a>, Src: &'a Value) -> &'a Value;
-    pub fn LLVMRustBuildVectorReduceMul(B: &Builder<'a>, Src: &'a Value) -> &'a Value;
-    pub fn LLVMRustBuildVectorReduceAnd(B: &Builder<'a>, Src: &'a Value) -> &'a Value;
-    pub fn LLVMRustBuildVectorReduceOr(B: &Builder<'a>, Src: &'a Value) -> &'a Value;
-    pub fn LLVMRustBuildVectorReduceXor(B: &Builder<'a>, Src: &'a Value) -> &'a Value;
-    pub fn LLVMRustBuildVectorReduceMin(
+    pub fn LLVMDustBuildVectorReduceAdd(B: &Builder<'a>, Src: &'a Value) -> &'a Value;
+    pub fn LLVMDustBuildVectorReduceMul(B: &Builder<'a>, Src: &'a Value) -> &'a Value;
+    pub fn LLVMDustBuildVectorReduceAnd(B: &Builder<'a>, Src: &'a Value) -> &'a Value;
+    pub fn LLVMDustBuildVectorReduceOr(B: &Builder<'a>, Src: &'a Value) -> &'a Value;
+    pub fn LLVMDustBuildVectorReduceXor(B: &Builder<'a>, Src: &'a Value) -> &'a Value;
+    pub fn LLVMDustBuildVectorReduceMin(
         B: &Builder<'a>,
         Src: &'a Value,
         IsSigned: bool,
     ) -> &'a Value;
-    pub fn LLVMRustBuildVectorReduceMax(
+    pub fn LLVMDustBuildVectorReduceMax(
         B: &Builder<'a>,
         Src: &'a Value,
         IsSigned: bool,
     ) -> &'a Value;
-    pub fn LLVMRustBuildVectorReduceFMin(B: &Builder<'a>, Src: &'a Value, IsNaN: bool)
+    pub fn LLVMDustBuildVectorReduceFMin(B: &Builder<'a>, Src: &'a Value, IsNaN: bool)
     -> &'a Value;
-    pub fn LLVMRustBuildVectorReduceFMax(B: &Builder<'a>, Src: &'a Value, IsNaN: bool)
+    pub fn LLVMDustBuildVectorReduceFMax(B: &Builder<'a>, Src: &'a Value, IsNaN: bool)
     -> &'a Value;
 
-    pub fn LLVMRustBuildMinNum(B: &Builder<'a>, LHS: &'a Value, LHS: &'a Value) -> &'a Value;
-    pub fn LLVMRustBuildMaxNum(B: &Builder<'a>, LHS: &'a Value, LHS: &'a Value) -> &'a Value;
+    pub fn LLVMDustBuildMinNum(B: &Builder<'a>, LHS: &'a Value, LHS: &'a Value) -> &'a Value;
+    pub fn LLVMDustBuildMaxNum(B: &Builder<'a>, LHS: &'a Value, LHS: &'a Value) -> &'a Value;
 
     // Atomic Operations
-    pub fn LLVMRustBuildAtomicLoad(
+    pub fn LLVMDustBuildAtomicLoad(
         B: &Builder<'a>,
         PointerVal: &'a Value,
         Name: *const c_char,
         Order: AtomicOrdering,
     ) -> &'a Value;
 
-    pub fn LLVMRustBuildAtomicStore(
+    pub fn LLVMDustBuildAtomicStore(
         B: &Builder<'a>,
         Val: &'a Value,
         Ptr: &'a Value,
         Order: AtomicOrdering,
     ) -> &'a Value;
 
-    pub fn LLVMRustBuildAtomicCmpXchg(
+    pub fn LLVMDustBuildAtomicCmpXchg(
         B: &Builder<'a>,
         LHS: &'a Value,
         CMP: &'a Value,
@@ -1658,7 +1658,7 @@ extern "C" {
         SingleThreaded: Bool,
     ) -> &'a Value;
 
-    pub fn LLVMRustBuildAtomicFence(
+    pub fn LLVMDustBuildAtomicFence(
         B: &Builder<'_>,
         Order: AtomicOrdering,
         Scope: SynchronizationScope,
@@ -1710,7 +1710,7 @@ extern "C" {
         Internalize: Bool,
         RunInliner: Bool,
     );
-    pub fn LLVMRustPassManagerBuilderPopulateThinLTOPassManager(
+    pub fn LLVMDustPassManagerBuilderPopulateThinLTOPassManager(
         PMB: &PassManagerBuilder,
         PM: &PassManager<'_>,
     );
@@ -1744,17 +1744,17 @@ extern "C" {
 
     /// Reads the given file and returns it as a memory buffer. Use
     /// LLVMDisposeMemoryBuffer() to get rid of it.
-    pub fn LLVMRustCreateMemoryBufferWithContentsOfFile(
+    pub fn LLVMDustCreateMemoryBufferWithContentsOfFile(
         Path: *const c_char,
     ) -> Option<&'static mut MemoryBuffer>;
 
     pub fn LLVMStartMultithreaded() -> Bool;
 
-    /// Returns a string describing the last error caused by an LLVMRust* call.
-    pub fn LLVMRustGetLastError() -> *const c_char;
+    /// Returns a string describing the last error caused by an LLVMDust* call.
+    pub fn LLVMDustGetLastError() -> *const c_char;
 
     /// Print the pass timings since static dtors aren't picking them up.
-    pub fn LLVMRustPrintPassTimings();
+    pub fn LLVMDustPrintPassTimings();
 
     pub fn LLVMStructCreateNamed(C: &Context, Name: *const c_char) -> &Type;
 
@@ -1766,7 +1766,7 @@ extern "C" {
     );
 
     /// Prepares inline assembly.
-    pub fn LLVMRustInlineAsm(
+    pub fn LLVMDustInlineAsm(
         Ty: &Type,
         AsmString: *const c_char,
         AsmStringLen: size_t,
@@ -1776,61 +1776,61 @@ extern "C" {
         AlignStack: Bool,
         Dialect: AsmDialect,
     ) -> &Value;
-    pub fn LLVMRustInlineAsmVerify(
+    pub fn LLVMDustInlineAsmVerify(
         Ty: &Type,
         Constraints: *const c_char,
         ConstraintsLen: size_t,
     ) -> bool;
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustCoverageWriteFilenamesSectionToBuffer(
+    pub fn LLVMDustCoverageWriteFilenamesSectionToBuffer(
         Filenames: *const *const c_char,
         FilenamesLen: size_t,
-        BufferOut: &RustString,
+        BufferOut: &DustString,
     );
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustCoverageWriteMappingToBuffer(
+    pub fn LLVMDustCoverageWriteMappingToBuffer(
         VirtualFileMappingIDs: *const c_uint,
         NumVirtualFileMappingIDs: c_uint,
         Expressions: *const coverage_map::CounterExpression,
         NumExpressions: c_uint,
         MappingRegions: *const coverageinfo::CounterMappingRegion,
         NumMappingRegions: c_uint,
-        BufferOut: &RustString,
+        BufferOut: &DustString,
     );
 
-    pub fn LLVMRustCoverageCreatePGOFuncNameVar(F: &'a Value, FuncName: *const c_char)
+    pub fn LLVMDustCoverageCreatePGOFuncNameVar(F: &'a Value, FuncName: *const c_char)
     -> &'a Value;
-    pub fn LLVMRustCoverageHashCString(StrVal: *const c_char) -> u64;
-    pub fn LLVMRustCoverageHashByteArray(Bytes: *const c_char, NumBytes: size_t) -> u64;
+    pub fn LLVMDustCoverageHashCString(StrVal: *const c_char) -> u64;
+    pub fn LLVMDustCoverageHashByteArray(Bytes: *const c_char, NumBytes: size_t) -> u64;
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustCoverageWriteMapSectionNameToString(M: &Module, Str: &RustString);
+    pub fn LLVMDustCoverageWriteMapSectionNameToString(M: &Module, Str: &DustString);
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustCoverageWriteFuncSectionNameToString(M: &Module, Str: &RustString);
+    pub fn LLVMDustCoverageWriteFuncSectionNameToString(M: &Module, Str: &DustString);
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustCoverageWriteMappingVarNameToString(Str: &RustString);
+    pub fn LLVMDustCoverageWriteMappingVarNameToString(Str: &DustString);
 
-    pub fn LLVMRustCoverageMappingVersion() -> u32;
-    pub fn LLVMRustDebugMetadataVersion() -> u32;
-    pub fn LLVMRustVersionMajor() -> u32;
-    pub fn LLVMRustVersionMinor() -> u32;
-    pub fn LLVMRustVersionPatch() -> u32;
+    pub fn LLVMDustCoverageMappingVersion() -> u32;
+    pub fn LLVMDustDebugMetadataVersion() -> u32;
+    pub fn LLVMDustVersionMajor() -> u32;
+    pub fn LLVMDustVersionMinor() -> u32;
+    pub fn LLVMDustVersionPatch() -> u32;
 
-    pub fn LLVMRustAddModuleFlag(M: &Module, name: *const c_char, value: u32);
+    pub fn LLVMDustAddModuleFlag(M: &Module, name: *const c_char, value: u32);
 
-    pub fn LLVMRustMetadataAsValue(C: &'a Context, MD: &'a Metadata) -> &'a Value;
+    pub fn LLVMDustMetadataAsValue(C: &'a Context, MD: &'a Metadata) -> &'a Value;
 
-    pub fn LLVMRustDIBuilderCreate(M: &'a Module) -> &'a mut DIBuilder<'a>;
+    pub fn LLVMDustDIBuilderCreate(M: &'a Module) -> &'a mut DIBuilder<'a>;
 
-    pub fn LLVMRustDIBuilderDispose(Builder: &'a mut DIBuilder<'a>);
+    pub fn LLVMDustDIBuilderDispose(Builder: &'a mut DIBuilder<'a>);
 
-    pub fn LLVMRustDIBuilderFinalize(Builder: &DIBuilder<'_>);
+    pub fn LLVMDustDIBuilderFinalize(Builder: &DIBuilder<'_>);
 
-    pub fn LLVMRustDIBuilderCreateCompileUnit(
+    pub fn LLVMDustDIBuilderCreateCompileUnit(
         Builder: &DIBuilder<'a>,
         Lang: c_uint,
         File: &'a DIFile,
@@ -1846,7 +1846,7 @@ extern "C" {
         SplitDebugInlining: bool,
     ) -> &'a DIDescriptor;
 
-    pub fn LLVMRustDIBuilderCreateFile(
+    pub fn LLVMDustDIBuilderCreateFile(
         Builder: &DIBuilder<'a>,
         Filename: *const c_char,
         FilenameLen: size_t,
@@ -1857,12 +1857,12 @@ extern "C" {
         ChecksumLen: size_t,
     ) -> &'a DIFile;
 
-    pub fn LLVMRustDIBuilderCreateSubroutineType(
+    pub fn LLVMDustDIBuilderCreateSubroutineType(
         Builder: &DIBuilder<'a>,
         ParameterTypes: &'a DIArray,
     ) -> &'a DICompositeType;
 
-    pub fn LLVMRustDIBuilderCreateFunction(
+    pub fn LLVMDustDIBuilderCreateFunction(
         Builder: &DIBuilder<'a>,
         Scope: &'a DIDescriptor,
         Name: *const c_char,
@@ -1880,7 +1880,7 @@ extern "C" {
         Decl: Option<&'a DIDescriptor>,
     ) -> &'a DISubprogram;
 
-    pub fn LLVMRustDIBuilderCreateBasicType(
+    pub fn LLVMDustDIBuilderCreateBasicType(
         Builder: &DIBuilder<'a>,
         Name: *const c_char,
         NameLen: size_t,
@@ -1888,7 +1888,7 @@ extern "C" {
         Encoding: c_uint,
     ) -> &'a DIBasicType;
 
-    pub fn LLVMRustDIBuilderCreateTypedef(
+    pub fn LLVMDustDIBuilderCreateTypedef(
         Builder: &DIBuilder<'a>,
         Type: &'a DIBasicType,
         Name: *const c_char,
@@ -1898,7 +1898,7 @@ extern "C" {
         Scope: Option<&'a DIScope>,
     ) -> &'a DIDerivedType;
 
-    pub fn LLVMRustDIBuilderCreatePointerType(
+    pub fn LLVMDustDIBuilderCreatePointerType(
         Builder: &DIBuilder<'a>,
         PointeeTy: &'a DIType,
         SizeInBits: u64,
@@ -1908,7 +1908,7 @@ extern "C" {
         NameLen: size_t,
     ) -> &'a DIDerivedType;
 
-    pub fn LLVMRustDIBuilderCreateStructType(
+    pub fn LLVMDustDIBuilderCreateStructType(
         Builder: &DIBuilder<'a>,
         Scope: Option<&'a DIDescriptor>,
         Name: *const c_char,
@@ -1926,7 +1926,7 @@ extern "C" {
         UniqueIdLen: size_t,
     ) -> &'a DICompositeType;
 
-    pub fn LLVMRustDIBuilderCreateMemberType(
+    pub fn LLVMDustDIBuilderCreateMemberType(
         Builder: &DIBuilder<'a>,
         Scope: &'a DIDescriptor,
         Name: *const c_char,
@@ -1940,7 +1940,7 @@ extern "C" {
         Ty: &'a DIType,
     ) -> &'a DIDerivedType;
 
-    pub fn LLVMRustDIBuilderCreateVariantMemberType(
+    pub fn LLVMDustDIBuilderCreateVariantMemberType(
         Builder: &DIBuilder<'a>,
         Scope: &'a DIScope,
         Name: *const c_char,
@@ -1955,7 +1955,7 @@ extern "C" {
         Ty: &'a DIType,
     ) -> &'a DIType;
 
-    pub fn LLVMRustDIBuilderCreateLexicalBlock(
+    pub fn LLVMDustDIBuilderCreateLexicalBlock(
         Builder: &DIBuilder<'a>,
         Scope: &'a DIScope,
         File: &'a DIFile,
@@ -1963,13 +1963,13 @@ extern "C" {
         Col: c_uint,
     ) -> &'a DILexicalBlock;
 
-    pub fn LLVMRustDIBuilderCreateLexicalBlockFile(
+    pub fn LLVMDustDIBuilderCreateLexicalBlockFile(
         Builder: &DIBuilder<'a>,
         Scope: &'a DIScope,
         File: &'a DIFile,
     ) -> &'a DILexicalBlock;
 
-    pub fn LLVMRustDIBuilderCreateStaticVariable(
+    pub fn LLVMDustDIBuilderCreateStaticVariable(
         Builder: &DIBuilder<'a>,
         Context: Option<&'a DIScope>,
         Name: *const c_char,
@@ -1985,7 +1985,7 @@ extern "C" {
         AlignInBits: u32,
     ) -> &'a DIGlobalVariableExpression;
 
-    pub fn LLVMRustDIBuilderCreateVariable(
+    pub fn LLVMDustDIBuilderCreateVariable(
         Builder: &DIBuilder<'a>,
         Tag: c_uint,
         Scope: &'a DIDescriptor,
@@ -2000,7 +2000,7 @@ extern "C" {
         AlignInBits: u32,
     ) -> &'a DIVariable;
 
-    pub fn LLVMRustDIBuilderCreateArrayType(
+    pub fn LLVMDustDIBuilderCreateArrayType(
         Builder: &DIBuilder<'a>,
         Size: u64,
         AlignInBits: u32,
@@ -2008,19 +2008,19 @@ extern "C" {
         Subscripts: &'a DIArray,
     ) -> &'a DIType;
 
-    pub fn LLVMRustDIBuilderGetOrCreateSubrange(
+    pub fn LLVMDustDIBuilderGetOrCreateSubrange(
         Builder: &DIBuilder<'a>,
         Lo: i64,
         Count: i64,
     ) -> &'a DISubrange;
 
-    pub fn LLVMRustDIBuilderGetOrCreateArray(
+    pub fn LLVMDustDIBuilderGetOrCreateArray(
         Builder: &DIBuilder<'a>,
         Ptr: *const Option<&'a DIDescriptor>,
         Count: c_uint,
     ) -> &'a DIArray;
 
-    pub fn LLVMRustDIBuilderInsertDeclareAtEnd(
+    pub fn LLVMDustDIBuilderInsertDeclareAtEnd(
         Builder: &DIBuilder<'a>,
         Val: &'a Value,
         VarInfo: &'a DIVariable,
@@ -2030,7 +2030,7 @@ extern "C" {
         InsertAtEnd: &'a BasicBlock,
     ) -> &'a Value;
 
-    pub fn LLVMRustDIBuilderCreateEnumerator(
+    pub fn LLVMDustDIBuilderCreateEnumerator(
         Builder: &DIBuilder<'a>,
         Name: *const c_char,
         NameLen: size_t,
@@ -2038,7 +2038,7 @@ extern "C" {
         IsUnsigned: bool,
     ) -> &'a DIEnumerator;
 
-    pub fn LLVMRustDIBuilderCreateEnumerationType(
+    pub fn LLVMDustDIBuilderCreateEnumerationType(
         Builder: &DIBuilder<'a>,
         Scope: &'a DIScope,
         Name: *const c_char,
@@ -2052,7 +2052,7 @@ extern "C" {
         IsScoped: bool,
     ) -> &'a DIType;
 
-    pub fn LLVMRustDIBuilderCreateUnionType(
+    pub fn LLVMDustDIBuilderCreateUnionType(
         Builder: &DIBuilder<'a>,
         Scope: &'a DIScope,
         Name: *const c_char,
@@ -2068,7 +2068,7 @@ extern "C" {
         UniqueIdLen: size_t,
     ) -> &'a DIType;
 
-    pub fn LLVMRustDIBuilderCreateVariantPart(
+    pub fn LLVMDustDIBuilderCreateVariantPart(
         Builder: &DIBuilder<'a>,
         Scope: &'a DIScope,
         Name: *const c_char,
@@ -2086,7 +2086,7 @@ extern "C" {
 
     pub fn LLVMSetUnnamedAddress(Global: &Value, UnnamedAddr: UnnamedAddr);
 
-    pub fn LLVMRustDIBuilderCreateTemplateTypeParameter(
+    pub fn LLVMDustDIBuilderCreateTemplateTypeParameter(
         Builder: &DIBuilder<'a>,
         Scope: Option<&'a DIScope>,
         Name: *const c_char,
@@ -2094,7 +2094,7 @@ extern "C" {
         Ty: &'a DIType,
     ) -> &'a DITemplateTypeParameter;
 
-    pub fn LLVMRustDIBuilderCreateNameSpace(
+    pub fn LLVMDustDIBuilderCreateNameSpace(
         Builder: &DIBuilder<'a>,
         Scope: Option<&'a DIScope>,
         Name: *const c_char,
@@ -2102,53 +2102,53 @@ extern "C" {
         ExportSymbols: bool,
     ) -> &'a DINameSpace;
 
-    pub fn LLVMRustDICompositeTypeReplaceArrays(
+    pub fn LLVMDustDICompositeTypeReplaceArrays(
         Builder: &DIBuilder<'a>,
         CompositeType: &'a DIType,
         Elements: Option<&'a DIArray>,
         Params: Option<&'a DIArray>,
     );
 
-    pub fn LLVMRustDIBuilderCreateDebugLocation(
+    pub fn LLVMDustDIBuilderCreateDebugLocation(
         Line: c_uint,
         Column: c_uint,
         Scope: &'a DIScope,
         InlinedAt: Option<&'a DILocation>,
     ) -> &'a DILocation;
-    pub fn LLVMRustDIBuilderCreateOpDeref() -> i64;
-    pub fn LLVMRustDIBuilderCreateOpPlusUconst() -> i64;
+    pub fn LLVMDustDIBuilderCreateOpDeref() -> i64;
+    pub fn LLVMDustDIBuilderCreateOpPlusUconst() -> i64;
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustWriteTypeToString(Type: &Type, s: &RustString);
+    pub fn LLVMDustWriteTypeToString(Type: &Type, s: &DustString);
     #[allow(improper_ctypes)]
-    pub fn LLVMRustWriteValueToString(value_ref: &Value, s: &RustString);
+    pub fn LLVMDustWriteValueToString(value_ref: &Value, s: &DustString);
 
     pub fn LLVMIsAConstantInt(value_ref: &Value) -> Option<&ConstantInt>;
 
-    pub fn LLVMRustPassKind(Pass: &Pass) -> PassKind;
-    pub fn LLVMRustFindAndCreatePass(Pass: *const c_char) -> Option<&'static mut Pass>;
-    pub fn LLVMRustCreateAddressSanitizerFunctionPass(Recover: bool) -> &'static mut Pass;
-    pub fn LLVMRustCreateModuleAddressSanitizerPass(Recover: bool) -> &'static mut Pass;
-    pub fn LLVMRustCreateMemorySanitizerPass(
+    pub fn LLVMDustPassKind(Pass: &Pass) -> PassKind;
+    pub fn LLVMDustFindAndCreatePass(Pass: *const c_char) -> Option<&'static mut Pass>;
+    pub fn LLVMDustCreateAddressSanitizerFunctionPass(Recover: bool) -> &'static mut Pass;
+    pub fn LLVMDustCreateModuleAddressSanitizerPass(Recover: bool) -> &'static mut Pass;
+    pub fn LLVMDustCreateMemorySanitizerPass(
         TrackOrigins: c_int,
         Recover: bool,
     ) -> &'static mut Pass;
-    pub fn LLVMRustCreateThreadSanitizerPass() -> &'static mut Pass;
-    pub fn LLVMRustCreateHWAddressSanitizerPass(Recover: bool) -> &'static mut Pass;
-    pub fn LLVMRustAddPass(PM: &PassManager<'_>, Pass: &'static mut Pass);
-    pub fn LLVMRustAddLastExtensionPasses(
+    pub fn LLVMDustCreateThreadSanitizerPass() -> &'static mut Pass;
+    pub fn LLVMDustCreateHWAddressSanitizerPass(Recover: bool) -> &'static mut Pass;
+    pub fn LLVMDustAddPass(PM: &PassManager<'_>, Pass: &'static mut Pass);
+    pub fn LLVMDustAddLastExtensionPasses(
         PMB: &PassManagerBuilder,
         Passes: *const &'static mut Pass,
         NumPasses: size_t,
     );
 
-    pub fn LLVMRustHasFeature(T: &TargetMachine, s: *const c_char) -> bool;
+    pub fn LLVMDustHasFeature(T: &TargetMachine, s: *const c_char) -> bool;
 
-    pub fn LLVMRustPrintTargetCPUs(T: &TargetMachine);
-    pub fn LLVMRustPrintTargetFeatures(T: &TargetMachine);
+    pub fn LLVMDustPrintTargetCPUs(T: &TargetMachine);
+    pub fn LLVMDustPrintTargetFeatures(T: &TargetMachine);
 
-    pub fn LLVMRustGetHostCPUName(len: *mut usize) -> *const c_char;
-    pub fn LLVMRustCreateTargetMachine(
+    pub fn LLVMDustGetHostCPUName(len: *mut usize) -> *const c_char;
+    pub fn LLVMDustCreateTargetMachine(
         Triple: *const c_char,
         CPU: *const c_char,
         Features: *const c_char,
@@ -2167,13 +2167,13 @@ extern "C" {
         UseInitArray: bool,
         SplitDwarfFile: *const c_char,
     ) -> Option<&'static mut TargetMachine>;
-    pub fn LLVMRustDisposeTargetMachine(T: &'static mut TargetMachine);
-    pub fn LLVMRustAddBuilderLibraryInfo(
+    pub fn LLVMDustDisposeTargetMachine(T: &'static mut TargetMachine);
+    pub fn LLVMDustAddBuilderLibraryInfo(
         PMB: &'a PassManagerBuilder,
         M: &'a Module,
         DisableSimplifyLibCalls: bool,
     );
-    pub fn LLVMRustConfigurePassManagerBuilder(
+    pub fn LLVMDustConfigurePassManagerBuilder(
         PMB: &PassManagerBuilder,
         OptLevel: CodeGenOptLevel,
         MergeFunctions: bool,
@@ -2183,21 +2183,21 @@ extern "C" {
         PGOGenPath: *const c_char,
         PGOUsePath: *const c_char,
     );
-    pub fn LLVMRustAddLibraryInfo(
+    pub fn LLVMDustAddLibraryInfo(
         PM: &PassManager<'a>,
         M: &'a Module,
         DisableSimplifyLibCalls: bool,
     );
-    pub fn LLVMRustRunFunctionPassManager(PM: &PassManager<'a>, M: &'a Module);
-    pub fn LLVMRustWriteOutputFile(
+    pub fn LLVMDustRunFunctionPassManager(PM: &PassManager<'a>, M: &'a Module);
+    pub fn LLVMDustWriteOutputFile(
         T: &'a TargetMachine,
         PM: &PassManager<'a>,
         M: &'a Module,
         Output: *const c_char,
         DwoOutput: *const c_char,
         FileType: FileType,
-    ) -> LLVMRustResult;
-    pub fn LLVMRustOptimizeWithNewPassManager(
+    ) -> LLVMDustResult;
+    pub fn LLVMDustOptimizeWithNewPassManager(
         M: &'a Module,
         TM: &'a TargetMachine,
         OptLevel: PassBuilderOptLevel,
@@ -2218,38 +2218,38 @@ extern "C" {
         begin_callback: SelfProfileBeforePassCallback,
         end_callback: SelfProfileAfterPassCallback,
     );
-    pub fn LLVMRustPrintModule(
+    pub fn LLVMDustPrintModule(
         M: &'a Module,
         Output: *const c_char,
         Demangle: extern "C" fn(*const c_char, size_t, *mut c_char, size_t) -> size_t,
-    ) -> LLVMRustResult;
-    pub fn LLVMRustSetLLVMOptions(Argc: c_int, Argv: *const *const c_char);
-    pub fn LLVMRustPrintPasses();
-    pub fn LLVMRustGetInstructionCount(M: &Module) -> u32;
-    pub fn LLVMRustSetNormalizedTarget(M: &Module, triple: *const c_char);
-    pub fn LLVMRustAddAlwaysInlinePass(P: &PassManagerBuilder, AddLifetimes: bool);
-    pub fn LLVMRustRunRestrictionPass(M: &Module, syms: *const *const c_char, len: size_t);
-    pub fn LLVMRustMarkAllFunctionsNounwind(M: &Module);
+    ) -> LLVMDustResult;
+    pub fn LLVMDustSetLLVMOptions(Argc: c_int, Argv: *const *const c_char);
+    pub fn LLVMDustPrintPasses();
+    pub fn LLVMDustGetInstructionCount(M: &Module) -> u32;
+    pub fn LLVMDustSetNormalizedTarget(M: &Module, triple: *const c_char);
+    pub fn LLVMDustAddAlwaysInlinePass(P: &PassManagerBuilder, AddLifetimes: bool);
+    pub fn LLVMDustRunRestrictionPass(M: &Module, syms: *const *const c_char, len: size_t);
+    pub fn LLVMDustMarkAllFunctionsNounwind(M: &Module);
 
-    pub fn LLVMRustOpenArchive(path: *const c_char) -> Option<&'static mut Archive>;
-    pub fn LLVMRustArchiveIteratorNew(AR: &'a Archive) -> &'a mut ArchiveIterator<'a>;
-    pub fn LLVMRustArchiveIteratorNext(
+    pub fn LLVMDustOpenArchive(path: *const c_char) -> Option<&'static mut Archive>;
+    pub fn LLVMDustArchiveIteratorNew(AR: &'a Archive) -> &'a mut ArchiveIterator<'a>;
+    pub fn LLVMDustArchiveIteratorNext(
         AIR: &ArchiveIterator<'a>,
     ) -> Option<&'a mut ArchiveChild<'a>>;
-    pub fn LLVMRustArchiveChildName(ACR: &ArchiveChild<'_>, size: &mut size_t) -> *const c_char;
-    pub fn LLVMRustArchiveChildData(ACR: &ArchiveChild<'_>, size: &mut size_t) -> *const c_char;
-    pub fn LLVMRustArchiveChildFree(ACR: &'a mut ArchiveChild<'a>);
-    pub fn LLVMRustArchiveIteratorFree(AIR: &'a mut ArchiveIterator<'a>);
-    pub fn LLVMRustDestroyArchive(AR: &'static mut Archive);
+    pub fn LLVMDustArchiveChildName(ACR: &ArchiveChild<'_>, size: &mut size_t) -> *const c_char;
+    pub fn LLVMDustArchiveChildData(ACR: &ArchiveChild<'_>, size: &mut size_t) -> *const c_char;
+    pub fn LLVMDustArchiveChildFree(ACR: &'a mut ArchiveChild<'a>);
+    pub fn LLVMDustArchiveIteratorFree(AIR: &'a mut ArchiveIterator<'a>);
+    pub fn LLVMDustDestroyArchive(AR: &'static mut Archive);
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustGetSectionName(
+    pub fn LLVMDustGetSectionName(
         SI: &SectionIterator<'_>,
         data: &mut Option<std::ptr::NonNull<c_char>>,
     ) -> size_t;
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustWriteTwineToString(T: &Twine, s: &RustString);
+    pub fn LLVMDustWriteTwineToString(T: &Twine, s: &DustString);
 
     pub fn LLVMContextSetDiagnosticHandler(
         C: &Context,
@@ -2258,17 +2258,17 @@ extern "C" {
     );
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustUnpackOptimizationDiagnostic(
+    pub fn LLVMDustUnpackOptimizationDiagnostic(
         DI: &'a DiagnosticInfo,
-        pass_name_out: &RustString,
+        pass_name_out: &DustString,
         function_out: &mut Option<&'a Value>,
         loc_line_out: &mut c_uint,
         loc_column_out: &mut c_uint,
-        loc_filename_out: &RustString,
-        message_out: &RustString,
+        loc_filename_out: &DustString,
+        message_out: &DustString,
     );
 
-    pub fn LLVMRustUnpackInlineAsmDiagnostic(
+    pub fn LLVMDustUnpackInlineAsmDiagnostic(
         DI: &'a DiagnosticInfo,
         level_out: &mut DiagnosticLevel,
         cookie_out: &mut c_uint,
@@ -2277,118 +2277,118 @@ extern "C" {
     );
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustWriteDiagnosticInfoToString(DI: &DiagnosticInfo, s: &RustString);
-    pub fn LLVMRustGetDiagInfoKind(DI: &DiagnosticInfo) -> DiagnosticKind;
+    pub fn LLVMDustWriteDiagnosticInfoToString(DI: &DiagnosticInfo, s: &DustString);
+    pub fn LLVMDustGetDiagInfoKind(DI: &DiagnosticInfo) -> DiagnosticKind;
 
-    pub fn LLVMRustSetInlineAsmDiagnosticHandler(
+    pub fn LLVMDustSetInlineAsmDiagnosticHandler(
         C: &Context,
         H: InlineAsmDiagHandler,
         CX: *mut c_void,
     );
 
     #[allow(improper_ctypes)]
-    pub fn LLVMRustUnpackSMDiagnostic(
+    pub fn LLVMDustUnpackSMDiagnostic(
         d: &SMDiagnostic,
-        message_out: &RustString,
-        buffer_out: &RustString,
+        message_out: &DustString,
+        buffer_out: &DustString,
         level_out: &mut DiagnosticLevel,
         loc_out: &mut c_uint,
         ranges_out: *mut c_uint,
         num_ranges: &mut usize,
     ) -> bool;
 
-    pub fn LLVMRustWriteArchive(
+    pub fn LLVMDustWriteArchive(
         Dst: *const c_char,
         NumMembers: size_t,
-        Members: *const &RustArchiveMember<'_>,
+        Members: *const &DustArchiveMember<'_>,
         WriteSymbtab: bool,
         Kind: ArchiveKind,
-    ) -> LLVMRustResult;
-    pub fn LLVMRustArchiveMemberNew(
+    ) -> LLVMDustResult;
+    pub fn LLVMDustArchiveMemberNew(
         Filename: *const c_char,
         Name: *const c_char,
         Child: Option<&ArchiveChild<'a>>,
-    ) -> &'a mut RustArchiveMember<'a>;
-    pub fn LLVMRustArchiveMemberFree(Member: &'a mut RustArchiveMember<'a>);
+    ) -> &'a mut DustArchiveMember<'a>;
+    pub fn LLVMDustArchiveMemberFree(Member: &'a mut DustArchiveMember<'a>);
 
-    pub fn LLVMRustSetDataLayoutFromTargetMachine(M: &'a Module, TM: &'a TargetMachine);
+    pub fn LLVMDustSetDataLayoutFromTargetMachine(M: &'a Module, TM: &'a TargetMachine);
 
-    pub fn LLVMRustBuildOperandBundleDef(
+    pub fn LLVMDustBuildOperandBundleDef(
         Name: *const c_char,
         Inputs: *const &'a Value,
         NumInputs: c_uint,
     ) -> &'a mut OperandBundleDef<'a>;
-    pub fn LLVMRustFreeOperandBundleDef(Bundle: &'a mut OperandBundleDef<'a>);
+    pub fn LLVMDustFreeOperandBundleDef(Bundle: &'a mut OperandBundleDef<'a>);
 
-    pub fn LLVMRustPositionBuilderAtStart(B: &Builder<'a>, BB: &'a BasicBlock);
+    pub fn LLVMDustPositionBuilderAtStart(B: &Builder<'a>, BB: &'a BasicBlock);
 
-    pub fn LLVMRustSetComdat(M: &'a Module, V: &'a Value, Name: *const c_char, NameLen: size_t);
-    pub fn LLVMRustUnsetComdat(V: &Value);
-    pub fn LLVMRustSetModulePICLevel(M: &Module);
-    pub fn LLVMRustSetModulePIELevel(M: &Module);
-    pub fn LLVMRustSetModuleCodeModel(M: &Module, Model: CodeModel);
-    pub fn LLVMRustModuleBufferCreate(M: &Module) -> &'static mut ModuleBuffer;
-    pub fn LLVMRustModuleBufferPtr(p: &ModuleBuffer) -> *const u8;
-    pub fn LLVMRustModuleBufferLen(p: &ModuleBuffer) -> usize;
-    pub fn LLVMRustModuleBufferFree(p: &'static mut ModuleBuffer);
-    pub fn LLVMRustModuleCost(M: &Module) -> u64;
+    pub fn LLVMDustSetComdat(M: &'a Module, V: &'a Value, Name: *const c_char, NameLen: size_t);
+    pub fn LLVMDustUnsetComdat(V: &Value);
+    pub fn LLVMDustSetModulePICLevel(M: &Module);
+    pub fn LLVMDustSetModulePIELevel(M: &Module);
+    pub fn LLVMDustSetModuleCodeModel(M: &Module, Model: CodeModel);
+    pub fn LLVMDustModuleBufferCreate(M: &Module) -> &'static mut ModuleBuffer;
+    pub fn LLVMDustModuleBufferPtr(p: &ModuleBuffer) -> *const u8;
+    pub fn LLVMDustModuleBufferLen(p: &ModuleBuffer) -> usize;
+    pub fn LLVMDustModuleBufferFree(p: &'static mut ModuleBuffer);
+    pub fn LLVMDustModuleCost(M: &Module) -> u64;
 
-    pub fn LLVMRustThinLTOBufferCreate(M: &Module) -> &'static mut ThinLTOBuffer;
-    pub fn LLVMRustThinLTOBufferFree(M: &'static mut ThinLTOBuffer);
-    pub fn LLVMRustThinLTOBufferPtr(M: &ThinLTOBuffer) -> *const c_char;
-    pub fn LLVMRustThinLTOBufferLen(M: &ThinLTOBuffer) -> size_t;
-    pub fn LLVMRustCreateThinLTOData(
+    pub fn LLVMDustThinLTOBufferCreate(M: &Module) -> &'static mut ThinLTOBuffer;
+    pub fn LLVMDustThinLTOBufferFree(M: &'static mut ThinLTOBuffer);
+    pub fn LLVMDustThinLTOBufferPtr(M: &ThinLTOBuffer) -> *const c_char;
+    pub fn LLVMDustThinLTOBufferLen(M: &ThinLTOBuffer) -> size_t;
+    pub fn LLVMDustCreateThinLTOData(
         Modules: *const ThinLTOModule,
         NumModules: c_uint,
         PreservedSymbols: *const *const c_char,
         PreservedSymbolsLen: c_uint,
     ) -> Option<&'static mut ThinLTOData>;
-    pub fn LLVMRustPrepareThinLTORename(
+    pub fn LLVMDustPrepareThinLTORename(
         Data: &ThinLTOData,
         Module: &Module,
         Target: &TargetMachine,
     ) -> bool;
-    pub fn LLVMRustPrepareThinLTOResolveWeak(Data: &ThinLTOData, Module: &Module) -> bool;
-    pub fn LLVMRustPrepareThinLTOInternalize(Data: &ThinLTOData, Module: &Module) -> bool;
-    pub fn LLVMRustPrepareThinLTOImport(
+    pub fn LLVMDustPrepareThinLTOResolveWeak(Data: &ThinLTOData, Module: &Module) -> bool;
+    pub fn LLVMDustPrepareThinLTOInternalize(Data: &ThinLTOData, Module: &Module) -> bool;
+    pub fn LLVMDustPrepareThinLTOImport(
         Data: &ThinLTOData,
         Module: &Module,
         Target: &TargetMachine,
     ) -> bool;
-    pub fn LLVMRustGetThinLTOModuleImports(
+    pub fn LLVMDustGetThinLTOModuleImports(
         Data: *const ThinLTOData,
         ModuleNameCallback: ThinLTOModuleNameCallback,
         CallbackPayload: *mut c_void,
     );
-    pub fn LLVMRustFreeThinLTOData(Data: &'static mut ThinLTOData);
-    pub fn LLVMRustParseBitcodeForLTO(
+    pub fn LLVMDustFreeThinLTOData(Data: &'static mut ThinLTOData);
+    pub fn LLVMDustParseBitcodeForLTO(
         Context: &Context,
         Data: *const u8,
         len: usize,
         Identifier: *const c_char,
     ) -> Option<&Module>;
-    pub fn LLVMRustGetBitcodeSliceFromObjectData(
+    pub fn LLVMDustGetBitcodeSliceFromObjectData(
         Data: *const u8,
         len: usize,
         out_len: &mut usize,
     ) -> *const u8;
-    pub fn LLVMRustThinLTOGetDICompileUnit(
+    pub fn LLVMDustThinLTOGetDICompileUnit(
         M: &Module,
         CU1: &mut *mut c_void,
         CU2: &mut *mut c_void,
     );
-    pub fn LLVMRustThinLTOPatchDICompileUnit(M: &Module, CU: *mut c_void);
+    pub fn LLVMDustThinLTOPatchDICompileUnit(M: &Module, CU: *mut c_void);
 
-    pub fn LLVMRustLinkerNew(M: &'a Module) -> &'a mut Linker<'a>;
-    pub fn LLVMRustLinkerAdd(
+    pub fn LLVMDustLinkerNew(M: &'a Module) -> &'a mut Linker<'a>;
+    pub fn LLVMDustLinkerAdd(
         linker: &Linker<'_>,
         bytecode: *const c_char,
         bytecode_len: usize,
     ) -> bool;
-    pub fn LLVMRustLinkerFree(linker: &'a mut Linker<'a>);
+    pub fn LLVMDustLinkerFree(linker: &'a mut Linker<'a>);
     #[allow(improper_ctypes)]
-    pub fn LLVMRustComputeLTOCacheKey(
-        key_out: &RustString,
+    pub fn LLVMDustComputeLTOCacheKey(
+        key_out: &DustString,
         mod_id: *const c_char,
         data: &ThinLTOData,
     );

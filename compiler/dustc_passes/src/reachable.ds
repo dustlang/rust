@@ -5,20 +5,20 @@
 // makes all other generics or inline functions that it references
 // reachable as well.
 
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::LOCAL_CRATE;
-use rustc_hir::def_id::{CrateNum, DefId, LocalDefId};
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_hir::Node;
-use rustc_middle::middle::codegen_fn_attrs::{CodegenFnAttrFlags, CodegenFnAttrs};
-use rustc_middle::middle::privacy;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{self, DefIdTree, TyCtxt};
-use rustc_session::config::CrateType;
-use rustc_target::spec::abi::Abi;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::LOCAL_CRATE;
+use dustc_hir::def_id::{CrateNum, DefId, LocalDefId};
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_hir::Node;
+use dustc_middle::middle::codegen_fn_attrs::{CodegenFnAttrFlags, CodegenFnAttrs};
+use dustc_middle::middle::privacy;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{self, DefIdTree, TyCtxt};
+use dustc_session::config::CrateType;
+use dustc_target::spec::abi::Abi;
 
 // Returns true if the given item must be inlined because it may be
 // monomorphized or it was marked with `#[inline]`. This will only return
@@ -214,14 +214,14 @@ impl<'tcx> ReachableContext<'tcx> {
             // types need to be exported.
             if let Node::Item(item) = *node {
                 let reachable = if let hir::ItemKind::Fn(ref sig, ..) = item.kind {
-                    sig.header.abi != Abi::Rust
+                    sig.header.abi != Abi::Dust
                 } else {
                     false
                 };
                 let codegen_attrs = self.tcx.codegen_fn_attrs(item.def_id);
                 let is_extern = codegen_attrs.contains_extern_indicator();
                 let std_internal =
-                    codegen_attrs.flags.contains(CodegenFnAttrFlags::RUSTC_STD_INTERNAL_SYMBOL);
+                    codegen_attrs.flags.contains(CodegenFnAttrFlags::DUSTC_STD_INTERNAL_SYMBOL);
                 if reachable || is_extern || std_internal {
                     self.reachable_symbols.insert(search_item);
                 }
@@ -344,7 +344,7 @@ impl<'a, 'tcx> ItemLikeVisitor<'tcx> for CollectPrivateImplItemsVisitor<'a, 'tcx
         // which are currently akin to allocator symbols.
         let codegen_attrs = self.tcx.codegen_fn_attrs(item.def_id);
         if codegen_attrs.contains_extern_indicator()
-            || codegen_attrs.flags.contains(CodegenFnAttrFlags::RUSTC_STD_INTERNAL_SYMBOL)
+            || codegen_attrs.flags.contains(CodegenFnAttrFlags::DUSTC_STD_INTERNAL_SYMBOL)
         {
             self.worklist.push(item.def_id);
         }

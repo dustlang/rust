@@ -1,23 +1,23 @@
-//! The compiler code necessary for `#[derive(RustcDecodable)]`. See encodable.rs for more.
+//! The compiler code necessary for `#[derive(DustcDecodable)]`. See encodable.rs for more.
 
 use crate::deriving::generic::ty::*;
 use crate::deriving::generic::*;
 use crate::deriving::pathvec_std;
 
-use rustc_ast::ptr::P;
-use rustc_ast::{self as ast, Expr, MetaItem, Mutability};
-use rustc_expand::base::{Annotatable, ExtCtxt};
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast::ptr::P;
+use dustc_ast::{self as ast, Expr, MetaItem, Mutability};
+use dustc_expand::base::{Annotatable, ExtCtxt};
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::Span;
 
-pub fn expand_deriving_rustc_decodable(
+pub fn expand_deriving_dustc_decodable(
     cx: &mut ExtCtxt<'_>,
     span: Span,
     mitem: &MetaItem,
     item: &Annotatable,
     push: &mut dyn FnMut(Annotatable),
 ) {
-    let krate = sym::rustc_serialize;
+    let krate = sym::dustc_serialize;
     let typaram = sym::__D;
 
     let trait_def = TraitDef {
@@ -92,7 +92,7 @@ fn decodable_substructure(
                 Named(ref fields) => fields.len(),
             };
             let fn_read_struct_field_path: Vec<_> =
-                cx.def_site_path(&[sym::rustc_serialize, sym::Decoder, sym::read_struct_field]);
+                cx.def_site_path(&[sym::dustc_serialize, sym::Decoder, sym::read_struct_field]);
 
             let path = cx.path_ident(trait_span, substr.type_ident);
             let result =
@@ -113,7 +113,7 @@ fn decodable_substructure(
                 });
             let result = cx.expr_ok(trait_span, result);
             let fn_read_struct_path: Vec<_> =
-                cx.def_site_path(&[sym::rustc_serialize, sym::Decoder, sym::read_struct]);
+                cx.def_site_path(&[sym::dustc_serialize, sym::Decoder, sym::read_struct]);
 
             cx.expr_call_global(
                 trait_span,
@@ -133,7 +133,7 @@ fn decodable_substructure(
             let mut variants = Vec::with_capacity(fields.len());
 
             let fn_read_enum_variant_arg_path: Vec<_> =
-                cx.def_site_path(&[sym::rustc_serialize, sym::Decoder, sym::read_enum_variant_arg]);
+                cx.def_site_path(&[sym::dustc_serialize, sym::Decoder, sym::read_enum_variant_arg]);
 
             for (i, &(ident, v_span, ref parts)) in fields.iter().enumerate() {
                 variants.push(cx.expr_str(v_span, ident.name));
@@ -165,14 +165,14 @@ fn decodable_substructure(
             let variant_vec = cx.expr_vec(trait_span, variants);
             let variant_vec = cx.expr_addr_of(trait_span, variant_vec);
             let fn_read_enum_variant_path: Vec<_> =
-                cx.def_site_path(&[sym::rustc_serialize, sym::Decoder, sym::read_enum_variant]);
+                cx.def_site_path(&[sym::dustc_serialize, sym::Decoder, sym::read_enum_variant]);
             let result = cx.expr_call_global(
                 trait_span,
                 fn_read_enum_variant_path,
                 vec![blkdecoder, variant_vec, lambda],
             );
             let fn_read_enum_path: Vec<_> =
-                cx.def_site_path(&[sym::rustc_serialize, sym::Decoder, sym::read_enum]);
+                cx.def_site_path(&[sym::dustc_serialize, sym::Decoder, sym::read_enum]);
 
             cx.expr_call_global(
                 trait_span,

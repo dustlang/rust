@@ -1,14 +1,14 @@
 use crate::utils::{last_path_segment, span_lint_and_help};
-use rustc_hir::{
+use dustc_hir::{
     intravisit, Body, Expr, ExprKind, PatField, FnDecl, HirId, LocalSource, MatchSource, Mutability, Pat, PatKind,
     QPath, Stmt, StmtKind,
 };
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::{AdtDef, FieldDef, Ty, TyKind, VariantDef};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::{AdtDef, FieldDef, Ty, TyKind, VariantDef};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for patterns that aren't exact representations of the types
@@ -42,7 +42,7 @@ declare_clippy_lint! {
     /// the matched expression is explicitly dereferenced with `*` and the `inner` variable
     /// is bound to a shared borrow via `ref inner`.
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Bad
     /// let value = &Some(Box::new(23));
     /// match value {
@@ -63,7 +63,7 @@ declare_clippy_lint! {
     /// borrow, while `b` is simply taken by value. This ensures that the loop body cannot
     /// accidentally modify the wrong part of the structure.
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Bad
     /// let mut values = vec![(2, 3), (3, 4)];
     /// for (a, b) in &mut values {
@@ -179,7 +179,7 @@ enum Level {
     Lower,
 }
 
-#[allow(rustc::usage_of_ty_tykind)]
+#[allow(dustc::usage_of_ty_tykind)]
 fn find_first_mismatch<'tcx>(
     cx: &LateContext<'tcx>,
     pat: &Pat<'_>,

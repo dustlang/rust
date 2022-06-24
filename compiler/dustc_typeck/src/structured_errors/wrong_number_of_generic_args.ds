@@ -1,11 +1,11 @@
 use crate::structured_errors::StructuredDiagnostic;
 use hir::def::DefKind;
-use rustc_errors::{pluralize, Applicability, DiagnosticBuilder, DiagnosticId};
-use rustc_hir as hir;
-use rustc_middle::ty::{self as ty, TyCtxt};
-use rustc_session::Session;
-use rustc_span::Span;
-use rustc_span::{def_id::DefId, MultiSpan};
+use dustc_errors::{pluralize, Applicability, DiagnosticBuilder, DiagnosticId};
+use dustc_hir as hir;
+use dustc_middle::ty::{self as ty, TyCtxt};
+use dustc_session::Session;
+use dustc_span::Span;
+use dustc_span::{def_id::DefId, MultiSpan};
 
 /// Handles the `wrong number of type / lifetime / ... arguments` family of error messages.
 pub struct WrongNumberOfGenericArgs<'a, 'tcx> {
@@ -378,7 +378,7 @@ impl<'tcx> StructuredDiagnostic<'tcx> for WrongNumberOfGenericArgs<'_, 'tcx> {
     }
 
     fn code(&self) -> DiagnosticId {
-        rustc_errors::error_code!(E0107)
+        dustc_errors::error_code!(E0107)
     }
 
     fn diagnostic_common(&self) -> DiagnosticBuilder<'tcx> {

@@ -7,5 +7,5 @@ LL |     ["hi"].into_iter();
    |
    = note: `-D array-into-iter` implied by `-D warnings`
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #66145 <https://github.com/rust-lang/rust/issues/66145>
+   = note: for more information, see issue #66145 <https://github.com/dust-lang/dust/issues/66145>
 

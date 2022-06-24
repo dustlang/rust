@@ -1,15 +1,15 @@
-use rustc_errors::Applicability;
-use rustc_hir::def_id::DefId;
-use rustc_middle::mir::visit::Visitor;
-use rustc_middle::mir::*;
-use rustc_middle::ty::{
+use dustc_errors::Applicability;
+use dustc_hir::def_id::DefId;
+use dustc_middle::mir::visit::Visitor;
+use dustc_middle::mir::*;
+use dustc_middle::ty::{
     self,
     subst::{GenericArgKind, Subst, SubstsRef},
     PredicateKind, Ty, TyCtxt, TyS,
 };
-use rustc_session::lint::builtin::FUNCTION_ITEM_REFERENCES;
-use rustc_span::{symbol::sym, Span};
-use rustc_target::spec::abi::Abi;
+use dustc_session::lint::builtin::FUNCTION_ITEM_REFERENCES;
+use dustc_span::{symbol::sym, Span};
+use dustc_target::spec::abi::Abi;
 
 use crate::transform::MirPass;
 
@@ -186,7 +186,7 @@ impl<'a, 'tcx> FunctionItemRefChecker<'a, 'tcx> {
         let fn_sig = self.tcx.fn_sig(fn_id);
         let unsafety = fn_sig.unsafety().prefix_str();
         let abi = match fn_sig.abi() {
-            Abi::Rust => String::from(""),
+            Abi::Dust => String::from(""),
             other_abi => {
                 let mut s = String::from("extern \"");
                 s.push_str(other_abi.name());

@@ -1,6 +1,6 @@
 use std::fmt;
 
-use rustc_macros::HashStable_Generic;
+use dustc_macros::HashStable_Generic;
 
 #[cfg(test)]
 mod tests;
@@ -14,7 +14,7 @@ pub enum Abi {
     // have to re-bless all the hashing tests. These are used in many
     // places, so giving them stable values reduces test churn. The
     // specific values are meaningless.
-    Rust,
+    Dust,
     C { unwind: bool },
 
     // Single platform ABIs
@@ -37,8 +37,8 @@ pub enum Abi {
 
     // Multiplatform / generic ABIs
     System { unwind: bool },
-    RustIntrinsic,
-    RustCall,
+    DustIntrinsic,
+    DustCall,
     PlatformIntrinsic,
     Unadjusted,
 }
@@ -57,7 +57,7 @@ pub struct AbiData {
 #[allow(non_upper_case_globals)]
 const AbiDatas: &[AbiData] = &[
     // Cross-platform ABIs
-    AbiData { abi: Abi::Rust, name: "Rust", generic: true },
+    AbiData { abi: Abi::Dust, name: "Dust", generic: true },
     AbiData { abi: Abi::C { unwind: false }, name: "C", generic: true },
     AbiData { abi: Abi::C { unwind: true }, name: "C-unwind", generic: true },
     // Platform-specific ABIs
@@ -86,8 +86,8 @@ const AbiDatas: &[AbiData] = &[
     // Cross-platform ABIs
     AbiData { abi: Abi::System { unwind: false }, name: "system", generic: true },
     AbiData { abi: Abi::System { unwind: true }, name: "system-unwind", generic: true },
-    AbiData { abi: Abi::RustIntrinsic, name: "rust-intrinsic", generic: true },
-    AbiData { abi: Abi::RustCall, name: "rust-call", generic: true },
+    AbiData { abi: Abi::DustIntrinsic, name: "dust-intrinsic", generic: true },
+    AbiData { abi: Abi::DustCall, name: "dust-call", generic: true },
     AbiData { abi: Abi::PlatformIntrinsic, name: "platform-intrinsic", generic: true },
     AbiData { abi: Abi::Unadjusted, name: "unadjusted", generic: true },
 ];
@@ -109,7 +109,7 @@ impl Abi {
         use Abi::*;
         let i = match self {
             // Cross-platform ABIs
-            Rust => 0,
+            Dust => 0,
             C { unwind: false } => 1,
             C { unwind: true } => 2,
             // Platform-specific ABIs
@@ -134,8 +134,8 @@ impl Abi {
             // Cross-platform ABIs
             System { unwind: false } => 21,
             System { unwind: true } => 22,
-            RustIntrinsic => 23,
-            RustCall => 24,
+            DustIntrinsic => 23,
+            DustCall => 24,
             PlatformIntrinsic => 25,
             Unadjusted => 26,
         };

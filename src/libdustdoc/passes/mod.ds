@@ -1,8 +1,8 @@
 //! Contains information about "passes", used to modify crate information during the documentation
 //! process.
 
-use rustc_middle::ty::TyCtxt;
-use rustc_span::{InnerSpan, Span, DUMMY_SP};
+use dustc_middle::ty::TyCtxt;
+use dustc_span::{InnerSpan, Span, DUMMY_SP};
 use std::ops::Range;
 
 use self::Condition::*;
@@ -108,7 +108,7 @@ crate const DEFAULT_PASSES: &[ConditionalPass] = &[
     ConditionalPass::always(CHECK_NON_AUTOLINKS),
 ];
 
-/// The list of default passes run when `--doc-coverage` is passed to rustdoc.
+/// The list of default passes run when `--doc-coverage` is passed to dustdoc.
 crate const COVERAGE_PASSES: &[ConditionalPass] = &[
     ConditionalPass::always(COLLECT_TRAIT_IMPLS),
     ConditionalPass::new(STRIP_HIDDEN, WhenNotDocumentHidden),

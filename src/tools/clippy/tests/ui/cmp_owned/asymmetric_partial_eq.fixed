@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![allow(unused, clippy::redundant_clone)] // See #5700
 
 // Define the types in each module to avoid trait impls leaking between modules.

@@ -1,11 +1,11 @@
 use crate::thir::cx::Cx;
 use crate::thir::{self, *};
 
-use rustc_hir as hir;
-use rustc_middle::middle::region;
-use rustc_middle::ty;
+use dustc_hir as hir;
+use dustc_middle::middle::region;
+use dustc_middle::ty;
 
-use rustc_index::vec::Idx;
+use dustc_index::vec::Idx;
 
 impl<'thir, 'tcx> Cx<'thir, 'tcx> {
     crate fn mirror_block(&mut self, block: &'tcx hir::Block<'tcx>) -> Block<'thir, 'tcx> {

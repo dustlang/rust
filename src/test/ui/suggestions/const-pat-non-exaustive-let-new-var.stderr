@@ -14,4 +14,4 @@ LL |     const A: i32 = 2;
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0005`.
+For more information about this error, try `dustc --explain E0005`.

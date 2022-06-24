@@ -1,35 +1,35 @@
 use crate::check::{FnCtxt, Inherited};
 use crate::constrained_generic_params::{identify_constrained_generic_params, Parameter};
 
-use rustc_ast as ast;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::intravisit as hir_visit;
-use rustc_hir::intravisit::Visitor;
-use rustc_hir::itemlikevisit::ParItemLikeVisitor;
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::ItemKind;
-use rustc_middle::hir::map as hir_map;
-use rustc_middle::ty::subst::{GenericArgKind, InternalSubsts, Subst};
-use rustc_middle::ty::trait_def::TraitSpecializationKind;
-use rustc_middle::ty::{
+use dustc_ast as ast;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::intravisit as hir_visit;
+use dustc_hir::intravisit::Visitor;
+use dustc_hir::itemlikevisit::ParItemLikeVisitor;
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::ItemKind;
+use dustc_middle::hir::map as hir_map;
+use dustc_middle::ty::subst::{GenericArgKind, InternalSubsts, Subst};
+use dustc_middle::ty::trait_def::TraitSpecializationKind;
+use dustc_middle::ty::{
     self, AdtKind, GenericParamDefKind, ToPredicate, Ty, TyCtxt, TypeFoldable, WithConstness,
 };
-use rustc_session::parse::feature_err;
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::Span;
-use rustc_trait_selection::opaque_types::may_define_opaque_type;
-use rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
-use rustc_trait_selection::traits::{self, ObligationCause, ObligationCauseCode};
+use dustc_session::parse::feature_err;
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::Span;
+use dustc_trait_selection::opaque_types::may_define_opaque_type;
+use dustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
+use dustc_trait_selection::traits::{self, ObligationCause, ObligationCauseCode};
 
 use std::ops::ControlFlow;
 
 /// Helper type of a temporary returned by `.for_item(...)`.
 /// This is necessary because we can't write the following bound:
 ///
-/// ```rust
+/// ```dust
 /// F: for<'b, 'tcx> where 'tcx FnOnce(FnCtxt<'b, 'tcx>)
 /// ```
 struct CheckWfFcxBuilder<'tcx> {
@@ -66,7 +66,7 @@ impl<'tcx> CheckWfFcxBuilder<'tcx> {
 /// well-formed, meaning that they do not require any constraints not declared in the struct
 /// definition itself. For example, this definition would be illegal:
 ///
-/// ```rust
+/// ```dust
 /// struct Ref<'a, T> { x: &'a T }
 /// ```
 ///
@@ -664,7 +664,7 @@ fn check_impl<'tcx>(
     for_item(tcx, item).with_fcx(|fcx, tcx| {
         match *ast_trait_ref {
             Some(ref ast_trait_ref) => {
-                // `#[rustc_reservation_impl]` impls are not real impls and
+                // `#[dustc_reservation_impl]` impls are not real impls and
                 // therefore don't need to be WF (the trait's `Self: Trait` predicate
                 // won't hold).
                 let trait_ref = fcx.tcx.impl_trait_ref(item.def_id).unwrap();
@@ -902,7 +902,7 @@ fn check_fn_or_method<'fcx, 'tcx>(
 /// In particular, definitions of opaque types can only use other generics as arguments,
 /// and they cannot repeat an argument. Example:
 ///
-/// ```rust
+/// ```dust
 /// type Foo<A, B> = impl Bar<A, B>;
 ///
 /// // Okay -- `Foo` is applied to two distinct, generic types.

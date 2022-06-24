@@ -17,9 +17,9 @@ LL |     Other(usize),
 LL |     Other2(usize, usize),
    |     -------------------- tuple variant defined here
    |
-   = note: see issue #60553 <https://github.com/rust-lang/rust/issues/60553> for more information
+   = note: see issue #60553 <https://github.com/dust-lang/dust/issues/60553> for more information
    = help: add `#![feature(arbitrary_enum_discriminant)]` to the crate attributes to enable
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0658`.
+For more information about this error, try `dustc --explain E0658`.

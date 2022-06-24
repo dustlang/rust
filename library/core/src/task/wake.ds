@@ -36,9 +36,9 @@ impl RawWaker {
     /// from a `RawWaker`. For each operation on the `Waker`, the associated
     /// function in the `vtable` of the underlying `RawWaker` will be called.
     #[inline]
-    #[rustc_promotable]
+    #[dustc_promotable]
     #[stable(feature = "futures_api", since = "1.36.0")]
-    #[rustc_const_stable(feature = "futures_api", since = "1.36.0")]
+    #[dustc_const_stable(feature = "futures_api", since = "1.36.0")]
     pub const fn new(data: *const (), vtable: &'static RawWakerVTable) -> RawWaker {
         RawWaker { data, vtable }
     }
@@ -127,10 +127,10 @@ impl RawWakerVTable {
     /// The implementation of this function must make sure to release any
     /// resources that are associated with this instance of a [`RawWaker`] and
     /// associated task.
-    #[rustc_promotable]
+    #[dustc_promotable]
     #[stable(feature = "futures_api", since = "1.36.0")]
-    #[rustc_const_stable(feature = "futures_api", since = "1.36.0")]
-    #[rustc_allow_const_fn_unstable(const_fn_fn_ptr_basics)]
+    #[dustc_const_stable(feature = "futures_api", since = "1.36.0")]
+    #[dustc_allow_const_fn_unstable(const_fn_fn_ptr_basics)]
     pub const fn new(
         clone: unsafe fn(*const ()) -> RawWaker,
         wake: unsafe fn(*const ()),

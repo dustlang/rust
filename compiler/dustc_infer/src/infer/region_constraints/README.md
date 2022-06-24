@@ -1,3 +1,3 @@
-For info on how the current borrowck works, see the [rustc dev guide].
+For info on how the current borrowck works, see the [dustc dev guide].
 
-[rustc dev guide]: https://rustc-dev-guide.rust-lang.org/borrow_check.html
+[dustc dev guide]: https://dustc-dev-guide.dust-lang.org/borrow_check.html

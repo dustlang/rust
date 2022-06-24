@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![allow(unused_assignments)]
 #![allow(unused_variables)]

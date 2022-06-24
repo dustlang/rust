@@ -1,12 +1,12 @@
 use crate::context::{EarlyContext, LateContext};
 
-use rustc_ast as ast;
-use rustc_data_structures::sync;
-use rustc_hir as hir;
-use rustc_session::lint::builtin::HardwiredLints;
-use rustc_session::lint::LintPass;
-use rustc_span::symbol::{Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_data_structures::sync;
+use dustc_hir as hir;
+use dustc_session::lint::builtin::HardwiredLints;
+use dustc_session::lint::LintPass;
+use dustc_span::symbol::{Ident, Symbol};
+use dustc_span::Span;
 
 #[macro_export]
 macro_rules! late_lint_methods {
@@ -39,13 +39,13 @@ macro_rules! late_lint_methods {
             fn check_where_predicate(a: &$hir hir::WherePredicate<$hir>);
             fn check_poly_trait_ref(a: &$hir hir::PolyTraitRef<$hir>, b: hir::TraitBoundModifier);
             fn check_fn(
-                a: rustc_hir::intravisit::FnKind<$hir>,
+                a: dustc_hir::intravisit::FnKind<$hir>,
                 b: &$hir hir::FnDecl<$hir>,
                 c: &$hir hir::Body<$hir>,
                 d: Span,
                 e: hir::HirId);
             fn check_fn_post(
-                a: rustc_hir::intravisit::FnKind<$hir>,
+                a: dustc_hir::intravisit::FnKind<$hir>,
                 b: &$hir hir::FnDecl<$hir>,
                 c: &$hir hir::Body<$hir>,
                 d: Span,
@@ -143,7 +143,7 @@ macro_rules! declare_combined_late_lint_pass {
             expand_combined_late_lint_pass_methods!([$($passes),*], $methods);
         }
 
-        #[allow(rustc::lint_pass_impl_without_macro)]
+        #[allow(dustc::lint_pass_impl_without_macro)]
         impl LintPass for $name {
             fn name(&self) -> &'static str {
                 panic!()
@@ -181,9 +181,9 @@ macro_rules! early_lint_methods {
             fn check_where_predicate(a: &ast::WherePredicate);
             fn check_poly_trait_ref(a: &ast::PolyTraitRef,
                                     b: &ast::TraitBoundModifier);
-            fn check_fn(a: rustc_ast::visit::FnKind<'_>, c: Span, d_: ast::NodeId);
+            fn check_fn(a: dustc_ast::visit::FnKind<'_>, c: Span, d_: ast::NodeId);
             fn check_fn_post(
-                a: rustc_ast::visit::FnKind<'_>,
+                a: dustc_ast::visit::FnKind<'_>,
                 c: Span,
                 d: ast::NodeId
             );
@@ -270,7 +270,7 @@ macro_rules! declare_combined_early_lint_pass {
             expand_combined_early_lint_pass_methods!([$($passes),*], $methods);
         }
 
-        #[allow(rustc::lint_pass_impl_without_macro)]
+        #[allow(dustc::lint_pass_impl_without_macro)]
         impl LintPass for $name {
             fn name(&self) -> &'static str {
                 panic!()

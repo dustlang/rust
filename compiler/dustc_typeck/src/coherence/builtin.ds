@@ -2,21 +2,21 @@
 //! up data structures required by type-checking/codegen.
 
 use crate::errors::{CopyImplOnNonAdt, CopyImplOnTypeWithDtor, DropImplOnWrongItem};
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::ItemKind;
-use rustc_infer::infer;
-use rustc_infer::infer::outlives::env::OutlivesEnvironment;
-use rustc_infer::infer::{RegionckMode, TyCtxtInferExt};
-use rustc_middle::ty::adjustment::CoerceUnsizedInfo;
-use rustc_middle::ty::TypeFoldable;
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_trait_selection::traits::error_reporting::InferCtxtExt;
-use rustc_trait_selection::traits::misc::{can_type_implement_copy, CopyImplementationError};
-use rustc_trait_selection::traits::predicate_for_trait_def;
-use rustc_trait_selection::traits::{self, ObligationCause, TraitEngine, TraitEngineExt};
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::ItemKind;
+use dustc_infer::infer;
+use dustc_infer::infer::outlives::env::OutlivesEnvironment;
+use dustc_infer::infer::{RegionckMode, TyCtxtInferExt};
+use dustc_middle::ty::adjustment::CoerceUnsizedInfo;
+use dustc_middle::ty::TypeFoldable;
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_trait_selection::traits::error_reporting::InferCtxtExt;
+use dustc_trait_selection::traits::misc::{can_type_implement_copy, CopyImplementationError};
+use dustc_trait_selection::traits::predicate_for_trait_def;
+use dustc_trait_selection::traits::{self, ObligationCause, TraitEngine, TraitEngineExt};
 
 pub fn check_trait(tcx: TyCtxt<'_>, trait_def_id: DefId) {
     let lang_items = tcx.lang_items();

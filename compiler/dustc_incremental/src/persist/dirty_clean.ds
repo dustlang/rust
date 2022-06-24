@@ -1,32 +1,32 @@
 //! Debugging code to test fingerprints computed for query results.
-//! For each node marked with `#[rustc_clean]` or `#[rustc_dirty]`,
+//! For each node marked with `#[dustc_clean]` or `#[dustc_dirty]`,
 //! we will compare the fingerprint from the current and from the previous
 //! compilation session as appropriate:
 //!
-//! - `#[rustc_clean(cfg="rev2", except="typeck")]` if we are
+//! - `#[dustc_clean(cfg="rev2", except="typeck")]` if we are
 //!   in `#[cfg(rev2)]`, then the fingerprints associated with
 //!   `DepNode::typeck(X)` must be DIFFERENT (`X` is the `DefId` of the
 //!   current node).
-//! - `#[rustc_clean(cfg="rev2")]` same as above, except that the
+//! - `#[dustc_clean(cfg="rev2")]` same as above, except that the
 //!   fingerprints must be the SAME (along with all other fingerprints).
 //!
 //! Errors are reported if we are in the suitable configuration but
 //! the required condition is not met.
 
-use rustc_ast::{self as ast, Attribute, NestedMetaItem};
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::intravisit;
-use rustc_hir::itemlikevisit::ItemLikeVisitor;
-use rustc_hir::Node as HirNode;
-use rustc_hir::{ImplItemKind, ItemKind as HirItem, TraitItemKind};
-use rustc_middle::dep_graph::{label_strs, DepNode, DepNodeExt};
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::Span;
+use dustc_ast::{self as ast, Attribute, NestedMetaItem};
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::intravisit;
+use dustc_hir::itemlikevisit::ItemLikeVisitor;
+use dustc_hir::Node as HirNode;
+use dustc_hir::{ImplItemKind, ItemKind as HirItem, TraitItemKind};
+use dustc_middle::dep_graph::{label_strs, DepNode, DepNodeExt};
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::Span;
 use std::iter::FromIterator;
 use std::vec::Vec;
 
@@ -131,7 +131,7 @@ const LABELS_TRAIT: &[&[&str]] = &[BASE_HIR, BASE_TRAIT_DEF];
 
 type Labels = FxHashSet<String>;
 
-/// Represents the requested configuration by rustc_clean/dirty
+/// Represents the requested configuration by dustc_clean/dirty
 struct Assertion {
     clean: Labels,
     dirty: Labels,
@@ -148,8 +148,8 @@ impl Assertion {
 }
 
 pub fn check_dirty_clean_annotations(tcx: TyCtxt<'_>) {
-    // can't add `#[rustc_dirty]` etc without opting in to this feature
-    if !tcx.features().rustc_attrs {
+    // can't add `#[dustc_dirty]` etc without opting in to this feature
+    if !tcx.features().dustc_attrs {
         return;
     }
 
@@ -160,14 +160,14 @@ pub fn check_dirty_clean_annotations(tcx: TyCtxt<'_>) {
 
         let mut all_attrs = FindAllAttrs {
             tcx,
-            attr_names: &[sym::rustc_dirty, sym::rustc_clean],
+            attr_names: &[sym::dustc_dirty, sym::dustc_clean],
             found_attrs: vec![],
         };
         intravisit::walk_crate(&mut all_attrs, krate);
 
         // Note that we cannot use the existing "unused attribute"-infrastructure
         // here, since that is running before codegen. This is also the reason why
-        // all codegen-specific attributes are `AssumedUsed` in rustc_ast::feature_gate.
+        // all codegen-specific attributes are `AssumedUsed` in dustc_ast::feature_gate.
         all_attrs.report_unchecked_attrs(dirty_clean_visitor.checked_attrs);
     })
 }
@@ -180,12 +180,12 @@ pub struct DirtyCleanVisitor<'tcx> {
 impl DirtyCleanVisitor<'tcx> {
     /// Possibly "deserialize" the attribute into a clean/dirty assertion
     fn assertion_maybe(&mut self, item_id: LocalDefId, attr: &Attribute) -> Option<Assertion> {
-        let is_clean = if self.tcx.sess.check_name(attr, sym::rustc_dirty) {
+        let is_clean = if self.tcx.sess.check_name(attr, sym::dustc_dirty) {
             false
-        } else if self.tcx.sess.check_name(attr, sym::rustc_clean) {
+        } else if self.tcx.sess.check_name(attr, sym::dustc_clean) {
             true
         } else {
-            // skip: not rustc_clean/dirty
+            // skip: not dustc_clean/dirty
             return None;
         };
         if !check_config(self.tcx, attr) {
@@ -306,7 +306,7 @@ impl DirtyCleanVisitor<'tcx> {
                     // michaelwoerister and vitiral came up with a possible solution,
                     // to just do this before every query
                     // ```
-                    // ::rustc_middle::ty::query::plumbing::force_from_dep_node(tcx, dep_node)
+                    // ::dustc_middle::ty::query::plumbing::force_from_dep_node(tcx, dep_node)
                     // ```
                     //
                     // However, this did not seem to work effectively and more bugs were hit.
@@ -466,7 +466,7 @@ impl ItemLikeVisitor<'tcx> for DirtyCleanVisitor<'tcx> {
     }
 }
 
-/// Given a `#[rustc_dirty]` or `#[rustc_clean]` attribute, scan
+/// Given a `#[dustc_dirty]` or `#[dustc_clean]` attribute, scan
 /// for a `cfg="foo"` attribute and check whether we have a cfg
 /// flag called `foo`.
 ///
@@ -515,7 +515,7 @@ fn expect_associated_value(tcx: TyCtxt<'_>, item: &NestedMetaItem) -> Symbol {
     }
 }
 
-// A visitor that collects all #[rustc_dirty]/#[rustc_clean] attributes from
+// A visitor that collects all #[dustc_dirty]/#[dustc_clean] attributes from
 // the HIR. It is used to verify that we really ran checks for all annotated
 // nodes.
 pub struct FindAllAttrs<'a, 'tcx> {
@@ -540,7 +540,7 @@ impl FindAllAttrs<'_, 'tcx> {
             if !checked_attrs.contains(&attr.id) {
                 self.tcx.sess.span_err(
                     attr.span,
-                    "found unchecked `#[rustc_dirty]` / `#[rustc_clean]` attribute",
+                    "found unchecked `#[dustc_dirty]` / `#[dustc_clean]` attribute",
                 );
                 checked_attrs.insert(attr.id);
             }

@@ -59,7 +59,7 @@ done
 
 # Originally downloaded from:
 # URL=https://download.freebsd.org/ftp/releases/${freebsd_arch}/${freebsd_version}-RELEASE/base.txz
-URL=https://ci-mirrors.rust-lang.org/rustc/2020-08-09-freebsd-${freebsd_arch}-${freebsd_version}-RELEASE-base.txz
+URL=https://ci-mirrors.dust-lang.org/dustc/2020-08-09-freebsd-${freebsd_arch}-${freebsd_version}-RELEASE-base.txz
 curl "$URL" | tar xJf - -C "$sysroot" --wildcards "${files_to_extract[@]}"
 
 # Clang can do cross-builds out of the box, if we give it the right

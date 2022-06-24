@@ -1,12 +1,12 @@
 use super::BackendTypes;
 use crate::mir::operand::OperandRef;
 use crate::mir::place::PlaceRef;
-use rustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
-use rustc_hir::def_id::DefId;
-use rustc_hir::{GlobalAsm, LlvmInlineAsmInner};
-use rustc_middle::ty::Instance;
-use rustc_span::Span;
-use rustc_target::asm::InlineAsmRegOrRegClass;
+use dustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
+use dustc_hir::def_id::DefId;
+use dustc_hir::{GlobalAsm, LlvmInlineAsmInner};
+use dustc_middle::ty::Instance;
+use dustc_span::Span;
+use dustc_target::asm::InlineAsmRegOrRegClass;
 
 #[derive(Debug)]
 pub enum InlineAsmOperandRef<'tcx, B: BackendTypes + ?Sized> {

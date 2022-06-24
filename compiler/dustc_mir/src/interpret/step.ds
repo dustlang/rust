@@ -3,9 +3,9 @@
 //! The main entry point is the `step` method.
 
 use crate::interpret::OpTy;
-use rustc_middle::mir;
-use rustc_middle::mir::interpret::{InterpResult, Scalar};
-use rustc_target::abi::LayoutOf;
+use dustc_middle::mir;
+use dustc_middle::mir::interpret::{InterpResult, Scalar};
+use dustc_target::abi::LayoutOf;
 
 use super::{InterpCx, Machine};
 
@@ -13,7 +13,7 @@ use super::{InterpCx, Machine};
 /// same type as the result.
 #[inline]
 fn binop_left_homogeneous(op: mir::BinOp) -> bool {
-    use rustc_middle::mir::BinOp::*;
+    use dustc_middle::mir::BinOp::*;
     match op {
         Add | Sub | Mul | Div | Rem | BitXor | BitAnd | BitOr | Offset | Shl | Shr => true,
         Eq | Ne | Lt | Le | Gt | Ge => false,
@@ -23,7 +23,7 @@ fn binop_left_homogeneous(op: mir::BinOp) -> bool {
 /// same type as the LHS.
 #[inline]
 fn binop_right_homogeneous(op: mir::BinOp) -> bool {
-    use rustc_middle::mir::BinOp::*;
+    use dustc_middle::mir::BinOp::*;
     match op {
         Add | Sub | Mul | Div | Rem | BitXor | BitAnd | BitOr | Eq | Ne | Lt | Le | Gt | Ge => true,
         Offset | Shl | Shr => false,
@@ -80,7 +80,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
     crate fn statement(&mut self, stmt: &mir::Statement<'tcx>) -> InterpResult<'tcx> {
         info!("{:?}", stmt);
 
-        use rustc_middle::mir::StatementKind::*;
+        use dustc_middle::mir::StatementKind::*;
 
         // Some statements (e.g., box) push new stack frames.
         // We have to record the stack frame number *before* executing the statement.
@@ -115,7 +115,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
             }
 
             // Call CopyNonOverlapping
-            CopyNonOverlapping(box rustc_middle::mir::CopyNonOverlapping { src, dst, count }) => {
+            CopyNonOverlapping(box dustc_middle::mir::CopyNonOverlapping { src, dst, count }) => {
                 let src = self.eval_operand(src, None)?;
                 let dst = self.eval_operand(dst, None)?;
                 let count = self.eval_operand(count, None)?;
@@ -191,7 +191,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
     ) -> InterpResult<'tcx> {
         let dest = self.eval_place(place)?;
 
-        use rustc_middle::mir::Rvalue::*;
+        use dustc_middle::mir::Rvalue::*;
         match *rvalue {
             ThreadLocalRef(did) => {
                 let id = M::thread_local_static_alloc_id(self, did)?;

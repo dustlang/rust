@@ -1,6 +1,6 @@
-use rustc_data_structures::graph::{self, iterate};
-use rustc_graphviz as dot;
-use rustc_middle::ty::TyCtxt;
+use dustc_data_structures::graph::{self, iterate};
+use dustc_graphviz as dot;
+use dustc_middle::ty::TyCtxt;
 use std::io::{self, Write};
 
 pub struct GraphvizWriter<

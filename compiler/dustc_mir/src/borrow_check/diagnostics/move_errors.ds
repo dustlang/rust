@@ -1,8 +1,8 @@
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_middle::mir::*;
-use rustc_middle::ty;
-use rustc_span::source_map::DesugaringKind;
-use rustc_span::{sym, Span};
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_middle::mir::*;
+use dustc_middle::ty;
+use dustc_span::source_map::DesugaringKind;
+use dustc_span::{sym, Span};
 
 use crate::borrow_check::diagnostics::UseSpans;
 use crate::borrow_check::prefixes::PrefixSet;
@@ -497,7 +497,7 @@ impl<'a, 'tcx> MirBorrowckCtxt<'a, 'tcx> {
                     if let Some(stripped) = pat_snippet.strip_prefix('&') {
                         let pat_snippet = stripped.trim_start();
                         let (suggestion, to_remove) = if pat_snippet.starts_with("mut")
-                            && pat_snippet["mut".len()..].starts_with(rustc_lexer::is_whitespace)
+                            && pat_snippet["mut".len()..].starts_with(dustc_lexer::is_whitespace)
                         {
                             (pat_snippet["mut".len()..].trim_start(), "&mut")
                         } else {

@@ -1,10 +1,10 @@
 use crate::infer::canonical::{Canonicalized, CanonicalizedQueryResponse};
 use crate::traits::query::Fallible;
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::{self, Lift, ParamEnvAnd, Ty, TyCtxt};
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::{self, Lift, ParamEnvAnd, Ty, TyCtxt};
 use std::fmt;
 
-pub use rustc_middle::traits::query::type_op::Normalize;
+pub use dustc_middle::traits::query::type_op::Normalize;
 
 impl<'tcx, T> super::QueryTypeOp<'tcx> for Normalize<T>
 where

@@ -15,13 +15,13 @@ path = "bin/main.rs"
 test = false
 
 [[bin]]
-name = "rustc"
-path = "bin/rustc.rs"
+name = "dustc"
+path = "bin/dustc.rs"
 test = false
 
 [[bin]]
-name = "rustdoc"
-path = "bin/rustdoc.rs"
+name = "dustdoc"
+path = "bin/dustdoc.rs"
 test = false
 
 [[bin]]

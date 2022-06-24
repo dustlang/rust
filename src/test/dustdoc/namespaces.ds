@@ -1,4 +1,4 @@
-// issue #34843: rustdoc prioritises documenting reexports from the type namespace
+// issue #34843: dustdoc prioritises documenting reexports from the type namespace
 
 mod inner {
     pub mod sync {

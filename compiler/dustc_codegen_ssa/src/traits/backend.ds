@@ -3,23 +3,23 @@ use super::CodegenObject;
 use crate::back::write::TargetMachineFactoryFn;
 use crate::{CodegenResults, ModuleCodegen};
 
-use rustc_ast::expand::allocator::AllocatorKind;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::ErrorReported;
-use rustc_middle::dep_graph::{WorkProduct, WorkProductId};
-use rustc_middle::middle::cstore::{EncodedMetadata, MetadataLoaderDyn};
-use rustc_middle::ty::layout::{HasTyCtxt, TyAndLayout};
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{Ty, TyCtxt};
-use rustc_session::{
+use dustc_ast::expand::allocator::AllocatorKind;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::ErrorReported;
+use dustc_middle::dep_graph::{WorkProduct, WorkProductId};
+use dustc_middle::middle::cstore::{EncodedMetadata, MetadataLoaderDyn};
+use dustc_middle::ty::layout::{HasTyCtxt, TyAndLayout};
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{Ty, TyCtxt};
+use dustc_session::{
     config::{self, OutputFilenames, PrintRequest},
     Session,
 };
-use rustc_span::symbol::Symbol;
-use rustc_target::abi::LayoutOf;
-use rustc_target::spec::Target;
+use dustc_span::symbol::Symbol;
+use dustc_target::abi::LayoutOf;
+use dustc_target::spec::Target;
 
-pub use rustc_data_structures::sync::MetadataRef;
+pub use dustc_data_structures::sync::MetadataRef;
 
 use std::any::Any;
 

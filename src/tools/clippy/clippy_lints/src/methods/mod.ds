@@ -53,17 +53,17 @@ mod zst_offset;
 
 use bind_instead_of_map::BindInsteadOfMap;
 use if_chain::if_chain;
-use rustc_ast::ast;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::{TraitItem, TraitItemKind};
-use rustc_lint::{LateContext, LateLintPass, Lint, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty::{self, TraitRef, Ty, TyS};
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::symbol::{sym, SymbolStr};
-use rustc_typeck::hir_ty_to_ty;
+use dustc_ast::ast;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::{TraitItem, TraitItemKind};
+use dustc_lint::{LateContext, LateLintPass, Lint, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty::{self, TraitRef, Ty, TyS};
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::symbol::{sym, SymbolStr};
+use dustc_typeck::hir_ty_to_ty;
 
 use crate::utils::{
     contains_return, contains_ty, get_trait_def_id, implements_trait, in_macro, is_copy, is_type_diagnostic_item,
@@ -90,7 +90,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Examples:**
-    /// ```rust
+    /// ```dust
     /// # let opt = Some(1);
     ///
     /// // Bad
@@ -102,7 +102,7 @@ declare_clippy_lint! {
     ///
     /// // or
     ///
-    /// ```rust
+    /// ```dust
     /// # let res: Result<usize, ()> = Ok(1);
     ///
     /// // Bad
@@ -130,7 +130,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Examples:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// # let opt = Some(1);
     ///
     /// // Bad
@@ -143,7 +143,7 @@ declare_clippy_lint! {
     ///
     /// // or
     ///
-    /// ```rust
+    /// ```dust
     /// # let res: Result<usize, ()> = Ok(1);
     ///
     /// // Bad
@@ -173,7 +173,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// struct X;
     /// impl X {
     ///     fn add(&self, other: &X) -> X {
@@ -206,7 +206,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # struct X;
     /// impl X {
     ///     fn as_str(self) -> &'static str {
@@ -231,7 +231,7 @@ declare_clippy_lint! {
     /// the stability guarantees you've given your users.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # struct X;
     /// impl<'a> X {
     ///     pub fn as_str(self) -> &'a str {
@@ -253,7 +253,7 @@ declare_clippy_lint! {
     /// **Known problems:** The error type needs to implement `Debug`
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let x = Ok::<_, ()>(());
     ///
     /// // Bad
@@ -277,7 +277,7 @@ declare_clippy_lint! {
     /// **Known problems:** The order of the arguments is not in execution order
     ///
     /// **Examples:**
-    /// ```rust
+    /// ```dust
     /// # let x = Some(1);
     ///
     /// // Bad
@@ -289,7 +289,7 @@ declare_clippy_lint! {
     ///
     /// // or
     ///
-    /// ```rust
+    /// ```dust
     /// # let x: Result<usize, ()> = Ok(1);
     /// # fn some_function(foo: ()) -> usize { 1 }
     ///
@@ -313,7 +313,7 @@ declare_clippy_lint! {
     /// **Known problems:** The order of the arguments is not in execution order.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let opt = Some(1);
     ///
     /// // Bad
@@ -338,13 +338,13 @@ declare_clippy_lint! {
     /// **Example:**
     ///
     /// Bad:
-    /// ```rust
+    /// ```dust
     /// # let r: Result<u32, &str> = Ok(1);
     /// assert_eq!(Some(1), r.map_or(None, Some));
     /// ```
     ///
     /// Good:
-    /// ```rust
+    /// ```dust
     /// # let r: Result<u32, &str> = Ok(1);
     /// assert_eq!(Some(1), r.ok());
     /// ```
@@ -364,7 +364,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # fn opt() -> Option<&'static str> { Some("42") }
     /// # fn res() -> Result<&'static str, &'static str> { Ok("42") }
     /// let _ = opt().and_then(|s| Some(s.len()));
@@ -374,7 +374,7 @@ declare_clippy_lint! {
     ///
     /// The correct use would be:
     ///
-    /// ```rust
+    /// ```dust
     /// # fn opt() -> Option<&'static str> { Some("42") }
     /// # fn res() -> Result<&'static str, &'static str> { Ok("42") }
     /// let _ = opt().map(|s| s.len());
@@ -395,12 +395,12 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let vec = vec![1];
     /// vec.iter().filter(|x| **x == 0).next();
     /// ```
     /// Could be written as
-    /// ```rust
+    /// ```dust
     /// # let vec = vec![1];
     /// vec.iter().find(|x| **x == 0);
     /// ```
@@ -418,12 +418,12 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let vec = vec![1];
     /// vec.iter().skip_while(|x| **x == 0).next();
     /// ```
     /// Could be written as
-    /// ```rust
+    /// ```dust
     /// # let vec = vec![1];
     /// vec.iter().find(|x| **x != 0);
     /// ```
@@ -441,7 +441,7 @@ declare_clippy_lint! {
     /// **Known problems:**
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let vec = vec![vec![1]];
     ///
     /// // Bad
@@ -466,7 +466,7 @@ declare_clippy_lint! {
     /// inside the closure.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let vec = vec![1];
     ///
     /// // Bad
@@ -495,14 +495,14 @@ declare_clippy_lint! {
     ///
      /// **Example:**
     /// Bad:
-    /// ```rust
+    /// ```dust
     /// (0_i32..10)
     ///     .filter(|n| n.checked_add(1).is_some())
     ///     .map(|n| n.checked_add(1).unwrap());
     /// ```
     ///
     /// Good:
-    /// ```rust
+    /// ```dust
     /// (0_i32..10).filter_map(|n| n.checked_add(1));
     /// ```
     pub MANUAL_FILTER_MAP,
@@ -521,14 +521,14 @@ declare_clippy_lint! {
     ///
      /// **Example:**
     /// Bad:
-    /// ```rust
+    /// ```dust
     /// (0_i32..10)
     ///     .find(|n| n.checked_add(1).is_some())
     ///     .map(|n| n.checked_add(1).unwrap());
     /// ```
     ///
     /// Good:
-    /// ```rust
+    /// ```dust
     /// (0_i32..10).find_map(|n| n.checked_add(1));
     /// ```
     pub MANUAL_FIND_MAP,
@@ -545,12 +545,12 @@ declare_clippy_lint! {
     /// **Known problems:** None
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     ///  (0..3).filter_map(|x| if x == 2 { Some(x) } else { None }).next();
     /// ```
     /// Can be written as
     ///
-    /// ```rust
+    /// ```dust
     ///  (0..3).find_map(|x| if x == 2 { Some(x) } else { None });
     /// ```
     pub FILTER_MAP_NEXT,
@@ -566,12 +566,12 @@ declare_clippy_lint! {
     /// **Known problems:** None
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let iter = vec![vec![0]].into_iter();
     /// iter.flat_map(|x| x);
     /// ```
     /// Can be written as
-    /// ```rust
+    /// ```dust
     /// # let iter = vec![vec![0]].into_iter();
     /// iter.flatten();
     /// ```
@@ -590,12 +590,12 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let vec = vec![1];
     /// vec.iter().find(|x| **x == 0).is_some();
     /// ```
     /// Could be written as
-    /// ```rust
+    /// ```dust
     /// # let vec = vec![1];
     /// vec.iter().any(|x| *x == 0);
     /// ```
@@ -614,12 +614,12 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let name = "foo";
     /// if name.chars().next() == Some('_') {};
     /// ```
     /// Could be written as
-    /// ```rust
+    /// ```dust
     /// let name = "foo";
     /// if name.starts_with('_') {};
     /// ```
@@ -640,17 +640,17 @@ declare_clippy_lint! {
     /// change the semantic of the program, but you shouldn't rely on that anyway.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let foo = Some(String::new());
     /// foo.unwrap_or(String::new());
     /// ```
     /// this can instead be written:
-    /// ```rust
+    /// ```dust
     /// # let foo = Some(String::new());
     /// foo.unwrap_or_else(String::new);
     /// ```
     /// or
-    /// ```rust
+    /// ```dust
     /// # let foo = Some(String::new());
     /// foo.unwrap_or_default();
     /// ```
@@ -669,21 +669,21 @@ declare_clippy_lint! {
     /// change the semantics of the program, but you shouldn't rely on that anyway.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let foo = Some(String::new());
     /// # let err_code = "418";
     /// # let err_msg = "I'm a teapot";
     /// foo.expect(&format!("Err {}: {}", err_code, err_msg));
     /// ```
     /// or
-    /// ```rust
+    /// ```dust
     /// # let foo = Some(String::new());
     /// # let err_code = "418";
     /// # let err_msg = "I'm a teapot";
     /// foo.expect(format!("Err {}: {}", err_code, err_msg).as_str());
     /// ```
     /// this can instead be written:
-    /// ```rust
+    /// ```dust
     /// # let foo = Some(String::new());
     /// # let err_code = "418";
     /// # let err_msg = "I'm a teapot";
@@ -703,7 +703,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// 42u64.clone();
     /// ```
     pub CLONE_ON_COPY,
@@ -721,7 +721,7 @@ declare_clippy_lint! {
     /// data.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # use std::rc::Rc;
     /// let x = Rc::new(1);
     ///
@@ -745,7 +745,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// fn main() {
     ///     let x = vec![1];
     ///     let y = &&x;
@@ -769,7 +769,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// // Generic implementation for `T: Display` is used (slow)
     /// ["foo", "bar"].iter().map(|s| s.to_string());
     ///
@@ -791,7 +791,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     /// In an impl block:
-    /// ```rust
+    /// ```dust
     /// # struct Foo;
     /// # struct NotAFoo;
     /// impl Foo {
@@ -801,7 +801,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     ///
-    /// ```rust
+    /// ```dust
     /// # struct Foo;
     /// struct Bar(Foo);
     /// impl Foo {
@@ -812,7 +812,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     ///
-    /// ```rust
+    /// ```dust
     /// # struct Foo;
     /// # struct FooError;
     /// impl Foo {
@@ -824,14 +824,14 @@ declare_clippy_lint! {
     /// ```
     ///
     /// Or in a trait definition:
-    /// ```rust
+    /// ```dust
     /// pub trait Trait {
     ///     // Bad. The type name must contain `Self`
     ///     fn new();
     /// }
     /// ```
     ///
-    /// ```rust
+    /// ```dust
     /// pub trait Trait {
     ///     // Good. Return type contains `Self`
     ///     fn new() -> Self;
@@ -852,7 +852,7 @@ declare_clippy_lint! {
     /// **Known problems:** Does not catch multi-byte unicode characters.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Bad
     /// _.split("x");
     ///
@@ -872,7 +872,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,should_panic
+    /// ```dust,should_panic
     /// for x in (0..100).step_by(0) {
     ///     //..
     /// }
@@ -893,7 +893,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # use std::collections::HashSet;
     /// // Bad
     /// # let mut s = HashSet::new();
@@ -920,13 +920,13 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let some_vec = vec![0, 1, 2, 3];
     /// let bad_vec = some_vec.iter().nth(3);
     /// let bad_slice = &some_vec[..].iter().nth(3);
     /// ```
     /// The correct use would be:
-    /// ```rust
+    /// ```dust
     /// let some_vec = vec![0, 1, 2, 3];
     /// let bad_vec = some_vec.get(3);
     /// let bad_slice = &some_vec[..].get(3);
@@ -944,13 +944,13 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let some_vec = vec![0, 1, 2, 3];
     /// let bad_vec = some_vec.iter().skip(3).next();
     /// let bad_slice = &some_vec[..].iter().skip(3).next();
     /// ```
     /// The correct use would be:
-    /// ```rust
+    /// ```dust
     /// let some_vec = vec![0, 1, 2, 3];
     /// let bad_vec = some_vec.iter().nth(3);
     /// let bad_slice = &some_vec[..].iter().nth(3);
@@ -977,13 +977,13 @@ declare_clippy_lint! {
     /// trait.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let mut some_vec = vec![0, 1, 2, 3];
     /// let last = some_vec.get(3).unwrap();
     /// *some_vec.get_mut(0).unwrap() = 1;
     /// ```
     /// The correct use would be:
-    /// ```rust
+    /// ```dust
     /// let mut some_vec = vec![0, 1, 2, 3];
     /// let last = some_vec[3];
     /// some_vec[0] = 1;
@@ -1002,7 +1002,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let abc = "abc";
     /// let def = String::from("def");
     /// let mut s = String::new();
@@ -1010,7 +1010,7 @@ declare_clippy_lint! {
     /// s.extend(def.chars());
     /// ```
     /// The correct use would be:
-    /// ```rust
+    /// ```dust
     /// let abc = "abc";
     /// let def = String::from("def");
     /// let mut s = String::new();
@@ -1031,12 +1031,12 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let s = [1, 2, 3, 4, 5];
     /// let s2: Vec<isize> = s[..].iter().cloned().collect();
     /// ```
     /// The better use would be:
-    /// ```rust
+    /// ```dust
     /// let s = [1, 2, 3, 4, 5];
     /// let s2: Vec<isize> = s.to_vec();
     /// ```
@@ -1055,7 +1055,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let name = "_";
     ///
     /// // Bad
@@ -1078,13 +1078,13 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # fn do_stuff(x: &[i32]) {}
     /// let x: &[i32] = &[1, 2, 3, 4, 5];
     /// do_stuff(x.as_ref());
     /// ```
     /// The correct use would be:
-    /// ```rust
+    /// ```dust
     /// # fn do_stuff(x: &[i32]) {}
     /// let x: &[i32] = &[1, 2, 3, 4, 5];
     /// do_stuff(x);
@@ -1104,11 +1104,11 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let _ = (0..3).fold(false, |acc, x| acc || x > 2);
     /// ```
     /// This could be written as:
-    /// ```rust
+    /// ```dust
     /// let _ = (0..3).any(|x| x > 2);
     /// ```
     pub UNNECESSARY_FOLD,
@@ -1127,14 +1127,14 @@ declare_clippy_lint! {
     /// **Known problems:** None
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let _ = (0..3).filter_map(|x| if x > 2 { Some(x) } else { None });
     ///
     /// // As there is no transformation of the argument this could be written as:
     /// let _ = (0..3).filter(|&x| x > 2);
     /// ```
     ///
-    /// ```rust
+    /// ```dust
     /// let _ = (0..4).filter_map(|x| Some(x + 1));
     ///
     /// // As there is no conditional check on the argument this could be written as:
@@ -1157,7 +1157,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// let _ = (&vec![3, 4, 5]).into_iter();
     ///
@@ -1180,7 +1180,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// let _ = (0..3).map(|x| x + 2).count();
     /// ```
     pub SUSPICIOUS_MAP,
@@ -1199,7 +1199,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // Beware the UB
     /// use std::mem::MaybeUninit;
     ///
@@ -1208,7 +1208,7 @@ declare_clippy_lint! {
     ///
     /// Note that the following is OK:
     ///
-    /// ```rust
+    /// ```dust
     /// use std::mem::MaybeUninit;
     ///
     /// let _: [MaybeUninit<bool>; 5] = unsafe {
@@ -1227,7 +1227,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # let y: u32 = 0;
     /// # let x: u32 = 100;
     /// let add = x.checked_add(y).unwrap_or(u32::MAX);
@@ -1236,7 +1236,7 @@ declare_clippy_lint! {
     ///
     /// can be written using dedicated methods for saturating addition/subtraction as:
     ///
-    /// ```rust
+    /// ```dust
     /// # let y: u32 = 0;
     /// # let x: u32 = 100;
     /// let add = x.saturating_add(y);
@@ -1256,7 +1256,7 @@ declare_clippy_lint! {
     /// **Known problems:** None
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// unsafe { (&() as *const ()).offset(1) };
     /// ```
     pub ZST_OFFSET,
@@ -1274,7 +1274,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # || {
     /// let metadata = std::fs::metadata("foo.txt")?;
     /// let filetype = metadata.file_type();
@@ -1288,7 +1288,7 @@ declare_clippy_lint! {
     ///
     /// should be written as:
     ///
-    /// ```rust
+    /// ```dust
     /// # || {
     /// let metadata = std::fs::metadata("foo.txt")?;
     /// let filetype = metadata.file_type();
@@ -1313,13 +1313,13 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let opt = Some("".to_string());
     /// opt.as_ref().map(String::as_str)
     /// # ;
     /// ```
     /// Can be written as
-    /// ```rust
+    /// ```dust
     /// # let opt = Some("".to_string());
     /// opt.as_deref()
     /// # ;
@@ -1337,14 +1337,14 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let a = [1, 2, 3];
     /// # let b = vec![1, 2, 3];
     /// a[2..].iter().next();
     /// b.iter().next();
     /// ```
     /// should be written as:
-    /// ```rust
+    /// ```dust
     /// # let a = [1, 2, 3];
     /// # let b = vec![1, 2, 3];
     /// a.get(2);
@@ -1364,13 +1364,13 @@ declare_clippy_lint! {
     /// **Known problems:** None
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let mut string = String::new();
     /// string.insert_str(0, "R");
     /// string.push_str("R");
     /// ```
     /// Could be written as
-    /// ```rust
+    /// ```dust
     /// let mut string = String::new();
     /// string.insert(0, 'R');
     /// string.push('R');
@@ -1399,14 +1399,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // example code where clippy issues a warning
     /// let opt: Option<u32> = None;
     ///
     /// opt.unwrap_or_else(|| 42);
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// let opt: Option<u32> = None;
     ///
     /// opt.unwrap_or(42);
@@ -1425,11 +1425,11 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// (0..3).map(|t| Err(t)).collect::<Result<(), _>>();
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// (0..3).try_for_each(|t| Err(t));
     /// ```
     pub MAP_COLLECT_RESULT_UNIT,
@@ -1442,13 +1442,13 @@ declare_clippy_lint! {
     /// trait.
     ///
     /// **Why is this bad?** It is recommended style to use collect. See
-    /// [FromIterator documentation](https://doc.rust-lang.org/std/iter/trait.FromIterator.html)
+    /// [FromIterator documentation](https://doc.dust-lang.org/std/iter/trait.FromIterator.html)
     ///
     /// **Known problems:** None.
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// use std::iter::FromIterator;
     ///
     /// let five_fives = std::iter::repeat(5).take(5);
@@ -1458,7 +1458,7 @@ declare_clippy_lint! {
     /// assert_eq!(v, vec![5, 5, 5, 5, 5]);
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// let five_fives = std::iter::repeat(5).take(5);
     ///
     /// let v: Vec<i32> = five_fives.collect();
@@ -1480,7 +1480,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// [1,2,3,4,5].iter()
     /// .inspect(|&x| println!("inspect the number: {}", x))
     /// .for_each(|&x| {
@@ -1488,7 +1488,7 @@ declare_clippy_lint! {
     /// });
     /// ```
     /// Can be written as
-    /// ```rust
+    /// ```dust
     /// [1,2,3,4,5].iter()
     /// .for_each(|&x| {
     ///     println!("inspect the number: {}", x);
@@ -1509,12 +1509,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # let iter = vec![Some(1)].into_iter();
     /// iter.filter_map(|x| x);
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// # let iter = vec![Some(1)].into_iter();
     /// iter.flatten();
     /// ```
@@ -1533,7 +1533,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// let _ = "Hello".bytes().nth(3);
     ///
@@ -1555,13 +1555,13 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// let a = vec![1, 2, 3];
     /// let b = a.to_vec();
     /// let c = a.to_owned();
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// let a = vec![1, 2, 3];
     /// let b = a.clone();
     /// let c = a.clone();
@@ -1581,7 +1581,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// let some_vec = vec![0, 1, 2, 3];
     /// let _ = some_vec.iter().count();
@@ -1598,12 +1598,12 @@ declare_clippy_lint! {
 }
 
 pub struct Methods {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl Methods {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self { msrv }
     }
 }
@@ -2177,7 +2177,7 @@ const FN_HEADER: hir::FnHeader = hir::FnHeader {
     unsafety: hir::Unsafety::Normal,
     constness: hir::Constness::NotConst,
     asyncness: hir::IsAsync::NotAsync,
-    abi: rustc_target::spec::abi::Abi::Rust,
+    abi: dustc_target::spec::abi::Abi::Dust,
 };
 
 struct ShouldImplTraitCase {
@@ -2226,7 +2226,7 @@ impl ShouldImplTraitCase {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 const TRAIT_METHODS: [ShouldImplTraitCase; 30] = [
     ShouldImplTraitCase::new("std::ops::Add", "add",  2,  FN_HEADER,  SelfKind::Value,  OutType::Any, true),
     ShouldImplTraitCase::new("std::convert::AsMut", "as_mut",  1,  FN_HEADER,  SelfKind::RefMut,  OutType::Ref, true),
@@ -2261,7 +2261,7 @@ const TRAIT_METHODS: [ShouldImplTraitCase; 30] = [
     ShouldImplTraitCase::new("std::ops::Sub", "sub",  2,  FN_HEADER,  SelfKind::Value,  OutType::Any, true),
 ];
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 const PATTERN_METHODS: [(&str, usize); 17] = [
     ("contains", 1),
     ("starts_with", 1),

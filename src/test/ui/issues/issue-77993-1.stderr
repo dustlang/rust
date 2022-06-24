@@ -13,4 +13,4 @@ LL |     InGroup { f: |d| d }
 error: aborting due to 2 previous errors
 
 Some errors have detailed explanations: E0063, E0412.
-For more information about an error, try `rustc --explain E0063`.
+For more information about an error, try `dustc --explain E0063`.

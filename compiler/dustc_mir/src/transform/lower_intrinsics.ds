@@ -1,11 +1,11 @@
 //! Lowers intrinsic calls
 
 use crate::transform::MirPass;
-use rustc_middle::mir::*;
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_span::symbol::{sym, Symbol};
-use rustc_target::spec::abi::Abi;
+use dustc_middle::mir::*;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_span::symbol::{sym, Symbol};
+use dustc_target::spec::abi::Abi;
 
 pub struct LowerIntrinsics;
 
@@ -16,7 +16,7 @@ impl<'tcx> MirPass<'tcx> for LowerIntrinsics {
             let terminator = block.terminator.as_mut().unwrap();
             if let TerminatorKind::Call { func, args, destination, .. } = &mut terminator.kind {
                 let func_ty = func.ty(local_decls, tcx);
-                let (intrinsic_name, substs) = match resolve_rust_intrinsic(tcx, func_ty) {
+                let (intrinsic_name, substs) = match resolve_dust_intrinsic(tcx, func_ty) {
                     None => continue,
                     Some(it) => it,
                 };
@@ -46,7 +46,7 @@ impl<'tcx> MirPass<'tcx> for LowerIntrinsics {
                         block.statements.push(Statement {
                             source_info: terminator.source_info,
                             kind: StatementKind::CopyNonOverlapping(
-                                box rustc_middle::mir::CopyNonOverlapping {
+                                box dustc_middle::mir::CopyNonOverlapping {
                                     src: args.next().unwrap(),
                                     dst: args.next().unwrap(),
                                     count: args.next().unwrap(),
@@ -126,13 +126,13 @@ impl<'tcx> MirPass<'tcx> for LowerIntrinsics {
     }
 }
 
-fn resolve_rust_intrinsic(
+fn resolve_dust_intrinsic(
     tcx: TyCtxt<'tcx>,
     func_ty: Ty<'tcx>,
 ) -> Option<(Symbol, SubstsRef<'tcx>)> {
     if let ty::FnDef(def_id, substs) = *func_ty.kind() {
         let fn_sig = func_ty.fn_sig(tcx);
-        if fn_sig.abi() == Abi::RustIntrinsic {
+        if fn_sig.abi() == Abi::DustIntrinsic {
             return Some((tcx.item_name(def_id), substs));
         }
     }

@@ -6,7 +6,7 @@ LL |     with_signature(cell, t, |cell, t| require(cell, t));
    |
    = note: defining type: no_relationships_late::<'_#1r, T>::{closure#0} with closure substs [
                i32,
-               extern "rust-call" fn((std::cell::Cell<&'_#2r ()>, T)),
+               extern "dust-call" fn((std::cell::Cell<&'_#2r ()>, T)),
                (),
            ]
    = note: late-bound region is '_#3r
@@ -57,7 +57,7 @@ LL |     with_signature(cell, t, |cell, t| require(cell, t));
    |
    = note: defining type: no_relationships_early::<'_#1r, '_#2r, T>::{closure#0} with closure substs [
                i32,
-               extern "rust-call" fn((std::cell::Cell<&'_#3r ()>, T)),
+               extern "dust-call" fn((std::cell::Cell<&'_#3r ()>, T)),
                (),
            ]
    = note: number of external vids: 4
@@ -107,7 +107,7 @@ LL |     with_signature(cell, t, |cell, t| require(cell, t));
    |
    = note: defining type: projection_outlives::<'_#1r, '_#2r, T>::{closure#0} with closure substs [
                i32,
-               extern "rust-call" fn((std::cell::Cell<&'_#3r ()>, T)),
+               extern "dust-call" fn((std::cell::Cell<&'_#3r ()>, T)),
                (),
            ]
    = note: number of external vids: 4
@@ -135,7 +135,7 @@ LL |     with_signature(cell, t, |cell, t| require(cell, t));
    |
    = note: defining type: elements_outlive::<'_#1r, '_#2r, T>::{closure#0} with closure substs [
                i32,
-               extern "rust-call" fn((std::cell::Cell<&'_#3r ()>, T)),
+               extern "dust-call" fn((std::cell::Cell<&'_#3r ()>, T)),
                (),
            ]
    = note: number of external vids: 4
@@ -158,4 +158,4 @@ LL | | }
 
 error: aborting due to 4 previous errors
 
-For more information about this error, try `rustc --explain E0309`.
+For more information about this error, try `dustc --explain E0309`.

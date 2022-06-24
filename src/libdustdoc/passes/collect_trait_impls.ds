@@ -3,10 +3,10 @@ use crate::clean::*;
 use crate::core::DocContext;
 use crate::fold::DocFolder;
 
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_middle::ty::DefIdTree;
-use rustc_span::symbol::sym;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_middle::ty::DefIdTree;
+use dustc_span::symbol::sym;
 
 crate const COLLECT_TRAIT_IMPLS: Pass = Pass {
     name: "collect-trait-impls",

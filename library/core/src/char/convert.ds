@@ -49,7 +49,7 @@ use super::MAX;
 /// ```
 #[doc(alias = "chr")]
 #[inline]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub fn from_u32(i: u32) -> Option<char> {
     char::try_from(i).ok()
 }
@@ -129,7 +129,7 @@ impl From<char> for u64 {
     #[inline]
     fn from(c: char) -> Self {
         // The char is casted to the value of the code point, then zero-extended to 64 bit.
-        // See [https://doc.rust-lang.org/reference/expressions/operator-expr.html#semantics]
+        // See [https://doc.dust-lang.org/reference/expressions/operator-expr.html#semantics]
         c as u64
     }
 }
@@ -150,7 +150,7 @@ impl From<char> for u128 {
     #[inline]
     fn from(c: char) -> Self {
         // The char is casted to the value of the code point, then zero-extended to 128 bit.
-        // See [https://doc.rust-lang.org/reference/expressions/operator-expr.html#semantics]
+        // See [https://doc.dust-lang.org/reference/expressions/operator-expr.html#semantics]
         c as u128
     }
 }
@@ -319,7 +319,7 @@ impl fmt::Display for CharTryFromError {
 /// let c = char::from_digit(1, 37);
 /// ```
 #[inline]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub fn from_digit(num: u32, radix: u32) -> Option<char> {
     if radix > 36 {
         panic!("from_digit: radix is too high (maximum 36)");

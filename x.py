@@ -20,8 +20,8 @@ if sys.version_info.major < 3:
             # Python 3 isn't available, fall back to python 2
             pass
 
-rust_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(rust_dir, "src", "bootstrap"))
+dust_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(dust_dir, "src", "bootstrap"))
 
 import bootstrap
 bootstrap.main()

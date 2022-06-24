@@ -9,30 +9,30 @@ use crate::{
 
 use crate::traits::*;
 use jobserver::{Acquired, Client};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::profiling::SelfProfilerRef;
-use rustc_data_structures::profiling::TimingGuard;
-use rustc_data_structures::profiling::VerboseTimingGuard;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::emitter::Emitter;
-use rustc_errors::{DiagnosticId, FatalError, Handler, Level};
-use rustc_fs_util::link_or_copy;
-use rustc_hir::def_id::{CrateNum, LOCAL_CRATE};
-use rustc_incremental::{
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::profiling::SelfProfilerRef;
+use dustc_data_structures::profiling::TimingGuard;
+use dustc_data_structures::profiling::VerboseTimingGuard;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::emitter::Emitter;
+use dustc_errors::{DiagnosticId, FatalError, Handler, Level};
+use dustc_fs_util::link_or_copy;
+use dustc_hir::def_id::{CrateNum, LOCAL_CRATE};
+use dustc_incremental::{
     copy_cgu_workproduct_to_incr_comp_cache_dir, in_incr_comp_dir, in_incr_comp_dir_sess,
 };
-use rustc_middle::dep_graph::{WorkProduct, WorkProductId};
-use rustc_middle::middle::cstore::EncodedMetadata;
-use rustc_middle::middle::exported_symbols::SymbolExportLevel;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::cgu_reuse_tracker::CguReuseTracker;
-use rustc_session::config::{self, CrateType, Lto, OutputFilenames, OutputType};
-use rustc_session::config::{Passes, SanitizerSet, SwitchWithOptPath};
-use rustc_session::Session;
-use rustc_span::source_map::SourceMap;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_span::{BytePos, FileName, InnerSpan, Pos, Span};
-use rustc_target::spec::{MergeFunctions, PanicStrategy};
+use dustc_middle::dep_graph::{WorkProduct, WorkProductId};
+use dustc_middle::middle::cstore::EncodedMetadata;
+use dustc_middle::middle::exported_symbols::SymbolExportLevel;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::cgu_reuse_tracker::CguReuseTracker;
+use dustc_session::config::{self, CrateType, Lto, OutputFilenames, OutputType};
+use dustc_session::config::{Passes, SanitizerSet, SwitchWithOptPath};
+use dustc_session::Session;
+use dustc_span::source_map::SourceMap;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_span::{BytePos, FileName, InnerSpan, Pos, Span};
+use dustc_target::spec::{MergeFunctions, PanicStrategy};
 
 use std::any::Any;
 use std::fs;
@@ -146,11 +146,11 @@ impl ModuleConfig {
             // if linker plugin LTO is enabled. In the linker plugin LTO case
             // the assumption is that the final link-step will read the bitcode
             // and convert it to object code. This may be done by either the
-            // native linker or rustc itself.
+            // native linker or dustc itself.
             //
             // Note, however, that the linker-plugin-lto requested here is
             // explicitly ignored for `#![no_builtins]` crates. These crates are
-            // specifically ignored by rustc's LTO passes and wouldn't work if
+            // specifically ignored by dustc's LTO passes and wouldn't work if
             // loaded into the linker. These crates define symbols that LLVM
             // lowers intrinsics to, and these symbol dependencies aren't known
             // until after codegen. As a result any crate marked
@@ -174,7 +174,7 @@ impl ModuleConfig {
                         passes.push("insert-gcov-profiling".to_owned());
                     }
 
-                    // The rustc option `-Zinstrument_coverage` injects intrinsic calls to
+                    // The dustc option `-Zinstrument_coverage` injects intrinsic calls to
                     // `llvm.instrprof.increment()`, which requires the LLVM `instrprof` pass.
                     if sess.opts.debugging_opts.instrument_coverage {
                         passes.push("instrprof".to_owned());
@@ -329,7 +329,7 @@ pub struct CodegenContext<B: WriteBackendMethods> {
     pub target_pointer_width: u32,
     pub target_arch: String,
     pub debuginfo: config::DebugInfo,
-    pub split_debuginfo: rustc_target::spec::SplitDebuginfo,
+    pub split_debuginfo: dustc_target::spec::SplitDebuginfo,
 
     // Number of cgus excluding the allocator/metadata modules
     pub total_cgus: usize,
@@ -433,7 +433,7 @@ pub fn start_async_codegen<B: ExtraBackendMethods>(
     let sess = tcx.sess;
 
     let crate_name = tcx.crate_name(LOCAL_CRATE);
-    let crate_attrs = tcx.hir().attrs(rustc_hir::CRATE_HIR_ID);
+    let crate_attrs = tcx.hir().attrs(dustc_hir::CRATE_HIR_ID);
     let no_builtins = tcx.sess.contains_name(crate_attrs, sym::no_builtins);
     let is_compiler_builtins = tcx.sess.contains_name(crate_attrs, sym::compiler_builtins);
     let subsystem = tcx.sess.first_attr_value_str_by_name(crate_attrs, sym::windows_subsystem);
@@ -1602,10 +1602,10 @@ fn start_executing_work<B: ExtraBackendMethods>(
         // by losing some concurrency for a moment, we delay the point at which
         // that last LLVM module is finished and the rest of compilation can
         // proceed. Also, when we can't take advantage of some concurrency, we
-        // give tokens back to the job server. That enables some other rustc to
+        // give tokens back to the job server. That enables some other dustc to
         // potentially make use of the available concurrency. That could even
         // *decrease* overall compile time if we're lucky. But yes, if no other
-        // rustc can make use of the concurrency, then we've squandered it.
+        // dustc can make use of the concurrency, then we've squandered it.
         //
         // However, keeping the queue full is also beneficial when we have a
         // surge in available concurrency. Then items can be taken from the
@@ -1728,7 +1728,7 @@ impl SharedEmitter {
 }
 
 impl Emitter for SharedEmitter {
-    fn emit_diagnostic(&mut self, diag: &rustc_errors::Diagnostic) {
+    fn emit_diagnostic(&mut self, diag: &dustc_errors::Diagnostic) {
         drop(self.sender.send(SharedEmitterMessage::Diagnostic(Diagnostic {
             msg: diag.message(),
             code: diag.code.clone(),
@@ -1766,7 +1766,7 @@ impl SharedEmitterMain {
             match message {
                 Ok(SharedEmitterMessage::Diagnostic(diag)) => {
                     let handler = sess.diagnostic();
-                    let mut d = rustc_errors::Diagnostic::new(diag.lvl, &diag.msg);
+                    let mut d = dustc_errors::Diagnostic::new(diag.lvl, &diag.msg);
                     if let Some(code) = diag.code {
                         d.code(code);
                     }

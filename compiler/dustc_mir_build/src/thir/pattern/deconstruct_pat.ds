@@ -49,18 +49,18 @@ use super::compare_const_vals;
 use super::usefulness::{MatchCheckCtxt, PatCtxt};
 use super::{FieldPat, Pat, PatKind, PatRange};
 
-use rustc_data_structures::captures::Captures;
-use rustc_index::vec::Idx;
+use dustc_data_structures::captures::Captures;
+use dustc_index::vec::Idx;
 
-use rustc_hir::def_id::DefId;
-use rustc_hir::{HirId, RangeEnd};
-use rustc_middle::mir::interpret::ConstValue;
-use rustc_middle::mir::Field;
-use rustc_middle::ty::layout::IntegerExt;
-use rustc_middle::ty::{self, Const, Ty, TyCtxt};
-use rustc_session::lint;
-use rustc_span::{Span, DUMMY_SP};
-use rustc_target::abi::{Integer, Size, VariantIdx};
+use dustc_hir::def_id::DefId;
+use dustc_hir::{HirId, RangeEnd};
+use dustc_middle::mir::interpret::ConstValue;
+use dustc_middle::mir::Field;
+use dustc_middle::ty::layout::IntegerExt;
+use dustc_middle::ty::{self, Const, Ty, TyCtxt};
+use dustc_session::lint;
+use dustc_span::{Span, DUMMY_SP};
+use dustc_target::abi::{Integer, Size, VariantIdx};
 
 use smallvec::{smallvec, SmallVec};
 use std::cmp::{self, max, min, Ordering};
@@ -1393,7 +1393,7 @@ impl<'p, 'tcx> Fields<'p, 'tcx> {
     /// In the following example `Fields::wildcards` would return `[_, _, _, _]`. If we call
     /// `replace_with_pattern_arguments` on it with the pattern, the result will be `[Some(0), _,
     /// _, _]`.
-    /// ```rust
+    /// ```dust
     /// let x: [Option<u8>; 4] = foo();
     /// match x {
     ///     [Some(0), ..] => {}

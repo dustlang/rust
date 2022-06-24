@@ -32,7 +32,7 @@
 -         _2 = discriminant_value::<T>(move _3) -> bb1; // scope 0 at $DIR/lower_intrinsics.rs:69:5: 69:45
 -                                          // mir::Constant
 -                                          // + span: $DIR/lower_intrinsics.rs:69:5: 69:41
--                                          // + literal: Const { ty: for<'r> extern "rust-intrinsic" fn(&'r T) -> <T as std::marker::DiscriminantKind>::Discriminant {std::intrinsics::discriminant_value::<T>}, val: Value(Scalar(<ZST>)) }
+-                                          // + literal: Const { ty: for<'r> extern "dust-intrinsic" fn(&'r T) -> <T as std::marker::DiscriminantKind>::Discriminant {std::intrinsics::discriminant_value::<T>}, val: Value(Scalar(<ZST>)) }
 +         _2 = discriminant((*_3));        // scope 0 at $DIR/lower_intrinsics.rs:69:5: 69:45
 +         goto -> bb1;                     // scope 0 at $DIR/lower_intrinsics.rs:69:5: 69:45
       }
@@ -56,7 +56,7 @@
 -         _5 = discriminant_value::<i32>(move _6) -> bb2; // scope 0 at $DIR/lower_intrinsics.rs:70:5: 70:45
 -                                          // mir::Constant
 -                                          // + span: $DIR/lower_intrinsics.rs:70:5: 70:41
--                                          // + literal: Const { ty: for<'r> extern "rust-intrinsic" fn(&'r i32) -> <i32 as std::marker::DiscriminantKind>::Discriminant {std::intrinsics::discriminant_value::<i32>}, val: Value(Scalar(<ZST>)) }
+-                                          // + literal: Const { ty: for<'r> extern "dust-intrinsic" fn(&'r i32) -> <i32 as std::marker::DiscriminantKind>::Discriminant {std::intrinsics::discriminant_value::<i32>}, val: Value(Scalar(<ZST>)) }
 +         _5 = discriminant((*_6));        // scope 0 at $DIR/lower_intrinsics.rs:70:5: 70:45
 +         goto -> bb2;                     // scope 0 at $DIR/lower_intrinsics.rs:70:5: 70:45
       }
@@ -80,7 +80,7 @@
 -         _9 = discriminant_value::<()>(move _10) -> bb3; // scope 0 at $DIR/lower_intrinsics.rs:71:5: 71:46
 -                                          // mir::Constant
 -                                          // + span: $DIR/lower_intrinsics.rs:71:5: 71:41
--                                          // + literal: Const { ty: for<'r> extern "rust-intrinsic" fn(&'r ()) -> <() as std::marker::DiscriminantKind>::Discriminant {std::intrinsics::discriminant_value::<()>}, val: Value(Scalar(<ZST>)) }
+-                                          // + literal: Const { ty: for<'r> extern "dust-intrinsic" fn(&'r ()) -> <() as std::marker::DiscriminantKind>::Discriminant {std::intrinsics::discriminant_value::<()>}, val: Value(Scalar(<ZST>)) }
 +         _9 = discriminant((*_10));       // scope 0 at $DIR/lower_intrinsics.rs:71:5: 71:46
 +         goto -> bb3;                     // scope 0 at $DIR/lower_intrinsics.rs:71:5: 71:46
       }
@@ -104,7 +104,7 @@
 -         _13 = discriminant_value::<E>(move _14) -> bb4; // scope 0 at $DIR/lower_intrinsics.rs:72:5: 72:48
 -                                          // mir::Constant
 -                                          // + span: $DIR/lower_intrinsics.rs:72:5: 72:41
--                                          // + literal: Const { ty: for<'r> extern "rust-intrinsic" fn(&'r E) -> <E as std::marker::DiscriminantKind>::Discriminant {std::intrinsics::discriminant_value::<E>}, val: Value(Scalar(<ZST>)) }
+-                                          // + literal: Const { ty: for<'r> extern "dust-intrinsic" fn(&'r E) -> <E as std::marker::DiscriminantKind>::Discriminant {std::intrinsics::discriminant_value::<E>}, val: Value(Scalar(<ZST>)) }
 +         _13 = discriminant((*_14));      // scope 0 at $DIR/lower_intrinsics.rs:72:5: 72:48
 +         goto -> bb4;                     // scope 0 at $DIR/lower_intrinsics.rs:72:5: 72:48
       }

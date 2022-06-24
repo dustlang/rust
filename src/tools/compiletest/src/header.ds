@@ -42,8 +42,8 @@ impl EarlyProps {
 
     pub fn from_reader<R: Read>(config: &Config, testfile: &Path, rdr: R) -> Self {
         let mut props = EarlyProps::default();
-        let rustc_has_profiler_support = env::var_os("RUSTC_PROFILER_SUPPORT").is_some();
-        let rustc_has_sanitizer_support = env::var_os("RUSTC_SANITIZER_SUPPORT").is_some();
+        let dustc_has_profiler_support = env::var_os("DUSTC_PROFILER_SUPPORT").is_some();
+        let dustc_has_sanitizer_support = env::var_os("DUSTC_SANITIZER_SUPPORT").is_some();
         let has_asan = util::ASAN_SUPPORTED_TARGETS.contains(&&*config.target);
         let has_lsan = util::LSAN_SUPPORTED_TARGETS.contains(&&*config.target);
         let has_msan = util::MSAN_SUPPORTED_TARGETS.contains(&&*config.target);
@@ -76,11 +76,11 @@ impl EarlyProps {
                     props.ignore = true;
                 }
 
-                if !rustc_has_profiler_support && config.parse_needs_profiler_support(ln) {
+                if !dustc_has_profiler_support && config.parse_needs_profiler_support(ln) {
                     props.ignore = true;
                 }
 
-                if !rustc_has_sanitizer_support
+                if !dustc_has_sanitizer_support
                     && config.parse_name_directive(ln, "needs-sanitizer-support")
                 {
                     props.ignore = true;
@@ -198,7 +198,7 @@ impl EarlyProps {
                     // version
                     actual_version < min_version
                 } else {
-                    line.starts_with("rust-lldb") && !config.lldb_native_rust
+                    line.starts_with("dust-lldb") && !config.lldb_native_dust
                 }
             } else {
                 false
@@ -277,10 +277,10 @@ pub struct TestProps {
     // to build and pass with the `--extern` flag.
     pub aux_crates: Vec<(String, String)>,
     // Environment settings to use for compiling
-    pub rustc_env: Vec<(String, String)>,
+    pub dustc_env: Vec<(String, String)>,
     // Environment variables to unset prior to compiling.
-    // Variables are unset before applying 'rustc_env'.
-    pub unset_rustc_env: Vec<String>,
+    // Variables are unset before applying 'dustc_env'.
+    pub unset_dustc_env: Vec<String>,
     // Environment settings to use during execution
     pub exec_env: Vec<(String, String)>,
     // Lines to check if they appear in the expected debugger output
@@ -324,17 +324,17 @@ pub struct TestProps {
     ignore_pass: bool,
     // How far this test should proceed to start failing.
     pub fail_mode: Option<FailMode>,
-    // rustdoc will test the output of the `--test` option
+    // dustdoc will test the output of the `--test` option
     pub check_test_line_numbers_match: bool,
     // customized normalization rules
     pub normalize_stdout: Vec<(String, String)>,
     pub normalize_stderr: Vec<(String, String)>,
     pub failure_status: i32,
-    // Whether or not `rustfix` should apply the `CodeSuggestion`s of this test and compile the
-    // resulting Rust code.
-    pub run_rustfix: bool,
-    // If true, `rustfix` will only apply `MachineApplicable` suggestions.
-    pub rustfix_only_machine_applicable: bool,
+    // Whether or not `dustfix` should apply the `CodeSuggestion`s of this test and compile the
+    // resulting Dust code.
+    pub run_dustfix: bool,
+    // If true, `dustfix` will only apply `MachineApplicable` suggestions.
+    pub dustfix_only_machine_applicable: bool,
     pub assembly_output: Option<String>,
     // If true, the test is expected to ICE
     pub should_ice: bool,
@@ -352,8 +352,8 @@ impl TestProps {
             aux_builds: vec![],
             aux_crates: vec![],
             revisions: vec![],
-            rustc_env: vec![],
-            unset_rustc_env: vec![],
+            dustc_env: vec![],
+            unset_dustc_env: vec![],
             exec_env: vec![],
             check_lines: vec![],
             build_aux_docs: false,
@@ -375,8 +375,8 @@ impl TestProps {
             normalize_stdout: vec![],
             normalize_stderr: vec![],
             failure_status: -1,
-            run_rustfix: false,
-            rustfix_only_machine_applicable: false,
+            run_dustfix: false,
+            dustfix_only_machine_applicable: false,
             assembly_output: None,
             should_ice: false,
             stderr_per_bitwidth: false,
@@ -495,12 +495,12 @@ impl TestProps {
                     self.exec_env.push(ee);
                 }
 
-                if let Some(ee) = config.parse_env(ln, "rustc-env") {
-                    self.rustc_env.push(ee);
+                if let Some(ee) = config.parse_env(ln, "dustc-env") {
+                    self.dustc_env.push(ee);
                 }
 
-                if let Some(ev) = config.parse_name_value_directive(ln, "unset-rustc-env") {
-                    self.unset_rustc_env.push(ev);
+                if let Some(ev) = config.parse_name_value_directive(ln, "unset-dustc-env") {
+                    self.unset_dustc_env.push(ev);
                 }
 
                 if let Some(cl) = config.parse_check_line(ln) {
@@ -534,13 +534,13 @@ impl TestProps {
                     self.failure_status = code;
                 }
 
-                if !self.run_rustfix {
-                    self.run_rustfix = config.parse_run_rustfix(ln);
+                if !self.run_dustfix {
+                    self.run_dustfix = config.parse_run_dustfix(ln);
                 }
 
-                if !self.rustfix_only_machine_applicable {
-                    self.rustfix_only_machine_applicable =
-                        config.parse_rustfix_only_machine_applicable(ln);
+                if !self.dustfix_only_machine_applicable {
+                    self.dustfix_only_machine_applicable =
+                        config.parse_dustfix_only_machine_applicable(ln);
                 }
 
                 if self.assembly_output.is_none() {
@@ -560,7 +560,7 @@ impl TestProps {
             self.failure_status = 101;
         }
 
-        for key in &["RUST_TEST_NOCAPTURE", "RUST_TEST_THREADS"] {
+        for key in &["DUST_TEST_NOCAPTURE", "DUST_TEST_THREADS"] {
             if let Ok(val) = env::var(key) {
                 if self.exec_env.iter().find(|&&(ref x, _)| x == key).is_none() {
                     self.exec_env.push(((*key).to_owned(), val))
@@ -905,7 +905,7 @@ impl Config {
         }
     }
 
-    pub fn find_rust_src_root(&self) -> Option<PathBuf> {
+    pub fn find_dust_src_root(&self) -> Option<PathBuf> {
         let mut path = self.src_base.clone();
         let path_postfix = Path::new("src/etc/lldb_batchmode.py");
 
@@ -918,12 +918,12 @@ impl Config {
         None
     }
 
-    fn parse_run_rustfix(&self, line: &str) -> bool {
-        self.parse_name_directive(line, "run-rustfix")
+    fn parse_run_dustfix(&self, line: &str) -> bool {
+        self.parse_name_directive(line, "run-dustfix")
     }
 
-    fn parse_rustfix_only_machine_applicable(&self, line: &str) -> bool {
-        self.parse_name_directive(line, "rustfix-only-machine-applicable")
+    fn parse_dustfix_only_machine_applicable(&self, line: &str) -> bool {
+        self.parse_name_directive(line, "dustfix-only-machine-applicable")
     }
 
     fn parse_edition(&self, line: &str) -> Option<String> {

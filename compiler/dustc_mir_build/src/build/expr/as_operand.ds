@@ -3,8 +3,8 @@
 use crate::build::expr::category::Category;
 use crate::build::{BlockAnd, BlockAndExtension, Builder};
 use crate::thir::*;
-use rustc_middle::middle::region;
-use rustc_middle::mir::*;
+use dustc_middle::middle::region;
+use dustc_middle::mir::*;
 
 impl<'a, 'tcx> Builder<'a, 'tcx> {
     /// Returns an operand suitable for use until the end of the current
@@ -42,7 +42,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
     /// We tweak the handling of parameters of unsized type slightly to avoid the need to create a
     /// local variable of unsized type. For example, consider this program:
     ///
-    /// ```rust
+    /// ```dust
     /// fn foo(p: dyn Debug) { ... }
     ///
     /// fn bar(box_p: Box<dyn Debug>) { foo(*p); }
@@ -50,7 +50,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
     ///
     /// Ordinarily, for sized types, we would compile the call `foo(*p)` like so:
     ///
-    /// ```rust
+    /// ```dust
     /// let tmp0 = *box_p; // tmp0 would be the operand returned by this function call
     /// foo(tmp0)
     /// ```
@@ -60,7 +60,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
     /// that we create *stores the entire box*, and the parameter to the call itself will be
     /// `*tmp0`:
     ///
-    /// ```rust
+    /// ```dust
     /// let tmp0 = box_p; call foo(*tmp0)
     /// ```
     ///

@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #[derive(Copy, Clone)]
 struct HasChars;

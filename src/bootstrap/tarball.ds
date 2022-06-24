@@ -9,20 +9,20 @@ use crate::builder::Builder;
 
 #[derive(Copy, Clone)]
 pub(crate) enum OverlayKind {
-    Rust,
+    Dust,
     LLVM,
     Cargo,
     Clippy,
     Miri,
-    Rustfmt,
+    Dustfmt,
     RLS,
-    RustAnalyzer,
+    DustAnalyzer,
 }
 
 impl OverlayKind {
     fn legal_and_readme(&self) -> &[&str] {
         match self {
-            OverlayKind::Rust => &["COPYRIGHT", "LICENSE-APACHE", "LICENSE-MIT", "README.md"],
+            OverlayKind::Dust => &["COPYRIGHT", "LICENSE-APACHE", "LICENSE-MIT", "README.md"],
             OverlayKind::LLVM => {
                 &["src/llvm-project/llvm/LICENSE.TXT", "src/llvm-project/llvm/README.txt"]
             }
@@ -42,28 +42,28 @@ impl OverlayKind {
                 "src/tools/miri/LICENSE-APACHE",
                 "src/tools/miri/LICENSE-MIT",
             ],
-            OverlayKind::Rustfmt => &[
-                "src/tools/rustfmt/README.md",
-                "src/tools/rustfmt/LICENSE-APACHE",
-                "src/tools/rustfmt/LICENSE-MIT",
+            OverlayKind::Dustfmt => &[
+                "src/tools/dustfmt/README.md",
+                "src/tools/dustfmt/LICENSE-APACHE",
+                "src/tools/dustfmt/LICENSE-MIT",
             ],
             OverlayKind::RLS => &[
                 "src/tools/rls/README.md",
                 "src/tools/rls/LICENSE-APACHE",
                 "src/tools/rls/LICENSE-MIT",
             ],
-            OverlayKind::RustAnalyzer => &[
-                "src/tools/rust-analyzer/README.md",
-                "src/tools/rust-analyzer/LICENSE-APACHE",
-                "src/tools/rust-analyzer/LICENSE-MIT",
+            OverlayKind::DustAnalyzer => &[
+                "src/tools/dust-analyzer/README.md",
+                "src/tools/dust-analyzer/LICENSE-APACHE",
+                "src/tools/dust-analyzer/LICENSE-MIT",
             ],
         }
     }
 
     fn version(&self, builder: &Builder<'_>) -> String {
         match self {
-            OverlayKind::Rust => builder.rust_version(),
-            OverlayKind::LLVM => builder.rust_version(),
+            OverlayKind::Dust => builder.dust_version(),
+            OverlayKind::LLVM => builder.dust_version(),
             OverlayKind::Cargo => {
                 builder.cargo_info.version(builder, &builder.release_num("cargo"))
             }
@@ -71,13 +71,13 @@ impl OverlayKind {
                 builder.clippy_info.version(builder, &builder.release_num("clippy"))
             }
             OverlayKind::Miri => builder.miri_info.version(builder, &builder.release_num("miri")),
-            OverlayKind::Rustfmt => {
-                builder.rustfmt_info.version(builder, &builder.release_num("rustfmt"))
+            OverlayKind::Dustfmt => {
+                builder.dustfmt_info.version(builder, &builder.release_num("dustfmt"))
             }
             OverlayKind::RLS => builder.rls_info.version(builder, &builder.release_num("rls")),
-            OverlayKind::RustAnalyzer => builder
-                .rust_analyzer_info
-                .version(builder, &builder.release_num("rust-analyzer/crates/rust-analyzer")),
+            OverlayKind::DustAnalyzer => builder
+                .dust_analyzer_info
+                .version(builder, &builder.release_num("dust-analyzer/crates/dust-analyzer")),
         }
     }
 }
@@ -126,8 +126,8 @@ impl<'a> Tarball<'a> {
             pkgname,
             component: component.into(),
             target,
-            product_name: "Rust".into(),
-            overlay: OverlayKind::Rust,
+            product_name: "Dust".into(),
+            overlay: OverlayKind::Dust,
 
             temp_dir,
             image_dir,
@@ -236,7 +236,7 @@ impl<'a> Tarball<'a> {
     pub(crate) fn bare(self) -> GeneratedTarball {
         // Bare tarballs should have the top level directory match the package
         // name, not "image". We rename the image directory just before passing
-        // into rust-installer.
+        // into dust-installer.
         let dest = self.temp_dir.join(self.package_name());
         t!(std::fs::rename(&self.image_dir, &dest));
 
@@ -258,8 +258,8 @@ impl<'a> Tarball<'a> {
     }
 
     fn non_bare_args(&self, cmd: &mut Command) {
-        cmd.arg("--rel-manifest-dir=rustlib")
-            .arg("--legacy-manifest-dirs=rustlib,cargo")
+        cmd.arg("--rel-manifest-dir=dustlib")
+            .arg("--legacy-manifest-dirs=dustlib,cargo")
             .arg(format!("--product-name={}", self.product_name))
             .arg(format!("--success-message={} installed.", self.component))
             .arg(format!("--package-name={}", self.package_name()))
@@ -272,14 +272,14 @@ impl<'a> Tarball<'a> {
     fn run(self, build_cli: impl FnOnce(&Tarball<'a>, &mut Command)) -> GeneratedTarball {
         t!(std::fs::create_dir_all(&self.overlay_dir));
         self.builder.create(&self.overlay_dir.join("version"), &self.overlay.version(self.builder));
-        if let Some(sha) = self.builder.rust_sha() {
+        if let Some(sha) = self.builder.dust_sha() {
             self.builder.create(&self.overlay_dir.join("git-commit-hash"), &sha);
         }
         for file in self.overlay.legal_and_readme() {
             self.builder.install(&self.builder.src.join(file), &self.overlay_dir, 0o644);
         }
 
-        let mut cmd = self.builder.tool_cmd(crate::tool::Tool::RustInstaller);
+        let mut cmd = self.builder.tool_cmd(crate::tool::Tool::DustInstaller);
 
         let package_name = self.package_name();
         self.builder.info(&format!("Dist {}", package_name));

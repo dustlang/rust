@@ -1,6 +1,6 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) -V
-	$(RUSTC) -vV
-	$(RUSTC) --version --verbose
+	$(DUSTC) -V
+	$(DUSTC) -vV
+	$(DUSTC) --version --verbose

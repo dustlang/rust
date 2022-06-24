@@ -2,8 +2,8 @@ pub use super::*;
 
 use crate::dataflow::{self, GenKill, Results, ResultsRefCursor};
 use crate::util::storage::AlwaysLiveLocals;
-use rustc_middle::mir::visit::{NonMutatingUseContext, PlaceContext, Visitor};
-use rustc_middle::mir::*;
+use dustc_middle::mir::visit::{NonMutatingUseContext, PlaceContext, Visitor};
+use dustc_middle::mir::*;
 use std::cell::RefCell;
 
 #[derive(Clone)]

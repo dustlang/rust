@@ -43,7 +43,7 @@ pub enum PathKind {
     All,
 }
 
-rustc_data_structures::impl_stable_hash_via_hash!(PathKind);
+dustc_data_structures::impl_stable_hash_via_hash!(PathKind);
 
 impl PathKind {
     pub fn matches(&self, kind: PathKind) -> bool {

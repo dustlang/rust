@@ -1,12 +1,12 @@
 use crate::utils::{is_type_diagnostic_item, iter_input_pats, method_chain_args, snippet, span_lint_and_then};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty::{self, Ty};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
-use rustc_span::sym;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty::{self, Ty};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
+use dustc_span::sym;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for usage of `option.map(f)` where f is a function
@@ -19,7 +19,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # fn do_stuff() -> Option<String> { Some(String::new()) }
     /// # fn log_err_msg(foo: String) -> Option<String> { Some(foo) }
     /// # fn format_msg(foo: String) -> String { String::new() }
@@ -31,7 +31,7 @@ declare_clippy_lint! {
     ///
     /// The correct use would be:
     ///
-    /// ```rust
+    /// ```dust
     /// # fn do_stuff() -> Option<String> { Some(String::new()) }
     /// # fn log_err_msg(foo: String) -> Option<String> { Some(foo) }
     /// # fn format_msg(foo: String) -> String { String::new() }
@@ -61,7 +61,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # fn do_stuff() -> Result<String, String> { Ok(String::new()) }
     /// # fn log_err_msg(foo: String) -> Result<String, String> { Ok(foo) }
     /// # fn format_msg(foo: String) -> String { String::new() }
@@ -73,7 +73,7 @@ declare_clippy_lint! {
     ///
     /// The correct use would be:
     ///
-    /// ```rust
+    /// ```dust
     /// # fn do_stuff() -> Result<String, String> { Ok(String::new()) }
     /// # fn log_err_msg(foo: String) -> Result<String, String> { Ok(foo) }
     /// # fn format_msg(foo: String) -> String { String::new() }

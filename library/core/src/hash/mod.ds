@@ -11,7 +11,7 @@
 //!
 //! # Examples
 //!
-//! ```rust
+//! ```dust
 //! use std::collections::hash_map::DefaultHasher;
 //! use std::hash::{Hash, Hasher};
 //!
@@ -45,7 +45,7 @@
 //! If you need more control over how a value is hashed, you need to implement
 //! the [`Hash`] trait:
 //!
-//! ```rust
+//! ```dust
 //! use std::collections::hash_map::DefaultHasher;
 //! use std::hash::{Hash, Hasher};
 //!
@@ -83,12 +83,12 @@
 //! }
 //! ```
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 use crate::fmt;
 use crate::marker;
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[allow(deprecated)]
 pub use self::sip::SipHasher;
 
@@ -112,7 +112,7 @@ mod sip;
 ///
 /// ```
 /// #[derive(Hash)]
-/// struct Rustacean {
+/// struct Dustacean {
 ///     name: String,
 ///     country: String,
 /// }
@@ -156,7 +156,7 @@ mod sip;
 /// [`HashMap`]: ../../std/collections/struct.HashMap.html
 /// [`HashSet`]: ../../std/collections/struct.HashSet.html
 /// [`hash`]: Hash::hash
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait Hash {
     /// Feeds this value into the given [`Hasher`].
     ///
@@ -170,7 +170,7 @@ pub trait Hash {
     /// 7920.hash(&mut hasher);
     /// println!("Hash is {:x}!", hasher.finish());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn hash<H: Hasher>(&self, state: &mut H);
 
     /// Feeds a slice of this type into the given [`Hasher`].
@@ -200,7 +200,7 @@ pub trait Hash {
 // Separate module to reexport the macro `Hash` from prelude without the trait `Hash`.
 pub(crate) mod macros {
     /// Derive macro generating an impl of the trait `Hash`.
-    #[rustc_builtin_macro]
+    #[dustc_builtin_macro]
     #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
     #[allow_internal_unstable(core_intrinsics)]
     pub macro Hash($item:item) {
@@ -240,7 +240,7 @@ pub use macros::Hash;
 /// [`finish`]: Hasher::finish
 /// [`write`]: Hasher::write
 /// [`write_u8`]: Hasher::write_u8
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait Hasher {
     /// Returns the hash value for the values written so far.
     ///
@@ -262,7 +262,7 @@ pub trait Hasher {
     /// ```
     ///
     /// [`write`]: Hasher::write
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn finish(&self) -> u64;
 
     /// Writes some data into this `Hasher`.
@@ -280,7 +280,7 @@ pub trait Hasher {
     ///
     /// println!("Hash is {:x}!", hasher.finish());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn write(&mut self, bytes: &[u8]);
 
     /// Writes a single `u8` into this hasher.
@@ -500,7 +500,7 @@ pub trait BuildHasher {
 /// [method.default]: BuildHasherDefault::default
 /// [`HashMap`]: ../../std/collections/struct.HashMap.html
 /// [`HashSet`]: ../../std/collections/struct.HashSet.html
-/// [zero-sized]: https://doc.rust-lang.org/nomicon/exotic-sizes.html#zero-sized-types-zsts
+/// [zero-sized]: https://doc.dust-lang.org/nomicon/exotic-sizes.html#zero-sized-types-zsts
 #[stable(since = "1.7.0", feature = "build_hasher")]
 pub struct BuildHasherDefault<H>(marker::PhantomData<H>);
 
@@ -552,7 +552,7 @@ mod impls {
 
     macro_rules! impl_write {
         ($(($ty:ident, $meth:ident),)*) => {$(
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl Hash for $ty {
                 #[inline]
                 fn hash<H: Hasher>(&self, state: &mut H) {
@@ -588,7 +588,7 @@ mod impls {
         (i128, write_i128),
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl Hash for bool {
         #[inline]
         fn hash<H: Hasher>(&self, state: &mut H) {
@@ -596,7 +596,7 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl Hash for char {
         #[inline]
         fn hash<H: Hasher>(&self, state: &mut H) {
@@ -604,7 +604,7 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl Hash for str {
         #[inline]
         fn hash<H: Hasher>(&self, state: &mut H) {
@@ -623,7 +623,7 @@ mod impls {
 
     macro_rules! impl_hash_tuple {
         () => (
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl Hash for () {
                 #[inline]
                 fn hash<H: Hasher>(&self, _state: &mut H) {}
@@ -631,7 +631,7 @@ mod impls {
         );
 
         ( $($name:ident)+) => (
-            #[stable(feature = "rust1", since = "1.0.0")]
+            #[stable(feature = "dust1", since = "1.0.0")]
             impl<$($name: Hash),+> Hash for ($($name,)+) where last_type!($($name,)+): ?Sized {
                 #[allow(non_snake_case)]
                 #[inline]
@@ -662,7 +662,7 @@ mod impls {
     impl_hash_tuple! { A B C D E F G H I J K }
     impl_hash_tuple! { A B C D E F G H I J K L }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: Hash> Hash for [T] {
         #[inline]
         fn hash<H: Hasher>(&self, state: &mut H) {
@@ -671,7 +671,7 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized + Hash> Hash for &T {
         #[inline]
         fn hash<H: Hasher>(&self, state: &mut H) {
@@ -679,7 +679,7 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized + Hash> Hash for &mut T {
         #[inline]
         fn hash<H: Hasher>(&self, state: &mut H) {
@@ -687,7 +687,7 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized> Hash for *const T {
         #[inline]
         fn hash<H: Hasher>(&self, state: &mut H) {
@@ -708,7 +708,7 @@ mod impls {
                     // which is guaranteed to be valid.
                     // This assumes a fat pointer can be represented by a `(usize, usize)`,
                     // which is safe to do in `std` because it is shipped and kept in sync
-                    // with the implementation of fat pointers in `rustc`.
+                    // with the implementation of fat pointers in `dustc`.
                     let (a, b) = unsafe { *(self as *const Self as *const (usize, usize)) };
                     state.write_usize(a);
                     state.write_usize(b);
@@ -717,7 +717,7 @@ mod impls {
         }
     }
 
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     impl<T: ?Sized> Hash for *mut T {
         #[inline]
         fn hash<H: Hasher>(&self, state: &mut H) {
@@ -738,7 +738,7 @@ mod impls {
                     // which is guaranteed to be valid.
                     // This assumes a fat pointer can be represented by a `(usize, usize)`,
                     // which is safe to do in `std` because it is shipped and kept in sync
-                    // with the implementation of fat pointers in `rustc`.
+                    // with the implementation of fat pointers in `dustc`.
                     let (a, b) = unsafe { *(self as *const Self as *const (usize, usize)) };
                     state.write_usize(a);
                     state.write_usize(b);

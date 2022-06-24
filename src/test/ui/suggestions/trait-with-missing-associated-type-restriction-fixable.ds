@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![allow(unused)] // for the fixed file
 
 trait Trait<T = Self> {

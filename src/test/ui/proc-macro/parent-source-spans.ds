@@ -17,7 +17,7 @@ macro two($a:expr, $b:expr) {
     //~^ ERROR first final: "hello"
     //~| ERROR second final: "world"
     //~| ERROR first final: "yay"
-    //~| ERROR second final: "rust"
+    //~| ERROR second final: "dust"
 }
 
 // forwarding tokens directly doesn't create a new source chain
@@ -39,11 +39,11 @@ fn main() {
     //~| ERROR first source: "hello"
     //~| ERROR second source: "world"
 
-    two!("yay", "rust");
+    two!("yay", "dust");
     //~^ ERROR first parent: "yay"
-    //~| ERROR second parent: "rust"
+    //~| ERROR second parent: "dust"
     //~| ERROR first source: "yay"
-    //~| ERROR second source: "rust"
+    //~| ERROR second source: "dust"
 
     three!("hip", "hop");
     //~^ ERROR first final: "hip"

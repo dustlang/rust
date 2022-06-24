@@ -1,4 +1,4 @@
-//! Type-checking for the rust-intrinsic and platform-intrinsic
+//! Type-checking for the dust-intrinsic and platform-intrinsic
 //! intrinsics that the compiler exposes.
 
 use crate::errors::{
@@ -7,13 +7,13 @@ use crate::errors::{
 };
 use crate::require_same_types;
 
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_middle::traits::{ObligationCause, ObligationCauseCode};
-use rustc_middle::ty::subst::Subst;
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_span::symbol::{kw, sym, Symbol};
-use rustc_target::spec::abi::Abi;
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_middle::traits::{ObligationCause, ObligationCauseCode};
+use dustc_middle::ty::subst::Subst;
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_span::symbol::{kw, sym, Symbol};
+use dustc_target::spec::abi::Abi;
 
 use std::iter;
 
@@ -85,7 +85,7 @@ pub fn intrinsic_operation_unsafety(intrinsic: Symbol) -> hir::Unsafety {
         | sym::minnumf32
         | sym::minnumf64
         | sym::maxnumf32
-        | sym::rustc_peek
+        | sym::dustc_peek
         | sym::maxnumf64
         | sym::type_name
         | sym::forget
@@ -94,7 +94,7 @@ pub fn intrinsic_operation_unsafety(intrinsic: Symbol) -> hir::Unsafety {
     }
 }
 
-/// Remember to add all intrinsics here, in `compiler/rustc_codegen_llvm/src/intrinsic.rs`,
+/// Remember to add all intrinsics here, in `compiler/dustc_codegen_llvm/src/intrinsic.rs`,
 /// and in `library/core/src/intrinsics.rs`.
 pub fn check_intrinsic_type(tcx: TyCtxt<'_>, it: &hir::ForeignItem<'_>) {
     let param = |n| tcx.mk_ty_param(n, Symbol::intern(&format!("P{}", n)));
@@ -147,7 +147,7 @@ pub fn check_intrinsic_type(tcx: TyCtxt<'_>, it: &hir::ForeignItem<'_>) {
             sym::size_of_val | sym::min_align_of_val => {
                 (1, vec![tcx.mk_imm_ptr(param(0))], tcx.types.usize)
             }
-            sym::rustc_peek => (1, vec![param(0)], param(0)),
+            sym::dustc_peek => (1, vec![param(0)], param(0)),
             sym::caller_location => (0, vec![], tcx.caller_location_ty()),
             sym::assert_inhabited | sym::assert_zero_valid | sym::assert_uninit_valid => {
                 (1, Vec::new(), tcx.mk_unit())
@@ -322,14 +322,14 @@ pub fn check_intrinsic_type(tcx: TyCtxt<'_>, it: &hir::ForeignItem<'_>) {
                     tcx.mk_unit(),
                     false,
                     hir::Unsafety::Normal,
-                    Abi::Rust,
+                    Abi::Dust,
                 ));
                 let catch_fn_ty = ty::Binder::dummy(tcx.mk_fn_sig(
                     [mut_u8, mut_u8].iter().cloned(),
                     tcx.mk_unit(),
                     false,
                     hir::Unsafety::Normal,
-                    Abi::Rust,
+                    Abi::Dust,
                 ));
                 (
                     0,
@@ -365,7 +365,7 @@ pub fn check_intrinsic_type(tcx: TyCtxt<'_>, it: &hir::ForeignItem<'_>) {
         };
         (n_tps, inputs, output, unsafety)
     };
-    let sig = tcx.mk_fn_sig(inputs.into_iter(), output, false, unsafety, Abi::RustIntrinsic);
+    let sig = tcx.mk_fn_sig(inputs.into_iter(), output, false, unsafety, Abi::DustIntrinsic);
     let sig = ty::Binder::bind(sig);
     equate_intrinsic_type(tcx, it, n_tps, sig)
 }

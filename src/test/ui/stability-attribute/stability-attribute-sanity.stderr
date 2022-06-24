@@ -55,13 +55,13 @@ LL |     #[stable(feature = "a")]
 error[E0542]: missing 'since'
   --> $DIR/stability-attribute-sanity.rs:40:5
    |
-LL |     #[rustc_deprecated(reason = "a")]
+LL |     #[dustc_deprecated(reason = "a")]
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error[E0543]: missing 'reason'
   --> $DIR/stability-attribute-sanity.rs:44:5
    |
-LL |     #[rustc_deprecated(since = "a")]
+LL |     #[dustc_deprecated(since = "a")]
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error[E0544]: multiple stability levels
@@ -85,15 +85,15 @@ LL | #[stable(feature = "a", since = "b")]
 error[E0550]: multiple deprecated attributes
   --> $DIR/stability-attribute-sanity.rs:62:1
    |
-LL | #[rustc_deprecated(since = "b", reason = "text")]
+LL | #[dustc_deprecated(since = "b", reason = "text")]
    | ------------------------------------------------- first deprecation attribute
-LL | #[rustc_deprecated(since = "b", reason = "text")]
+LL | #[dustc_deprecated(since = "b", reason = "text")]
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ repeated deprecation attribute
 
 error[E0544]: multiple stability levels
   --> $DIR/stability-attribute-sanity.rs:64:1
    |
-LL | #[rustc_const_unstable(feature = "d", issue = "none")]
+LL | #[dustc_const_unstable(feature = "d", issue = "none")]
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: invalid stability version found
@@ -110,17 +110,17 @@ error: invalid deprecation version found
    |
 LL | #[stable(feature = "a", since = "1.0.0")]
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid deprecation version
-LL | #[rustc_deprecated(since = "invalid", reason = "text")]
+LL | #[dustc_deprecated(since = "invalid", reason = "text")]
 LL | fn invalid_deprecation_version() {}
    | ----------------------------------- the stability attribute annotates this item
 
-error[E0549]: rustc_deprecated attribute must be paired with either stable or unstable attribute
+error[E0549]: dustc_deprecated attribute must be paired with either stable or unstable attribute
   --> $DIR/stability-attribute-sanity.rs:71:1
    |
-LL | #[rustc_deprecated(since = "a", reason = "text")]
+LL | #[dustc_deprecated(since = "a", reason = "text")]
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: aborting due to 19 previous errors
 
 Some errors have detailed explanations: E0539, E0541, E0542, E0543, E0546, E0547, E0549, E0550.
-For more information about an error, try `rustc --explain E0539`.
+For more information about an error, try `dustc --explain E0539`.

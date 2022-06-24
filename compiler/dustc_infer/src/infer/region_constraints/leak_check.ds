@@ -1,12 +1,12 @@
 use super::*;
 use crate::infer::CombinedSnapshot;
-use rustc_data_structures::{
+use dustc_data_structures::{
     graph::{scc::Sccs, vec_graph::VecGraph},
     undo_log::UndoLogs,
 };
-use rustc_index::vec::Idx;
-use rustc_middle::ty::error::TypeError;
-use rustc_middle::ty::relate::RelateResult;
+use dustc_index::vec::Idx;
+use dustc_middle::ty::error::TypeError;
+use dustc_middle::ty::relate::RelateResult;
 
 impl<'tcx> RegionConstraintCollector<'_, 'tcx> {
     /// Searches new universes created during `snapshot`, looking for
@@ -354,13 +354,13 @@ impl<'tcx> SccUniverse<'tcx> {
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     struct LeakCheckNode {
         DEBUG_FORMAT = "LeakCheckNode({})"
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     struct LeakCheckScc {
         DEBUG_FORMAT = "LeakCheckScc({})"
     }

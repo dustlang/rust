@@ -1,4 +1,4 @@
-use rustc_middle::ty::{self, IntTy, Ty, TyCtxt, UintTy};
+use dustc_middle::ty::{self, IntTy, Ty, TyCtxt, UintTy};
 
 /// Returns the size in bits of an integral type.
 /// Will return 0 if the type is not an int or uint variant

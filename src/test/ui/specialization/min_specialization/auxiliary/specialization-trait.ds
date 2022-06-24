@@ -1,6 +1,6 @@
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
-#[rustc_specialization_trait]
+#[dustc_specialization_trait]
 pub trait SpecTrait {
     fn method(&self);
 }

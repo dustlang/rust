@@ -2,9 +2,9 @@
 
 use crate::dep_graph::{DepContext, DepNodeIndex};
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sync::HashMapExt;
-use rustc_data_structures::sync::Lock;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::sync::HashMapExt;
+use dustc_data_structures::sync::Lock;
 
 use std::hash::Hash;
 

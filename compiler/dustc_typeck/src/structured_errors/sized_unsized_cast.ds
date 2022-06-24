@@ -1,8 +1,8 @@
 use crate::structured_errors::StructuredDiagnostic;
-use rustc_errors::{DiagnosticBuilder, DiagnosticId};
-use rustc_middle::ty::{Ty, TypeFoldable};
-use rustc_session::Session;
-use rustc_span::Span;
+use dustc_errors::{DiagnosticBuilder, DiagnosticId};
+use dustc_middle::ty::{Ty, TypeFoldable};
+use dustc_session::Session;
+use dustc_span::Span;
 
 pub struct SizedUnsizedCast<'tcx> {
     pub sess: &'tcx Session,
@@ -17,7 +17,7 @@ impl<'tcx> StructuredDiagnostic<'tcx> for SizedUnsizedCast<'tcx> {
     }
 
     fn code(&self) -> DiagnosticId {
-        rustc_errors::error_code!(E0607)
+        dustc_errors::error_code!(E0607)
     }
 
     fn diagnostic_common(&self) -> DiagnosticBuilder<'tcx> {
@@ -50,7 +50,7 @@ To fix this error, don't try to cast directly between thin and fat
 pointers.
 
 For more information about casts, take a look at The Book:
-https://doc.rust-lang.org/reference/expressions/operator-expr.html#type-cast-expressions",
+https://doc.dust-lang.org/reference/expressions/operator-expr.html#type-cast-expressions",
         );
         err
     }

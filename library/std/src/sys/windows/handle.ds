@@ -14,7 +14,7 @@ use crate::sys::cvt;
 pub struct Handle(RawHandle);
 
 /// A wrapper type for `HANDLE` objects to give them proper Send/Sync inference
-/// as well as Rust-y methods.
+/// as well as Dust-y methods.
 ///
 /// This does **not** drop the handle when it goes out of scope, use `Handle`
 /// instead for that.

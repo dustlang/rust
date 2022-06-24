@@ -1,4 +1,4 @@
-//run-rustfix
+//run-dustfix
 // aux-build:macro_rules.rs
 
 #![warn(clippy::must_use_unit)]

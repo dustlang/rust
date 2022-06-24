@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![allow(dead_code)]
 #![warn(clippy::duration_subsec)]
 

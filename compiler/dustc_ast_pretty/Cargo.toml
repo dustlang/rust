@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_ast_pretty"
+name = "dustc_ast_pretty"
 version = "0.0.0"
 edition = "2018"
 
@@ -9,5 +9,5 @@ doctest = false
 
 [dependencies]
 tracing = "0.1"
-rustc_span = { path = "../rustc_span" }
-rustc_ast = { path = "../rustc_ast" }
+dustc_span = { path = "../dustc_span" }
+dustc_ast = { path = "../dustc_ast" }

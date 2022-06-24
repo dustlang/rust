@@ -2,10 +2,10 @@ use crate::dep_graph::DepContext;
 use crate::query::plumbing::CycleError;
 use crate::query::{QueryContext, QueryStackFrame};
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::{struct_span_err, Diagnostic, DiagnosticBuilder, Handler, Level};
-use rustc_session::Session;
-use rustc_span::Span;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::{struct_span_err, Diagnostic, DiagnosticBuilder, Handler, Level};
+use dustc_session::Session;
+use dustc_span::Span;
 
 use std::convert::TryFrom;
 use std::hash::Hash;
@@ -16,12 +16,12 @@ use std::num::NonZeroU32;
 use {
     crate::dep_graph::DepKind,
     parking_lot::{Condvar, Mutex},
-    rustc_data_structures::fx::FxHashSet,
-    rustc_data_structures::sync::Lock,
-    rustc_data_structures::sync::Lrc,
-    rustc_data_structures::{jobserver, OnDrop},
-    rustc_rayon_core as rayon_core,
-    rustc_span::DUMMY_SP,
+    dustc_data_structures::fx::FxHashSet,
+    dustc_data_structures::sync::Lock,
+    dustc_data_structures::sync::Lrc,
+    dustc_data_structures::{jobserver, OnDrop},
+    dustc_rayon_core as rayon_core,
+    dustc_span::DUMMY_SP,
     std::iter::FromIterator,
     std::{mem, process},
 };
@@ -135,7 +135,7 @@ where
 
     /// Signals to waiters that the query is complete.
     ///
-    /// This does nothing for single threaded rustc,
+    /// This does nothing for single threaded dustc,
     /// as there are no concurrent jobs which could be waiting on us
     pub fn signal_complete(self) {
         #[cfg(parallel_compiler)]

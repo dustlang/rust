@@ -39,7 +39,7 @@ LL | #![feature(generic_associated_types)]
    |            ^^^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #44265 <https://github.com/rust-lang/rust/issues/44265> for more information
+   = note: see issue #44265 <https://github.com/dust-lang/dust/issues/44265> for more information
 
 error[E0747]: constant provided when a type was expected
   --> $DIR/trait-path-missing-gen_arg.rs:9:23
@@ -49,4 +49,4 @@ LL |   fn f1<'a>(arg : Box<dyn X< : 32 >>) {}
 
 error: aborting due to 5 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0747`.
+For more information about this error, try `dustc --explain E0747`.

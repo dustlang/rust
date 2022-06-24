@@ -2,14 +2,14 @@
 
 #![allow(unused_mut)]
 #![allow(unused_imports)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_macros;
-extern crate rustc_serialize;
+extern crate dustc_macros;
+extern crate dustc_serialize;
 
-use rustc_macros::{Decodable, Encodable};
-use rustc_serialize::json;
-use rustc_serialize::{Decodable, Encodable};
+use dustc_macros::{Decodable, Encodable};
+use dustc_serialize::json;
+use dustc_serialize::{Decodable, Encodable};
 
 #[derive(Encodable, Decodable, PartialEq, Debug)]
 struct UnitLikeStruct;

@@ -7,4 +7,4 @@
 # `-z text` causes ld to error if there are any non-PIC sections
 
 all:
-	$(RUSTC) hello.rs -C link-args=-Wl,-z,text
+	$(DUSTC) hello.rs -C link-args=-Wl,-z,text

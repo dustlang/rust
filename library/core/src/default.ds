@@ -1,6 +1,6 @@
 //! The `Default` trait for types which may have meaningful default values.
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 /// A trait for giving a type a useful default value.
 ///
@@ -31,7 +31,7 @@
 /// }
 /// ```
 ///
-/// Now, you get all of the default values. Rust implements `Default` for various primitives types.
+/// Now, you get all of the default values. Dust implements `Default` for various primitives types.
 ///
 /// If you want to override a particular option, but still retain the other defaults:
 ///
@@ -80,8 +80,8 @@
 ///     bar: f32,
 /// }
 /// ```
-#[cfg_attr(not(test), rustc_diagnostic_item = "Default")]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[cfg_attr(not(test), dustc_diagnostic_item = "Default")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait Default: Sized {
     /// Returns the "default value" for a type.
     ///
@@ -112,7 +112,7 @@ pub trait Default: Sized {
     ///     fn default() -> Self { Kind::A }
     /// }
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn default() -> Self;
 }
 
@@ -161,7 +161,7 @@ pub fn default<T: Default>() -> T {
 }
 
 /// Derive macro generating an impl of the trait `Default`.
-#[rustc_builtin_macro]
+#[dustc_builtin_macro]
 #[stable(feature = "builtin_macro_prelude", since = "1.38.0")]
 #[allow_internal_unstable(core_intrinsics)]
 pub macro Default($item:item) {
@@ -170,7 +170,7 @@ pub macro Default($item:item) {
 
 macro_rules! default_impl {
     ($t:ty, $v:expr, $doc:tt) => {
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl Default for $t {
             #[inline]
             #[doc = $doc]

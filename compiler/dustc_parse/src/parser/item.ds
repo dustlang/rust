@@ -2,21 +2,21 @@ use super::diagnostics::{dummy_arg, ConsumeClosingDelim, Error};
 use super::ty::{AllowPlus, RecoverQPath, RecoverReturnSign};
 use super::{AttrWrapper, FollowedByType, ForceCollect, Parser, PathStyle, TrailingToken};
 
-use rustc_ast::ast::*;
-use rustc_ast::ptr::P;
-use rustc_ast::token::{self, TokenKind};
-use rustc_ast::tokenstream::{DelimSpan, TokenStream, TokenTree};
-use rustc_ast::{self as ast, AttrVec, Attribute, DUMMY_NODE_ID};
-use rustc_ast::{Async, Const, Defaultness, IsAuto, Mutability, Unsafe, UseTree, UseTreeKind};
-use rustc_ast::{BindingMode, Block, FnDecl, FnSig, Param, SelfKind};
-use rustc_ast::{EnumDef, FieldDef, Generics, TraitRef, Ty, TyKind, Variant, VariantData};
-use rustc_ast::{FnHeader, ForeignItem, Path, PathSegment, Visibility, VisibilityKind};
-use rustc_ast::{MacArgs, MacCall, MacDelimiter};
-use rustc_ast_pretty::pprust;
-use rustc_errors::{struct_span_err, Applicability, PResult, StashKey};
-use rustc_span::edition::{Edition, LATEST_STABLE_EDITION};
-use rustc_span::source_map::{self, Span};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_ast::ast::*;
+use dustc_ast::ptr::P;
+use dustc_ast::token::{self, TokenKind};
+use dustc_ast::tokenstream::{DelimSpan, TokenStream, TokenTree};
+use dustc_ast::{self as ast, AttrVec, Attribute, DUMMY_NODE_ID};
+use dustc_ast::{Async, Const, Defaultness, IsAuto, Mutability, Unsafe, UseTree, UseTreeKind};
+use dustc_ast::{BindingMode, Block, FnDecl, FnSig, Param, SelfKind};
+use dustc_ast::{EnumDef, FieldDef, Generics, TraitRef, Ty, TyKind, Variant, VariantData};
+use dustc_ast::{FnHeader, ForeignItem, Path, PathSegment, Visibility, VisibilityKind};
+use dustc_ast::{MacArgs, MacCall, MacDelimiter};
+use dustc_ast_pretty::ppdust;
+use dustc_errors::{struct_span_err, Applicability, PResult, StashKey};
+use dustc_span::edition::{Edition, LATEST_STABLE_EDITION};
+use dustc_span::source_map::{self, Span};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
 
 use std::convert::TryFrom;
 use std::mem;
@@ -165,7 +165,7 @@ impl<'a> Parser<'a> {
         if let VisibilityKind::Inherited = vis.kind {
             return;
         }
-        let vs = pprust::vis_to_string(&vis);
+        let vs = ppdust::vis_to_string(&vis);
         let vs = vs.trim_end();
         self.struct_span_err(vis.span, &format!("visibility `{}` is not followed by an item", vs))
             .span_label(vis.span, "the visibility")
@@ -959,7 +959,7 @@ impl<'a> Parser<'a> {
                 "static ".to_string(),
                 Applicability::MachineApplicable,
             )
-            .note("for more information, visit https://doc.rust-lang.org/std/keyword.extern.html")
+            .note("for more information, visit https://doc.dust-lang.org/std/keyword.extern.html")
             .emit();
     }
 
@@ -1471,7 +1471,7 @@ impl<'a> Parser<'a> {
             return;
         }
 
-        let vstr = pprust::vis_to_string(vis);
+        let vstr = ppdust::vis_to_string(vis);
         let vstr = vstr.trim_end();
         if macro_rules {
             self.sess.gated_spans.gate(sym::pub_macro_rules, vis.span);
@@ -1536,7 +1536,7 @@ impl<'a> Parser<'a> {
             && self.look_ahead(1, |t| t.is_ident())
         {
             let kw_token = self.token.clone();
-            let kw_str = pprust::token_to_string(&kw_token);
+            let kw_str = ppdust::token_to_string(&kw_token);
             let item = self.parse_item(ForceCollect::No)?;
 
             self.struct_span_err(
@@ -1699,7 +1699,7 @@ impl<'a> Parser<'a> {
                         let sp = sp_start.to(self.prev_token.span);
                         if let Ok(snippet) = self.span_to_snippet(sp) {
                             let vis = self.parse_visibility(FollowedByType::No)?;
-                            let vs = pprust::vis_to_string(&vis);
+                            let vs = ppdust::vis_to_string(&vis);
                             let vs = vs.trim_end();
                             err.span_suggestion(
                                 sp_start.to(self.prev_token.span),
@@ -1717,14 +1717,14 @@ impl<'a> Parser<'a> {
         Ok(FnHeader { constness, unsafety, asyncness, ext })
     }
 
-    /// We are parsing `async fn`. If we are on Rust 2015, emit an error.
+    /// We are parsing `async fn`. If we are on Dust 2015, emit an error.
     fn ban_async_in_2015(&self, span: Span) {
-        if span.rust_2015() {
+        if span.dust_2015() {
             let diag = self.diagnostic();
-            struct_span_err!(diag, span, E0670, "`async fn` is not permitted in Rust 2015")
-                .span_label(span, "to use `async fn`, switch to Rust 2018 or later")
+            struct_span_err!(diag, span, E0670, "`async fn` is not permitted in Dust 2015")
+                .span_label(span, "to use `async fn`, switch to Dust 2018 or later")
                 .help(&format!("set `edition = \"{}\"` in `Cargo.toml`", LATEST_STABLE_EDITION))
-                .note("for more on editions, read https://doc.rust-lang.org/edition-guide")
+                .note("for more on editions, read https://doc.dust-lang.org/edition-guide")
                 .emit();
         }
     }

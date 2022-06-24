@@ -24,4 +24,4 @@ LL | struct D<const X: C>;
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0741`.
+For more information about this error, try `dustc --explain E0741`.

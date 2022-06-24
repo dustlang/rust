@@ -265,7 +265,7 @@ impl FromStr for IpAddr {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl FromStr for Ipv4Addr {
     type Err = AddrParseError;
     fn from_str(s: &str) -> Result<Ipv4Addr, AddrParseError> {
@@ -273,7 +273,7 @@ impl FromStr for Ipv4Addr {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl FromStr for Ipv6Addr {
     type Err = AddrParseError;
     fn from_str(s: &str) -> Result<Ipv6Addr, AddrParseError> {
@@ -297,7 +297,7 @@ impl FromStr for SocketAddrV6 {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl FromStr for SocketAddr {
     type Err = AddrParseError;
     fn from_str(s: &str) -> Result<SocketAddr, AddrParseError> {
@@ -329,7 +329,7 @@ impl FromStr for SocketAddr {
 /// // No problem, the `panic!` message has disappeared.
 /// let _foo: SocketAddr = "127.0.0.1:8080".parse().expect("unreachable panic");
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AddrParseError(());
 

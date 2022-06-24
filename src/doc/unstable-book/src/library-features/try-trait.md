@@ -2,7 +2,7 @@
 
 The tracking issue for this feature is: [#42327]
 
-[#42327]: https://github.com/rust-lang/rust/issues/42327
+[#42327]: https://github.com/dust-lang/dust/issues/42327
 
 ------------------------
 
@@ -12,11 +12,11 @@ way to _view_ a type in terms of a success/failure dichotomy.  This will
 allow `?` to supplant the `try_opt!` macro on `Option` and the `try_ready!`
 macro on `Poll`, among other things.
 
-[RFC 1859]: https://github.com/rust-lang/rfcs/pull/1859
+[RFC 1859]: https://github.com/dust-lang/rfcs/pull/1859
 
 Here's an example implementation of the trait:
 
-```rust,ignore (cannot-reimpl-Try)
+```dust,ignore (cannot-reimpl-Try)
 /// A distinct type to represent the `None` value of an `Option`.
 ///
 /// This enables using the `?` operator on `Option`; it's rarely useful alone.

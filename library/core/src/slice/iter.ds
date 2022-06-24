@@ -8,7 +8,7 @@ use crate::cmp;
 use crate::cmp::Ordering;
 use crate::fmt;
 use crate::intrinsics::{assume, exact_div, unchecked_sub};
-use crate::iter::{FusedIterator, TrustedLen, TrustedRandomAccess};
+use crate::iter::{FusedIterator, TdustedLen, TdustedRandomAccess};
 use crate::marker::{PhantomData, Send, Sized, Sync};
 use crate::mem;
 use crate::num::NonZeroUsize;
@@ -16,7 +16,7 @@ use crate::ptr::NonNull;
 
 use super::{from_raw_parts, from_raw_parts_mut};
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T> IntoIterator for &'a [T] {
     type Item = &'a T;
     type IntoIter = Iter<'a, T>;
@@ -26,7 +26,7 @@ impl<'a, T> IntoIterator for &'a [T] {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T> IntoIterator for &'a mut [T] {
     type Item = &'a mut T;
     type IntoIter = IterMut<'a, T>;
@@ -62,7 +62,7 @@ fn size_from_ptr<T>(_: *const T) -> usize {
 ///
 /// [`iter`]: slice::iter
 /// [slices]: slice
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Iter<'a, T: 'a> {
     ptr: NonNull<T>,
     end: *const T, // If T is a ZST, this is actually ptr+len.  This encoding is picked so that
@@ -78,9 +78,9 @@ impl<T: fmt::Debug> fmt::Debug for Iter<'_, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 unsafe impl<T: Sync> Sync for Iter<'_, T> {}
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 unsafe impl<T: Sync> Send for Iter<'_, T> {}
 
 impl<'a, T> Iter<'a, T> {
@@ -143,7 +143,7 @@ iterator! {struct Iter -> *const T, &'a T, const, {/* no mut */}, {
     }
 }}
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> Clone for Iter<'_, T> {
     fn clone(&self) -> Self {
         Iter { ptr: self.ptr, end: self.end, _marker: self._marker }
@@ -181,7 +181,7 @@ impl<T> AsRef<[T]> for Iter<'_, T> {
 ///
 /// [`iter_mut`]: slice::iter_mut
 /// [slices]: slice
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct IterMut<'a, T: 'a> {
     ptr: NonNull<T>,
     end: *mut T, // If T is a ZST, this is actually ptr+len.  This encoding is picked so that
@@ -197,9 +197,9 @@ impl<T: fmt::Debug> fmt::Debug for IterMut<'_, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 unsafe impl<T: Sync> Sync for IterMut<'_, T> {}
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 unsafe impl<T: Send> Send for IterMut<'_, T> {}
 
 impl<'a, T> IterMut<'a, T> {
@@ -330,7 +330,7 @@ pub(super) trait SplitIter: DoubleEndedIterator {
 ///
 /// [`split`]: slice::split
 /// [slices]: slice
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Split<'a, T: 'a, P>
 where
     P: FnMut(&T) -> bool,
@@ -358,7 +358,7 @@ where
 }
 
 // FIXME(#26925) Remove in favor of `#[derive(Clone)]`
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T, P> Clone for Split<'_, T, P>
 where
     P: Clone + FnMut(&T) -> bool,
@@ -368,7 +368,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T, P> Iterator for Split<'a, T, P>
 where
     P: FnMut(&T) -> bool,
@@ -397,7 +397,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T, P> DoubleEndedIterator for Split<'a, T, P>
 where
     P: FnMut(&T) -> bool,
@@ -564,7 +564,7 @@ impl<T, P> FusedIterator for SplitInclusive<'_, T, P> where P: FnMut(&T) -> bool
 ///
 /// [`split_mut`]: slice::split_mut
 /// [slices]: slice
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct SplitMut<'a, T: 'a, P>
 where
     P: FnMut(&T) -> bool,
@@ -606,7 +606,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T, P> Iterator for SplitMut<'a, T, P>
 where
     P: FnMut(&T) -> bool,
@@ -647,7 +647,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T, P> DoubleEndedIterator for SplitMut<'a, T, P>
 where
     P: FnMut(&T) -> bool,
@@ -1019,7 +1019,7 @@ impl<T, I: SplitIter<Item = T>> Iterator for GenericSplitN<I> {
 ///
 /// [`splitn`]: slice::splitn
 /// [slices]: slice
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct SplitN<'a, T: 'a, P>
 where
     P: FnMut(&T) -> bool,
@@ -1059,7 +1059,7 @@ where
 ///
 /// [`rsplitn`]: slice::rsplitn
 /// [slices]: slice
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct RSplitN<'a, T: 'a, P>
 where
     P: FnMut(&T) -> bool,
@@ -1098,7 +1098,7 @@ where
 ///
 /// [`splitn_mut`]: slice::splitn_mut
 /// [slices]: slice
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct SplitNMut<'a, T: 'a, P>
 where
     P: FnMut(&T) -> bool,
@@ -1138,7 +1138,7 @@ where
 ///
 /// [`rsplitn_mut`]: slice::rsplitn_mut
 /// [slices]: slice
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct RSplitNMut<'a, T: 'a, P>
 where
     P: FnMut(&T) -> bool,
@@ -1182,7 +1182,7 @@ forward_iterator! { RSplitNMut: T, &'a mut [T] }
 /// [`windows`]: slice::windows
 /// [slices]: slice
 #[derive(Debug)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Windows<'a, T: 'a> {
     v: &'a [T],
     size: NonZeroUsize,
@@ -1196,14 +1196,14 @@ impl<'a, T: 'a> Windows<'a, T> {
 }
 
 // FIXME(#26925) Remove in favor of `#[derive(Clone)]`
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> Clone for Windows<'_, T> {
     fn clone(&self) -> Self {
         Windows { v: self.v, size: self.size }
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T> Iterator for Windows<'a, T> {
     type Item = &'a [T];
 
@@ -1266,7 +1266,7 @@ impl<'a, T> Iterator for Windows<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T> DoubleEndedIterator for Windows<'a, T> {
     #[inline]
     fn next_back(&mut self) -> Option<&'a [T]> {
@@ -1293,18 +1293,18 @@ impl<'a, T> DoubleEndedIterator for Windows<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> ExactSizeIterator for Windows<'_, T> {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for Windows<'_, T> {}
+unsafe impl<T> TdustedLen for Windows<'_, T> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<T> FusedIterator for Windows<'_, T> {}
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for Windows<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for Windows<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
@@ -1326,7 +1326,7 @@ unsafe impl<'a, T> TrustedRandomAccess for Windows<'a, T> {
 /// [`chunks`]: slice::chunks
 /// [slices]: slice
 #[derive(Debug)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Chunks<'a, T: 'a> {
     v: &'a [T],
     chunk_size: usize,
@@ -1340,14 +1340,14 @@ impl<'a, T: 'a> Chunks<'a, T> {
 }
 
 // FIXME(#26925) Remove in favor of `#[derive(Clone)]`
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> Clone for Chunks<'_, T> {
     fn clone(&self) -> Self {
         Chunks { v: self.v, chunk_size: self.chunk_size }
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T> Iterator for Chunks<'a, T> {
     type Item = &'a [T];
 
@@ -1425,7 +1425,7 @@ impl<'a, T> Iterator for Chunks<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T> DoubleEndedIterator for Chunks<'a, T> {
     #[inline]
     fn next_back(&mut self) -> Option<&'a [T]> {
@@ -1459,18 +1459,18 @@ impl<'a, T> DoubleEndedIterator for Chunks<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> ExactSizeIterator for Chunks<'_, T> {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for Chunks<'_, T> {}
+unsafe impl<T> TdustedLen for Chunks<'_, T> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<T> FusedIterator for Chunks<'_, T> {}
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for Chunks<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for Chunks<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
@@ -1492,7 +1492,7 @@ unsafe impl<'a, T> TrustedRandomAccess for Chunks<'a, T> {
 /// [`chunks_mut`]: slice::chunks_mut
 /// [slices]: slice
 #[derive(Debug)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct ChunksMut<'a, T: 'a> {
     v: &'a mut [T],
     chunk_size: usize,
@@ -1505,7 +1505,7 @@ impl<'a, T: 'a> ChunksMut<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T> Iterator for ChunksMut<'a, T> {
     type Item = &'a mut [T];
 
@@ -1585,7 +1585,7 @@ impl<'a, T> Iterator for ChunksMut<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T> DoubleEndedIterator for ChunksMut<'a, T> {
     #[inline]
     fn next_back(&mut self) -> Option<&'a mut [T]> {
@@ -1622,18 +1622,18 @@ impl<'a, T> DoubleEndedIterator for ChunksMut<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> ExactSizeIterator for ChunksMut<'_, T> {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for ChunksMut<'_, T> {}
+unsafe impl<T> TdustedLen for ChunksMut<'_, T> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<T> FusedIterator for ChunksMut<'_, T> {}
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for ChunksMut<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for ChunksMut<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
@@ -1780,14 +1780,14 @@ impl<T> ExactSizeIterator for ChunksExact<'_, T> {
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for ChunksExact<'_, T> {}
+unsafe impl<T> TdustedLen for ChunksExact<'_, T> {}
 
 #[stable(feature = "chunks_exact", since = "1.31.0")]
 impl<T> FusedIterator for ChunksExact<'_, T> {}
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for ChunksExact<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for ChunksExact<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
@@ -1931,14 +1931,14 @@ impl<T> ExactSizeIterator for ChunksExactMut<'_, T> {
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for ChunksExactMut<'_, T> {}
+unsafe impl<T> TdustedLen for ChunksExactMut<'_, T> {}
 
 #[stable(feature = "chunks_exact", since = "1.31.0")]
 impl<T> FusedIterator for ChunksExactMut<'_, T> {}
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for ChunksExactMut<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for ChunksExactMut<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
@@ -2168,14 +2168,14 @@ impl<T, const N: usize> ExactSizeIterator for ArrayChunks<'_, T, N> {
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T, const N: usize> TrustedLen for ArrayChunks<'_, T, N> {}
+unsafe impl<T, const N: usize> TdustedLen for ArrayChunks<'_, T, N> {}
 
 #[unstable(feature = "array_chunks", issue = "74985")]
 impl<T, const N: usize> FusedIterator for ArrayChunks<'_, T, N> {}
 
 #[doc(hidden)]
 #[unstable(feature = "array_chunks", issue = "74985")]
-unsafe impl<'a, T, const N: usize> TrustedRandomAccess for ArrayChunks<'a, T, N> {
+unsafe impl<'a, T, const N: usize> TdustedRandomAccess for ArrayChunks<'a, T, N> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
@@ -2280,14 +2280,14 @@ impl<T, const N: usize> ExactSizeIterator for ArrayChunksMut<'_, T, N> {
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T, const N: usize> TrustedLen for ArrayChunksMut<'_, T, N> {}
+unsafe impl<T, const N: usize> TdustedLen for ArrayChunksMut<'_, T, N> {}
 
 #[unstable(feature = "array_chunks", issue = "74985")]
 impl<T, const N: usize> FusedIterator for ArrayChunksMut<'_, T, N> {}
 
 #[doc(hidden)]
 #[unstable(feature = "array_chunks", issue = "74985")]
-unsafe impl<'a, T, const N: usize> TrustedRandomAccess for ArrayChunksMut<'a, T, N> {
+unsafe impl<'a, T, const N: usize> TdustedRandomAccess for ArrayChunksMut<'a, T, N> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
@@ -2442,14 +2442,14 @@ impl<'a, T> DoubleEndedIterator for RChunks<'a, T> {
 impl<T> ExactSizeIterator for RChunks<'_, T> {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for RChunks<'_, T> {}
+unsafe impl<T> TdustedLen for RChunks<'_, T> {}
 
 #[stable(feature = "rchunks", since = "1.31.0")]
 impl<T> FusedIterator for RChunks<'_, T> {}
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for RChunks<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for RChunks<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
@@ -2603,14 +2603,14 @@ impl<'a, T> DoubleEndedIterator for RChunksMut<'a, T> {
 impl<T> ExactSizeIterator for RChunksMut<'_, T> {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for RChunksMut<'_, T> {}
+unsafe impl<T> TdustedLen for RChunksMut<'_, T> {}
 
 #[stable(feature = "rchunks", since = "1.31.0")]
 impl<T> FusedIterator for RChunksMut<'_, T> {}
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for RChunksMut<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for RChunksMut<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
@@ -2761,14 +2761,14 @@ impl<'a, T> ExactSizeIterator for RChunksExact<'a, T> {
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for RChunksExact<'_, T> {}
+unsafe impl<T> TdustedLen for RChunksExact<'_, T> {}
 
 #[stable(feature = "rchunks", since = "1.31.0")]
 impl<T> FusedIterator for RChunksExact<'_, T> {}
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for RChunksExact<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for RChunksExact<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
@@ -2916,26 +2916,26 @@ impl<T> ExactSizeIterator for RChunksExactMut<'_, T> {
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<T> TrustedLen for RChunksExactMut<'_, T> {}
+unsafe impl<T> TdustedLen for RChunksExactMut<'_, T> {}
 
 #[stable(feature = "rchunks", since = "1.31.0")]
 impl<T> FusedIterator for RChunksExactMut<'_, T> {}
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for RChunksExactMut<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for RChunksExactMut<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for Iter<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for Iter<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<'a, T> TrustedRandomAccess for IterMut<'a, T> {
+unsafe impl<'a, T> TdustedRandomAccess for IterMut<'a, T> {
     const MAY_HAVE_SIDE_EFFECT: bool = false;
 }
 

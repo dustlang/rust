@@ -1,14 +1,14 @@
 use crate::utils::{in_macro, snippet, snippet_with_applicability, span_lint_and_sugg};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{
+use dustc_errors::Applicability;
+use dustc_hir::{
     def::{DefKind, Res},
     Item, ItemKind, PathSegment, UseKind,
 };
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::symbol::kw;
-use rustc_span::{sym, BytePos};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::symbol::kw;
+use dustc_span::{sym, BytePos};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for `use Enum::*`.
@@ -20,7 +20,7 @@ declare_clippy_lint! {
     /// still around.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Bad
     /// use std::cmp::Ordering::*;
     /// foo(Less);
@@ -41,7 +41,7 @@ declare_clippy_lint! {
     /// you try to import something through a wildcard, that already has been imported by name from
     /// a different source:
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// use crate1::foo; // Imports a function named foo
     /// use crate2::*; // Has a function named foo
     ///
@@ -67,14 +67,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Bad
     /// use crate1::*;
     ///
     /// foo();
     /// ```
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Good
     /// use crate1::foo;
     ///

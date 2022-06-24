@@ -7,11 +7,11 @@ use crate::utils::{
     snippet_opt, span_lint_and_sugg,
 };
 use if_chain::if_chain;
-use rustc_ast::ast::{Expr, ExprKind, Lit, LitKind};
-use rustc_errors::Applicability;
-use rustc_lint::{EarlyContext, EarlyLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_ast::ast::{Expr, ExprKind, Lit, LitKind};
+use dustc_errors::Applicability;
+use dustc_lint::{EarlyContext, EarlyLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
 
 declare_clippy_lint! {
     /// **What it does:** Warns if a long integral or floating-point constant does
@@ -23,7 +23,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// let x: u64 = 61864918973511;
     ///
@@ -47,7 +47,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // Probably mistyped
     /// 2_32;
     ///
@@ -70,7 +70,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// let x: u64 = 618_64_9189_73_511;
     ///
@@ -92,7 +92,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// let x: u32 = 0xFFF_FFF;
     /// let y: u8 = 0b01_011_101;
     /// ```
@@ -112,7 +112,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// let x: u64 = 6186491_8973511;
     /// ```
     pub LARGE_DIGIT_GROUPS,
@@ -148,7 +148,7 @@ enum WarningType {
 }
 
 impl WarningType {
-    fn display(&self, suggested_format: String, cx: &EarlyContext<'_>, span: rustc_span::Span) {
+    fn display(&self, suggested_format: String, cx: &EarlyContext<'_>, span: dustc_span::Span) {
         match self {
             Self::MistypedLiteralSuffix => span_lint_and_sugg(
                 cx,
@@ -302,7 +302,7 @@ impl LiteralDigitGrouping {
     // Returns `false` if the check fails
     fn check_for_mistyped_suffix(
         cx: &EarlyContext<'_>,
-        span: rustc_span::Span,
+        span: dustc_span::Span,
         num_lit: &mut NumericLiteral<'_>,
     ) -> bool {
         if num_lit.suffix.is_some() {

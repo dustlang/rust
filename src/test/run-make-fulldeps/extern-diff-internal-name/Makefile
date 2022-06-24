@@ -1,5 +1,5 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) lib.rs
-	$(RUSTC) test.rs --extern foo=$(TMPDIR)/libbar.rlib
+	$(DUSTC) lib.rs
+	$(DUSTC) test.rs --extern foo=$(TMPDIR)/libbar.rlib

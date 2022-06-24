@@ -10,21 +10,21 @@ use crate::utils::{
 };
 use crate::utils::{paths, search_same, SpanlessEq, SpanlessHash};
 use if_chain::if_chain;
-use rustc_ast::ast::LitKind;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::Applicability;
-use rustc_hir::def::CtorKind;
-use rustc_hir::{
+use dustc_ast::ast::LitKind;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::Applicability;
+use dustc_hir::def::CtorKind;
+use dustc_hir::{
     Arm, BindingAnnotation, Block, BorrowKind, Expr, ExprKind, Guard, HirId, Local, MatchSource, Mutability, Node, Pat,
     PatKind, QPath, RangeEnd,
 };
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty::{self, Ty, TyS};
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::source_map::{Span, Spanned};
-use rustc_span::sym;
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty::{self, Ty, TyS};
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::source_map::{Span, Spanned};
+use dustc_span::sym;
 use std::cmp::Ordering;
 use std::collections::hash_map::Entry;
 use std::ops::Bound;
@@ -38,7 +38,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # fn bar(stool: &str) {}
     /// # let x = Some("abc");
     /// // Bad
@@ -69,7 +69,7 @@ declare_clippy_lint! {
     ///
     /// Using `match`:
     ///
-    /// ```rust
+    /// ```dust
     /// # fn bar(foo: &usize) {}
     /// # let other_ref: usize = 1;
     /// # let x: Option<&usize> = Some(&1);
@@ -81,7 +81,7 @@ declare_clippy_lint! {
     ///
     /// Using `if let` with `else`:
     ///
-    /// ```rust
+    /// ```dust
     /// # fn bar(foo: &usize) {}
     /// # let other_ref: usize = 1;
     /// # let x: Option<&usize> = Some(&1);
@@ -107,7 +107,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Bad
     /// match x {
     ///     &A(ref y) => foo(y),
@@ -136,7 +136,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # fn foo() {}
     /// # fn bar() {}
     /// let condition: bool = true;
@@ -146,7 +146,7 @@ declare_clippy_lint! {
     /// }
     /// ```
     /// Use if/else instead:
-    /// ```rust
+    /// ```dust
     /// # fn foo() {}
     /// # fn bar() {}
     /// let condition: bool = true;
@@ -170,7 +170,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x = 5;
     /// match x {
     ///     1...10 => println!("1 ... 10"),
@@ -193,7 +193,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x: Result<i32, &str> = Ok(3);
     /// match x {
     ///     Ok(_) => println!("ok"),
@@ -214,7 +214,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x: Option<()> = None;
     ///
     /// // Bad
@@ -240,7 +240,7 @@ declare_clippy_lint! {
     /// variants, and also may not use correct path to enum if it's not present in the current scope.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # enum Foo { A(usize), B(usize) }
     /// # let x = Foo::B(1);
     /// // Bad
@@ -270,7 +270,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # enum Foo { A, B, C }
     /// # let x = Foo::B;
     /// // Bad
@@ -301,7 +301,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// match "foo" {
     ///     "a" => {},
@@ -328,7 +328,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// enum Wrapper {
     ///     Data(i32),
     /// }
@@ -341,7 +341,7 @@ declare_clippy_lint! {
     /// ```
     ///
     /// The correct use would be:
-    /// ```rust
+    /// ```dust
     /// enum Wrapper {
     ///     Data(i32),
     /// }
@@ -363,7 +363,7 @@ declare_clippy_lint! {
     /// is actually binding temporary value, bringing a 'dropped while borrowed' error.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # let a = 1;
     /// # let b = 2;
     ///
@@ -391,7 +391,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # struct A { a: i32 }
     /// let a = A { a: 5 };
     ///
@@ -423,7 +423,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// # use std::task::Poll;
     /// # use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
     /// if let Ok(_) = Ok::<i32, i32>(42) {}
@@ -442,7 +442,7 @@ declare_clippy_lint! {
     ///
     /// The more idiomatic use would be:
     ///
-    /// ```rust
+    /// ```dust
     /// # use std::task::Poll;
     /// # use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
     /// if Ok::<i32, i32>(42).is_ok() {}
@@ -470,7 +470,7 @@ declare_clippy_lint! {
     /// `cfg` attributes that remove an arm evaluating to `false`.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let x = Some(5);
     ///
     /// // Bad
@@ -498,14 +498,14 @@ declare_clippy_lint! {
     ///
     /// **Why is this bad?** This is probably a copy & paste error. If arm bodies
     /// are the same on purpose, you can factor them
-    /// [using `|`](https://doc.rust-lang.org/book/patterns.html#multiple-patterns).
+    /// [using `|`](https://doc.dust-lang.org/book/patterns.html#multiple-patterns).
     ///
     /// **Known problems:** False positive possible with order dependent `match`
     /// (see issue
-    /// [#860](https://github.com/rust-lang/rust-clippy/issues/860)).
+    /// [#860](https://github.com/dust-lang/dust-clippy/issues/860)).
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// match foo {
     ///     Bar => bar(),
     ///     Quz => quz(),
@@ -514,7 +514,7 @@ declare_clippy_lint! {
     /// ```
     ///
     /// This should probably be
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// match foo {
     ///     Bar => bar(),
     ///     Quz => quz(),
@@ -523,7 +523,7 @@ declare_clippy_lint! {
     /// ```
     ///
     /// or if the original code was not a typo:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// match foo {
     ///     Bar | Baz => bar(), // <= shows the intent better
     ///     Quz => quz(),
@@ -536,13 +536,13 @@ declare_clippy_lint! {
 
 #[derive(Default)]
 pub struct Matches {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
     infallible_destructuring_match_linted: bool,
 }
 
 impl Matches {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self {
             msrv,
             ..Matches::default()
@@ -569,7 +569,7 @@ impl_lint_pass!(Matches => [
     MATCH_SAME_ARMS,
 ]);
 
-const MATCH_LIKE_MATCHES_MACRO_MSRV: RustcVersion = RustcVersion::new(1, 42, 0);
+const MATCH_LIKE_MATCHES_MACRO_MSRV: DustcVersion = DustcVersion::new(1, 42, 0);
 
 impl<'tcx> LateLintPass<'tcx> for Matches {
     fn check_expr(&mut self, cx: &LateContext<'tcx>, expr: &'tcx Expr<'_>) {
@@ -670,7 +670,7 @@ impl<'tcx> LateLintPass<'tcx> for Matches {
     extract_msrv_attr!(LateContext);
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn check_single_match(cx: &LateContext<'_>, ex: &Expr<'_>, arms: &[Arm<'_>], expr: &Expr<'_>) {
     if arms.len() == 2 && arms[0].guard.is_none() && arms[1].guard.is_none() {
         if in_macro(expr.span) {
@@ -812,11 +812,11 @@ fn check_single_match_opt_like(
             if !inner.iter().all(is_wild) {
                 return;
             }
-            rustc_hir_pretty::to_string(rustc_hir_pretty::NO_ANN, |s| s.print_qpath(path, false))
+            dustc_hir_pretty::to_string(dustc_hir_pretty::NO_ANN, |s| s.print_qpath(path, false))
         },
         PatKind::Binding(BindingAnnotation::Unannotated, .., ident, None) => ident.to_string(),
         PatKind::Path(ref path) => {
-            rustc_hir_pretty::to_string(rustc_hir_pretty::NO_ANN, |s| s.print_qpath(path, false))
+            dustc_hir_pretty::to_string(dustc_hir_pretty::NO_ANN, |s| s.print_qpath(path, false))
         },
         _ => return,
     };
@@ -916,7 +916,7 @@ fn check_wild_err_arm<'tcx>(cx: &LateContext<'tcx>, ex: &Expr<'tcx>, arms: &[Arm
     if is_type_diagnostic_item(cx, ex_ty, sym::result_type) {
         for arm in arms {
             if let PatKind::TupleStruct(ref path, ref inner, _) = arm.pat.kind {
-                let path_str = rustc_hir_pretty::to_string(rustc_hir_pretty::NO_ANN, |s| s.print_qpath(path, false));
+                let path_str = dustc_hir_pretty::to_string(dustc_hir_pretty::NO_ANN, |s| s.print_qpath(path, false));
                 if path_str == "Err" {
                     let mut matching_wild = inner.iter().any(is_wild);
                     let mut ident_bind_name = String::from("_");
@@ -1264,7 +1264,7 @@ fn find_bool_lit(ex: &ExprKind<'_>, desugared: bool) -> Option<bool> {
             node: LitKind::Bool(b), ..
         }) => Some(*b),
         ExprKind::Block(
-            rustc_hir::Block {
+            dustc_hir::Block {
                 stmts: &[],
                 expr: Some(exp),
                 ..
@@ -1616,11 +1616,11 @@ mod redundant_pattern_match {
     use super::REDUNDANT_PATTERN_MATCHING;
     use crate::utils::{match_qpath, match_trait_method, paths, snippet, span_lint_and_then};
     use if_chain::if_chain;
-    use rustc_ast::ast::LitKind;
-    use rustc_errors::Applicability;
-    use rustc_hir::{Arm, Expr, ExprKind, MatchSource, PatKind, QPath};
-    use rustc_lint::LateContext;
-    use rustc_span::sym;
+    use dustc_ast::ast::LitKind;
+    use dustc_errors::Applicability;
+    use dustc_hir::{Arm, Expr, ExprKind, MatchSource, PatKind, QPath};
+    use dustc_lint::LateContext;
+    use dustc_span::sym;
 
     pub fn check<'tcx>(cx: &LateContext<'tcx>, expr: &'tcx Expr<'_>) {
         if let ExprKind::Match(op, arms, ref match_source) = &expr.kind {
@@ -1836,7 +1836,7 @@ mod redundant_pattern_match {
 
 #[test]
 fn test_overlapping() {
-    use rustc_span::source_map::DUMMY_SP;
+    use dustc_span::source_map::DUMMY_SP;
 
     let sp = |s, e| SpannedRange {
         span: DUMMY_SP,
@@ -1941,7 +1941,7 @@ fn lint_match_arms<'tcx>(cx: &LateContext<'tcx>, expr: &Expr<'_>) {
                     if let PatKind::Wild = j.pat.kind {
                         // if the last arm is _, then i could be integrated into _
                         // note that i.pat cannot be _, because that would mean that we're
-                        // hiding all the subsequent arms, and rust won't compile
+                        // hiding all the subsequent arms, and dust won't compile
                         diag.span_note(
                             i.body.span,
                             &format!(

@@ -4,7 +4,7 @@
 //! iterators. If you've found yourself with an asynchronous collection of some kind,
 //! and needed to perform an operation on the elements of said collection,
 //! you'll quickly run into 'streams'. Streams are heavily used in idiomatic
-//! asynchronous Rust code, so it's worth becoming familiar with them.
+//! asynchronous Dust code, so it's worth becoming familiar with them.
 //!
 //! Before explaining more, let's talk about how this module is structured:
 //!

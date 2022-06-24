@@ -1,7 +1,7 @@
 use crate::utils::{get_trait_def_id, paths, span_lint};
-use rustc_hir::{Impl, Item, ItemKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{Impl, Item, ItemKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for mis-uses of the serde API.

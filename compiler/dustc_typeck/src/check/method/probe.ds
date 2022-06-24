@@ -8,34 +8,34 @@ use crate::errors::MethodCallOnUnknownType;
 use crate::hir::def::DefKind;
 use crate::hir::def_id::DefId;
 
-use rustc_data_structures::fx::FxHashSet;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::def::Namespace;
-use rustc_infer::infer::canonical::OriginalQueryValues;
-use rustc_infer::infer::canonical::{Canonical, QueryResponse};
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_infer::infer::unify_key::{ConstVariableOrigin, ConstVariableOriginKind};
-use rustc_infer::infer::{self, InferOk, TyCtxtInferExt};
-use rustc_middle::middle::stability;
-use rustc_middle::ty::subst::{InternalSubsts, Subst, SubstsRef};
-use rustc_middle::ty::GenericParamDefKind;
-use rustc_middle::ty::{
+use dustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::def::Namespace;
+use dustc_infer::infer::canonical::OriginalQueryValues;
+use dustc_infer::infer::canonical::{Canonical, QueryResponse};
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_infer::infer::unify_key::{ConstVariableOrigin, ConstVariableOriginKind};
+use dustc_infer::infer::{self, InferOk, TyCtxtInferExt};
+use dustc_middle::middle::stability;
+use dustc_middle::ty::subst::{InternalSubsts, Subst, SubstsRef};
+use dustc_middle::ty::GenericParamDefKind;
+use dustc_middle::ty::{
     self, ParamEnvAnd, ToPolyTraitRef, ToPredicate, Ty, TyCtxt, TypeFoldable, WithConstness,
 };
-use rustc_session::lint;
-use rustc_span::def_id::LocalDefId;
-use rustc_span::lev_distance::{find_best_match_for_name, lev_distance};
-use rustc_span::{symbol::Ident, Span, Symbol, DUMMY_SP};
-use rustc_trait_selection::autoderef::{self, Autoderef};
-use rustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
-use rustc_trait_selection::traits::query::method_autoderef::MethodAutoderefBadTy;
-use rustc_trait_selection::traits::query::method_autoderef::{
+use dustc_session::lint;
+use dustc_span::def_id::LocalDefId;
+use dustc_span::lev_distance::{find_best_match_for_name, lev_distance};
+use dustc_span::{symbol::Ident, Span, Symbol, DUMMY_SP};
+use dustc_trait_selection::autoderef::{self, Autoderef};
+use dustc_trait_selection::traits::query::evaluate_obligation::InferCtxtExt;
+use dustc_trait_selection::traits::query::method_autoderef::MethodAutoderefBadTy;
+use dustc_trait_selection::traits::query::method_autoderef::{
     CandidateStep, MethodAutoderefStepsResult,
 };
-use rustc_trait_selection::traits::query::CanonicalTyGoal;
-use rustc_trait_selection::traits::{self, ObligationCause};
+use dustc_trait_selection::traits::query::CanonicalTyGoal;
+use dustc_trait_selection::traits::{self, ObligationCause};
 use std::cmp::max;
 use std::iter;
 use std::mem;
@@ -403,8 +403,8 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
             } else if bad_ty.reached_raw_pointer && !self.tcx.features().arbitrary_self_types {
                 // this case used to be allowed by the compiler,
                 // so we do a future-compat lint here for the 2015 edition
-                // (see https://github.com/rust-lang/rust/issues/46906)
-                if self.tcx.sess.rust_2018() {
+                // (see https://github.com/dust-lang/dust/issues/46906)
+                if self.tcx.sess.dust_2018() {
                     self.tcx.sess.emit_err(MethodCallOnUnknownType { span });
                 } else {
                     self.tcx.struct_span_lint_hir(

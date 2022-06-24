@@ -1,4 +1,4 @@
-// Test that associated item impls on primitive types don't crash rustdoc
+// Test that associated item impls on primitive types don't crash dustdoc
 
 pub trait Foo {
     const BAR: usize;

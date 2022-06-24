@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(bool_to_option)]
 #![feature(option_expect_none)]
 #![feature(box_patterns)]
@@ -16,24 +16,24 @@
 //! have to be implemented by each backends.
 
 #[macro_use]
-extern crate rustc_macros;
+extern crate dustc_macros;
 #[macro_use]
 extern crate tracing;
 #[macro_use]
-extern crate rustc_middle;
+extern crate dustc_middle;
 
-use rustc_ast as ast;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::sync::Lrc;
-use rustc_hir::def_id::CrateNum;
-use rustc_hir::LangItem;
-use rustc_middle::dep_graph::WorkProduct;
-use rustc_middle::middle::cstore::{self, CrateSource, LibSource};
-use rustc_middle::middle::dependency_format::Dependencies;
-use rustc_middle::ty::query::Providers;
-use rustc_session::config::{OutputFilenames, OutputType, RUST_CGU_EXT};
-use rustc_session::utils::NativeLibKind;
-use rustc_span::symbol::Symbol;
+use dustc_ast as ast;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::sync::Lrc;
+use dustc_hir::def_id::CrateNum;
+use dustc_hir::LangItem;
+use dustc_middle::dep_graph::WorkProduct;
+use dustc_middle::middle::cstore::{self, CrateSource, LibSource};
+use dustc_middle::middle::dependency_format::Dependencies;
+use dustc_middle::ty::query::Providers;
+use dustc_session::config::{OutputFilenames, OutputType, DUST_CGU_EXT};
+use dustc_session::utils::NativeLibKind;
+use dustc_span::symbol::Symbol;
 use std::path::{Path, PathBuf};
 
 pub mod back;
@@ -153,7 +153,7 @@ pub struct CodegenResults {
     pub modules: Vec<CompiledModule>,
     pub allocator_module: Option<CompiledModule>,
     pub metadata_module: Option<CompiledModule>,
-    pub metadata: rustc_middle::middle::cstore::EncodedMetadata,
+    pub metadata: dustc_middle::middle::cstore::EncodedMetadata,
     pub windows_subsystem: Option<String>,
     pub linker_info: back::linker::LinkerInfo,
     pub crate_info: CrateInfo,
@@ -169,9 +169,9 @@ pub fn provide_extern(providers: &mut Providers) {
     crate::back::symbol_export::provide_extern(providers);
 }
 
-/// Checks if the given filename ends with the `.rcgu.o` extension that `rustc`
+/// Checks if the given filename ends with the `.rcgu.o` extension that `dustc`
 /// uses for the object files it generates.
-pub fn looks_like_rust_object_file(filename: &str) -> bool {
+pub fn looks_like_dust_object_file(filename: &str) -> bool {
     let path = Path::new(filename);
     let ext = path.extension().and_then(|s| s.to_str());
     if ext != Some(OutputType::Object.extension()) {
@@ -183,5 +183,5 @@ pub fn looks_like_rust_object_file(filename: &str) -> bool {
     let ext2 = path.file_stem().and_then(|s| Path::new(s).extension()).and_then(|s| s.to_str());
 
     // Check if the "inner" extension
-    ext2 == Some(RUST_CGU_EXT)
+    ext2 == Some(DUST_CGU_EXT)
 }

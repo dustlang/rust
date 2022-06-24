@@ -1,13 +1,13 @@
-//! Used by `rustc` when loading a plugin.
+//! Used by `dustc` when loading a plugin.
 
 use crate::Registry;
-use rustc_ast::Crate;
-use rustc_errors::struct_span_err;
-use rustc_metadata::locator;
-use rustc_middle::middle::cstore::MetadataLoader;
-use rustc_session::Session;
-use rustc_span::symbol::{sym, Ident};
-use rustc_span::Span;
+use dustc_ast::Crate;
+use dustc_errors::struct_span_err;
+use dustc_metadata::locator;
+use dustc_middle::middle::cstore::MetadataLoader;
+use dustc_session::Session;
+use dustc_span::symbol::{sym, Ident};
+use dustc_span::Span;
 
 use std::borrow::ToOwned;
 use std::env;
@@ -69,7 +69,7 @@ fn dylink_registrar(
     path: PathBuf,
     symbol: String,
 ) -> PluginRegistrarFn {
-    use rustc_metadata::dynamic_lib::DynamicLibrary;
+    use dustc_metadata::dynamic_lib::DynamicLibrary;
 
     // Make sure the path contains a / or the linker will search for it.
     let path = env::current_dir().unwrap().join(&path);

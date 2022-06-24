@@ -1,23 +1,23 @@
-// Test that `#[rustc_*]` attributes are gated by `rustc_attrs` feature gate.
+// Test that `#[dustc_*]` attributes are gated by `dustc_attrs` feature gate.
 
 #![feature(decl_macro)]
 
-mod rustc { pub macro unknown() {} }
-mod unknown { pub macro rustc() {} }
+mod dustc { pub macro unknown() {} }
+mod unknown { pub macro dustc() {} }
 
-#[rustc::unknown]
-//~^ ERROR attributes starting with `rustc` are reserved for use by the `rustc` compiler
-//~| ERROR expected attribute, found macro `rustc::unknown`
+#[dustc::unknown]
+//~^ ERROR attributes starting with `dustc` are reserved for use by the `dustc` compiler
+//~| ERROR expected attribute, found macro `dustc::unknown`
 fn f() {}
 
-#[unknown::rustc]
-//~^ ERROR attributes starting with `rustc` are reserved for use by the `rustc` compiler
-//~| ERROR expected attribute, found macro `unknown::rustc`
+#[unknown::dustc]
+//~^ ERROR attributes starting with `dustc` are reserved for use by the `dustc` compiler
+//~| ERROR expected attribute, found macro `unknown::dustc`
 fn g() {}
 
-#[rustc_dummy]
-//~^ ERROR the `#[rustc_dummy]` attribute is just used for rustc unit tests
-#[rustc_unknown]
-//~^ ERROR attributes starting with `rustc` are reserved for use by the `rustc` compiler
-//~| ERROR cannot find attribute `rustc_unknown` in this scope
+#[dustc_dummy]
+//~^ ERROR the `#[dustc_dummy]` attribute is just used for dustc unit tests
+#[dustc_unknown]
+//~^ ERROR attributes starting with `dustc` are reserved for use by the `dustc` compiler
+//~| ERROR cannot find attribute `dustc_unknown` in this scope
 fn main() {}

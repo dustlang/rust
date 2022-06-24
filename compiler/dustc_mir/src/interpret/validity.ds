@@ -9,13 +9,13 @@ use std::fmt::Write;
 use std::num::NonZeroUsize;
 use std::ops::RangeInclusive;
 
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir as hir;
-use rustc_middle::mir::interpret::InterpError;
-use rustc_middle::ty;
-use rustc_middle::ty::layout::TyAndLayout;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_target::abi::{Abi, LayoutOf, Scalar, Size, VariantIdx, Variants};
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir as hir;
+use dustc_middle::mir::interpret::InterpError;
+use dustc_middle::ty;
+use dustc_middle::ty::layout::TyAndLayout;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_target::abi::{Abi, LayoutOf, Scalar, Size, VariantIdx, Variants};
 
 use std::hash::Hash;
 
@@ -26,7 +26,7 @@ use super::{
 
 macro_rules! throw_validation_failure {
     ($where:expr, { $( $what_fmt:expr ),+ } $( expected { $( $expected_fmt:expr ),+ } )?) => {{
-        let msg = rustc_middle::ty::print::with_no_trimmed_paths(|| {
+        let msg = dustc_middle::ty::print::with_no_trimmed_paths(|| {
             let mut msg = String::new();
             msg.push_str("encountered ");
             write!(&mut msg, $($what_fmt),+).unwrap();
@@ -169,8 +169,8 @@ fn write_path(out: &mut String, path: &[PathElem]) {
             CapturedVar(name) => write!(out, ".<captured-var({})>", name),
             TupleElem(idx) => write!(out, ".{}", idx),
             ArrayElem(idx) => write!(out, "[{}]", idx),
-            // `.<deref>` does not match Rust syntax, but it is more readable for long paths -- and
-            // some of the other items here also are not Rust syntax.  Actually we can't
+            // `.<deref>` does not match Dust syntax, but it is more readable for long paths -- and
+            // some of the other items here also are not Dust syntax.  Actually we can't
             // even use the usual syntax because we are just showing the projections,
             // not the root.
             Deref => write!(out, ".<deref>"),
@@ -786,7 +786,7 @@ impl<'rt, 'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> ValueVisitor<'mir, 'tcx, M>
 
         // *After* all of this, check the ABI.  We need to check the ABI to handle
         // types like `NonNull` where the `Scalar` info is more restrictive than what
-        // the fields say (`rustc_layout_scalar_valid_range_start`).
+        // the fields say (`dustc_layout_scalar_valid_range_start`).
         // But in most cases, this will just propagate what the fields say,
         // and then we want the error to point at the field -- so, first recurse,
         // then check ABI.
@@ -806,7 +806,7 @@ impl<'rt, 'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> ValueVisitor<'mir, 'tcx, M>
             Abi::ScalarPair { .. } | Abi::Vector { .. } => {
                 // These have fields that we already visited above, so we already checked
                 // all their scalar-level restrictions.
-                // There is also no equivalent to `rustc_layout_scalar_valid_range_start`
+                // There is also no equivalent to `dustc_layout_scalar_valid_range_start`
                 // that would make skipping them here an issue.
             }
             Abi::Aggregate { .. } => {

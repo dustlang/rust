@@ -1,6 +1,6 @@
 use crate::ast::{self, BinOpKind};
 use crate::token::{self, BinOpToken, Token};
-use rustc_span::symbol::kw;
+use dustc_span::symbol::kw;
 
 /// Associative operator with precedence.
 ///
@@ -303,7 +303,7 @@ impl ExprPrecedence {
 
             // `Range` claims to have higher precedence than `Assign`, but `x .. x = x` fails to
             // parse, instead of parsing as `(x .. x) = x`.  Giving `Range` a lower precedence
-            // ensures that `pprust` will add parentheses in the right places to get the desired
+            // ensures that `ppdust` will add parentheses in the right places to get the desired
             // parse.
             ExprPrecedence::Range => PREC_RANGE,
 

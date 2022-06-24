@@ -1,7 +1,7 @@
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_middle::ty::query::query_storage;
-use rustc_middle::ty::TyCtxt;
-use rustc_query_system::query::{QueryCache, QueryCacheStore};
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_middle::ty::query::query_storage;
+use dustc_middle::ty::TyCtxt;
+use dustc_query_system::query::{QueryCache, QueryCacheStore};
 
 use std::any::type_name;
 use std::mem;
@@ -137,4 +137,4 @@ macro_rules! print_stats {
     }
 }
 
-rustc_query_append! { [print_stats!][<'tcx>] }
+dustc_query_append! { [print_stats!][<'tcx>] }

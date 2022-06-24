@@ -5,20 +5,20 @@ set -e
 
 if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "-help" ] || [ "$1" = "--help" ]; then
     echo "
-rust-gdbgui
+dust-gdbgui
 ===========
 gdbgui - https://gdbgui.com - is a graphical front-end to GDB
-that runs in a browser. This script invokes gdbgui with the Rust
+that runs in a browser. This script invokes gdbgui with the Dust
 pretty printers loaded.
 
-Simple usage  : rust-gdbgui target/debug/myprog
-With arguments: rust-gdbgui 'target/debug/myprog arg1 arg2...'
+Simple usage  : dust-gdbgui target/debug/myprog
+With arguments: dust-gdbgui 'target/debug/myprog arg1 arg2...'
   (note the quotes)
 
 
 Hints
 =====
-gdbgui won't be able to find the rust 'main' method automatically, so
+gdbgui won't be able to find the dust 'main' method automatically, so
 in its options make sure to disable the 'Add breakpoint to main after
 loading executable' setting to avoid a 'File not found: main' warning
 on startup.
@@ -31,34 +31,34 @@ icon to start your program running.
     exit 0
 fi
 
-# Prefer rustc in the same directory as this script
+# Prefer dustc in the same directory as this script
 DIR="$(dirname "$0")"
-if [ -x "$DIR/rustc" ]; then
-  RUSTC="$DIR/rustc"
+if [ -x "$DIR/dustc" ]; then
+  DUSTC="$DIR/dustc"
 else
-  RUSTC="rustc"
+  DUSTC="dustc"
 fi
 
 # Find out where the pretty printer Python module is
-RUSTC_SYSROOT="$("$RUSTC" --print=sysroot)"
-GDB_PYTHON_MODULE_DIRECTORY="$RUSTC_SYSROOT/lib/rustlib/etc"
+DUSTC_SYSROOT="$("$DUSTC" --print=sysroot)"
+GDB_PYTHON_MODULE_DIRECTORY="$DUSTC_SYSROOT/lib/dustlib/etc"
 
-# Set the environment variable `RUST_GDB` to overwrite the call to a
+# Set the environment variable `DUST_GDB` to overwrite the call to a
 # different/specific command (defaults to `gdb`).
-RUST_GDB="${RUST_GDB:-gdb}"
+DUST_GDB="${DUST_GDB:-gdb}"
 
-# Set the environment variable `RUST_GDBGUI` to overwrite the call to a
+# Set the environment variable `DUST_GDBGUI` to overwrite the call to a
 # different/specific command (defaults to `gdbgui`).
-RUST_GDBGUI="${RUST_GDBGUI:-gdbgui}"
+DUST_GDBGUI="${DUST_GDBGUI:-gdbgui}"
 
 # These arguments get passed through to GDB and make it load the
-# Rust pretty printers.
+# Dust pretty printers.
 GDB_ARGS="--directory=\"$GDB_PYTHON_MODULE_DIRECTORY\" -iex \"add-auto-load-safe-path $GDB_PYTHON_MODULE_DIRECTORY\""
 
 # Finally we execute gdbgui.
 PYTHONPATH="$PYTHONPATH:$GDB_PYTHON_MODULE_DIRECTORY" \
-  exec ${RUST_GDBGUI} \
-  --gdb ${RUST_GDB} \
+  exec ${DUST_GDBGUI} \
+  --gdb ${DUST_GDB} \
   --gdb-args "${GDB_ARGS}" \
   "${@}"
 

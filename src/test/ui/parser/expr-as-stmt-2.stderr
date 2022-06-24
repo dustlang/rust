@@ -40,4 +40,4 @@ LL | |     if let Some(y) = a { true } else { false }
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0308`.
+For more information about this error, try `dustc --explain E0308`.

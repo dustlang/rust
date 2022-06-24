@@ -58,7 +58,7 @@ fn test_invalid_start() {
 
 #[test]
 fn test_unterminated_no_pound() {
-    // https://github.com/rust-lang/rust/issues/70677
+    // https://github.com/dust-lang/dust/issues/70677
     check_raw_str(
         r#"""#,
         0,
@@ -68,14 +68,14 @@ fn test_unterminated_no_pound() {
 
 #[test]
 fn test_valid_shebang() {
-    // https://github.com/rust-lang/rust/issues/70528
-    let input = "#!/usr/bin/rustrun\nlet x = 5;";
+    // https://github.com/dust-lang/dust/issues/70528
+    let input = "#!/usr/bin/dustrun\nlet x = 5;";
     assert_eq!(strip_shebang(input), Some(18));
 }
 
 #[test]
-fn test_invalid_shebang_valid_rust_syntax() {
-    // https://github.com/rust-lang/rust/issues/70528
+fn test_invalid_shebang_valid_dust_syntax() {
+    // https://github.com/dust-lang/dust/issues/70528
     let input = "#!    [bad_attribute]";
     assert_eq!(strip_shebang(input), None);
 }
@@ -112,14 +112,14 @@ fn test_invalid_shebang_another_comment() {
 }
 
 #[test]
-fn test_shebang_valid_rust_after() {
+fn test_shebang_valid_dust_after() {
     let input = "#!/*bin/ami/a/comment*/\npub fn main() {}";
     assert_eq!(strip_shebang(input), Some(23))
 }
 
 #[test]
 fn test_shebang_followed_by_attrib() {
-    let input = "#!/bin/rust-scripts\n#![allow_unused(true)]";
+    let input = "#!/bin/dust-scripts\n#![allow_unused(true)]";
     assert_eq!(strip_shebang(input), Some(19));
 }
 

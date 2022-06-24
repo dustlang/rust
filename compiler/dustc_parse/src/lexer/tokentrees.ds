@@ -1,15 +1,15 @@
 use super::{StringReader, UnmatchedBrace};
 
-use rustc_ast::token::{self, DelimToken, Token};
-use rustc_ast::tokenstream::{
+use dustc_ast::token::{self, DelimToken, Token};
+use dustc_ast::tokenstream::{
     DelimSpan,
     Spacing::{self, *},
     TokenStream, TokenTree, TreeAndSpacing,
 };
-use rustc_ast_pretty::pprust::token_to_string;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::PResult;
-use rustc_span::Span;
+use dustc_ast_pretty::ppdust::token_to_string;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::PResult;
+use dustc_span::Span;
 
 impl<'a> StringReader<'a> {
     pub(super) fn into_token_trees(self) -> (PResult<'a, TokenStream>, Vec<UnmatchedBrace>) {

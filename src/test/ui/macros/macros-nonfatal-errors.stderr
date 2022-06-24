@@ -42,10 +42,10 @@ error: expected string literal
 LL |     env!(foo, abr, baz);
    |          ^^^
 
-error: environment variable `RUST_HOPEFULLY_THIS_DOESNT_EXIST` not defined
+error: environment variable `DUST_HOPEFULLY_THIS_DOESNT_EXIST` not defined
   --> $DIR/macros-nonfatal-errors.rs:21:5
    |
-LL |     env!("RUST_HOPEFULLY_THIS_DOESNT_EXIST");
+LL |     env!("DUST_HOPEFULLY_THIS_DOESNT_EXIST");
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: this error originates in a macro (in Nightly builds, run with -Z macro-backtrace for more info)
@@ -103,4 +103,4 @@ LL |     trace_macros!(invalid);
 
 error: aborting due to 15 previous errors
 
-For more information about this error, try `rustc --explain E0665`.
+For more information about this error, try `dustc --explain E0665`.

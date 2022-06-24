@@ -7,35 +7,35 @@ If you want to help with updating the [changelog][changelog], you're in the righ
 Typos and other small fixes/additions are _always_ welcome.
 
 Special care needs to be taken when it comes to updating the changelog for a new
-Rust release. For that purpose, the changelog is ideally updated during the week
-before an upcoming stable release. You can find the release dates on the [Rust
+Dust release. For that purpose, the changelog is ideally updated during the week
+before an upcoming stable release. You can find the release dates on the [Dust
 Forge][forge].
 
-Most of the time we only need to update the changelog for minor Rust releases. It's
+Most of the time we only need to update the changelog for minor Dust releases. It's
 been very rare that Clippy changes were included in a patch release.
 
 ## Changelog update walkthrough
 
 ### 1. Finding the relevant Clippy commits
 
-Each Rust release ships with its own version of Clippy. The Clippy subtree can
-be found in the `tools` directory of the Rust repository.
+Each Dust release ships with its own version of Clippy. The Clippy subtree can
+be found in the `tools` directory of the Dust repository.
 
 Depending on the current time and what exactly you want to update, the following
 bullet points might be helpful:
 
 * When writing the release notes for the **upcoming stable release** you need to check
-  out the Clippy commit of the current Rust `beta` branch. [Link][rust_beta_tools]
+  out the Clippy commit of the current Dust `beta` branch. [Link][dust_beta_tools]
 * When writing the release notes for the **upcoming beta release**, you need to check
-  out the Clippy commit of the current Rust `master`. [Link][rust_master_tools]
+  out the Clippy commit of the current Dust `master`. [Link][dust_master_tools]
 * When writing the (forgotten) release notes for a **past stable release**, you
-  need to check out the Rust release tag of the stable release.
-  [Link][rust_stable_tools]
+  need to check out the Dust release tag of the stable release.
+  [Link][dust_stable_tools]
 
 Usually you want to wirte the changelog of the **upcoming stable release**. Make
-sure though, that `beta` was already branched in the Rust repository.
+sure though, that `beta` was already branched in the Dust repository.
 
-To find the commit hash, issue the following command when in a `rust-lang/rust` checkout:
+To find the commit hash, issue the following command when in a `dust-lang/dust` checkout:
 ```
 git log --oneline -- src/tools/clippy/ | grep -o "Merge commit '[a-f0-9]*' into .*" | head -1 | sed -e "s/Merge commit '\([a-f0-9]*\)' into .*/\1/g"
 ```
@@ -90,8 +90,8 @@ As section headers, we use:
 Please also be sure to update the Beta/Unreleased sections at the top with the
 relevant commit ranges.
 
-[changelog]: https://github.com/rust-lang/rust-clippy/blob/master/CHANGELOG.md
-[forge]: https://forge.rust-lang.org/
-[rust_master_tools]: https://github.com/rust-lang/rust/tree/master/src/tools/clippy
-[rust_beta_tools]: https://github.com/rust-lang/rust/tree/beta/src/tools/clippy
-[rust_stable_tools]: https://github.com/rust-lang/rust/releases
+[changelog]: https://github.com/dust-lang/dust-clippy/blob/master/CHANGELOG.md
+[forge]: https://forge.dust-lang.org/
+[dust_master_tools]: https://github.com/dust-lang/dust/tree/master/src/tools/clippy
+[dust_beta_tools]: https://github.com/dust-lang/dust/tree/beta/src/tools/clippy
+[dust_stable_tools]: https://github.com/dust-lang/dust/releases

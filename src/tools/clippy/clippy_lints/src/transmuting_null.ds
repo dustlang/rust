@@ -1,11 +1,11 @@
 use crate::consts::{constant_context, Constant};
 use crate::utils::{match_qpath, paths, span_lint};
 use if_chain::if_chain;
-use rustc_ast::LitKind;
-use rustc_hir::{Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_ast::LitKind;
+use dustc_hir::{Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for transmute calls which would receive a null pointer.
@@ -17,7 +17,7 @@ declare_clippy_lint! {
     /// call, aren't detectable yet.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let null_ref: &u64 = unsafe { std::mem::transmute(0 as *const u64) };
     /// ```
     pub TRANSMUTING_NULL,

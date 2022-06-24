@@ -19,4 +19,4 @@ LL | fn foo2(x: &'a u32, y: &'b u32) -> &'a u32 { y }
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0621`.
+For more information about this error, try `dustc --explain E0621`.

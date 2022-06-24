@@ -31,4 +31,4 @@ LL | pub struct Filter<I, P> {
 error: aborting due to 2 previous errors
 
 Some errors have detailed explanations: E0599, E0631.
-For more information about an error, try `rustc --explain E0599`.
+For more information about an error, try `dustc --explain E0599`.

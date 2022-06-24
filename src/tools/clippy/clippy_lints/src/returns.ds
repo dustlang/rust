@@ -1,15 +1,15 @@
 use if_chain::if_chain;
-use rustc_ast::ast::Attribute;
-use rustc_errors::Applicability;
-use rustc_hir::intravisit::{walk_expr, FnKind, NestedVisitorMap, Visitor};
-use rustc_hir::{Block, Body, Expr, ExprKind, FnDecl, HirId, MatchSource, PatKind, StmtKind};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::hir::map::Map;
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty::subst::GenericArgKind;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
-use rustc_span::sym;
+use dustc_ast::ast::Attribute;
+use dustc_errors::Applicability;
+use dustc_hir::intravisit::{walk_expr, FnKind, NestedVisitorMap, Visitor};
+use dustc_hir::{Block, Body, Expr, ExprKind, FnDecl, HirId, MatchSource, PatKind, StmtKind};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::hir::map::Map;
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty::subst::GenericArgKind;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
+use dustc_span::sym;
 
 use crate::utils::{fn_def_id, in_macro, match_qpath, snippet_opt, span_lint_and_sugg, span_lint_and_then};
 
@@ -18,12 +18,12 @@ declare_clippy_lint! {
     /// returned.
     ///
     /// **Why is this bad?** It is just extraneous code. Remove it to make your code
-    /// more rusty.
+    /// more dusty.
     ///
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// fn foo() -> String {
     ///     let x = String::new();
     ///     x
@@ -44,18 +44,18 @@ declare_clippy_lint! {
     /// **What it does:** Checks for return statements at the end of a block.
     ///
     /// **Why is this bad?** Removing the `return` and semicolon will make the code
-    /// more rusty.
+    /// more dusty.
     ///
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// fn foo(x: usize) -> usize {
     ///     return x;
     /// }
     /// ```
     /// simplify to
-    /// ```rust
+    /// ```dust
     /// fn foo(x: usize) -> usize {
     ///     x
     /// }

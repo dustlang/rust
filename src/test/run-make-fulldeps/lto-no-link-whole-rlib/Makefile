@@ -1,8 +1,8 @@
 -include ../tools.mk
 
 all: $(call NATIVE_STATICLIB,foo) $(call NATIVE_STATICLIB,bar)
-	$(RUSTC) lib1.rs
-	$(RUSTC) lib2.rs
-	$(RUSTC) main.rs -Clto
+	$(DUSTC) lib1.rs
+	$(DUSTC) lib2.rs
+	$(DUSTC) main.rs -Clto
 	$(call RUN,main)
 

@@ -5,7 +5,7 @@ LL | #![feature(generic_associated_types)]
    |            ^^^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #44265 <https://github.com/rust-lang/rust/issues/44265> for more information
+   = note: see issue #44265 <https://github.com/dust-lang/dust/issues/44265> for more information
 
 error[E0271]: type mismatch resolving `<T as Deref>::Target == T`
   --> $DIR/issue-68656-unsized-values.rs:16:5
@@ -27,4 +27,4 @@ LL | impl<T: Copy + std::ops::Deref + Deref<Target = T>> UnsafeCopy<T> for T {
 
 error: aborting due to previous error; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0271`.
+For more information about this error, try `dustc --explain E0271`.

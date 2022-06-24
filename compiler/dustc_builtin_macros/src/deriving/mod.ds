@@ -1,11 +1,11 @@
 //! The compiler code necessary to implement the `#[derive]` extensions.
 
-use rustc_ast as ast;
-use rustc_ast::ptr::P;
-use rustc_ast::{ImplKind, ItemKind, MetaItem};
-use rustc_expand::base::{Annotatable, ExpandResult, ExtCtxt, MultiItemModifier};
-use rustc_span::symbol::{sym, Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_ast::ptr::P;
+use dustc_ast::{ImplKind, ItemKind, MetaItem};
+use dustc_expand::base::{Annotatable, ExpandResult, ExtCtxt, MultiItemModifier};
+use dustc_span::symbol::{sym, Ident, Symbol};
+use dustc_span::Span;
 
 macro path_local($x:ident) {
     generic::ty::Path::new_local(sym::$x)
@@ -159,7 +159,7 @@ fn inject_impl_of_structural_trait(
 
     // It would be nice to also encode constraint `where Self: Eq` (by adding it
     // onto `generics` cloned above). Unfortunately, that strategy runs afoul of
-    // rust-lang/rust#48214. So we perform that additional check in the compiler
+    // dust-lang/dust#48214. So we perform that additional check in the compiler
     // itself, instead of encoding it here.
 
     // Keep the lint and stability attributes of the original item, to control

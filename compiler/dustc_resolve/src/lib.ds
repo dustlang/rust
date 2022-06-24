@@ -6,9 +6,9 @@
 //! Paths in macros, imports, expressions, types, patterns are resolved here.
 //! Label and lifetime names are resolved here as well.
 //!
-//! Type-relative name resolution (methods, fields, associated items) happens in `librustc_typeck`.
+//! Type-relative name resolution (methods, fields, associated items) happens in `libdustc_typeck`.
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(box_patterns)]
 #![feature(bool_to_option)]
 #![feature(control_flow_enum)]
@@ -18,46 +18,46 @@
 #![feature(or_patterns)]
 #![recursion_limit = "256"]
 
-pub use rustc_hir::def::{Namespace, PerNS};
+pub use dustc_hir::def::{Namespace, PerNS};
 
 use Determinacy::*;
 
-use rustc_arena::{DroplessArena, TypedArena};
-use rustc_ast::node_id::NodeMap;
-use rustc_ast::ptr::P;
-use rustc_ast::unwrap_or;
-use rustc_ast::visit::{self, Visitor};
-use rustc_ast::{self as ast, NodeId};
-use rustc_ast::{Crate, CRATE_NODE_ID};
-use rustc_ast::{Expr, ExprKind, LitKind};
-use rustc_ast::{ItemKind, ModKind, Path};
-use rustc_ast_lowering::ResolverAstLowering;
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexMap};
-use rustc_data_structures::ptr_key::PtrKey;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_expand::base::{SyntaxExtension, SyntaxExtensionKind};
-use rustc_hir::def::Namespace::*;
-use rustc_hir::def::{self, CtorOf, DefKind, NonMacroAttrKind, PartialRes};
-use rustc_hir::def_id::{CrateNum, DefId, DefIdMap, LocalDefId, CRATE_DEF_INDEX};
-use rustc_hir::definitions::{DefKey, DefPathData, Definitions};
-use rustc_hir::{PrimTy, TraitCandidate};
-use rustc_index::vec::IndexVec;
-use rustc_metadata::creader::{CStore, CrateLoader};
-use rustc_middle::hir::exports::ExportMap;
-use rustc_middle::middle::cstore::{CrateStore, MetadataLoaderDyn};
-use rustc_middle::span_bug;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::{self, DefIdTree, ResolverOutputs};
-use rustc_session::lint;
-use rustc_session::lint::{BuiltinLintDiagnostics, LintBuffer};
-use rustc_session::Session;
-use rustc_span::edition::Edition;
-use rustc_span::hygiene::{ExpnId, ExpnKind, MacroKind, SyntaxContext, Transparency};
-use rustc_span::source_map::Spanned;
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{Span, DUMMY_SP};
+use dustc_arena::{DroplessArena, TypedArena};
+use dustc_ast::node_id::NodeMap;
+use dustc_ast::ptr::P;
+use dustc_ast::unwrap_or;
+use dustc_ast::visit::{self, Visitor};
+use dustc_ast::{self as ast, NodeId};
+use dustc_ast::{Crate, CRATE_NODE_ID};
+use dustc_ast::{Expr, ExprKind, LitKind};
+use dustc_ast::{ItemKind, ModKind, Path};
+use dustc_ast_lowering::ResolverAstLowering;
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet, FxIndexMap};
+use dustc_data_structures::ptr_key::PtrKey;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_expand::base::{SyntaxExtension, SyntaxExtensionKind};
+use dustc_hir::def::Namespace::*;
+use dustc_hir::def::{self, CtorOf, DefKind, NonMacroAttrKind, PartialRes};
+use dustc_hir::def_id::{CrateNum, DefId, DefIdMap, LocalDefId, CRATE_DEF_INDEX};
+use dustc_hir::definitions::{DefKey, DefPathData, Definitions};
+use dustc_hir::{PrimTy, TraitCandidate};
+use dustc_index::vec::IndexVec;
+use dustc_metadata::creader::{CStore, CrateLoader};
+use dustc_middle::hir::exports::ExportMap;
+use dustc_middle::middle::cstore::{CrateStore, MetadataLoaderDyn};
+use dustc_middle::span_bug;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::{self, DefIdTree, ResolverOutputs};
+use dustc_session::lint;
+use dustc_session::lint::{BuiltinLintDiagnostics, LintBuffer};
+use dustc_session::Session;
+use dustc_span::edition::Edition;
+use dustc_span::hygiene::{ExpnId, ExpnKind, MacroKind, SyntaxContext, Transparency};
+use dustc_span::source_map::Spanned;
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{Span, DUMMY_SP};
 
 use smallvec::{smallvec, SmallVec};
 use std::cell::{Cell, RefCell};
@@ -479,7 +479,7 @@ type Resolutions<'a> = RefCell<FxIndexMap<BindingKey, &'a RefCell<NameResolution
 
 /// One node in the tree of modules.
 ///
-/// Note that a "module" in resolve is broader than a `mod` that you declare in Rust code. It may be one of these:
+/// Note that a "module" in resolve is broader than a `mod` that you declare in Dust code. It may be one of these:
 ///
 /// * `mod`
 /// * crate root (aka, top-level anonymous module)
@@ -818,7 +818,7 @@ impl<'a> NameBinding<'a> {
     // Then this function returns `true` if `self` may emerge from a macro *after* that
     // in some later round and screw up our previously found resolution.
     // See more detailed explanation in
-    // https://github.com/rust-lang/rust/pull/53778#issuecomment-419224049
+    // https://github.com/dust-lang/dust/pull/53778#issuecomment-419224049
     fn may_appear_after(&self, invoc_parent_expansion: ExpnId, binding: &NameBinding<'_>) -> bool {
         // self > max(invoc, binding) => !(self <= invoc || self <= binding)
         // Expansions are partially ordered, so "may appear after" is an inversion of
@@ -1205,7 +1205,7 @@ impl<'a> Resolver<'a> {
         visibilities.insert(root_local_def_id, ty::Visibility::Public);
 
         let mut def_id_to_span = IndexVec::default();
-        assert_eq!(def_id_to_span.push(rustc_span::DUMMY_SP), root);
+        assert_eq!(def_id_to_span.push(dustc_span::DUMMY_SP), root);
         let mut def_id_to_node_id = IndexVec::default();
         assert_eq!(def_id_to_node_id.push(CRATE_NODE_ID), root);
         let mut node_id_to_def_id = FxHashMap::default();
@@ -1681,7 +1681,7 @@ impl<'a> Resolver<'a> {
         // 4c. Standard library prelude (de-facto closed, controlled).
         // 6. Language prelude: builtin attributes (closed, controlled).
 
-        let rust_2015 = ctxt.edition() == Edition::Edition2015;
+        let dust_2015 = ctxt.edition() == Edition::Edition2015;
         let (ns, macro_kind, is_absolute_path) = match scope_set {
             ScopeSet::All(ns, _) => (ns, None, false),
             ScopeSet::AbsolutePath(ns) => (ns, None, true),
@@ -1721,7 +1721,7 @@ impl<'a> Resolver<'a> {
                 Scope::CrateRoot => true,
                 Scope::Module(..) => true,
                 Scope::RegisteredAttrs => use_prelude,
-                Scope::MacroUsePrelude => use_prelude || rust_2015,
+                Scope::MacroUsePrelude => use_prelude || dust_2015,
                 Scope::BuiltinAttrs => true,
                 Scope::ExternPrelude => use_prelude || is_absolute_path,
                 Scope::ToolPrelude => use_prelude,
@@ -1803,7 +1803,7 @@ impl<'a> Resolver<'a> {
     ///
     /// A block's items are above its local variables in the scope hierarchy, regardless of where
     /// the items are defined in the block. For example,
-    /// ```rust
+    /// ```dust
     /// fn f() {
     ///    g(); // Since there are no local variables in scope yet, this resolves to the item.
     ///    let g = || {};
@@ -2260,11 +2260,11 @@ impl<'a> Resolver<'a> {
                         ));
                         continue;
                     }
-                    if name == kw::PathRoot && ident.span.rust_2018() {
+                    if name == kw::PathRoot && ident.span.dust_2018() {
                         module = Some(ModuleOrUniformRoot::ExternPrelude);
                         continue;
                     }
-                    if name == kw::PathRoot && ident.span.rust_2015() && self.session.rust_2018() {
+                    if name == kw::PathRoot && ident.span.dust_2015() && self.session.dust_2018() {
                         // `::a::b` from 2015 macro on 2018 global edition
                         module = Some(ModuleOrUniformRoot::CrateRootAndExternPrelude);
                         continue;
@@ -2429,13 +2429,13 @@ impl<'a> Resolver<'a> {
                             Vec::new()
                         };
                         candidates.sort_by_cached_key(|c| {
-                            (c.path.segments.len(), pprust::path_to_string(&c.path))
+                            (c.path.segments.len(), ppdust::path_to_string(&c.path))
                         });
                         if let Some(candidate) = candidates.get(0) {
                             (
                                 String::from("unresolved import"),
                                 Some((
-                                    vec![(ident.span, pprust::path_to_string(&candidate.path))],
+                                    vec![(ident.span, ppdust::path_to_string(&candidate.path))],
                                     String::from("a similar path exists"),
                                     Applicability::MaybeIncorrect,
                                 )),
@@ -2533,7 +2533,7 @@ impl<'a> Resolver<'a> {
 
         let first_name = match path.get(0) {
             // In the 2018 edition this lint is a hard error, so nothing to do
-            Some(seg) if seg.ident.span.rust_2015() && self.session.rust_2015() => seg.ident.name,
+            Some(seg) if seg.ident.span.dust_2015() && self.session.dust_2015() => seg.ident.name,
             _ => return,
         };
 
@@ -3011,7 +3011,7 @@ impl<'a> Resolver<'a> {
             format!("previous {} of the {} `{}` here", old_noun, old_kind, name),
         );
 
-        // See https://github.com/rust-lang/rust/issues/32354
+        // See https://github.com/dust-lang/dust/issues/32354
         use NameBindingKind::Import;
         let import = match (&new_binding.kind, &old_binding.kind) {
             // If there are two imports where one or both have attributes then prefer removing the
@@ -3239,9 +3239,9 @@ impl<'a> Resolver<'a> {
         })
     }
 
-    /// Rustdoc uses this to resolve things in a recoverable way. `ResolutionError<'a>`
+    /// Dustdoc uses this to resolve things in a recoverable way. `ResolutionError<'a>`
     /// isn't something that can be returned because it can't be made to live that long,
-    /// and also it's a private type. Fortunately rustdoc doesn't need to know the error,
+    /// and also it's a private type. Fortunately dustdoc doesn't need to know the error,
     /// just that an error occurred.
     // FIXME(Manishearth): intra-doc links won't get warned of epoch changes.
     pub fn resolve_str_path_error(
@@ -3277,7 +3277,7 @@ impl<'a> Resolver<'a> {
         Ok((path, res))
     }
 
-    // Resolve a path passed from rustdoc or HIR lowering.
+    // Resolve a path passed from dustdoc or HIR lowering.
     fn resolve_ast_path(
         &mut self,
         path: &ast::Path,
@@ -3316,12 +3316,12 @@ impl<'a> Resolver<'a> {
         seg
     }
 
-    // For rustdoc.
+    // For dustdoc.
     pub fn graph_root(&self) -> Module<'a> {
         self.graph_root
     }
 
-    // For rustdoc.
+    // For dustdoc.
     pub fn all_macros(&self) -> &FxHashMap<Symbol, Res> {
         &self.all_macros
     }
@@ -3333,7 +3333,7 @@ impl<'a> Resolver<'a> {
     }
 
     /// Checks if an expression refers to a function marked with
-    /// `#[rustc_legacy_const_generics]` and returns the argument index list
+    /// `#[dustc_legacy_const_generics]` and returns the argument index list
     /// from the attribute.
     pub fn legacy_const_generic_args(&mut self, expr: &Expr) -> Option<Vec<usize>> {
         if let ExprKind::Path(None, path) = &expr.kind {
@@ -3364,7 +3364,7 @@ impl<'a> Resolver<'a> {
                     let attrs = self.cstore().item_attrs(def_id, self.session);
                     let attr = attrs
                         .iter()
-                        .find(|a| self.session.check_name(a, sym::rustc_legacy_const_generics))?;
+                        .find(|a| self.session.check_name(a, sym::dustc_legacy_const_generics))?;
                     let mut ret = vec![];
                     for meta in attr.meta_item_list()? {
                         match meta.literal()?.kind {

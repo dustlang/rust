@@ -1,11 +1,11 @@
 use crate::context::LintContext;
-use crate::rustc_middle::ty::TypeFoldable;
+use crate::dustc_middle::ty::TypeFoldable;
 use crate::LateContext;
 use crate::LateLintPass;
-use rustc_hir::def::DefKind;
-use rustc_hir::{Expr, ExprKind};
-use rustc_middle::ty;
-use rustc_span::symbol::sym;
+use dustc_hir::def::DefKind;
+use dustc_hir::{Expr, ExprKind};
+use dustc_middle::ty;
+use dustc_span::symbol::sym;
 
 declare_lint! {
     /// The `noop_method_call` lint detects specific calls to noop methods
@@ -13,7 +13,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// # #![allow(unused)]
     /// #![warn(noop_method_call)]
     /// struct Foo;

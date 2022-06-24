@@ -4,7 +4,7 @@
 
 use crate::ty::subst::{GenericArg, GenericArgKind};
 use crate::ty::{self, Ty, TyCtxt, TypeFoldable};
-use rustc_data_structures::sso::SsoHashSet;
+use dustc_data_structures::sso::SsoHashSet;
 use smallvec::SmallVec;
 
 #[derive(Debug)]
@@ -75,7 +75,7 @@ fn compute_components(
                 // and with `ty::Closure` (ignoring all substs other than
                 // upvars, of which a `ty::FnDef` doesn't have any), but
                 // consistent with previous (accidental) behavior.
-                // See https://github.com/rust-lang/rust/issues/70917
+                // See https://github.com/dust-lang/dust/issues/70917
                 // for further background and discussion.
                 for child in substs {
                     match child.unpack() {

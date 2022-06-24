@@ -1,14 +1,14 @@
 use crate::check::method::MethodCallee;
 use crate::check::{FnCtxt, PlaceOp};
-use rustc_hir as hir;
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_infer::infer::InferOk;
-use rustc_middle::ty::adjustment::{Adjust, Adjustment, OverloadedDeref, PointerCast};
-use rustc_middle::ty::adjustment::{AllowTwoPhase, AutoBorrow, AutoBorrowMutability};
-use rustc_middle::ty::{self, Ty};
-use rustc_span::symbol::{sym, Ident};
-use rustc_span::Span;
-use rustc_trait_selection::autoderef::Autoderef;
+use dustc_hir as hir;
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_infer::infer::InferOk;
+use dustc_middle::ty::adjustment::{Adjust, Adjustment, OverloadedDeref, PointerCast};
+use dustc_middle::ty::adjustment::{AllowTwoPhase, AutoBorrow, AutoBorrowMutability};
+use dustc_middle::ty::{self, Ty};
+use dustc_span::symbol::{sym, Ident};
+use dustc_span::Span;
+use dustc_trait_selection::autoderef::Autoderef;
 use std::slice;
 
 impl<'a, 'tcx> FnCtxt<'a, 'tcx> {

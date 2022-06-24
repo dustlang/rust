@@ -1,20 +1,20 @@
-use rustc_data_structures::sync::{Lock, Lrc};
-use rustc_errors::{emitter::Emitter, Applicability, Diagnostic, Handler};
-use rustc_parse::parse_stream_from_source_str;
-use rustc_session::parse::ParseSess;
-use rustc_span::source_map::{FilePathMapping, SourceMap};
-use rustc_span::{FileName, InnerSpan};
+use dustc_data_structures::sync::{Lock, Lrc};
+use dustc_errors::{emitter::Emitter, Applicability, Diagnostic, Handler};
+use dustc_parse::parse_stream_from_source_str;
+use dustc_session::parse::ParseSess;
+use dustc_span::source_map::{FilePathMapping, SourceMap};
+use dustc_span::{FileName, InnerSpan};
 
 use crate::clean;
 use crate::core::DocContext;
 use crate::fold::DocFolder;
-use crate::html::markdown::{self, RustCodeBlock};
+use crate::html::markdown::{self, DustCodeBlock};
 use crate::passes::{span_of_attrs, Pass};
 
 crate const CHECK_CODE_BLOCK_SYNTAX: Pass = Pass {
     name: "check-code-block-syntax",
     run: check_code_block_syntax,
-    description: "validates syntax inside Rust code blocks",
+    description: "validates syntax inside Dust code blocks",
 };
 
 crate fn check_code_block_syntax(krate: clean::Crate, cx: &mut DocContext<'_>) -> clean::Crate {
@@ -26,7 +26,7 @@ struct SyntaxChecker<'a, 'tcx> {
 }
 
 impl<'a, 'tcx> SyntaxChecker<'a, 'tcx> {
-    fn check_rust_syntax(&self, item: &clean::Item, dox: &str, code_block: RustCodeBlock) {
+    fn check_dust_syntax(&self, item: &clean::Item, dox: &str, code_block: DustCodeBlock) {
         let buffer = Lrc::new(Lock::new(Buffer::default()));
         let emitter = BufferEmitter { buffer: Lrc::clone(&buffer) };
 
@@ -35,7 +35,7 @@ impl<'a, 'tcx> SyntaxChecker<'a, 'tcx> {
         let source = dox[code_block.code].to_owned();
         let sess = ParseSess::with_span_handler(handler, sm);
 
-        let is_empty = rustc_driver::catch_fatal_errors(|| {
+        let is_empty = dustc_driver::catch_fatal_errors(|| {
             parse_stream_from_source_str(
                 FileName::Custom(String::from("doctest")),
                 source,
@@ -55,9 +55,9 @@ impl<'a, 'tcx> SyntaxChecker<'a, 'tcx> {
                 &item.attrs,
             ) {
                 let (warning_message, suggest_using_text) = if buffer.has_errors {
-                    ("could not parse code block as Rust code", true)
+                    ("could not parse code block as Dust code", true)
                 } else {
-                    ("Rust code block is empty", false)
+                    ("Dust code block is empty", false)
                 };
 
                 let mut diag = self.cx.sess().struct_span_warn(sp, warning_message);
@@ -66,7 +66,7 @@ impl<'a, 'tcx> SyntaxChecker<'a, 'tcx> {
                     let sp = sp.from_inner(InnerSpan::new(0, 3));
                     diag.span_suggestion(
                         sp,
-                        "mark blocks that do not contain Rust code as text",
+                        "mark blocks that do not contain Dust code as text",
                         String::from("```text"),
                         Applicability::MachineApplicable,
                     );
@@ -74,8 +74,8 @@ impl<'a, 'tcx> SyntaxChecker<'a, 'tcx> {
                     let sp = sp.from_inner(InnerSpan::new(0, 3));
                     diag.span_suggestion(
                         sp,
-                        "`ignore` code blocks require valid Rust code for syntax highlighting. \
-                         Mark blocks that do not contain Rust code as text",
+                        "`ignore` code blocks require valid Dust code for syntax highlighting. \
+                         Mark blocks that do not contain Dust code as text",
                         String::from("```text,"),
                         Applicability::MachineApplicable,
                     );
@@ -87,11 +87,11 @@ impl<'a, 'tcx> SyntaxChecker<'a, 'tcx> {
                 // diagnostics are going to be a bit lacking.
                 let mut diag = self.cx.sess().struct_span_warn(
                     super::span_of_attrs(&item.attrs).unwrap_or(item.source.span()),
-                    "doc comment contains an invalid Rust code block",
+                    "doc comment contains an invalid Dust code block",
                 );
 
                 if code_block.syntax.is_none() && code_block.is_fenced {
-                    diag.help("mark blocks that do not contain Rust code as text: ```text");
+                    diag.help("mark blocks that do not contain Dust code as text: ```text");
                 }
 
                 diag
@@ -112,8 +112,8 @@ impl<'a, 'tcx> DocFolder for SyntaxChecker<'a, 'tcx> {
         if let Some(dox) = &item.attrs.collapsed_doc_value() {
             let sp = span_of_attrs(&item.attrs).unwrap_or(item.source.span());
             let extra = crate::html::markdown::ExtraInfo::new_did(self.cx.tcx, item.def_id, sp);
-            for code_block in markdown::rust_code_blocks(&dox, &extra) {
-                self.check_rust_syntax(&item, &dox, code_block);
+            for code_block in markdown::dust_code_blocks(&dox, &extra) {
+                self.check_dust_syntax(&item, &dox, code_block);
             }
         }
 
@@ -134,7 +134,7 @@ struct BufferEmitter {
 impl Emitter for BufferEmitter {
     fn emit_diagnostic(&mut self, diag: &Diagnostic) {
         let mut buffer = self.buffer.borrow_mut();
-        buffer.messages.push(format!("error from rustc: {}", diag.message[0].0));
+        buffer.messages.push(format!("error from dustc: {}", diag.message[0].0));
         if diag.is_error() {
             buffer.has_errors = true;
         }

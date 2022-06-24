@@ -8,4 +8,4 @@ LL |         A { a: v } if { drop(v); true } => v,
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0507`.
+For more information about this error, try `dustc --explain E0507`.

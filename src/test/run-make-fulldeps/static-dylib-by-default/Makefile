@@ -8,8 +8,8 @@ LINK_ARG = $(TO_LINK)
 endif
 
 all:
-	$(RUSTC) foo.rs
-	$(RUSTC) bar.rs
+	$(DUSTC) foo.rs
+	$(DUSTC) bar.rs
 	$(CC) main.c $(call OUT_EXE,main) $(LINK_ARG) $(EXTRACFLAGS)
 	rm $(TMPDIR)/*.rlib
 	rm $(call DYLIB,foo)

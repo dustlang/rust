@@ -4,13 +4,13 @@ use super::PredicateObligation;
 
 use crate::infer::InferCtxtUndoLogs;
 
-use rustc_data_structures::{
+use dustc_data_structures::{
     snapshot_map::{self, SnapshotMapRef, SnapshotMapStorage},
     undo_log::Rollback,
 };
-use rustc_middle::ty::{self, Ty};
+use dustc_middle::ty::{self, Ty};
 
-pub use rustc_middle::traits::Reveal;
+pub use dustc_middle::traits::Reveal;
 
 pub(crate) type UndoLog<'tcx> =
     snapshot_map::UndoLog<ProjectionCacheKey<'tcx>, ProjectionCacheEntry<'tcx>>;

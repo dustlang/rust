@@ -4,7 +4,7 @@
 # FIXME
 
 all:
-	$(RUSTC) foo.rs
+	$(DUSTC) foo.rs
 	$(CC) bar.c $(call STATICLIB,foo) $(call OUT_EXE,bar) \
 		$(EXTRACFLAGS) $(EXTRACXXFLAGS)
 	$(call RUN,bar)

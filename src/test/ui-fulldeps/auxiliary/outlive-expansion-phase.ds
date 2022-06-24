@@ -1,14 +1,14 @@
 // force-host
 
 #![feature(plugin_registrar)]
-#![feature(box_syntax, rustc_private)]
+#![feature(box_syntax, dustc_private)]
 
-extern crate rustc_middle;
-extern crate rustc_driver;
+extern crate dustc_middle;
+extern crate dustc_driver;
 
 use std::any::Any;
 use std::cell::RefCell;
-use rustc_driver::plugin::Registry;
+use dustc_driver::plugin::Registry;
 
 struct Foo {
     foo: isize

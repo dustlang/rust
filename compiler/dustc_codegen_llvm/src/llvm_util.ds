@@ -1,13 +1,13 @@
 use crate::back::write::create_informational_target_machine;
 use crate::llvm;
 use libc::c_int;
-use rustc_codegen_ssa::target_features::supported_target_features;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_middle::bug;
-use rustc_session::config::PrintRequest;
-use rustc_session::Session;
-use rustc_span::symbol::Symbol;
-use rustc_target::spec::{MergeFunctions, PanicStrategy};
+use dustc_codegen_ssa::target_features::supported_target_features;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_middle::bug;
+use dustc_session::config::PrintRequest;
+use dustc_session::Session;
+use dustc_span::symbol::Symbol;
+use dustc_target::spec::{MergeFunctions, PanicStrategy};
 use std::ffi::{CStr, CString};
 
 use std::slice;
@@ -49,7 +49,7 @@ unsafe fn configure_llvm(sess: &Session) {
     let mut llvm_c_strs = Vec::with_capacity(n_args + 1);
     let mut llvm_args = Vec::with_capacity(n_args + 1);
 
-    llvm::LLVMRustInstallFatalErrorHandler();
+    llvm::LLVMDustInstallFatalErrorHandler();
 
     fn llvm_arg_to_arg_name(full_arg: &str) -> &str {
         full_arg.trim().split(|c: char| c == '=' || c.is_whitespace()).next().unwrap_or("")
@@ -73,7 +73,7 @@ unsafe fn configure_llvm(sess: &Session) {
             }
         };
         // Set the llvm "program name" to make usage and invalid argument messages more clear.
-        add("rustc -Cllvm-args=\"...\" with", true);
+        add("dustc -Cllvm-args=\"...\" with", true);
         if sess.time_llvm_passes() {
             add("-time-passes", false);
         }
@@ -114,9 +114,9 @@ unsafe fn configure_llvm(sess: &Session) {
 
     llvm::LLVMInitializePasses();
 
-    rustc_llvm::initialize_available_targets();
+    dustc_llvm::initialize_available_targets();
 
-    llvm::LLVMRustSetLLVMOptions(llvm_args.len() as c_int, llvm_args.as_ptr());
+    llvm::LLVMDustSetLLVMOptions(llvm_args.len() as c_int, llvm_args.as_ptr());
 }
 
 pub fn time_trace_profiler_finish(file_name: &str) {
@@ -133,7 +133,7 @@ pub fn time_trace_profiler_finish(file_name: &str) {
 // where the * matches the architecture's name
 // Beware to not use the llvm github project for this, but check the git submodule
 // found in src/llvm-project
-// Though note that Rust can also be build with an external precompiled version of LLVM
+// Though note that Dust can also be build with an external precompiled version of LLVM
 // which might lead to failures if the oldest tested / supported LLVM version
 // doesn't yet support the relevant intrinsics
 pub fn to_llvm_feature<'a>(sess: &Session, s: &'a str) -> &'a str {
@@ -164,7 +164,7 @@ pub fn target_features(sess: &Session) -> Vec<Symbol> {
         .filter(|feature| {
             let llvm_feature = to_llvm_feature(sess, feature);
             let cstr = CString::new(llvm_feature).unwrap();
-            unsafe { llvm::LLVMRustHasFeature(target_machine, cstr.as_ptr()) }
+            unsafe { llvm::LLVMDustHasFeature(target_machine, cstr.as_ptr()) }
         })
         .map(|feature| Symbol::intern(feature))
         .collect()
@@ -178,14 +178,14 @@ pub fn print_version() {
 pub fn get_version() -> (u32, u32, u32) {
     // Can be called without initializing LLVM
     unsafe {
-        (llvm::LLVMRustVersionMajor(), llvm::LLVMRustVersionMinor(), llvm::LLVMRustVersionPatch())
+        (llvm::LLVMDustVersionMajor(), llvm::LLVMDustVersionMinor(), llvm::LLVMDustVersionPatch())
     }
 }
 
 pub fn print_passes() {
     // Can be called without initializing LLVM
     unsafe {
-        llvm::LLVMRustPrintPasses();
+        llvm::LLVMDustPrintPasses();
     }
 }
 
@@ -194,9 +194,9 @@ pub(crate) fn print(req: PrintRequest, sess: &Session) {
     let tm = create_informational_target_machine(sess);
     unsafe {
         match req {
-            PrintRequest::TargetCPUs => llvm::LLVMRustPrintTargetCPUs(tm),
-            PrintRequest::TargetFeatures => llvm::LLVMRustPrintTargetFeatures(tm),
-            _ => bug!("rustc_codegen_llvm can't handle print request: {:?}", req),
+            PrintRequest::TargetCPUs => llvm::LLVMDustPrintTargetCPUs(tm),
+            PrintRequest::TargetFeatures => llvm::LLVMDustPrintTargetFeatures(tm),
+            _ => bug!("dustc_codegen_llvm can't handle print request: {:?}", req),
         }
     }
 }
@@ -208,7 +208,7 @@ fn handle_native(name: &str) -> &str {
 
     unsafe {
         let mut len = 0;
-        let ptr = llvm::LLVMRustGetHostCPUName(&mut len);
+        let ptr = llvm::LLVMDustGetHostCPUName(&mut len);
         str::from_utf8(slice::from_raw_parts(ptr as *const u8, len)).unwrap()
     }
 }
@@ -225,8 +225,8 @@ pub fn target_cpu(sess: &Session) -> &str {
 // the functions; only crates, maybe…
 pub fn llvm_global_features(sess: &Session) -> Vec<String> {
     // FIXME(nagisa): this should definitely be available more centrally and to other codegen backends.
-    /// These features control behaviour of rustc rather than llvm.
-    const RUSTC_SPECIFIC_FEATURES: &[&str] = &["crt-static"];
+    /// These features control behaviour of dustc rather than llvm.
+    const DUSTC_SPECIFIC_FEATURES: &[&str] = &["crt-static"];
 
     // Features that come earlier are overriden by conflicting features later in the string.
     // Typically we'll want more explicit settings to override the implicit ones, so:
@@ -278,7 +278,7 @@ pub fn llvm_global_features(sess: &Session) -> Vec<String> {
         sess.target
             .features
             .split(',')
-            .filter(|f| !f.is_empty() && !RUSTC_SPECIFIC_FEATURES.iter().any(|s| f.contains(s)))
+            .filter(|f| !f.is_empty() && !DUSTC_SPECIFIC_FEATURES.iter().any(|s| f.contains(s)))
             .map(String::from),
     );
 
@@ -288,7 +288,7 @@ pub fn llvm_global_features(sess: &Session) -> Vec<String> {
             .cg
             .target_feature
             .split(',')
-            .filter(|f| !f.is_empty() && !RUSTC_SPECIFIC_FEATURES.iter().any(|s| f.contains(s)))
+            .filter(|f| !f.is_empty() && !DUSTC_SPECIFIC_FEATURES.iter().any(|s| f.contains(s)))
             .map(String::from),
     );
 

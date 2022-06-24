@@ -5,7 +5,7 @@ LL | #![feature(repr128, arbitrary_enum_discriminant)]
    |            ^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #56071 <https://github.com/rust-lang/rust/issues/56071> for more information
+   = note: see issue #56071 <https://github.com/dust-lang/dust/issues/56071> for more information
 
 warning: 1 warning emitted
 

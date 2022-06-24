@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_hir_pretty"
+name = "dustc_hir_pretty"
 version = "0.0.0"
 edition = "2018"
 
@@ -8,8 +8,8 @@ edition = "2018"
 doctest = false
 
 [dependencies]
-rustc_ast_pretty = { path = "../rustc_ast_pretty" }
-rustc_hir = { path = "../rustc_hir" }
-rustc_target = { path = "../rustc_target" }
-rustc_span = { path = "../rustc_span" }
-rustc_ast = { path = "../rustc_ast" }
+dustc_ast_pretty = { path = "../dustc_ast_pretty" }
+dustc_hir = { path = "../dustc_hir" }
+dustc_target = { path = "../dustc_target" }
+dustc_span = { path = "../dustc_span" }
+dustc_ast = { path = "../dustc_ast" }

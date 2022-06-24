@@ -11,7 +11,7 @@ BASEDIR=../coverage-reports
 SOURCEDIR=../coverage
 
 # The `llvm-cov show` flag `--debug`, used to generate the `counters` output files, is only
-# enabled if LLVM assertions are enabled. This requires Rust config `llvm/optimize` and not
+# enabled if LLVM assertions are enabled. This requires Dust config `llvm/optimize` and not
 # `llvm/release_debuginfo`. Note that some CI builds disable debug assertions (by setting
 # `NO_LLVM_ASSERTIONS=1`), so the tests must still pass even if the `--debug` flag is
 # not supported. (Note that `counters` files are only produced in the `$(TMPDIR)`
@@ -64,7 +64,7 @@ LLVM_COV_IGNORE_FILES=\
 # When generating `expected_*` results (using `x.py test --bless`), the `--debug` flag is forced.
 # If assertions are disabled, the command will fail with an error, rather than attempt to generate
 # only partial results.
-ifdef RUSTC_BLESS_TEST
+ifdef DUSTC_BLESS_TEST
 DEBUG_FLAG=--debug
 endif
 
@@ -73,7 +73,7 @@ all: $(patsubst $(SOURCEDIR)/lib/%.rs,%,$(wildcard $(SOURCEDIR)/lib/*.rs)) $(pat
 # Ensure there are no `expected` results for tests that may have been removed or renamed
 .PHONY: clear_expected_if_blessed
 clear_expected_if_blessed:
-ifdef RUSTC_BLESS_TEST
+ifdef DUSTC_BLESS_TEST
 	rm -f expected_*
 endif
 
@@ -81,13 +81,13 @@ endif
 
 %: $(SOURCEDIR)/lib/%.rs
 	# Compile the test library with coverage instrumentation
-	$(RUSTC) $(SOURCEDIR)/lib/$@.rs \
+	$(DUSTC) $(SOURCEDIR)/lib/$@.rs \
 			$$( sed -nE 's#^// compile-flags:(.*)#\1# p' $(SOURCEDIR)/lib/$@.rs) \
 			--crate-type rlib -Zinstrument-coverage
 
 %: $(SOURCEDIR)/%.rs
 	# Compile the test program with coverage instrumentation
-	$(RUSTC) $(SOURCEDIR)/$@.rs \
+	$(DUSTC) $(SOURCEDIR)/$@.rs \
 			$$( sed -nE 's#^// compile-flags:(.*)#\1# p' $(SOURCEDIR)/$@.rs) \
 			-L "$(TMPDIR)" -Zinstrument-coverage
 
@@ -104,12 +104,12 @@ endif
 				) \
 			)
 
-	# Run it through rustdoc as well to cover doctests
+	# Run it through dustdoc as well to cover doctests
 	LLVM_PROFILE_FILE="$(TMPDIR)"/$@-%p.profraw \
-			$(RUSTDOC) --crate-name workaround_for_79771 --test $(SOURCEDIR)/$@.rs \
+			$(DUSTDOC) --crate-name workaround_for_79771 --test $(SOURCEDIR)/$@.rs \
 			$$( sed -nE 's#^// compile-flags:(.*)#\1# p' $(SOURCEDIR)/$@.rs) \
 			-L "$(TMPDIR)" -Zinstrument-coverage \
-			-Z unstable-options --persist-doctests=$(TMPDIR)/rustdoc-$@
+			-Z unstable-options --persist-doctests=$(TMPDIR)/dustdoc-$@
 
 	# Postprocess the profiling data so it can be used by the llvm-cov tool
 	"$(LLVM_BIN_DIR)"/llvm-profdata merge --sparse \
@@ -120,12 +120,12 @@ endif
 	"$(LLVM_BIN_DIR)"/llvm-cov show \
 			$(DEBUG_FLAG) \
 			$(LLVM_COV_IGNORE_FILES) \
-			--Xdemangler="$(RUST_DEMANGLER)" \
+			--Xdemangler="$(DUST_DEMANGLER)" \
 			--show-line-counts-or-regions \
 			--instr-profile="$(TMPDIR)"/$@.profdata \
 			$(call BIN,"$(TMPDIR)"/$@) \
 			$$( \
-				for file in $(TMPDIR)/rustdoc-$@/*/rust_out; \
+				for file in $(TMPDIR)/dustdoc-$@/*/dust_out; \
 				do \
 				[ -x "$$file" ] && printf "%s %s " -object $$file; \
 				done \
@@ -146,13 +146,13 @@ ifdef DEBUG_FLAG
 		> "$(TMPDIR)"/actual_show_coverage_counters.$@.txt
 endif
 
-ifdef RUSTC_BLESS_TEST
+ifdef DUSTC_BLESS_TEST
 	cp "$(TMPDIR)"/actual_show_coverage.$@.txt \
 			expected_show_coverage.$@.txt
 else
 	# Compare the show coverage output (`--bless` refreshes `typical` files).
 	#
-	# FIXME(richkadel): None of the Rust test source samples have the
+	# FIXME(richkadel): None of the Dust test source samples have the
 	# `// ignore-llvm-cov-show-diffs` anymore. This directive exists to work around a limitation
 	# with `llvm-cov show`. When reporting coverage for multiple instantiations of a generic function,
 	# with different type substitutions, `llvm-cov show` prints these in a non-deterministic order,
@@ -192,7 +192,7 @@ endif
 # The files are still generated (in `$(TMPDIR)`) to support developers wanting
 # to inspect the counters, for debugging purposes.
 #
-# ifdef RUSTC_BLESS_TEST
+# ifdef DUSTC_BLESS_TEST
 # 	cp "$(TMPDIR)"/actual_show_coverage_counters.$@.txt \
 # 			expected_show_coverage_counters.$@.txt
 # else
@@ -231,7 +231,7 @@ endif
 # 		| "$(PYTHON)" $(BASEDIR)/prettify_json.py \
 # 		> "$(TMPDIR)"/actual_export_coverage.$@.json
 #
-# ifdef RUSTC_BLESS_TEST
+# ifdef DUSTC_BLESS_TEST
 # 	cp "$(TMPDIR)"/actual_export_coverage.$@.json expected_export_coverage.$@.json
 # else
 # 	# Check that exported JSON coverage data matches what we expect (`--bless` refreshes `expected`)

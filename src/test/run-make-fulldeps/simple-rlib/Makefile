@@ -1,5 +1,5 @@
 -include ../tools.mk
 all:
-	$(RUSTC) bar.rs --crate-type=rlib
-	$(RUSTC) foo.rs
+	$(DUSTC) bar.rs --crate-type=rlib
+	$(DUSTC) foo.rs
 	$(call RUN,foo)

@@ -1,7 +1,7 @@
-use rustc_index::vec::IndexVec;
-use rustc_target::abi::call::FnAbi;
-use rustc_target::abi::{Integer, Primitive};
-use rustc_target::spec::{HasTargetSpec, Target};
+use dustc_index::vec::IndexVec;
+use dustc_target::abi::call::FnAbi;
+use dustc_target::abi::{Integer, Primitive};
+use dustc_target::spec::{HasTargetSpec, Target};
 
 use crate::prelude::*;
 
@@ -106,7 +106,7 @@ fn clif_pair_type_from_ty<'tcx>(
 
 /// Is a pointer to this type a fat ptr?
 pub(crate) fn has_ptr_meta<'tcx>(tcx: TyCtxt<'tcx>, ty: Ty<'tcx>) -> bool {
-    let ptr_ty = tcx.mk_ptr(TypeAndMut { ty, mutbl: rustc_hir::Mutability::Not });
+    let ptr_ty = tcx.mk_ptr(TypeAndMut { ty, mutbl: dustc_hir::Mutability::Not });
     match &tcx.layout_of(ParamEnv::reveal_all().and(ptr_ty)).unwrap().abi {
         Abi::Scalar(_) => false,
         Abi::ScalarPair(_, _) => true,
@@ -269,8 +269,8 @@ impl<'tcx> layout::HasTyCtxt<'tcx> for FunctionCx<'_, '_, 'tcx> {
     }
 }
 
-impl<'tcx> rustc_target::abi::HasDataLayout for FunctionCx<'_, '_, 'tcx> {
-    fn data_layout(&self) -> &rustc_target::abi::TargetDataLayout {
+impl<'tcx> dustc_target::abi::HasDataLayout for FunctionCx<'_, '_, 'tcx> {
+    fn data_layout(&self) -> &dustc_target::abi::TargetDataLayout {
         &self.tcx.data_layout
     }
 }
@@ -331,7 +331,7 @@ impl<'tcx> FunctionCx<'_, '_, 'tcx> {
         let topmost = span.ctxt().outer_expn().expansion_cause().unwrap_or(span);
         let caller = self.tcx.sess.source_map().lookup_char_pos(topmost.lo());
         let const_loc = self.tcx.const_caller_location((
-            rustc_span::symbol::Symbol::intern(&caller.file.name.to_string()),
+            dustc_span::symbol::Symbol::intern(&caller.file.name.to_string()),
             caller.line as u32,
             caller.col_display as u32 + 1,
         ));
@@ -393,8 +393,8 @@ impl<'tcx> layout::HasTyCtxt<'tcx> for RevealAllLayoutCx<'tcx> {
     }
 }
 
-impl<'tcx> rustc_target::abi::HasDataLayout for RevealAllLayoutCx<'tcx> {
-    fn data_layout(&self) -> &rustc_target::abi::TargetDataLayout {
+impl<'tcx> dustc_target::abi::HasDataLayout for RevealAllLayoutCx<'tcx> {
+    fn data_layout(&self) -> &dustc_target::abi::TargetDataLayout {
         &self.0.data_layout
     }
 }

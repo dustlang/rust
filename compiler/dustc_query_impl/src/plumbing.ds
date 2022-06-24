@@ -3,18 +3,18 @@
 //! manage the caches, and so forth.
 
 use super::queries;
-use rustc_middle::dep_graph::{DepKind, DepNode, DepNodeExt, DepNodeIndex, SerializedDepNodeIndex};
-use rustc_middle::ty::query::on_disk_cache;
-use rustc_middle::ty::tls::{self, ImplicitCtxt};
-use rustc_middle::ty::{self, TyCtxt};
-use rustc_query_system::dep_graph::HasDepContext;
-use rustc_query_system::query::{QueryContext, QueryDescription, QueryJobId, QueryMap};
+use dustc_middle::dep_graph::{DepKind, DepNode, DepNodeExt, DepNodeIndex, SerializedDepNodeIndex};
+use dustc_middle::ty::query::on_disk_cache;
+use dustc_middle::ty::tls::{self, ImplicitCtxt};
+use dustc_middle::ty::{self, TyCtxt};
+use dustc_query_system::dep_graph::HasDepContext;
+use dustc_query_system::query::{QueryContext, QueryDescription, QueryJobId, QueryMap};
 
-use rustc_data_structures::sync::Lock;
-use rustc_data_structures::thin_vec::ThinVec;
-use rustc_errors::Diagnostic;
-use rustc_serialize::opaque;
-use rustc_span::def_id::{DefId, LocalDefId};
+use dustc_data_structures::sync::Lock;
+use dustc_data_structures::thin_vec::ThinVec;
+use dustc_errors::Diagnostic;
+use dustc_serialize::opaque;
+use dustc_span::def_id::{DefId, LocalDefId};
 
 #[derive(Copy, Clone)]
 pub struct QueryCtxt<'tcx> {
@@ -31,8 +31,8 @@ impl<'tcx> std::ops::Deref for QueryCtxt<'tcx> {
 }
 
 impl HasDepContext for QueryCtxt<'tcx> {
-    type DepKind = rustc_middle::dep_graph::DepKind;
-    type StableHashingContext = rustc_middle::ich::StableHashingContext<'tcx>;
+    type DepKind = dustc_middle::dep_graph::DepKind;
+    type StableHashingContext = dustc_middle::ich::StableHashingContext<'tcx>;
     type DepContext = TyCtxt<'tcx>;
 
     #[inline]
@@ -61,7 +61,7 @@ impl QueryContext for QueryCtxt<'tcx> {
 
     fn try_force_from_dep_node(&self, dep_node: &DepNode) -> bool {
         // FIXME: This match is just a workaround for incremental bugs and should
-        // be removed. https://github.com/rust-lang/rust/issues/62649 is one such
+        // be removed. https://github.com/dust-lang/dust/issues/62649 is one such
         // bug that must be fixed before removing this.
         match dep_node.kind {
             DepKind::hir_owner | DepKind::hir_owner_nodes => {
@@ -166,7 +166,7 @@ impl QueryContext for QueryCtxt<'tcx> {
 
             // Use the `ImplicitCtxt` while we execute the query.
             tls::enter_context(&new_icx, |_| {
-                rustc_data_structures::stack::ensure_sufficient_stack(compute)
+                dustc_data_structures::stack::ensure_sufficient_stack(compute)
             })
         })
     }
@@ -190,7 +190,7 @@ impl<'tcx> QueryCtxt<'tcx> {
             }
         }
 
-        rustc_cached_queries!(encode_queries!);
+        dustc_cached_queries!(encode_queries!);
 
         Ok(())
     }
@@ -418,10 +418,10 @@ macro_rules! define_queries {
         #[allow(non_upper_case_globals)]
         pub mod query_callbacks {
             use super::*;
-            use rustc_middle::dep_graph::DepNode;
-            use rustc_middle::ty::query::query_keys;
-            use rustc_query_system::dep_graph::DepNodeParams;
-            use rustc_query_system::query::{force_query, QueryDescription};
+            use dustc_middle::dep_graph::DepNode;
+            use dustc_middle::ty::query::query_keys;
+            use dustc_query_system::dep_graph::DepNodeParams;
+            use dustc_query_system::query::{force_query, QueryDescription};
 
             // We use this for most things when incr. comp. is turned off.
             pub const Null: QueryStruct = QueryStruct {
@@ -549,11 +549,11 @@ macro_rules! define_queries_struct {
         }
 
         impl QueryEngine<'tcx> for Queries<'tcx> {
-            unsafe fn deadlock(&'tcx self, _tcx: TyCtxt<'tcx>, _registry: &rustc_rayon_core::Registry) {
+            unsafe fn deadlock(&'tcx self, _tcx: TyCtxt<'tcx>, _registry: &dustc_rayon_core::Registry) {
                 #[cfg(parallel_compiler)]
                 {
                     let tcx = QueryCtxt { tcx: _tcx, queries: self };
-                    rustc_query_system::query::deadlock(tcx, _registry)
+                    dustc_query_system::query::deadlock(tcx, _registry)
                 }
             }
 
@@ -585,7 +585,7 @@ macro_rules! define_queries_struct {
                 num_frames: Option<usize>,
             ) -> usize {
                 let qcx = QueryCtxt { tcx, queries: self };
-                rustc_query_system::query::print_query_stack(qcx, query, handler, num_frames)
+                dustc_query_system::query::print_query_stack(qcx, query, handler, num_frames)
             }
 
             $($(#[$attr])*
@@ -613,4 +613,4 @@ fn describe_as_module(def_id: LocalDefId, tcx: TyCtxt<'_>) -> String {
     }
 }
 
-rustc_query_description! {}
+dustc_query_description! {}

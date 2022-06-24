@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 r"""
-htmldocck.py is a custom checker script for Rustdoc HTML outputs.
+htmldocck.py is a custom checker script for Dustdoc HTML outputs.
 
 # How and why?
 
@@ -11,12 +11,12 @@ documentation and a "template" script, which has a series of check
 commands like `@has` or `@matches`. Each command is used to check if
 some pattern is present or not present in the particular file or in
 a particular node of the HTML tree. In many cases, the template script
-happens to be the source code given to rustdoc.
+happens to be the source code given to dustdoc.
 
 While it indeed is possible to test in smaller portions, it has been
 hard to construct tests in this fashion and major rendering errors were
 discovered much later. This script is designed to make black-box and
-regression testing of Rustdoc easy. This does not preclude the needs for
+regression testing of Dustdoc easy. This does not preclude the needs for
 unit testing, but can be used to complement related tests by quickly
 showing the expected renderings.
 
@@ -139,7 +139,7 @@ class CustomHTMLParser(HTMLParser):
     """simplified HTML parser.
 
     this is possible because we are dealing with very regular HTML from
-    rustdoc; we only have to deal with i) void elements and ii) empty
+    dustdoc; we only have to deal with i) void elements and ii) empty
     attributes."""
     def __init__(self, target=None):
         HTMLParser.__init__(self)

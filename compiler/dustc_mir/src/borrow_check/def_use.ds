@@ -1,4 +1,4 @@
-use rustc_middle::mir::visit::{
+use dustc_middle::mir::visit::{
     MutatingUseContext, NonMutatingUseContext, NonUseContext, PlaceContext,
 };
 

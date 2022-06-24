@@ -8,9 +8,9 @@ use crate::traits::{
     FulfillmentContext, ImplSource, Obligation, ObligationCause, SelectionContext, TraitEngine,
     Unimplemented,
 };
-use rustc_errors::ErrorReported;
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::{self, TyCtxt};
+use dustc_errors::ErrorReported;
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::{self, TyCtxt};
 
 /// Attempts to resolve an obligation to a `ImplSource`. The result is
 /// a shallow `ImplSource` resolution, meaning that we do not
@@ -53,7 +53,7 @@ pub fn codegen_fulfill_obligation<'tcx>(
                 // overflow bug, since I believe this is the only case
                 // where ambiguity can result.
                 infcx.tcx.sess.delay_span_bug(
-                    rustc_span::DUMMY_SP,
+                    dustc_span::DUMMY_SP,
                     &format!(
                         "encountered ambiguity selecting `{:?}` during codegen, presuming due to \
                          overflow or prior type error",
@@ -66,7 +66,7 @@ pub fn codegen_fulfill_obligation<'tcx>(
                 // This can trigger when we probe for the source of a `'static` lifetime requirement
                 // on a trait object: `impl Foo for dyn Trait {}` has an implicit `'static` bound.
                 infcx.tcx.sess.delay_span_bug(
-                    rustc_span::DUMMY_SP,
+                    dustc_span::DUMMY_SP,
                     &format!(
                         "Encountered error `Unimplemented` selecting `{:?}` during codegen",
                         trait_ref
@@ -122,7 +122,7 @@ where
     // optimization to stop iterating early.
     if let Err(errors) = fulfill_cx.select_all_or_error(infcx) {
         infcx.tcx.sess.delay_span_bug(
-            rustc_span::DUMMY_SP,
+            dustc_span::DUMMY_SP,
             &format!("Encountered errors `{:?}` resolving bounds after type-checking", errors),
         );
     }

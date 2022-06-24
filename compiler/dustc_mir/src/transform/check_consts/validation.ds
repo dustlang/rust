@@ -1,22 +1,22 @@
 //! The `Visitor` responsible for actually checking a `mir::Body` for invalid operations.
 
-use rustc_errors::{struct_span_err, Applicability, Diagnostic, ErrorReported};
-use rustc_hir::def_id::DefId;
-use rustc_hir::{self as hir, HirId, LangItem};
-use rustc_index::bit_set::BitSet;
-use rustc_infer::infer::TyCtxtInferExt;
-use rustc_infer::traits::{ImplSource, Obligation, ObligationCause};
-use rustc_middle::mir::visit::{MutatingUseContext, NonMutatingUseContext, PlaceContext, Visitor};
-use rustc_middle::mir::*;
-use rustc_middle::ty::cast::CastTy;
-use rustc_middle::ty::subst::GenericArgKind;
-use rustc_middle::ty::{
+use dustc_errors::{struct_span_err, Applicability, Diagnostic, ErrorReported};
+use dustc_hir::def_id::DefId;
+use dustc_hir::{self as hir, HirId, LangItem};
+use dustc_index::bit_set::BitSet;
+use dustc_infer::infer::TyCtxtInferExt;
+use dustc_infer::traits::{ImplSource, Obligation, ObligationCause};
+use dustc_middle::mir::visit::{MutatingUseContext, NonMutatingUseContext, PlaceContext, Visitor};
+use dustc_middle::mir::*;
+use dustc_middle::ty::cast::CastTy;
+use dustc_middle::ty::subst::GenericArgKind;
+use dustc_middle::ty::{
     self, adjustment::PointerCast, Instance, InstanceDef, Ty, TyCtxt, TypeAndMut,
 };
-use rustc_middle::ty::{Binder, TraitPredicate, TraitRef};
-use rustc_span::{sym, Span, Symbol};
-use rustc_trait_selection::traits::error_reporting::InferCtxtExt;
-use rustc_trait_selection::traits::{self, SelectionContext, TraitEngine};
+use dustc_middle::ty::{Binder, TraitPredicate, TraitRef};
+use dustc_span::{sym, Span, Symbol};
+use dustc_trait_selection::traits::error_reporting::InferCtxtExt;
+use dustc_trait_selection::traits::{self, SelectionContext, TraitEngine};
 
 use std::mem;
 use std::ops::Deref;
@@ -325,7 +325,7 @@ impl Validator<'mir, 'tcx> {
 
             Status::Unstable(gate) if self.tcx.features().enabled(gate) => {
                 let unstable_in_stable = self.ccx.is_const_stable_const_fn()
-                    && !super::rustc_allow_const_fn_unstable(
+                    && !super::dustc_allow_const_fn_unstable(
                         self.tcx,
                         self.def_id().to_def_id(),
                         gate,
@@ -815,7 +815,7 @@ impl Visitor<'tcx> for Validator<'mir, 'tcx> {
 
     #[instrument(level = "debug", skip(self))]
     fn visit_terminator(&mut self, terminator: &Terminator<'tcx>, location: Location) {
-        use rustc_target::spec::abi::Abi::RustIntrinsic;
+        use dustc_target::spec::abi::Abi::DustIntrinsic;
 
         self.super_terminator(terminator, location);
 
@@ -904,7 +904,7 @@ impl Visitor<'tcx> for Validator<'mir, 'tcx> {
                     return;
                 }
 
-                let is_intrinsic = tcx.fn_sig(callee).abi() == RustIntrinsic;
+                let is_intrinsic = tcx.fn_sig(callee).abi() == DustIntrinsic;
 
                 // HACK: This is to "unstabilize" the `transmute` intrinsic
                 // within const fns. `transmute` is allowed in all other const contexts.
@@ -929,7 +929,7 @@ impl Visitor<'tcx> for Validator<'mir, 'tcx> {
                     }
 
                     // Calling an unstable function *always* requires that the corresponding gate
-                    // be enabled, even if the function has `#[rustc_allow_const_fn_unstable(the_gate)]`.
+                    // be enabled, even if the function has `#[dustc_allow_const_fn_unstable(the_gate)]`.
                     if !tcx.features().declared_lib_features.iter().any(|&(sym, _)| sym == gate) {
                         self.check_op(ops::FnCallUnstable(callee, Some(gate)));
                         return;
@@ -944,8 +944,8 @@ impl Visitor<'tcx> for Validator<'mir, 'tcx> {
 
                     // Otherwise, we are something const-stable calling a const-unstable fn.
 
-                    if super::rustc_allow_const_fn_unstable(tcx, caller, gate) {
-                        trace!("rustc_allow_const_fn_unstable gate active");
+                    if super::dustc_allow_const_fn_unstable(tcx, caller, gate) {
+                        trace!("dustc_allow_const_fn_unstable gate active");
                         return;
                     }
 
@@ -954,7 +954,7 @@ impl Visitor<'tcx> for Validator<'mir, 'tcx> {
                 }
 
                 // FIXME(ecstaticmorse); For compatibility, we consider `unstable` callees that
-                // have no `rustc_const_stable` attributes to be const-unstable as well. This
+                // have no `dustc_const_stable` attributes to be const-unstable as well. This
                 // should be fixed later.
                 let callee_is_unstable_unmarked = tcx.lookup_const_stability(callee).is_none()
                     && tcx.lookup_stability(callee).map_or(false, |s| s.level.is_unstable());
@@ -962,7 +962,7 @@ impl Visitor<'tcx> for Validator<'mir, 'tcx> {
                     trace!("callee_is_unstable_unmarked");
                     // We do not use `const` modifiers for intrinsic "functions", as intrinsics are
                     // `extern` funtions, and these have no way to get marked `const`. So instead we
-                    // use `rustc_const_(un)stable` attributes to mean that the intrinsic is `const`
+                    // use `dustc_const_(un)stable` attributes to mean that the intrinsic is `const`
                     if self.ccx.is_const_stable_const_fn() || is_intrinsic {
                         self.check_op(ops::FnCallUnstable(callee, None));
                         return;
@@ -1092,13 +1092,13 @@ fn emit_unstable_in_stable_error(ccx: &ConstCx<'_, '_>, span: Span, gate: Symbol
         .span_suggestion(
             attr_span,
             "if it is not part of the public API, make this function unstably const",
-            concat!(r#"#[rustc_const_unstable(feature = "...", issue = "...")]"#, '\n').to_owned(),
+            concat!(r#"#[dustc_const_unstable(feature = "...", issue = "...")]"#, '\n').to_owned(),
             Applicability::HasPlaceholders,
         )
         .span_suggestion(
             attr_span,
-            "otherwise `#[rustc_allow_const_fn_unstable]` can be used to bypass stability checks",
-            format!("#[rustc_allow_const_fn_unstable({})]\n", gate),
+            "otherwise `#[dustc_allow_const_fn_unstable]` can be used to bypass stability checks",
+            format!("#[dustc_allow_const_fn_unstable({})]\n", gate),
             Applicability::MaybeIncorrect,
         )
         .emit();

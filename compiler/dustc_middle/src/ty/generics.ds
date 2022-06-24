@@ -1,12 +1,12 @@
 use crate::middle::resolve_lifetime::ObjectLifetimeDefault;
 use crate::ty;
 use crate::ty::subst::{Subst, SubstsRef};
-use rustc_ast as ast;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_span::symbol::Symbol;
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_span::symbol::Symbol;
+use dustc_span::Span;
 
 use super::{EarlyBoundRegion, InstantiatedPredicates, ParamConst, ParamTy, Predicate, TyCtxt};
 

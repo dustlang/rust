@@ -1,11 +1,11 @@
 use crate::utils::{match_trait_method, path_to_local_id, paths, snippet, span_lint_and_sugg, SpanlessEq};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::{Expr, ExprKind, PatKind, UnOp};
-use rustc_lint::LateContext;
-use rustc_middle::ty::TyS;
-use rustc_span::symbol::sym;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::{Expr, ExprKind, PatKind, UnOp};
+use dustc_lint::LateContext;
+use dustc_middle::ty::TyS;
+use dustc_span::symbol::sym;
 
 use super::MANUAL_FILTER_MAP;
 use super::MANUAL_FIND_MAP;

@@ -5,8 +5,8 @@ use super::Subtype;
 
 use crate::infer::combine::ConstEquateRelation;
 use crate::traits::ObligationCause;
-use rustc_middle::ty::relate::{Relate, RelateResult, TypeRelation};
-use rustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_middle::ty::relate::{Relate, RelateResult, TypeRelation};
+use dustc_middle::ty::{self, Ty, TyCtxt};
 
 /// "Greatest lower bound" (common subtype)
 pub struct Glb<'combine, 'infcx, 'tcx> {

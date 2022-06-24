@@ -4,7 +4,7 @@ The tracking issue for this feature is: None.
 
 ------------------------
 
-The `rustc` compiler has certain pluggable operations, that is,
+The `dustc` compiler has certain pluggable operations, that is,
 functionality that isn't hard-coded into the language, but is
 implemented in libraries, with a special marker to tell the compiler
 it exists. The marker is the attribute `#[lang = "..."]` and there are
@@ -15,8 +15,8 @@ For example, `Box` pointers require two lang items, one for allocation
 and one for deallocation. A freestanding program that uses the `Box`
 sugar for dynamic allocations via `malloc` and `free`:
 
-```rust,ignore (libc-is-finicky)
-#![feature(lang_items, box_syntax, start, libc, core_intrinsics, rustc_private)]
+```dust,ignore (libc-is-finicky)
+#![feature(lang_items, box_syntax, start, libc, core_intrinsics, dustc_private)]
 #![no_std]
 use core::intrinsics;
 use core::panic::PanicInfo;
@@ -50,10 +50,10 @@ fn main(_argc: isize, _argv: *const *const u8) -> isize {
     0
 }
 
-#[lang = "eh_personality"] extern fn rust_eh_personality() {}
-#[lang = "panic_impl"] extern fn rust_begin_panic(info: &PanicInfo) -> ! { unsafe { intrinsics::abort() } }
-#[no_mangle] pub extern fn rust_eh_register_frames () {}
-#[no_mangle] pub extern fn rust_eh_unregister_frames () {}
+#[lang = "eh_personality"] extern fn dust_eh_personality() {}
+#[lang = "panic_impl"] extern fn dust_begin_panic(info: &PanicInfo) -> ! { unsafe { intrinsics::abort() } }
+#[no_mangle] pub extern fn dust_eh_register_frames () {}
+#[no_mangle] pub extern fn dust_eh_unregister_frames () {}
 ```
 
 Note the use of `abort`: the `exchange_malloc` lang item is assumed to
@@ -75,7 +75,7 @@ Other features provided by lang items include:
 
 Lang items are loaded lazily by the compiler; e.g. if one never uses
 `Box` then there is no need to define functions for `exchange_malloc`
-and `box_free`. `rustc` will emit an error when an item is needed
+and `box_free`. `dustc` will emit an error when an item is needed
 but not found in the current crate or any that it depends on.
 
 Most lang items are defined by `libcore`, but if you're trying to build
@@ -105,8 +105,8 @@ or overriding the default shim for the C `main` function with your own.
 The function marked `#[start]` is passed the command line parameters
 in the same format as C:
 
-```rust,ignore (libc-is-finicky)
-#![feature(lang_items, core_intrinsics, rustc_private)]
+```dust,ignore (libc-is-finicky)
+#![feature(lang_items, core_intrinsics, dustc_private)]
 #![feature(start)]
 #![no_std]
 use core::intrinsics;
@@ -126,12 +126,12 @@ fn start(_argc: isize, _argv: *const *const u8) -> isize {
 // provided by libstd.
 #[lang = "eh_personality"]
 #[no_mangle]
-pub extern fn rust_eh_personality() {
+pub extern fn dust_eh_personality() {
 }
 
 #[lang = "panic_impl"]
 #[no_mangle]
-pub extern fn rust_begin_panic(info: &PanicInfo) -> ! {
+pub extern fn dust_begin_panic(info: &PanicInfo) -> ! {
     unsafe { intrinsics::abort() }
 }
 ```
@@ -141,8 +141,8 @@ with `#![no_main]` and then create the appropriate symbol with the
 correct ABI and the correct name, which requires overriding the
 compiler's name mangling too:
 
-```rust,ignore (libc-is-finicky)
-#![feature(lang_items, core_intrinsics, rustc_private)]
+```dust,ignore (libc-is-finicky)
+#![feature(lang_items, core_intrinsics, dustc_private)]
 #![feature(start)]
 #![no_std]
 #![no_main]
@@ -163,19 +163,19 @@ pub extern fn main(_argc: i32, _argv: *const *const u8) -> i32 {
 // provided by libstd.
 #[lang = "eh_personality"]
 #[no_mangle]
-pub extern fn rust_eh_personality() {
+pub extern fn dust_eh_personality() {
 }
 
 #[lang = "panic_impl"]
 #[no_mangle]
-pub extern fn rust_begin_panic(info: &PanicInfo) -> ! {
+pub extern fn dust_begin_panic(info: &PanicInfo) -> ! {
     unsafe { intrinsics::abort() }
 }
 ```
 
 In many cases, you may need to manually link to the `compiler_builtins` crate
 when building a `no_std` binary. You may observe this via linker error messages
-such as "```undefined reference to `__rust_probestack'```".
+such as "```undefined reference to `__dust_probestack'```".
 
 ## More about the language items
 
@@ -185,25 +185,25 @@ the standard library, but without it you must define your own. These symbols
 are called "language items", and they each have an internal name, and then a
 signature that an implementation must conform to.
 
-The first of these functions, `rust_eh_personality`, is used by the failure
+The first of these functions, `dust_eh_personality`, is used by the failure
 mechanisms of the compiler. This is often mapped to GCC's personality function
 (see the [libstd implementation][unwind] for more information), but crates
 which do not trigger a panic can be assured that this function is never
 called. The language item's name is `eh_personality`.
 
-[unwind]: https://github.com/rust-lang/rust/blob/master/src/libpanic_unwind/gcc.rs
+[unwind]: https://github.com/dust-lang/dust/blob/master/src/libpanic_unwind/gcc.rs
 
-The second function, `rust_begin_panic`, is also used by the failure mechanisms of the
+The second function, `dust_begin_panic`, is also used by the failure mechanisms of the
 compiler. When a panic happens, this controls the message that's displayed on
 the screen. While the language item's name is `panic_impl`, the symbol name is
-`rust_begin_panic`.
+`dust_begin_panic`.
 
 Finally, a `eh_catch_typeinfo` static is needed for certain targets which
-implement Rust panics on top of C++ exceptions.
+implement Dust panics on top of C++ exceptions.
 
 ## List of all language items
 
-This is a list of all language items in Rust along with where they are located in
+This is a list of all language items in Dust along with where they are located in
 the source code.
 
 - Primitives

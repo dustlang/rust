@@ -2,18 +2,18 @@ use std::cmp;
 
 use crate::utils::{is_copy, is_self_ty, snippet, span_lint_and_sugg};
 use if_chain::if_chain;
-use rustc_ast::attr;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_hir::intravisit::FnKind;
-use rustc_hir::{BindingAnnotation, Body, FnDecl, HirId, Impl, ItemKind, MutTy, Mutability, Node, PatKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::{sym, Span};
-use rustc_target::abi::LayoutOf;
-use rustc_target::spec::abi::Abi;
-use rustc_target::spec::Target;
+use dustc_ast::attr;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_hir::intravisit::FnKind;
+use dustc_hir::{BindingAnnotation, Body, FnDecl, HirId, Impl, ItemKind, MutTy, Mutability, Node, PatKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::{sym, Span};
+use dustc_target::abi::LayoutOf;
+use dustc_target::spec::abi::Abi;
+use dustc_target::spec::Target;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for functions taking arguments by reference, where
@@ -40,12 +40,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// // Bad
     /// fn foo(v: &u32) {}
     /// ```
     ///
-    /// ```rust
+    /// ```dust
     /// // Better
     /// fn foo(v: u32) {}
     /// ```
@@ -67,14 +67,14 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// #[derive(Clone, Copy)]
     /// struct TooLarge([u8; 2048]);
     ///
     /// // Bad
     /// fn foo(v: TooLarge) {}
     /// ```
-    /// ```rust
+    /// ```dust
     /// #[derive(Clone, Copy)]
     /// struct TooLarge([u8; 2048]);
     ///
@@ -225,7 +225,7 @@ impl<'tcx> LateLintPass<'tcx> for PassByRefOrValue {
 
         match kind {
             FnKind::ItemFn(.., header, _) => {
-                if header.abi != Abi::Rust {
+                if header.abi != Abi::Dust {
                     return;
                 }
                 let attrs = cx.tcx.hir().attrs(hir_id);

@@ -1,16 +1,16 @@
 use super::{AnonymousLifetimeMode, ImplTraitContext, LoweringContext, ParamMode};
 use super::{GenericArgsCtor, ParenthesizedGenericArgs};
 
-use rustc_ast::{self as ast, *};
-use rustc_errors::{struct_span_err, Applicability};
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, PartialRes, Res};
-use rustc_hir::def_id::DefId;
-use rustc_hir::GenericArg;
-use rustc_session::lint::builtin::ELIDED_LIFETIMES_IN_PATHS;
-use rustc_session::lint::BuiltinLintDiagnostics;
-use rustc_span::symbol::Ident;
-use rustc_span::Span;
+use dustc_ast::{self as ast, *};
+use dustc_errors::{struct_span_err, Applicability};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, PartialRes, Res};
+use dustc_hir::def_id::DefId;
+use dustc_hir::GenericArg;
+use dustc_session::lint::builtin::ELIDED_LIFETIMES_IN_PATHS;
+use dustc_session::lint::BuiltinLintDiagnostics;
+use dustc_span::symbol::Ident;
+use dustc_span::Span;
 
 use smallvec::smallvec;
 use tracing::debug;
@@ -311,7 +311,7 @@ impl<'a, 'hir> LoweringContext<'a, 'hir> {
                             E0726,
                             "implicit elided lifetime not allowed here"
                         );
-                        rustc_errors::add_elided_lifetime_in_path_suggestion(
+                        dustc_errors::add_elided_lifetime_in_path_suggestion(
                             &self.sess.source_map(),
                             &mut err,
                             expected_lifetimes,

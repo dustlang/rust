@@ -1,29 +1,29 @@
-use rustc_ast::mut_visit::{visit_clobber, MutVisitor, *};
-use rustc_ast::ptr::P;
-use rustc_ast::{self as ast, AttrVec, BlockCheckMode};
-use rustc_codegen_ssa::traits::CodegenBackend;
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_ast::mut_visit::{visit_clobber, MutVisitor, *};
+use dustc_ast::ptr::P;
+use dustc_ast::{self as ast, AttrVec, BlockCheckMode};
+use dustc_codegen_ssa::traits::CodegenBackend;
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
 #[cfg(parallel_compiler)]
-use rustc_data_structures::jobserver;
-use rustc_data_structures::stable_hasher::StableHasher;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::registry::Registry;
-use rustc_metadata::dynamic_lib::DynamicLibrary;
+use dustc_data_structures::jobserver;
+use dustc_data_structures::stable_hasher::StableHasher;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::registry::Registry;
+use dustc_metadata::dynamic_lib::DynamicLibrary;
 #[cfg(parallel_compiler)]
-use rustc_middle::ty::tls;
-use rustc_resolve::{self, Resolver};
-use rustc_session as session;
-use rustc_session::config::{self, CrateType};
-use rustc_session::config::{ErrorOutputType, Input, OutputFilenames};
-use rustc_session::lint::{self, BuiltinLintDiagnostics, LintBuffer};
-use rustc_session::parse::CrateConfig;
-use rustc_session::CrateDisambiguator;
-use rustc_session::{early_error, filesearch, output, DiagnosticOutput, Session};
-use rustc_span::edition::Edition;
-use rustc_span::lev_distance::find_best_match_for_name;
-use rustc_span::source_map::FileLoader;
-use rustc_span::symbol::{sym, Symbol};
+use dustc_middle::ty::tls;
+use dustc_resolve::{self, Resolver};
+use dustc_session as session;
+use dustc_session::config::{self, CrateType};
+use dustc_session::config::{ErrorOutputType, Input, OutputFilenames};
+use dustc_session::lint::{self, BuiltinLintDiagnostics, LintBuffer};
+use dustc_session::parse::CrateConfig;
+use dustc_session::CrateDisambiguator;
+use dustc_session::{early_error, filesearch, output, DiagnosticOutput, Session};
+use dustc_span::edition::Edition;
+use dustc_span::lev_distance::find_best_match_for_name;
+use dustc_span::source_map::FileLoader;
+use dustc_span::symbol::{sym, Symbol};
 use smallvec::SmallVec;
 use std::env;
 use std::env::consts::{DLL_PREFIX, DLL_SUFFIX};
@@ -106,7 +106,7 @@ const STACK_SIZE: usize = 8 * 1024 * 1024;
 fn get_stack_size() -> Option<usize> {
     // FIXME: Hacks on hacks. If the env is trying to override the stack size
     // then *don't* set it explicitly.
-    env::var_os("RUST_MIN_STACK").is_none().then_some(STACK_SIZE)
+    env::var_os("DUST_MIN_STACK").is_none().then_some(STACK_SIZE)
 }
 
 /// Like a `thread::Builder::spawn` followed by a `join()`, but avoids the need
@@ -141,7 +141,7 @@ pub fn setup_callbacks_and_run_in_thread_pool_with_globals<F: FnOnce() -> R + Se
     stderr: &Option<Arc<Mutex<Vec<u8>>>>,
     f: F,
 ) -> R {
-    let mut cfg = thread::Builder::new().name("rustc".to_string());
+    let mut cfg = thread::Builder::new().name("dustc".to_string());
 
     if let Some(size) = get_stack_size() {
         cfg = cfg.stack_size(size);
@@ -150,7 +150,7 @@ pub fn setup_callbacks_and_run_in_thread_pool_with_globals<F: FnOnce() -> R + Se
     crate::callbacks::setup_callbacks();
 
     let main_handler = move || {
-        rustc_span::with_session_globals(edition, || {
+        dustc_span::with_session_globals(edition, || {
             io::set_output_capture(stderr.clone());
             f()
         })
@@ -164,18 +164,18 @@ pub fn setup_callbacks_and_run_in_thread_pool_with_globals<F: FnOnce() -> R + Se
 /// Must only be called when a deadlock is about to happen.
 #[cfg(parallel_compiler)]
 unsafe fn handle_deadlock() {
-    let registry = rustc_rayon_core::Registry::current();
+    let registry = dustc_rayon_core::Registry::current();
 
     let context = tls::get_tlv();
     assert!(context != 0);
-    rustc_data_structures::sync::assert_sync::<tls::ImplicitCtxt<'_, '_>>();
+    dustc_data_structures::sync::assert_sync::<tls::ImplicitCtxt<'_, '_>>();
     let icx: &tls::ImplicitCtxt<'_, '_> = &*(context as *const tls::ImplicitCtxt<'_, '_>);
 
-    let session_globals = rustc_span::SESSION_GLOBALS.with(|sg| sg as *const _);
+    let session_globals = dustc_span::SESSION_GLOBALS.with(|sg| sg as *const _);
     let session_globals = &*session_globals;
     thread::spawn(move || {
         tls::enter_context(icx, |_| {
-            rustc_span::SESSION_GLOBALS
+            dustc_span::SESSION_GLOBALS
                 .set(session_globals, || tls::with(|tcx| tcx.queries.deadlock(tcx, &registry)))
         });
     });
@@ -191,7 +191,7 @@ pub fn setup_callbacks_and_run_in_thread_pool_with_globals<F: FnOnce() -> R + Se
     crate::callbacks::setup_callbacks();
 
     let mut config = rayon::ThreadPoolBuilder::new()
-        .thread_name(|_| "rustc".to_string())
+        .thread_name(|_| "dustc".to_string())
         .acquire_thread_handler(jobserver::acquire_thread)
         .release_thread_handler(jobserver::release_thread)
         .num_threads(threads)
@@ -203,13 +203,13 @@ pub fn setup_callbacks_and_run_in_thread_pool_with_globals<F: FnOnce() -> R + Se
 
     let with_pool = move |pool: &rayon::ThreadPool| pool.install(f);
 
-    rustc_span::with_session_globals(edition, || {
-        rustc_span::SESSION_GLOBALS.with(|session_globals| {
+    dustc_span::with_session_globals(edition, || {
+        dustc_span::SESSION_GLOBALS.with(|session_globals| {
             // The main handler runs for each Rayon worker thread and sets up
-            // the thread local rustc uses. `session_globals` is captured and set
+            // the thread local dustc uses. `session_globals` is captured and set
             // on the new threads.
             let main_handler = move |thread: rayon::ThreadBuilder| {
-                rustc_span::SESSION_GLOBALS.set(session_globals, || {
+                dustc_span::SESSION_GLOBALS.set(session_globals, || {
                     io::set_output_capture(stderr.clone());
                     thread.run()
                 })
@@ -226,7 +226,7 @@ fn load_backend_from_dylib(path: &Path) -> fn() -> Box<dyn CodegenBackend> {
         early_error(ErrorOutputType::default(), &err);
     });
     unsafe {
-        match lib.symbol("__rustc_codegen_backend") {
+        match lib.symbol("__dustc_codegen_backend") {
             Ok(f) => {
                 mem::forget(lib);
                 mem::transmute::<*mut u8, _>(f)
@@ -234,7 +234,7 @@ fn load_backend_from_dylib(path: &Path) -> fn() -> Box<dyn CodegenBackend> {
             Err(e) => {
                 let err = format!(
                     "couldn't load codegen backend as it \
-                                   doesn't export the `__rustc_codegen_backend` \
+                                   doesn't export the `__dustc_codegen_backend` \
                                    symbol: {:?}",
                     e
                 );
@@ -275,23 +275,23 @@ pub fn get_codegen_backend(sopts: &config::Options) -> Box<dyn CodegenBackend> {
     unsafe { LOAD() }
 }
 
-// This is used for rustdoc, but it uses similar machinery to codegen backend
+// This is used for dustdoc, but it uses similar machinery to codegen backend
 // loading, so we leave the code here. It is potentially useful for other tools
-// that want to invoke the rustc binary while linking to rustc as well.
-pub fn rustc_path<'a>() -> Option<&'a Path> {
-    static RUSTC_PATH: SyncOnceCell<Option<PathBuf>> = SyncOnceCell::new();
+// that want to invoke the dustc binary while linking to dustc as well.
+pub fn dustc_path<'a>() -> Option<&'a Path> {
+    static DUSTC_PATH: SyncOnceCell<Option<PathBuf>> = SyncOnceCell::new();
 
-    const BIN_PATH: &str = env!("RUSTC_INSTALL_BINDIR");
+    const BIN_PATH: &str = env!("DUSTC_INSTALL_BINDIR");
 
-    RUSTC_PATH.get_or_init(|| get_rustc_path_inner(BIN_PATH)).as_ref().map(|v| &**v)
+    DUSTC_PATH.get_or_init(|| get_dustc_path_inner(BIN_PATH)).as_ref().map(|v| &**v)
 }
 
-fn get_rustc_path_inner(bin_path: &str) -> Option<PathBuf> {
+fn get_dustc_path_inner(bin_path: &str) -> Option<PathBuf> {
     sysroot_candidates().iter().find_map(|sysroot| {
         let candidate = sysroot.join(bin_path).join(if cfg!(target_os = "windows") {
-            "rustc.exe"
+            "dustc.exe"
         } else {
-            "rustc"
+            "dustc"
         });
         candidate.exists().then_some(candidate)
     })
@@ -305,11 +305,11 @@ fn sysroot_candidates() -> Vec<PathBuf> {
         // use `parent` twice to chop off the file name and then also the
         // directory containing the dll which should be either `lib` or `bin`.
         if let Some(path) = dll.parent().and_then(|p| p.parent()) {
-            // The original `path` pointed at the `rustc_driver` crate's dll.
+            // The original `path` pointed at the `dustc_driver` crate's dll.
             // Now that dll should only be in one of two locations. The first is
             // in the compiler's libdir, for example `$sysroot/lib/*.dll`. The
             // other is the target's libdir, for example
-            // `$sysroot/lib/rustlib/$target/lib/*.dll`.
+            // `$sysroot/lib/dustlib/$target/lib/*.dll`.
             //
             // We don't know which, so let's assume that if our `path` above
             // ends in `$target` we *could* be in the target libdir, and always
@@ -319,7 +319,7 @@ fn sysroot_candidates() -> Vec<PathBuf> {
             if path.ends_with(target) {
                 sysroot_candidates.extend(
                     path.parent() // chop off `$target`
-                        .and_then(|p| p.parent()) // chop off `rustlib`
+                        .and_then(|p| p.parent()) // chop off `dustlib`
                         .and_then(|p| p.parent()) // chop off `lib`
                         .map(|s| s.to_owned()),
                 );
@@ -393,7 +393,7 @@ fn sysroot_candidates() -> Vec<PathBuf> {
 pub fn get_builtin_codegen_backend(backend_name: &str) -> fn() -> Box<dyn CodegenBackend> {
     match backend_name {
         #[cfg(feature = "llvm")]
-        "llvm" => rustc_codegen_llvm::LlvmCodegenBackend::new,
+        "llvm" => dustc_codegen_llvm::LlvmCodegenBackend::new,
         _ => get_codegen_sysroot(backend_name),
     }
 }
@@ -451,7 +451,7 @@ pub fn get_codegen_sysroot(backend_name: &str) -> fn() -> Box<dyn CodegenBackend
     let mut file: Option<PathBuf> = None;
 
     let expected_name =
-        format!("rustc_codegen_{}-{}", backend_name, release_str().expect("CFG_RELEASE"));
+        format!("dustc_codegen_{}-{}", backend_name, release_str().expect("CFG_RELEASE"));
     for entry in d.filter_map(|e| e.ok()) {
         let path = entry.path();
         let filename = match path.file_name().and_then(|s| s.to_str()) {
@@ -652,7 +652,7 @@ pub fn build_output_filenames(
                 .opts
                 .crate_name
                 .clone()
-                .or_else(|| rustc_attr::find_crate_name(&sess, attrs).map(|n| n.to_string()))
+                .or_else(|| dustc_attr::find_crate_name(&sess, attrs).map(|n| n.to_string()))
                 .unwrap_or_else(|| input.filestem().to_owned());
 
             OutputFilenames::new(
@@ -729,7 +729,7 @@ pub fn non_durable_rename(src: &Path, dst: &Path) -> std::io::Result<()> {
 ///    Solving this may require `!` to implement every trait, which relies on the an even more
 ///    ambitious form of the closed RFC #1637. See also [#34511].
 ///
-/// [#34511]: https://github.com/rust-lang/rust/issues/34511#issuecomment-322340401
+/// [#34511]: https://github.com/dust-lang/dust/issues/34511#issuecomment-322340401
 pub struct ReplaceBodyWithLoop<'a, 'b> {
     within_static_or_const: bool,
     nested_blocks: Option<Vec<ast::Block>>,
@@ -842,7 +842,7 @@ impl<'a> MutVisitor for ReplaceBodyWithLoop<'a, '_> {
                 stmts: s.into_iter().collect(),
                 rules,
                 id: resolver.next_node_id(),
-                span: rustc_span::DUMMY_SP,
+                span: dustc_span::DUMMY_SP,
                 tokens: None,
             }
         }
@@ -851,7 +851,7 @@ impl<'a> MutVisitor for ReplaceBodyWithLoop<'a, '_> {
             let expr = P(ast::Expr {
                 id: resolver.next_node_id(),
                 kind: ast::ExprKind::Block(P(b), None),
-                span: rustc_span::DUMMY_SP,
+                span: dustc_span::DUMMY_SP,
                 attrs: AttrVec::new(),
                 tokens: None,
             });
@@ -859,7 +859,7 @@ impl<'a> MutVisitor for ReplaceBodyWithLoop<'a, '_> {
             ast::Stmt {
                 id: resolver.next_node_id(),
                 kind: ast::StmtKind::Expr(expr),
-                span: rustc_span::DUMMY_SP,
+                span: dustc_span::DUMMY_SP,
             }
         }
 
@@ -867,14 +867,14 @@ impl<'a> MutVisitor for ReplaceBodyWithLoop<'a, '_> {
         let loop_expr = P(ast::Expr {
             kind: ast::ExprKind::Loop(P(empty_block), None),
             id: self.resolver.next_node_id(),
-            span: rustc_span::DUMMY_SP,
+            span: dustc_span::DUMMY_SP,
             attrs: AttrVec::new(),
             tokens: None,
         });
 
         let loop_stmt = ast::Stmt {
             id: self.resolver.next_node_id(),
-            span: rustc_span::DUMMY_SP,
+            span: dustc_span::DUMMY_SP,
             kind: ast::StmtKind::Expr(loop_expr),
         };
 
@@ -914,7 +914,7 @@ impl<'a> MutVisitor for ReplaceBodyWithLoop<'a, '_> {
     }
 }
 
-/// Returns a version string such as "rustc 1.46.0 (04488afe3 2020-08-24)"
+/// Returns a version string such as "dustc 1.46.0 (04488afe3 2020-08-24)"
 pub fn version_str() -> Option<&'static str> {
     option_env!("CFG_VERSION")
 }
@@ -924,12 +924,12 @@ pub fn release_str() -> Option<&'static str> {
     option_env!("CFG_RELEASE")
 }
 
-/// Returns the full SHA1 hash of HEAD of the Git repo from which rustc was built.
+/// Returns the full SHA1 hash of HEAD of the Git repo from which dustc was built.
 pub fn commit_hash_str() -> Option<&'static str> {
     option_env!("CFG_VER_HASH")
 }
 
-/// Returns the "commit date" of HEAD of the Git repo from which rustc was built as a static string.
+/// Returns the "commit date" of HEAD of the Git repo from which dustc was built as a static string.
 pub fn commit_date_str() -> Option<&'static str> {
     option_env!("CFG_VER_DATE")
 }

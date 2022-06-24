@@ -1,16 +1,16 @@
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::{CrateNum, DefId, CRATE_DEF_INDEX};
-use rustc_middle::middle::privacy::{AccessLevel, AccessLevels};
-use rustc_middle::ty::{TyCtxt, Visibility};
-use rustc_span::symbol::sym;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::{CrateNum, DefId, CRATE_DEF_INDEX};
+use dustc_middle::middle::privacy::{AccessLevel, AccessLevels};
+use dustc_middle::ty::{TyCtxt, Visibility};
+use dustc_span::symbol::sym;
 
 use crate::clean::{AttributesExt, NestedAttributesExt};
 
-// FIXME: this may not be exhaustive, but is sufficient for rustdocs current uses
+// FIXME: this may not be exhaustive, but is sufficient for dustdocs current uses
 
-/// Similar to `librustc_privacy::EmbargoVisitor`, but also takes
-/// specific rustdoc annotations into account (i.e., `doc(hidden)`)
+/// Similar to `libdustc_privacy::EmbargoVisitor`, but also takes
+/// specific dustdoc annotations into account (i.e., `doc(hidden)`)
 crate struct LibEmbargoVisitor<'a, 'tcx> {
     tcx: TyCtxt<'tcx>,
     // Accessibility levels for reachable nodes

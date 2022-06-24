@@ -1,13 +1,13 @@
 # The `#[doc]` attribute
 
-The `#[doc]` attribute lets you control various aspects of how `rustdoc` does
+The `#[doc]` attribute lets you control various aspects of how `dustdoc` does
 its job.
 
 The most basic function of `#[doc]` is to handle the actual documentation
 text. That is, `///` is syntax sugar for `#[doc]`. This means that these two
 are the same:
 
-```rust,no_run
+```dust,no_run
 /// This is a doc comment.
 #[doc = " This is a doc comment."]
 # fn f() {}
@@ -19,7 +19,7 @@ In most cases, `///` is easier to use than `#[doc]`. One case where the latter i
 when generating documentation in macros; the `collapse-docs` pass will combine multiple
 `#[doc]` attributes into a single doc comment, letting you generate code like this:
 
-```rust,no_run
+```dust,no_run
 #[doc = "This is"]
 #[doc = " a "]
 #[doc = "doc comment"]
@@ -28,7 +28,7 @@ when generating documentation in macros; the `collapse-docs` pass will combine m
 
 Which can feel more flexible. Note that this would generate this:
 
-```rust,no_run
+```dust,no_run
 #[doc = "This is\n a \ndoc comment"]
 # fn f() {}
 ```
@@ -48,7 +48,7 @@ These options control how the docs look at a crate level.
 
 This form of the `doc` attribute lets you control the favicon of your docs.
 
-```rust,no_run
+```dust,no_run
 #![doc(html_favicon_url = "https://example.com/favicon.ico")]
 ```
 
@@ -62,7 +62,7 @@ If you don't use this attribute, there will be no favicon.
 This form of the `doc` attribute lets you control the logo in the upper
 left hand side of the docs.
 
-```rust,no_run
+```dust,no_run
 #![doc(html_logo_url = "https://example.com/logo.jpg")]
 ```
 
@@ -76,7 +76,7 @@ If you don't use this attribute, there will be no logo.
 This form of the `doc` attribute lets you control where the "run" buttons
 on your documentation examples make requests to.
 
-```rust,no_run
+```dust,no_run
 #![doc(html_playground_url = "https://playground.example.com/")]
 ```
 
@@ -88,17 +88,17 @@ If you don't use this attribute, there will be no run buttons.
 
 This form of the `doc` attribute is mostly only useful for the standard library;
 When a feature is unstable, an issue number for tracking the feature must be
-given. `rustdoc` uses this number, plus the base URL given here, to link to
+given. `dustdoc` uses this number, plus the base URL given here, to link to
 the tracking issue.
 
-```rust,no_run
-#![doc(issue_tracker_base_url = "https://github.com/rust-lang/rust/issues/")]
+```dust,no_run
+#![doc(issue_tracker_base_url = "https://github.com/dust-lang/dust/issues/")]
 ```
 
 ### `html_root_url`
 
 The `#[doc(html_root_url = "…")]` attribute value indicates the URL for
-generating links to external crates. When rustdoc needs to generate a link to
+generating links to external crates. When dustdoc needs to generate a link to
 an item in an external crate, it will first check if the extern crate has been
 documented locally on-disk, and if so link directly to it. Failing that, it
 will use the URL given by the `--extern-html-root-url` command-line flag if
@@ -106,16 +106,16 @@ available. If that is not available, then it will use the `html_root_url`
 value in the extern crate if it is available. If that is not available, then
 the extern items will not be linked.
 
-```rust,no_run
+```dust,no_run
 #![doc(html_root_url = "https://docs.rs/serde/1.0")]
 ```
 
 ### `html_no_source`
 
-By default, `rustdoc` will include the source code of your program, with links
+By default, `dustdoc` will include the source code of your program, with links
 to it in the docs. But if you include this:
 
-```rust,no_run
+```dust,no_run
 #![doc(html_no_source)]
 ```
 
@@ -123,10 +123,10 @@ it will not.
 
 ### `test(no_crate_inject)`
 
-By default, `rustdoc` will automatically add a line with `extern crate my_crate;` into each doctest.
+By default, `dustdoc` will automatically add a line with `extern crate my_crate;` into each doctest.
 But if you include this:
 
-```rust,no_run
+```dust,no_run
 #![doc(test(no_crate_inject))]
 ```
 
@@ -137,7 +137,7 @@ it will not.
 This form of the `doc` attribute allows you to add arbitrary attributes to all your doctests. For
 example, if you want your doctests to fail if they produce any warnings, you could add this:
 
-```rust,no_run
+```dust,no_run
 #![doc(test(attr(deny(warnings))))]
 ```
 
@@ -149,9 +149,9 @@ they are documented.
 ## `#[doc(no_inline)]`/`#[doc(inline)]`
 
 These attributes are used on `use` statements, and control where the documentation shows
-up. For example, consider this Rust code:
+up. For example, consider this Dust code:
 
-```rust,no_run
+```dust,no_run
 pub use bar::Bar;
 
 /// bar docs
@@ -167,7 +167,7 @@ The documentation will generate a "Re-exports" section, and say `pub use bar::Ba
 
 If we change the `use` line like this:
 
-```rust,no_run
+```dust,no_run
 #[doc(inline)]
 pub use bar::Bar;
 # pub mod bar { pub struct Bar; }
@@ -179,7 +179,7 @@ top level, rather than `pub use`'d.
 
 Let's change our original example, by making `bar` private:
 
-```rust,no_run
+```dust,no_run
 pub use bar::Bar;
 
 /// bar docs
@@ -191,11 +191,11 @@ mod bar {
 ```
 
 Here, because `bar` is not public, `Bar` wouldn't have its own page, so there's nowhere
-to link to. `rustdoc` will inline these definitions, and so we end up in the same case
+to link to. `dustdoc` will inline these definitions, and so we end up in the same case
 as the `#[doc(inline)]` above; `Bar` is in a `Structs` section, as if it were defined at
 the top level. If we add the `no_inline` form of the attribute:
 
-```rust,no_run
+```dust,no_run
 #[doc(no_inline)]
 pub use bar::Bar;
 
@@ -209,7 +209,7 @@ mod bar {
 
 Now we'll have a `Re-exports` line, and `Bar` will not link to anywhere.
 
-One special case: In Rust 2018 and later, if you `pub use` one of your dependencies, `rustdoc` will
+One special case: In Dust 2018 and later, if you `pub use` one of your dependencies, `dustdoc` will
 not eagerly inline it as a module unless you add `#[doc(inline)]`.
 
 ## `#[doc(hidden)]`

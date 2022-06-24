@@ -15,7 +15,7 @@ LL | pub const BEFORE_START: *const u8 = unsafe { (&0u8 as *const u8).offset(-1)
    |
    = note: `#[deny(const_err)]` on by default
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: any use of this value will cause an error
   --> $SRC_DIR/core/src/ptr/const_ptr.rs:LL:COL
@@ -33,7 +33,7 @@ LL | pub const AFTER_END: *const u8 = unsafe { (&0u8 as *const u8).offset(2) };
    | --------------------------------------------------------------------------
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: any use of this value will cause an error
   --> $SRC_DIR/core/src/ptr/const_ptr.rs:LL:COL
@@ -51,7 +51,7 @@ LL | pub const AFTER_ARRAY: *const u8 = unsafe { [0u8; 100].as_ptr().offset(101)
    | ------------------------------------------------------------------------------
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: any use of this value will cause an error
   --> $SRC_DIR/core/src/ptr/const_ptr.rs:LL:COL
@@ -69,7 +69,7 @@ LL | pub const OVERFLOW: *const u16 = unsafe { [0u16; 1].as_ptr().offset(isize::
    | ----------------------------------------------------------------------------------
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: any use of this value will cause an error
   --> $SRC_DIR/core/src/ptr/const_ptr.rs:LL:COL
@@ -87,7 +87,7 @@ LL | pub const UNDERFLOW: *const u16 = unsafe { [0u16; 1].as_ptr().offset(isize:
    | -----------------------------------------------------------------------------------
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: any use of this value will cause an error
   --> $SRC_DIR/core/src/ptr/const_ptr.rs:LL:COL
@@ -105,7 +105,7 @@ LL | pub const OVERFLOW_ADDRESS_SPACE: *const u8 = unsafe { (usize::MAX as *cons
    | ---------------------------------------------------------------------------------------------
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: any use of this value will cause an error
   --> $SRC_DIR/core/src/ptr/const_ptr.rs:LL:COL
@@ -123,7 +123,7 @@ LL | pub const UNDERFLOW_ADDRESS_SPACE: *const u8 = unsafe { (1 as *const u8).of
    | --------------------------------------------------------------------------------------
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: any use of this value will cause an error
   --> $SRC_DIR/core/src/ptr/const_ptr.rs:LL:COL
@@ -141,7 +141,7 @@ LL | pub const ZERO_SIZED_ALLOC: *const u8 = unsafe { [0u8; 0].as_ptr().offset(1
    | -------------------------------------------------------------------------------
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: any use of this value will cause an error
   --> $SRC_DIR/core/src/ptr/mut_ptr.rs:LL:COL
@@ -159,7 +159,7 @@ LL | pub const DANGLING: *const u8 = unsafe { ptr::NonNull::<u8>::dangling().as_
    | ---------------------------------------------------------------------------------------------
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: any use of this value will cause an error
   --> $SRC_DIR/core/src/ptr/const_ptr.rs:LL:COL
@@ -177,7 +177,7 @@ LL | pub const NULL_OFFSET_ZERO: *const u8 = unsafe { ptr::null::<u8>().offset(0
    | -------------------------------------------------------------------------------
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: any use of this value will cause an error
   --> $SRC_DIR/core/src/ptr/const_ptr.rs:LL:COL
@@ -195,7 +195,7 @@ LL | pub const UNDERFLOW_ABS: *const u8 = unsafe { (usize::MAX as *const u8).off
    | ---------------------------------------------------------------------------------------------
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #71800 <https://github.com/rust-lang/rust/issues/71800>
+   = note: for more information, see issue #71800 <https://github.com/dust-lang/dust/issues/71800>
 
 error: aborting due to 11 previous errors
 

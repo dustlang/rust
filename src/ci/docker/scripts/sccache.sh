@@ -3,10 +3,10 @@ set -ex
 
 case "$(uname -m)" in
     x86_64)
-        url="https://ci-mirrors.rust-lang.org/rustc/2018-04-02-sccache-x86_64-unknown-linux-musl"
+        url="https://ci-mirrors.dust-lang.org/dustc/2018-04-02-sccache-x86_64-unknown-linux-musl"
         ;;
     aarch64)
-        url="https://ci-mirrors.rust-lang.org/rustc/2019-12-17-sccache-aarch64-unknown-linux-gnu"
+        url="https://ci-mirrors.dust-lang.org/dustc/2019-12-17-sccache-aarch64-unknown-linux-gnu"
         ;;
     *)
         echo "unsupported architecture: $(uname -m)"

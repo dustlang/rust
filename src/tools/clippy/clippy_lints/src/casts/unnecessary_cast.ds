@@ -1,9 +1,9 @@
-use rustc_ast::{LitFloatType, LitIntType, LitKind};
-use rustc_errors::Applicability;
-use rustc_hir::{Expr, ExprKind, Lit, UnOp};
-use rustc_lint::{LateContext, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty::{self, FloatTy, InferTy, Ty};
+use dustc_ast::{LitFloatType, LitIntType, LitKind};
+use dustc_errors::Applicability;
+use dustc_hir::{Expr, ExprKind, Lit, UnOp};
+use dustc_lint::{LateContext, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty::{self, FloatTy, InferTy, Ty};
 
 use if_chain::if_chain;
 

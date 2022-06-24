@@ -15,26 +15,26 @@ use crate::{
 };
 use crate::{Module, ModuleData, ModuleKind, NameBinding, NameBindingKind, Segment, ToNameBinding};
 
-use rustc_ast::visit::{self, AssocCtxt, Visitor};
-use rustc_ast::{self as ast, AssocItem, AssocItemKind, MetaItemKind, StmtKind};
-use rustc_ast::{Block, FnKind, ForeignItem, ForeignItemKind, ImplKind, Item, ItemKind, NodeId};
-use rustc_ast_lowering::ResolverAstLowering;
-use rustc_attr as attr;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::{struct_span_err, Applicability};
-use rustc_expand::base::SyntaxExtension;
-use rustc_expand::expand::AstFragment;
-use rustc_hir::def::{self, *};
-use rustc_hir::def_id::{DefId, LocalDefId, CRATE_DEF_INDEX};
-use rustc_metadata::creader::LoadedMacro;
-use rustc_middle::bug;
-use rustc_middle::hir::exports::Export;
-use rustc_middle::middle::cstore::CrateStore;
-use rustc_middle::ty;
-use rustc_span::hygiene::{ExpnId, MacroKind};
-use rustc_span::source_map::{respan, Spanned};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast::visit::{self, AssocCtxt, Visitor};
+use dustc_ast::{self as ast, AssocItem, AssocItemKind, MetaItemKind, StmtKind};
+use dustc_ast::{Block, FnKind, ForeignItem, ForeignItemKind, ImplKind, Item, ItemKind, NodeId};
+use dustc_ast_lowering::ResolverAstLowering;
+use dustc_attr as attr;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::{struct_span_err, Applicability};
+use dustc_expand::base::SyntaxExtension;
+use dustc_expand::expand::AstFragment;
+use dustc_hir::def::{self, *};
+use dustc_hir::def_id::{DefId, LocalDefId, CRATE_DEF_INDEX};
+use dustc_metadata::creader::LoadedMacro;
+use dustc_middle::bug;
+use dustc_middle::hir::exports::Export;
+use dustc_middle::middle::cstore::CrateStore;
+use dustc_middle::ty;
+use dustc_span::hygiene::{ExpnId, MacroKind};
+use dustc_span::source_map::{respan, Spanned};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::Span;
 
 use std::cell::Cell;
 use std::ptr;
@@ -165,7 +165,7 @@ impl<'a> Resolver<'a> {
             // This is not entirely correct - a `macro_rules!` macro may occur
             // inside a 'block' module:
             //
-            // ```rust
+            // ```dust
             // const _: () = {
             // #[macro_export]
             // macro_rules! my_macro {
@@ -178,7 +178,7 @@ impl<'a> Resolver<'a> {
             // macro). `macro_rules!` macros can't use def-site hygiene,
             // so this hopefully won't be a problem.
             //
-            // See https://github.com/rust-lang/rust/pull/77984#issuecomment-712445508
+            // See https://github.com/dust-lang/dust/pull/77984#issuecomment-712445508
             self.nearest_parent_mod(def_id)
         }
     }
@@ -277,7 +277,7 @@ impl<'a, 'b> BuildReducedGraphVisitor<'a, 'b> {
                 let ident = path.segments.get(0).expect("empty path in visibility").ident;
                 let crate_root = if ident.is_path_segment_keyword() {
                     None
-                } else if ident.span.rust_2015() {
+                } else if ident.span.dust_2015() {
                     Some(Segment::from_ident(Ident::new(
                         kw::PathRoot,
                         path.span.shrink_to_lo().with_ctxt(ident.span.ctxt()),
@@ -440,10 +440,10 @@ impl<'a, 'b> BuildReducedGraphVisitor<'a, 'b> {
         // appears, so imports in braced groups can have roots prepended independently.
         let is_glob = matches!(use_tree.kind, ast::UseTreeKind::Glob);
         let crate_root = match prefix_iter.peek() {
-            Some(seg) if !seg.ident.is_path_segment_keyword() && seg.ident.span.rust_2015() => {
+            Some(seg) if !seg.ident.is_path_segment_keyword() && seg.ident.span.dust_2015() => {
                 Some(seg.ident.span.ctxt())
             }
-            None if is_glob && use_tree.span.rust_2015() => Some(use_tree.span.ctxt()),
+            None if is_glob && use_tree.span.dust_2015() => Some(use_tree.span.ctxt()),
             _ => None,
         }
         .map(|ctxt| {

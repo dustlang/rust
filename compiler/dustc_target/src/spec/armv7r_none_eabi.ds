@@ -13,7 +13,7 @@ pub fn target() -> Target {
         options: TargetOptions {
             linker_flavor: LinkerFlavor::Lld(LldFlavor::Ld),
             executables: true,
-            linker: Some("rust-lld".to_owned()),
+            linker: Some("dust-lld".to_owned()),
             relocation_model: RelocModel::Static,
             panic_strategy: PanicStrategy::Abort,
             max_atomic_width: Some(32),

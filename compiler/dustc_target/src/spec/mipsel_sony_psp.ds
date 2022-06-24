@@ -20,7 +20,7 @@ pub fn target() -> Target {
             linker_flavor: LinkerFlavor::Lld(LldFlavor::Ld),
             cpu: "mips2".to_string(),
             executables: true,
-            linker: Some("rust-lld".to_owned()),
+            linker: Some("dust-lld".to_owned()),
             linker_is_gnu: true,
             relocation_model: RelocModel::Static,
 

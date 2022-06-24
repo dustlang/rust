@@ -5,7 +5,7 @@ LL | #![feature(capture_disjoint_fields)]
    |            ^^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #53488 <https://github.com/rust-lang/rust/issues/53488> for more information
+   = note: see issue #53488 <https://github.com/dust-lang/dust/issues/53488> for more information
 
 error[E0596]: cannot borrow `**ref_mref_x` as mutable, as it is behind a `&` reference
   --> $DIR/mut_ref.rs:13:13
@@ -30,4 +30,4 @@ LL |         **mref_ref_x = y;
 
 error: aborting due to 2 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0596`.
+For more information about this error, try `dustc --explain E0596`.

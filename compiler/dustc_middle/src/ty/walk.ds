@@ -3,7 +3,7 @@
 
 use crate::ty;
 use crate::ty::subst::{GenericArg, GenericArgKind};
-use rustc_data_structures::sso::SsoHashSet;
+use dustc_data_structures::sso::SsoHashSet;
 use smallvec::{self, SmallVec};
 
 // The TypeWalker's stack is hot enough that it's worth going to some effort to

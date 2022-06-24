@@ -9,23 +9,23 @@ pub(crate) use self::check_match::check_match;
 
 use crate::thir::util::UserAnnotatedTyHelpers;
 
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
-use rustc_hir::pat_util::EnumerateAndAdjustIterator;
-use rustc_hir::RangeEnd;
-use rustc_index::vec::Idx;
-use rustc_middle::mir::interpret::{get_slice_bytes, ConstValue};
-use rustc_middle::mir::interpret::{ErrorHandled, LitToConstError, LitToConstInput};
-use rustc_middle::mir::UserTypeProjection;
-use rustc_middle::mir::{BorrowKind, Field, Mutability};
-use rustc_middle::ty::subst::{GenericArg, SubstsRef};
-use rustc_middle::ty::{self, AdtDef, DefIdTree, Region, Ty, TyCtxt, UserType};
-use rustc_middle::ty::{
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, CtorOf, DefKind, Res};
+use dustc_hir::pat_util::EnumerateAndAdjustIterator;
+use dustc_hir::RangeEnd;
+use dustc_index::vec::Idx;
+use dustc_middle::mir::interpret::{get_slice_bytes, ConstValue};
+use dustc_middle::mir::interpret::{ErrorHandled, LitToConstError, LitToConstInput};
+use dustc_middle::mir::UserTypeProjection;
+use dustc_middle::mir::{BorrowKind, Field, Mutability};
+use dustc_middle::ty::subst::{GenericArg, SubstsRef};
+use dustc_middle::ty::{self, AdtDef, DefIdTree, Region, Ty, TyCtxt, UserType};
+use dustc_middle::ty::{
     CanonicalUserType, CanonicalUserTypeAnnotation, CanonicalUserTypeAnnotations,
 };
-use rustc_span::{Span, Symbol, DUMMY_SP};
-use rustc_target::abi::VariantIdx;
+use dustc_span::{Span, Symbol, DUMMY_SP};
+use dustc_target::abi::VariantIdx;
 
 use std::cmp::Ordering;
 use std::fmt;
@@ -402,7 +402,7 @@ impl<'a, 'tcx> PatCtxt<'a, 'tcx> {
         // ```
         //
         // the type assigned to `Some(n)` in `unadjusted_pat` would be `Option<i32>` (this is
-        // determined in rustc_typeck::check::match). The adjustments would be
+        // determined in dustc_typeck::check::match). The adjustments would be
         //
         // `vec![&&Option<i32>, &Option<i32>]`.
         //
@@ -1066,21 +1066,21 @@ crate fn compare_const_vals<'tcx>(
     let b_bits = b.try_eval_bits(tcx, param_env, ty);
 
     if let (Some(a), Some(b)) = (a_bits, b_bits) {
-        use rustc_apfloat::Float;
+        use dustc_apfloat::Float;
         return match *ty.kind() {
             ty::Float(ty::FloatTy::F32) => {
-                let l = rustc_apfloat::ieee::Single::from_bits(a);
-                let r = rustc_apfloat::ieee::Single::from_bits(b);
+                let l = dustc_apfloat::ieee::Single::from_bits(a);
+                let r = dustc_apfloat::ieee::Single::from_bits(b);
                 l.partial_cmp(&r)
             }
             ty::Float(ty::FloatTy::F64) => {
-                let l = rustc_apfloat::ieee::Double::from_bits(a);
-                let r = rustc_apfloat::ieee::Double::from_bits(b);
+                let l = dustc_apfloat::ieee::Double::from_bits(a);
+                let r = dustc_apfloat::ieee::Double::from_bits(b);
                 l.partial_cmp(&r)
             }
             ty::Int(ity) => {
-                use rustc_middle::ty::layout::IntegerExt;
-                let size = rustc_target::abi::Integer::from_int_ty(&tcx, ity).size();
+                use dustc_middle::ty::layout::IntegerExt;
+                let size = dustc_target::abi::Integer::from_int_ty(&tcx, ity).size();
                 let a = size.sign_extend(a);
                 let b = size.sign_extend(b);
                 Some((a as i128).cmp(&(b as i128)))

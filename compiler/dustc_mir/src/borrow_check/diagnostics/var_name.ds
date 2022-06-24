@@ -1,10 +1,10 @@
 use crate::borrow_check::Upvar;
 use crate::borrow_check::{nll::ToRegionVid, region_infer::RegionInferenceContext};
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_middle::mir::{Body, Local};
-use rustc_middle::ty::{RegionVid, TyCtxt};
-use rustc_span::source_map::Span;
-use rustc_span::symbol::Symbol;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_middle::mir::{Body, Local};
+use dustc_middle::ty::{RegionVid, TyCtxt};
+use dustc_span::source_map::Span;
+use dustc_span::symbol::Symbol;
 
 impl<'tcx> RegionInferenceContext<'tcx> {
     crate fn get_var_name_and_span_for_region(

@@ -1,7 +1,7 @@
 #![feature(stmt_expr_attributes)]
 #![allow(redundant_semicolons, clippy::no_effect)]
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn main() {
     #[clippy::author]
     {

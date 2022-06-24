@@ -2,15 +2,15 @@ use crate::base::ExtCtxt;
 use crate::mbe;
 use crate::mbe::macro_parser::{MatchedNonterminal, MatchedSeq, NamedMatch};
 
-use rustc_ast::mut_visit::{self, MutVisitor};
-use rustc_ast::token::{self, NtTT, Token};
-use rustc_ast::tokenstream::{DelimSpan, TokenStream, TokenTree, TreeAndSpacing};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::{pluralize, PResult};
-use rustc_span::hygiene::{ExpnId, Transparency};
-use rustc_span::symbol::MacroRulesNormalizedIdent;
-use rustc_span::Span;
+use dustc_ast::mut_visit::{self, MutVisitor};
+use dustc_ast::token::{self, NtTT, Token};
+use dustc_ast::tokenstream::{DelimSpan, TokenStream, TokenTree, TreeAndSpacing};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::{pluralize, PResult};
+use dustc_span::hygiene::{ExpnId, Transparency};
+use dustc_span::symbol::MacroRulesNormalizedIdent;
+use dustc_span::Span;
 
 use smallvec::{smallvec, SmallVec};
 use std::mem;
@@ -66,7 +66,7 @@ impl Iterator for Frame {
 ///
 /// For example,
 ///
-/// ```rust
+/// ```dust
 /// macro_rules! foo {
 ///     ($id:ident) => { println!("{}", stringify!($id)); }
 /// }
@@ -239,7 +239,7 @@ pub(super) fn transcribe<'a>(
                         } else {
                             // Other variables are emitted into the output stream as groups with
                             // `Delimiter::None` to maintain parsing priorities.
-                            // `Interpolated` is currenty used for such groups in rustc parser.
+                            // `Interpolated` is currenty used for such groups in dustc parser.
                             marker.visit_span(&mut sp);
                             TokenTree::token(token::Interpolated(nt.clone()), sp)
                         };

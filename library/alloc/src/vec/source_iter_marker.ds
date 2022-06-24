@@ -10,13 +10,13 @@ use super::{AsIntoIter, InPlaceDrop, SpecFromIter, SpecFromIterNested, Vec};
 /// The SourceIter parent trait is necessary for the specializing function to access the allocation
 /// which is to be reused. But it is not sufficient for the specialization to be valid. See
 /// additional bounds on the impl.
-#[rustc_unsafe_specialization_marker]
+#[dustc_unsafe_specialization_marker]
 pub(super) trait SourceIterMarker: SourceIter<Source: AsIntoIter> {}
 
 // The std-internal SourceIter/InPlaceIterable traits are only implemented by chains of
 // Adapter<Adapter<Adapter<IntoIter>>> (all owned by core/std). Additional bounds
 // on the adapter implementations (beyond `impl<I: Trait> Trait for Adapter<I>`) only depend on other
-// traits already marked as specialization traits (Copy, TrustedRandomAccess, FusedIterator).
+// traits already marked as specialization traits (Copy, TdustedRandomAccess, FusedIterator).
 // I.e. the marker does not depend on lifetimes of user-supplied types. Modulo the Copy hole, which
 // several other specializations already depend on.
 impl<T> SourceIterMarker for T where T: SourceIter<Source: AsIntoIter> + InPlaceIterable {}
@@ -68,7 +68,7 @@ where
         // caveat: if they weren't we may not even make it to this point
         debug_assert_eq!(src_buf, src.buf.as_ptr());
         // check InPlaceIterable contract. This is only possible if the iterator advanced the
-        // source pointer at all. If it uses unchecked access via TrustedRandomAccess
+        // source pointer at all. If it uses unchecked access via TdustedRandomAccess
         // then the source pointer will stay in its initial position and we can't use it as reference
         if src.ptr != src_ptr {
             debug_assert!(

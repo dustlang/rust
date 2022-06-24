@@ -31,7 +31,7 @@ def check_lib(lib):
     if lib['name'] in STABLE_CRATES:
         return True
     print('verifying if {} is an unstable crate'.format(lib['name']))
-    stdout, stderr = exec_command([os.environ['RUSTC'], '-', '--crate-type', 'rlib',
+    stdout, stderr = exec_command([os.environ['DUSTC'], '-', '--crate-type', 'rlib',
                                    '--extern', '{}={}'.format(lib['name'], lib['path'])],
                                   to_input=('extern crate {};'.format(lib['name'])).encode('utf-8'))
     if not 'use of unstable library feature' in '{}{}'.format(stdout, stderr):
@@ -42,7 +42,7 @@ def check_lib(lib):
     return True
 
 # Generate a list of all crates in the sysroot. To do this we list all files in
-# rustc's sysroot, look at the filename, strip everything after the `-`, and
+# dustc's sysroot, look at the filename, strip everything after the `-`, and
 # strip the leading `lib` (if present)
 def get_all_libs(dir_path):
     return [{ 'path': join(dir_path, f), 'name': f[3:].split('-')[0] }
@@ -50,8 +50,8 @@ def get_all_libs(dir_path):
             if isfile(join(dir_path, f)) and f.endswith('.rlib') and f not in STABLE_CRATES]
 
 
-sysroot = exec_command([os.environ['RUSTC'], '--print', 'sysroot'])[0].replace('\n', '')
-libs = get_all_libs(join(sysroot, 'lib/rustlib/{}/lib'.format(os.environ['TARGET'])))
+sysroot = exec_command([os.environ['DUSTC'], '--print', 'sysroot'])[0].replace('\n', '')
+libs = get_all_libs(join(sysroot, 'lib/dustlib/{}/lib'.format(os.environ['TARGET'])))
 
 ret = 0
 for lib in libs:

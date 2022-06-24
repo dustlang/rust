@@ -1,8 +1,8 @@
 use crate::structured_errors::StructuredDiagnostic;
-use rustc_errors::{Applicability, DiagnosticBuilder, DiagnosticId};
-use rustc_middle::ty::{Ty, TypeFoldable};
-use rustc_session::Session;
-use rustc_span::Span;
+use dustc_errors::{Applicability, DiagnosticBuilder, DiagnosticId};
+use dustc_middle::ty::{Ty, TypeFoldable};
+use dustc_session::Session;
+use dustc_span::Span;
 
 pub struct MissingCastForVariadicArg<'tcx> {
     pub sess: &'tcx Session,
@@ -17,7 +17,7 @@ impl<'tcx> StructuredDiagnostic<'tcx> for MissingCastForVariadicArg<'tcx> {
     }
 
     fn code(&self) -> DiagnosticId {
-        rustc_errors::error_code!(E0617)
+        dustc_errors::error_code!(E0617)
     }
 
     fn diagnostic_common(&self) -> DiagnosticBuilder<'tcx> {

@@ -1,10 +1,10 @@
 -include ../tools.mk
 
 all:
-	$(RUSTC) m1.rs -C prefer-dynamic
-	$(RUSTC) m2.rs -C prefer-dynamic
-	$(RUSTC) m3.rs -C prefer-dynamic
-	$(RUSTC) m4.rs
+	$(DUSTC) m1.rs -C prefer-dynamic
+	$(DUSTC) m2.rs -C prefer-dynamic
+	$(DUSTC) m3.rs -C prefer-dynamic
+	$(DUSTC) m4.rs
 	$(call RUN,m4)
 	$(call REMOVE_DYLIBS,m1)
 	$(call REMOVE_DYLIBS,m2)

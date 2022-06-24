@@ -1,4 +1,4 @@
-use rustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::fx::FxHashMap;
 
 #[derive(Debug)]
 pub struct InvalidErrorCode;

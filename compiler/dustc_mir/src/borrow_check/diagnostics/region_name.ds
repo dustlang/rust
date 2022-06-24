@@ -1,13 +1,13 @@
 use std::fmt::{self, Display};
 
-use rustc_errors::DiagnosticBuilder;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_middle::ty::print::RegionHighlightMode;
-use rustc_middle::ty::subst::{GenericArgKind, SubstsRef};
-use rustc_middle::ty::{self, RegionVid, Ty};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{Span, DUMMY_SP};
+use dustc_errors::DiagnosticBuilder;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_middle::ty::print::RegionHighlightMode;
+use dustc_middle::ty::subst::{GenericArgKind, SubstsRef};
+use dustc_middle::ty::{self, RegionVid, Ty};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{Span, DUMMY_SP};
 
 use crate::borrow_check::{nll::ToRegionVid, universal_regions::DefiningTy, MirBorrowckCtxt};
 
@@ -533,7 +533,7 @@ impl<'tcx> MirBorrowckCtxt<'_, 'tcx> {
                 }
 
                 // The following cases don't have lifetimes, so we
-                // just worry about trying to match up the rustc type
+                // just worry about trying to match up the dustc type
                 // with the HIR types:
                 (ty::Tuple(elem_tys), hir::TyKind::Tup(elem_hir_tys)) => {
                     search_stack.extend(elem_tys.iter().map(|k| k.expect_ty()).zip(*elem_hir_tys));

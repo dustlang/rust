@@ -27,7 +27,7 @@ pub fn opts() -> TargetOptions {
         eh_frame_header: false,
         late_link_args,
 
-        // While we support ELF TLS, rust requires a way to register
+        // While we support ELF TLS, dust requires a way to register
         // cleanup handlers (in C, this would be something along the lines of:
         // void register_callback(void (*fn)(void *), void *arg);
         // (see src/libstd/sys/unix/fast_thread_local.rs) that is currently
@@ -35,9 +35,9 @@ pub fn opts() -> TargetOptions {
         // pthread_{get,set}specific.
         //has_elf_tls: true,
 
-        // FIXME: Currently, rust is invoking cc to link, which ends up
+        // FIXME: Currently, dust is invoking cc to link, which ends up
         // causing these to get included twice.  We should eventually transition
-        // to having rustc invoke ld directly, in which case these will need to
+        // to having dustc invoke ld directly, in which case these will need to
         // be uncommented.
         //
         // We want XPG6 behavior from libc and libm.  See standards(5)

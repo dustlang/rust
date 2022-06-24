@@ -1,6 +1,6 @@
 use super::BackendTypes;
-use rustc_middle::mir::coverage::*;
-use rustc_middle::ty::Instance;
+use dustc_middle::mir::coverage::*;
+use dustc_middle::ty::Instance;
 
 pub trait CoverageInfoMethods: BackendTypes {
     fn coverageinfo_finalize(&self);

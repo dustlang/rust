@@ -2,13 +2,13 @@
 //!
 //! ## The need for synchronization
 //!
-//! Conceptually, a Rust program is a series of operations which will
+//! Conceptually, a Dust program is a series of operations which will
 //! be executed on a computer. The timeline of events happening in the
 //! program is consistent with the order of the operations in the code.
 //!
 //! Consider the following code, operating on some global static variables:
 //!
-//! ```rust
+//! ```dust
 //! static mut A: u32 = 0;
 //! static mut B: u32 = 0;
 //! static mut C: u32 = 0;
@@ -56,7 +56,7 @@
 //! compiler optimizations are disabled, and it is **still possible**
 //! to introduce synchronization bugs.
 //!
-//! Note that thanks to Rust's safety guarantees, accessing global (static)
+//! Note that thanks to Dust's safety guarantees, accessing global (static)
 //! variables requires `unsafe` code, assuming we don't use any of the
 //! synchronization primitives in this module.
 //!
@@ -149,25 +149,25 @@
 //! [`Once`]: crate::sync::Once
 //! [`RwLock`]: crate::sync::RwLock
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use alloc_crate::sync::{Arc, Weak};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use core::sync::atomic;
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use self::barrier::{Barrier, BarrierWaitResult};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use self::condvar::{Condvar, WaitTimeoutResult};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use self::mutex::{Mutex, MutexGuard};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[allow(deprecated)]
 pub use self::once::{Once, OnceState, ONCE_INIT};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use self::rwlock::{RwLock, RwLockReadGuard, RwLockWriteGuard};
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use crate::sys_common::poison::{LockResult, PoisonError, TryLockError, TryLockResult};
 
 pub mod mpsc;

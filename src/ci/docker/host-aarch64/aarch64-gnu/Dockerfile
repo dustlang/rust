@@ -19,7 +19,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
 COPY scripts/sccache.sh /scripts/
 RUN sh /scripts/sccache.sh
 
-ENV RUST_CONFIGURE_ARGS \
+ENV DUST_CONFIGURE_ARGS \
  --build=aarch64-unknown-linux-gnu \
  --enable-sanitizers \
  --enable-profiler \

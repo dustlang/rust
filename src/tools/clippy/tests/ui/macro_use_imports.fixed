@@ -1,7 +1,7 @@
 // compile-flags: --edition 2018
 // aux-build:macro_rules.rs
 // aux-build:macro_use_helper.rs
-// run-rustfix
+// run-dustfix
 // ignore-32bit
 
 #![allow(unused_imports, unreachable_code, unused_variables, dead_code)]

@@ -1,9 +1,9 @@
 use crate::attributes;
 use libc::c_uint;
-use rustc_ast::expand::allocator::{AllocatorKind, AllocatorTy, ALLOCATOR_METHODS};
-use rustc_middle::bug;
-use rustc_middle::ty::TyCtxt;
-use rustc_span::symbol::sym;
+use dustc_ast::expand::allocator::{AllocatorKind, AllocatorTy, ALLOCATOR_METHODS};
+use dustc_middle::bug;
+use dustc_middle::ty::TyCtxt;
+use dustc_span::symbol::sym;
 
 use crate::llvm::{self, False, True};
 use crate::ModuleLlvm;
@@ -54,11 +54,11 @@ pub(crate) unsafe fn codegen(
             args.len() as c_uint,
             False,
         );
-        let name = format!("__rust_{}", method.name);
-        let llfn = llvm::LLVMRustGetOrInsertFunction(llmod, name.as_ptr().cast(), name.len(), ty);
+        let name = format!("__dust_{}", method.name);
+        let llfn = llvm::LLVMDustGetOrInsertFunction(llmod, name.as_ptr().cast(), name.len(), ty);
 
         if tcx.sess.target.default_hidden_visibility {
-            llvm::LLVMRustSetVisibility(llfn, llvm::Visibility::Hidden);
+            llvm::LLVMDustSetVisibility(llfn, llvm::Visibility::Hidden);
         }
         if tcx.sess.must_emit_unwind_tables() {
             attributes::emit_uwtable(llfn, true);
@@ -66,8 +66,8 @@ pub(crate) unsafe fn codegen(
 
         let callee = kind.fn_name(method.name);
         let callee =
-            llvm::LLVMRustGetOrInsertFunction(llmod, callee.as_ptr().cast(), callee.len(), ty);
-        llvm::LLVMRustSetVisibility(callee, llvm::Visibility::Hidden);
+            llvm::LLVMDustGetOrInsertFunction(llmod, callee.as_ptr().cast(), callee.len(), ty);
+        llvm::LLVMDustSetVisibility(callee, llvm::Visibility::Hidden);
 
         let llbb = llvm::LLVMAppendBasicBlockInContext(llcx, llfn, "entry\0".as_ptr().cast());
 
@@ -79,7 +79,7 @@ pub(crate) unsafe fn codegen(
             .map(|(i, _)| llvm::LLVMGetParam(llfn, i as c_uint))
             .collect::<Vec<_>>();
         let ret =
-            llvm::LLVMRustBuildCall(llbuilder, callee, args.as_ptr(), args.len() as c_uint, None);
+            llvm::LLVMDustBuildCall(llbuilder, callee, args.as_ptr(), args.len() as c_uint, None);
         llvm::LLVMSetTailCall(ret, True);
         if output.is_some() {
             llvm::LLVMBuildRet(llbuilder, ret);
@@ -89,17 +89,17 @@ pub(crate) unsafe fn codegen(
         llvm::LLVMDisposeBuilder(llbuilder);
     }
 
-    // rust alloc error handler
+    // dust alloc error handler
     let args = [usize, usize]; // size, align
 
     let ty = llvm::LLVMFunctionType(void, args.as_ptr(), args.len() as c_uint, False);
-    let name = "__rust_alloc_error_handler";
-    let llfn = llvm::LLVMRustGetOrInsertFunction(llmod, name.as_ptr().cast(), name.len(), ty);
+    let name = "__dust_alloc_error_handler";
+    let llfn = llvm::LLVMDustGetOrInsertFunction(llmod, name.as_ptr().cast(), name.len(), ty);
     // -> ! DIFlagNoReturn
     llvm::Attribute::NoReturn.apply_llfn(llvm::AttributePlace::Function, llfn);
 
     if tcx.sess.target.default_hidden_visibility {
-        llvm::LLVMRustSetVisibility(llfn, llvm::Visibility::Hidden);
+        llvm::LLVMDustSetVisibility(llfn, llvm::Visibility::Hidden);
     }
     if tcx.sess.must_emit_unwind_tables() {
         attributes::emit_uwtable(llfn, true);
@@ -107,10 +107,10 @@ pub(crate) unsafe fn codegen(
 
     let kind = if has_alloc_error_handler { AllocatorKind::Global } else { AllocatorKind::Default };
     let callee = kind.fn_name(sym::oom);
-    let callee = llvm::LLVMRustGetOrInsertFunction(llmod, callee.as_ptr().cast(), callee.len(), ty);
+    let callee = llvm::LLVMDustGetOrInsertFunction(llmod, callee.as_ptr().cast(), callee.len(), ty);
     // -> ! DIFlagNoReturn
     llvm::Attribute::NoReturn.apply_llfn(llvm::AttributePlace::Function, callee);
-    llvm::LLVMRustSetVisibility(callee, llvm::Visibility::Hidden);
+    llvm::LLVMDustSetVisibility(callee, llvm::Visibility::Hidden);
 
     let llbb = llvm::LLVMAppendBasicBlockInContext(llcx, llfn, "entry\0".as_ptr().cast());
 
@@ -121,7 +121,7 @@ pub(crate) unsafe fn codegen(
         .enumerate()
         .map(|(i, _)| llvm::LLVMGetParam(llfn, i as c_uint))
         .collect::<Vec<_>>();
-    let ret = llvm::LLVMRustBuildCall(llbuilder, callee, args.as_ptr(), args.len() as c_uint, None);
+    let ret = llvm::LLVMDustBuildCall(llbuilder, callee, args.as_ptr(), args.len() as c_uint, None);
     llvm::LLVMSetTailCall(ret, True);
     llvm::LLVMBuildRetVoid(llbuilder);
     llvm::LLVMDisposeBuilder(llbuilder);

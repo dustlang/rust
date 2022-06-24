@@ -2,13 +2,13 @@ use crate::utils::{
     is_type_diagnostic_item, match_def_path, path_to_local, path_to_local_id, paths, snippet, span_lint_and_sugg,
 };
 use if_chain::if_chain;
-use rustc_ast::ast::LitKind;
-use rustc_errors::Applicability;
-use rustc_hir::{BindingAnnotation, Block, Expr, ExprKind, HirId, Local, PatKind, QPath, Stmt, StmtKind};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_middle::lint::in_external_macro;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::{symbol::sym, Span};
+use dustc_ast::ast::LitKind;
+use dustc_errors::Applicability;
+use dustc_hir::{BindingAnnotation, Block, Expr, ExprKind, HirId, Local, PatKind, QPath, Stmt, StmtKind};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_middle::lint::in_external_macro;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::{symbol::sym, Span};
 use std::convert::TryInto;
 
 declare_clippy_lint! {
@@ -21,12 +21,12 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// let mut v = Vec::new();
     /// v.push(0);
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// let v = vec![0];
     /// ```
     pub VEC_INIT_THEN_PUSH,

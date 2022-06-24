@@ -4,9 +4,9 @@ use crate::prelude::*;
 
 use std::fmt::Write;
 
-use rustc_ast::ast::{InlineAsmOptions, InlineAsmTemplatePiece};
-use rustc_middle::mir::InlineAsmOperand;
-use rustc_target::asm::*;
+use dustc_ast::ast::{InlineAsmOptions, InlineAsmTemplatePiece};
+use dustc_middle::mir::InlineAsmOperand;
+use dustc_target::asm::*;
 
 pub(crate) fn codegen_inline_asm<'tcx>(
     fx: &mut FunctionCx<'_, '_, 'tcx>,
@@ -34,7 +34,7 @@ pub(crate) fn codegen_inline_asm<'tcx>(
             .map(|(ty, _)| ty.size())
             .max()
             .unwrap();
-        let align = rustc_target::abi::Align::from_bytes(reg_size.bytes()).unwrap();
+        let align = dustc_target::abi::Align::from_bytes(reg_size.bytes()).unwrap();
         slot_size = slot_size.align_to(align);
         let offset = slot_size;
         slot_size += reg_size;

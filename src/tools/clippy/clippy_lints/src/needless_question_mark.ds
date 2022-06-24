@@ -1,9 +1,9 @@
-use rustc_errors::Applicability;
-use rustc_hir::{Body, Expr, ExprKind, LangItem, MatchSource, QPath};
-use rustc_lint::{LateContext, LateLintPass, LintContext};
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::sym;
+use dustc_errors::Applicability;
+use dustc_hir::{Body, Expr, ExprKind, LangItem, MatchSource, QPath};
+use dustc_lint::{LateContext, LateLintPass, LintContext};
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::sym;
 
 use crate::utils;
 use if_chain::if_chain;
@@ -18,7 +18,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// struct TO {
     ///     magic: Option<usize>,
     /// }
@@ -37,7 +37,7 @@ declare_clippy_lint! {
     ///
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// struct TO {
     ///     magic: Option<usize>,
     /// }
@@ -59,16 +59,16 @@ declare_clippy_lint! {
     "Suggest `value.inner_option` instead of `Some(value.inner_option?)`. The same goes for `Result<T, E>`."
 }
 
-const NEEDLESS_QUESTION_MARK_RESULT_MSRV: RustcVersion = RustcVersion::new(1, 13, 0);
-const NEEDLESS_QUESTION_MARK_OPTION_MSRV: RustcVersion = RustcVersion::new(1, 22, 0);
+const NEEDLESS_QUESTION_MARK_RESULT_MSRV: DustcVersion = DustcVersion::new(1, 13, 0);
+const NEEDLESS_QUESTION_MARK_OPTION_MSRV: DustcVersion = DustcVersion::new(1, 22, 0);
 
 pub struct NeedlessQuestionMark {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl NeedlessQuestionMark {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self { msrv }
     }
 }
@@ -84,7 +84,7 @@ enum SomeOkCall<'a> {
 impl LateLintPass<'_> for NeedlessQuestionMark {
     /*
      * The question mark operator is compatible with both Result<T, E> and Option<T>,
-     * from Rust 1.13 and 1.22 respectively.
+     * from Dust 1.13 and 1.22 respectively.
      */
 
     /*

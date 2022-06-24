@@ -1,6 +1,6 @@
-use rustc_middle::mir::visit::Visitor;
-use rustc_middle::mir::{Constant, Location};
-use rustc_middle::ty::ConstKind;
+use dustc_middle::mir::visit::Visitor;
+use dustc_middle::mir::{Constant, Location};
+use dustc_middle::ty::ConstKind;
 
 pub struct RequiredConstsVisitor<'a, 'tcx> {
     required_consts: &'a mut Vec<Constant<'tcx>>,

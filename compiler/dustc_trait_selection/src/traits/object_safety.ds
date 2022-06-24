@@ -14,15 +14,15 @@ use crate::infer::TyCtxtInferExt;
 use crate::traits::const_evaluatable::{self, AbstractConst};
 use crate::traits::query::evaluate_obligation::InferCtxtExt;
 use crate::traits::{self, Obligation, ObligationCause};
-use rustc_errors::FatalError;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_middle::ty::subst::{GenericArg, InternalSubsts, Subst};
-use rustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable, TypeVisitor, WithConstness};
-use rustc_middle::ty::{Predicate, ToPredicate};
-use rustc_session::lint::builtin::WHERE_CLAUSES_OBJECT_SAFETY;
-use rustc_span::symbol::Symbol;
-use rustc_span::{MultiSpan, Span};
+use dustc_errors::FatalError;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_middle::ty::subst::{GenericArg, InternalSubsts, Subst};
+use dustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable, TypeVisitor, WithConstness};
+use dustc_middle::ty::{Predicate, ToPredicate};
+use dustc_session::lint::builtin::WHERE_CLAUSES_OBJECT_SAFETY;
+use dustc_span::symbol::Symbol;
+use dustc_span::{MultiSpan, Span};
 use smallvec::SmallVec;
 
 use std::array;
@@ -175,7 +175,7 @@ fn lint_object_unsafe_trait(
             spans,
             "for a trait to be \"object safe\" it needs to allow building a vtable to allow the \
              call to be resolvable dynamically; for more information visit \
-             <https://doc.rust-lang.org/reference/items/traits.html#object-safety>",
+             <https://doc.dust-lang.org/reference/items/traits.html#object-safety>",
         );
         if node.is_some() {
             // Only provide the help if its a local trait, otherwise it's not
@@ -452,7 +452,7 @@ fn virtual_call_violation_for_method<'tcx>(
         } else {
             // Do sanity check to make sure the receiver actually has the layout of a pointer.
 
-            use rustc_target::abi::Abi;
+            use dustc_target::abi::Abi;
 
             let param_env = tcx.param_env(method.def_id);
 
@@ -611,7 +611,7 @@ fn object_ty_for_trait<'tcx>(
 ///
 /// In practice, we cannot use `dyn Trait` explicitly in the obligation because it would result
 /// in a new check that `Trait` is object safe, creating a cycle (until object_safe_for_dispatch
-/// is stabilized, see tracking issue <https://github.com/rust-lang/rust/issues/43561>).
+/// is stabilized, see tracking issue <https://github.com/dust-lang/dust/issues/43561>).
 /// Instead, we fudge a little by introducing a new type parameter `U` such that
 /// `Self: Unsize<U>` and `U: Trait + ?Sized`, and use `U` in place of `dyn Trait`.
 /// Written as a chalk-style query:
@@ -650,7 +650,7 @@ fn receiver_is_dispatchable<'tcx>(
     // FIXME(mikeyhew) this is a total hack. Once object_safe_for_dispatch is stabilized, we can
     // replace this with `dyn Trait`
     let unsized_self_ty: Ty<'tcx> =
-        tcx.mk_ty_param(u32::MAX, Symbol::intern("RustaceansAreAwesome"));
+        tcx.mk_ty_param(u32::MAX, Symbol::intern("DustaceansAreAwesome"));
 
     // `Receiver[Self => U]`
     let unsized_receiver_ty =
@@ -723,7 +723,7 @@ fn contains_illegal_self_type_reference<'tcx, T: TypeFoldable<'tcx>>(
     // the value of those associated types in the object type
     // itself.
     //
-    // ```rust
+    // ```dust
     // trait SuperTrait {
     //     type X;
     // }
@@ -743,7 +743,7 @@ fn contains_illegal_self_type_reference<'tcx, T: TypeFoldable<'tcx>>(
     // However, it is not as simple as allowing `Self` in a projected
     // type, because there are illegal ways to use `Self` as well:
     //
-    // ```rust
+    // ```dust
     // trait Trait : SuperTrait {
     //     ...
     //     fn foo(&self) -> <Self as SomeOtherTrait>::X;
@@ -820,7 +820,7 @@ fn contains_illegal_self_type_reference<'tcx, T: TypeFoldable<'tcx>>(
             //
             // This shouldn't really matter though as we can't really use any
             // constants which are not considered const evaluatable.
-            use rustc_middle::mir::abstract_const::Node;
+            use dustc_middle::mir::abstract_const::Node;
             if let Ok(Some(ct)) = AbstractConst::from_const(self.tcx, ct) {
                 const_evaluatable::walk_abstract_const(self.tcx, ct, |node| match node.root() {
                     Node::Leaf(leaf) => {
@@ -841,7 +841,7 @@ fn contains_illegal_self_type_reference<'tcx, T: TypeFoldable<'tcx>>(
                 // FIXME(const_evaluatable_checked): We should probably deduplicate the logic for
                 // `AbstractConst`s here, it might make sense to change `ConstEvaluatable` to
                 // take a `ty::Const` instead.
-                use rustc_middle::mir::abstract_const::Node;
+                use dustc_middle::mir::abstract_const::Node;
                 if let Ok(Some(ct)) = AbstractConst::new(self.tcx, def, substs) {
                     const_evaluatable::walk_abstract_const(self.tcx, ct, |node| match node.root() {
                         Node::Leaf(leaf) => {

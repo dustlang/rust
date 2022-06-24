@@ -6,38 +6,38 @@ use crate::check::callee::{self, DeferredCallResolution};
 use crate::check::method::{self, MethodCallee, SelfSource};
 use crate::check::{BreakableCtxt, Diverges, Expectation, FallbackMode, FnCtxt, LocalTy};
 
-use rustc_ast::TraitObjectSyntax;
-use rustc_data_structures::captures::Captures;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::{Applicability, DiagnosticBuilder, ErrorReported};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorOf, DefKind, Res};
-use rustc_hir::def_id::DefId;
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{ExprKind, GenericArg, Node, QPath, TyKind};
-use rustc_infer::infer::canonical::{Canonical, OriginalQueryValues, QueryResponse};
-use rustc_infer::infer::error_reporting::TypeAnnotationNeeded::E0282;
-use rustc_infer::infer::{InferOk, InferResult};
-use rustc_middle::ty::adjustment::{Adjust, Adjustment, AutoBorrow, AutoBorrowMutability};
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::subst::{
+use dustc_ast::TraitObjectSyntax;
+use dustc_data_structures::captures::Captures;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::{Applicability, DiagnosticBuilder, ErrorReported};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorOf, DefKind, Res};
+use dustc_hir::def_id::DefId;
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{ExprKind, GenericArg, Node, QPath, TyKind};
+use dustc_infer::infer::canonical::{Canonical, OriginalQueryValues, QueryResponse};
+use dustc_infer::infer::error_reporting::TypeAnnotationNeeded::E0282;
+use dustc_infer::infer::{InferOk, InferResult};
+use dustc_middle::ty::adjustment::{Adjust, Adjustment, AutoBorrow, AutoBorrowMutability};
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::subst::{
     self, GenericArgKind, InternalSubsts, Subst, SubstsRef, UserSelfTy, UserSubsts,
 };
-use rustc_middle::ty::{
+use dustc_middle::ty::{
     self, AdtKind, CanonicalUserType, DefIdTree, GenericParamDefKind, ToPolyTraitRef, ToPredicate,
     Ty, UserType,
 };
-use rustc_session::lint;
-use rustc_session::lint::builtin::BARE_TRAIT_OBJECTS;
-use rustc_session::parse::feature_err;
-use rustc_span::source_map::{original_sp, DUMMY_SP};
-use rustc_span::symbol::{kw, sym, Ident};
-use rustc_span::{self, BytePos, MultiSpan, Span};
-use rustc_span::{hygiene::DesugaringKind, Symbol};
-use rustc_trait_selection::infer::InferCtxtExt as _;
-use rustc_trait_selection::opaque_types::InferCtxtExt as _;
-use rustc_trait_selection::traits::error_reporting::InferCtxtExt as _;
-use rustc_trait_selection::traits::{
+use dustc_session::lint;
+use dustc_session::lint::builtin::BARE_TRAIT_OBJECTS;
+use dustc_session::parse::feature_err;
+use dustc_span::source_map::{original_sp, DUMMY_SP};
+use dustc_span::symbol::{kw, sym, Ident};
+use dustc_span::{self, BytePos, MultiSpan, Span};
+use dustc_span::{hygiene::DesugaringKind, Symbol};
+use dustc_trait_selection::infer::InferCtxtExt as _;
+use dustc_trait_selection::opaque_types::InferCtxtExt as _;
+use dustc_trait_selection::traits::error_reporting::InferCtxtExt as _;
+use dustc_trait_selection::traits::{
     self, ObligationCauseCode, StatementAsExpression, TraitEngine, TraitEngineExt,
 };
 
@@ -643,8 +643,8 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     // In that case, fallback to Error.
     // The return value indicates whether fallback has occurred.
     pub(in super::super) fn fallback_if_possible(&self, ty: Ty<'tcx>, mode: FallbackMode) -> bool {
-        use rustc_middle::ty::error::UnconstrainedNumeric::Neither;
-        use rustc_middle::ty::error::UnconstrainedNumeric::{UnconstrainedFloat, UnconstrainedInt};
+        use dustc_middle::ty::error::UnconstrainedNumeric::Neither;
+        use dustc_middle::ty::error::UnconstrainedNumeric::{UnconstrainedFloat, UnconstrainedInt};
 
         assert!(ty.is_ty_infer());
         let fallback = match self.type_is_unconstrained_numeric(ty) {
@@ -676,7 +676,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
                 //
                 // However, we also need to handle cases like this:
                 //
-                // ```rust
+                // ```dust
                 // pub type Foo = impl Copy;
                 // fn produce() -> Option<Foo> {
                 //     None
@@ -703,7 +703,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
             }
         };
         debug!("fallback_if_possible: defaulting `{:?}` to `{:?}`", ty, fallback);
-        self.demand_eqtype(rustc_span::DUMMY_SP, ty, fallback);
+        self.demand_eqtype(dustc_span::DUMMY_SP, ty, fallback);
         true
     }
 
@@ -1505,7 +1505,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
             }
         }
 
-        self.check_rustc_args_require_const(def_id, hir_id, span);
+        self.check_dustc_args_require_const(def_id, hir_id, span);
 
         debug!("instantiate_value_path: type of {:?} is {:?}", hir_id, ty_substituted);
         self.write_substs(hir_id, substs);

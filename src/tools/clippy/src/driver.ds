@@ -1,23 +1,23 @@
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 #![feature(once_cell)]
 #![cfg_attr(feature = "deny-warnings", deny(warnings))]
-// warn on lints, that are included in `rust-lang/rust`s bootstrap
-#![warn(rust_2018_idioms, unused_lifetimes)]
-// warn on rustc internal lints
-#![deny(rustc::internal)]
+// warn on lints, that are included in `dust-lang/dust`s bootstrap
+#![warn(dust_2018_idioms, unused_lifetimes)]
+// warn on dustc internal lints
+#![deny(dustc::internal)]
 
 // FIXME: switch to something more ergonomic here, once available.
 // (Currently there is no way to opt into sysroot crates without `extern crate`.)
-extern crate rustc_driver;
-extern crate rustc_errors;
-extern crate rustc_interface;
-extern crate rustc_session;
-extern crate rustc_span;
+extern crate dustc_driver;
+extern crate dustc_errors;
+extern crate dustc_interface;
+extern crate dustc_session;
+extern crate dustc_span;
 
-use rustc_interface::interface;
-use rustc_session::parse::ParseSess;
-use rustc_span::symbol::Symbol;
-use rustc_tools_util::VersionInfo;
+use dustc_interface::interface;
+use dustc_session::parse::ParseSess;
+use dustc_span::symbol::Symbol;
+use dustc_tools_util::VersionInfo;
 
 use std::borrow::Cow;
 use std::env;
@@ -71,15 +71,15 @@ fn track_clippy_args(parse_sess: &mut ParseSess, args_env_var: &Option<String>) 
 }
 
 struct DefaultCallbacks;
-impl rustc_driver::Callbacks for DefaultCallbacks {}
+impl dustc_driver::Callbacks for DefaultCallbacks {}
 
 /// This is different from `DefaultCallbacks` that it will inform Cargo to track the value of
 /// `CLIPPY_ARGS` environment variable.
-struct RustcCallbacks {
+struct DustcCallbacks {
     clippy_args_var: Option<String>,
 }
 
-impl rustc_driver::Callbacks for RustcCallbacks {
+impl dustc_driver::Callbacks for DustcCallbacks {
     fn config(&mut self, config: &mut interface::Config) {
         let clippy_args_var = self.clippy_args_var.take();
         config.parse_sess_created = Some(Box::new(move |parse_sess| {
@@ -92,7 +92,7 @@ struct ClippyCallbacks {
     clippy_args_var: Option<String>,
 }
 
-impl rustc_driver::Callbacks for ClippyCallbacks {
+impl dustc_driver::Callbacks for ClippyCallbacks {
     fn config(&mut self, config: &mut interface::Config) {
         let previous = config.register_lints.take();
         let clippy_args_var = self.clippy_args_var.take();
@@ -123,14 +123,14 @@ impl rustc_driver::Callbacks for ClippyCallbacks {
 fn display_help() {
     println!(
         "\
-Checks a package to catch common mistakes and improve your Rust code.
+Checks a package to catch common mistakes and improve your Dust code.
 
 Usage:
     cargo clippy [options] [--] [<opts>...]
 
 Common options:
     -h, --help               Print this message
-        --rustc              Pass all args to rustc
+        --dustc              Pass all args to dustc
     -V, --version            Print version info and exit
 
 Other options are the same as `cargo check`.
@@ -150,7 +150,7 @@ You can use tool lints to allow or deny lints from your code, eg.:
     );
 }
 
-const BUG_REPORT_URL: &str = "https://github.com/rust-lang/rust-clippy/issues/new";
+const BUG_REPORT_URL: &str = "https://github.com/dust-lang/dust-clippy/issues/new";
 
 static ICE_HOOK: SyncLazy<Box<dyn Fn(&panic::PanicInfo<'_>) + Sync + Send + 'static>> = SyncLazy::new(|| {
     let hook = panic::take_hook();
@@ -165,24 +165,24 @@ fn report_clippy_ice(info: &panic::PanicInfo<'_>, bug_report_url: &str) {
     // Separate the output with an empty line
     eprintln!();
 
-    let emitter = Box::new(rustc_errors::emitter::EmitterWriter::stderr(
-        rustc_errors::ColorConfig::Auto,
+    let emitter = Box::new(dustc_errors::emitter::EmitterWriter::stderr(
+        dustc_errors::ColorConfig::Auto,
         None,
         false,
         false,
         None,
         false,
     ));
-    let handler = rustc_errors::Handler::with_emitter(true, None, emitter);
+    let handler = dustc_errors::Handler::with_emitter(true, None, emitter);
 
     // a .span_bug or .bug call has already printed what
     // it wants to print.
-    if !info.payload().is::<rustc_errors::ExplicitBug>() {
-        let d = rustc_errors::Diagnostic::new(rustc_errors::Level::Bug, "unexpected panic");
+    if !info.payload().is::<dustc_errors::ExplicitBug>() {
+        let d = dustc_errors::Diagnostic::new(dustc_errors::Level::Bug, "unexpected panic");
         handler.emit_diagnostic(&d);
     }
 
-    let version_info = rustc_tools_util::get_version_info!();
+    let version_info = dustc_tools_util::get_version_info!();
 
     let xs: Vec<Cow<'static, str>> = vec![
         "the compiler unexpectedly panicked. this is a bug.".into(),
@@ -195,7 +195,7 @@ fn report_clippy_ice(info: &panic::PanicInfo<'_>, bug_report_url: &str) {
     }
 
     // If backtraces are enabled, also print the query stack
-    let backtrace = env::var_os("RUST_BACKTRACE").map_or(false, |x| &x != "0");
+    let backtrace = env::var_os("DUST_BACKTRACE").map_or(false, |x| &x != "0");
 
     let num_frames = if backtrace { None } else { Some(2) };
 
@@ -215,36 +215,36 @@ fn toolchain_path(home: Option<String>, toolchain: Option<String>) -> Option<Pat
 
 #[allow(clippy::too_many_lines)]
 pub fn main() {
-    rustc_driver::init_rustc_env_logger();
+    dustc_driver::init_dustc_env_logger();
     SyncLazy::force(&ICE_HOOK);
-    exit(rustc_driver::catch_with_exit_code(move || {
+    exit(dustc_driver::catch_with_exit_code(move || {
         let mut orig_args: Vec<String> = env::args().collect();
 
         // Get the sysroot, looking from most specific to this invocation to the least:
         // - command line
         // - runtime environment
         //    - SYSROOT
-        //    - RUSTUP_HOME, MULTIRUST_HOME, RUSTUP_TOOLCHAIN, MULTIRUST_TOOLCHAIN
-        // - sysroot from rustc in the path
+        //    - DUSTUP_HOME, MULTIDUST_HOME, DUSTUP_TOOLCHAIN, MULTIDUST_TOOLCHAIN
+        // - sysroot from dustc in the path
         // - compile-time environment
         //    - SYSROOT
-        //    - RUSTUP_HOME, MULTIRUST_HOME, RUSTUP_TOOLCHAIN, MULTIRUST_TOOLCHAIN
+        //    - DUSTUP_HOME, MULTIDUST_HOME, DUSTUP_TOOLCHAIN, MULTIDUST_TOOLCHAIN
         let sys_root_arg = arg_value(&orig_args, "--sysroot", |_| true);
         let have_sys_root_arg = sys_root_arg.is_some();
         let sys_root = sys_root_arg
             .map(PathBuf::from)
             .or_else(|| std::env::var("SYSROOT").ok().map(PathBuf::from))
             .or_else(|| {
-                let home = std::env::var("RUSTUP_HOME")
-                    .or_else(|_| std::env::var("MULTIRUST_HOME"))
+                let home = std::env::var("DUSTUP_HOME")
+                    .or_else(|_| std::env::var("MULTIDUST_HOME"))
                     .ok();
-                let toolchain = std::env::var("RUSTUP_TOOLCHAIN")
-                    .or_else(|_| std::env::var("MULTIRUST_TOOLCHAIN"))
+                let toolchain = std::env::var("DUSTUP_TOOLCHAIN")
+                    .or_else(|_| std::env::var("MULTIDUST_TOOLCHAIN"))
                     .ok();
                 toolchain_path(home, toolchain)
             })
             .or_else(|| {
-                Command::new("rustc")
+                Command::new("dustc")
                     .arg("--print")
                     .arg("sysroot")
                     .output()
@@ -254,42 +254,42 @@ pub fn main() {
             })
             .or_else(|| option_env!("SYSROOT").map(PathBuf::from))
             .or_else(|| {
-                let home = option_env!("RUSTUP_HOME")
-                    .or(option_env!("MULTIRUST_HOME"))
+                let home = option_env!("DUSTUP_HOME")
+                    .or(option_env!("MULTIDUST_HOME"))
                     .map(ToString::to_string);
-                let toolchain = option_env!("RUSTUP_TOOLCHAIN")
-                    .or(option_env!("MULTIRUST_TOOLCHAIN"))
+                let toolchain = option_env!("DUSTUP_TOOLCHAIN")
+                    .or(option_env!("MULTIDUST_TOOLCHAIN"))
                     .map(ToString::to_string);
                 toolchain_path(home, toolchain)
             })
             .map(|pb| pb.to_string_lossy().to_string())
-            .expect("need to specify SYSROOT env var during clippy compilation, or use rustup or multirust");
+            .expect("need to specify SYSROOT env var during clippy compilation, or use dustup or multidust");
 
-        // make "clippy-driver --rustc" work like a subcommand that passes further args to "rustc"
-        // for example `clippy-driver --rustc --version` will print the rustc version that clippy-driver
+        // make "clippy-driver --dustc" work like a subcommand that passes further args to "dustc"
+        // for example `clippy-driver --dustc --version` will print the dustc version that clippy-driver
         // uses
-        if let Some(pos) = orig_args.iter().position(|arg| arg == "--rustc") {
+        if let Some(pos) = orig_args.iter().position(|arg| arg == "--dustc") {
             orig_args.remove(pos);
-            orig_args[0] = "rustc".to_string();
+            orig_args[0] = "dustc".to_string();
 
-            // if we call "rustc", we need to pass --sysroot here as well
+            // if we call "dustc", we need to pass --sysroot here as well
             let mut args: Vec<String> = orig_args.clone();
             if !have_sys_root_arg {
                 args.extend(vec!["--sysroot".into(), sys_root]);
             };
 
-            return rustc_driver::RunCompiler::new(&args, &mut DefaultCallbacks).run();
+            return dustc_driver::RunCompiler::new(&args, &mut DefaultCallbacks).run();
         }
 
         if orig_args.iter().any(|a| a == "--version" || a == "-V") {
-            let version_info = rustc_tools_util::get_version_info!();
+            let version_info = dustc_tools_util::get_version_info!();
             println!("{}", version_info);
             exit(0);
         }
 
-        // Setting RUSTC_WRAPPER causes Cargo to pass 'rustc' as the first argument.
+        // Setting DUSTC_WRAPPER causes Cargo to pass 'dustc' as the first argument.
         // We're invoking the compiler programmatically, so we ignore this/
-        let wrapper_mode = orig_args.get(1).map(Path::new).and_then(Path::file_stem) == Some("rustc".as_ref());
+        let wrapper_mode = orig_args.get(1).map(Path::new).and_then(Path::file_stem) == Some("dustc".as_ref());
 
         if wrapper_mode {
             // we still want to be able to invoke it normally though
@@ -341,9 +341,9 @@ pub fn main() {
         }
 
         if clippy_enabled {
-            rustc_driver::RunCompiler::new(&args, &mut ClippyCallbacks { clippy_args_var }).run()
+            dustc_driver::RunCompiler::new(&args, &mut ClippyCallbacks { clippy_args_var }).run()
         } else {
-            rustc_driver::RunCompiler::new(&args, &mut RustcCallbacks { clippy_args_var }).run()
+            dustc_driver::RunCompiler::new(&args, &mut DustcCallbacks { clippy_args_var }).run()
         }
     }))
 }

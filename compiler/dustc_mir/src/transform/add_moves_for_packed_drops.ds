@@ -1,5 +1,5 @@
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
 
 use crate::transform::MirPass;
 use crate::util;
@@ -10,7 +10,7 @@ use crate::util::patch::MirPatch;
 // they are dropped from an aligned address.
 //
 // For example, if we have something like
-// ```Rust
+// ```Dust
 //     #[repr(packed)]
 //     struct Foo {
 //         dealign: u8,

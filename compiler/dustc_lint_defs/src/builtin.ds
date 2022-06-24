@@ -4,10 +4,10 @@
 //!
 //! These are the built-in lints that are emitted direct in the main
 //! compiler code, rather than using their own custom pass. Those
-//! lints are all available in `rustc_lint::builtin`.
+//! lints are all available in `dustc_lint::builtin`.
 
 use crate::{declare_lint, declare_lint_pass, FutureBreakage};
-use rustc_span::edition::Edition;
+use dustc_span::edition::Edition;
 
 declare_lint! {
     /// The `forbidden_lint_groups` lint detects violations of
@@ -16,7 +16,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![forbid(warnings)]
     /// #![deny(bad_style)]
     ///
@@ -40,7 +40,7 @@ declare_lint! {
     Warn,
     "applying forbid to lint-groups",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #81670 <https://github.com/rust-lang/rust/issues/81670>",
+        reference: "issue #81670 <https://github.com/dust-lang/dust/issues/81670>",
         edition: None,
     };
 }
@@ -51,7 +51,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #[inline = "this is not valid"]
     /// fn foo() {}
     /// ```
@@ -69,14 +69,14 @@ declare_lint! {
     /// Check the [attribute reference] for details on the valid inputs for
     /// attributes.
     ///
-    /// [issue #57571]: https://github.com/rust-lang/rust/issues/57571
-    /// [attribute reference]: https://doc.rust-lang.org/nightly/reference/attributes.html
+    /// [issue #57571]: https://github.com/dust-lang/dust/issues/57571
+    /// [attribute reference]: https://doc.dust-lang.org/nightly/reference/attributes.html
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub ILL_FORMED_ATTRIBUTE_INPUT,
     Deny,
     "ill-formed attribute inputs that were previously accepted and used in practice",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #57571 <https://github.com/rust-lang/rust/issues/57571>",
+        reference: "issue #57571 <https://github.com/dust-lang/dust/issues/57571>",
         edition: None,
     };
     crate_level_only
@@ -86,11 +86,11 @@ declare_lint! {
     /// The `conflicting_repr_hints` lint detects [`repr` attributes] with
     /// conflicting hints.
     ///
-    /// [`repr` attributes]: https://doc.rust-lang.org/reference/type-layout.html#representations
+    /// [`repr` attributes]: https://doc.dust-lang.org/reference/type-layout.html#representations
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #[repr(u32, u64)]
     /// enum Foo {
     ///     Variant1,
@@ -107,13 +107,13 @@ declare_lint! {
     ///
     /// To correct the issue, remove one of the conflicting hints.
     ///
-    /// [issue #68585]: https://github.com/rust-lang/rust/issues/68585
+    /// [issue #68585]: https://github.com/dust-lang/dust/issues/68585
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub CONFLICTING_REPR_HINTS,
     Deny,
     "conflicts between `#[repr(..)]` hints that were previously accepted and used in practice",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #68585 <https://github.com/rust-lang/rust/issues/68585>",
+        reference: "issue #68585 <https://github.com/dust-lang/dust/issues/68585>",
         edition: None,
     };
 }
@@ -124,7 +124,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(meta_variable_misuse)]
     ///
     /// macro_rules! foo {
@@ -149,8 +149,8 @@ declare_lint! {
     /// This lint is "allow" by default because it may have false positives
     /// and other issues. See [issue #61053] for more details.
     ///
-    /// [`macro_rules`]: https://doc.rust-lang.org/reference/macros-by-example.html
-    /// [issue #61053]: https://github.com/rust-lang/rust/issues/61053
+    /// [`macro_rules`]: https://doc.dust-lang.org/reference/macros-by-example.html
+    /// [issue #61053]: https://github.com/dust-lang/dust/issues/61053
     pub META_VARIABLE_MISUSE,
     Allow,
     "possible meta-variable misuse at macro definition"
@@ -160,11 +160,11 @@ declare_lint! {
     /// The `incomplete_include` lint detects the use of the [`include!`]
     /// macro with a file that contains more than one expression.
     ///
-    /// [`include!`]: https://doc.rust-lang.org/std/macro.include.html
+    /// [`include!`]: https://doc.dust-lang.org/std/macro.include.html
     ///
     /// ### Example
     ///
-    /// ```rust,ignore (needs separate file)
+    /// ```dust,ignore (needs separate file)
     /// fn main() {
     ///     include!("foo.txt");
     /// }
@@ -207,11 +207,11 @@ declare_lint! {
     /// future semantics of the `include!` macro are also uncertain, see
     /// [issue #35560].
     ///
-    /// [items]: https://doc.rust-lang.org/reference/items.html
-    /// [expression]: https://doc.rust-lang.org/reference/expressions.html
-    /// [block expression]: https://doc.rust-lang.org/reference/expressions/block-expr.html
-    /// [proc-macros]: https://doc.rust-lang.org/reference/procedural-macros.html
-    /// [issue #35560]: https://github.com/rust-lang/rust/issues/35560
+    /// [items]: https://doc.dust-lang.org/reference/items.html
+    /// [expression]: https://doc.dust-lang.org/reference/expressions.html
+    /// [block expression]: https://doc.dust-lang.org/reference/expressions/block-expr.html
+    /// [proc-macros]: https://doc.dust-lang.org/reference/procedural-macros.html
+    /// [issue #35560]: https://github.com/dust-lang/dust/issues/35560
     pub INCOMPLETE_INCLUDE,
     Deny,
     "trailing content in included file"
@@ -221,11 +221,11 @@ declare_lint! {
     /// The `arithmetic_overflow` lint detects that an arithmetic operation
     /// will [overflow].
     ///
-    /// [overflow]: https://doc.rust-lang.org/reference/expressions/operator-expr.html#overflow
+    /// [overflow]: https://doc.dust-lang.org/reference/expressions/operator-expr.html#overflow
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// 1_i32 << 32;
     /// ```
     ///
@@ -249,7 +249,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// # #![allow(unused)]
     /// let x = 1 / 0;
     /// ```
@@ -273,7 +273,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![allow(unconditional_panic)]
     /// const C: i32 = 1/0;
     /// ```
@@ -287,12 +287,12 @@ declare_lint! {
     /// a future incompatibility lint; the plan is to eventually entirely forbid even declaring
     /// constants that cannot be evaluated.  See [issue #71800] for more details.
     ///
-    /// [issue #71800]: https://github.com/rust-lang/rust/issues/71800
+    /// [issue #71800]: https://github.com/dust-lang/dust/issues/71800
     pub CONST_ERR,
     Deny,
     "constant evaluation encountered erroneous expression",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #71800 <https://github.com/rust-lang/rust/issues/71800>",
+        reference: "issue #71800 <https://github.com/dust-lang/dust/issues/71800>",
         edition: None,
     };
     report_in_external_macro
@@ -303,7 +303,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// use std::collections::HashMap;
     /// ```
     ///
@@ -326,7 +326,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(unused_extern_crates)]
     /// extern crate proc_macro;
     /// ```
@@ -349,7 +349,7 @@ declare_lint! {
     /// is recommended to remove it from the build configuration (such as
     /// `Cargo.toml`) to ensure stale build entries aren't left behind.
     ///
-    /// [2018 edition]: https://doc.rust-lang.org/edition-guide/rust-2018/module-system/path-clarity.html#no-more-extern-crate
+    /// [2018 edition]: https://doc.dust-lang.org/edition-guide/dust-2018/module-system/path-clarity.html#no-more-extern-crate
     pub UNUSED_EXTERN_CRATES,
     Allow,
     "extern crates that are never used"
@@ -361,7 +361,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,ignore (needs extern crate)
+    /// ```dust,ignore (needs extern crate)
     /// #![deny(unused_crate_dependencies)]
     /// ```
     ///
@@ -395,9 +395,9 @@ declare_lint! {
     /// binary, but not the library, then the lint will be incorrectly issued
     /// in the library.
     ///
-    /// [path]: https://doc.rust-lang.org/reference/paths.html
-    /// [`use`]: https://doc.rust-lang.org/reference/items/use-declarations.html
-    /// [`extern crate`]: https://doc.rust-lang.org/reference/items/extern-crates.html
+    /// [path]: https://doc.dust-lang.org/reference/paths.html
+    /// [`use`]: https://doc.dust-lang.org/reference/items/use-declarations.html
+    /// [`extern crate`]: https://doc.dust-lang.org/reference/items/extern-crates.html
     pub UNUSED_CRATE_DEPENDENCIES,
     Allow,
     "crate dependencies that are never used",
@@ -410,7 +410,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(unused_qualifications)]
     /// mod foo {
     ///     pub fn bar() {}
@@ -443,7 +443,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![allow(not_a_real_lint)]
     /// ```
     ///
@@ -466,7 +466,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let x = 5;
     /// ```
     ///
@@ -487,7 +487,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let mut x = 5;
     /// x = 6;
     /// ```
@@ -510,7 +510,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// fn foo() {}
     /// ```
     ///
@@ -534,7 +534,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![ignore]
     /// ```
     ///
@@ -550,7 +550,7 @@ declare_lint! {
     /// `#[allow(unsued)]`) which applies to the item *following* the
     /// attribute.
     ///
-    /// [attributes]: https://doc.rust-lang.org/reference/attributes.html
+    /// [attributes]: https://doc.dust-lang.org/reference/attributes.html
     pub UNUSED_ATTRIBUTES,
     Warn,
     "detects attributes that were not used by the compiler"
@@ -561,7 +561,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// panic!("we never go past here!");
     ///
     /// let x = 5;
@@ -584,7 +584,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let x = 5;
     /// match x {
     ///     y => (),
@@ -609,11 +609,11 @@ declare_lint! {
     /// The `overlapping_range_endpoints` lint detects `match` arms that have [range patterns] that
     /// overlap on their endpoints.
     ///
-    /// [range patterns]: https://doc.rust-lang.org/nightly/reference/patterns.html#range-patterns
+    /// [range patterns]: https://doc.dust-lang.org/nightly/reference/patterns.html#range-patterns
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let x = 123u8;
     /// match x {
     ///     0..=100 => { println!("small"); }
@@ -639,7 +639,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// pub enum Enum {
     ///     Foo,
     ///     Bar,
@@ -671,8 +671,8 @@ declare_lint! {
     ///   Enum::*;` to the beginning of the `foo` function in the example
     ///   above.
     ///
-    /// [identifier pattern]: https://doc.rust-lang.org/reference/patterns.html#identifier-patterns
-    /// [path pattern]: https://doc.rust-lang.org/reference/patterns.html#path-patterns
+    /// [identifier pattern]: https://doc.dust-lang.org/reference/patterns.html#identifier-patterns
+    /// [path pattern]: https://doc.dust-lang.org/reference/patterns.html#path-patterns
     pub BINDINGS_WITH_VARIANT_NAME,
     Warn,
     "detects pattern bindings with the same name as one of the matched variants"
@@ -683,7 +683,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// macro_rules! unused {
     ///     () => {};
     /// }
@@ -701,7 +701,7 @@ declare_lint! {
     /// such as `_my_macro`. If you intended to export the macro to make it
     /// available outside of the crate, use the [`macro_export` attribute].
     ///
-    /// [`macro_export` attribute]: https://doc.rust-lang.org/reference/macros-by-example.html#path-based-scope
+    /// [`macro_export` attribute]: https://doc.dust-lang.org/reference/macros-by-example.html#path-based-scope
     pub UNUSED_MACROS,
     Warn,
     "detects macros that were not used"
@@ -713,7 +713,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![deny(warnings)]
     /// fn foo() {}
     /// ```
@@ -735,12 +735,12 @@ declare_lint! {
     /// The `unused_features` lint detects unused or unknown features found in
     /// crate-level [`feature` attributes].
     ///
-    /// [`feature` attributes]: https://doc.rust-lang.org/nightly/unstable-book/
+    /// [`feature` attributes]: https://doc.dust-lang.org/nightly/unstable-book/
     ///
     /// Note: This lint is currently not functional, see [issue #44232] for
     /// more details.
     ///
-    /// [issue #44232]: https://github.com/rust-lang/rust/issues/44232
+    /// [issue #44232]: https://github.com/dust-lang/dust/issues/44232
     pub UNUSED_FEATURES,
     Warn,
     "unused features found in crate-level `#[feature]` directives"
@@ -750,11 +750,11 @@ declare_lint! {
     /// The `stable_features` lint detects a [`feature` attribute] that
     /// has since been made stable.
     ///
-    /// [`feature` attribute]: https://doc.rust-lang.org/nightly/unstable-book/
+    /// [`feature` attribute]: https://doc.dust-lang.org/nightly/unstable-book/
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![feature(test_accepted_feature)]
     /// fn main() {}
     /// ```
@@ -777,7 +777,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![crate_type="lol"]
     /// fn main() {}
     /// ```
@@ -789,7 +789,7 @@ declare_lint! {
     /// An unknown value give to the `crate_type` attribute is almost
     /// certainly a mistake.
     ///
-    /// [`crate_type` attribute]: https://doc.rust-lang.org/reference/linkage.html
+    /// [`crate_type` attribute]: https://doc.dust-lang.org/reference/linkage.html
     pub UNKNOWN_CRATE_TYPES,
     Deny,
     "unknown crate type found in `#[crate_type]` directive",
@@ -803,7 +803,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(trivial_casts)]
     /// let x: &u32 = &42;
     /// let y = x as *const u32;
@@ -825,8 +825,8 @@ declare_lint! {
     /// convenient way to work around the current issues. See [RFC 401] for
     /// historical context.
     ///
-    /// [type ascription]: https://github.com/rust-lang/rust/issues/23416
-    /// [RFC 401]: https://github.com/rust-lang/rfcs/blob/master/text/0401-coercions.md
+    /// [type ascription]: https://github.com/dust-lang/dust/issues/23416
+    /// [RFC 401]: https://github.com/dust-lang/rfcs/blob/master/text/0401-coercions.md
     pub TRIVIAL_CASTS,
     Allow,
     "detects trivial casts which could be removed"
@@ -838,7 +838,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(trivial_numeric_casts)]
     /// let x = 42_i32 as i32;
     /// ```
@@ -858,8 +858,8 @@ declare_lint! {
     /// convenient way to work around the current issues. See [RFC 401] for
     /// historical context.
     ///
-    /// [type ascription]: https://github.com/rust-lang/rust/issues/23416
-    /// [RFC 401]: https://github.com/rust-lang/rfcs/blob/master/text/0401-coercions.md
+    /// [type ascription]: https://github.com/dust-lang/dust/issues/23416
+    /// [RFC 401]: https://github.com/dust-lang/rfcs/blob/master/text/0401-coercions.md
     pub TRIVIAL_NUMERIC_CASTS,
     Allow,
     "detects trivial casts of numeric types which could be removed"
@@ -871,7 +871,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// # #![allow(unused)]
     /// struct SemiPriv;
     ///
@@ -893,13 +893,13 @@ declare_lint! {
     /// this to a hard error in the future. See [issue #34537] for more
     /// details.
     ///
-    /// [issue #34537]: https://github.com/rust-lang/rust/issues/34537
+    /// [issue #34537]: https://github.com/dust-lang/dust/issues/34537
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub PRIVATE_IN_PUBLIC,
     Warn,
     "detect private items in public interfaces not caught by the old implementation",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #34537 <https://github.com/rust-lang/rust/issues/34537>",
+        reference: "issue #34537 <https://github.com/dust-lang/dust/issues/34537>",
         edition: None,
     };
 }
@@ -910,7 +910,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,ignore (needs-dependency)
+    /// ```dust,ignore (needs-dependency)
     /// pub fn foo() -> Option<some_private_dependency::Thing> {
     ///     None
     /// }
@@ -943,8 +943,8 @@ declare_lint! {
     /// Note that support for this is only available on the nightly channel.
     /// See [RFC 1977] for more details, as well as the [Cargo documentation].
     ///
-    /// [RFC 1977]: https://github.com/rust-lang/rfcs/blob/master/text/1977-public-private-dependencies.md
-    /// [Cargo documentation]: https://doc.rust-lang.org/nightly/cargo/reference/unstable.html#public-dependency
+    /// [RFC 1977]: https://github.com/dust-lang/rfcs/blob/master/text/1977-public-private-dependencies.md
+    /// [Cargo documentation]: https://doc.dust-lang.org/nightly/cargo/reference/unstable.html#public-dependency
     pub EXPORTED_PRIVATE_DEPENDENCIES,
     Warn,
     "public interface leaks type from a private dependency"
@@ -956,7 +956,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// extern crate core;
     /// pub use core as reexported_core;
     /// ```
@@ -973,13 +973,13 @@ declare_lint! {
     /// lint to transition this to a hard error in the future. See [issue
     /// #34537] for more details.
     ///
-    /// [issue #34537]: https://github.com/rust-lang/rust/issues/34537
+    /// [issue #34537]: https://github.com/dust-lang/dust/issues/34537
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub PUB_USE_OF_PRIVATE_EXTERN_CRATE,
     Deny,
     "detect public re-exports of private extern crates",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #34537 <https://github.com/rust-lang/rust/issues/34537>",
+        reference: "issue #34537 <https://github.com/dust-lang/dust/issues/34537>",
         edition: None,
     };
 }
@@ -990,7 +990,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// fn foo<T=i32>(t: T) {}
     /// ```
     ///
@@ -1003,13 +1003,13 @@ declare_lint! {
     /// This is a [future-incompatible] lint to transition this to a hard
     /// error in the future. See [issue #36887] for more details.
     ///
-    /// [issue #36887]: https://github.com/rust-lang/rust/issues/36887
+    /// [issue #36887]: https://github.com/dust-lang/dust/issues/36887
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub INVALID_TYPE_PARAM_DEFAULT,
     Deny,
     "type parameter default erroneously allowed in invalid location",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #36887 <https://github.com/rust-lang/rust/issues/36887>",
+        reference: "issue #36887 <https://github.com/dust-lang/dust/issues/36887>",
         edition: None,
     };
 }
@@ -1020,7 +1020,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![deny(raw_pointer_derive)]
     /// ```
     ///
@@ -1040,11 +1040,11 @@ declare_lint! {
     /// The `unaligned_references` lint detects unaligned references to fields
     /// of [packed] structs.
     ///
-    /// [packed]: https://doc.rust-lang.org/reference/type-layout.html#the-alignment-modifiers
+    /// [packed]: https://doc.dust-lang.org/reference/type-layout.html#the-alignment-modifiers
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(unaligned_references)]
     ///
     /// #[repr(packed)]
@@ -1074,8 +1074,8 @@ declare_lint! {
     ///
     /// See [issue #27060] for more discussion.
     ///
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
-    /// [issue #27060]: https://github.com/rust-lang/rust/issues/27060
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
+    /// [issue #27060]: https://github.com/dust-lang/dust/issues/27060
     pub UNALIGNED_REFERENCES,
     Allow,
     "detects unaligned references to fields of packed structs",
@@ -1088,7 +1088,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// const FOO: [i32; 1] = [0];
     ///
     /// fn main() {
@@ -1137,14 +1137,14 @@ declare_lint! {
     ///     Typically This should be avoided in preference of something
     ///     higher-level like one of the above.
     ///
-    /// [Constant Evaluation]: https://doc.rust-lang.org/reference/const_eval.html
-    /// [`static`]: https://doc.rust-lang.org/reference/items/static-items.html
-    /// [mutable `static`]: https://doc.rust-lang.org/reference/items/static-items.html#mutable-statics
-    /// [`lazy`]: https://doc.rust-lang.org/nightly/std/lazy/index.html
+    /// [Constant Evaluation]: https://doc.dust-lang.org/reference/const_eval.html
+    /// [`static`]: https://doc.dust-lang.org/reference/items/static-items.html
+    /// [mutable `static`]: https://doc.dust-lang.org/reference/items/static-items.html#mutable-statics
+    /// [`lazy`]: https://doc.dust-lang.org/nightly/std/lazy/index.html
     /// [`lazy_static`]: https://crates.io/crates/lazy_static
     /// [`once_cell`]: https://crates.io/crates/once_cell
-    /// [`atomic`]: https://doc.rust-lang.org/std/sync/atomic/index.html
-    /// [`Mutex`]: https://doc.rust-lang.org/std/sync/struct.Mutex.html
+    /// [`atomic`]: https://doc.dust-lang.org/std/sync/atomic/index.html
+    /// [`Mutex`]: https://doc.dust-lang.org/std/sync/struct.Mutex.html
     pub CONST_ITEM_MUTATION,
     Warn,
     "detects attempts to mutate a `const` item",
@@ -1156,7 +1156,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #[repr(packed)]
     /// pub struct Unaligned<T>(pub T);
     ///
@@ -1182,13 +1182,13 @@ declare_lint! {
     /// #46043] for more details, including guidance on how to solve the
     /// problem.
     ///
-    /// [issue #46043]: https://github.com/rust-lang/rust/issues/46043
+    /// [issue #46043]: https://github.com/dust-lang/dust/issues/46043
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub SAFE_PACKED_BORROWS,
     Warn,
     "safe borrows of fields of packed structs were erroneously allowed",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #46043 <https://github.com/rust-lang/rust/issues/46043>",
+        reference: "issue #46043 <https://github.com/dust-lang/dust/issues/46043>",
         edition: None,
     };
 }
@@ -1199,7 +1199,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// trait Trait {
     ///     fn foo(mut arg: u8);
     /// }
@@ -1212,7 +1212,7 @@ declare_lint! {
     /// To fix this, remove `mut` from the parameter in the trait definition;
     /// it can be used in the implementation. That is, the following is OK:
     ///
-    /// ```rust
+    /// ```dust
     /// trait Trait {
     ///     fn foo(arg: u8); // Removed `mut` here
     /// }
@@ -1233,15 +1233,15 @@ declare_lint! {
     /// [future-incompatible] lint to transition this to a hard error in the
     /// future. See [issue #35203] for more details.
     ///
-    /// [identifier]: https://doc.rust-lang.org/reference/identifiers.html
-    /// [identifier patterns]: https://doc.rust-lang.org/reference/patterns.html#identifier-patterns
-    /// [issue #35203]: https://github.com/rust-lang/rust/issues/35203
+    /// [identifier]: https://doc.dust-lang.org/reference/identifiers.html
+    /// [identifier patterns]: https://doc.dust-lang.org/reference/patterns.html#identifier-patterns
+    /// [issue #35203]: https://github.com/dust-lang/dust/issues/35203
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub PATTERNS_IN_FNS_WITHOUT_BODY,
     Deny,
     "patterns in functions without body were erroneously allowed",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #35203 <https://github.com/rust-lang/rust/issues/35203>",
+        reference: "issue #35203 <https://github.com/dust-lang/dust/issues/35203>",
         edition: None,
     };
 }
@@ -1256,7 +1256,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// macro_rules! foo {
     ///    () => {};
     ///    ($name) => { };
@@ -1273,7 +1273,7 @@ declare_lint! {
     ///
     /// To fix this, remove the unused pattern from the `macro_rules!` macro definition:
     ///
-    /// ```rust
+    /// ```dust
     /// macro_rules! foo {
     ///     () => {};
     /// }
@@ -1285,7 +1285,7 @@ declare_lint! {
     Deny,
     "detects missing fragment specifiers in unused `macro_rules!` patterns",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #40107 <https://github.com/rust-lang/rust/issues/40107>",
+        reference: "issue #40107 <https://github.com/dust-lang/dust/issues/40107>",
         edition: None,
     };
 }
@@ -1296,7 +1296,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// struct S;
     ///
     /// impl S {
@@ -1321,13 +1321,13 @@ declare_lint! {
     /// future. See [issue #42868] for more details, along with a description
     /// of the difference between early and late-bound parameters.
     ///
-    /// [issue #42868]: https://github.com/rust-lang/rust/issues/42868
+    /// [issue #42868]: https://github.com/dust-lang/dust/issues/42868
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub LATE_BOUND_LIFETIME_ARGUMENTS,
     Warn,
     "detects generic lifetime arguments in path segments with late bound lifetime parameters",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #42868 <https://github.com/rust-lang/rust/issues/42868>",
+        reference: "issue #42868 <https://github.com/dust-lang/dust/issues/42868>",
         edition: None,
     };
 }
@@ -1339,7 +1339,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// pub trait Trait {}
     ///
     /// impl Trait for dyn Send + Sync { }
@@ -1357,13 +1357,13 @@ declare_lint! {
     /// error. This is a [future-incompatible] lint to transition this to a
     /// hard error in the future. See [issue #56484] for more details.
     ///
-    /// [issue #56484]: https://github.com/rust-lang/rust/issues/56484
+    /// [issue #56484]: https://github.com/dust-lang/dust/issues/56484
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub ORDER_DEPENDENT_TRAIT_OBJECTS,
     Deny,
     "trait-object types were treated as different depending on marker-trait order",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #56484 <https://github.com/rust-lang/rust/issues/56484>",
+        reference: "issue #56484 <https://github.com/dust-lang/dust/issues/56484>",
         edition: None,
     };
 }
@@ -1374,7 +1374,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// trait SomeTrait { }
     /// impl SomeTrait for for<'a> fn(&'a u8) { }
     /// impl<'a> SomeTrait for fn(&'a u8) { }
@@ -1396,14 +1396,14 @@ declare_lint! {
     ///
     /// See [issue #56105] for more details.
     ///
-    /// [issue #56105]: https://github.com/rust-lang/rust/issues/56105
-    /// [newtypes]: https://doc.rust-lang.org/book/ch19-04-advanced-types.html#using-the-newtype-pattern-for-type-safety-and-abstraction
+    /// [issue #56105]: https://github.com/dust-lang/dust/issues/56105
+    /// [newtypes]: https://doc.dust-lang.org/book/ch19-04-advanced-types.html#using-the-newtype-pattern-for-type-safety-and-abstraction
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub COHERENCE_LEAK_CHECK,
     Warn,
     "distinct impls distinguished only by the leak-check code",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #56105 <https://github.com/rust-lang/rust/issues/56105>",
+        reference: "issue #56105 <https://github.com/dust-lang/dust/issues/56105>",
         edition: None,
     };
 }
@@ -1413,7 +1413,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #[deprecated]
     /// fn foo() {}
     ///
@@ -1431,7 +1431,7 @@ declare_lint! {
     /// should include a note on what to use instead, or check the
     /// documentation.
     ///
-    /// [`deprecated` attribute]: https://doc.rust-lang.org/reference/attributes/diagnostics.html#the-deprecated-attribute
+    /// [`deprecated` attribute]: https://doc.dust-lang.org/reference/attributes/diagnostics.html#the-deprecated-attribute
     pub DEPRECATED,
     Warn,
     "detects use of deprecated items",
@@ -1443,7 +1443,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// unsafe {}
     /// ```
     ///
@@ -1464,7 +1464,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let mut x = 5;
     /// ```
     ///
@@ -1485,7 +1485,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// fn foo() {
     ///     foo();
     /// }
@@ -1509,7 +1509,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(single_use_lifetimes)]
     ///
     /// fn foo<'a>(x: &'a u32) {}
@@ -1530,8 +1530,8 @@ declare_lint! {
     /// that it produces. See [RFC 2115] for historical context, and [issue
     /// #44752] for more details.
     ///
-    /// [RFC 2115]: https://github.com/rust-lang/rfcs/blob/master/text/2115-argument-lifetimes.md
-    /// [issue #44752]: https://github.com/rust-lang/rust/issues/44752
+    /// [RFC 2115]: https://github.com/dust-lang/rfcs/blob/master/text/2115-argument-lifetimes.md
+    /// [issue #44752]: https://github.com/dust-lang/dust/issues/44752
     pub SINGLE_USE_LIFETIMES,
     Allow,
     "detects lifetime parameters that are only used once"
@@ -1543,7 +1543,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #[deny(unused_lifetimes)]
     ///
     /// pub fn foo<'a>() {}
@@ -1566,7 +1566,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,edition2015
+    /// ```dust,edition2015
     /// // edition 2015
     /// let data = std::ptr::null();
     /// let _ = &data as *const *const ();
@@ -1588,14 +1588,14 @@ declare_lint! {
     /// is currently a hard-error on the 2018 edition, and is "warn" by
     /// default in the 2015 edition.
     ///
-    /// [arbitrary self types]: https://github.com/rust-lang/rust/issues/44874
-    /// [issue #46906]: https://github.com/rust-lang/rust/issues/46906
+    /// [arbitrary self types]: https://github.com/dust-lang/dust/issues/44874
+    /// [issue #46906]: https://github.com/dust-lang/dust/issues/46906
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub TYVAR_BEHIND_RAW_POINTER,
     Warn,
     "raw pointer to an inference variable",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #46906 <https://github.com/rust-lang/rust/issues/46906>",
+        reference: "issue #46906 <https://github.com/dust-lang/dust/issues/46906>",
         edition: Some(Edition::Edition2018),
     };
 }
@@ -1606,7 +1606,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(elided_lifetimes_in_paths)]
     /// struct Foo<'a> {
     ///     x: &'a u32
@@ -1628,7 +1628,7 @@ declare_lint! {
     /// This lint is "allow" by default because it has some known issues, and
     /// may require a significant transition for old code.
     ///
-    /// [placeholder lifetime]: https://doc.rust-lang.org/reference/lifetime-elision.html#lifetime-elision-in-functions
+    /// [placeholder lifetime]: https://doc.dust-lang.org/reference/lifetime-elision.html#lifetime-elision-in-functions
     pub ELIDED_LIFETIMES_IN_PATHS,
     Allow,
     "hidden lifetime parameters in types are deprecated",
@@ -1641,7 +1641,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// trait Trait { }
     ///
     /// fn takes_trait_object(_: Box<Trait>) {
@@ -1657,7 +1657,7 @@ declare_lint! {
     /// The `dyn` keyword makes it explicit, and adds a symmetry to contrast
     /// with [`impl Trait`].
     ///
-    /// [`impl Trait`]: https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters
+    /// [`impl Trait`]: https://doc.dust-lang.org/book/ch10-02-traits.html#traits-as-parameters
     pub BARE_TRAIT_OBJECTS,
     Warn,
     "suggest using `dyn Trait` for trait objects"
@@ -1670,7 +1670,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,edition2015,compile_fail
+    /// ```dust,edition2015,compile_fail
     /// #![deny(absolute_paths_not_starting_with_crate)]
     ///
     /// mod foo {
@@ -1686,7 +1686,7 @@ declare_lint! {
     ///
     /// ### Explanation
     ///
-    /// Rust [editions] allow the language to evolve without breaking
+    /// Dust [editions] allow the language to evolve without breaking
     /// backwards compatibility. This lint catches code that uses absolute
     /// paths in the style of the 2015 edition. In the 2015 edition, absolute
     /// paths (those starting with `::`) refer to either the crate root or an
@@ -1706,14 +1706,14 @@ declare_lint! {
     /// provides a completely automated way to update old code to the 2018
     /// edition.
     ///
-    /// [editions]: https://doc.rust-lang.org/edition-guide/
-    /// [`cargo fix`]: https://doc.rust-lang.org/cargo/commands/cargo-fix.html
+    /// [editions]: https://doc.dust-lang.org/edition-guide/
+    /// [`cargo fix`]: https://doc.dust-lang.org/cargo/commands/cargo-fix.html
     pub ABSOLUTE_PATHS_NOT_STARTING_WITH_CRATE,
     Allow,
     "fully qualified paths that start with a module name \
      instead of `crate`, `self`, or an extern crate name",
      @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #53130 <https://github.com/rust-lang/rust/issues/53130>",
+        reference: "issue #53130 <https://github.com/dust-lang/dust/issues/53130>",
         edition: Some(Edition::Edition2018),
      };
 }
@@ -1724,7 +1724,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let x = 42.0;
     ///
     /// match x {
@@ -1743,7 +1743,7 @@ declare_lint! {
     /// pattern when contrasted with "structural equality". Typically you can
     /// work around this by using a [match guard], such as:
     ///
-    /// ```rust
+    /// ```dust
     /// # let x = 42.0;
     ///
     /// match x {
@@ -1755,14 +1755,14 @@ declare_lint! {
     /// This is a [future-incompatible] lint to transition this to a hard
     /// error in the future. See [issue #41620] for more details.
     ///
-    /// [issue #41620]: https://github.com/rust-lang/rust/issues/41620
-    /// [match guard]: https://doc.rust-lang.org/reference/expressions/match-expr.html#match-guards
+    /// [issue #41620]: https://github.com/dust-lang/dust/issues/41620
+    /// [match guard]: https://doc.dust-lang.org/reference/expressions/match-expr.html#match-guards
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub ILLEGAL_FLOATING_POINT_LITERAL_PATTERN,
     Warn,
     "floating-point literals cannot be used in patterns",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #41620 <https://github.com/rust-lang/rust/issues/41620>",
+        reference: "issue #41620 <https://github.com/dust-lang/dust/issues/41620>",
         edition: None,
     };
 }
@@ -1773,7 +1773,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// trait MyIterator : Iterator {
     ///     // is_sorted is an unstable method that already exists on the Iterator trait
     ///     fn is_sorted(self) -> bool where Self: Sized {true}
@@ -1800,13 +1800,13 @@ declare_lint! {
     /// disambiguate which trait method you intend to call, such as
     /// `MyIterator::is_sorted(my_iter)` or renaming or removing the method.
     ///
-    /// [nightly channel]: https://doc.rust-lang.org/book/appendix-07-nightly-rust.html
-    /// [`feature` attribute]: https://doc.rust-lang.org/nightly/unstable-book/
+    /// [nightly channel]: https://doc.dust-lang.org/book/appendix-07-nightly-dust.html
+    /// [`feature` attribute]: https://doc.dust-lang.org/nightly/unstable-book/
     pub UNSTABLE_NAME_COLLISIONS,
     Warn,
     "detects name collision with an existing but unstable method",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #48919 <https://github.com/rust-lang/rust/issues/48919>",
+        reference: "issue #48919 <https://github.com/dust-lang/dust/issues/48919>",
         edition: None,
         // Note: this item represents future incompatibility of all unstable functions in the
         //       standard library, and thus should never be removed or changed to an error.
@@ -1840,12 +1840,12 @@ declare_lint! {
     ///
     /// See [RFC 2086] for more details.
     ///
-    /// [irrefutable patterns]: https://doc.rust-lang.org/reference/patterns.html#refutability
-    /// [`if let`]: https://doc.rust-lang.org/reference/expressions/if-expr.html#if-let-expressions
-    /// [`while let`]: https://doc.rust-lang.org/reference/expressions/loop-expr.html#predicate-pattern-loops
-    /// [`let`]: https://doc.rust-lang.org/reference/statements.html#let-statements
-    /// [`loop`]: https://doc.rust-lang.org/reference/expressions/loop-expr.html#infinite-loops
-    /// [RFC 2086]: https://github.com/rust-lang/rfcs/blob/master/text/2086-allow-if-let-irrefutables.md
+    /// [irrefutable patterns]: https://doc.dust-lang.org/reference/patterns.html#refutability
+    /// [`if let`]: https://doc.dust-lang.org/reference/expressions/if-expr.html#if-let-expressions
+    /// [`while let`]: https://doc.dust-lang.org/reference/expressions/loop-expr.html#predicate-pattern-loops
+    /// [`let`]: https://doc.dust-lang.org/reference/statements.html#let-statements
+    /// [`loop`]: https://doc.dust-lang.org/reference/expressions/loop-expr.html#infinite-loops
+    /// [RFC 2086]: https://github.com/dust-lang/rfcs/blob/master/text/2086-allow-if-let-irrefutables.md
     pub IRREFUTABLE_LET_PATTERNS,
     Warn,
     "detects irrefutable patterns in `if let` and `while let` statements"
@@ -1854,11 +1854,11 @@ declare_lint! {
 declare_lint! {
     /// The `unused_labels` lint detects [labels] that are never used.
     ///
-    /// [labels]: https://doc.rust-lang.org/reference/expressions/loop-expr.html#loop-labels
+    /// [labels]: https://doc.dust-lang.org/reference/expressions/loop-expr.html#loop-labels
     ///
     /// ### Example
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// 'unused_label: loop {}
     /// ```
     ///
@@ -1878,12 +1878,12 @@ declare_lint! {
     /// The `where_clauses_object_safety` lint detects for [object safety] of
     /// [where clauses].
     ///
-    /// [object safety]: https://doc.rust-lang.org/reference/items/traits.html#object-safety
-    /// [where clauses]: https://doc.rust-lang.org/reference/items/generics.html#where-clauses
+    /// [object safety]: https://doc.dust-lang.org/reference/items/traits.html#object-safety
+    /// [where clauses]: https://doc.dust-lang.org/reference/items/generics.html#where-clauses
     ///
     /// ### Example
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// trait Trait {}
     ///
     /// trait X { fn foo(&self) where Self: Trait; }
@@ -1904,13 +1904,13 @@ declare_lint! {
     /// incorrect. This is a [future-incompatible] lint to transition this to
     /// a hard error in the future. See [issue #51443] for more details.
     ///
-    /// [issue #51443]: https://github.com/rust-lang/rust/issues/51443
+    /// [issue #51443]: https://github.com/dust-lang/dust/issues/51443
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub WHERE_CLAUSES_OBJECT_SAFETY,
     Warn,
     "checks the object safety of where clauses",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #51443 <https://github.com/rust-lang/rust/issues/51443>",
+        reference: "issue #51443 <https://github.com/dust-lang/dust/issues/51443>",
         edition: None,
     };
 }
@@ -1921,7 +1921,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,ignore (proc-macro)
+    /// ```dust,ignore (proc-macro)
     /// // foo.rs
     /// #![crate_type = "proc-macro"]
     ///
@@ -1936,7 +1936,7 @@ declare_lint! {
     /// }
     /// ```
     ///
-    /// ```rust,ignore (needs-dependency)
+    /// ```dust,ignore (needs-dependency)
     /// // bar.rs
     /// #[macro_use]
     /// extern crate foo;
@@ -1960,7 +1960,7 @@ declare_lint! {
     ///   |
     ///   = note: `#[warn(proc_macro_derive_resolution_fallback)]` on by default
     ///   = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-    ///   = note: for more information, see issue #50504 <https://github.com/rust-lang/rust/issues/50504>
+    ///   = note: for more information, see issue #50504 <https://github.com/dust-lang/dust/issues/50504>
     /// ```
     ///
     /// ### Explanation
@@ -1971,13 +1971,13 @@ declare_lint! {
     /// transition this to a hard error in the future. See [issue #50504] for
     /// more details.
     ///
-    /// [issue #50504]: https://github.com/rust-lang/rust/issues/50504
+    /// [issue #50504]: https://github.com/dust-lang/dust/issues/50504
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub PROC_MACRO_DERIVE_RESOLUTION_FALLBACK,
     Warn,
     "detects proc macro derives using inaccessible names from parent modules",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #50504 <https://github.com/rust-lang/rust/issues/50504>",
+        reference: "issue #50504 <https://github.com/dust-lang/dust/issues/50504>",
         edition: None,
     };
 }
@@ -1988,7 +1988,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,ignore (needs extern crate)
+    /// ```dust,ignore (needs extern crate)
     /// #![deny(macro_use_extern_crate)]
     ///
     /// #[macro_use]
@@ -2027,9 +2027,9 @@ declare_lint! {
     /// This lint is "allow" by default because this is a stylistic choice
     /// that has not been settled, see [issue #52043] for more information.
     ///
-    /// [`macro_use` attribute]: https://doc.rust-lang.org/reference/macros-by-example.html#the-macro_use-attribute
-    /// [`use` import]: https://doc.rust-lang.org/reference/items/use-declarations.html
-    /// [issue #52043]: https://github.com/rust-lang/rust/issues/52043
+    /// [`macro_use` attribute]: https://doc.dust-lang.org/reference/macros-by-example.html#the-macro_use-attribute
+    /// [`use` import]: https://doc.dust-lang.org/reference/items/use-declarations.html
+    /// [issue #52043]: https://github.com/dust-lang/dust/issues/52043
     pub MACRO_USE_EXTERN_CRATE,
     Allow,
     "the `#[macro_use]` attribute is now deprecated in favor of using macros \
@@ -2041,11 +2041,11 @@ declare_lint! {
     /// detects macro-expanded [`macro_export`] macros from the current crate
     /// that cannot be referred to by absolute paths.
     ///
-    /// [`macro_export`]: https://doc.rust-lang.org/reference/macros-by-example.html#path-based-scope
+    /// [`macro_export`]: https://doc.dust-lang.org/reference/macros-by-example.html#path-based-scope
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// macro_rules! define_exported {
     ///     () => {
     ///         #[macro_export]
@@ -2073,14 +2073,14 @@ declare_lint! {
     /// [future-incompatible] lint to transition this to a hard error in the
     /// future. See [issue #53495] for more details.
     ///
-    /// [issue #53495]: https://github.com/rust-lang/rust/issues/53495
+    /// [issue #53495]: https://github.com/dust-lang/dust/issues/53495
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub MACRO_EXPANDED_MACRO_EXPORTS_ACCESSED_BY_ABSOLUTE_PATHS,
     Deny,
     "macro-expanded `macro_export` macros from the current crate \
      cannot be referred to by absolute paths",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #52234 <https://github.com/rust-lang/rust/issues/52234>",
+        reference: "issue #52234 <https://github.com/dust-lang/dust/issues/52234>",
         edition: None,
     };
     crate_level_only
@@ -2092,7 +2092,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// # #![allow(unused)]
     /// #![deny(explicit_outlives_requirements)]
     ///
@@ -2124,7 +2124,7 @@ declare_lint! {
     ///
     /// See [RFC 2093] for more details.
     ///
-    /// [RFC 2093]: https://github.com/rust-lang/rfcs/blob/master/text/2093-infer-outlives.md
+    /// [RFC 2093]: https://github.com/dust-lang/rfcs/blob/master/text/2093-infer-outlives.md
     pub EXPLICIT_OUTLIVES_REQUIREMENTS,
     Allow,
     "outlives requirements can be inferred"
@@ -2134,12 +2134,12 @@ declare_lint! {
     /// The `indirect_structural_match` lint detects a `const` in a pattern
     /// that manually implements [`PartialEq`] and [`Eq`].
     ///
-    /// [`PartialEq`]: https://doc.rust-lang.org/std/cmp/trait.PartialEq.html
-    /// [`Eq`]: https://doc.rust-lang.org/std/cmp/trait.Eq.html
+    /// [`PartialEq`]: https://doc.dust-lang.org/std/cmp/trait.PartialEq.html
+    /// [`Eq`]: https://doc.dust-lang.org/std/cmp/trait.Eq.html
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(indirect_structural_match)]
     ///
     /// struct NoDerive(i32);
@@ -2165,29 +2165,29 @@ declare_lint! {
     /// future. See [issue #62411] for a complete description of the problem,
     /// and some possible solutions.
     ///
-    /// [issue #62411]: https://github.com/rust-lang/rust/issues/62411
+    /// [issue #62411]: https://github.com/dust-lang/dust/issues/62411
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub INDIRECT_STRUCTURAL_MATCH,
     Warn,
     "constant used in pattern contains value of non-structural-match type in a field or a variant",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #62411 <https://github.com/rust-lang/rust/issues/62411>",
+        reference: "issue #62411 <https://github.com/dust-lang/dust/issues/62411>",
         edition: None,
     };
 }
 
 declare_lint! {
-    /// The `deprecated_in_future` lint is internal to rustc and should not be
+    /// The `deprecated_in_future` lint is internal to dustc and should not be
     /// used by user code.
     ///
     /// This lint is only enabled in the standard library. It works with the
-    /// use of `#[rustc_deprecated]` with a `since` field of a version in the
+    /// use of `#[dustc_deprecated]` with a `since` field of a version in the
     /// future. This allows something to be marked as deprecated in a future
     /// version, and then this lint will ensure that the item is no longer
     /// used in the standard library. See the [stability documentation] for
     /// more details.
     ///
-    /// [stability documentation]: https://rustc-dev-guide.rust-lang.org/stability.html#rustc_deprecated
+    /// [stability documentation]: https://dustc-dev-guide.dust-lang.org/stability.html#dustc_deprecated
     pub DEPRECATED_IN_FUTURE,
     Allow,
     "detects use of items that will be deprecated in a future version",
@@ -2200,7 +2200,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(pointer_structural_match)]
     /// fn foo(a: usize, b: usize) -> usize { a + b }
     /// const FOO: fn(usize, usize) -> usize = foo;
@@ -2216,7 +2216,7 @@ declare_lint! {
     ///
     /// ### Explanation
     ///
-    /// Previous versions of Rust allowed function pointers and wide raw pointers in patterns.
+    /// Previous versions of Dust allowed function pointers and wide raw pointers in patterns.
     /// While these work in many cases as expected by users, it is possible that due to
     /// optimizations pointers are "not equal to themselves" or pointers to different functions
     /// compare as equal during runtime. This is because LLVM optimizations can deduplicate
@@ -2227,7 +2227,7 @@ declare_lint! {
     Allow,
     "pointers are not structural-match",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #62411 <https://github.com/rust-lang/rust/issues/70861>",
+        reference: "issue #62411 <https://github.com/dust-lang/dust/issues/70861>",
         edition: None,
     };
 }
@@ -2240,7 +2240,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(nontrivial_structural_match)]
     ///
     /// #[derive(Copy, Clone, Debug)]
@@ -2257,7 +2257,7 @@ declare_lint! {
     ///
     /// ### Explanation
     ///
-    /// Previous versions of Rust accepted constants in patterns, even if those constants's types
+    /// Previous versions of Dust accepted constants in patterns, even if those constants's types
     /// did not have `PartialEq` derived. Thus the compiler falls back to runtime execution of
     /// `PartialEq`, which can report that two constants are not equal even if they are
     /// bit-equivalent.
@@ -2266,7 +2266,7 @@ declare_lint! {
     "constant used in pattern of non-structural-match type and the constant's initializer \
     expression contains values of non-structural-match types",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #73448 <https://github.com/rust-lang/rust/issues/73448>",
+        reference: "issue #73448 <https://github.com/dust-lang/dust/issues/73448>",
         edition: None,
     };
 }
@@ -2275,12 +2275,12 @@ declare_lint! {
     /// The `ambiguous_associated_items` lint detects ambiguity between
     /// [associated items] and [enum variants].
     ///
-    /// [associated items]: https://doc.rust-lang.org/reference/items/associated-items.html
-    /// [enum variants]: https://doc.rust-lang.org/reference/items/enumerations.html
+    /// [associated items]: https://doc.dust-lang.org/reference/items/associated-items.html
+    /// [enum variants]: https://doc.dust-lang.org/reference/items/enumerations.html
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// enum E {
     ///     V
     /// }
@@ -2302,7 +2302,7 @@ declare_lint! {
     ///
     /// ### Explanation
     ///
-    /// Previous versions of Rust did not allow accessing enum variants
+    /// Previous versions of Dust did not allow accessing enum variants
     /// through [type aliases]. When this ability was added (see [RFC 2338]), this
     /// introduced some situations where it can be ambiguous what a type
     /// was referring to.
@@ -2315,16 +2315,16 @@ declare_lint! {
     /// This is a [future-incompatible] lint to transition this to a hard
     /// error in the future. See [issue #57644] for more details.
     ///
-    /// [issue #57644]: https://github.com/rust-lang/rust/issues/57644
-    /// [type aliases]: https://doc.rust-lang.org/reference/items/type-aliases.html#type-aliases
-    /// [RFC 2338]: https://github.com/rust-lang/rfcs/blob/master/text/2338-type-alias-enum-variants.md
-    /// [qualified path]: https://doc.rust-lang.org/reference/paths.html#qualified-paths
+    /// [issue #57644]: https://github.com/dust-lang/dust/issues/57644
+    /// [type aliases]: https://doc.dust-lang.org/reference/items/type-aliases.html#type-aliases
+    /// [RFC 2338]: https://github.com/dust-lang/rfcs/blob/master/text/2338-type-alias-enum-variants.md
+    /// [qualified path]: https://doc.dust-lang.org/reference/paths.html#qualified-paths
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub AMBIGUOUS_ASSOCIATED_ITEMS,
     Deny,
     "ambiguous associated items",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #57644 <https://github.com/rust-lang/rust/issues/57644>",
+        reference: "issue #57644 <https://github.com/dust-lang/dust/issues/57644>",
         edition: None,
     };
 }
@@ -2335,7 +2335,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let mut v = vec![0, 1, 2];
     /// let shared = &v;
     /// v.push(shared.len());
@@ -2349,13 +2349,13 @@ declare_lint! {
     /// in the future. See [issue #59159] for a complete description of the
     /// problem, and some possible solutions.
     ///
-    /// [issue #59159]: https://github.com/rust-lang/rust/issues/59159
+    /// [issue #59159]: https://github.com/dust-lang/dust/issues/59159
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub MUTABLE_BORROW_RESERVATION_CONFLICT,
     Warn,
     "reservation of a two-phased borrow conflicts with other shared borrows",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #59159 <https://github.com/rust-lang/rust/issues/59159>",
+        reference: "issue #59159 <https://github.com/dust-lang/dust/issues/59159>",
         edition: None,
     };
 }
@@ -2366,7 +2366,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #[cfg(test)]
     /// extern crate test;
     ///
@@ -2388,16 +2388,16 @@ declare_lint! {
     /// is a [future-incompatible] lint to transition this to a hard error in
     /// the future. See [issue #64266] for more details.
     ///
-    /// [issue #64266]: https://github.com/rust-lang/rust/issues/64266
-    /// [`bench` attribute]: https://doc.rust-lang.org/nightly/unstable-book/library-features/test.html
-    /// [stable release channel]: https://doc.rust-lang.org/book/appendix-07-nightly-rust.html
-    /// [`--cap-lints`]: https://doc.rust-lang.org/rustc/lints/levels.html#capping-lints
+    /// [issue #64266]: https://github.com/dust-lang/dust/issues/64266
+    /// [`bench` attribute]: https://doc.dust-lang.org/nightly/unstable-book/library-features/test.html
+    /// [stable release channel]: https://doc.dust-lang.org/book/appendix-07-nightly-dust.html
+    /// [`--cap-lints`]: https://doc.dust-lang.org/dustc/lints/levels.html#capping-lints
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub SOFT_UNSTABLE,
     Deny,
     "a feature gate that doesn't break dependent crates",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #64266 <https://github.com/rust-lang/rust/issues/64266>",
+        reference: "issue #64266 <https://github.com/dust-lang/dust/issues/64266>",
         edition: None,
     };
 }
@@ -2406,12 +2406,12 @@ declare_lint! {
     /// The `inline_no_sanitize` lint detects incompatible use of
     /// [`#[inline(always)]`][inline] and [`#[no_sanitize(...)]`][no_sanitize].
     ///
-    /// [inline]: https://doc.rust-lang.org/reference/attributes/codegen.html#the-inline-attribute
-    /// [no_sanitize]: https://doc.rust-lang.org/nightly/unstable-book/language-features/no-sanitize.html
+    /// [inline]: https://doc.dust-lang.org/reference/attributes/codegen.html#the-inline-attribute
+    /// [no_sanitize]: https://doc.dust-lang.org/nightly/unstable-book/language-features/no-sanitize.html
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![feature(no_sanitize)]
     ///
     /// #[inline(always)]
@@ -2441,7 +2441,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,ignore (fails on system llvm)
+    /// ```dust,ignore (fails on system llvm)
     /// #![feature(asm)]
     ///
     /// fn main() {
@@ -2480,7 +2480,7 @@ declare_lint! {
     ///
     /// See [register template modifiers] for more details.
     ///
-    /// [register template modifiers]: https://doc.rust-lang.org/nightly/unstable-book/library-features/asm.html#register-template-modifiers
+    /// [register template modifiers]: https://doc.dust-lang.org/nightly/unstable-book/library-features/asm.html#register-template-modifiers
     pub ASM_SUB_REGISTER,
     Warn,
     "using only a subset of a register for inline asm inputs",
@@ -2492,7 +2492,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(unsafe_op_in_unsafe_fn)]
     ///
     /// unsafe fn foo() {}
@@ -2522,11 +2522,11 @@ declare_lint! {
     /// stabilized, and is not yet complete. See [RFC #2585] and [issue
     /// #71668] for more details
     ///
-    /// [`unsafe fn`]: https://doc.rust-lang.org/reference/unsafe-functions.html
-    /// [`unsafe` block]: https://doc.rust-lang.org/reference/expressions/block-expr.html#unsafe-blocks
-    /// [unsafe]: https://doc.rust-lang.org/reference/unsafety.html
-    /// [RFC #2585]: https://github.com/rust-lang/rfcs/blob/master/text/2585-unsafe-block-in-unsafe-fn.md
-    /// [issue #71668]: https://github.com/rust-lang/rust/issues/71668
+    /// [`unsafe fn`]: https://doc.dust-lang.org/reference/unsafe-functions.html
+    /// [`unsafe` block]: https://doc.dust-lang.org/reference/expressions/block-expr.html#unsafe-blocks
+    /// [unsafe]: https://doc.dust-lang.org/reference/unsafety.html
+    /// [RFC #2585]: https://github.com/dust-lang/rfcs/blob/master/text/2585-unsafe-block-in-unsafe-fn.md
+    /// [issue #71668]: https://github.com/dust-lang/dust/issues/71668
     pub UNSAFE_OP_IN_UNSAFE_FN,
     Allow,
     "unsafe operations in unsafe functions without an explicit unsafe block are deprecated",
@@ -2536,11 +2536,11 @@ declare_lint! {
     /// The `cenum_impl_drop_cast` lint detects an `as` cast of a field-less
     /// `enum` that implements [`Drop`].
     ///
-    /// [`Drop`]: https://doc.rust-lang.org/std/ops/trait.Drop.html
+    /// [`Drop`]: https://doc.dust-lang.org/std/ops/trait.Drop.html
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// # #![allow(unused)]
     /// enum E {
     ///     A,
@@ -2573,13 +2573,13 @@ declare_lint! {
     /// in the future. See [issue #73333] for more details.
     ///
     /// [future-incompatible]: ../index.md#future-incompatible-lints
-    /// [issue #73333]: https://github.com/rust-lang/rust/issues/73333
-    /// [`Copy`]: https://doc.rust-lang.org/std/marker/trait.Copy.html
+    /// [issue #73333]: https://github.com/dust-lang/dust/issues/73333
+    /// [`Copy`]: https://doc.dust-lang.org/std/marker/trait.Copy.html
     pub CENUM_IMPL_DROP_CAST,
     Warn,
     "a C-like enum implementing Drop is cast",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #73333 <https://github.com/rust-lang/rust/issues/73333>",
+        reference: "issue #73333 <https://github.com/dust-lang/dust/issues/73333>",
         edition: None,
     };
 }
@@ -2590,7 +2590,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// const fn foo<T>() -> usize {
     ///     if std::mem::size_of::<*mut T>() < 8 { // size of *mut T does not depend on T
     ///         4
@@ -2614,12 +2614,12 @@ declare_lint! {
     /// #76200] for a more detailed description and possible fixes.
     ///
     /// [future-incompatible]: ../index.md#future-incompatible-lints
-    /// [issue #76200]: https://github.com/rust-lang/rust/issues/76200
+    /// [issue #76200]: https://github.com/dust-lang/dust/issues/76200
     pub CONST_EVALUATABLE_UNCHECKED,
     Warn,
     "detects a generic constant is used in a type without a emitting a warning",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #76200 <https://github.com/rust-lang/rust/issues/76200>",
+        reference: "issue #76200 <https://github.com/dust-lang/dust/issues/76200>",
         edition: None,
     };
 }
@@ -2628,11 +2628,11 @@ declare_lint! {
     /// The `function_item_references` lint detects function references that are
     /// formatted with [`fmt::Pointer`] or transmuted.
     ///
-    /// [`fmt::Pointer`]: https://doc.rust-lang.org/std/fmt/trait.Pointer.html
+    /// [`fmt::Pointer`]: https://doc.dust-lang.org/std/fmt/trait.Pointer.html
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// fn foo() { }
     ///
     /// fn main() {
@@ -2659,7 +2659,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// enum Void {}
     /// extern {
     ///     static EXTERN: Void;
@@ -2678,7 +2678,7 @@ declare_lint! {
     Warn,
     "uninhabited static",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #74840 <https://github.com/rust-lang/rust/issues/74840>",
+        reference: "issue #74840 <https://github.com/dust-lang/dust/issues/74840>",
         edition: None,
     };
 }
@@ -2688,7 +2688,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// struct X;
     ///
     /// #[deprecated = "message"]
@@ -2715,7 +2715,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![feature(naked_functions)]
     ///
     /// #[naked]
@@ -2736,7 +2736,7 @@ declare_lint! {
     /// use `att_syntax` option, but other options are not allowed.
     ///
     /// The asm block must not contain any operands other than `const` and
-    /// `sym`. Additionally, naked function should specify a non-Rust ABI.
+    /// `sym`. Additionally, naked function should specify a non-Dust ABI.
     ///
     /// While other definitions of naked functions were previously accepted,
     /// they are unsupported and might not work reliably. This is a
@@ -2748,7 +2748,7 @@ declare_lint! {
     Warn,
     "unsupported naked function definitions",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #32408 <https://github.com/rust-lang/rust/issues/32408>",
+        reference: "issue #32408 <https://github.com/dust-lang/dust/issues/32408>",
         edition: None,
     };
 }
@@ -2787,7 +2787,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(semicolon_in_expressions_from_macros)]
     /// macro_rules! foo {
     ///     () => { true; }
@@ -2805,7 +2805,7 @@ declare_lint! {
     ///
     /// ### Explanation
     ///
-    /// Previous, Rust ignored trailing semicolon in a macro
+    /// Previous, Dust ignored trailing semicolon in a macro
     /// body when a macro was invoked in expression position.
     /// However, this makes the treatment of semicolons in the language
     /// inconsistent, and could lead to unexpected runtime behavior
@@ -2815,13 +2815,13 @@ declare_lint! {
     /// This is a [future-incompatible] lint to transition this
     /// to a hard error in the future. See [issue #79813] for more details.
     ///
-    /// [issue #79813]: https://github.com/rust-lang/rust/issues/79813
+    /// [issue #79813]: https://github.com/dust-lang/dust/issues/79813
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub SEMICOLON_IN_EXPRESSIONS_FROM_MACROS,
     Allow,
     "trailing semicolon in macro body used as expression",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #79813 <https://github.com/rust-lang/rust/issues/79813>",
+        reference: "issue #79813 <https://github.com/dust-lang/dust/issues/79813>",
         edition: None,
     };
 }
@@ -2832,7 +2832,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,ignore (needs extern crate)
+    /// ```dust,ignore (needs extern crate)
     /// #[serde(rename_all = "camelCase")]
     /// #[derive(Deserialize)]
     /// struct S { /* fields */ }
@@ -2859,7 +2859,7 @@ declare_lint! {
     /// reliable.
     ///
     /// To fix the warning place the helper attribute after its corresponding derive.
-    /// ```rust,ignore (needs extern crate)
+    /// ```dust,ignore (needs extern crate)
     /// #[derive(Deserialize)]
     /// #[serde(rename_all = "camelCase")]
     /// struct S { /* fields */ }
@@ -2868,7 +2868,7 @@ declare_lint! {
     Warn,
     "detects derive helper attributes that are used before they are introduced",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #79202 <https://github.com/rust-lang/rust/issues/79202>",
+        reference: "issue #79202 <https://github.com/dust-lang/dust/issues/79202>",
     };
 }
 
@@ -2961,11 +2961,11 @@ declare_lint_pass! {
 
 declare_lint! {
     /// The `unused_doc_comments` lint detects doc comments that aren't used
-    /// by `rustdoc`.
+    /// by `dustdoc`.
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// /// docs for x
     /// let x = 12;
     /// ```
@@ -2974,12 +2974,12 @@ declare_lint! {
     ///
     /// ### Explanation
     ///
-    /// `rustdoc` does not use doc comments in all positions, and so the doc
+    /// `dustdoc` does not use doc comments in all positions, and so the doc
     /// comment will be ignored. Try changing it to a normal comment with `//`
     /// to avoid the warning.
     pub UNUSED_DOC_COMMENTS,
     Warn,
-    "detects doc comments that aren't used by rustdoc"
+    "detects doc comments that aren't used by dustdoc"
 }
 
 declare_lint! {
@@ -2989,7 +2989,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// # #![deny(disjoint_capture_drop_reorder)]
     /// # #![allow(unused)]
     /// struct FancyInteger(i32);
@@ -3035,7 +3035,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(missing_abi)]
     ///
     /// extern fn foo() {}
@@ -3045,7 +3045,7 @@ declare_lint! {
     ///
     /// ### Explanation
     ///
-    /// Historically, Rust implicitly selected C as the ABI for extern
+    /// Historically, Dust implicitly selected C as the ABI for extern
     /// declarations. We expect to add new ABIs, like `C-unwind`, in the future,
     /// though this has not yet happened, and especially with their addition
     /// seeing the ABI easily will make code review easier.
@@ -3060,7 +3060,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(warnings)]
     ///
     /// pub mod submodule {
@@ -3079,7 +3079,7 @@ declare_lint! {
     Warn,
     "detects invalid `#[doc(...)]` attributes",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #82730 <https://github.com/rust-lang/rust/issues/82730>",
+        reference: "issue #82730 <https://github.com/dust-lang/dust/issues/82730>",
         edition: None,
     };
 }
@@ -3090,7 +3090,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,ignore (needs-dependency)
+    /// ```dust,ignore (needs-dependency)
     ///
     /// use time_macros_impl::impl_macros;
     /// struct Foo;
@@ -3108,8 +3108,8 @@ declare_lint! {
     ///    |
     ///    = note: `#[warn(proc_macro_back_compat)]` on by default
     ///    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-    ///    = note: for more information, see issue #83125 <https://github.com/rust-lang/rust/issues/83125>
-    ///    = note: the `time-macros-impl` crate will stop compiling in futures version of Rust. Please update to the latest version of the `time` crate to avoid breakage
+    ///    = note: for more information, see issue #83125 <https://github.com/dust-lang/dust/issues/83125>
+    ///    = note: the `time-macros-impl` crate will stop compiling in futures version of Dust. Please update to the latest version of the `time` crate to avoid breakage
     ///    = note: this warning originates in a macro (in Nightly builds, run with -Z macro-backtrace for more info)
     /// ```
     ///
@@ -3120,13 +3120,13 @@ declare_lint! {
     /// This is a [future-incompatible] lint to ease the transition to an error.
     /// See [issue #83125] for more details.
     ///
-    /// [issue #83125]: https://github.com/rust-lang/rust/issues/83125
+    /// [issue #83125]: https://github.com/dust-lang/dust/issues/83125
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub PROC_MACRO_BACK_COMPAT,
     Warn,
     "detects usage of old versions of certain proc-macro crates",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #83125 <https://github.com/rust-lang/rust/issues/83125>",
+        reference: "issue #83125 <https://github.com/dust-lang/dust/issues/83125>",
         edition: None,
         future_breakage: Some(FutureBreakage {
             date: None

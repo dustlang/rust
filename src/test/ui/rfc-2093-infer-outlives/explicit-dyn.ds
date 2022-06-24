@@ -1,11 +1,11 @@
 #![feature(dyn_trait)]
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 trait Trait<'x, T> where T: 'x {
 }
 
-#[rustc_outlives]
-struct Foo<'a, A> //~ ERROR rustc_outlives
+#[dustc_outlives]
+struct Foo<'a, A> //~ ERROR dustc_outlives
 {
     foo: Box<dyn Trait<'a, A>>
 }

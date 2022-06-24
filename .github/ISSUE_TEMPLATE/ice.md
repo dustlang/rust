@@ -5,10 +5,10 @@ labels: C-bug, I-ICE, T-compiler
 ---
 <!--
 Thank you for finding an Internal Compiler Error! 🧊  If possible, try to provide
-a minimal verifiable example. You can read "Rust Bug Minimization Patterns" for
+a minimal verifiable example. You can read "Dust Bug Minimization Patterns" for
 how to create smaller examples.
 
-http://blog.pnkfx.org/blog/2019/11/18/rust-bug-minimization-patterns/
+http://blog.pnkfx.org/blog/2019/11/18/dust-bug-minimization-patterns/
 
 -->
 

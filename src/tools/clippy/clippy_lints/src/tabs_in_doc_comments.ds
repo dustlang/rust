@@ -1,15 +1,15 @@
 use crate::utils::span_lint_and_sugg;
-use rustc_ast::ast;
-use rustc_errors::Applicability;
-use rustc_lint::{EarlyContext, EarlyLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::{BytePos, Span};
+use dustc_ast::ast;
+use dustc_errors::Applicability;
+use dustc_lint::{EarlyContext, EarlyLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::{BytePos, Span};
 use std::convert::TryFrom;
 
 declare_clippy_lint! {
     /// **What it does:** Checks doc comments for usage of tab characters.
     ///
-    /// **Why is this bad?** The rust style-guide promotes spaces instead of tabs for indentation.
+    /// **Why is this bad?** The dust style-guide promotes spaces instead of tabs for indentation.
     /// To keep a consistent view on the source, also doc comments should not have tabs.
     /// Also, explaining ascii-diagrams containing tabs can get displayed incorrectly when the
     /// display settings of the author and reader differ.
@@ -17,7 +17,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// ///
     /// /// Struct to hold two strings:
     /// /// 	- first		one
@@ -35,7 +35,7 @@ declare_clippy_lint! {
     /// ```
     ///
     /// Will be converted to:
-    /// ```rust
+    /// ```dust
     /// ///
     /// /// Struct to hold two strings:
     /// ///     - first        one

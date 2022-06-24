@@ -9,8 +9,8 @@ pub use self::MetadataType::*;
 pub use self::RealPredicate::*;
 
 use libc::c_uint;
-use rustc_data_structures::small_c_str::SmallCStr;
-use rustc_llvm::RustString;
+use dustc_data_structures::small_c_str::SmallCStr;
+use dustc_llvm::DustString;
 use std::cell::RefCell;
 use std::ffi::{CStr, CString};
 use std::str::FromStr;
@@ -22,29 +22,29 @@ mod ffi;
 
 pub use self::ffi::*;
 
-impl LLVMRustResult {
+impl LLVMDustResult {
     pub fn into_result(self) -> Result<(), ()> {
         match self {
-            LLVMRustResult::Success => Ok(()),
-            LLVMRustResult::Failure => Err(()),
+            LLVMDustResult::Success => Ok(()),
+            LLVMDustResult::Failure => Err(()),
         }
     }
 }
 
 pub fn AddFunctionAttrStringValue(llfn: &'a Value, idx: AttributePlace, attr: &CStr, value: &CStr) {
     unsafe {
-        LLVMRustAddFunctionAttrStringValue(llfn, idx.as_uint(), attr.as_ptr(), value.as_ptr())
+        LLVMDustAddFunctionAttrStringValue(llfn, idx.as_uint(), attr.as_ptr(), value.as_ptr())
     }
 }
 
 pub fn AddFunctionAttrString(llfn: &'a Value, idx: AttributePlace, attr: &CStr) {
     unsafe {
-        LLVMRustAddFunctionAttrStringValue(llfn, idx.as_uint(), attr.as_ptr(), std::ptr::null())
+        LLVMDustAddFunctionAttrStringValue(llfn, idx.as_uint(), attr.as_ptr(), std::ptr::null())
     }
 }
 
 pub fn AddCallSiteAttrString(callsite: &Value, idx: AttributePlace, attr: &CStr) {
-    unsafe { LLVMRustAddCallSiteAttrString(callsite, idx.as_uint(), attr.as_ptr()) }
+    unsafe { LLVMDustAddCallSiteAttrString(callsite, idx.as_uint(), attr.as_ptr()) }
 }
 
 #[derive(Copy, Clone)]
@@ -106,13 +106,13 @@ pub fn SetFunctionCallConv(fn_: &'a Value, cc: CallConv) {
 pub fn SetUniqueComdat(llmod: &Module, val: &'a Value) {
     unsafe {
         let name = get_value_name(val);
-        LLVMRustSetComdat(llmod, val, name.as_ptr().cast(), name.len());
+        LLVMDustSetComdat(llmod, val, name.as_ptr().cast(), name.len());
     }
 }
 
 pub fn UnsetComdat(val: &'a Value) {
     unsafe {
-        LLVMRustUnsetComdat(val);
+        LLVMDustUnsetComdat(val);
     }
 }
 
@@ -130,15 +130,15 @@ pub fn set_thread_local_mode(global: &'a Value, mode: ThreadLocalMode) {
 
 impl Attribute {
     pub fn apply_llfn(&self, idx: AttributePlace, llfn: &Value) {
-        unsafe { LLVMRustAddFunctionAttribute(llfn, idx.as_uint(), *self) }
+        unsafe { LLVMDustAddFunctionAttribute(llfn, idx.as_uint(), *self) }
     }
 
     pub fn apply_callsite(&self, idx: AttributePlace, callsite: &Value) {
-        unsafe { LLVMRustAddCallSiteAttribute(callsite, idx.as_uint(), *self) }
+        unsafe { LLVMDustAddCallSiteAttribute(callsite, idx.as_uint(), *self) }
     }
 
     pub fn unapply_llfn(&self, idx: AttributePlace, llfn: &Value) {
-        unsafe { LLVMRustRemoveFunctionAttributes(llfn, idx.as_uint(), *self) }
+        unsafe { LLVMDustRemoveFunctionAttributes(llfn, idx.as_uint(), *self) }
     }
 
     pub fn toggle_llfn(&self, idx: AttributePlace, llfn: &Value, set: bool) {
@@ -220,13 +220,13 @@ pub fn set_global_constant(llglobal: &Value, is_constant: bool) {
 
 pub fn set_linkage(llglobal: &Value, linkage: Linkage) {
     unsafe {
-        LLVMRustSetLinkage(llglobal, linkage);
+        LLVMDustSetLinkage(llglobal, linkage);
     }
 }
 
 pub fn set_visibility(llglobal: &Value, visibility: Visibility) {
     unsafe {
-        LLVMRustSetVisibility(llglobal, visibility);
+        LLVMDustSetVisibility(llglobal, visibility);
     }
 }
 
@@ -238,7 +238,7 @@ pub fn set_alignment(llglobal: &Value, bytes: usize) {
 
 pub fn set_comdat(llmod: &Module, llglobal: &Value, name: &str) {
     unsafe {
-        LLVMRustSetComdat(llmod, llglobal, name.as_ptr().cast(), name.len());
+        LLVMDustSetComdat(llmod, llglobal, name.as_ptr().cast(), name.len());
     }
 }
 
@@ -272,27 +272,27 @@ pub fn set_value_name(value: &Value, name: &[u8]) {
     }
 }
 
-pub fn build_string(f: impl FnOnce(&RustString)) -> Result<String, FromUtf8Error> {
-    let sr = RustString { bytes: RefCell::new(Vec::new()) };
+pub fn build_string(f: impl FnOnce(&DustString)) -> Result<String, FromUtf8Error> {
+    let sr = DustString { bytes: RefCell::new(Vec::new()) };
     f(&sr);
     String::from_utf8(sr.bytes.into_inner())
 }
 
-pub fn build_byte_buffer(f: impl FnOnce(&RustString)) -> Vec<u8> {
-    let sr = RustString { bytes: RefCell::new(Vec::new()) };
+pub fn build_byte_buffer(f: impl FnOnce(&DustString)) -> Vec<u8> {
+    let sr = DustString { bytes: RefCell::new(Vec::new()) };
     f(&sr);
     sr.bytes.into_inner()
 }
 
 pub fn twine_to_string(tr: &Twine) -> String {
     unsafe {
-        build_string(|s| LLVMRustWriteTwineToString(tr, s)).expect("got a non-UTF8 Twine from LLVM")
+        build_string(|s| LLVMDustWriteTwineToString(tr, s)).expect("got a non-UTF8 Twine from LLVM")
     }
 }
 
 pub fn last_error() -> Option<String> {
     unsafe {
-        let cstr = LLVMRustGetLastError();
+        let cstr = LLVMDustGetLastError();
         if cstr.is_null() {
             None
         } else {
@@ -312,7 +312,7 @@ impl OperandBundleDef<'a> {
     pub fn new(name: &str, vals: &[&'a Value]) -> Self {
         let name = SmallCStr::new(name);
         let def = unsafe {
-            LLVMRustBuildOperandBundleDef(name.as_ptr(), vals.as_ptr(), vals.len() as c_uint)
+            LLVMDustBuildOperandBundleDef(name.as_ptr(), vals.as_ptr(), vals.len() as c_uint)
         };
         OperandBundleDef { raw: def }
     }
@@ -321,7 +321,7 @@ impl OperandBundleDef<'a> {
 impl Drop for OperandBundleDef<'a> {
     fn drop(&mut self) {
         unsafe {
-            LLVMRustFreeOperandBundleDef(&mut *(self.raw as *mut _));
+            LLVMDustFreeOperandBundleDef(&mut *(self.raw as *mut _));
         }
     }
 }

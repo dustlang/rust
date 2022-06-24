@@ -16,7 +16,7 @@ error[E0658]: type alias impl trait is not permitted here
 LL |     let x = || -> Foo2 { 42 };
    |                   ^^^^
    |
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
    = help: add `#![feature(type_alias_impl_trait)]` to the crate attributes to enable
 
 error[E0308]: mismatched types
@@ -51,7 +51,7 @@ error[E0658]: type alias impl trait is not permitted here
 LL |     let y: Foo4 = 42;
    |            ^^^^
    |
-   = note: see issue #63065 <https://github.com/rust-lang/rust/issues/63065> for more information
+   = note: see issue #63065 <https://github.com/dust-lang/dust/issues/63065> for more information
    = help: add `#![feature(impl_trait_in_bindings)]` to the crate attributes to enable
 
 error: could not find defining uses
@@ -75,4 +75,4 @@ LL | type Foo4 = impl Debug;
 error: aborting due to 8 previous errors
 
 Some errors have detailed explanations: E0308, E0658.
-For more information about an error, try `rustc --explain E0308`.
+For more information about an error, try `dustc --explain E0308`.

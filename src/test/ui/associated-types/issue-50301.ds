@@ -1,4 +1,4 @@
-// Tests that HRTBs are correctly accepted -- https://github.com/rust-lang/rust/issues/50301
+// Tests that HRTBs are correctly accepted -- https://github.com/dust-lang/dust/issues/50301
 // check-pass
 // ignore-compare-mode-chalk
 trait Trait

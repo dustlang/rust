@@ -1,6 +1,6 @@
-`librustc_target` contains some very low-level details that are
+`libdustc_target` contains some very low-level details that are
 specific to different compilation targets and so forth.
 
-For more information about how rustc works, see the [rustc dev guide].
+For more information about how dustc works, see the [dustc dev guide].
 
-[rustc dev guide]: https://rustc-dev-guide.rust-lang.org/
+[dustc dev guide]: https://dustc-dev-guide.dust-lang.org/

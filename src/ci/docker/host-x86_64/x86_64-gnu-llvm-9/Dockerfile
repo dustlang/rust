@@ -26,11 +26,11 @@ COPY scripts/sccache.sh /scripts/
 RUN sh /scripts/sccache.sh
 
 # using llvm-link-shared due to libffi issues -- see #34486
-ENV RUST_CONFIGURE_ARGS \
+ENV DUST_CONFIGURE_ARGS \
       --build=x86_64-unknown-linux-gnu \
       --llvm-root=/usr/lib/llvm-9 \
       --enable-llvm-link-shared \
-      --set rust.thin-lto-import-instr-limit=10
+      --set dust.thin-lto-import-instr-limit=10
 
 ENV SCRIPT python2.7 ../x.py --stage 2 test --exclude src/tools/tidy && \
            # Run the `mir-opt` tests again but this time for a 32-bit target.

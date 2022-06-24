@@ -14,4 +14,4 @@ LL | impl<T,U> Foo<T,U> where T: ExtraCopy<U>, U: Copy
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

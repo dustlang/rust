@@ -5,7 +5,7 @@ LL | #![feature(unsized_locals)]
    |            ^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #48055 <https://github.com/rust-lang/rust/issues/48055> for more information
+   = note: see issue #48055 <https://github.com/dust-lang/dust/issues/48055> for more information
 
 error: the `foo` method cannot be invoked on a trait object
   --> $DIR/by-value-trait-object-safety.rs:20:7

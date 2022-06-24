@@ -7,7 +7,7 @@ pub fn opts() -> TargetOptions {
         LinkerFlavor::Gcc,
         vec![
             // Tell GCC to avoid linker plugins, because we are not bundling
-            // them with Windows installer, and Rust does its own LTO anyways.
+            // them with Windows installer, and Dust does its own LTO anyways.
             "-fno-use-linker-plugin".to_string(),
             // Always enable DEP (NX bit) when it is available
             "-Wl,--nxcompat".to_string(),
@@ -34,7 +34,7 @@ pub fn opts() -> TargetOptions {
         // `_fmode` that is used by an implementation of `__p__fmode` in x86_64.
         // The library is purposely listed twice to fix that.
         //
-        // See https://github.com/rust-lang/rust/pull/47483 for some more details.
+        // See https://github.com/dust-lang/dust/pull/47483 for some more details.
         "-lmsvcrt".to_string(),
         "-luser32".to_string(),
         "-lkernel32".to_string(),

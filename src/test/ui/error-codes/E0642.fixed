@@ -1,6 +1,6 @@
-// run-rustfix
+// run-dustfix
 
-#![allow(unused)] // for rustfix
+#![allow(unused)] // for dustfix
 
 #[derive(Clone, Copy)]
 struct S;

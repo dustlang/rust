@@ -9,7 +9,7 @@ tests. `panic!` is closely tied with the `unwrap` method of both
 [`Option`][ounwrap] and [`Result`][runwrap] enums. Both implementations call
 `panic!` when they are set to [`None`] or [`Err`] variants.
 
-This macro is used to inject panic into a Rust thread, causing the thread to
+This macro is used to inject panic into a Dust thread, causing the thread to
 panic entirely. This macro panics with a string and uses the [`format!`] syntax
 for building the message.
 

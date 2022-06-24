@@ -4,7 +4,7 @@ set -ex
 
 # Check sysroot handling
 sysroot=$(./target/debug/clippy-driver --print sysroot)
-test "$sysroot" = "$(rustc --print sysroot)"
+test "$sysroot" = "$(dustc --print sysroot)"
 
 if [[ ${OS} == "Windows" ]]; then
 	desired_sysroot=C:/tmp
@@ -26,14 +26,14 @@ unset CARGO_MANIFEST_DIR
 sed -e "s,tests/ui,\$DIR," -e "/= help/d" double_neg.stderr >normalized.stderr
 diff -u normalized.stderr tests/ui/double_neg.stderr
 
-# make sure "clippy-driver --rustc --arg" and "rustc --arg" behave the same
-SYSROOT=$(rustc --print sysroot)
-diff -u <(LD_LIBRARY_PATH=${SYSROOT}/lib ./target/debug/clippy-driver --rustc --version --verbose) <(rustc --version --verbose)
+# make sure "clippy-driver --dustc --arg" and "dustc --arg" behave the same
+SYSROOT=$(dustc --print sysroot)
+diff -u <(LD_LIBRARY_PATH=${SYSROOT}/lib ./target/debug/clippy-driver --dustc --version --verbose) <(dustc --version --verbose)
 
 echo "fn main() {}" >target/driver_test.rs
-# we can't run 2 rustcs on the same file at the same time
-CLIPPY=$(LD_LIBRARY_PATH=${SYSROOT}/lib ./target/debug/clippy-driver ./target/driver_test.rs --rustc)
-RUSTC=$(rustc ./target/driver_test.rs)
-diff -u <($CLIPPY) <($RUSTC)
+# we can't run 2 dustcs on the same file at the same time
+CLIPPY=$(LD_LIBRARY_PATH=${SYSROOT}/lib ./target/debug/clippy-driver ./target/driver_test.rs --dustc)
+DUSTC=$(dustc ./target/driver_test.rs)
+diff -u <($CLIPPY) <($DUSTC)
 
 # TODO: CLIPPY_CONF_DIR / CARGO_MANIFEST_DIR

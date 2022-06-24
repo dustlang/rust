@@ -41,7 +41,7 @@ fn generator_test() -> impl Generator<Yield = i32, Return = ()> {
 // CHECK-SAME: flags: DIFlagArtificial
 // CHECK:      [[S1:!.*]] = !DICompositeType(tag: DW_TAG_structure_type, name: "Suspend1", scope: [[GEN_FN]],
 // CHECK-SAME: flags: DIFlagArtificial
-// CHECK:      {{!.*}} = !DIDerivedType(tag: DW_TAG_member, name: "RUST$ENUM$DISR", scope: [[S1]],
+// CHECK:      {{!.*}} = !DIDerivedType(tag: DW_TAG_member, name: "DUST$ENUM$DISR", scope: [[S1]],
 // CHECK-SAME: flags: DIFlagArtificial
 // CHECK:      {{!.*}} = !DIDerivedType(tag: DW_TAG_member, name: "s", scope: [[S1]]
 // CHECK-NOT:  flags: DIFlagArtificial

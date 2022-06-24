@@ -1,15 +1,15 @@
 use super::ty::{AllowPlus, RecoverQPath, RecoverReturnSign};
 use super::{Parser, TokenType};
 use crate::maybe_whole;
-use rustc_ast::ptr::P;
-use rustc_ast::token::{self, Token};
-use rustc_ast::{self as ast, AngleBracketedArg, AngleBracketedArgs, ParenthesizedArgs};
-use rustc_ast::{AnonConst, AssocTyConstraint, AssocTyConstraintKind, BlockCheckMode};
-use rustc_ast::{GenericArg, GenericArgs};
-use rustc_ast::{Path, PathSegment, QSelf};
-use rustc_errors::{pluralize, Applicability, PResult};
-use rustc_span::source_map::{BytePos, Span};
-use rustc_span::symbol::{kw, sym, Ident};
+use dustc_ast::ptr::P;
+use dustc_ast::token::{self, Token};
+use dustc_ast::{self as ast, AngleBracketedArg, AngleBracketedArgs, ParenthesizedArgs};
+use dustc_ast::{AnonConst, AssocTyConstraint, AssocTyConstraintKind, BlockCheckMode};
+use dustc_ast::{GenericArg, GenericArgs};
+use dustc_ast::{Path, PathSegment, QSelf};
+use dustc_errors::{pluralize, Applicability, PResult};
+use dustc_span::source_map::{BytePos, Span};
+use dustc_span::symbol::{kw, sym, Ident};
 
 use std::mem;
 use tracing::debug;
@@ -509,14 +509,14 @@ impl<'a> Parser<'a> {
     /// - A literal.
     /// - A numeric literal prefixed by `-`.
     /// - A single-segment path.
-    pub(super) fn expr_is_valid_const_arg(&self, expr: &P<rustc_ast::Expr>) -> bool {
+    pub(super) fn expr_is_valid_const_arg(&self, expr: &P<dustc_ast::Expr>) -> bool {
         match &expr.kind {
             ast::ExprKind::Block(_, _) | ast::ExprKind::Lit(_) => true,
             ast::ExprKind::Unary(ast::UnOp::Neg, expr) => {
                 matches!(expr.kind, ast::ExprKind::Lit(_))
             }
             // We can only resolve single-segment paths at the moment, because multi-segment paths
-            // require type-checking: see `visit_generic_arg` in `src/librustc_resolve/late.rs`.
+            // require type-checking: see `visit_generic_arg` in `src/libdustc_resolve/late.rs`.
             ast::ExprKind::Path(None, path)
                 if path.segments.len() == 1 && path.segments[0].args.is_none() =>
             {

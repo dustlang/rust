@@ -1,6 +1,6 @@
-# `rustc-workspace-hack`
+# `dustc-workspace-hack`
 
-This crate is a bit of a hack to make workspaces in rustc work a bit better.
+This crate is a bit of a hack to make workspaces in dustc work a bit better.
 The rationale for this existence is a bit subtle, but the general idea is that
 we want commands like `./x.py build src/tools/{rls,clippy,cargo}` to share as
 many dependencies as possible.
@@ -19,7 +19,7 @@ The goal of this crate is to solve this problem and ensure that the resolved
 dependency graph for all of these tools is the same in the various subsets of
 each tool, notably enabling the same features of transitive dependencies.
 
-All tools vendored here depend on the `rustc-workspace-hack` crate on crates.io.
+All tools vendored here depend on the `dustc-workspace-hack` crate on crates.io.
 When on crates.io this crate is an empty crate that is just a noop. We override
 it, however, in this workspace to this crate here, which means we can control
 crates in the dependency graph for each of these tools.

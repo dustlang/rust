@@ -2,7 +2,7 @@ error: `#[deprecated]` cannot be used in staged API
   --> $DIR/deprecation-in-staged-api.rs:3:1
    |
 LL | #[deprecated]
-   | ^^^^^^^^^^^^^ use `#[rustc_deprecated]` instead
+   | ^^^^^^^^^^^^^ use `#[dustc_deprecated]` instead
 LL | fn main() {}
    | ------------
 

@@ -1,12 +1,12 @@
 use crate::ty::{self, InferConst, Ty, TyCtxt};
-use rustc_data_structures::snapshot_vec;
-use rustc_data_structures::undo_log::UndoLogs;
-use rustc_data_structures::unify::{
+use dustc_data_structures::snapshot_vec;
+use dustc_data_structures::undo_log::UndoLogs;
+use dustc_data_structures::unify::{
     self, EqUnifyValue, InPlace, NoError, UnificationTable, UnifyKey, UnifyValue,
 };
-use rustc_span::def_id::DefId;
-use rustc_span::symbol::Symbol;
-use rustc_span::Span;
+use dustc_span::def_id::DefId;
+use dustc_span::symbol::Symbol;
+use dustc_span::Span;
 
 use std::cmp;
 use std::marker::PhantomData;

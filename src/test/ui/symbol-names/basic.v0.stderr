@@ -1,25 +1,25 @@
 error: symbol-name(_RNvCs21hi0yVfW1J_5basic4main)
   --> $DIR/basic.rs:8:1
    |
-LL | #[rustc_symbol_name]
+LL | #[dustc_symbol_name]
    | ^^^^^^^^^^^^^^^^^^^^
 
 error: demangling(basic[17891616a171812d]::main)
   --> $DIR/basic.rs:8:1
    |
-LL | #[rustc_symbol_name]
+LL | #[dustc_symbol_name]
    | ^^^^^^^^^^^^^^^^^^^^
 
 error: demangling-alt(basic::main)
   --> $DIR/basic.rs:8:1
    |
-LL | #[rustc_symbol_name]
+LL | #[dustc_symbol_name]
    | ^^^^^^^^^^^^^^^^^^^^
 
 error: def-path(main)
   --> $DIR/basic.rs:15:1
    |
-LL | #[rustc_def_path]
+LL | #[dustc_def_path]
    | ^^^^^^^^^^^^^^^^^
 
 error: aborting due to 4 previous errors

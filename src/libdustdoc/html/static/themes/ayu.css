@@ -62,7 +62,7 @@ pre {
 	background-color: #14191f;
 }
 
-.logo-container.rust-logo > img {
+.logo-container.dust-logo > img {
 	filter: drop-shadow(1px 0 0px #fff)
 		drop-shadow(0 1px 0 #fff)
 		drop-shadow(-1px 0 0 #fff)
@@ -201,8 +201,8 @@ pre {
 	color: #a37acc;
 }
 
-pre.rust .comment { color: #788797; }
-pre.rust .doccomment { color: #a1ac88; }
+pre.dust .comment { color: #788797; }
+pre.dust .doccomment { color: #a1ac88; }
 
 nav:not(.sidebar) {
 	border-bottom-color: #424c57;
@@ -291,22 +291,22 @@ tr.result span.primitive::after, tr.result span.keyword::after {
 .line-numbers :target { background-color: transparent; }
 
 /* Code highlighting */
-pre.rust .number, pre.rust .string { color: #b8cc52; }
-pre.rust .kw, pre.rust .kw-2, pre.rust .prelude-ty,
-pre.rust .bool-val, pre.rust .prelude-val,
-pre.rust .op, pre.rust .lifetime { color: #ff7733; }
-pre.rust .macro, pre.rust .macro-nonterminal { color: #a37acc; }
-pre.rust .question-mark {
+pre.dust .number, pre.dust .string { color: #b8cc52; }
+pre.dust .kw, pre.dust .kw-2, pre.dust .prelude-ty,
+pre.dust .bool-val, pre.dust .prelude-val,
+pre.dust .op, pre.dust .lifetime { color: #ff7733; }
+pre.dust .macro, pre.dust .macro-nonterminal { color: #a37acc; }
+pre.dust .question-mark {
 	color: #ff9011;
 }
-pre.rust .self {
+pre.dust .self {
 	color: #36a3d9;
 	font-style: italic;
 }
-pre.rust .attribute {
+pre.dust .attribute {
 	color: #e6e1cf;
 }
-pre.rust .attribute .ident, pre.rust .attribute .op {
+pre.dust .attribute .ident, pre.dust .attribute .op {
 	color: #e6e1cf;
 }
 
@@ -427,7 +427,7 @@ pre.ignore:hover, .information:hover + pre.ignore {
 individually rather than as a group) */
 /* FIXME: these rules should be at the bottom of the file but currently must be
 above the `@media (max-width: 700px)` rules due to a bug in the css checker */
-/* see https://github.com/rust-lang/rust/pull/71237#issuecomment-618170143 */
+/* see https://github.com/dust-lang/dust/pull/71237#issuecomment-618170143 */
 .content .highlighted.mod, .content .highlighted.externcrate {}
 .search-input:focus {}
 .content span.attr,.content a.attr,.block a.current.attr,.content span.derive,.content a.derive,
@@ -439,7 +439,7 @@ above the `@media (max-width: 700px)` rules due to a bug in the css checker */
 .content span.type,.content a.type,.block a.current.type {}
 .content span.union,.content a.union,.block a.current.union {}
 .content .highlighted.foreigntype {}
-pre.rust .lifetime {}
+pre.dust .lifetime {}
 .content .highlighted.primitive {}
 .content .highlighted.constant,.content .highlighted.static {}
 .stab.unstable {}
@@ -449,7 +449,7 @@ h2,h3:not(.impl):not(.method):not(.type):not(.tymethod),h4:not(.method):not(.typ
 .content span.constant,.content a.constant,.block a.current.constant,.content span.static,
 .content a.static,.block a.current.static {}
 .content span.keyword,.content a.keyword,.block a.current.keyword {}
-pre.rust .comment {}
+pre.dust .comment {}
 .content .highlighted.enum {}
 .content .highlighted.struct {}
 .content .highlighted.keyword {}
@@ -457,11 +457,11 @@ pre.rust .comment {}
 .content span.fn,.content a.fn,.block a.current.fn,.content span.method,.content a.method,
 .block a.current.method,.content span.tymethod,.content a.tymethod,.block a.current.tymethod,
 .content .fnname {}
-pre.rust .kw {}
-pre.rust .self,pre.rust .bool-val,pre.rust .prelude-val,pre.rust .attribute,
-pre.rust .attribute .ident {}
+pre.dust .kw {}
+pre.dust .self,pre.dust .bool-val,pre.dust .prelude-val,pre.dust .attribute,
+pre.dust .attribute .ident {}
 .content span.foreigntype,.content a.foreigntype,.block a.current.foreigntype {}
-pre.rust .doccomment {}
+pre.dust .doccomment {}
 .stab.deprecated {}
 .content .highlighted.attr,.content .highlighted.derive,.content .highlighted.macro {}
 .stab.portability {}
@@ -469,7 +469,7 @@ pre.rust .doccomment {}
 .content span.primitive,.content a.primitive,.block a.current.primitive {}
 .content span.externcrate,.content span.mod,.content a.mod,.block a.current.mod {}
 .content .highlighted.type {}
-pre.rust .kw-2,pre.rust .prelude-ty {}
+pre.dust .kw-2,pre.dust .prelude-ty {}
 .content span.trait,.content a.trait,.block a.current.trait {}
 
 @media (max-width: 700px) {

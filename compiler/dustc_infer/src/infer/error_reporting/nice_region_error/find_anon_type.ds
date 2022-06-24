@@ -1,9 +1,9 @@
-use rustc_hir as hir;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::Node;
-use rustc_middle::hir::map::Map;
-use rustc_middle::middle::resolve_lifetime as rl;
-use rustc_middle::ty::{self, Region, TyCtxt};
+use dustc_hir as hir;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::Node;
+use dustc_middle::hir::map::Map;
+use dustc_middle::middle::resolve_lifetime as rl;
+use dustc_middle::ty::{self, Region, TyCtxt};
 
 /// This function calls the `visit_ty` method for the parameters
 /// corresponding to the anonymous regions. The `nested_visitor.found_type`

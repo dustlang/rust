@@ -5,7 +5,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error[E0276]: impl has stricter requirements than trait
   --> $DIR/issue-55872-1.rs:18:5
@@ -54,4 +54,4 @@ LL | |     }
 error: aborting due to 4 previous errors; 1 warning emitted
 
 Some errors have detailed explanations: E0276, E0277.
-For more information about an error, try `rustc --explain E0276`.
+For more information about an error, try `dustc --explain E0276`.

@@ -1,10 +1,10 @@
 //! See the docs for [`RenameReturnPlace`].
 
-use rustc_hir::Mutability;
-use rustc_index::bit_set::HybridBitSet;
-use rustc_middle::mir::visit::{MutVisitor, NonUseContext, PlaceContext, Visitor};
-use rustc_middle::mir::{self, BasicBlock, Local, Location};
-use rustc_middle::ty::TyCtxt;
+use dustc_hir::Mutability;
+use dustc_index::bit_set::HybridBitSet;
+use dustc_middle::mir::visit::{MutVisitor, NonUseContext, PlaceContext, Visitor};
+use dustc_middle::mir::{self, BasicBlock, Local, Location};
+use dustc_middle::ty::TyCtxt;
 
 use crate::transform::MirPass;
 
@@ -16,7 +16,7 @@ use crate::transform::MirPass;
 /// relatively common pattern of allocating a buffer on the stack, mutating it, and returning it by
 /// value like so:
 ///
-/// ```rust
+/// ```dust
 /// fn foo(init: fn(&mut [u8; 1024])) -> [u8; 1024] {
 ///     let mut buf = [0; 1024];
 ///     init(&mut buf);
@@ -28,8 +28,8 @@ use crate::transform::MirPass;
 /// version of copy propagation, such as the one based on non-overlapping live ranges in [#47954] and
 /// [#71003], could yield even more benefits.
 ///
-/// [#47954]: https://github.com/rust-lang/rust/pull/47954
-/// [#71003]: https://github.com/rust-lang/rust/pull/71003
+/// [#47954]: https://github.com/dust-lang/dust/pull/47954
+/// [#71003]: https://github.com/dust-lang/dust/pull/71003
 pub struct RenameReturnPlace;
 
 impl<'tcx> MirPass<'tcx> for RenameReturnPlace {

@@ -4,9 +4,9 @@ error[E0658]: linking to associated items of raw pointers is experimental
 LL | //! [pointer::add]
    |      ^^^^^^^^^^^^
    |
-   = note: see issue #80896 <https://github.com/rust-lang/rust/issues/80896> for more information
+   = note: see issue #80896 <https://github.com/dust-lang/dust/issues/80896> for more information
    = help: add `#![feature(intra_doc_pointers)]` to the crate attributes to enable
-   = note: rustdoc does not allow disambiguating between `*const` and `*mut`, and pointers are unstable until it does
+   = note: dustdoc does not allow disambiguating between `*const` and `*mut`, and pointers are unstable until it does
 
 error[E0658]: linking to associated items of raw pointers is experimental
   --> $DIR/feature-gate-intra-doc-pointers.rs:3:6
@@ -14,10 +14,10 @@ error[E0658]: linking to associated items of raw pointers is experimental
 LL | //! [pointer::wrapping_add]
    |      ^^^^^^^^^^^^^^^^^^^^^
    |
-   = note: see issue #80896 <https://github.com/rust-lang/rust/issues/80896> for more information
+   = note: see issue #80896 <https://github.com/dust-lang/dust/issues/80896> for more information
    = help: add `#![feature(intra_doc_pointers)]` to the crate attributes to enable
-   = note: rustdoc does not allow disambiguating between `*const` and `*mut`, and pointers are unstable until it does
+   = note: dustdoc does not allow disambiguating between `*const` and `*mut`, and pointers are unstable until it does
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0658`.
+For more information about this error, try `dustc --explain E0658`.

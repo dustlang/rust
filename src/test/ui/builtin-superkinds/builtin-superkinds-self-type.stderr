@@ -8,4 +8,4 @@ LL | impl <T: Sync> Foo for T { }
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0310`.
+For more information about this error, try `dustc --explain E0310`.

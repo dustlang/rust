@@ -1,5 +1,5 @@
-use rustc_apfloat::ppc::DoubleDouble;
-use rustc_apfloat::{Category, Float, Round};
+use dustc_apfloat::ppc::DoubleDouble;
+use dustc_apfloat::{Category, Float, Round};
 
 use std::cmp::Ordering;
 

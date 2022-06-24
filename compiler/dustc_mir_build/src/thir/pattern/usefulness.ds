@@ -19,7 +19,7 @@
 //!
 //! The algorithm implemented here is a modified version of the one described in [this
 //! paper](http://moscova.inria.fr/~maranget/papers/warn/index.html). We have however generalized
-//! it to accommodate the variety of patterns that Rust supports. We thus explain our version here,
+//! it to accommodate the variety of patterns that Dust supports. We thus explain our version here,
 //! without being as rigorous.
 //!
 //!
@@ -34,7 +34,7 @@
 //!
 //! This is enough to compute reachability: a pattern in a `match` expression is reachable iff it
 //! is useful w.r.t. the patterns above it:
-//! ```rust
+//! ```dust
 //! match x {
 //!     Some(_) => ...,
 //!     None => ..., // reachable: `None` is matched by this but not the branch above
@@ -46,7 +46,7 @@
 //! This is also enough to compute exhaustiveness: a match is exhaustive iff the wildcard `_`
 //! pattern is _not_ useful w.r.t. the patterns in the match. The values returned by `usefulness`
 //! are used to tell the user which values are missing.
-//! ```rust
+//! ```dust
 //! match x {
 //!     Some(0) => ...,
 //!     None => ...,
@@ -100,7 +100,7 @@
 //!
 //! Constructors, fields and relevant operations are defined in the [`super::deconstruct_pat`] module.
 //!
-//! Note: this constructors/fields distinction may not straightforwardly apply to every Rust type.
+//! Note: this constructors/fields distinction may not straightforwardly apply to every Dust type.
 //! For example a value of type `Rc<u64>` can't be deconstructed that way, and `&str` has an
 //! infinitude of constructors. There are also subtleties with visibility of fields and
 //! uninhabitedness and various other things. The constructors idea can be extended to handle most
@@ -287,14 +287,14 @@ use super::deconstruct_pat::{Constructor, Fields, SplitWildcard};
 use super::{Pat, PatKind};
 use super::{PatternFoldable, PatternFolder};
 
-use rustc_data_structures::captures::Captures;
-use rustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::captures::Captures;
+use dustc_data_structures::fx::FxHashMap;
 
-use rustc_arena::TypedArena;
-use rustc_hir::def_id::DefId;
-use rustc_hir::HirId;
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_span::Span;
+use dustc_arena::TypedArena;
+use dustc_hir::def_id::DefId;
+use dustc_hir::HirId;
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_span::Span;
 
 use smallvec::{smallvec, SmallVec};
 use std::fmt;
@@ -989,7 +989,7 @@ enum WitnessPreference {
 /// of the type as a value.
 ///
 /// A witness against a list of patterns should have the same types
-/// and length as the pattern matched against. Because Rust `match`
+/// and length as the pattern matched against. Because Dust `match`
 /// is always against a single pattern, at the end the witness will
 /// have length 1, but in the middle of the algorithm, it can contain
 /// multiple patterns.

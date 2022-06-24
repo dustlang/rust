@@ -1,6 +1,6 @@
 # `strip`
 
-The tracking issue for this feature is: [#72110](https://github.com/rust-lang/rust/issues/72110).
+The tracking issue for this feature is: [#72110](https://github.com/dust-lang/dust/issues/72110).
 
 ------------------------
 

@@ -5,26 +5,26 @@ labels: C-bug, I-ICE
 ---
 <!--
 Thank you for finding an Internal Compiler Error! 🧊  If possible, try to provide
-a minimal verifiable example. You can read "Rust Bug Minimization Patterns" for
+a minimal verifiable example. You can read "Dust Bug Minimization Patterns" for
 how to create smaller examples.
 
-http://blog.pnkfx.org/blog/2019/11/18/rust-bug-minimization-patterns/
+http://blog.pnkfx.org/blog/2019/11/18/dust-bug-minimization-patterns/
 
 -->
 
 ### Code
 
-```rust
+```dust
 <code>
 ```
 
 ### Meta
 
 - `cargo clippy -V`: e.g. clippy 0.0.212 (f455e46 2020-06-20)
-- `rustc -Vv`:
+- `dustc -Vv`:
   ```
-  rustc 1.46.0-nightly (f455e46ea 2020-06-20)
-  binary: rustc
+  dustc 1.46.0-nightly (f455e46ea 2020-06-20)
+  binary: dustc
   commit-hash: f455e46eae1a227d735091091144601b467e1565
   commit-date: 2020-06-20
   host: x86_64-unknown-linux-gnu
@@ -39,8 +39,8 @@ http://blog.pnkfx.org/blog/2019/11/18/rust-bug-minimization-patterns/
 ```
 
 <!--
-Include a backtrace in the code block by setting `RUST_BACKTRACE=1` in your
-environment. E.g. `RUST_BACKTRACE=1 cargo clippy`.
+Include a backtrace in the code block by setting `DUST_BACKTRACE=1` in your
+environment. E.g. `DUST_BACKTRACE=1 cargo clippy`.
 -->
 <details><summary>Backtrace</summary>
   <p>

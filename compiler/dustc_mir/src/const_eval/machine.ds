@@ -1,19 +1,19 @@
-use rustc_middle::mir;
-use rustc_middle::ty::{self, Ty};
+use dustc_middle::mir;
+use dustc_middle::ty::{self, Ty};
 use std::borrow::Borrow;
 use std::collections::hash_map::Entry;
 use std::hash::Hash;
 
-use rustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::fx::FxHashMap;
 use std::fmt;
 
-use rustc_ast::Mutability;
-use rustc_hir::def_id::DefId;
-use rustc_middle::mir::AssertMessage;
-use rustc_session::Limit;
-use rustc_span::symbol::{sym, Symbol};
-use rustc_target::abi::{Align, Size};
-use rustc_target::spec::abi::Abi;
+use dustc_ast::Mutability;
+use dustc_hir::def_id::DefId;
+use dustc_middle::mir::AssertMessage;
+use dustc_session::Limit;
+use dustc_span::symbol::{sym, Symbol};
+use dustc_target::abi::{Align, Size};
+use dustc_target::spec::abi::Abi;
 
 use crate::interpret::{
     self, compile_time_machine, AllocId, Allocation, Frame, ImmTy, InterpCx, InterpResult, Memory,
@@ -327,7 +327,7 @@ impl<'mir, 'tcx> interpret::Machine<'mir, 'tcx> for CompileTimeInterpreter<'mir,
         msg: &AssertMessage<'tcx>,
         _unwind: Option<mir::BasicBlock>,
     ) -> InterpResult<'tcx> {
-        use rustc_middle::mir::AssertKind::*;
+        use dustc_middle::mir::AssertKind::*;
         // Convert `AssertKind<Operand>` to `AssertKind<Scalar>`.
         let eval_to_int =
             |op| ecx.read_immediate(&ecx.eval_operand(op, None)?).map(|x| x.to_const_int());

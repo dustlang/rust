@@ -1,14 +1,14 @@
-use crate::rustc_target::abi::LayoutOf;
+use crate::dustc_target::abi::LayoutOf;
 use crate::utils::span_lint_and_then;
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{Item, ItemKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::mir::interpret::ConstValue;
-use rustc_middle::ty::{self, ConstKind};
-use rustc_session::{declare_tool_lint, impl_lint_pass};
-use rustc_span::{BytePos, Pos, Span};
-use rustc_typeck::hir_ty_to_ty;
+use dustc_errors::Applicability;
+use dustc_hir::{Item, ItemKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::mir::interpret::ConstValue;
+use dustc_middle::ty::{self, ConstKind};
+use dustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_span::{BytePos, Pos, Span};
+use dustc_typeck::hir_ty_to_ty;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for large `const` arrays that should
@@ -20,7 +20,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// // Bad
     /// pub const a = [0u32; 1_000_000];
     ///

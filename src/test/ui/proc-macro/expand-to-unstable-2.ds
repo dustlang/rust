@@ -2,13 +2,13 @@
 
 #![feature(register_attr)]
 
-#![register_attr(rustc_foo)]
+#![register_attr(dustc_foo)]
 
 #[macro_use]
 extern crate derive_unstable_2;
 
 #[derive(Unstable)]
-//~^ ERROR attributes starting with `rustc` are reserved for use by the `rustc` compiler
+//~^ ERROR attributes starting with `dustc` are reserved for use by the `dustc` compiler
 
 struct A;
 

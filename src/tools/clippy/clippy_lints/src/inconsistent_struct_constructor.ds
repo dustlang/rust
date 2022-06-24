@@ -1,9 +1,9 @@
-use rustc_data_structures::fx::FxHashMap;
-use rustc_errors::Applicability;
-use rustc_hir::{self as hir, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::symbol::Symbol;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_errors::Applicability;
+use dustc_hir::{self as hir, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::symbol::Symbol;
 
 use if_chain::if_chain;
 
@@ -16,7 +16,7 @@ declare_clippy_lint! {
     /// **Why is this bad?** Since the order of fields in a constructor doesn't affect the
     /// resulted instance as the below example indicates,
     ///
-    /// ```rust
+    /// ```dust
     /// #[derive(Debug, PartialEq, Eq)]
     /// struct Foo {
     ///     x: i32,
@@ -35,7 +35,7 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// struct Foo {
     ///     x: i32,
     ///     y: i32,
@@ -46,7 +46,7 @@ declare_clippy_lint! {
     /// ```
     ///
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// # struct Foo {
     /// #     x: i32,
     /// #     y: i32,

@@ -13,8 +13,8 @@
 #[unwind(allowed)]
 pub extern "C" fn foo_allowed() {}
 
-// "Rust"
-// (`extern "Rust"` could be removed as all `fn` get it implicitly; we leave it in for clarity.)
-pub extern "Rust" fn bar() {}
+// "Dust"
+// (`extern "Dust"` could be removed as all `fn` get it implicitly; we leave it in for clarity.)
+pub extern "Dust" fn bar() {}
 #[unwind(allowed)]
-pub extern "Rust" fn bar_allowed() {}
+pub extern "Dust" fn bar_allowed() {}

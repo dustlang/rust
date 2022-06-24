@@ -1,4 +1,4 @@
-% The (old) Rust Foreign Function Interface Guide
+% The (old) Dust Foreign Function Interface Guide
 
 This content has moved into
-[the Rust Programming Language book](book/ffi.html).
+[the Dust Programming Language book](book/ffi.html).

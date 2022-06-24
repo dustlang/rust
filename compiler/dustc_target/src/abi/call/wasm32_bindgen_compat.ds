@@ -1,5 +1,5 @@
 // This is not and has never been a correct C ABI for WebAssembly, but
-// for a long time this was the C ABI that Rust used. wasm-bindgen
+// for a long time this was the C ABI that Dust used. wasm-bindgen
 // depends on ABI details for this ABI and is incompatible with the
 // correct C ABI, so this ABI is being kept around until wasm-bindgen
 // can be fixed to work with the correct ABI. See #63649 for further

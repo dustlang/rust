@@ -2,7 +2,7 @@
 //!
 //! Type [`Option`] represents an optional value: every [`Option`]
 //! is either [`Some`] and contains a value, or [`None`], and
-//! does not. [`Option`] types are very common in Rust code, as
+//! does not. [`Option`] types are very common in Dust code, as
 //! they have a number of uses:
 //!
 //! * Initial values
@@ -45,8 +45,8 @@
 //
 //! # Options and pointers ("nullable" pointers)
 //!
-//! Rust's pointer types must always point to a valid location; there are
-//! no "null" references. Instead, Rust has *optional* pointers, like
+//! Dust's pointer types must always point to a valid location; there are
+//! no "null" references. Instead, Dust has *optional* pointers, like
 //! the optional owned box, [`Option`]`<`[`Box<T>`]`>`.
 //!
 //! The following example uses [`Option`] to create an optional box of
@@ -72,7 +72,7 @@
 //!
 //! # Representation
 //!
-//! Rust guarantees to optimize the following types `T` such that
+//! Dust guarantees to optimize the following types `T` such that
 //! [`Option<T>`] has the same size as `T`:
 //!
 //! * [`Box<U>`]
@@ -145,9 +145,9 @@
 //! [`num::NonZero*`]: crate::num
 //! [`ptr::NonNull<U>`]: crate::ptr::NonNull
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
-use crate::iter::{FromIterator, FusedIterator, TrustedLen};
+use crate::iter::{FromIterator, FusedIterator, TdustedLen};
 use crate::pin::Pin;
 use crate::{
     fmt, hint, mem,
@@ -156,17 +156,17 @@ use crate::{
 
 /// The `Option` type. See [the module level documentation](self) for more.
 #[derive(Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]
-#[rustc_diagnostic_item = "option_type"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[dustc_diagnostic_item = "option_type"]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub enum Option<T> {
     /// No value
     #[lang = "None"]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     None,
     /// Some value `T`
     #[lang = "Some"]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+    #[stable(feature = "dust1", since = "1.0.0")]
+    Some(#[stable(feature = "dust1", since = "1.0.0")] T),
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -191,8 +191,8 @@ impl<T> Option<T> {
     /// ```
     #[must_use = "if you intended to assert that this has a value, consider `.unwrap()` instead"]
     #[inline]
-    #[rustc_const_stable(feature = "const_option", since = "1.48.0")]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "const_option", since = "1.48.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub const fn is_some(&self) -> bool {
         matches!(*self, Some(_))
     }
@@ -211,8 +211,8 @@ impl<T> Option<T> {
     #[must_use = "if you intended to assert that this doesn't have a value, consider \
                   `.and_then(|| panic!(\"`Option` had a value when expected `None`\"))` instead"]
     #[inline]
-    #[rustc_const_stable(feature = "const_option", since = "1.48.0")]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "const_option", since = "1.48.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub const fn is_none(&self) -> bool {
         !self.is_some()
     }
@@ -270,8 +270,8 @@ impl<T> Option<T> {
     /// println!("still can print text: {:?}", text);
     /// ```
     #[inline]
-    #[rustc_const_stable(feature = "const_option", since = "1.48.0")]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "const_option", since = "1.48.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub const fn as_ref(&self) -> Option<&T> {
         match *self {
             Some(ref x) => Some(x),
@@ -292,7 +292,7 @@ impl<T> Option<T> {
     /// assert_eq!(x, Some(42));
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn as_mut(&mut self) -> Option<&mut T> {
         match *self {
             Some(ref mut x) => Some(x),
@@ -342,7 +342,7 @@ impl<T> Option<T> {
     /// ```
     #[inline]
     #[track_caller]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn expect(self, msg: &str) -> T {
         match self {
             Some(val) => val,
@@ -378,8 +378,8 @@ impl<T> Option<T> {
     /// ```
     #[inline]
     #[track_caller]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_const_unstable(feature = "const_option", issue = "67441")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_const_unstable(feature = "const_option", issue = "67441")]
     pub const fn unwrap(self) -> T {
         match self {
             Some(val) => val,
@@ -402,7 +402,7 @@ impl<T> Option<T> {
     /// assert_eq!(None.unwrap_or("bike"), "bike");
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn unwrap_or(self, default: T) -> T {
         match self {
             Some(x) => x,
@@ -420,7 +420,7 @@ impl<T> Option<T> {
     /// assert_eq!(None.unwrap_or_else(|| 2 * k), 20);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn unwrap_or_else<F: FnOnce() -> T>(self, f: F) -> T {
         match self {
             Some(x) => x,
@@ -435,7 +435,7 @@ impl<T> Option<T> {
     ///
     /// Calling this method on [`None`] is *[undefined behavior]*.
     ///
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///
@@ -481,7 +481,7 @@ impl<T> Option<T> {
     /// assert_eq!(maybe_some_len, Some(13));
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn map<U, F: FnOnce(T) -> U>(self, f: F) -> Option<U> {
         match self {
             Some(x) => Some(f(x)),
@@ -508,7 +508,7 @@ impl<T> Option<T> {
     /// assert_eq!(x.map_or(42, |v| v.len()), 42);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn map_or<U, F: FnOnce(T) -> U>(self, default: U, f: F) -> U {
         match self {
             Some(t) => f(t),
@@ -531,7 +531,7 @@ impl<T> Option<T> {
     /// assert_eq!(x.map_or_else(|| 2 * k, |v| v.len()), 42);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn map_or_else<U, D: FnOnce() -> U, F: FnOnce(T) -> U>(self, default: D, f: F) -> U {
         match self {
             Some(t) => f(t),
@@ -561,7 +561,7 @@ impl<T> Option<T> {
     /// assert_eq!(x.ok_or(0), Err(0));
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn ok_or<E>(self, err: E) -> Result<T, E> {
         match self {
             Some(v) => Ok(v),
@@ -586,7 +586,7 @@ impl<T> Option<T> {
     /// assert_eq!(x.ok_or_else(|| 0), Err(0));
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn ok_or_else<E, F: FnOnce() -> E>(self, err: F) -> Result<T, E> {
         match self {
             Some(v) => Ok(v),
@@ -640,8 +640,8 @@ impl<T> Option<T> {
     /// assert_eq!(x.iter().next(), None);
     /// ```
     #[inline]
-    #[rustc_const_unstable(feature = "const_option", issue = "67441")]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[dustc_const_unstable(feature = "const_option", issue = "67441")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub const fn iter(&self) -> Iter<'_, T> {
         Iter { inner: Item { opt: self.as_ref() } }
     }
@@ -662,7 +662,7 @@ impl<T> Option<T> {
     /// assert_eq!(x.iter_mut().next(), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn iter_mut(&mut self) -> IterMut<'_, T> {
         IterMut { inner: Item { opt: self.as_mut() } }
     }
@@ -693,7 +693,7 @@ impl<T> Option<T> {
     /// assert_eq!(x.and(y), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn and<U>(self, optb: Option<U>) -> Option<U> {
         match self {
             Some(_) => optb,
@@ -718,7 +718,7 @@ impl<T> Option<T> {
     /// assert_eq!(None.and_then(sq).and_then(sq), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn and_then<U, F: FnOnce(T) -> Option<U>>(self, f: F) -> Option<U> {
         match self {
             Some(x) => f(x),
@@ -739,7 +739,7 @@ impl<T> Option<T> {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```dust
     /// fn is_even(n: &i32) -> bool {
     ///     n % 2 == 0
     /// }
@@ -789,7 +789,7 @@ impl<T> Option<T> {
     /// assert_eq!(x.or(y), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn or(self, optb: Option<T>) -> Option<T> {
         match self {
             Some(_) => self,
@@ -811,7 +811,7 @@ impl<T> Option<T> {
     /// assert_eq!(None.or_else(nobody), None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn or_else<F: FnOnce() -> Option<T>>(self, f: F) -> Option<T> {
         match self {
             Some(_) => self,
@@ -957,7 +957,7 @@ impl<T> Option<T> {
     /// assert_eq!(y, None);
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn take(&mut self) -> Option<T> {
         mem::take(self)
     }
@@ -1096,7 +1096,7 @@ impl<T: Clone> Option<&T> {
     /// let cloned = opt_x.cloned();
     /// assert_eq!(cloned, Some(12));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn cloned(self) -> Option<T> {
         self.map(|t| t.clone())
     }
@@ -1233,7 +1233,7 @@ impl<T: Default> Option<T> {
     /// [`parse`]: str::parse
     /// [`FromStr`]: crate::str::FromStr
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn unwrap_or_default(self) -> T {
         match self {
             Some(x) => x,
@@ -1303,7 +1303,7 @@ impl<T, E> Option<Result<T, E>> {
     /// ```
     #[inline]
     #[stable(feature = "transpose_result", since = "1.33.0")]
-    #[rustc_const_unstable(feature = "const_option", issue = "67441")]
+    #[dustc_const_unstable(feature = "const_option", issue = "67441")]
     pub const fn transpose(self) -> Result<Option<T>, E> {
         match self {
             Some(Ok(x)) => Ok(Some(x)),
@@ -1333,7 +1333,7 @@ fn expect_none_failed(msg: &str, value: &dyn fmt::Debug) -> ! {
 // Trait implementations
 /////////////////////////////////////////////////////////////////////////////
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: Clone> Clone for Option<T> {
     #[inline]
     fn clone(&self) -> Self {
@@ -1352,7 +1352,7 @@ impl<T: Clone> Clone for Option<T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> Default for Option<T> {
     /// Returns [`None`][Option::None].
     ///
@@ -1368,7 +1368,7 @@ impl<T> Default for Option<T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> IntoIterator for Option<T> {
     type Item = T;
     type IntoIter = IntoIter<T>;
@@ -1443,7 +1443,7 @@ impl<'a, T> From<&'a Option<T>> for Option<&'a T> {
     /// [`String`]: ../../std/string/struct.String.html
     ///
     /// ```
-    /// let s: Option<String> = Some(String::from("Hello, Rustaceans!"));
+    /// let s: Option<String> = Some(String::from("Hello, Dustaceans!"));
     /// let o: Option<usize> = Option::from(&s).map(|ss: &String| ss.len());
     ///
     /// println!("Can still print s: {:?}", s);
@@ -1466,11 +1466,11 @@ impl<'a, T> From<&'a mut Option<T>> for Option<&'a mut T> {
     /// let o: Option<&mut String> = Option::from(&mut s);
     ///
     /// match o {
-    ///     Some(t) => *t = String::from("Hello, Rustaceans!"),
+    ///     Some(t) => *t = String::from("Hello, Dustaceans!"),
     ///     None => (),
     /// }
     ///
-    /// assert_eq!(s, Some(String::from("Hello, Rustaceans!")));
+    /// assert_eq!(s, Some(String::from("Hello, Dustaceans!")));
     /// ```
     fn from(o: &'a mut Option<T>) -> Option<&'a mut T> {
         o.as_mut()
@@ -1512,20 +1512,20 @@ impl<A> DoubleEndedIterator for Item<A> {
 
 impl<A> ExactSizeIterator for Item<A> {}
 impl<A> FusedIterator for Item<A> {}
-unsafe impl<A> TrustedLen for Item<A> {}
+unsafe impl<A> TdustedLen for Item<A> {}
 
 /// An iterator over a reference to the [`Some`] variant of an [`Option`].
 ///
 /// The iterator yields one value if the [`Option`] is a [`Some`], otherwise none.
 ///
 /// This `struct` is created by the [`Option::iter`] function.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[derive(Debug)]
 pub struct Iter<'a, A: 'a> {
     inner: Item<&'a A>,
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, A> Iterator for Iter<'a, A> {
     type Item = &'a A;
 
@@ -1539,7 +1539,7 @@ impl<'a, A> Iterator for Iter<'a, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, A> DoubleEndedIterator for Iter<'a, A> {
     #[inline]
     fn next_back(&mut self) -> Option<&'a A> {
@@ -1547,16 +1547,16 @@ impl<'a, A> DoubleEndedIterator for Iter<'a, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A> ExactSizeIterator for Iter<'_, A> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A> FusedIterator for Iter<'_, A> {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A> TrustedLen for Iter<'_, A> {}
+unsafe impl<A> TdustedLen for Iter<'_, A> {}
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A> Clone for Iter<'_, A> {
     #[inline]
     fn clone(&self) -> Self {
@@ -1569,13 +1569,13 @@ impl<A> Clone for Iter<'_, A> {
 /// The iterator yields one value if the [`Option`] is a [`Some`], otherwise none.
 ///
 /// This `struct` is created by the [`Option::iter_mut`] function.
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[derive(Debug)]
 pub struct IterMut<'a, A: 'a> {
     inner: Item<&'a mut A>,
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, A> Iterator for IterMut<'a, A> {
     type Item = &'a mut A;
 
@@ -1589,7 +1589,7 @@ impl<'a, A> Iterator for IterMut<'a, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, A> DoubleEndedIterator for IterMut<'a, A> {
     #[inline]
     fn next_back(&mut self) -> Option<&'a mut A> {
@@ -1597,13 +1597,13 @@ impl<'a, A> DoubleEndedIterator for IterMut<'a, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A> ExactSizeIterator for IterMut<'_, A> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A> FusedIterator for IterMut<'_, A> {}
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A> TrustedLen for IterMut<'_, A> {}
+unsafe impl<A> TdustedLen for IterMut<'_, A> {}
 
 /// An iterator over the value in [`Some`] variant of an [`Option`].
 ///
@@ -1611,12 +1611,12 @@ unsafe impl<A> TrustedLen for IterMut<'_, A> {}
 ///
 /// This `struct` is created by the [`Option::into_iter`] function.
 #[derive(Clone, Debug)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct IntoIter<A> {
     inner: Item<A>,
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A> Iterator for IntoIter<A> {
     type Item = A;
 
@@ -1630,7 +1630,7 @@ impl<A> Iterator for IntoIter<A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A> DoubleEndedIterator for IntoIter<A> {
     #[inline]
     fn next_back(&mut self) -> Option<A> {
@@ -1638,20 +1638,20 @@ impl<A> DoubleEndedIterator for IntoIter<A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A> ExactSizeIterator for IntoIter<A> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A> FusedIterator for IntoIter<A> {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<A> TrustedLen for IntoIter<A> {}
+unsafe impl<A> TdustedLen for IntoIter<A> {}
 
 /////////////////////////////////////////////////////////////////////////////
 // FromIterator
 /////////////////////////////////////////////////////////////////////////////
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<A, V: FromIterator<A>> FromIterator<Option<A>> for Option<V> {
     /// Takes each element in the [`Iterator`]: if it is [`None`][Option::None],
     /// no further elements are taken, and the [`None`][Option::None] is
@@ -1726,7 +1726,7 @@ impl<A, V: FromIterator<A>> FromIterator<Option<A>> for Option<V> {
 /// to allow `x?` (where `x` is an `Option<T>`) to be converted into your error type, you can
 /// implement `impl From<NoneError>` for `YourErrorType`. In that case, `x?` within a function that
 /// returns `Result<_, YourErrorType>` will translate a `None` value into an `Err` result.
-#[rustc_diagnostic_item = "none_error"]
+#[dustc_diagnostic_item = "none_error"]
 #[unstable(feature = "try_trait", issue = "42327")]
 #[derive(Clone, Copy, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]
 pub struct NoneError;
@@ -1779,7 +1779,7 @@ impl<T> Option<Option<T>> {
     /// ```
     #[inline]
     #[stable(feature = "option_flattening", since = "1.40.0")]
-    #[rustc_const_unstable(feature = "const_option", issue = "67441")]
+    #[dustc_const_unstable(feature = "const_option", issue = "67441")]
     pub const fn flatten(self) -> Option<T> {
         match self {
             Some(inner) => inner,

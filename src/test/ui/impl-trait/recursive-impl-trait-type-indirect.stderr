@@ -145,4 +145,4 @@ LL |     mutual_recursion()
 
 error: aborting due to 14 previous errors
 
-For more information about this error, try `rustc --explain E0720`.
+For more information about this error, try `dustc --explain E0720`.

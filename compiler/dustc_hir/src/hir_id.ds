@@ -1,5 +1,5 @@
 use crate::def_id::{LocalDefId, CRATE_DEF_INDEX};
-use rustc_index::vec::IndexVec;
+use dustc_index::vec::IndexVec;
 use std::fmt;
 
 /// Uniquely identifies a node in the HIR of the current crate. It is
@@ -41,10 +41,10 @@ impl fmt::Display for HirId {
     }
 }
 
-rustc_data_structures::define_id_collections!(HirIdMap, HirIdSet, HirId);
-rustc_data_structures::define_id_collections!(ItemLocalMap, ItemLocalSet, ItemLocalId);
+dustc_data_structures::define_id_collections!(HirIdMap, HirIdSet, HirId);
+dustc_data_structures::define_id_collections!(ItemLocalMap, ItemLocalSet, ItemLocalId);
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     /// An `ItemLocalId` uniquely identifies something within a given "item-like";
     /// that is, within a `hir::Item`, `hir::TraitItem`, or `hir::ImplItem`. There is no
     /// guarantee that the numerical value of a given `ItemLocalId` corresponds to
@@ -55,7 +55,7 @@ rustc_index::newtype_index! {
     /// tree or hash map.
     pub struct ItemLocalId { .. }
 }
-rustc_data_structures::impl_stable_hash_via_hash!(ItemLocalId);
+dustc_data_structures::impl_stable_hash_via_hash!(ItemLocalId);
 
 /// The `HirId` corresponding to `CRATE_NODE_ID` and `CRATE_DEF_INDEX`.
 pub const CRATE_HIR_ID: HirId = HirId {

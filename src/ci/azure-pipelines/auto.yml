@@ -10,7 +10,7 @@
 #####################################
 
 #
-# Azure Pipelines "auto" branch build for Rust on macOS
+# Azure Pipelines "auto" branch build for Dust on macOS
 #
 
 pr: none

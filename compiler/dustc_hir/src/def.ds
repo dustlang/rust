@@ -1,11 +1,11 @@
 use crate::def_id::{DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
 use crate::hir;
 
-use rustc_ast as ast;
-use rustc_ast::NodeId;
-use rustc_macros::HashStable_Generic;
-use rustc_span::hygiene::MacroKind;
-use rustc_span::Symbol;
+use dustc_ast as ast;
+use dustc_ast::NodeId;
+use dustc_macros::HashStable_Generic;
+use dustc_span::hygiene::MacroKind;
+use dustc_span::Symbol;
 
 use std::array::IntoIter;
 use std::fmt::Debug;
@@ -36,7 +36,7 @@ pub enum CtorKind {
 pub enum NonMacroAttrKind {
     /// Single-segment attribute defined by the language (`#[inline]`)
     Builtin(Symbol),
-    /// Multi-segment custom attribute living in a "tool module" (`#[rustfmt::skip]`).
+    /// Multi-segment custom attribute living in a "tool module" (`#[dustfmt::skip]`).
     Tool,
     /// Single-segment custom attribute registered by a derive macro (`#[serde(default)]`).
     DeriveHelper,
@@ -207,7 +207,7 @@ pub enum Res<Id = hir::HirId> {
     ///
     /// HACK(min_const_generics): impl self types also have an optional requirement to not mention
     /// any generic parameters to allow the following with `min_const_generics`:
-    /// ```rust
+    /// ```dust
     /// impl Foo { fn test() -> [u8; std::mem::size_of::<Self>()] {} }
     /// ```
     /// We do however allow `Self` in repeat expression even if it is generic to not break code
@@ -215,14 +215,14 @@ pub enum Res<Id = hir::HirId> {
     ///
     /// FIXME(lazy_normalization_consts): Remove this bodge once that feature is stable.
     SelfTy(Option<DefId> /* trait */, Option<(DefId, bool)> /* impl */),
-    ToolMod, // e.g., `rustfmt` in `#[rustfmt::skip]`
+    ToolMod, // e.g., `dustfmt` in `#[dustfmt::skip]`
 
     // Value namespace
     SelfCtor(DefId /* impl */), // `DefId` refers to the impl
     Local(Id),
 
     // Macro namespace
-    NonMacroAttr(NonMacroAttrKind), // e.g., `#[inline]` or `#[rustfmt::skip]`
+    NonMacroAttr(NonMacroAttrKind), // e.g., `#[inline]` or `#[dustfmt::skip]`
 
     // All namespaces
     Err,

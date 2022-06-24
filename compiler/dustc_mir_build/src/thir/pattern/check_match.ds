@@ -4,20 +4,20 @@ use super::usefulness::{
 };
 use super::{PatCtxt, PatKind, PatternError};
 
-use rustc_arena::TypedArena;
-use rustc_ast::Mutability;
-use rustc_errors::{error_code, struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def::*;
-use rustc_hir::def_id::DefId;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::{HirId, Pat};
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_session::lint::builtin::BINDINGS_WITH_VARIANT_NAME;
-use rustc_session::lint::builtin::{IRREFUTABLE_LET_PATTERNS, UNREACHABLE_PATTERNS};
-use rustc_session::parse::feature_err;
-use rustc_session::Session;
-use rustc_span::{sym, Span};
+use dustc_arena::TypedArena;
+use dustc_ast::Mutability;
+use dustc_errors::{error_code, struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def::*;
+use dustc_hir::def_id::DefId;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::{HirId, Pat};
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_session::lint::builtin::BINDINGS_WITH_VARIANT_NAME;
+use dustc_session::lint::builtin::{IRREFUTABLE_LET_PATTERNS, UNREACHABLE_PATTERNS};
+use dustc_session::parse::feature_err;
+use dustc_session::Session;
+use dustc_span::{sym, Span};
 use std::slice;
 
 crate fn check_match(tcx: TyCtxt<'_>, def_id: DefId) {
@@ -97,14 +97,14 @@ impl PatCtxt<'_, '_> {
                 }
                 PatternError::FloatBug => {
                     // FIXME(#31407) this is only necessary because float parsing is buggy
-                    rustc_middle::mir::interpret::struct_error(
+                    dustc_middle::mir::interpret::struct_error(
                         self.tcx.at(pat_span),
                         "could not evaluate float literal (see issue #31407)",
                     )
                     .emit();
                 }
                 PatternError::NonConstPath(span) => {
-                    rustc_middle::mir::interpret::struct_error(
+                    dustc_middle::mir::interpret::struct_error(
                         self.tcx.at(span),
                         "runtime values cannot be referenced in patterns",
                     )
@@ -262,7 +262,7 @@ impl<'tcx> MatchVisitor<'_, 'tcx> {
             }
             err.note(
                 "for more information, visit \
-                 https://doc.rust-lang.org/book/ch18-02-refutability.html",
+                 https://doc.dust-lang.org/book/ch18-02-refutability.html",
             );
         }
 
@@ -546,7 +546,7 @@ fn joined_uncovered_patterns(witnesses: &[super::Pat<'_>]) -> String {
 }
 
 fn pattern_not_covered_label(witnesses: &[super::Pat<'_>], joined_patterns: &str) -> String {
-    format!("pattern{} {} not covered", rustc_errors::pluralize!(witnesses.len()), joined_patterns)
+    format!("pattern{} {} not covered", dustc_errors::pluralize!(witnesses.len()), joined_patterns)
 }
 
 /// Point at the definition of non-covered `enum` variants.

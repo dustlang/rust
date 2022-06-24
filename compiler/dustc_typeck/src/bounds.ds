@@ -1,12 +1,12 @@
 //! Bounds are restrictions applied to some types after they've been converted into the
 //! `ty` form from the HIR.
 
-use rustc_hir::Constness;
-use rustc_middle::ty::{self, ToPredicate, Ty, TyCtxt, WithConstness};
-use rustc_span::Span;
+use dustc_hir::Constness;
+use dustc_middle::ty::{self, ToPredicate, Ty, TyCtxt, WithConstness};
+use dustc_span::Span;
 
 /// Collects together a list of type bounds. These lists of bounds occur in many places
-/// in Rust's syntax:
+/// in Dust's syntax:
 ///
 /// ```text
 /// trait Foo: Bar + Baz { }

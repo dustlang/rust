@@ -1,10 +1,10 @@
-use rustc_errors::DiagnosticBuilder;
-use rustc_middle::lint::LintDiagnosticBuilder;
-use rustc_middle::mir::visit::Visitor;
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::lint::builtin::CONST_ITEM_MUTATION;
-use rustc_span::def_id::DefId;
+use dustc_errors::DiagnosticBuilder;
+use dustc_middle::lint::LintDiagnosticBuilder;
+use dustc_middle::mir::visit::Visitor;
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::lint::builtin::CONST_ITEM_MUTATION;
+use dustc_span::def_id::DefId;
 
 use crate::transform::MirPass;
 
@@ -46,7 +46,7 @@ impl<'a, 'tcx> ConstMutationChecker<'a, 'tcx> {
         //
         //     LOG.msg = "wow";  // prints "wow"
         //
-        // FIXME(https://github.com/rust-lang/rust/issues/77425):
+        // FIXME(https://github.com/dust-lang/dust/issues/77425):
         // Drop this exception once there is a stable attribute to suppress the
         // const item mutation lint for a single specific const only. Something
         // equivalent to:

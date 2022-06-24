@@ -2,14 +2,14 @@
 #![deny(clippy::missing_docs_in_private_items)]
 
 use crate::{higher, snippet, snippet_opt, snippet_with_macro_callsite};
-use rustc_ast::util::parser::AssocOp;
-use rustc_ast::{ast, token};
-use rustc_ast_pretty::pprust::token_kind_to_string;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_lint::{EarlyContext, LateContext, LintContext};
-use rustc_span::source_map::{CharPos, Span};
-use rustc_span::{BytePos, Pos};
+use dustc_ast::util::parser::AssocOp;
+use dustc_ast::{ast, token};
+use dustc_ast_pretty::ppdust::token_kind_to_string;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_lint::{EarlyContext, LateContext, LintContext};
+use dustc_span::source_map::{CharPos, Span};
+use dustc_span::{BytePos, Pos};
 use std::borrow::Cow;
 use std::convert::TryInto;
 use std::fmt::Display;
@@ -138,7 +138,7 @@ impl<'a> Sugg<'a> {
 
     /// Prepare a suggestion from an expression.
     pub fn ast(cx: &EarlyContext<'_>, expr: &ast::Expr, default: &'a str) -> Self {
-        use rustc_ast::ast::RangeLimits;
+        use dustc_ast::ast::RangeLimits;
 
         let snippet = if expr.span.from_expansion() {
             snippet_with_macro_callsite(cx, expr.span, default)
@@ -277,7 +277,7 @@ impl<'a> Sugg<'a> {
     }
 }
 
-// Copied from the rust standart library, and then edited
+// Copied from the dust standart library, and then edited
 macro_rules! forward_binop_impls_to_ref {
     (impl $imp:ident, $method:ident for $t:ty, type Output = $o:ty) => {
         impl $imp<$t> for &$t {
@@ -478,7 +478,7 @@ enum Associativity {
 /// associative.
 #[must_use]
 fn associativity(op: AssocOp) -> Associativity {
-    use rustc_ast::util::parser::AssocOp::{
+    use dustc_ast::util::parser::AssocOp::{
         Add, As, Assign, AssignOp, BitAnd, BitOr, BitXor, Colon, Divide, DotDot, DotDotEq, Equal, Greater,
         GreaterEqual, LAnd, LOr, Less, LessEqual, Modulus, Multiply, NotEqual, ShiftLeft, ShiftRight, Subtract,
     };
@@ -494,7 +494,7 @@ fn associativity(op: AssocOp) -> Associativity {
 
 /// Converts a `hir::BinOp` to the corresponding assigning binary operator.
 fn hirbinop2assignop(op: hir::BinOp) -> AssocOp {
-    use rustc_ast::token::BinOpToken::{And, Caret, Minus, Or, Percent, Plus, Shl, Shr, Slash, Star};
+    use dustc_ast::token::BinOpToken::{And, Caret, Minus, Or, Percent, Plus, Shl, Shr, Slash, Star};
 
     AssocOp::AssignOp(match op.node {
         hir::BinOpKind::Add => Plus,
@@ -521,10 +521,10 @@ fn hirbinop2assignop(op: hir::BinOp) -> AssocOp {
 
 /// Converts an `ast::BinOp` to the corresponding assigning binary operator.
 fn astbinop2assignop(op: ast::BinOp) -> AssocOp {
-    use rustc_ast::ast::BinOpKind::{
+    use dustc_ast::ast::BinOpKind::{
         Add, And, BitAnd, BitOr, BitXor, Div, Eq, Ge, Gt, Le, Lt, Mul, Ne, Or, Rem, Shl, Shr, Sub,
     };
-    use rustc_ast::token::BinOpToken;
+    use dustc_ast::token::BinOpToken;
 
     AssocOp::AssignOp(match op.node {
         Add => BinOpToken::Plus,
@@ -569,7 +569,7 @@ pub trait DiagnosticBuilderExt<T: LintContext> {
     ///
     /// # Example
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// diag.suggest_item_with_attr(cx, item, "#[derive(Default)]");
     /// ```
     fn suggest_item_with_attr<D: Display + ?Sized>(
@@ -587,7 +587,7 @@ pub trait DiagnosticBuilderExt<T: LintContext> {
     ///
     /// # Example
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// diag.suggest_prepend_item(cx, item,
     /// "fn foo() {
     ///     bar();
@@ -603,13 +603,13 @@ pub trait DiagnosticBuilderExt<T: LintContext> {
     ///
     /// # Example
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// diag.suggest_remove_item(cx, item, "remove this")
     /// ```
     fn suggest_remove_item(&mut self, cx: &T, item: Span, msg: &str, applicability: Applicability);
 }
 
-impl<T: LintContext> DiagnosticBuilderExt<T> for rustc_errors::DiagnosticBuilder<'_> {
+impl<T: LintContext> DiagnosticBuilderExt<T> for dustc_errors::DiagnosticBuilder<'_> {
     fn suggest_item_with_attr<D: Display + ?Sized>(
         &mut self,
         cx: &T,

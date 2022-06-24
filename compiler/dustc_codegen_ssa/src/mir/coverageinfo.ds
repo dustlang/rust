@@ -1,8 +1,8 @@
 use crate::traits::*;
 
-use rustc_middle::mir::coverage::*;
-use rustc_middle::mir::Coverage;
-use rustc_middle::mir::SourceScope;
+use dustc_middle::mir::coverage::*;
+use dustc_middle::mir::Coverage;
+use dustc_middle::mir::SourceScope;
 
 use super::FunctionCx;
 

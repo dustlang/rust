@@ -1,5 +1,5 @@
-use crate::iter::adapters::{zip::try_get_unchecked, TrustedRandomAccess};
-use crate::iter::{FusedIterator, TrustedLen};
+use crate::iter::adapters::{zip::try_get_unchecked, TdustedRandomAccess};
+use crate::iter::{FusedIterator, TdustedLen};
 use crate::ops::Try;
 
 /// An iterator that copies the elements of an underlying iterator.
@@ -76,7 +76,7 @@ where
 
     unsafe fn __iterator_get_unchecked(&mut self, idx: usize) -> T
     where
-        Self: TrustedRandomAccess,
+        Self: TdustedRandomAccess,
     {
         // SAFETY: the caller must uphold the contract for
         // `Iterator::__iterator_get_unchecked`.
@@ -136,17 +136,17 @@ where
 
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
-unsafe impl<I> TrustedRandomAccess for Copied<I>
+unsafe impl<I> TdustedRandomAccess for Copied<I>
 where
-    I: TrustedRandomAccess,
+    I: TdustedRandomAccess,
 {
     const MAY_HAVE_SIDE_EFFECT: bool = I::MAY_HAVE_SIDE_EFFECT;
 }
 
 #[stable(feature = "iter_copied", since = "1.36.0")]
-unsafe impl<'a, I, T: 'a> TrustedLen for Copied<I>
+unsafe impl<'a, I, T: 'a> TdustedLen for Copied<I>
 where
-    I: TrustedLen<Item = &'a T>,
+    I: TdustedLen<Item = &'a T>,
     T: Copy,
 {
 }

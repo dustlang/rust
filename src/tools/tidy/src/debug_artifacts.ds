@@ -9,8 +9,8 @@ pub fn check(path: &Path, bad: &mut bool) {
 
     super::walk(&test_dir, &mut super::filter_dirs, &mut |entry, contents| {
         let filename = entry.path();
-        let is_rust = filename.extension().map_or(false, |ext| ext == "rs");
-        if !is_rust {
+        let is_dust = filename.extension().map_or(false, |ext| ext == "rs");
+        if !is_dust {
             return;
         }
 

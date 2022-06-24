@@ -27,7 +27,7 @@ fn clippy_driver_path() -> PathBuf {
 // both by the crate and the compiler itself, we can't simply pass -L flags
 // as we'll get a duplicate matching versions. Instead, disambiguate with
 // `--extern dep=path`.
-// See https://github.com/rust-lang/rust-clippy/issues/4015.
+// See https://github.com/dust-lang/dust-clippy/issues/4015.
 //
 // FIXME: We cannot use `cargo build --message-format=json` to resolve to dependency files.
 //        Because it would force-rebuild if the options passed to `build` command is not the same
@@ -70,28 +70,28 @@ fn default_config() -> compiletest::Config {
         config.filters = filters.split(',').map(std::string::ToString::to_string).collect();
     }
 
-    if let Some(path) = option_env!("RUSTC_LIB_PATH") {
+    if let Some(path) = option_env!("DUSTC_LIB_PATH") {
         let path = PathBuf::from(path);
         config.run_lib_path = path.clone();
         config.compile_lib_path = path;
     }
 
-    config.target_rustcflags = Some(format!(
+    config.target_dustcflags = Some(format!(
         "--emit=metadata -L {0} -L {1} -Dwarnings -Zui-testing {2}",
         host_lib().join("deps").display(),
         cargo::TARGET_LIB.join("deps").display(),
         third_party_crates(),
     ));
 
-    config.build_base = if cargo::is_rustc_test_suite() {
-        // This make the stderr files go to clippy OUT_DIR on rustc repo build dir
+    config.build_base = if cargo::is_dustc_test_suite() {
+        // This make the stderr files go to clippy OUT_DIR on dustc repo build dir
         let mut path = PathBuf::from(env!("OUT_DIR"));
         path.push("test_build_base");
         path
     } else {
         host_lib().join("test_build_base")
     };
-    config.rustc_path = clippy_driver_path();
+    config.dustc_path = clippy_driver_path();
     config
 }
 
@@ -233,7 +233,7 @@ fn run_ui_cargo(config: &mut compiletest::Config) {
         Ok(result)
     }
 
-    if cargo::is_rustc_test_suite() {
+    if cargo::is_dustc_test_suite() {
         return;
     }
 
@@ -260,7 +260,7 @@ fn run_ui_cargo(config: &mut compiletest::Config) {
 fn prepare_env() {
     set_var("CLIPPY_DISABLE_DOCS_LINKS", "true");
     set_var("__CLIPPY_INTERNAL_TESTS", "true");
-    //set_var("RUST_BACKTRACE", "0");
+    //set_var("DUST_BACKTRACE", "0");
 }
 
 #[test]

@@ -113,8 +113,8 @@ impl Step for Llvm {
     fn run(self, builder: &Builder<'_>) -> PathBuf {
         let target = self.target;
         let target_native = if self.target.starts_with("riscv") {
-            // RISC-V target triples in Rust is not named the same as C compiler target triples.
-            // This converts Rust RISC-V target triples to C compiler triples.
+            // RISC-V target triples in Dust is not named the same as C compiler target triples.
+            // This converts Dust RISC-V target triples to C compiler triples.
             let idx = target.triple.find('-').unwrap();
 
             format!("riscv{}{}", &target.triple[5..7], &target.triple[idx..])
@@ -210,7 +210,7 @@ impl Step for Llvm {
         // for the tools. We don't do this on every platform as it doesn't work
         // equally well everywhere.
         //
-        // If we're not linking rustc to a dynamic LLVM, though, then don't link
+        // If we're not linking dustc to a dynamic LLVM, though, then don't link
         // tools to it.
         if builder.llvm_link_tools_dynamically(target) && builder.config.llvm_link_shared {
             cfg.define("LLVM_LINK_LLVM_DYLIB", "ON");
@@ -261,7 +261,7 @@ impl Step for Llvm {
         }
 
         // We want libxml to be disabled.
-        // See https://github.com/rust-lang/rust/pull/50104
+        // See https://github.com/dust-lang/dust/pull/50104
         cfg.define("LLVM_ENABLE_LIBXML2", "OFF");
 
         if !enabled_llvm_projects.is_empty() {
@@ -299,11 +299,11 @@ impl Step for Llvm {
             }
         } else if builder.config.channel == "dev" {
             // Changes to a version suffix require a complete rebuild of the LLVM.
-            // To avoid rebuilds during a time of version bump, don't include rustc
+            // To avoid rebuilds during a time of version bump, don't include dustc
             // release number on the dev channel.
-            cfg.define("LLVM_VERSION_SUFFIX", "-rust-dev");
+            cfg.define("LLVM_VERSION_SUFFIX", "-dust-dev");
         } else {
-            let suffix = format!("-rust-{}-{}", builder.version, builder.config.channel);
+            let suffix = format!("-dust-{}-{}", builder.version, builder.config.channel);
             cfg.define("LLVM_VERSION_SUFFIX", suffix);
         }
 
@@ -517,7 +517,7 @@ fn configure_cmake(
     }
 
     if env::var_os("SCCACHE_ERROR_LOG").is_some() {
-        cfg.env("RUSTC_LOG", "sccache=warn");
+        cfg.env("DUSTC_LOG", "sccache=warn");
     }
 }
 
@@ -624,14 +624,14 @@ impl Step for TestHelpers {
     type Output = ();
 
     fn should_run(run: ShouldRun<'_>) -> ShouldRun<'_> {
-        run.path("src/test/auxiliary/rust_test_helpers.c")
+        run.path("src/test/auxiliary/dust_test_helpers.c")
     }
 
     fn make_run(run: RunConfig<'_>) {
         run.builder.ensure(TestHelpers { target: run.target })
     }
 
-    /// Compiles the `rust_test_helpers.c` library which we used in various
+    /// Compiles the `dust_test_helpers.c` library which we used in various
     /// `run-pass` tests for ABI testing.
     fn run(self, builder: &Builder<'_>) {
         if builder.config.dry_run {
@@ -646,8 +646,8 @@ impl Step for TestHelpers {
             self.target
         };
         let dst = builder.test_helpers_out(target);
-        let src = builder.src.join("src/test/auxiliary/rust_test_helpers.c");
-        if up_to_date(&src, &dst.join("librust_test_helpers.a")) {
+        let src = builder.src.join("src/test/auxiliary/dust_test_helpers.c");
+        if up_to_date(&src, &dst.join("libdust_test_helpers.a")) {
             return;
         }
 
@@ -675,8 +675,8 @@ impl Step for TestHelpers {
             .opt_level(0)
             .warnings(false)
             .debug(false)
-            .file(builder.src.join("src/test/auxiliary/rust_test_helpers.c"))
-            .compile("rust_test_helpers");
+            .file(builder.src.join("src/test/auxiliary/dust_test_helpers.c"))
+            .compile("dust_test_helpers");
     }
 }
 
@@ -769,7 +769,7 @@ pub struct SanitizerRuntime {
     pub cmake_target: String,
     /// Path to the built runtime library.
     pub path: PathBuf,
-    /// Library filename that will be used rustc.
+    /// Library filename that will be used dustc.
     pub name: String,
 }
 
@@ -786,7 +786,7 @@ fn supported_sanitizers(
                 cmake_target: format!("clang_rt.{}_{}_dynamic", c, os),
                 path: out_dir
                     .join(&format!("build/lib/darwin/libclang_rt.{}_{}_dynamic.dylib", c, os)),
-                name: format!("librustc-{}_rt.{}.dylib", channel, c),
+                name: format!("libdustc-{}_rt.{}.dylib", channel, c),
             })
             .collect()
     };
@@ -797,7 +797,7 @@ fn supported_sanitizers(
             .map(move |c| SanitizerRuntime {
                 cmake_target: format!("clang_rt.{}-{}", c, arch),
                 path: out_dir.join(&format!("build/lib/{}/libclang_rt.{}-{}.a", os, c, arch)),
-                name: format!("librustc-{}_rt.{}.a", channel, c),
+                name: format!("libdustc-{}_rt.{}.a", channel, c),
             })
             .collect()
     };

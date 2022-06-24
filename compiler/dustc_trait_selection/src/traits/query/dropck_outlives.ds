@@ -2,10 +2,10 @@ use crate::infer::at::At;
 use crate::infer::canonical::OriginalQueryValues;
 use crate::infer::InferOk;
 
-use rustc_middle::ty::subst::GenericArg;
-use rustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_middle::ty::subst::GenericArg;
+use dustc_middle::ty::{self, Ty, TyCtxt};
 
-pub use rustc_middle::traits::query::{DropckOutlivesResult, DtorckConstraint};
+pub use dustc_middle::traits::query::{DropckOutlivesResult, DtorckConstraint};
 
 pub trait AtExt<'tcx> {
     fn dropck_outlives(&self, ty: Ty<'tcx>) -> InferOk<'tcx, Vec<GenericArg<'tcx>>>;
@@ -27,8 +27,8 @@ impl<'cx, 'tcx> AtExt<'tcx> for At<'cx, 'tcx> {
     /// the types/regions of T are live during the destructor, unless
     /// they are marked with a special attribute (`#[may_dangle]`).
     ///
-    /// [#1238]: https://github.com/rust-lang/rfcs/blob/master/text/1238-nonparametric-dropck.md
-    /// [#1327]: https://github.com/rust-lang/rfcs/blob/master/text/1327-dropck-param-eyepatch.md
+    /// [#1238]: https://github.com/dust-lang/rfcs/blob/master/text/1238-nonparametric-dropck.md
+    /// [#1327]: https://github.com/dust-lang/rfcs/blob/master/text/1327-dropck-param-eyepatch.md
     fn dropck_outlives(&self, ty: Ty<'tcx>) -> InferOk<'tcx, Vec<GenericArg<'tcx>>> {
         debug!("dropck_outlives(ty={:?}, param_env={:?})", ty, self.param_env,);
 

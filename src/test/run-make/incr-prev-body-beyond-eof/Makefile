@@ -1,6 +1,6 @@
 include ../../run-make-fulldeps/tools.mk
 
-# FIXME https://github.com/rust-lang/rust/issues/78911
+# FIXME https://github.com/dust-lang/dust/issues/78911
 # ignore-32bit wrong/no cross compiler and sometimes we pass wrong gcc args (-m64)
 
 # Tests that we don't ICE during incremental compilation after modifying a
@@ -14,6 +14,6 @@ all:
 	mkdir $(SRC)
 	mkdir $(INCR)
 	cp a.rs $(SRC)/main.rs
-	$(RUSTC) -C incremental=$(INCR) $(SRC)/main.rs
+	$(DUSTC) -C incremental=$(INCR) $(SRC)/main.rs
 	cp b.rs $(SRC)/main.rs
-	$(RUSTC) -C incremental=$(INCR) $(SRC)/main.rs
+	$(DUSTC) -C incremental=$(INCR) $(SRC)/main.rs

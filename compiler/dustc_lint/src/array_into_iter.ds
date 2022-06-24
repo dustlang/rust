@@ -1,17 +1,17 @@
 use crate::{LateContext, LateLintPass, LintContext};
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_middle::ty;
-use rustc_middle::ty::adjustment::{Adjust, Adjustment};
-use rustc_session::lint::FutureBreakage;
-use rustc_span::symbol::sym;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_middle::ty;
+use dustc_middle::ty::adjustment::{Adjust, Adjustment};
+use dustc_session::lint::FutureBreakage;
+use dustc_span::symbol::sym;
 
 declare_lint! {
     /// The `array_into_iter` lint detects calling `into_iter` on arrays.
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// # #![allow(unused)]
     /// [1, 2, 3].into_iter().for_each(|n| { *n; });
     /// ```
@@ -30,13 +30,13 @@ declare_lint! {
     /// in the future. See [issue #66145] for more details and a more thorough
     /// description of the lint.
     ///
-    /// [issue #66145]: https://github.com/rust-lang/rust/issues/66145
+    /// [issue #66145]: https://github.com/dust-lang/dust/issues/66145
     /// [future-incompatible]: ../index.md#future-incompatible-lints
     pub ARRAY_INTO_ITER,
     Warn,
     "detects calling `into_iter` on arrays",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #66145 <https://github.com/rust-lang/rust/issues/66145>",
+        reference: "issue #66145 <https://github.com/dust-lang/dust/issues/66145>",
         edition: None,
         future_breakage: Some(FutureBreakage {
             date: None

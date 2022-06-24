@@ -3,11 +3,11 @@
 
 use crate::utils::{match_def_path, paths, span_lint_and_help};
 use if_chain::if_chain;
-use rustc_hir::BinOpKind;
-use rustc_hir::{Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty::{self, Ty, TyS, TypeAndMut};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::BinOpKind;
+use dustc_hir::{Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty::{self, Ty, TyS, TypeAndMut};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Detects expressions where
@@ -20,7 +20,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// # use std::ptr::copy_nonoverlapping;
     /// # use std::mem::size_of;
     /// const SIZE: usize = 128;

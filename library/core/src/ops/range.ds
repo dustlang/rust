@@ -39,10 +39,10 @@ use crate::hash::Hash;
 #[lang = "RangeFull"]
 #[doc(alias = "..")]
 #[derive(Copy, Clone, Default, PartialEq, Eq, Hash)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct RangeFull;
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Debug for RangeFull {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(fmt, "..")
@@ -76,17 +76,17 @@ impl fmt::Debug for RangeFull {
 #[lang = "Range"]
 #[doc(alias = "..")]
 #[derive(Clone, Default, PartialEq, Eq, Hash)] // not Copy -- see #27186
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Range<Idx> {
     /// The lower bound of the range (inclusive).
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub start: Idx,
     /// The upper bound of the range (exclusive).
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub end: Idx,
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<Idx: fmt::Debug> fmt::Debug for Range<Idx> {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.start.fmt(fmt)?;
@@ -183,14 +183,14 @@ impl<Idx: PartialOrd<Idx>> Range<Idx> {
 #[lang = "RangeFrom"]
 #[doc(alias = "..")]
 #[derive(Clone, PartialEq, Eq, Hash)] // not Copy -- see #27186
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct RangeFrom<Idx> {
     /// The lower bound of the range (inclusive).
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub start: Idx,
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<Idx: fmt::Debug> fmt::Debug for RangeFrom<Idx> {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.start.fmt(fmt)?;
@@ -264,14 +264,14 @@ impl<Idx: PartialOrd<Idx>> RangeFrom<Idx> {
 #[lang = "RangeTo"]
 #[doc(alias = "..")]
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct RangeTo<Idx> {
     /// The upper bound of the range (exclusive).
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub end: Idx,
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<Idx: fmt::Debug> fmt::Debug for RangeTo<Idx> {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(fmt, "..")?;
@@ -369,8 +369,8 @@ impl<Idx> RangeInclusive<Idx> {
     #[lang = "range_inclusive_new"]
     #[stable(feature = "inclusive_range_methods", since = "1.27.0")]
     #[inline]
-    #[rustc_promotable]
-    #[rustc_const_stable(feature = "const_range_new", since = "1.32.0")]
+    #[dustc_promotable]
+    #[dustc_const_stable(feature = "const_range_new", since = "1.32.0")]
     pub const fn new(start: Idx, end: Idx) -> Self {
         Self { start, end, exhausted: false }
     }
@@ -394,7 +394,7 @@ impl<Idx> RangeInclusive<Idx> {
     /// assert_eq!((3..=5).start(), &3);
     /// ```
     #[stable(feature = "inclusive_range_methods", since = "1.27.0")]
-    #[rustc_const_stable(feature = "const_inclusive_range_methods", since = "1.32.0")]
+    #[dustc_const_stable(feature = "const_inclusive_range_methods", since = "1.32.0")]
     #[inline]
     pub const fn start(&self) -> &Idx {
         &self.start
@@ -419,7 +419,7 @@ impl<Idx> RangeInclusive<Idx> {
     /// assert_eq!((3..=5).end(), &5);
     /// ```
     #[stable(feature = "inclusive_range_methods", since = "1.27.0")]
-    #[rustc_const_stable(feature = "const_inclusive_range_methods", since = "1.32.0")]
+    #[dustc_const_stable(feature = "const_inclusive_range_methods", since = "1.32.0")]
     #[inline]
     pub const fn end(&self) -> &Idx {
         &self.end
@@ -720,7 +720,7 @@ impl<T: Clone> Bound<&T> {
     }
 }
 
-/// `RangeBounds` is implemented by Rust's built-in range types, produced
+/// `RangeBounds` is implemented by Dust's built-in range types, produced
 /// by range syntax like `..`, `a..`, `..b`, `..=c`, `d..e`, or `f..=g`.
 #[stable(feature = "collections_range", since = "1.28.0")]
 pub trait RangeBounds<T: ?Sized> {

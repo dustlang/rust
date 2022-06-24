@@ -64,7 +64,7 @@ A library team member can kick off the stabilization process, at which point
 the rfcbot will ask all the team members to verify they agree with
 stabilization. Once enough members agree and there are no concerns, the final
 commenting period begins: this issue will be marked as such and will be listed
-in the next This Week in Rust newsletter. If no blocking concerns are raised in
+in the next This Week in Dust newsletter. If no blocking concerns are raised in
 that period of 10 days, a stabilzation PR can be opened by anyone.
 -->
 

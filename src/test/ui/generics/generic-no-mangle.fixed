@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![deny(no_mangle_generic_items)]
 

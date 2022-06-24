@@ -5,7 +5,7 @@ LL | #![feature(generic_associated_types)]
    |            ^^^^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #44265 <https://github.com/rust-lang/rust/issues/44265> for more information
+   = note: see issue #44265 <https://github.com/dust-lang/dust/issues/44265> for more information
 
 error[E0261]: use of undeclared lifetime name `'x`
   --> $DIR/gat-in-trait-path-undeclared-lifetime.rs:9:35
@@ -26,4 +26,4 @@ LL |   fn _f(arg : Box<dyn for<'a> X<Y<'x> = &'a [u32]>>) {}
 error: aborting due to 2 previous errors; 1 warning emitted
 
 Some errors have detailed explanations: E0261, E0582.
-For more information about an error, try `rustc --explain E0261`.
+For more information about an error, try `dustc --explain E0261`.

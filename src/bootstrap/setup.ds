@@ -31,9 +31,9 @@ impl Profile {
         use Profile::*;
         match self {
             Library => "Contribute to the standard library",
-            Compiler => "Contribute to the compiler or rustdoc",
+            Compiler => "Contribute to the compiler or dustdoc",
             Codegen => "Contribute to the compiler, and also modify LLVM or codegen",
-            User => "Install Rust from source",
+            User => "Install Dust from source",
         }
         .to_string()
     }
@@ -53,7 +53,7 @@ impl FromStr for Profile {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             "lib" | "library" => Ok(Profile::Library),
-            "compiler" | "rustdoc" => Ok(Profile::Compiler),
+            "compiler" | "dustdoc" => Ok(Profile::Compiler),
             "llvm" | "codegen" => Ok(Profile::Codegen),
             "maintainer" | "user" => Ok(Profile::User),
             _ => Err(format!("unknown profile: '{}'", s)),
@@ -120,7 +120,7 @@ pub fn setup(src_path: &Path, profile: Profile) {
 
     if profile != Profile::User {
         println!(
-            "For more suggestions, see https://rustc-dev-guide.rust-lang.org/building/suggested.html"
+            "For more suggestions, see https://dustc-dev-guide.dust-lang.org/building/suggested.html"
         );
     }
 }
@@ -144,7 +144,7 @@ pub fn interactive_path() -> io::Result<Profile> {
         input.parse()
     }
 
-    println!("Welcome to the Rust project! What do you want to do with x.py?");
+    println!("Welcome to the Dust project! What do you want to do with x.py?");
     for ((letter, _), profile) in abbrev_all() {
         println!("{}) {}: {}", letter, profile, profile.purpose());
     }
@@ -176,7 +176,7 @@ pub fn interactive_path() -> io::Result<Profile> {
 fn install_git_hook_maybe(src_path: &Path) -> io::Result<()> {
     let mut input = String::new();
     println!(
-        "Rust's CI will automatically fail if it doesn't pass `tidy`, the internal tool for ensuring code quality.
+        "Dust's CI will automatically fail if it doesn't pass `tidy`, the internal tool for ensuring code quality.
 If you'd like, x.py can install a git hook for you that will automatically run `tidy --bless` on each commit
 to ensure your code is up to par. If you decide later that this behavior is undesirable,
 simply delete the `pre-commit` file from .git/hooks."

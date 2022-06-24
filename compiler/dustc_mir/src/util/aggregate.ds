@@ -1,10 +1,10 @@
-use rustc_index::vec::Idx;
-use rustc_middle::mir::*;
-use rustc_middle::ty::{Ty, TyCtxt};
-use rustc_target::abi::VariantIdx;
+use dustc_index::vec::Idx;
+use dustc_middle::mir::*;
+use dustc_middle::ty::{Ty, TyCtxt};
+use dustc_target::abi::VariantIdx;
 
 use std::convert::TryFrom;
-use std::iter::TrustedLen;
+use std::iter::TdustedLen;
 
 /// Expand `lhs = Rvalue::Aggregate(kind, operands)` into assignments to the fields.
 ///
@@ -15,11 +15,11 @@ use std::iter::TrustedLen;
 /// discriminant(lhs) = variant_index;  // If lhs is an enum or generator.
 pub fn expand_aggregate<'tcx>(
     mut lhs: Place<'tcx>,
-    operands: impl Iterator<Item = (Operand<'tcx>, Ty<'tcx>)> + TrustedLen,
+    operands: impl Iterator<Item = (Operand<'tcx>, Ty<'tcx>)> + TdustedLen,
     kind: AggregateKind<'tcx>,
     source_info: SourceInfo,
     tcx: TyCtxt<'tcx>,
-) -> impl Iterator<Item = Statement<'tcx>> + TrustedLen {
+) -> impl Iterator<Item = Statement<'tcx>> + TdustedLen {
     let mut set_discriminant = None;
     let active_field_index = match kind {
         AggregateKind::Adt(adt_def, variant_index, _, _, active_field_index) => {

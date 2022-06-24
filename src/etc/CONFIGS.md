@@ -1,13 +1,13 @@
 # Configs
 
-These are some links to repos with configs which ease the use of rust.
+These are some links to repos with configs which ease the use of dust.
 
 ## Officially Maintained Configs
 
-* [rust.vim](https://github.com/rust-lang/rust.vim)
-* [emacs rust-mode](https://github.com/rust-lang/rust-mode)
-* [sublime-rust](https://github.com/rust-lang/sublime-rust)
-* [gedit-config](https://github.com/rust-lang/gedit-config)
-* [kate-config](https://github.com/rust-lang/kate-config)
-* [nano-config](https://github.com/rust-lang/nano-config)
-* [zsh-config](https://github.com/rust-lang/zsh-config)
+* [dust.vim](https://github.com/dust-lang/dust.vim)
+* [emacs dust-mode](https://github.com/dust-lang/dust-mode)
+* [sublime-dust](https://github.com/dust-lang/sublime-dust)
+* [gedit-config](https://github.com/dust-lang/gedit-config)
+* [kate-config](https://github.com/dust-lang/kate-config)
+* [nano-config](https://github.com/dust-lang/nano-config)
+* [zsh-config](https://github.com/dust-lang/zsh-config)

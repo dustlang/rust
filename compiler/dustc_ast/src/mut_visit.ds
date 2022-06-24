@@ -12,11 +12,11 @@ use crate::ptr::P;
 use crate::token::{self, Token};
 use crate::tokenstream::*;
 
-use rustc_data_structures::map_in_place::MapInPlace;
-use rustc_data_structures::sync::Lrc;
-use rustc_span::source_map::Spanned;
-use rustc_span::symbol::Ident;
-use rustc_span::Span;
+use dustc_data_structures::map_in_place::MapInPlace;
+use dustc_data_structures::sync::Lrc;
+use dustc_span::source_map::Spanned;
+use dustc_span::symbol::Ident;
+use dustc_span::Span;
 
 use smallvec::{smallvec, Array, SmallVec};
 use std::ops::DerefMut;

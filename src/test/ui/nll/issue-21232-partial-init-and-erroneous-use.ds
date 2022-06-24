@@ -1,11 +1,11 @@
 // This test enumerates various cases of interest where a ADT or tuple is
 // partially initialized and then used in some way that is wrong *even*
-// after rust-lang/rust#54987 is implemented.
+// after dust-lang/dust#54987 is implemented.
 //
-// See rust-lang/rust#21232, rust-lang/rust#54986, and rust-lang/rust#54987.
+// See dust-lang/dust#21232, dust-lang/dust#54986, and dust-lang/dust#54987.
 //
 // See issue-21232-partial-init-and-use.rs for cases of tests that are
-// meant to compile and run successfully once rust-lang/rust#54987 is
+// meant to compile and run successfully once dust-lang/dust#54987 is
 // implemented.
 
 struct D {

@@ -1,12 +1,12 @@
 use crate::utils::{meets_msrv, span_lint_and_sugg};
-use rustc_ast::ast::{Expr, ExprKind};
-use rustc_errors::Applicability;
-use rustc_lint::{EarlyContext, EarlyLintPass};
-use rustc_middle::lint::in_external_macro;
-use rustc_semver::RustcVersion;
-use rustc_session::{declare_tool_lint, impl_lint_pass};
+use dustc_ast::ast::{Expr, ExprKind};
+use dustc_errors::Applicability;
+use dustc_lint::{EarlyContext, EarlyLintPass};
+use dustc_middle::lint::in_external_macro;
+use dustc_semver::DustcVersion;
+use dustc_session::{declare_tool_lint, impl_lint_pass};
 
-const REDUNDANT_FIELD_NAMES_MSRV: RustcVersion = RustcVersion::new(1, 17, 0);
+const REDUNDANT_FIELD_NAMES_MSRV: DustcVersion = DustcVersion::new(1, 17, 0);
 
 declare_clippy_lint! {
     /// **What it does:** Checks for fields in struct literals where shorthands
@@ -18,7 +18,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let bar: u8 = 123;
     ///
     /// struct Foo {
@@ -37,12 +37,12 @@ declare_clippy_lint! {
 }
 
 pub struct RedundantFieldNames {
-    msrv: Option<RustcVersion>,
+    msrv: Option<DustcVersion>,
 }
 
 impl RedundantFieldNames {
     #[must_use]
-    pub fn new(msrv: Option<RustcVersion>) -> Self {
+    pub fn new(msrv: Option<DustcVersion>) -> Self {
         Self { msrv }
     }
 }

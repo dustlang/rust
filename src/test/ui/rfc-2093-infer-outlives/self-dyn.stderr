@@ -1,4 +1,4 @@
-error: rustc_outlives
+error: dustc_outlives
   --> $DIR/self-dyn.rs:9:1
    |
 LL | / struct Foo<'a, 'b, A>

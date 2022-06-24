@@ -13,7 +13,7 @@
 # whether it can make a direct call instead of the indirect call.
 
 # LLVM doesn't support instrumenting binaries that use SEH:
-# https://github.com/rust-lang/rust/issues/61002
+# https://github.com/dust-lang/dust/issues/61002
 #
 # Things work fine with -Cpanic=abort though.
 ifdef IS_MSVC
@@ -23,18 +23,18 @@ endif
 all:
 	# We don't compile `opaque` with either optimizations or instrumentation.
 	# We don't compile `opaque` with either optimizations or instrumentation.
-	$(RUSTC) $(COMMON_FLAGS) opaque.rs
+	$(DUSTC) $(COMMON_FLAGS) opaque.rs
 	# Compile the test program with instrumentation
 	mkdir -p "$(TMPDIR)"/prof_data_dir
-	$(RUSTC) $(COMMON_FLAGS) interesting.rs \
+	$(DUSTC) $(COMMON_FLAGS) interesting.rs \
 		-Cprofile-generate="$(TMPDIR)"/prof_data_dir -O -Ccodegen-units=1
-	$(RUSTC) $(COMMON_FLAGS) main.rs -Cprofile-generate="$(TMPDIR)"/prof_data_dir -O
+	$(DUSTC) $(COMMON_FLAGS) main.rs -Cprofile-generate="$(TMPDIR)"/prof_data_dir -O
 	# The argument below generates to the expected branch weights
 	$(call RUN,main) || exit 1
 	"$(LLVM_BIN_DIR)"/llvm-profdata merge \
 		-o "$(TMPDIR)"/prof_data_dir/merged.profdata \
 		"$(TMPDIR)"/prof_data_dir
-	$(RUSTC) $(COMMON_FLAGS) interesting.rs \
+	$(DUSTC) $(COMMON_FLAGS) interesting.rs \
 		-Cprofile-use="$(TMPDIR)"/prof_data_dir/merged.profdata -O \
 		-Ccodegen-units=1 --emit=llvm-ir
 	cat "$(TMPDIR)"/interesting.ll | "$(LLVM_FILECHECK)" filecheck-patterns.txt

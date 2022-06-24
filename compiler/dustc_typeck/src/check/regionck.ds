@@ -76,18 +76,18 @@ use crate::check::dropck;
 use crate::check::FnCtxt;
 use crate::mem_categorization as mc;
 use crate::middle::region;
-use rustc_hir as hir;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::PatKind;
-use rustc_infer::infer::outlives::env::OutlivesEnvironment;
-use rustc_infer::infer::{self, RegionObligation, RegionckMode};
-use rustc_middle::hir::place::{PlaceBase, PlaceWithHirId};
-use rustc_middle::ty::adjustment;
-use rustc_middle::ty::{self, Ty};
-use rustc_span::Span;
-use rustc_trait_selection::infer::OutlivesEnvironmentExt;
-use rustc_trait_selection::opaque_types::InferCtxtExt;
+use dustc_hir as hir;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::PatKind;
+use dustc_infer::infer::outlives::env::OutlivesEnvironment;
+use dustc_infer::infer::{self, RegionObligation, RegionckMode};
+use dustc_middle::hir::place::{PlaceBase, PlaceWithHirId};
+use dustc_middle::ty::adjustment;
+use dustc_middle::ty::{self, Ty};
+use dustc_span::Span;
+use dustc_trait_selection::infer::OutlivesEnvironmentExt;
+use dustc_trait_selection::opaque_types::InferCtxtExt;
 use std::ops::Deref;
 
 // a variation on try that just returns unit
@@ -666,7 +666,7 @@ impl<'a, 'tcx> RegionCtxt<'a, 'tcx> {
     /// itself the referent of a borrowed pointer. Let me give an
     /// example fragment of code to make clear(er) the situation:
     ///
-    /// ```ignore (incomplete Rust code)
+    /// ```ignore (incomplete Dust code)
     /// let r: &'a mut T = ...;  // the original reference "r" has lifetime 'a
     /// ...
     /// &'z *r                   // the reborrow has lifetime 'z
@@ -676,7 +676,7 @@ impl<'a, 'tcx> RegionCtxt<'a, 'tcx> {
     /// constraint that `'z <= 'a`. Given this setup, let's clarify the
     /// parameters in (roughly) terms of the example:
     ///
-    /// ```plain,ignore (pseudo-Rust)
+    /// ```plain,ignore (pseudo-Dust)
     /// A borrow of: `& 'z bk * r` where `r` has type `& 'a bk T`
     /// borrow_region   ^~                 ref_region    ^~
     /// borrow_kind        ^~               ref_kind        ^~

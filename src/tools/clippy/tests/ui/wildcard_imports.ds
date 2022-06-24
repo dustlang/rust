@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 // aux-build:wildcard_imports_helper.rs
 
 #![warn(clippy::wildcard_imports)]
@@ -150,7 +150,7 @@ fn test_reexported() {
     let _ = ExportedEnum::A;
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn test_weird_formatting() {
     use crate:: in_fn_test::  * ;
     use crate:: fn_mod::

@@ -26,4 +26,4 @@ LL |     mac_trait_impl!();
 error: aborting due to 2 previous errors
 
 Some errors have detailed explanations: E0046, E0407.
-For more information about an error, try `rustc --explain E0046`.
+For more information about an error, try `dustc --explain E0046`.

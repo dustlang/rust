@@ -1,8 +1,8 @@
-use rustc_data_structures::fx::FxHashSet;
-use rustc_hir as hir;
-use rustc_hir::lang_items::LangItem;
-use rustc_middle::ty::{self, Region, RegionVid, TypeFoldable};
-use rustc_trait_selection::traits::auto_trait::{self, AutoTraitResult};
+use dustc_data_structures::fx::FxHashSet;
+use dustc_hir as hir;
+use dustc_hir::lang_items::LangItem;
+use dustc_middle::ty::{self, Region, RegionVid, TypeFoldable};
+use dustc_trait_selection::traits::auto_trait::{self, AutoTraitResult};
 
 use std::fmt::Debug;
 
@@ -144,7 +144,7 @@ impl<'a, 'tcx> AutoTraitFinder<'a, 'tcx> {
             })
             .collect();
         // We are only interested in case the type *doesn't* implement the Sized trait.
-        if !ty.is_sized(tcx.at(rustc_span::DUMMY_SP), param_env) {
+        if !ty.is_sized(tcx.at(dustc_span::DUMMY_SP), param_env) {
             // In case `#![no_core]` is used, `sized_trait` returns nothing.
             if let Some(item) = tcx.lang_items().sized_trait().and_then(|sized_trait_did| {
                 self.generate_for_trait(ty, sized_trait_did, param_env, item_def_id, &f, true)
@@ -191,7 +191,7 @@ impl<'a, 'tcx> AutoTraitFinder<'a, 'tcx> {
         // Flattening is done in two parts. First, we insert all of the constraints
         // into a map. Each RegionTarget (either a RegionVid or a Region) maps
         // to its smaller and larger regions. Note that 'larger' regions correspond
-        // to sub-regions in Rust code (e.g., in 'a: 'b, 'a is the larger region).
+        // to sub-regions in Dust code (e.g., in 'a: 'b, 'a is the larger region).
         for constraint in regions.constraints.keys() {
             match constraint {
                 &Constraint::VarSubVar(r1, r2) => {
@@ -676,7 +676,7 @@ impl<'a, 'tcx> AutoTraitFinder<'a, 'tcx> {
     // Ensure that the predicates are in a consistent order. The precise
     // ordering doesn't actually matter, but it's important that
     // a given set of predicates always appears in the same order -
-    // both for visual consistency between 'rustdoc' runs, and to
+    // both for visual consistency between 'dustdoc' runs, and to
     // make writing tests much easier
     #[inline]
     fn sort_where_predicates(&self, mut predicates: &mut Vec<WherePredicate>) {
@@ -689,7 +689,7 @@ impl<'a, 'tcx> AutoTraitFinder<'a, 'tcx> {
     // Ensure that the bounds are in a consistent order. The precise
     // ordering doesn't actually matter, but it's important that
     // a given set of bounds always appears in the same order -
-    // both for visual consistency between 'rustdoc' runs, and to
+    // both for visual consistency between 'dustdoc' runs, and to
     // make writing tests much easier
     #[inline]
     fn sort_where_bounds(&self, mut bounds: &mut Vec<GenericBound>) {

@@ -5,13 +5,13 @@ use std::path::PathBuf;
 use std::rc::Rc;
 use std::sync::mpsc::channel;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir::def_id::{DefId, LOCAL_CRATE};
-use rustc_middle::ty::TyCtxt;
-use rustc_session::Session;
-use rustc_span::edition::Edition;
-use rustc_span::source_map::FileName;
-use rustc_span::symbol::sym;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir::def_id::{DefId, LOCAL_CRATE};
+use dustc_middle::ty::TyCtxt;
+use dustc_session::Session;
+use dustc_span::edition::Edition;
+use dustc_span::source_map::FileName;
+use dustc_span::symbol::sym;
 
 use super::cache::{build_index, ExternalLocation};
 use super::print_item::{full_path, item_path, print_item};
@@ -33,13 +33,13 @@ use crate::html::format::Buffer;
 use crate::html::markdown::{self, plain_text_summary, ErrorCodes, IdMap};
 use crate::html::{layout, sources};
 
-/// Major driving force in all rustdoc rendering. This contains information
+/// Major driving force in all dustdoc rendering. This contains information
 /// about where in the tree-like hierarchy rendering is occurring and controls
 /// how the current page is being rendered.
 ///
 /// It is intended that this context is a lightweight object which can be fairly
 /// easily cloned because it is cloned per work-job (about once per item in the
-/// rustdoc tree).
+/// dustdoc tree).
 crate struct Context<'tcx> {
     /// Current hierarchy of components leading down to what's currently being
     /// rendered
@@ -60,7 +60,7 @@ crate struct Context<'tcx> {
     ///
     /// Issue for improving the situation: [#82381][]
     ///
-    /// [#82381]: https://github.com/rust-lang/rust/issues/82381
+    /// [#82381]: https://github.com/dust-lang/dust/issues/82381
     pub(super) shared: Rc<SharedContext<'tcx>>,
     /// The [`Cache`] used during rendering.
     ///
@@ -76,7 +76,7 @@ crate struct Context<'tcx> {
 
 // `Context` is cloned a lot, so we don't want the size to grow unexpectedly.
 #[cfg(target_arch = "x86_64")]
-rustc_data_structures::static_assert_size!(Context<'_>, 152);
+dustc_data_structures::static_assert_size!(Context<'_>, 152);
 
 impl<'tcx> Context<'tcx> {
     pub(super) fn path(&self, filename: &str) -> PathBuf {
@@ -128,16 +128,16 @@ impl<'tcx> Context<'tcx> {
             }
             title.push_str(&it.name.unwrap().as_str());
         }
-        title.push_str(" - Rust");
+        title.push_str(" - Dust");
         let tyname = it.type_();
         let desc = it.doc_value().as_ref().map(|doc| plain_text_summary(&doc));
         let desc = if let Some(desc) = desc {
             desc
         } else if it.is_crate() {
-            format!("API documentation for the Rust `{}` crate.", self.shared.layout.krate)
+            format!("API documentation for the Dust `{}` crate.", self.shared.layout.krate)
         } else {
             format!(
-                "API documentation for the Rust `{}` {} in crate `{}`.",
+                "API documentation for the Dust `{}` {} in crate `{}`.",
                 it.name.as_ref().unwrap(),
                 tyname,
                 self.shared.layout.krate
@@ -448,7 +448,7 @@ impl<'tcx> FormatRenderer<'tcx> for Context<'tcx> {
     fn after_krate(
         &mut self,
         krate: &clean::Crate,
-        diag: &rustc_errors::Handler,
+        diag: &dustc_errors::Handler,
     ) -> Result<(), Error> {
         let final_file = self.dst.join(&*krate.name.as_str()).join("all.html");
         let settings_file = self.dst.join("settings.html");
@@ -493,8 +493,8 @@ impl<'tcx> FormatRenderer<'tcx> for Context<'tcx> {
         self.shared.fs.write(&final_file, v.as_bytes())?;
 
         // Generating settings page.
-        page.title = "Rustdoc settings";
-        page.description = "Settings of Rustdoc";
+        page.title = "Dustdoc settings";
+        page.description = "Settings of Dustdoc";
         page.root_path = "./";
 
         let mut style_files = self.shared.style_files.clone();
@@ -533,7 +533,7 @@ impl<'tcx> FormatRenderer<'tcx> for Context<'tcx> {
     }
 
     fn mod_item_in(&mut self, item: &clean::Item, item_name: &str) -> Result<(), Error> {
-        // Stripped modules survive the rustdoc passes (i.e., `strip-private`)
+        // Stripped modules survive the dustdoc passes (i.e., `strip-private`)
         // if they contain impls for public types. These modules can also
         // contain items such as publicly re-exported structures.
         //
@@ -581,7 +581,7 @@ impl<'tcx> FormatRenderer<'tcx> for Context<'tcx> {
     }
 
     fn item(&mut self, item: clean::Item) -> Result<(), Error> {
-        // Stripped modules survive the rustdoc passes (i.e., `strip-private`)
+        // Stripped modules survive the dustdoc passes (i.e., `strip-private`)
         // if they contain impls for public types. These modules can also
         // contain items such as publicly re-exported structures.
         //

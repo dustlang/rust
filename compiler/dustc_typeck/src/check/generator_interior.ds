@@ -1,19 +1,19 @@
 //! This calculates the types which has storage which lives across a suspension point in a
 //! generator from the perspective of typeck. The actual types used at runtime
-//! is calculated in `rustc_mir::transform::generator` and may be a subset of the
+//! is calculated in `dustc_mir::transform::generator` and may be a subset of the
 //! types computed here.
 
 use super::FnCtxt;
-use rustc_data_structures::fx::{FxHashSet, FxIndexSet};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, DefKind, Res};
-use rustc_hir::def_id::DefId;
-use rustc_hir::hir_id::HirIdSet;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::{Arm, Expr, ExprKind, Guard, HirId, Pat, PatKind};
-use rustc_middle::middle::region::{self, YieldData};
-use rustc_middle::ty::{self, Ty};
-use rustc_span::Span;
+use dustc_data_structures::fx::{FxHashSet, FxIndexSet};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, DefKind, Res};
+use dustc_hir::def_id::DefId;
+use dustc_hir::hir_id::HirIdSet;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::{Arm, Expr, ExprKind, Guard, HirId, Pat, PatKind};
+use dustc_middle::middle::region::{self, YieldData};
+use dustc_middle::ty::{self, Ty};
+use dustc_span::Span;
 use smallvec::SmallVec;
 
 struct InteriorVisitor<'a, 'tcx> {
@@ -41,7 +41,7 @@ impl<'a, 'tcx> InteriorVisitor<'a, 'tcx> {
         source_span: Span,
         guard_borrowing_from_pattern: bool,
     ) {
-        use rustc_span::DUMMY_SP;
+        use dustc_span::DUMMY_SP;
 
         debug!(
             "generator_interior: attempting to record type {:?} {:?} {:?} {:?}",
@@ -221,7 +221,7 @@ pub fn resolve_interior<'a, 'tcx>(
 }
 
 // This visitor has to have the same visit_expr calls as RegionResolutionVisitor in
-// librustc_middle/middle/region.rs since `expr_count` is compared against the results
+// libdustc_middle/middle/region.rs since `expr_count` is compared against the results
 // there.
 impl<'a, 'tcx> Visitor<'tcx> for InteriorVisitor<'a, 'tcx> {
     type Map = intravisit::ErasedMap<'tcx>;

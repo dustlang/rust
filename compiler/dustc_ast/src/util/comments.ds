@@ -1,5 +1,5 @@
-use rustc_span::source_map::SourceMap;
-use rustc_span::{BytePos, CharPos, FileName, Pos, Symbol};
+use dustc_span::source_map::SourceMap;
+use dustc_span::{BytePos, CharPos, FileName, Pos, Symbol};
 
 #[cfg(test)]
 mod tests;
@@ -24,7 +24,7 @@ pub struct Comment {
 }
 
 /// Makes a doc string more presentable to users.
-/// Used by rustdoc and perhaps other tools, but not by rustc.
+/// Used by dustdoc and perhaps other tools, but not by dustc.
 pub fn beautify_doc_string(data: Symbol) -> Symbol {
     fn get_vertical_trim(lines: &[&str]) -> Option<(usize, usize)> {
         let mut i = 0;
@@ -140,7 +140,7 @@ fn split_block_comment_into_lines(text: &str, col: CharPos) -> Vec<String> {
     res
 }
 
-// it appears this function is called only from pprust... that's
+// it appears this function is called only from ppdust... that's
 // probably not a good thing.
 pub fn gather_comments(sm: &SourceMap, path: FileName, src: String) -> Vec<Comment> {
     let sm = SourceMap::new(sm.path_mapping().clone());
@@ -153,7 +153,7 @@ pub fn gather_comments(sm: &SourceMap, path: FileName, src: String) -> Vec<Comme
     let mut comments: Vec<Comment> = Vec::new();
     let mut code_to_the_left = false;
 
-    if let Some(shebang_len) = rustc_lexer::strip_shebang(text) {
+    if let Some(shebang_len) = dustc_lexer::strip_shebang(text) {
         comments.push(Comment {
             style: CommentStyle::Isolated,
             lines: vec![text[..shebang_len].to_string()],
@@ -162,10 +162,10 @@ pub fn gather_comments(sm: &SourceMap, path: FileName, src: String) -> Vec<Comme
         pos += shebang_len;
     }
 
-    for token in rustc_lexer::tokenize(&text[pos..]) {
+    for token in dustc_lexer::tokenize(&text[pos..]) {
         let token_text = &text[pos..pos + token.len];
         match token.kind {
-            rustc_lexer::TokenKind::Whitespace => {
+            dustc_lexer::TokenKind::Whitespace => {
                 if let Some(mut idx) = token_text.find('\n') {
                     code_to_the_left = false;
                     while let Some(next_newline) = &token_text[idx + 1..].find('\n') {
@@ -178,7 +178,7 @@ pub fn gather_comments(sm: &SourceMap, path: FileName, src: String) -> Vec<Comme
                     }
                 }
             }
-            rustc_lexer::TokenKind::BlockComment { doc_style, .. } => {
+            dustc_lexer::TokenKind::BlockComment { doc_style, .. } => {
                 if doc_style.is_none() {
                     let code_to_the_right =
                         !matches!(text[pos + token.len..].chars().next(), Some('\r' | '\n'));
@@ -198,7 +198,7 @@ pub fn gather_comments(sm: &SourceMap, path: FileName, src: String) -> Vec<Comme
                     comments.push(Comment { style, lines, pos: pos_in_file })
                 }
             }
-            rustc_lexer::TokenKind::LineComment { doc_style } => {
+            dustc_lexer::TokenKind::LineComment { doc_style } => {
                 if doc_style.is_none() {
                     comments.push(Comment {
                         style: if code_to_the_left {

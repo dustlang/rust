@@ -27,4 +27,4 @@ LL | impl<T: Copy + std::ops::Deref> UnsafeCopy<'_, T> for T where <T as UnsafeC
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

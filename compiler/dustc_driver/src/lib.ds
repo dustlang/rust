@@ -1,10 +1,10 @@
-//! The Rust compiler.
+//! The Dust compiler.
 //!
 //! # Note
 //!
 //! This API is completely unstable and subject to change.
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(nll)]
 #![feature(once_cell)]
 #![recursion_limit = "256"]
@@ -12,32 +12,32 @@
 #[macro_use]
 extern crate tracing;
 
-pub extern crate rustc_plugin_impl as plugin;
+pub extern crate dustc_plugin_impl as plugin;
 
-use rustc_ast as ast;
-use rustc_codegen_ssa::{traits::CodegenBackend, CodegenResults};
-use rustc_data_structures::profiling::{get_resident_set_size, print_time_passes_entry};
-use rustc_data_structures::sync::SeqCst;
-use rustc_errors::registry::{InvalidErrorCode, Registry};
-use rustc_errors::{ErrorReported, PResult};
-use rustc_feature::find_gated_cfg;
-use rustc_hir::def_id::LOCAL_CRATE;
-use rustc_interface::util::{self, collect_crate_types, get_builtin_codegen_backend};
-use rustc_interface::{interface, Queries};
-use rustc_lint::LintStore;
-use rustc_metadata::locator;
-use rustc_middle::middle::cstore::MetadataLoader;
-use rustc_save_analysis as save;
-use rustc_save_analysis::DumpHandler;
-use rustc_serialize::json::{self, ToJson};
-use rustc_session::config::nightly_options;
-use rustc_session::config::{ErrorOutputType, Input, OutputType, PrintRequest, TrimmedDefPaths};
-use rustc_session::getopts;
-use rustc_session::lint::{Lint, LintId};
-use rustc_session::{config, DiagnosticOutput, Session};
-use rustc_session::{early_error, early_warn};
-use rustc_span::source_map::{FileLoader, FileName};
-use rustc_span::symbol::sym;
+use dustc_ast as ast;
+use dustc_codegen_ssa::{traits::CodegenBackend, CodegenResults};
+use dustc_data_structures::profiling::{get_resident_set_size, print_time_passes_entry};
+use dustc_data_structures::sync::SeqCst;
+use dustc_errors::registry::{InvalidErrorCode, Registry};
+use dustc_errors::{ErrorReported, PResult};
+use dustc_feature::find_gated_cfg;
+use dustc_hir::def_id::LOCAL_CRATE;
+use dustc_interface::util::{self, collect_crate_types, get_builtin_codegen_backend};
+use dustc_interface::{interface, Queries};
+use dustc_lint::LintStore;
+use dustc_metadata::locator;
+use dustc_middle::middle::cstore::MetadataLoader;
+use dustc_save_analysis as save;
+use dustc_save_analysis::DumpHandler;
+use dustc_serialize::json::{self, ToJson};
+use dustc_session::config::nightly_options;
+use dustc_session::config::{ErrorOutputType, Input, OutputType, PrintRequest, TrimmedDefPaths};
+use dustc_session::getopts;
+use dustc_session::lint::{Lint, LintId};
+use dustc_session::{config, DiagnosticOutput, Session};
+use dustc_session::{early_error, early_warn};
+use dustc_span::source_map::{FileLoader, FileName};
+use dustc_span::symbol::sym;
 
 use std::borrow::Cow;
 use std::cmp::max;
@@ -63,7 +63,7 @@ pub const EXIT_SUCCESS: i32 = 0;
 /// Exit status code used for compilation failures and invalid flags.
 pub const EXIT_FAILURE: i32 = 1;
 
-const BUG_REPORT_URL: &str = "https://github.com/rust-lang/rust/issues/new\
+const BUG_REPORT_URL: &str = "https://github.com/dust-lang/dust/issues/new\
     ?labels=C-bug%2C+I-ICE%2C+T-compiler&template=ice.md";
 
 const ICE_REPORT_COMPILER_FLAGS: &[&str] = &["Z", "C", "crate-type"];
@@ -130,7 +130,7 @@ impl Callbacks for TimePassesCallbacks {
 }
 
 pub fn diagnostics_registry() -> Registry {
-    Registry::new(&rustc_error_codes::DIAGNOSTICS)
+    Registry::new(&dustc_error_codes::DIAGNOSTICS)
 }
 
 pub struct RunCompiler<'a, 'b> {
@@ -176,7 +176,7 @@ impl<'a, 'b> RunCompiler<'a, 'b> {
         )
     }
 }
-// Parse args and run the compiler. This is the primary entry point for rustc.
+// Parse args and run the compiler. This is the primary entry point for dustc.
 // The FileLoader provides a way to load files from sources other than the file system.
 fn run_compiler(
     at_args: &[String],
@@ -239,7 +239,7 @@ fn run_compiler(
                 interface::run_compiler(config, |compiler| {
                     let sopts = &compiler.session().opts;
                     if sopts.describe_lints {
-                        let mut lint_store = rustc_lint::new_lint_store(
+                        let mut lint_store = dustc_lint::new_lint_store(
                             sopts.debugging_opts.no_interleave_lints,
                             compiler.session().unstable_options(),
                         );
@@ -253,7 +253,7 @@ fn run_compiler(
                         describe_lints(compiler.session(), &lint_store, registered_lints);
                         return;
                     }
-                    let should_stop = RustcDefaultCalls::print_crate_info(
+                    let should_stop = DustcDefaultCalls::print_crate_info(
                         &***compiler.codegen_backend(),
                         compiler.session(),
                         None,
@@ -310,7 +310,7 @@ fn run_compiler(
 
     interface::run_compiler(config, |compiler| {
         let sess = compiler.session();
-        let should_stop = RustcDefaultCalls::print_crate_info(
+        let should_stop = DustcDefaultCalls::print_crate_info(
             &***compiler.codegen_backend(),
             sess,
             Some(compiler.input()),
@@ -318,14 +318,14 @@ fn run_compiler(
             compiler.output_file(),
         )
         .and_then(|| {
-            RustcDefaultCalls::list_metadata(
+            DustcDefaultCalls::list_metadata(
                 sess,
                 &*compiler.codegen_backend().metadata_loader(),
                 &matches,
                 compiler.input(),
             )
         })
-        .and_then(|| RustcDefaultCalls::try_process_rlink(sess, compiler));
+        .and_then(|| DustcDefaultCalls::try_process_rlink(sess, compiler));
 
         if should_stop == Compilation::Stop {
             return sess.compile_status();
@@ -471,7 +471,7 @@ fn run_compiler(
 pub fn set_sigpipe_handler() {
     unsafe {
         // Set the SIGPIPE signal handler, so that an EPIPE
-        // will cause rustc to terminate, as expected.
+        // will cause dustc to terminate, as expected.
         assert_ne!(libc::signal(libc::SIGPIPE, libc::SIG_DFL), libc::SIG_ERR);
     }
 }
@@ -500,13 +500,13 @@ fn make_input(free_matches: &[String]) -> Option<(Input, Option<PathBuf>, Option
             } else {
                 None
             };
-            if let Ok(path) = env::var("UNSTABLE_RUSTDOC_TEST_PATH") {
-                let line = env::var("UNSTABLE_RUSTDOC_TEST_LINE").expect(
-                    "when UNSTABLE_RUSTDOC_TEST_PATH is set \
-                                    UNSTABLE_RUSTDOC_TEST_LINE also needs to be set",
+            if let Ok(path) = env::var("UNSTABLE_DUSTDOC_TEST_PATH") {
+                let line = env::var("UNSTABLE_DUSTDOC_TEST_LINE").expect(
+                    "when UNSTABLE_DUSTDOC_TEST_PATH is set \
+                                    UNSTABLE_DUSTDOC_TEST_LINE also needs to be set",
                 );
                 let line = isize::from_str_radix(&line, 10)
-                    .expect("UNSTABLE_RUSTDOC_TEST_LINE needs to be an number");
+                    .expect("UNSTABLE_DUSTDOC_TEST_LINE needs to be an number");
                 let file_name = FileName::doc_test_source_code(PathBuf::from(path), line);
                 return Some((Input::Str { name: file_name, input: src }, None, err));
             }
@@ -535,9 +535,9 @@ impl Compilation {
     }
 }
 
-/// CompilerCalls instance for a regular rustc build.
+/// CompilerCalls instance for a regular dustc build.
 #[derive(Copy, Clone)]
-pub struct RustcDefaultCalls;
+pub struct DustcDefaultCalls;
 
 fn stdout_isatty() -> bool {
     atty::is(atty::Stream::Stdout)
@@ -615,7 +615,7 @@ fn show_content_with_pager(content: &str) {
     }
 }
 
-impl RustcDefaultCalls {
+impl DustcDefaultCalls {
     fn process_rlink(sess: &Session, compiler: &interface::Compiler) -> Result<(), ErrorReported> {
         if let Input::File(file) = compiler.input() {
             // FIXME: #![crate_type] and #![crate_name] support not implemented yet
@@ -636,7 +636,7 @@ impl RustcDefaultCalls {
 
     pub fn try_process_rlink(sess: &Session, compiler: &interface::Compiler) -> Compilation {
         if sess.opts.debugging_opts.link_only {
-            let result = RustcDefaultCalls::process_rlink(sess, compiler);
+            let result = DustcDefaultCalls::process_rlink(sess, compiler);
             abort_on_err(result, sess);
             Compilation::Stop
         } else {
@@ -677,7 +677,7 @@ impl RustcDefaultCalls {
         odir: &Option<PathBuf>,
         ofile: &Option<PathBuf>,
     ) -> Compilation {
-        use rustc_session::config::PrintRequest::*;
+        use dustc_session::config::PrintRequest::*;
         // PrintRequest::NativeStaticLibs is special - printed during linking
         // (empty iterator returns true)
         if sess.opts.prints.iter().all(|&p| p == PrintRequest::NativeStaticLibs) {
@@ -701,7 +701,7 @@ impl RustcDefaultCalls {
             match *req {
                 TargetList => {
                     let mut targets =
-                        rustc_target::spec::TARGETS.iter().copied().collect::<Vec<_>>();
+                        dustc_target::spec::TARGETS.iter().copied().collect::<Vec<_>>();
                     targets.sort_unstable();
                     println!("{}", targets.join("\n"));
                 }
@@ -716,10 +716,10 @@ impl RustcDefaultCalls {
                         early_error(ErrorOutputType::default(), "no input file provided")
                     });
                     let attrs = attrs.as_ref().unwrap();
-                    let t_outputs = rustc_interface::util::build_output_filenames(
+                    let t_outputs = dustc_interface::util::build_output_filenames(
                         input, odir, ofile, attrs, sess,
                     );
-                    let id = rustc_session::output::find_crate_name(sess, attrs, input);
+                    let id = dustc_session::output::find_crate_name(sess, attrs, input);
                     if *req == PrintRequest::CrateName {
                         println!("{}", id);
                         continue;
@@ -727,7 +727,7 @@ impl RustcDefaultCalls {
                     let crate_types = collect_crate_types(sess, attrs);
                     for &style in &crate_types {
                         let fname =
-                            rustc_session::output::filename_for_input(sess, style, &id, &t_outputs);
+                            dustc_session::output::filename_for_input(sess, style, &id, &t_outputs);
                         println!("{}", fname.file_name().unwrap().to_string_lossy());
                     }
                 }
@@ -739,9 +739,9 @@ impl RustcDefaultCalls {
                         .filter_map(|&(name, value)| {
                             // Note that crt-static is a specially recognized cfg
                             // directive that's printed out here as part of
-                            // rust-lang/rust#37406, but in general the
+                            // dust-lang/dust#37406, but in general the
                             // `target_feature` cfg is gated under
-                            // rust-lang/rust#29717. For now this is just
+                            // dust-lang/dust#29717. For now this is just
                             // specifically allowing the crt-static cfg and that's
                             // it, this is intended to get into Cargo and then go
                             // through to build scripts.
@@ -798,12 +798,12 @@ pub fn version(binary: &str, matches: &getopts::Matches) {
 }
 
 fn usage(verbose: bool, include_unstable_options: bool, nightly_build: bool) {
-    let groups = if verbose { config::rustc_optgroups() } else { config::rustc_short_optgroups() };
+    let groups = if verbose { config::dustc_optgroups() } else { config::dustc_short_optgroups() };
     let mut options = getopts::Options::new();
     for option in groups.iter().filter(|x| include_unstable_options || x.is_stable()) {
         (option.apply)(&mut options);
     }
-    let message = "Usage: rustc [OPTIONS] INPUT";
+    let message = "Usage: dustc [OPTIONS] INPUT";
     let nightly_help = if nightly_build {
         "\n    -Z help             Print unstable compiler options"
     } else {
@@ -812,7 +812,7 @@ fn usage(verbose: bool, include_unstable_options: bool, nightly_build: bool) {
     let verbose_help = if verbose {
         ""
     } else {
-        "\n    --help -v           Print the full set of options rustc accepts"
+        "\n    --help -v           Print the full set of options dustc accepts"
     };
     let at_path = if verbose {
         "    @path               Read newline separated options from `path`\n"
@@ -834,8 +834,8 @@ fn usage(verbose: bool, include_unstable_options: bool, nightly_build: bool) {
 fn print_wall_help() {
     println!(
         "
-The flag `-Wall` does not exist in `rustc`. Most useful lints are enabled by
-default. Use `rustc -W help` to see all available lints. It's more common to put
+The flag `-Wall` does not exist in `dustc`. Most useful lints are enabled by
+default. Use `dustc -W help` to see all available lints. It's more common to put
 warning settings in the crate root using `#![warn(LINT_NAME)]` instead of using
 the command line flag directly.
 "
@@ -888,7 +888,7 @@ Available lint options:
         s
     };
 
-    println!("Lint checks provided by rustc:\n");
+    println!("Lint checks provided by dustc:\n");
     println!("    {}  {:7.7}  {}", padded("name"), "default", "meaning");
     println!("    {}  {:7.7}  {}", padded("----"), "-------", "-------");
 
@@ -918,7 +918,7 @@ Available lint options:
         s
     };
 
-    println!("Lint groups provided by rustc:\n");
+    println!("Lint groups provided by dustc:\n");
     println!("    {}  {}", padded("name"), "sub-lints");
     println!("    {}  {}", padded("----"), "---------");
     println!("    {}  {}", padded("warnings"), "all lints that are set to issue warnings");
@@ -1015,7 +1015,7 @@ pub fn handle_options(args: &[String]) -> Option<getopts::Matches> {
         // user did not write `-v` nor `-Z unstable-options`, so do not
         // include that extra information.
         let nightly_build =
-            rustc_feature::UnstableFeatures::from_environment(None).is_nightly_build();
+            dustc_feature::UnstableFeatures::from_environment(None).is_nightly_build();
         usage(false, false, nightly_build);
         return None;
     }
@@ -1023,7 +1023,7 @@ pub fn handle_options(args: &[String]) -> Option<getopts::Matches> {
     // Parse with *all* options defined in the compiler, we don't worry about
     // option stability here we just want to parse as much as possible.
     let mut options = getopts::Options::new();
-    for option in config::rustc_optgroups() {
+    for option in config::dustc_optgroups() {
         (option.apply)(&mut options);
     }
     let matches = options
@@ -1041,7 +1041,7 @@ pub fn handle_options(args: &[String]) -> Option<getopts::Matches> {
     //   we're good to go.
     // * Otherwise, if we're an unstable option then we generate an error
     //   (unstable option being used on stable)
-    nightly_options::check_nightly_options(&matches, &config::rustc_optgroups());
+    nightly_options::check_nightly_options(&matches, &config::dustc_optgroups());
 
     if matches.opt_present("h") || matches.opt_present("help") {
         // Only show unstable options in --help if we accept unstable options.
@@ -1087,7 +1087,7 @@ pub fn handle_options(args: &[String]) -> Option<getopts::Matches> {
     }
 
     if matches.opt_present("version") {
-        version("rustc", &matches);
+        version("dustc", &matches);
         return None;
     }
 
@@ -1096,8 +1096,8 @@ pub fn handle_options(args: &[String]) -> Option<getopts::Matches> {
 
 fn parse_crate_attrs<'a>(sess: &'a Session, input: &Input) -> PResult<'a, Vec<ast::Attribute>> {
     match input {
-        Input::File(ifile) => rustc_parse::parse_crate_attrs_from_file(ifile, &sess.parse_sess),
-        Input::Str { name, input } => rustc_parse::parse_crate_attrs_from_source_str(
+        Input::File(ifile) => dustc_parse::parse_crate_attrs_from_file(ifile, &sess.parse_sess),
+        Input::Str { name, input } => dustc_parse::parse_crate_attrs_from_source_str(
             name.clone(),
             input.clone(),
             &sess.parse_sess,
@@ -1150,7 +1150,7 @@ fn extra_compiler_flags() -> Option<(Vec<String>, bool)> {
 /// the panic into a `Result` instead.
 pub fn catch_fatal_errors<F: FnOnce() -> R, R>(f: F) -> Result<R, ErrorReported> {
     catch_unwind(panic::AssertUnwindSafe(f)).map_err(|value| {
-        if value.is::<rustc_errors::FatalErrorMarker>() {
+        if value.is::<dustc_errors::FatalErrorMarker>() {
             ErrorReported
         } else {
             panic::resume_unwind(value);
@@ -1188,20 +1188,20 @@ pub fn report_ice(info: &panic::PanicInfo<'_>, bug_report_url: &str) {
     // Separate the output with an empty line
     eprintln!();
 
-    let emitter = Box::new(rustc_errors::emitter::EmitterWriter::stderr(
-        rustc_errors::ColorConfig::Auto,
+    let emitter = Box::new(dustc_errors::emitter::EmitterWriter::stderr(
+        dustc_errors::ColorConfig::Auto,
         None,
         false,
         false,
         None,
         false,
     ));
-    let handler = rustc_errors::Handler::with_emitter(true, None, emitter);
+    let handler = dustc_errors::Handler::with_emitter(true, None, emitter);
 
     // a .span_bug or .bug call has already printed what
     // it wants to print.
-    if !info.payload().is::<rustc_errors::ExplicitBug>() {
-        let d = rustc_errors::Diagnostic::new(rustc_errors::Level::Bug, "unexpected panic");
+    if !info.payload().is::<dustc_errors::ExplicitBug>() {
+        let d = dustc_errors::Diagnostic::new(dustc_errors::Level::Bug, "unexpected panic");
         handler.emit_diagnostic(&d);
     }
 
@@ -1209,7 +1209,7 @@ pub fn report_ice(info: &panic::PanicInfo<'_>, bug_report_url: &str) {
         "the compiler unexpectedly panicked. this is a bug.".into(),
         format!("we would appreciate a bug report: {}", bug_report_url).into(),
         format!(
-            "rustc {} running on {}",
+            "dustc {} running on {}",
             util::version_str().unwrap_or("unknown_version"),
             config::host_triple()
         )
@@ -1229,7 +1229,7 @@ pub fn report_ice(info: &panic::PanicInfo<'_>, bug_report_url: &str) {
     }
 
     // If backtraces are enabled, also print the query stack
-    let backtrace = env::var_os("RUST_BACKTRACE").map_or(false, |x| &x != "0");
+    let backtrace = env::var_os("DUST_BACKTRACE").map_or(false, |x| &x != "0");
 
     let num_frames = if backtrace { None } else { Some(2) };
 
@@ -1237,7 +1237,7 @@ pub fn report_ice(info: &panic::PanicInfo<'_>, bug_report_url: &str) {
 
     #[cfg(windows)]
     unsafe {
-        if env::var("RUSTC_BREAK_ON_ICE").is_ok() {
+        if env::var("DUSTC_BREAK_ON_ICE").is_ok() {
             // Trigger a debugger if we crashed during bootstrap
             winapi::um::debugapi::DebugBreak();
         }
@@ -1246,20 +1246,20 @@ pub fn report_ice(info: &panic::PanicInfo<'_>, bug_report_url: &str) {
 
 /// Installs a panic hook that will print the ICE message on unexpected panics.
 ///
-/// A custom rustc driver can skip calling this to set up a custom ICE hook.
+/// A custom dustc driver can skip calling this to set up a custom ICE hook.
 pub fn install_ice_hook() {
     SyncLazy::force(&DEFAULT_HOOK);
 }
 
-/// This allows tools to enable rust logging without having to magically match rustc's
+/// This allows tools to enable dust logging without having to magically match dustc's
 /// tracing crate version.
-pub fn init_rustc_env_logger() {
-    init_env_logger("RUSTC_LOG")
+pub fn init_dustc_env_logger() {
+    init_env_logger("DUSTC_LOG")
 }
 
-/// This allows tools to enable rust logging without having to magically match rustc's
-/// tracing crate version. In contrast to `init_rustc_env_logger` it allows you to choose an env var
-/// other than `RUSTC_LOG`.
+/// This allows tools to enable dust logging without having to magically match dustc's
+/// tracing crate version. In contrast to `init_dustc_env_logger` it allows you to choose an env var
+/// other than `DUSTC_LOG`.
 pub fn init_env_logger(env: &str) {
     // Don't register a dispatcher if there's no filter to print anything
     match std::env::var(env) {
@@ -1307,7 +1307,7 @@ pub fn init_env_logger(env: &str) {
 pub fn main() -> ! {
     let start_time = Instant::now();
     let start_rss = get_resident_set_size();
-    init_rustc_env_logger();
+    init_dustc_env_logger();
     let mut callbacks = TimePassesCallbacks::default();
     install_ice_hook();
     let exit_code = catch_with_exit_code(|| {

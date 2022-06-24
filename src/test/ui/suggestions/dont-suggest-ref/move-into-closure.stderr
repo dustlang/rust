@@ -279,4 +279,4 @@ LL |             Either::One(mut _t) => (),
 
 error: aborting due to 21 previous errors
 
-For more information about this error, try `rustc --explain E0507`.
+For more information about this error, try `dustc --explain E0507`.

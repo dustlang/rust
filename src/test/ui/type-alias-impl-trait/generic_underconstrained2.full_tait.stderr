@@ -17,7 +17,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error[E0277]: `U` doesn't implement `Debug`
   --> $DIR/generic_underconstrained2.rs:12:33
@@ -49,4 +49,4 @@ LL | fn underconstrained2<U, V: Debug>(_: U, _: V) -> Underconstrained2<V> {
 
 error: aborting due to 4 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

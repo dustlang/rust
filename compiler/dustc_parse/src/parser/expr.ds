@@ -4,21 +4,21 @@ use super::{AttrWrapper, BlockMode, ForceCollect, Parser, PathStyle, Restriction
 use super::{SemiColonMode, SeqSep, TokenExpectType, TrailingToken};
 use crate::maybe_recover_from_interpolated_ty_qpath;
 
-use rustc_ast::ptr::P;
-use rustc_ast::token::{self, Token, TokenKind};
-use rustc_ast::tokenstream::Spacing;
-use rustc_ast::util::classify;
-use rustc_ast::util::literal::LitError;
-use rustc_ast::util::parser::{prec_let_scrutinee_needs_par, AssocOp, Fixity};
-use rustc_ast::{self as ast, AttrStyle, AttrVec, CaptureBy, ExprField, Lit, UnOp, DUMMY_NODE_ID};
-use rustc_ast::{AnonConst, BinOp, BinOpKind, FnDecl, FnRetTy, MacCall, Param, Ty, TyKind};
-use rustc_ast::{Arm, Async, BlockCheckMode, Expr, ExprKind, Label, Movability, RangeLimits};
-use rustc_ast_pretty::pprust;
-use rustc_errors::{Applicability, DiagnosticBuilder, PResult};
-use rustc_span::edition::LATEST_STABLE_EDITION;
-use rustc_span::source_map::{self, Span, Spanned};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{BytePos, Pos};
+use dustc_ast::ptr::P;
+use dustc_ast::token::{self, Token, TokenKind};
+use dustc_ast::tokenstream::Spacing;
+use dustc_ast::util::classify;
+use dustc_ast::util::literal::LitError;
+use dustc_ast::util::parser::{prec_let_scrutinee_needs_par, AssocOp, Fixity};
+use dustc_ast::{self as ast, AttrStyle, AttrVec, CaptureBy, ExprField, Lit, UnOp, DUMMY_NODE_ID};
+use dustc_ast::{AnonConst, BinOp, BinOpKind, FnDecl, FnRetTy, MacCall, Param, Ty, TyKind};
+use dustc_ast::{Arm, Async, BlockCheckMode, Expr, ExprKind, Label, Movability, RangeLimits};
+use dustc_ast_pretty::ppdust;
+use dustc_errors::{Applicability, DiagnosticBuilder, PResult};
+use dustc_span::edition::LATEST_STABLE_EDITION;
+use dustc_span::source_map::{self, Span, Spanned};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{BytePos, Pos};
 use std::mem;
 
 /// Possibly accepts an `token::Interpolated` expression (a pre-parsed expression
@@ -311,7 +311,7 @@ impl<'a> Parser<'a> {
     fn should_continue_as_assoc_expr(&mut self, lhs: &Expr) -> bool {
         match (self.expr_is_complete(lhs), AssocOp::from_token(&self.token)) {
             // Semi-statement forms are odd:
-            // See https://github.com/rust-lang/rust/issues/29071
+            // See https://github.com/dust-lang/dust/issues/29071
             (true, None) => false,
             (false, _) => true, // Continue parsing the expression.
             // An exhaustive check is done in the following block, but these are checked first
@@ -350,10 +350,10 @@ impl<'a> Parser<'a> {
     fn error_found_expr_would_be_stmt(&self, lhs: &Expr) {
         let mut err = self.struct_span_err(
             self.token.span,
-            &format!("expected expression, found `{}`", pprust::token_to_string(&self.token),),
+            &format!("expected expression, found `{}`", ppdust::token_to_string(&self.token),),
         );
         err.span_label(self.token.span, "expected expression");
-        self.sess.expr_parentheses_needed(&mut err, lhs.span, Some(pprust::expr_to_string(&lhs)));
+        self.sess.expr_parentheses_needed(&mut err, lhs.span, Some(ppdust::expr_to_string(&lhs)));
         err.emit();
     }
 
@@ -682,7 +682,7 @@ impl<'a> Parser<'a> {
                         // in AST and continue parsing.
                         let msg = format!(
                             "`<` is interpreted as a start of generic arguments for `{}`, not a {}",
-                            pprust::path_to_string(&path),
+                            ppdust::path_to_string(&path),
                             op_noun,
                         );
                         let span_after_type = parser_snapshot_after_type.token.span;
@@ -691,7 +691,7 @@ impl<'a> Parser<'a> {
 
                         let expr_str = self
                             .span_to_snippet(expr.span)
-                            .unwrap_or_else(|_| pprust::expr_to_string(&expr));
+                            .unwrap_or_else(|_| ppdust::expr_to_string(&expr));
 
                         self.struct_span_err(self.token.span, &msg)
                             .span_label(
@@ -893,7 +893,7 @@ impl<'a> Parser<'a> {
 
     fn error_unexpected_after_dot(&self) {
         // FIXME Could factor this out into non_fatal_unexpected or something.
-        let actual = pprust::token_to_string(&self.token);
+        let actual = ppdust::token_to_string(&self.token);
         self.struct_span_err(self.token.span, &format!("unexpected token: `{}`", actual)).emit();
     }
 
@@ -1040,7 +1040,7 @@ impl<'a> Parser<'a> {
 
     /// Assuming we have just parsed `.`, continue parsing into an expression.
     fn parse_dot_suffix(&mut self, self_arg: P<Expr>, lo: Span) -> PResult<'a, P<Expr>> {
-        if self.token.uninterpolated_span().rust_2018() && self.eat_keyword(kw::Await) {
+        if self.token.uninterpolated_span().dust_2018() && self.eat_keyword(kw::Await) {
             return Ok(self.mk_await_expr(self_arg, lo));
         }
 
@@ -1171,8 +1171,8 @@ impl<'a> Parser<'a> {
             //       |             ^ expected expression
             self.bump();
             Ok(self.mk_expr_err(self.token.span))
-        } else if self.token.uninterpolated_span().rust_2018() {
-            // `Span::rust_2018()` is somewhat expensive; don't get it repeatedly.
+        } else if self.token.uninterpolated_span().dust_2018() {
+            // `Span::dust_2018()` is somewhat expensive; don't get it repeatedly.
             if self.check_keyword(kw::Async) {
                 if self.is_async_block() {
                     // Check for `async {` and `async move {`.
@@ -1471,7 +1471,7 @@ impl<'a> Parser<'a> {
             .span_suggestion(
                 token.span,
                 "must have an integer part",
-                pprust::token_to_string(token),
+                ppdust::token_to_string(token),
                 Applicability::MachineApplicable,
             )
             .emit();
@@ -1567,7 +1567,7 @@ impl<'a> Parser<'a> {
                         to tuple field access",
                 );
                 err.note(
-                    "see issue #60210 <https://github.com/rust-lang/rust/issues/60210> \
+                    "see issue #60210 <https://github.com/dust-lang/dust/issues/60210> \
                      for more information",
                 );
                 err
@@ -1650,7 +1650,7 @@ impl<'a> Parser<'a> {
         let movability =
             if self.eat_keyword(kw::Static) { Movability::Static } else { Movability::Movable };
 
-        let asyncness = if self.token.uninterpolated_span().rust_2018() {
+        let asyncness = if self.token.uninterpolated_span().dust_2018() {
             self.parse_asyncness()
         } else {
             Async::No
@@ -2203,7 +2203,7 @@ impl<'a> Parser<'a> {
     fn is_try_block(&self) -> bool {
         self.token.is_keyword(kw::Try)
             && self.look_ahead(1, |t| *t == token::OpenDelim(token::Brace))
-            && self.token.uninterpolated_span().rust_2018()
+            && self.token.uninterpolated_span().dust_2018()
     }
 
     /// Parses an `async move? {...}` expression.
@@ -2289,9 +2289,9 @@ impl<'a> Parser<'a> {
 
         let mut async_block_err = |e: &mut DiagnosticBuilder<'_>, span: Span| {
             recover_async = true;
-            e.span_label(span, "`async` blocks are only allowed in Rust 2018 or later");
+            e.span_label(span, "`async` blocks are only allowed in Dust 2018 or later");
             e.help(&format!("set `edition = \"{}\"` in `Cargo.toml`", LATEST_STABLE_EDITION));
-            e.note("for more on editions, read https://doc.rust-lang.org/edition-guide");
+            e.note("for more on editions, read https://doc.dust-lang.org/edition-guide");
         };
 
         while self.token != token::CloseDelim(token::Brace) {

@@ -5,10 +5,10 @@ use std::{collections::hash_map::Entry, hash::Hash, hash::Hasher};
 
 use crate::transform::MirPass;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_middle::mir::visit::MutVisitor;
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_middle::mir::visit::MutVisitor;
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
 
 use super::simplify::simplify_cfg;
 
@@ -74,7 +74,7 @@ fn find_duplicates<'a, 'tcx>(body: &'a Body<'tcx>) -> FxHashMap<BasicBlock, Basi
     {
         // Basic blocks can get really big, so to avoid checking for duplicates in basic blocks
         // that are unlikely to have duplicates, we stop early. The early bail number has been
-        // found experimentally by eprintln while compiling the crates in the rustc-perf suite.
+        // found experimentally by eprintln while compiling the crates in the dustc-perf suite.
         if bbd.statements.len() > 10 {
             continue;
         }

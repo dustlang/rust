@@ -14,8 +14,8 @@ Compiler
 - [The `x86_64-unknown-freebsd` is now built with the full toolset.][79484]
 - [Dropped support for all cloudabi targets.][78439]
 
-\* Refer to Rust's [platform support page][forge-platform-support] for more
-information on Rust's tiered platform support.
+\* Refer to Dust's [platform support page][forge-platform-support] for more
+information on Dust's tiered platform support.
 
 Libraries
 -----------------------
@@ -73,8 +73,8 @@ The following previously stable methods are now `const`.
 Cargo
 -----------------------
 
-- [Added the `[build.rustc-workspace-wrapper]` option.][cargo/8976]
-  This option sets a wrapper to execute instead of `rustc`, for workspace members only.
+- [Added the `[build.dustc-workspace-wrapper]` option.][cargo/8976]
+  This option sets a wrapper to execute instead of `dustc`, for workspace members only.
 - [`cargo:rerun-if-changed` will now, if provided a directory, scan the entire
   contents of that directory for changes.][cargo/8973]
 - [Added the `--workspace` flag to the `cargo update` command.][cargo/8725]
@@ -82,7 +82,7 @@ Cargo
 Misc
 ----
 
-- [The search results tab and the help button are focusable with keyboard in rustdoc.][79896]
+- [The search results tab and the help button are focusable with keyboard in dustdoc.][79896]
 - [Running tests will now print the total time taken to execute.][75752]
 
 Compatibility Notes
@@ -99,57 +99,57 @@ Compatibility Notes
   recommended to use the `#[panic_handler]` attribute to provide your own implementation.
 - [Semi-colons after item statements (e.g. `struct Foo {};`) now produce a warning.][78296]
 
-[74989]: https://github.com/rust-lang/rust/pull/74989
-[79261]: https://github.com/rust-lang/rust/pull/79261
-[79896]: https://github.com/rust-lang/rust/pull/79896
-[79484]: https://github.com/rust-lang/rust/pull/79484
-[79472]: https://github.com/rust-lang/rust/pull/79472
-[79270]: https://github.com/rust-lang/rust/pull/79270
-[79003]: https://github.com/rust-lang/rust/pull/79003
-[78864]: https://github.com/rust-lang/rust/pull/78864
-[78636]: https://github.com/rust-lang/rust/pull/78636
-[78439]: https://github.com/rust-lang/rust/pull/78439
-[78343]: https://github.com/rust-lang/rust/pull/78343
-[78296]: https://github.com/rust-lang/rust/pull/78296
-[78068]: https://github.com/rust-lang/rust/pull/78068
-[75752]: https://github.com/rust-lang/rust/pull/75752
-[74699]: https://github.com/rust-lang/rust/pull/74699
-[78142]: https://github.com/rust-lang/rust/pull/78142
-[77484]: https://github.com/rust-lang/rust/pull/77484
-[cargo/8976]: https://github.com/rust-lang/cargo/pull/8976
-[cargo/8973]: https://github.com/rust-lang/cargo/pull/8973
-[cargo/8725]: https://github.com/rust-lang/cargo/pull/8725
-[`IpAddr::is_ipv4`]: https://doc.rust-lang.org/stable/std/net/enum.IpAddr.html#method.is_ipv4
-[`IpAddr::is_ipv6`]: https://doc.rust-lang.org/stable/std/net/enum.IpAddr.html#method.is_ipv6
-[`IpAddr::is_unspecified`]: https://doc.rust-lang.org/stable/std/net/enum.IpAddr.html#method.is_unspecified
-[`IpAddr::is_loopback`]: https://doc.rust-lang.org/stable/std/net/enum.IpAddr.html#method.is_loopback
-[`IpAddr::is_multicast`]: https://doc.rust-lang.org/stable/std/net/enum.IpAddr.html#method.is_multicast
-[`Ipv4Addr::octets`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.octets
-[`Ipv4Addr::is_loopback`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_loopback
-[`Ipv4Addr::is_private`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_private
-[`Ipv4Addr::is_link_local`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_link_local
-[`Ipv4Addr::is_multicast`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_multicast
-[`Ipv4Addr::is_broadcast`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_broadcast
-[`Ipv4Addr::is_documentation`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_documentation
-[`Ipv4Addr::to_ipv6_compatible`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.to_ipv6_compatible
-[`Ipv4Addr::to_ipv6_mapped`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.to_ipv6_mapped
-[`Ipv6Addr::segments`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.segments
-[`Ipv6Addr::is_unspecified`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.is_unspecified
-[`Ipv6Addr::is_loopback`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.is_loopback
-[`Ipv6Addr::is_multicast`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.is_multicast
-[`Ipv6Addr::to_ipv4`]: https://doc.rust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.to_ipv4
-[`Layout::align`]: https://doc.rust-lang.org/stable/std/alloc/struct.Layout.html#method.align
-[`Layout::from_size_align`]: https://doc.rust-lang.org/stable/std/alloc/struct.Layout.html#method.from_size_align
-[`Layout::size`]: https://doc.rust-lang.org/stable/std/alloc/struct.Layout.html#method.size
-[`Ord::clamp`]: https://doc.rust-lang.org/stable/std/cmp/trait.Ord.html#method.clamp
-[`RefCell::take`]: https://doc.rust-lang.org/stable/std/cell/struct.RefCell.html#method.take
-[`UnsafeCell::get_mut`]: https://doc.rust-lang.org/stable/std/cell/struct.UnsafeCell.html#method.get_mut
-[`bool::then`]: https://doc.rust-lang.org/stable/std/primitive.bool.html#method.then
-[`btree_map::Entry::or_insert_with_key`]: https://doc.rust-lang.org/stable/std/collections/btree_map/enum.Entry.html#method.or_insert_with_key
-[`f32::clamp`]: https://doc.rust-lang.org/stable/std/primitive.f32.html#method.clamp
-[`f64::clamp`]: https://doc.rust-lang.org/stable/std/primitive.f64.html#method.clamp
-[`hash_map::Entry::or_insert_with_key`]: https://doc.rust-lang.org/stable/std/collections/hash_map/enum.Entry.html#method.or_insert_with_key
-[`slice::fill`]: https://doc.rust-lang.org/stable/std/primitive.slice.html#method.fill
+[74989]: https://github.com/dust-lang/dust/pull/74989
+[79261]: https://github.com/dust-lang/dust/pull/79261
+[79896]: https://github.com/dust-lang/dust/pull/79896
+[79484]: https://github.com/dust-lang/dust/pull/79484
+[79472]: https://github.com/dust-lang/dust/pull/79472
+[79270]: https://github.com/dust-lang/dust/pull/79270
+[79003]: https://github.com/dust-lang/dust/pull/79003
+[78864]: https://github.com/dust-lang/dust/pull/78864
+[78636]: https://github.com/dust-lang/dust/pull/78636
+[78439]: https://github.com/dust-lang/dust/pull/78439
+[78343]: https://github.com/dust-lang/dust/pull/78343
+[78296]: https://github.com/dust-lang/dust/pull/78296
+[78068]: https://github.com/dust-lang/dust/pull/78068
+[75752]: https://github.com/dust-lang/dust/pull/75752
+[74699]: https://github.com/dust-lang/dust/pull/74699
+[78142]: https://github.com/dust-lang/dust/pull/78142
+[77484]: https://github.com/dust-lang/dust/pull/77484
+[cargo/8976]: https://github.com/dust-lang/cargo/pull/8976
+[cargo/8973]: https://github.com/dust-lang/cargo/pull/8973
+[cargo/8725]: https://github.com/dust-lang/cargo/pull/8725
+[`IpAddr::is_ipv4`]: https://doc.dust-lang.org/stable/std/net/enum.IpAddr.html#method.is_ipv4
+[`IpAddr::is_ipv6`]: https://doc.dust-lang.org/stable/std/net/enum.IpAddr.html#method.is_ipv6
+[`IpAddr::is_unspecified`]: https://doc.dust-lang.org/stable/std/net/enum.IpAddr.html#method.is_unspecified
+[`IpAddr::is_loopback`]: https://doc.dust-lang.org/stable/std/net/enum.IpAddr.html#method.is_loopback
+[`IpAddr::is_multicast`]: https://doc.dust-lang.org/stable/std/net/enum.IpAddr.html#method.is_multicast
+[`Ipv4Addr::octets`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.octets
+[`Ipv4Addr::is_loopback`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_loopback
+[`Ipv4Addr::is_private`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_private
+[`Ipv4Addr::is_link_local`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_link_local
+[`Ipv4Addr::is_multicast`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_multicast
+[`Ipv4Addr::is_broadcast`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_broadcast
+[`Ipv4Addr::is_documentation`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.is_documentation
+[`Ipv4Addr::to_ipv6_compatible`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.to_ipv6_compatible
+[`Ipv4Addr::to_ipv6_mapped`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv4Addr.html#method.to_ipv6_mapped
+[`Ipv6Addr::segments`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.segments
+[`Ipv6Addr::is_unspecified`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.is_unspecified
+[`Ipv6Addr::is_loopback`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.is_loopback
+[`Ipv6Addr::is_multicast`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.is_multicast
+[`Ipv6Addr::to_ipv4`]: https://doc.dust-lang.org/stable/std/net/struct.Ipv6Addr.html#method.to_ipv4
+[`Layout::align`]: https://doc.dust-lang.org/stable/std/alloc/struct.Layout.html#method.align
+[`Layout::from_size_align`]: https://doc.dust-lang.org/stable/std/alloc/struct.Layout.html#method.from_size_align
+[`Layout::size`]: https://doc.dust-lang.org/stable/std/alloc/struct.Layout.html#method.size
+[`Ord::clamp`]: https://doc.dust-lang.org/stable/std/cmp/trait.Ord.html#method.clamp
+[`RefCell::take`]: https://doc.dust-lang.org/stable/std/cell/struct.RefCell.html#method.take
+[`UnsafeCell::get_mut`]: https://doc.dust-lang.org/stable/std/cell/struct.UnsafeCell.html#method.get_mut
+[`bool::then`]: https://doc.dust-lang.org/stable/std/primitive.bool.html#method.then
+[`btree_map::Entry::or_insert_with_key`]: https://doc.dust-lang.org/stable/std/collections/btree_map/enum.Entry.html#method.or_insert_with_key
+[`f32::clamp`]: https://doc.dust-lang.org/stable/std/primitive.f32.html#method.clamp
+[`f64::clamp`]: https://doc.dust-lang.org/stable/std/primitive.f64.html#method.clamp
+[`hash_map::Entry::or_insert_with_key`]: https://doc.dust-lang.org/stable/std/collections/hash_map/enum.Entry.html#method.or_insert_with_key
+[`slice::fill`]: https://doc.dust-lang.org/stable/std/primitive.slice.html#method.fill
 
 
 Version 1.49.0 (2020-12-31)
@@ -163,7 +163,7 @@ Language
 - [You can now cast uninhabited enums to integers.][76199]
 - [You can now bind by reference and by move in patterns.][76119] This
   allows you to selectively borrow individual components of a type. E.g.
-  ```rust
+  ```dust
   #[derive(Debug)]
   struct Person {
       name: String,
@@ -191,8 +191,8 @@ Compiler
 - [Output from threads spawned in tests is now captured.][78227]
 - [Change os and vendor values to "none" and "unknown" for some targets][78951]
 
-\* Refer to Rust's [platform support page][forge-platform-support] for more
-information on Rust's tiered platform support.
+\* Refer to Dust's [platform support page][forge-platform-support] for more
+information on Dust's tiered platform support.
 
 Libraries
 -----------------------
@@ -227,56 +227,56 @@ Compatibility Notes
 
 - [Demoted `i686-unknown-freebsd` from host tier 2 to target tier 2 support.][78746]
 - [Macros that end with a semi-colon are now treated as statements even if they expand to nothing.][78376]
-- [Rustc will now check for the validity of some built-in attributes on enum variants.][77015]
+- [Dustc will now check for the validity of some built-in attributes on enum variants.][77015]
   Previously such invalid or unused attributes could be ignored.
 - Leading whitespace is stripped more uniformly in documentation comments, which may change behavior. You
-  read [this post about the changes][rustdoc-ws-post] for more details.
+  read [this post about the changes][dustdoc-ws-post] for more details.
 - [Trait bounds are no longer inferred for associated types.][79904]
 
 Internal Only
 -------------
 These changes provide no direct user facing benefits, but represent significant
-improvements to the internals and overall performance of rustc and
+improvements to the internals and overall performance of dustc and
 related tools.
 
-- [rustc's internal crates are now compiled using the `initial-exec` Thread
+- [dustc's internal crates are now compiled using the `initial-exec` Thread
   Local Storage model.][78201]
 - [Calculate visibilities once in resolve.][78077]
 - [Added `system` to the `llvm-libunwind` bootstrap config option.][77703]
 - [Added `--color` for configuring terminal color support to bootstrap.][79004]
 
 
-[75991]: https://github.com/rust-lang/rust/pull/75991
-[78951]: https://github.com/rust-lang/rust/pull/78951
-[78848]: https://github.com/rust-lang/rust/pull/78848
-[78746]: https://github.com/rust-lang/rust/pull/78746
-[78376]: https://github.com/rust-lang/rust/pull/78376
-[78228]: https://github.com/rust-lang/rust/pull/78228
-[78227]: https://github.com/rust-lang/rust/pull/78227
-[78201]: https://github.com/rust-lang/rust/pull/78201
-[78109]: https://github.com/rust-lang/rust/pull/78109
-[78077]: https://github.com/rust-lang/rust/pull/78077
-[77997]: https://github.com/rust-lang/rust/pull/77997
-[77703]: https://github.com/rust-lang/rust/pull/77703
-[77547]: https://github.com/rust-lang/rust/pull/77547
-[77015]: https://github.com/rust-lang/rust/pull/77015
-[76199]: https://github.com/rust-lang/rust/pull/76199
-[76119]: https://github.com/rust-lang/rust/pull/76119
-[75914]: https://github.com/rust-lang/rust/pull/75914
-[79004]: https://github.com/rust-lang/rust/pull/79004
-[78676]: https://github.com/rust-lang/rust/pull/78676
-[79904]: https://github.com/rust-lang/rust/issues/79904
-[cargo/8864]: https://github.com/rust-lang/cargo/pull/8864
-[cargo/8765]: https://github.com/rust-lang/cargo/pull/8765
-[cargo/8758]: https://github.com/rust-lang/cargo/pull/8758
-[cargo/8752]: https://github.com/rust-lang/cargo/pull/8752
-[`slice::select_nth_unstable`]: https://doc.rust-lang.org/nightly/std/primitive.slice.html#method.select_nth_unstable
-[`slice::select_nth_unstable_by`]: https://doc.rust-lang.org/nightly/std/primitive.slice.html#method.select_nth_unstable_by
-[`slice::select_nth_unstable_by_key`]: https://doc.rust-lang.org/nightly/std/primitive.slice.html#method.select_nth_unstable_by_key
-[`hint::spin_loop`]: https://doc.rust-lang.org/stable/std/hint/fn.spin_loop.html
-[`Poll::is_ready`]: https://doc.rust-lang.org/stable/std/task/enum.Poll.html#method.is_ready
-[`Poll::is_pending`]: https://doc.rust-lang.org/stable/std/task/enum.Poll.html#method.is_pending
-[rustdoc-ws-post]: https://blog.guillaume-gomez.fr/articles/2020-11-11+New+doc+comment+handling+in+rustdoc
+[75991]: https://github.com/dust-lang/dust/pull/75991
+[78951]: https://github.com/dust-lang/dust/pull/78951
+[78848]: https://github.com/dust-lang/dust/pull/78848
+[78746]: https://github.com/dust-lang/dust/pull/78746
+[78376]: https://github.com/dust-lang/dust/pull/78376
+[78228]: https://github.com/dust-lang/dust/pull/78228
+[78227]: https://github.com/dust-lang/dust/pull/78227
+[78201]: https://github.com/dust-lang/dust/pull/78201
+[78109]: https://github.com/dust-lang/dust/pull/78109
+[78077]: https://github.com/dust-lang/dust/pull/78077
+[77997]: https://github.com/dust-lang/dust/pull/77997
+[77703]: https://github.com/dust-lang/dust/pull/77703
+[77547]: https://github.com/dust-lang/dust/pull/77547
+[77015]: https://github.com/dust-lang/dust/pull/77015
+[76199]: https://github.com/dust-lang/dust/pull/76199
+[76119]: https://github.com/dust-lang/dust/pull/76119
+[75914]: https://github.com/dust-lang/dust/pull/75914
+[79004]: https://github.com/dust-lang/dust/pull/79004
+[78676]: https://github.com/dust-lang/dust/pull/78676
+[79904]: https://github.com/dust-lang/dust/issues/79904
+[cargo/8864]: https://github.com/dust-lang/cargo/pull/8864
+[cargo/8765]: https://github.com/dust-lang/cargo/pull/8765
+[cargo/8758]: https://github.com/dust-lang/cargo/pull/8758
+[cargo/8752]: https://github.com/dust-lang/cargo/pull/8752
+[`slice::select_nth_unstable`]: https://doc.dust-lang.org/nightly/std/primitive.slice.html#method.select_nth_unstable
+[`slice::select_nth_unstable_by`]: https://doc.dust-lang.org/nightly/std/primitive.slice.html#method.select_nth_unstable_by
+[`slice::select_nth_unstable_by_key`]: https://doc.dust-lang.org/nightly/std/primitive.slice.html#method.select_nth_unstable_by_key
+[`hint::spin_loop`]: https://doc.dust-lang.org/stable/std/hint/fn.spin_loop.html
+[`Poll::is_ready`]: https://doc.dust-lang.org/stable/std/task/enum.Poll.html#method.is_ready
+[`Poll::is_pending`]: https://doc.dust-lang.org/stable/std/task/enum.Poll.html#method.is_pending
+[dustdoc-ws-post]: https://blog.guillaume-gomez.fr/articles/2020-11-11+New+doc+comment+handling+in+dustdoc
 
 Version 1.48.0 (2020-11-19)
 ==========================
@@ -290,14 +290,14 @@ Language
 Compiler
 --------
 - [Stabilised the `-C link-self-contained=<yes|no>` compiler flag.][76158] This tells
-  `rustc` whether to link its own C runtime and libraries or to rely on a external
+  `dustc` whether to link its own C runtime and libraries or to rely on a external
   linker to find them. (Supported only on `windows-gnu`, `linux-musl`, and `wasi` platforms.)
 - [You can now use `-C target-feature=+crt-static` on `linux-gnu` targets.][77386]
   Note: If you're using cargo you must explicitly pass the `--target` flag.
 - [Added tier 2\* support for `aarch64-unknown-linux-musl`.][76420]
 
-\* Refer to Rust's [platform support page][forge-platform-support] for more
-information on Rust's tiered platform support.
+\* Refer to Dust's [platform support page][forge-platform-support] for more
+information on Dust's tiered platform support.
 
 Libraries
 ---------
@@ -330,14 +330,14 @@ The following previously stable methods are now `const fn`'s:
 Cargo
 -----
 
-Rustdoc
+Dustdoc
 -------
-- [You can now link to items in `rustdoc` using the intra-doc link
+- [You can now link to items in `dustdoc` using the intra-doc link
   syntax.][74430] E.g. ``/// Uses [`std::future`]`` will automatically generate
   a link to `std::future`'s documentation. See ["Linking to items by
   name"][intradoc-links] for more information.
 - [You can now specify `#[doc(alias = "<alias>")]` on items to add search aliases
-  when searching through `rustdoc`'s UI.][75740]
+  when searching through `dustdoc`'s UI.][75740]
 
 Compatibility Notes
 -------------------
@@ -352,7 +352,7 @@ Compatibility Notes
   pretty-print/reparse check.][77153] This may cause errors if your macro wasn't
   correctly handling recursive nonterminal tokens.
 - [`&mut` references to non zero-sized types are no longer promoted.][75585]
-- [`rustc` will now warn if you use attributes like `#[link_name]` or `#[cold]`
+- [`dustc` will now warn if you use attributes like `#[link_name]` or `#[cold]`
   in places where they have no effect.][73461]
 - [Updated `_mm256_extract_epi8` and `_mm256_extract_epi16` signatures in
   `arch::{x86, x86_64}` to return `i32` to match the vendor signatures.][73166]
@@ -368,54 +368,54 @@ Compatibility Notes
 Internal Only
 -------------
 These changes provide no direct user facing benefits, but represent significant
-improvements to the internals and overall performance of rustc and
+improvements to the internals and overall performance of dustc and
 related tools.
 
-- [Building `rustc` from source now uses `ninja` by default over `make`.][74922]
+- [Building `dustc` from source now uses `ninja` by default over `make`.][74922]
   You can continue building with `make` by setting `ninja=false` in
   your `config.toml`.
 - [cg_llvm: `fewer_names` in `uncached_llvm_type`][76030]
 - [Made `ensure_sufficient_stack()` non-generic][76680]
 
-[78143]: https://github.com/rust-lang/rust/issues/78143
-[76680]: https://github.com/rust-lang/rust/pull/76680/
-[76030]: https://github.com/rust-lang/rust/pull/76030/
-[70212]: https://github.com/rust-lang/rust/pull/70212/
-[27675]: https://github.com/rust-lang/rust/issues/27675/
-[54121]: https://github.com/rust-lang/rust/issues/54121/
-[71274]: https://github.com/rust-lang/rust/pull/71274/
-[77386]: https://github.com/rust-lang/rust/pull/77386/
-[77153]: https://github.com/rust-lang/rust/pull/77153/
-[77055]: https://github.com/rust-lang/rust/pull/77055/
-[76275]: https://github.com/rust-lang/rust/pull/76275/
-[76310]: https://github.com/rust-lang/rust/pull/76310/
-[76420]: https://github.com/rust-lang/rust/pull/76420/
-[76158]: https://github.com/rust-lang/rust/pull/76158/
-[75857]: https://github.com/rust-lang/rust/pull/75857/
-[75585]: https://github.com/rust-lang/rust/pull/75585/
-[75740]: https://github.com/rust-lang/rust/pull/75740/
-[75502]: https://github.com/rust-lang/rust/pull/75502/
-[74880]: https://github.com/rust-lang/rust/pull/74880/
-[74922]: https://github.com/rust-lang/rust/pull/74922/
-[74430]: https://github.com/rust-lang/rust/pull/74430/
-[74194]: https://github.com/rust-lang/rust/pull/74194/
-[73461]: https://github.com/rust-lang/rust/pull/73461/
-[73166]: https://github.com/rust-lang/rust/pull/73166/
-[intradoc-links]: https://doc.rust-lang.org/rustdoc/linking-to-items-by-name.html
-[`catch_unwind`]: https://doc.rust-lang.org/std/panic/fn.catch_unwind.html
-[`Option::is_some`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.is_some
-[`Option::is_none`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.is_none
-[`Option::as_ref`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.as_ref
-[`Result::is_ok`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.is_ok
-[`Result::is_err`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.is_err
-[`Result::as_ref`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.as_ref
-[`Ordering::reverse`]: https://doc.rust-lang.org/std/cmp/enum.Ordering.html#method.reverse
-[`Ordering::then`]: https://doc.rust-lang.org/std/cmp/enum.Ordering.html#method.then
-[`slice::as_ptr_range`]: https://doc.rust-lang.org/std/primitive.slice.html#method.as_ptr_range
-[`slice::as_mut_ptr_range`]: https://doc.rust-lang.org/std/primitive.slice.html#method.as_mut_ptr_range
-[`VecDeque::make_contiguous`]: https://doc.rust-lang.org/std/collections/struct.VecDeque.html#method.make_contiguous
-[`future::pending`]: https://doc.rust-lang.org/std/future/fn.pending.html
-[`future::ready`]: https://doc.rust-lang.org/std/future/fn.ready.html
+[78143]: https://github.com/dust-lang/dust/issues/78143
+[76680]: https://github.com/dust-lang/dust/pull/76680/
+[76030]: https://github.com/dust-lang/dust/pull/76030/
+[70212]: https://github.com/dust-lang/dust/pull/70212/
+[27675]: https://github.com/dust-lang/dust/issues/27675/
+[54121]: https://github.com/dust-lang/dust/issues/54121/
+[71274]: https://github.com/dust-lang/dust/pull/71274/
+[77386]: https://github.com/dust-lang/dust/pull/77386/
+[77153]: https://github.com/dust-lang/dust/pull/77153/
+[77055]: https://github.com/dust-lang/dust/pull/77055/
+[76275]: https://github.com/dust-lang/dust/pull/76275/
+[76310]: https://github.com/dust-lang/dust/pull/76310/
+[76420]: https://github.com/dust-lang/dust/pull/76420/
+[76158]: https://github.com/dust-lang/dust/pull/76158/
+[75857]: https://github.com/dust-lang/dust/pull/75857/
+[75585]: https://github.com/dust-lang/dust/pull/75585/
+[75740]: https://github.com/dust-lang/dust/pull/75740/
+[75502]: https://github.com/dust-lang/dust/pull/75502/
+[74880]: https://github.com/dust-lang/dust/pull/74880/
+[74922]: https://github.com/dust-lang/dust/pull/74922/
+[74430]: https://github.com/dust-lang/dust/pull/74430/
+[74194]: https://github.com/dust-lang/dust/pull/74194/
+[73461]: https://github.com/dust-lang/dust/pull/73461/
+[73166]: https://github.com/dust-lang/dust/pull/73166/
+[intradoc-links]: https://doc.dust-lang.org/dustdoc/linking-to-items-by-name.html
+[`catch_unwind`]: https://doc.dust-lang.org/std/panic/fn.catch_unwind.html
+[`Option::is_some`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.is_some
+[`Option::is_none`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.is_none
+[`Option::as_ref`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.as_ref
+[`Result::is_ok`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.is_ok
+[`Result::is_err`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.is_err
+[`Result::as_ref`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.as_ref
+[`Ordering::reverse`]: https://doc.dust-lang.org/std/cmp/enum.Ordering.html#method.reverse
+[`Ordering::then`]: https://doc.dust-lang.org/std/cmp/enum.Ordering.html#method.then
+[`slice::as_ptr_range`]: https://doc.dust-lang.org/std/primitive.slice.html#method.as_ptr_range
+[`slice::as_mut_ptr_range`]: https://doc.dust-lang.org/std/primitive.slice.html#method.as_mut_ptr_range
+[`VecDeque::make_contiguous`]: https://doc.dust-lang.org/std/collections/struct.VecDeque.html#method.make_contiguous
+[`future::pending`]: https://doc.dust-lang.org/std/future/fn.pending.html
+[`future::ready`]: https://doc.dust-lang.org/std/future/fn.ready.html
 
 
 Version 1.47.0 (2020-10-08)
@@ -433,10 +433,10 @@ Compiler
 - [Upgraded to LLVM 11.][73526]
 - [Added tier 3\* support for the `thumbv4t-none-eabi` target.][74419]
 - [Upgrade the FreeBSD toolchain to version 11.4][75204]
-- [`RUST_BACKTRACE`'s output is now more compact.][75048]
+- [`DUST_BACKTRACE`'s output is now more compact.][75048]
 
-\* Refer to Rust's [platform support page][forge-platform-support] for more
-information on Rust's tiered platform support.
+\* Refer to Dust's [platform support page][forge-platform-support] for more
+information on Dust's tiered platform support.
 
 Libraries
 ---------
@@ -490,9 +490,9 @@ Cargo
 
 Misc
 ----
-- [Added a help button beside Rustdoc's searchbar that explains rustdoc's
+- [Added a help button beside Dustdoc's searchbar that explains dustdoc's
   type based search.][75366]
-- [Added the Ayu theme to rustdoc.][71237]
+- [Added the Ayu theme to dustdoc.][71237]
 
 Compatibility Notes
 -------------------
@@ -504,54 +504,54 @@ Compatibility Notes
   `Delimiter::None`.
 - [Moved support for the CloudABI target to tier 3.][75568]
 - [`linux-gnu` targets now require minimum kernel 2.6.32 and glibc 2.11.][74163]
-- [Added the `rustc-docs` component.][75560] This allows you to install
+- [Added the `dustc-docs` component.][75560] This allows you to install
   and read the documentation for the compiler internal APIs. (Currently only
   available for `x86_64-unknown-linux-gnu`.)
 
 Internal Only
 --------
 
-- [Improved default settings for bootstrapping in `x.py`.][73964] You can read details about this change in the ["Changes to `x.py` defaults"](https://blog.rust-lang.org/inside-rust/2020/08/30/changes-to-x-py-defaults.html) post on the Inside Rust blog.
+- [Improved default settings for bootstrapping in `x.py`.][73964] You can read details about this change in the ["Changes to `x.py` defaults"](https://blog.dust-lang.org/inside-dust/2020/08/30/changes-to-x-py-defaults.html) post on the Inside Dust blog.
 
 [1.47.0-cfg]: https://docs.microsoft.com/en-us/windows/win32/secbp/control-flow-guard
-[75048]: https://github.com/rust-lang/rust/pull/75048/
-[74163]: https://github.com/rust-lang/rust/pull/74163/
-[71237]: https://github.com/rust-lang/rust/pull/71237/
-[74869]: https://github.com/rust-lang/rust/pull/74869/
-[73858]: https://github.com/rust-lang/rust/pull/73858/
-[75716]: https://github.com/rust-lang/rust/pull/75716/
-[75908]: https://github.com/rust-lang/rust/pull/75908/
-[75516]: https://github.com/rust-lang/rust/pull/75516/
-[75560]: https://github.com/rust-lang/rust/pull/75560/
-[75568]: https://github.com/rust-lang/rust/pull/75568/
-[75366]: https://github.com/rust-lang/rust/pull/75366/
-[75204]: https://github.com/rust-lang/rust/pull/75204/
-[74650]: https://github.com/rust-lang/rust/pull/74650/
-[74419]: https://github.com/rust-lang/rust/pull/74419/
-[73964]: https://github.com/rust-lang/rust/pull/73964/
-[74021]: https://github.com/rust-lang/rust/pull/74021/
-[74060]: https://github.com/rust-lang/rust/pull/74060/
-[73893]: https://github.com/rust-lang/rust/pull/73893/
-[73526]: https://github.com/rust-lang/rust/pull/73526/
-[73583]: https://github.com/rust-lang/rust/pull/73583/
-[73084]: https://github.com/rust-lang/rust/pull/73084/
-[73197]: https://github.com/rust-lang/rust/pull/73197/
-[72488]: https://github.com/rust-lang/rust/pull/72488/
-[cargo/8456]: https://github.com/rust-lang/cargo/pull/8456/
-[cargo/8478]: https://github.com/rust-lang/cargo/pull/8478/
-[cargo/8485]: https://github.com/rust-lang/cargo/pull/8485/
-[cargo/8500]: https://github.com/rust-lang/cargo/pull/8500/
-[cargo/8571]: https://github.com/rust-lang/cargo/pull/8571/
-[`Ident::new_raw`]:  https://doc.rust-lang.org/nightly/proc_macro/struct.Ident.html#method.new_raw
-[`Range::is_empty`]: https://doc.rust-lang.org/nightly/std/ops/struct.Range.html#method.is_empty
-[`RangeInclusive::is_empty`]: https://doc.rust-lang.org/nightly/std/ops/struct.RangeInclusive.html#method.is_empty
-[`Result::as_deref_mut`]: https://doc.rust-lang.org/nightly/std/result/enum.Result.html#method.as_deref_mut
-[`Result::as_deref`]: https://doc.rust-lang.org/nightly/std/result/enum.Result.html#method.as_deref
-[`TypeId::of`]: https://doc.rust-lang.org/nightly/std/any/struct.TypeId.html#method.of
-[`Vec::leak`]: https://doc.rust-lang.org/nightly/std/vec/struct.Vec.html#method.leak
-[`f32::TAU`]: https://doc.rust-lang.org/nightly/std/f32/consts/constant.TAU.html
-[`f64::TAU`]: https://doc.rust-lang.org/nightly/std/f64/consts/constant.TAU.html
-[`pointer::offset_from`]: https://doc.rust-lang.org/nightly/std/primitive.pointer.html#method.offset_from
+[75048]: https://github.com/dust-lang/dust/pull/75048/
+[74163]: https://github.com/dust-lang/dust/pull/74163/
+[71237]: https://github.com/dust-lang/dust/pull/71237/
+[74869]: https://github.com/dust-lang/dust/pull/74869/
+[73858]: https://github.com/dust-lang/dust/pull/73858/
+[75716]: https://github.com/dust-lang/dust/pull/75716/
+[75908]: https://github.com/dust-lang/dust/pull/75908/
+[75516]: https://github.com/dust-lang/dust/pull/75516/
+[75560]: https://github.com/dust-lang/dust/pull/75560/
+[75568]: https://github.com/dust-lang/dust/pull/75568/
+[75366]: https://github.com/dust-lang/dust/pull/75366/
+[75204]: https://github.com/dust-lang/dust/pull/75204/
+[74650]: https://github.com/dust-lang/dust/pull/74650/
+[74419]: https://github.com/dust-lang/dust/pull/74419/
+[73964]: https://github.com/dust-lang/dust/pull/73964/
+[74021]: https://github.com/dust-lang/dust/pull/74021/
+[74060]: https://github.com/dust-lang/dust/pull/74060/
+[73893]: https://github.com/dust-lang/dust/pull/73893/
+[73526]: https://github.com/dust-lang/dust/pull/73526/
+[73583]: https://github.com/dust-lang/dust/pull/73583/
+[73084]: https://github.com/dust-lang/dust/pull/73084/
+[73197]: https://github.com/dust-lang/dust/pull/73197/
+[72488]: https://github.com/dust-lang/dust/pull/72488/
+[cargo/8456]: https://github.com/dust-lang/cargo/pull/8456/
+[cargo/8478]: https://github.com/dust-lang/cargo/pull/8478/
+[cargo/8485]: https://github.com/dust-lang/cargo/pull/8485/
+[cargo/8500]: https://github.com/dust-lang/cargo/pull/8500/
+[cargo/8571]: https://github.com/dust-lang/cargo/pull/8571/
+[`Ident::new_raw`]:  https://doc.dust-lang.org/nightly/proc_macro/struct.Ident.html#method.new_raw
+[`Range::is_empty`]: https://doc.dust-lang.org/nightly/std/ops/struct.Range.html#method.is_empty
+[`RangeInclusive::is_empty`]: https://doc.dust-lang.org/nightly/std/ops/struct.RangeInclusive.html#method.is_empty
+[`Result::as_deref_mut`]: https://doc.dust-lang.org/nightly/std/result/enum.Result.html#method.as_deref_mut
+[`Result::as_deref`]: https://doc.dust-lang.org/nightly/std/result/enum.Result.html#method.as_deref
+[`TypeId::of`]: https://doc.dust-lang.org/nightly/std/any/struct.TypeId.html#method.of
+[`Vec::leak`]: https://doc.dust-lang.org/nightly/std/vec/struct.Vec.html#method.leak
+[`f32::TAU`]: https://doc.dust-lang.org/nightly/std/f32/consts/constant.TAU.html
+[`f64::TAU`]: https://doc.dust-lang.org/nightly/std/f64/consts/constant.TAU.html
+[`pointer::offset_from`]: https://doc.dust-lang.org/nightly/std/primitive.pointer.html#method.offset_from
 
 
 Version 1.46.0 (2020-08-27)
@@ -607,9 +607,9 @@ Compatibility Notes
 -------------------
 - [The target configuration option `abi_blacklist` has been renamed
   to `unsupported_abis`.][74150] The old name will still continue to work.
-- [Rustc will now warn if you cast a C-like enum that implements `Drop`.][72331]
+- [Dustc will now warn if you cast a C-like enum that implements `Drop`.][72331]
   This was previously accepted but will become a hard error in a future release.
-- [Rustc will fail to compile if you have a struct with
+- [Dustc will fail to compile if you have a struct with
   `#[repr(i128)]` or `#[repr(u128)]`.][74109] This representation is currently only
   allowed on `enum`s.
 - [Tokens passed to `macro_rules!` are now always captured.][73293] This helps
@@ -619,52 +619,52 @@ Compatibility Notes
   a legacy installer that was replaced by a MSI installer a few years ago but
   was still being built.
 - [`{f32, f64}::asinh` now returns the correct values for negative numbers.][72486]
-- [Rustc will no longer accept overlapping trait implementations that only
+- [Dustc will no longer accept overlapping trait implementations that only
   differ in how the lifetime was bound.][72493]
-- [Rustc now correctly relates the lifetime of an existential associated
-  type.][71896] This fixes some edge cases where `rustc` would erroneously allow
+- [Dustc now correctly relates the lifetime of an existential associated
+  type.][71896] This fixes some edge cases where `dustc` would erroneously allow
   you to pass a shorter lifetime than expected.
-- [Rustc now dynamically links to `libz` (also called `zlib`) on Linux.][74420]
-  The library will need to be installed for `rustc` to work, even though we
+- [Dustc now dynamically links to `libz` (also called `zlib`) on Linux.][74420]
+  The library will need to be installed for `dustc` to work, even though we
   expect it to be already available on most systems.
 - [Tests annotated with `#[should_panic]` are broken on ARMv7 while running
   under QEMU.][74820]
 - [Pretty printing of some tokens in procedural macros changed.][75453] The
-  exact output returned by rustc's pretty printing is an unstable
+  exact output returned by dustc's pretty printing is an unstable
   implementation detail: we recommend any macro relying on it to switch to a
   more robust parsing system.
 
-[75453]: https://github.com/rust-lang/rust/issues/75453/
-[74820]: https://github.com/rust-lang/rust/issues/74820/
-[74420]: https://github.com/rust-lang/rust/issues/74420/
-[74109]: https://github.com/rust-lang/rust/pull/74109/
-[74150]: https://github.com/rust-lang/rust/pull/74150/
-[73862]: https://github.com/rust-lang/rust/pull/73862/
-[73887]: https://github.com/rust-lang/rust/pull/73887/
-[73466]: https://github.com/rust-lang/rust/pull/73466/
-[73516]: https://github.com/rust-lang/rust/pull/73516/
-[73293]: https://github.com/rust-lang/rust/pull/73293/
-[73007]: https://github.com/rust-lang/rust/pull/73007/
-[73032]: https://github.com/rust-lang/rust/pull/73032/
-[72920]: https://github.com/rust-lang/rust/pull/72920/
-[72569]: https://github.com/rust-lang/rust/pull/72569/
-[72583]: https://github.com/rust-lang/rust/pull/72583/
-[72584]: https://github.com/rust-lang/rust/pull/72584/
-[72717]: https://github.com/rust-lang/rust/pull/72717/
-[72437]: https://github.com/rust-lang/rust/pull/72437/
-[72445]: https://github.com/rust-lang/rust/pull/72445/
-[72486]: https://github.com/rust-lang/rust/pull/72486/
-[72493]: https://github.com/rust-lang/rust/pull/72493/
-[72331]: https://github.com/rust-lang/rust/pull/72331/
-[71896]: https://github.com/rust-lang/rust/pull/71896/
-[71660]: https://github.com/rust-lang/rust/pull/71660/
-[71322]: https://github.com/rust-lang/rust/pull/71322/
-[70740]: https://github.com/rust-lang/rust/pull/70740/
-[cargo/8270]: https://github.com/rust-lang/cargo/pull/8270/
-[cargo/8325]: https://github.com/rust-lang/cargo/pull/8325/
-[cargo/8387]: https://github.com/rust-lang/cargo/pull/8387/
-[`Option::zip`]: https://doc.rust-lang.org/stable/std/option/enum.Option.html#method.zip
-[`vec::Drain::as_slice`]: https://doc.rust-lang.org/stable/std/vec/struct.Drain.html#method.as_slice
+[75453]: https://github.com/dust-lang/dust/issues/75453/
+[74820]: https://github.com/dust-lang/dust/issues/74820/
+[74420]: https://github.com/dust-lang/dust/issues/74420/
+[74109]: https://github.com/dust-lang/dust/pull/74109/
+[74150]: https://github.com/dust-lang/dust/pull/74150/
+[73862]: https://github.com/dust-lang/dust/pull/73862/
+[73887]: https://github.com/dust-lang/dust/pull/73887/
+[73466]: https://github.com/dust-lang/dust/pull/73466/
+[73516]: https://github.com/dust-lang/dust/pull/73516/
+[73293]: https://github.com/dust-lang/dust/pull/73293/
+[73007]: https://github.com/dust-lang/dust/pull/73007/
+[73032]: https://github.com/dust-lang/dust/pull/73032/
+[72920]: https://github.com/dust-lang/dust/pull/72920/
+[72569]: https://github.com/dust-lang/dust/pull/72569/
+[72583]: https://github.com/dust-lang/dust/pull/72583/
+[72584]: https://github.com/dust-lang/dust/pull/72584/
+[72717]: https://github.com/dust-lang/dust/pull/72717/
+[72437]: https://github.com/dust-lang/dust/pull/72437/
+[72445]: https://github.com/dust-lang/dust/pull/72445/
+[72486]: https://github.com/dust-lang/dust/pull/72486/
+[72493]: https://github.com/dust-lang/dust/pull/72493/
+[72331]: https://github.com/dust-lang/dust/pull/72331/
+[71896]: https://github.com/dust-lang/dust/pull/71896/
+[71660]: https://github.com/dust-lang/dust/pull/71660/
+[71322]: https://github.com/dust-lang/dust/pull/71322/
+[70740]: https://github.com/dust-lang/dust/pull/70740/
+[cargo/8270]: https://github.com/dust-lang/cargo/pull/8270/
+[cargo/8325]: https://github.com/dust-lang/cargo/pull/8325/
+[cargo/8387]: https://github.com/dust-lang/cargo/pull/8387/
+[`Option::zip`]: https://doc.dust-lang.org/stable/std/option/enum.Option.html#method.zip
+[`vec::Drain::as_slice`]: https://doc.dust-lang.org/stable/std/vec/struct.Drain.html#method.as_slice
 
 
 Version 1.45.2 (2020-08-03)
@@ -673,22 +673,22 @@ Version 1.45.2 (2020-08-03)
 * [Fix bindings in tuple struct patterns][74954]
 * [Fix track_caller integration with trait objects][74784]
 
-[74954]: https://github.com/rust-lang/rust/issues/74954
-[74784]: https://github.com/rust-lang/rust/issues/74784
+[74954]: https://github.com/dust-lang/dust/issues/74954
+[74784]: https://github.com/dust-lang/dust/issues/74784
 
 
 Version 1.45.1 (2020-07-30)
 ==========================
 
 * [Fix const propagation with references.][73613]
-* [rustfmt accepts rustfmt_skip in cfg_attr again.][73078]
+* [dustfmt accepts dustfmt_skip in cfg_attr again.][73078]
 * [Avoid spurious implicit region bound.][74509]
 * [Install clippy on x.py install][74457]
 
-[73613]: https://github.com/rust-lang/rust/pull/73613
-[73078]: https://github.com/rust-lang/rust/issues/73078
-[74509]: https://github.com/rust-lang/rust/pull/74509
-[74457]: https://github.com/rust-lang/rust/pull/74457
+[73613]: https://github.com/dust-lang/dust/pull/73613
+[73078]: https://github.com/dust-lang/dust/issues/73078
+[74509]: https://github.com/dust-lang/dust/pull/74509
+[74457]: https://github.com/dust-lang/dust/pull/74457
 
 
 Version 1.45.0 (2020-07-16)
@@ -712,16 +712,16 @@ Compiler
   flag.][72094] E.g. `-C target-feature=+avx2 -C target-feature=+fma` is now
   equivalent to `-C target-feature=+avx2,+fma`.
 - [Added the `force-unwind-tables` flag.][69984] This option allows
-  rustc to always generate unwind tables regardless of panic strategy.
-- [Added the `embed-bitcode` flag.][71716] This codegen flag allows rustc
+  dustc to always generate unwind tables regardless of panic strategy.
+- [Added the `embed-bitcode` flag.][71716] This codegen flag allows dustc
   to include LLVM bitcode into generated `rlib`s (this is on by default).
 - [Added the `tiny` value to the `code-model` codegen flag.][72397]
 - [Added tier 3 support\* for the `mipsel-sony-psp` target.][72062]
 - [Added tier 3 support for the `thumbv7a-uwp-windows-msvc` target.][72133]
 - [Upgraded to LLVM 10.][67759]
 
-\* Refer to Rust's [platform support page][forge-platform-support] for more
-information on Rust's tiered platform support.
+\* Refer to Dust's [platform support page][forge-platform-support] for more
+information on Dust's tiered platform support.
 
 
 Libraries
@@ -733,7 +733,7 @@ Libraries
   `ops::{Range, RangeFrom, RangeFull, RangeInclusive, RangeTo}` to iterate over
   a range of codepoints.][72413] E.g.
   you can now write the following;
-  ```rust
+  ```dust
   for ch in 'a'..='z' {
       print!("{}", ch);
   }
@@ -781,9 +781,9 @@ Cargo
 
 Misc
 ----
-- [Rustdoc now supports strikethrough text in Markdown.][71928] E.g.
+- [Dustdoc now supports strikethrough text in Markdown.][71928] E.g.
   `~~outdated information~~` becomes "~~outdated information~~".
-- [Added an emoji to Rustdoc's deprecated API message.][72014]
+- [Added an emoji to Dustdoc's deprecated API message.][72014]
 
 Compatibility Notes
 -------------------
@@ -791,11 +791,11 @@ Compatibility Notes
   itself) is unsound and now causes a compile error.][71140]
 - [`{f32, f64}::powi` now returns a slightly different value on Windows.][73420]
   This is due to changes in LLVM's intrinsics which `{f32, f64}::powi` uses.
-- [Rustdoc's CLI's extra error exit codes have been removed.][71900] These were
-  previously undocumented and not intended for public use. Rustdoc still provides
+- [Dustdoc's CLI's extra error exit codes have been removed.][71900] These were
+  previously undocumented and not intended for public use. Dustdoc still provides
   a non-zero exit code on errors.
-- [Rustc's `lto` flag is incompatible with the new `embed-bitcode=no`.][71848]
-  This may cause issues if LTO is enabled through `RUSTFLAGS` or `cargo rustc`
+- [Dustc's `lto` flag is incompatible with the new `embed-bitcode=no`.][71848]
+  This may cause issues if LTO is enabled through `DUSTFLAGS` or `cargo dustc`
   flags while cargo is adding `embed-bitcode` itself. The recommended way to
   control LTO is with Cargo profiles, either in `Cargo.toml` or `.cargo/config`,
   or by setting `CARGO_PROFILE_<name>_LTO` in the environment.
@@ -805,65 +805,65 @@ Internals Only
 - [Make clippy a git subtree instead of a git submodule][70655]
 - [Unify the undo log of all snapshot types][69464]
 
-[71848]: https://github.com/rust-lang/rust/issues/71848/
-[73420]: https://github.com/rust-lang/rust/issues/73420/
-[72324]: https://github.com/rust-lang/rust/pull/72324/
-[71843]: https://github.com/rust-lang/rust/pull/71843/
-[71886]: https://github.com/rust-lang/rust/pull/71886/
-[72234]: https://github.com/rust-lang/rust/pull/72234/
-[72239]: https://github.com/rust-lang/rust/pull/72239/
-[72397]: https://github.com/rust-lang/rust/pull/72397/
-[72413]: https://github.com/rust-lang/rust/pull/72413/
-[72014]: https://github.com/rust-lang/rust/pull/72014/
-[72062]: https://github.com/rust-lang/rust/pull/72062/
-[72094]: https://github.com/rust-lang/rust/pull/72094/
-[72133]: https://github.com/rust-lang/rust/pull/72133/
-[67759]: https://github.com/rust-lang/rust/pull/67759/
-[71900]: https://github.com/rust-lang/rust/pull/71900/
-[71928]: https://github.com/rust-lang/rust/pull/71928/
-[71662]: https://github.com/rust-lang/rust/pull/71662/
-[71716]: https://github.com/rust-lang/rust/pull/71716/
-[71447]: https://github.com/rust-lang/rust/pull/71447/
-[71269]: https://github.com/rust-lang/rust/pull/71269/
-[71095]: https://github.com/rust-lang/rust/pull/71095/
-[71140]: https://github.com/rust-lang/rust/pull/71140/
-[70655]: https://github.com/rust-lang/rust/pull/70655/
-[70705]: https://github.com/rust-lang/rust/pull/70705/
-[69984]: https://github.com/rust-lang/rust/pull/69984/
-[69813]: https://github.com/rust-lang/rust/pull/69813/
-[69464]: https://github.com/rust-lang/rust/pull/69464/
-[68717]: https://github.com/rust-lang/rust/pull/68717/
-[cargo/8066]: https://github.com/rust-lang/cargo/pull/8066
-[`Arc::as_ptr`]: https://doc.rust-lang.org/stable/std/sync/struct.Arc.html#method.as_ptr
-[`BTreeMap::remove_entry`]: https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html#method.remove_entry
-[`Rc::as_ptr`]: https://doc.rust-lang.org/stable/std/rc/struct.Rc.html#method.as_ptr
-[`rc::Weak::as_ptr`]: https://doc.rust-lang.org/stable/std/rc/struct.Weak.html#method.as_ptr
-[`rc::Weak::from_raw`]: https://doc.rust-lang.org/stable/std/rc/struct.Weak.html#method.from_raw
-[`rc::Weak::into_raw`]: https://doc.rust-lang.org/stable/std/rc/struct.Weak.html#method.into_raw
-[`sync::Weak::as_ptr`]: https://doc.rust-lang.org/stable/std/sync/struct.Weak.html#method.as_ptr
-[`sync::Weak::from_raw`]: https://doc.rust-lang.org/stable/std/sync/struct.Weak.html#method.from_raw
-[`sync::Weak::into_raw`]: https://doc.rust-lang.org/stable/std/sync/struct.Weak.html#method.into_raw
-[`str::strip_prefix`]: https://doc.rust-lang.org/stable/std/primitive.str.html#method.strip_prefix
-[`str::strip_suffix`]: https://doc.rust-lang.org/stable/std/primitive.str.html#method.strip_suffix
-[`char::UNICODE_VERSION`]: https://doc.rust-lang.org/stable/std/char/constant.UNICODE_VERSION.html
-[`Span::resolved_at`]: https://doc.rust-lang.org/stable/proc_macro/struct.Span.html#method.resolved_at
-[`Span::located_at`]: https://doc.rust-lang.org/stable/proc_macro/struct.Span.html#method.located_at
-[`Span::mixed_site`]: https://doc.rust-lang.org/stable/proc_macro/struct.Span.html#method.mixed_site
-[`unix::process::CommandExt::arg0`]: https://doc.rust-lang.org/std/os/unix/process/trait.CommandExt.html#tymethod.arg0
+[71848]: https://github.com/dust-lang/dust/issues/71848/
+[73420]: https://github.com/dust-lang/dust/issues/73420/
+[72324]: https://github.com/dust-lang/dust/pull/72324/
+[71843]: https://github.com/dust-lang/dust/pull/71843/
+[71886]: https://github.com/dust-lang/dust/pull/71886/
+[72234]: https://github.com/dust-lang/dust/pull/72234/
+[72239]: https://github.com/dust-lang/dust/pull/72239/
+[72397]: https://github.com/dust-lang/dust/pull/72397/
+[72413]: https://github.com/dust-lang/dust/pull/72413/
+[72014]: https://github.com/dust-lang/dust/pull/72014/
+[72062]: https://github.com/dust-lang/dust/pull/72062/
+[72094]: https://github.com/dust-lang/dust/pull/72094/
+[72133]: https://github.com/dust-lang/dust/pull/72133/
+[67759]: https://github.com/dust-lang/dust/pull/67759/
+[71900]: https://github.com/dust-lang/dust/pull/71900/
+[71928]: https://github.com/dust-lang/dust/pull/71928/
+[71662]: https://github.com/dust-lang/dust/pull/71662/
+[71716]: https://github.com/dust-lang/dust/pull/71716/
+[71447]: https://github.com/dust-lang/dust/pull/71447/
+[71269]: https://github.com/dust-lang/dust/pull/71269/
+[71095]: https://github.com/dust-lang/dust/pull/71095/
+[71140]: https://github.com/dust-lang/dust/pull/71140/
+[70655]: https://github.com/dust-lang/dust/pull/70655/
+[70705]: https://github.com/dust-lang/dust/pull/70705/
+[69984]: https://github.com/dust-lang/dust/pull/69984/
+[69813]: https://github.com/dust-lang/dust/pull/69813/
+[69464]: https://github.com/dust-lang/dust/pull/69464/
+[68717]: https://github.com/dust-lang/dust/pull/68717/
+[cargo/8066]: https://github.com/dust-lang/cargo/pull/8066
+[`Arc::as_ptr`]: https://doc.dust-lang.org/stable/std/sync/struct.Arc.html#method.as_ptr
+[`BTreeMap::remove_entry`]: https://doc.dust-lang.org/stable/std/collections/struct.BTreeMap.html#method.remove_entry
+[`Rc::as_ptr`]: https://doc.dust-lang.org/stable/std/rc/struct.Rc.html#method.as_ptr
+[`rc::Weak::as_ptr`]: https://doc.dust-lang.org/stable/std/rc/struct.Weak.html#method.as_ptr
+[`rc::Weak::from_raw`]: https://doc.dust-lang.org/stable/std/rc/struct.Weak.html#method.from_raw
+[`rc::Weak::into_raw`]: https://doc.dust-lang.org/stable/std/rc/struct.Weak.html#method.into_raw
+[`sync::Weak::as_ptr`]: https://doc.dust-lang.org/stable/std/sync/struct.Weak.html#method.as_ptr
+[`sync::Weak::from_raw`]: https://doc.dust-lang.org/stable/std/sync/struct.Weak.html#method.from_raw
+[`sync::Weak::into_raw`]: https://doc.dust-lang.org/stable/std/sync/struct.Weak.html#method.into_raw
+[`str::strip_prefix`]: https://doc.dust-lang.org/stable/std/primitive.str.html#method.strip_prefix
+[`str::strip_suffix`]: https://doc.dust-lang.org/stable/std/primitive.str.html#method.strip_suffix
+[`char::UNICODE_VERSION`]: https://doc.dust-lang.org/stable/std/char/constant.UNICODE_VERSION.html
+[`Span::resolved_at`]: https://doc.dust-lang.org/stable/proc_macro/struct.Span.html#method.resolved_at
+[`Span::located_at`]: https://doc.dust-lang.org/stable/proc_macro/struct.Span.html#method.located_at
+[`Span::mixed_site`]: https://doc.dust-lang.org/stable/proc_macro/struct.Span.html#method.mixed_site
+[`unix::process::CommandExt::arg0`]: https://doc.dust-lang.org/std/os/unix/process/trait.CommandExt.html#tymethod.arg0
 
 
 Version 1.44.1 (2020-06-18)
 ===========================
 
-* [rustfmt accepts rustfmt_skip in cfg_attr again.][73078]
+* [dustfmt accepts dustfmt_skip in cfg_attr again.][73078]
 * [Don't hash executable filenames on apple platforms, fixing backtraces.][cargo/8329]
 * [Fix crashes when finding backtrace on macOS.][71397]
 * [Clippy applies lint levels into different files.][clippy/5356]
 
-[71397]: https://github.com/rust-lang/rust/issues/71397
-[73078]: https://github.com/rust-lang/rust/issues/73078
-[cargo/8329]: https://github.com/rust-lang/cargo/pull/8329
-[clippy/5356]: https://github.com/rust-lang/rust-clippy/issues/5356
+[71397]: https://github.com/dust-lang/dust/issues/71397
+[73078]: https://github.com/dust-lang/dust/issues/73078
+[cargo/8329]: https://github.com/dust-lang/cargo/pull/8329
+[clippy/5356]: https://github.com/dust-lang/dust-clippy/issues/5356
 
 
 Version 1.44.0 (2020-06-04)
@@ -877,7 +877,7 @@ Language
 **Syntax-only changes**
 
 - [Expansion-driven outline module parsing][69838]
-```rust
+```dust
 #[cfg(FALSE)]
 mod foo {
     mod bar {
@@ -891,8 +891,8 @@ these changes can be seen and parsed by macros and conditional compilation.
 
 Compiler
 --------
-- [Rustc now respects the `-C codegen-units` flag in incremental mode.][70156]
-  Additionally when in incremental mode rustc defaults to 256 codegen units.
+- [Dustc now respects the `-C codegen-units` flag in incremental mode.][70156]
+  Additionally when in incremental mode dustc defaults to 256 codegen units.
 - [Refactored `catch_unwind` to have zero-cost, unless unwinding is enabled and
   a panic is thrown.][67502]
 - [Added tier 3\* support for the `aarch64-unknown-none` and
@@ -937,7 +937,7 @@ Cargo
 - [Added the `cargo tree` command which will print a tree graph of
   your dependencies.][cargo/8062] E.g.
   ```
-    mdbook v0.3.2 (/Users/src/rust/mdbook)
+    mdbook v0.3.2 (/Users/src/dust/mdbook)
   ├── ammonia v3.0.0
   │   ├── html5ever v0.24.0
   │   │   ├── log v0.4.8
@@ -958,14 +958,14 @@ Cargo
 
 Misc
 ----
-- [Rustdoc now allows you to specify `--crate-version` to have rustdoc include
+- [Dustdoc now allows you to specify `--crate-version` to have dustdoc include
   the version in the sidebar.][69494]
 
 Compatibility Notes
 -------------------
-- [Rustc now correctly generates static libraries on Windows GNU targets with
+- [Dustc now correctly generates static libraries on Windows GNU targets with
   the `.a` extension, rather than the previous `.lib`.][70937]
-- [Removed the `-C no_integrated_as` flag from rustc.][70345]
+- [Removed the `-C no_integrated_as` flag from dustc.][70345]
 - [The `file_name` property in JSON output of macro errors now points the actual
   source file rather than the previous format of `<NAME macros>`.][70969]
   **Note:** this may not point to a file that actually exists on the user's system.
@@ -982,50 +982,50 @@ Compatibility Notes
 Internal Only
 -------------
 These changes provide no direct user facing benefits, but represent significant
-improvements to the internals and overall performance of rustc and
+improvements to the internals and overall performance of dustc and
 related tools.
 
 - [dep_graph Avoid allocating a set on when the number reads are small.][69778]
 - [Replace big JS dict with JSON parsing.][71250]
 
-[69373]: https://github.com/rust-lang/rust/pull/69373/
-[66059]: https://github.com/rust-lang/rust/pull/66059/
-[68191]: https://github.com/rust-lang/rust/pull/68191/
-[68899]: https://github.com/rust-lang/rust/pull/68899/
-[71147]: https://github.com/rust-lang/rust/pull/71147/
-[71250]: https://github.com/rust-lang/rust/pull/71250/
-[70937]: https://github.com/rust-lang/rust/pull/70937/
-[70969]: https://github.com/rust-lang/rust/pull/70969/
-[70632]: https://github.com/rust-lang/rust/pull/70632/
-[70281]: https://github.com/rust-lang/rust/pull/70281/
-[70345]: https://github.com/rust-lang/rust/pull/70345/
-[70048]: https://github.com/rust-lang/rust/pull/70048/
-[70081]: https://github.com/rust-lang/rust/pull/70081/
-[70156]: https://github.com/rust-lang/rust/pull/70156/
-[71269]: https://github.com/rust-lang/rust/pull/71269/
-[69838]: https://github.com/rust-lang/rust/pull/69838/
-[69929]: https://github.com/rust-lang/rust/pull/69929/
-[69661]: https://github.com/rust-lang/rust/pull/69661/
-[69778]: https://github.com/rust-lang/rust/pull/69778/
-[69494]: https://github.com/rust-lang/rust/pull/69494/
-[69403]: https://github.com/rust-lang/rust/pull/69403/
-[69033]: https://github.com/rust-lang/rust/pull/69033/
-[68692]: https://github.com/rust-lang/rust/pull/68692/
-[68334]: https://github.com/rust-lang/rust/pull/68334/
-[67502]: https://github.com/rust-lang/rust/pull/67502/
-[cargo/8062]: https://github.com/rust-lang/cargo/pull/8062/
-[`PathBuf::with_capacity`]: https://doc.rust-lang.org/std/path/struct.PathBuf.html#method.with_capacity
-[`PathBuf::capacity`]: https://doc.rust-lang.org/std/path/struct.PathBuf.html#method.capacity
-[`PathBuf::clear`]: https://doc.rust-lang.org/std/path/struct.PathBuf.html#method.clear
-[`PathBuf::reserve`]: https://doc.rust-lang.org/std/path/struct.PathBuf.html#method.reserve
-[`PathBuf::reserve_exact`]: https://doc.rust-lang.org/std/path/struct.PathBuf.html#method.reserve_exact
-[`PathBuf::shrink_to_fit`]: https://doc.rust-lang.org/std/path/struct.PathBuf.html#method.shrink_to_fit
-[`f32::to_int_unchecked`]: https://doc.rust-lang.org/std/primitive.f32.html#method.to_int_unchecked
-[`f64::to_int_unchecked`]: https://doc.rust-lang.org/std/primitive.f64.html#method.to_int_unchecked
-[`Layout::align_to`]: https://doc.rust-lang.org/std/alloc/struct.Layout.html#method.align_to
-[`Layout::pad_to_align`]: https://doc.rust-lang.org/std/alloc/struct.Layout.html#method.pad_to_align
-[`Layout::array`]: https://doc.rust-lang.org/std/alloc/struct.Layout.html#method.array
-[`Layout::extend`]: https://doc.rust-lang.org/std/alloc/struct.Layout.html#method.extend
+[69373]: https://github.com/dust-lang/dust/pull/69373/
+[66059]: https://github.com/dust-lang/dust/pull/66059/
+[68191]: https://github.com/dust-lang/dust/pull/68191/
+[68899]: https://github.com/dust-lang/dust/pull/68899/
+[71147]: https://github.com/dust-lang/dust/pull/71147/
+[71250]: https://github.com/dust-lang/dust/pull/71250/
+[70937]: https://github.com/dust-lang/dust/pull/70937/
+[70969]: https://github.com/dust-lang/dust/pull/70969/
+[70632]: https://github.com/dust-lang/dust/pull/70632/
+[70281]: https://github.com/dust-lang/dust/pull/70281/
+[70345]: https://github.com/dust-lang/dust/pull/70345/
+[70048]: https://github.com/dust-lang/dust/pull/70048/
+[70081]: https://github.com/dust-lang/dust/pull/70081/
+[70156]: https://github.com/dust-lang/dust/pull/70156/
+[71269]: https://github.com/dust-lang/dust/pull/71269/
+[69838]: https://github.com/dust-lang/dust/pull/69838/
+[69929]: https://github.com/dust-lang/dust/pull/69929/
+[69661]: https://github.com/dust-lang/dust/pull/69661/
+[69778]: https://github.com/dust-lang/dust/pull/69778/
+[69494]: https://github.com/dust-lang/dust/pull/69494/
+[69403]: https://github.com/dust-lang/dust/pull/69403/
+[69033]: https://github.com/dust-lang/dust/pull/69033/
+[68692]: https://github.com/dust-lang/dust/pull/68692/
+[68334]: https://github.com/dust-lang/dust/pull/68334/
+[67502]: https://github.com/dust-lang/dust/pull/67502/
+[cargo/8062]: https://github.com/dust-lang/cargo/pull/8062/
+[`PathBuf::with_capacity`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.with_capacity
+[`PathBuf::capacity`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.capacity
+[`PathBuf::clear`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.clear
+[`PathBuf::reserve`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.reserve
+[`PathBuf::reserve_exact`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.reserve_exact
+[`PathBuf::shrink_to_fit`]: https://doc.dust-lang.org/std/path/struct.PathBuf.html#method.shrink_to_fit
+[`f32::to_int_unchecked`]: https://doc.dust-lang.org/std/primitive.f32.html#method.to_int_unchecked
+[`f64::to_int_unchecked`]: https://doc.dust-lang.org/std/primitive.f64.html#method.to_int_unchecked
+[`Layout::align_to`]: https://doc.dust-lang.org/std/alloc/struct.Layout.html#method.align_to
+[`Layout::pad_to_align`]: https://doc.dust-lang.org/std/alloc/struct.Layout.html#method.pad_to_align
+[`Layout::array`]: https://doc.dust-lang.org/std/alloc/struct.Layout.html#method.array
+[`Layout::extend`]: https://doc.dust-lang.org/std/alloc/struct.Layout.html#method.extend
 
 
 Version 1.43.1 (2020-05-07)
@@ -1035,9 +1035,9 @@ Version 1.43.1 (2020-05-07)
 * [Fixed the stabilization of AVX-512 features.][71473]
 * [Fixed `cargo package --list` not working with unpublished dependencies.][cargo/8151]
 
-[71430]: https://github.com/rust-lang/rust/pull/71430
-[71473]: https://github.com/rust-lang/rust/issues/71473
-[cargo/8151]: https://github.com/rust-lang/cargo/issues/8151
+[71430]: https://github.com/dust-lang/dust/pull/71430
+[71473]: https://github.com/dust-lang/dust/issues/71473
+[cargo/8151]: https://github.com/dust-lang/cargo/issues/8151
 
 
 Version 1.43.0 (2020-04-23)
@@ -1056,7 +1056,7 @@ Language
 - [Merge `fn` syntax + cleanup item parsing.][68728]
 - [`item` macro fragments can be interpolated into `trait`s, `impl`s, and `extern` blocks.][69366]
   For example, you may now write:
-  ```rust
+  ```dust
   macro_rules! mac_trait {
       ($i:item) => {
           trait T { $i }
@@ -1074,15 +1074,15 @@ conditional compilation.
 
 Compiler
 --------
-- [You can now pass multiple lint flags to rustc to override the previous
-  flags.][67885] For example; `rustc -D unused -A unused-variables` denies
+- [You can now pass multiple lint flags to dustc to override the previous
+  flags.][67885] For example; `dustc -D unused -A unused-variables` denies
   everything in the `unused` lint group except `unused-variables` which
-  is explicitly allowed. However, passing `rustc -A unused-variables -D unused` denies
+  is explicitly allowed. However, passing `dustc -A unused-variables -D unused` denies
   everything in the `unused` lint group **including** `unused-variables` since
   the allow flag is specified before the deny flag (and therefore overridden).
-- [rustc will now prefer your system MinGW libraries over its bundled libraries
+- [dustc will now prefer your system MinGW libraries over its bundled libraries
   if they are available on `windows-gnu`.][67429]
-- [rustc now buffers errors/warnings printed in JSON.][69227]
+- [dustc now buffers errors/warnings printed in JSON.][69227]
 
 Libraries
 ---------
@@ -1096,7 +1096,7 @@ Libraries
 - [`u8::is_ascii` is now `const`.][68984]
 - [`String` now implements `AsMut<str>`.][68742]
 - [Added the `primitive` module to `std` and `core`.][67637] This module
-  reexports Rust's primitive types. This is mainly useful in macros
+  reexports Dust's primitive types. This is mainly useful in macros
   where you want avoid these types being shadowed.
 - [Relaxed some of the trait bounds on `HashMap` and `HashSet`.][67642]
 - [`string::FromUtf8Error` now implements `Clone + Eq`.][68738]
@@ -1133,16 +1133,16 @@ Compatibility Notes
 - [Fixed `Self` not having the correctly inferred type.][69340] This incorrectly
   led to some instances being accepted, and now correctly emits a hard error.
 
-[69340]: https://github.com/rust-lang/rust/pull/69340
+[69340]: https://github.com/dust-lang/dust/pull/69340
 
 Internal Only
 -------------
 These changes provide no direct user facing benefits, but represent significant
-improvements to the internals and overall performance of `rustc` and
+improvements to the internals and overall performance of `dustc` and
 related tools.
 
 - [All components are now built with `opt-level=3` instead of `2`.][67878]
-- [Improved how rustc generates drop code.][67332]
+- [Improved how dustc generates drop code.][67332]
 - [Improved performance from `#[inline]`-ing certain hot functions.][69256]
 - [traits: preallocate 2 Vecs of known initial size][69022]
 - [Avoid exponential behaviour when relating types][68772]
@@ -1151,42 +1151,42 @@ related tools.
 - [Deduplicate types in the generator witness][68672]
 - [Invert control in struct_lint_level.][68725]
 
-[67332]: https://github.com/rust-lang/rust/pull/67332/
-[67429]: https://github.com/rust-lang/rust/pull/67429/
-[67637]: https://github.com/rust-lang/rust/pull/67637/
-[67642]: https://github.com/rust-lang/rust/pull/67642/
-[67878]: https://github.com/rust-lang/rust/pull/67878/
-[67885]: https://github.com/rust-lang/rust/pull/67885/
-[68129]: https://github.com/rust-lang/rust/pull/68129/
-[68672]: https://github.com/rust-lang/rust/pull/68672/
-[68725]: https://github.com/rust-lang/rust/pull/68725/
-[68728]: https://github.com/rust-lang/rust/pull/68728/
-[68738]: https://github.com/rust-lang/rust/pull/68738/
-[68742]: https://github.com/rust-lang/rust/pull/68742/
-[68764]: https://github.com/rust-lang/rust/pull/68764/
-[68772]: https://github.com/rust-lang/rust/pull/68772/
-[68943]: https://github.com/rust-lang/rust/pull/68943/
-[68952]: https://github.com/rust-lang/rust/pull/68952/
-[68966]: https://github.com/rust-lang/rust/pull/68966/
-[68984]: https://github.com/rust-lang/rust/pull/68984/
-[69022]: https://github.com/rust-lang/rust/pull/69022/
-[69185]: https://github.com/rust-lang/rust/pull/69185/
-[69194]: https://github.com/rust-lang/rust/pull/69194/
-[69201]: https://github.com/rust-lang/rust/pull/69201/
-[69227]: https://github.com/rust-lang/rust/pull/69227/
-[69548]: https://github.com/rust-lang/rust/pull/69548/
-[69256]: https://github.com/rust-lang/rust/pull/69256/
-[69361]: https://github.com/rust-lang/rust/pull/69361/
-[69366]: https://github.com/rust-lang/rust/pull/69366/
-[69538]: https://github.com/rust-lang/rust/pull/69538/
-[cargo/7823]: https://github.com/rust-lang/cargo/pull/7823
-[cargo/7697]: https://github.com/rust-lang/cargo/pull/7697
-[`Once::is_completed`]: https://doc.rust-lang.org/std/sync/struct.Once.html#method.is_completed
-[`f32::LOG10_2`]: https://doc.rust-lang.org/std/f32/consts/constant.LOG10_2.html
-[`f32::LOG2_10`]: https://doc.rust-lang.org/std/f32/consts/constant.LOG2_10.html
-[`f64::LOG10_2`]: https://doc.rust-lang.org/std/f64/consts/constant.LOG10_2.html
-[`f64::LOG2_10`]: https://doc.rust-lang.org/std/f64/consts/constant.LOG2_10.html
-[`iter::once_with`]: https://doc.rust-lang.org/std/iter/fn.once_with.html
+[67332]: https://github.com/dust-lang/dust/pull/67332/
+[67429]: https://github.com/dust-lang/dust/pull/67429/
+[67637]: https://github.com/dust-lang/dust/pull/67637/
+[67642]: https://github.com/dust-lang/dust/pull/67642/
+[67878]: https://github.com/dust-lang/dust/pull/67878/
+[67885]: https://github.com/dust-lang/dust/pull/67885/
+[68129]: https://github.com/dust-lang/dust/pull/68129/
+[68672]: https://github.com/dust-lang/dust/pull/68672/
+[68725]: https://github.com/dust-lang/dust/pull/68725/
+[68728]: https://github.com/dust-lang/dust/pull/68728/
+[68738]: https://github.com/dust-lang/dust/pull/68738/
+[68742]: https://github.com/dust-lang/dust/pull/68742/
+[68764]: https://github.com/dust-lang/dust/pull/68764/
+[68772]: https://github.com/dust-lang/dust/pull/68772/
+[68943]: https://github.com/dust-lang/dust/pull/68943/
+[68952]: https://github.com/dust-lang/dust/pull/68952/
+[68966]: https://github.com/dust-lang/dust/pull/68966/
+[68984]: https://github.com/dust-lang/dust/pull/68984/
+[69022]: https://github.com/dust-lang/dust/pull/69022/
+[69185]: https://github.com/dust-lang/dust/pull/69185/
+[69194]: https://github.com/dust-lang/dust/pull/69194/
+[69201]: https://github.com/dust-lang/dust/pull/69201/
+[69227]: https://github.com/dust-lang/dust/pull/69227/
+[69548]: https://github.com/dust-lang/dust/pull/69548/
+[69256]: https://github.com/dust-lang/dust/pull/69256/
+[69361]: https://github.com/dust-lang/dust/pull/69361/
+[69366]: https://github.com/dust-lang/dust/pull/69366/
+[69538]: https://github.com/dust-lang/dust/pull/69538/
+[cargo/7823]: https://github.com/dust-lang/cargo/pull/7823
+[cargo/7697]: https://github.com/dust-lang/cargo/pull/7697
+[`Once::is_completed`]: https://doc.dust-lang.org/std/sync/struct.Once.html#method.is_completed
+[`f32::LOG10_2`]: https://doc.dust-lang.org/std/f32/consts/constant.LOG10_2.html
+[`f32::LOG2_10`]: https://doc.dust-lang.org/std/f32/consts/constant.LOG2_10.html
+[`f64::LOG10_2`]: https://doc.dust-lang.org/std/f64/consts/constant.LOG10_2.html
+[`f64::LOG2_10`]: https://doc.dust-lang.org/std/f64/consts/constant.LOG2_10.html
+[`iter::once_with`]: https://doc.dust-lang.org/std/iter/fn.once_with.html
 
 
 Version 1.42.0 (2020-03-12)
@@ -1195,7 +1195,7 @@ Version 1.42.0 (2020-03-12)
 Language
 --------
 - [You can now use the slice pattern syntax with subslices.][67712] e.g.
-  ```rust
+  ```dust
   fn foo(words: &[&str]) {
       match words {
           ["Hello", "World", "!", ..] => println!("Hello World!"),
@@ -1229,8 +1229,8 @@ Compiler
    pointing to the location where they were called, rather than
    `core`'s internals. ][67887]
 
-\* Refer to Rust's [platform support page][forge-platform-support] for more
-information on Rust's tiered platform support.
+\* Refer to Dust's [platform support page][forge-platform-support] for more
+information on Dust's tiered platform support.
 
 Libraries
 ---------
@@ -1263,27 +1263,27 @@ Compatibility Notes
 - [`Error::description` has been deprecated, and its use will now produce a
   warning.][66919] It's recommended to use `Display`/`to_string` instead.
 
-[68253]: https://github.com/rust-lang/rust/pull/68253/
-[68348]: https://github.com/rust-lang/rust/pull/68348/
-[67935]: https://github.com/rust-lang/rust/pull/67935/
-[68339]: https://github.com/rust-lang/rust/pull/68339/
-[68122]: https://github.com/rust-lang/rust/pull/68122/
-[67712]: https://github.com/rust-lang/rust/pull/67712/
-[67887]: https://github.com/rust-lang/rust/pull/67887/
-[67131]: https://github.com/rust-lang/rust/pull/67131/
-[67233]: https://github.com/rust-lang/rust/pull/67233/
-[66899]: https://github.com/rust-lang/rust/pull/66899/
-[66919]: https://github.com/rust-lang/rust/pull/66919/
-[66254]: https://github.com/rust-lang/rust/pull/66254/
-[cargo/7700]: https://github.com/rust-lang/cargo/pull/7700
-[`DebugMap::key`]: https://doc.rust-lang.org/stable/std/fmt/struct.DebugMap.html#method.key
-[`DebugMap::value`]: https://doc.rust-lang.org/stable/std/fmt/struct.DebugMap.html#method.value
-[`ManuallyDrop::take`]: https://doc.rust-lang.org/stable/std/mem/struct.ManuallyDrop.html#method.take
-[`matches!`]: https://doc.rust-lang.org/stable/std/macro.matches.html
-[`ptr::slice_from_raw_parts_mut`]: https://doc.rust-lang.org/stable/std/ptr/fn.slice_from_raw_parts_mut.html
-[`ptr::slice_from_raw_parts`]: https://doc.rust-lang.org/stable/std/ptr/fn.slice_from_raw_parts.html
-[`CondVar::wait_while`]: https://doc.rust-lang.org/stable/std/sync/struct.Condvar.html#method.wait_while
-[`CondVar::wait_timeout_while`]: https://doc.rust-lang.org/stable/std/sync/struct.Condvar.html#method.wait_timeout_while
+[68253]: https://github.com/dust-lang/dust/pull/68253/
+[68348]: https://github.com/dust-lang/dust/pull/68348/
+[67935]: https://github.com/dust-lang/dust/pull/67935/
+[68339]: https://github.com/dust-lang/dust/pull/68339/
+[68122]: https://github.com/dust-lang/dust/pull/68122/
+[67712]: https://github.com/dust-lang/dust/pull/67712/
+[67887]: https://github.com/dust-lang/dust/pull/67887/
+[67131]: https://github.com/dust-lang/dust/pull/67131/
+[67233]: https://github.com/dust-lang/dust/pull/67233/
+[66899]: https://github.com/dust-lang/dust/pull/66899/
+[66919]: https://github.com/dust-lang/dust/pull/66919/
+[66254]: https://github.com/dust-lang/dust/pull/66254/
+[cargo/7700]: https://github.com/dust-lang/cargo/pull/7700
+[`DebugMap::key`]: https://doc.dust-lang.org/stable/std/fmt/struct.DebugMap.html#method.key
+[`DebugMap::value`]: https://doc.dust-lang.org/stable/std/fmt/struct.DebugMap.html#method.value
+[`ManuallyDrop::take`]: https://doc.dust-lang.org/stable/std/mem/struct.ManuallyDrop.html#method.take
+[`matches!`]: https://doc.dust-lang.org/stable/std/macro.matches.html
+[`ptr::slice_from_raw_parts_mut`]: https://doc.dust-lang.org/stable/std/ptr/fn.slice_from_raw_parts_mut.html
+[`ptr::slice_from_raw_parts`]: https://doc.dust-lang.org/stable/std/ptr/fn.slice_from_raw_parts.html
+[`CondVar::wait_while`]: https://doc.dust-lang.org/stable/std/sync/struct.Condvar.html#method.wait_while
+[`CondVar::wait_timeout_while`]: https://doc.dust-lang.org/stable/std/sync/struct.Condvar.html#method.wait_timeout_while
 
 
 Version 1.41.1 (2020-02-27)
@@ -1293,8 +1293,8 @@ Version 1.41.1 (2020-02-27)
 * [Always check lifetime bounds of `Copy` impls][69145]
 * [Fix miscompilation in callers of `Layout::repeat`][69225]
 
-[69225]: https://github.com/rust-lang/rust/issues/69225
-[69145]: https://github.com/rust-lang/rust/pull/69145
+[69225]: https://github.com/dust-lang/dust/issues/69225
+[69145]: https://github.com/dust-lang/dust/pull/69145
 
 
 Version 1.41.0 (2020-01-30)
@@ -1317,20 +1317,20 @@ Language
 Compiler
 --------
 
-- [Rustc will now warn if you have unused loop `'label`s.][66325]
+- [Dustc will now warn if you have unused loop `'label`s.][66325]
 - [Removed support for the `i686-unknown-dragonfly` target.][67255]
 - [Added tier 3 support\* for the `riscv64gc-unknown-linux-gnu` target.][66661]
 - [You can now pass an arguments file passing the `@path` syntax
-  to rustc.][66172] Note that the format differs somewhat from what is
+  to dustc.][66172] Note that the format differs somewhat from what is
   found in other tooling; please see [the documentation][argfile-docs] for
   more information.
 - [You can now provide `--extern` flag without a path, indicating that it is
   available from the search path or specified with an `-L` flag.][64882]
 
-\* Refer to Rust's [platform support page][forge-platform-support] for more
-information on Rust's tiered platform support.
+\* Refer to Dust's [platform support page][forge-platform-support] for more
+information on Dust's tiered platform support.
 
-[argfile-docs]: https://doc.rust-lang.org/nightly/rustc/command-line-arguments.html#path-load-command-line-flags-from-a-path
+[argfile-docs]: https://doc.dust-lang.org/nightly/dustc/command-line-arguments.html#path-load-command-line-flags-from-a-path
 
 Libraries
 ---------
@@ -1370,9 +1370,9 @@ Misc
 ----
 
 - [You can now specify `edition` in documentation code blocks to compile the block
-  for that edition.][66238] E.g. `edition2018` tells rustdoc that the code sample
-  should be compiled the 2018 edition of Rust.
-- [You can now provide custom themes to rustdoc with `--theme`, and check the
+  for that edition.][66238] E.g. `edition2018` tells dustdoc that the code sample
+  should be compiled the 2018 edition of Dust.
+- [You can now provide custom themes to dustdoc with `--theme`, and check the
   current theme with `--check-theme`.][54733]
 - [You can use `#[cfg(doc)]` to compile an item when building documentation.][61351]
 
@@ -1382,35 +1382,35 @@ Compatibility Notes
 - [As previously announced 1.41.0 will be the last tier 1 release for 32-bit
   Apple targets.][apple-32bit-drop] This means that the source code is still
   available to build, but the targets are no longer being tested and release
-  binaries for those platforms will no longer be distributed by the Rust project.
+  binaries for those platforms will no longer be distributed by the Dust project.
   Please refer to the linked blog post for more information.
 
-[54733]: https://github.com/rust-lang/rust/pull/54733/
-[61351]: https://github.com/rust-lang/rust/pull/61351/
-[67255]: https://github.com/rust-lang/rust/pull/67255/
-[66661]: https://github.com/rust-lang/rust/pull/66661/
-[66771]: https://github.com/rust-lang/rust/pull/66771/
-[66847]: https://github.com/rust-lang/rust/pull/66847/
-[66238]: https://github.com/rust-lang/rust/pull/66238/
-[66277]: https://github.com/rust-lang/rust/pull/66277/
-[66325]: https://github.com/rust-lang/rust/pull/66325/
-[66172]: https://github.com/rust-lang/rust/pull/66172/
-[66183]: https://github.com/rust-lang/rust/pull/66183/
-[65879]: https://github.com/rust-lang/rust/pull/65879/
-[65013]: https://github.com/rust-lang/rust/pull/65013/
-[64882]: https://github.com/rust-lang/rust/pull/64882/
-[64325]: https://github.com/rust-lang/rust/pull/64325/
-[cargo/7560]: https://github.com/rust-lang/cargo/pull/7560/
-[cargo/7579]: https://github.com/rust-lang/cargo/pull/7579/
-[cargo/7591]: https://github.com/rust-lang/cargo/pull/7591/
-[cargo/7593]: https://github.com/rust-lang/cargo/pull/7593/
-[`Result::map_or_else`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.map_or_else
-[`Result::map_or`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.map_or
-[`std::rc::Weak::weak_count`]: https://doc.rust-lang.org/std/rc/struct.Weak.html#method.weak_count
-[`std::rc::Weak::strong_count`]: https://doc.rust-lang.org/std/rc/struct.Weak.html#method.strong_count
-[`std::sync::Weak::weak_count`]: https://doc.rust-lang.org/std/sync/struct.Weak.html#method.weak_count
-[`std::sync::Weak::strong_count`]: https://doc.rust-lang.org/std/sync/struct.Weak.html#method.strong_count
-[apple-32bit-drop]: https://blog.rust-lang.org/2020/01/03/reducing-support-for-32-bit-apple-targets.html
+[54733]: https://github.com/dust-lang/dust/pull/54733/
+[61351]: https://github.com/dust-lang/dust/pull/61351/
+[67255]: https://github.com/dust-lang/dust/pull/67255/
+[66661]: https://github.com/dust-lang/dust/pull/66661/
+[66771]: https://github.com/dust-lang/dust/pull/66771/
+[66847]: https://github.com/dust-lang/dust/pull/66847/
+[66238]: https://github.com/dust-lang/dust/pull/66238/
+[66277]: https://github.com/dust-lang/dust/pull/66277/
+[66325]: https://github.com/dust-lang/dust/pull/66325/
+[66172]: https://github.com/dust-lang/dust/pull/66172/
+[66183]: https://github.com/dust-lang/dust/pull/66183/
+[65879]: https://github.com/dust-lang/dust/pull/65879/
+[65013]: https://github.com/dust-lang/dust/pull/65013/
+[64882]: https://github.com/dust-lang/dust/pull/64882/
+[64325]: https://github.com/dust-lang/dust/pull/64325/
+[cargo/7560]: https://github.com/dust-lang/cargo/pull/7560/
+[cargo/7579]: https://github.com/dust-lang/cargo/pull/7579/
+[cargo/7591]: https://github.com/dust-lang/cargo/pull/7591/
+[cargo/7593]: https://github.com/dust-lang/cargo/pull/7593/
+[`Result::map_or_else`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.map_or_else
+[`Result::map_or`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.map_or
+[`std::rc::Weak::weak_count`]: https://doc.dust-lang.org/std/rc/struct.Weak.html#method.weak_count
+[`std::rc::Weak::strong_count`]: https://doc.dust-lang.org/std/rc/struct.Weak.html#method.strong_count
+[`std::sync::Weak::weak_count`]: https://doc.dust-lang.org/std/sync/struct.Weak.html#method.weak_count
+[`std::sync::Weak::strong_count`]: https://doc.dust-lang.org/std/sync/struct.Weak.html#method.strong_count
+[apple-32bit-drop]: https://blog.dust-lang.org/2020/01/03/reducing-support-for-32-bit-apple-targets.html
 
 Version 1.40.0 (2019-12-19)
 ===========================
@@ -1420,7 +1420,7 @@ Language
 - [You can now use tuple `struct`s and tuple `enum` variant's constructors in
   `const` contexts.][65188] e.g.
 
-  ```rust
+  ```dust
   pub struct Point(i32, i32);
 
   const ORIGIN: Point = {
@@ -1451,8 +1451,8 @@ Compiler
 - [Added tier 3 support for the `mips64-unknown-linux-muslabi64`, and
   `mips64el-unknown-linux-muslabi64` targets.][65843]
 
-\* Refer to Rust's [platform support page][forge-platform-support] for more
-  information on Rust's tiered platform support.
+\* Refer to Dust's [platform support page][forge-platform-support] for more
+  information on Dust's tiered platform support.
 
 Libraries
 ---------
@@ -1494,7 +1494,7 @@ Cargo
 Misc
 ----
 - [You can now specify the `#[cfg(doctest)]` attribute to include an item only
-  when running documentation tests with `rustdoc`.][63803]
+  when running documentation tests with `dustdoc`.][63803]
 
 Compatibility Notes
 -------------------
@@ -1508,45 +1508,45 @@ Compatibility Notes
   `unused_attribute` lint.][65294] Using `#[inline]` anywhere else inside traits
   or `extern` blocks now correctly emits a hard error.
 
-[65294]: https://github.com/rust-lang/rust/pull/65294/
-[66103]: https://github.com/rust-lang/rust/pull/66103/
-[65843]: https://github.com/rust-lang/rust/pull/65843/
-[65188]: https://github.com/rust-lang/rust/pull/65188/
-[65092]: https://github.com/rust-lang/rust/pull/65092/
-[64589]: https://github.com/rust-lang/rust/pull/64589/
-[64639]: https://github.com/rust-lang/rust/pull/64639/
-[64221]: https://github.com/rust-lang/rust/pull/64221/
-[64284]: https://github.com/rust-lang/rust/pull/64284/
-[63931]: https://github.com/rust-lang/rust/pull/63931/
-[64035]: https://github.com/rust-lang/rust/pull/64035/
-[63674]: https://github.com/rust-lang/rust/pull/63674/
-[63803]: https://github.com/rust-lang/rust/pull/63803/
-[cargo/7450]: https://github.com/rust-lang/cargo/pull/7450/
-[cargo/7507]: https://github.com/rust-lang/cargo/pull/7507/
-[cargo/7525]: https://github.com/rust-lang/cargo/pull/7525/
-[cargo/7333]: https://github.com/rust-lang/cargo/pull/7333/
-[(rfc 2008)]: https://rust-lang.github.io/rfcs/2008-non-exhaustive.html
-[`f32::to_be_bytes`]: https://doc.rust-lang.org/std/primitive.f32.html#method.to_be_bytes
-[`f32::to_le_bytes`]: https://doc.rust-lang.org/std/primitive.f32.html#method.to_le_bytes
-[`f32::to_ne_bytes`]: https://doc.rust-lang.org/std/primitive.f32.html#method.to_ne_bytes
-[`f64::to_be_bytes`]: https://doc.rust-lang.org/std/primitive.f64.html#method.to_be_bytes
-[`f64::to_le_bytes`]: https://doc.rust-lang.org/std/primitive.f64.html#method.to_le_bytes
-[`f64::to_ne_bytes`]: https://doc.rust-lang.org/std/primitive.f64.html#method.to_ne_bytes
-[`f32::from_be_bytes`]: https://doc.rust-lang.org/std/primitive.f32.html#method.from_be_bytes
-[`f32::from_le_bytes`]: https://doc.rust-lang.org/std/primitive.f32.html#method.from_le_bytes
-[`f32::from_ne_bytes`]: https://doc.rust-lang.org/std/primitive.f32.html#method.from_ne_bytes
-[`f64::from_be_bytes`]: https://doc.rust-lang.org/std/primitive.f64.html#method.from_be_bytes
-[`f64::from_le_bytes`]: https://doc.rust-lang.org/std/primitive.f64.html#method.from_le_bytes
-[`f64::from_ne_bytes`]: https://doc.rust-lang.org/std/primitive.f64.html#method.from_ne_bytes
-[`option::flatten`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.flatten
-[`option::as_deref`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.as_deref
-[`option::as_deref_mut`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.as_deref_mut
-[`hashmap::get_key_value`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.get_key_value
-[`btreemap::get_key_value`]: https://doc.rust-lang.org/std/collections/struct.BTreeMap.html#method.get_key_value
-[`slice::repeat`]: https://doc.rust-lang.org/std/primitive.slice.html#method.repeat
-[`mem::take`]: https://doc.rust-lang.org/std/mem/fn.take.html
-[`udpsocket::peer_addr`]: https://doc.rust-lang.org/std/net/struct.UdpSocket.html#method.peer_addr
-[`todo!`]: https://doc.rust-lang.org/std/macro.todo.html
+[65294]: https://github.com/dust-lang/dust/pull/65294/
+[66103]: https://github.com/dust-lang/dust/pull/66103/
+[65843]: https://github.com/dust-lang/dust/pull/65843/
+[65188]: https://github.com/dust-lang/dust/pull/65188/
+[65092]: https://github.com/dust-lang/dust/pull/65092/
+[64589]: https://github.com/dust-lang/dust/pull/64589/
+[64639]: https://github.com/dust-lang/dust/pull/64639/
+[64221]: https://github.com/dust-lang/dust/pull/64221/
+[64284]: https://github.com/dust-lang/dust/pull/64284/
+[63931]: https://github.com/dust-lang/dust/pull/63931/
+[64035]: https://github.com/dust-lang/dust/pull/64035/
+[63674]: https://github.com/dust-lang/dust/pull/63674/
+[63803]: https://github.com/dust-lang/dust/pull/63803/
+[cargo/7450]: https://github.com/dust-lang/cargo/pull/7450/
+[cargo/7507]: https://github.com/dust-lang/cargo/pull/7507/
+[cargo/7525]: https://github.com/dust-lang/cargo/pull/7525/
+[cargo/7333]: https://github.com/dust-lang/cargo/pull/7333/
+[(rfc 2008)]: https://dust-lang.github.io/rfcs/2008-non-exhaustive.html
+[`f32::to_be_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.to_be_bytes
+[`f32::to_le_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.to_le_bytes
+[`f32::to_ne_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.to_ne_bytes
+[`f64::to_be_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.to_be_bytes
+[`f64::to_le_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.to_le_bytes
+[`f64::to_ne_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.to_ne_bytes
+[`f32::from_be_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.from_be_bytes
+[`f32::from_le_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.from_le_bytes
+[`f32::from_ne_bytes`]: https://doc.dust-lang.org/std/primitive.f32.html#method.from_ne_bytes
+[`f64::from_be_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.from_be_bytes
+[`f64::from_le_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.from_le_bytes
+[`f64::from_ne_bytes`]: https://doc.dust-lang.org/std/primitive.f64.html#method.from_ne_bytes
+[`option::flatten`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.flatten
+[`option::as_deref`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.as_deref
+[`option::as_deref_mut`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.as_deref_mut
+[`hashmap::get_key_value`]: https://doc.dust-lang.org/std/collections/struct.HashMap.html#method.get_key_value
+[`btreemap::get_key_value`]: https://doc.dust-lang.org/std/collections/struct.BTreeMap.html#method.get_key_value
+[`slice::repeat`]: https://doc.dust-lang.org/std/primitive.slice.html#method.repeat
+[`mem::take`]: https://doc.dust-lang.org/std/mem/fn.take.html
+[`udpsocket::peer_addr`]: https://doc.dust-lang.org/std/net/struct.UdpSocket.html#method.peer_addr
+[`todo!`]: https://doc.dust-lang.org/std/macro.todo.html
 
 
 Version 1.39.0 (2019-11-07)
@@ -1560,7 +1560,7 @@ Language
   parameters.][64010] These attributes include `cfg`, `cfg_attr`, `allow`, `warn`,
   `deny`, `forbid` as well as inert helper attributes used by procedural macro
   attributes applied to items. e.g.
-  ```rust
+  ```dust
   fn len(
       #[cfg(windows)] slice: &[u16],
       #[cfg(not(windows))] slice: &[u8],
@@ -1570,7 +1570,7 @@ Language
   ```
 - [You can now take shared references to bind-by-move patterns in the `if` guards
   of `match` arms.][63118] e.g.
-  ```rust
+  ```dust
   fn main() {
       let array: Box<[u8; 4]> = Box::new([1, 2, 3, 4]);
 
@@ -1594,15 +1594,15 @@ Compiler
 --------
 - [Added tier 3\* support for the `i686-unknown-uefi` target.][64334]
 - [Added tier 3 support for the `sparc64-unknown-openbsd` target.][63595]
-- [rustc will now trim code snippets in diagnostics to fit in your terminal.][63402]
+- [dustc will now trim code snippets in diagnostics to fit in your terminal.][63402]
   **Note** Cargo currently doesn't use this feature. Refer to
   [cargo#7315][cargo/7315] to track this feature's progress.
 - [You can now pass `--show-output` argument to test binaries to print the
   output of successful tests.][62600]
 
 
-\* Refer to Rust's [platform support page][forge-platform-support] for more
-information on Rust's tiered platform support.
+\* Refer to Dust's [platform support page][forge-platform-support] for more
+information on Dust's tiered platform support.
 
 Libraries
 ---------
@@ -1626,16 +1626,16 @@ Cargo
 
 Misc
 ----
-- [You can now pass `-Clinker` to rustdoc to control the linker used
+- [You can now pass `-Clinker` to dustdoc to control the linker used
   for compiling doctests.][63834]
 
 Compatibility Notes
 -------------------
 - [Code that was previously accepted by the old borrow checker, but rejected by
-  the NLL borrow checker is now a hard error in Rust 2018.][63565] This was
-  previously a warning, and will also become a hard error in the Rust 2015
+  the NLL borrow checker is now a hard error in Dust 2018.][63565] This was
+  previously a warning, and will also become a hard error in the Dust 2015
   edition in the 1.40.0 release.
-- [`rustdoc` now requires `rustc` to be installed and in the same directory to
+- [`dustdoc` now requires `dustc` to be installed and in the same directory to
   run tests.][63827] This should improve performance when running a large
   amount of doctests.
 - [The `try!` macro will now issue a deprecation warning.][62672] It is
@@ -1643,35 +1643,35 @@ Compatibility Notes
 - [`asinh(-0.0)` now correctly returns `-0.0`.][63698] Previously this
   returned `0.0`.
 
-[62600]: https://github.com/rust-lang/rust/pull/62600/
-[62672]: https://github.com/rust-lang/rust/pull/62672/
-[63118]: https://github.com/rust-lang/rust/pull/63118/
-[63209]: https://github.com/rust-lang/rust/pull/63209/
-[63402]: https://github.com/rust-lang/rust/pull/63402/
-[63565]: https://github.com/rust-lang/rust/pull/63565/
-[63595]: https://github.com/rust-lang/rust/pull/63595/
-[63684]: https://github.com/rust-lang/rust/pull/63684/
-[63698]: https://github.com/rust-lang/rust/pull/63698/
-[63770]: https://github.com/rust-lang/rust/pull/63770/
-[63786]: https://github.com/rust-lang/rust/pull/63786/
-[63827]: https://github.com/rust-lang/rust/pull/63827/
-[63834]: https://github.com/rust-lang/rust/pull/63834/
-[63927]: https://github.com/rust-lang/rust/pull/63927/
-[63933]: https://github.com/rust-lang/rust/pull/63933/
-[63934]: https://github.com/rust-lang/rust/pull/63934/
-[63938]: https://github.com/rust-lang/rust/pull/63938/
-[63940]: https://github.com/rust-lang/rust/pull/63940/
-[63941]: https://github.com/rust-lang/rust/pull/63941/
-[63945]: https://github.com/rust-lang/rust/pull/63945/
-[64010]: https://github.com/rust-lang/rust/pull/64010/
-[64028]: https://github.com/rust-lang/rust/pull/64028/
-[64334]: https://github.com/rust-lang/rust/pull/64334/
-[cargo/7237]: https://github.com/rust-lang/cargo/pull/7237/
-[cargo/7241]: https://github.com/rust-lang/cargo/pull/7241/
-[cargo/7315]: https://github.com/rust-lang/cargo/pull/7315/
-[`Pin::into_inner`]: https://doc.rust-lang.org/std/pin/struct.Pin.html#method.into_inner
-[`Instant::checked_duration_since`]: https://doc.rust-lang.org/std/time/struct.Instant.html#method.checked_duration_since
-[`Instant::saturating_duration_since`]: https://doc.rust-lang.org/std/time/struct.Instant.html#method.saturating_duration_since
+[62600]: https://github.com/dust-lang/dust/pull/62600/
+[62672]: https://github.com/dust-lang/dust/pull/62672/
+[63118]: https://github.com/dust-lang/dust/pull/63118/
+[63209]: https://github.com/dust-lang/dust/pull/63209/
+[63402]: https://github.com/dust-lang/dust/pull/63402/
+[63565]: https://github.com/dust-lang/dust/pull/63565/
+[63595]: https://github.com/dust-lang/dust/pull/63595/
+[63684]: https://github.com/dust-lang/dust/pull/63684/
+[63698]: https://github.com/dust-lang/dust/pull/63698/
+[63770]: https://github.com/dust-lang/dust/pull/63770/
+[63786]: https://github.com/dust-lang/dust/pull/63786/
+[63827]: https://github.com/dust-lang/dust/pull/63827/
+[63834]: https://github.com/dust-lang/dust/pull/63834/
+[63927]: https://github.com/dust-lang/dust/pull/63927/
+[63933]: https://github.com/dust-lang/dust/pull/63933/
+[63934]: https://github.com/dust-lang/dust/pull/63934/
+[63938]: https://github.com/dust-lang/dust/pull/63938/
+[63940]: https://github.com/dust-lang/dust/pull/63940/
+[63941]: https://github.com/dust-lang/dust/pull/63941/
+[63945]: https://github.com/dust-lang/dust/pull/63945/
+[64010]: https://github.com/dust-lang/dust/pull/64010/
+[64028]: https://github.com/dust-lang/dust/pull/64028/
+[64334]: https://github.com/dust-lang/dust/pull/64334/
+[cargo/7237]: https://github.com/dust-lang/cargo/pull/7237/
+[cargo/7241]: https://github.com/dust-lang/cargo/pull/7241/
+[cargo/7315]: https://github.com/dust-lang/cargo/pull/7315/
+[`Pin::into_inner`]: https://doc.dust-lang.org/std/pin/struct.Pin.html#method.into_inner
+[`Instant::checked_duration_since`]: https://doc.dust-lang.org/std/time/struct.Instant.html#method.checked_duration_since
+[`Instant::saturating_duration_since`]: https://doc.dust-lang.org/std/time/struct.Instant.html#method.saturating_duration_since
 
 Version 1.38.0 (2019-09-26)
 ==========================
@@ -1683,9 +1683,9 @@ Language
 
 Compiler
 --------
-- [Added pipelined compilation support to `rustc`.][62766] This will
+- [Added pipelined compilation support to `dustc`.][62766] This will
   improve compilation times in some cases. For further information please refer
-  to the [_"Evaluating pipelined rustc compilation"_][pipeline-internals] thread.
+  to the [_"Evaluating pipelined dustc compilation"_][pipeline-internals] thread.
 - [Added tier 3\* support for the `aarch64-uwp-windows-msvc`, `i686-uwp-windows-gnu`,
   `i686-uwp-windows-msvc`, `x86_64-uwp-windows-gnu`, and
   `x86_64-uwp-windows-msvc` targets.][60260]
@@ -1695,8 +1695,8 @@ Compiler
 - [Added tier 3 support for the `riscv32i-unknown-none-elf` target.][62784]
 - [Upgraded to LLVM 9.][62592]
 
-\* Refer to Rust's [platform support page][forge-platform-support] for more
-information on Rust's tiered platform support.
+\* Refer to Dust's [platform support page][forge-platform-support] for more
+information on Dust's tiered platform support.
 
 Libraries
 ---------
@@ -1739,51 +1739,51 @@ Cargo
 
 Misc
 ----
-- [`rustc` will now warn about some incorrect uses of
+- [`dustc` will now warn about some incorrect uses of
   `mem::{uninitialized, zeroed}` that are known to cause undefined behaviour.][63346]
 
 Compatibility Notes
 -------------------
-- The [`x86_64-unknown-uefi` platform can not be built][62785] with rustc
+- The [`x86_64-unknown-uefi` platform can not be built][62785] with dustc
   1.38.0.
 - The [`armv7-unknown-linux-gnueabihf` platform is known to have
   issues][62896] with certain crates such as libc.
 
-[60260]: https://github.com/rust-lang/rust/pull/60260/
-[61457]: https://github.com/rust-lang/rust/pull/61457/
-[61491]: https://github.com/rust-lang/rust/pull/61491/
-[61884]: https://github.com/rust-lang/rust/pull/61884/
-[61953]: https://github.com/rust-lang/rust/pull/61953/
-[62042]: https://github.com/rust-lang/rust/pull/62042/
-[62528]: https://github.com/rust-lang/rust/pull/62528/
-[62583]: https://github.com/rust-lang/rust/pull/62583/
-[62735]: https://github.com/rust-lang/rust/pull/62735/
-[62766]: https://github.com/rust-lang/rust/pull/62766/
-[62784]: https://github.com/rust-lang/rust/pull/62784/
-[62592]: https://github.com/rust-lang/rust/pull/62592/
-[62785]: https://github.com/rust-lang/rust/issues/62785/
-[62814]: https://github.com/rust-lang/rust/pull/62814/
-[62896]: https://github.com/rust-lang/rust/issues/62896/
-[63000]: https://github.com/rust-lang/rust/pull/63000/
-[63056]: https://github.com/rust-lang/rust/pull/63056/
-[63107]: https://github.com/rust-lang/rust/pull/63107/
-[63346]: https://github.com/rust-lang/rust/pull/63346/
-[63421]: https://github.com/rust-lang/rust/pull/63421/
-[cargo/7084]: https://github.com/rust-lang/cargo/pull/7084/
-[cargo/7143]: https://github.com/rust-lang/cargo/pull/7143/
-[`<*const T>::cast`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.cast
-[`<*mut T>::cast`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.cast
-[`Duration::as_secs_f32`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.as_secs_f32
-[`Duration::as_secs_f64`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.as_secs_f64
-[`Duration::div_f32`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.div_f32
-[`Duration::div_f64`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.div_f64
-[`Duration::from_secs_f32`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.from_secs_f32
-[`Duration::from_secs_f64`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.from_secs_f64
-[`Duration::mul_f32`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.mul_f32
-[`Duration::mul_f64`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.mul_f64
-[`any::type_name`]: https://doc.rust-lang.org/std/any/fn.type_name.html
-[forge-platform-support]: https://forge.rust-lang.org/release/platform-support.html
-[pipeline-internals]: https://internals.rust-lang.org/t/evaluating-pipelined-rustc-compilation/10199
+[60260]: https://github.com/dust-lang/dust/pull/60260/
+[61457]: https://github.com/dust-lang/dust/pull/61457/
+[61491]: https://github.com/dust-lang/dust/pull/61491/
+[61884]: https://github.com/dust-lang/dust/pull/61884/
+[61953]: https://github.com/dust-lang/dust/pull/61953/
+[62042]: https://github.com/dust-lang/dust/pull/62042/
+[62528]: https://github.com/dust-lang/dust/pull/62528/
+[62583]: https://github.com/dust-lang/dust/pull/62583/
+[62735]: https://github.com/dust-lang/dust/pull/62735/
+[62766]: https://github.com/dust-lang/dust/pull/62766/
+[62784]: https://github.com/dust-lang/dust/pull/62784/
+[62592]: https://github.com/dust-lang/dust/pull/62592/
+[62785]: https://github.com/dust-lang/dust/issues/62785/
+[62814]: https://github.com/dust-lang/dust/pull/62814/
+[62896]: https://github.com/dust-lang/dust/issues/62896/
+[63000]: https://github.com/dust-lang/dust/pull/63000/
+[63056]: https://github.com/dust-lang/dust/pull/63056/
+[63107]: https://github.com/dust-lang/dust/pull/63107/
+[63346]: https://github.com/dust-lang/dust/pull/63346/
+[63421]: https://github.com/dust-lang/dust/pull/63421/
+[cargo/7084]: https://github.com/dust-lang/cargo/pull/7084/
+[cargo/7143]: https://github.com/dust-lang/cargo/pull/7143/
+[`<*const T>::cast`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.cast
+[`<*mut T>::cast`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.cast
+[`Duration::as_secs_f32`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_secs_f32
+[`Duration::as_secs_f64`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_secs_f64
+[`Duration::div_f32`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.div_f32
+[`Duration::div_f64`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.div_f64
+[`Duration::from_secs_f32`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.from_secs_f32
+[`Duration::from_secs_f64`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.from_secs_f64
+[`Duration::mul_f32`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.mul_f32
+[`Duration::mul_f64`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.mul_f64
+[`any::type_name`]: https://doc.dust-lang.org/std/any/fn.type_name.html
+[forge-platform-support]: https://forge.dust-lang.org/release/platform-support.html
+[pipeline-internals]: https://internals.dust-lang.org/t/evaluating-pipelined-dustc-compilation/10199
 
 Version 1.37.0 (2019-08-15)
 ==========================
@@ -1796,7 +1796,7 @@ Language
   generic parameters.][61547]
 - [You can now use enum variants through type alias.][61682] e.g. You can
   write the following:
-  ```rust
+  ```dust
   type MyOption = Option<u8>;
 
   fn increment_or_zero(x: MyOption) -> u8 {
@@ -1816,8 +1816,8 @@ Compiler
 --------
 - [You can now enable Profile-Guided Optimization with the `-C profile-generate`
   and `-C profile-use` flags.][61268] For more information on how to use profile
-  guided optimization, please refer to the [rustc book][rustc-book-pgo].
-- [The `rust-lldb` wrapper script should now work again.][61827]
+  guided optimization, please refer to the [dustc book][dustc-book-pgo].
+- [The `dust-lldb` wrapper script should now work again.][61827]
 
 Libraries
 ---------
@@ -1864,43 +1864,43 @@ Compatibility Notes
 - [Using a trait object without the `dyn` will now warn by default.][61203]
   Please transition your code to use `dyn Trait` for trait objects instead.
 
-[62228]: https://github.com/rust-lang/rust/pull/62228/
-[62235]: https://github.com/rust-lang/rust/pull/62235/
-[61802]: https://github.com/rust-lang/rust/pull/61802/
-[61827]: https://github.com/rust-lang/rust/pull/61827/
-[61547]: https://github.com/rust-lang/rust/pull/61547/
-[61682]: https://github.com/rust-lang/rust/pull/61682/
-[61268]: https://github.com/rust-lang/rust/pull/61268/
-[61342]: https://github.com/rust-lang/rust/pull/61342/
-[61347]: https://github.com/rust-lang/rust/pull/61347/
-[61100]: https://github.com/rust-lang/rust/pull/61100/
-[61203]: https://github.com/rust-lang/rust/pull/61203/
-[61229]: https://github.com/rust-lang/rust/pull/61229/
-[60932]: https://github.com/rust-lang/rust/pull/60932/
-[cargo/7026]: https://github.com/rust-lang/cargo/pull/7026/
-[cargo/7056]: https://github.com/rust-lang/cargo/pull/7056/
-[`BufReader::buffer`]: https://doc.rust-lang.org/std/io/struct.BufReader.html#method.buffer
-[`BufWriter::buffer`]: https://doc.rust-lang.org/std/io/struct.BufWriter.html#method.buffer
-[`Cell::from_mut`]: https://doc.rust-lang.org/std/cell/struct.Cell.html#method.from_mut
-[`Cell<slice>::as_slice_of_cells`]: https://doc.rust-lang.org/std/cell/struct.Cell.html#method.as_slice_of_cells
-[`DoubleEndedIterator::nth_back`]: https://doc.rust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.nth_back
-[`Option::xor`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.xor
-[`RefCell::try_borrow_unguarded`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html#method.try_borrow_unguarded
-[`Wrapping::reverse_bits`]: https://doc.rust-lang.org/std/num/struct.Wrapping.html#method.reverse_bits
-[`i128::reverse_bits`]: https://doc.rust-lang.org/std/primitive.i128.html#method.reverse_bits
-[`i16::reverse_bits`]: https://doc.rust-lang.org/std/primitive.i16.html#method.reverse_bits
-[`i32::reverse_bits`]: https://doc.rust-lang.org/std/primitive.i32.html#method.reverse_bits
-[`i64::reverse_bits`]: https://doc.rust-lang.org/std/primitive.i64.html#method.reverse_bits
-[`i8::reverse_bits`]: https://doc.rust-lang.org/std/primitive.i8.html#method.reverse_bits
-[`isize::reverse_bits`]: https://doc.rust-lang.org/std/primitive.isize.html#method.reverse_bits
-[`slice::copy_within`]: https://doc.rust-lang.org/std/primitive.slice.html#method.copy_within
-[`u128::reverse_bits`]: https://doc.rust-lang.org/std/primitive.u128.html#method.reverse_bits
-[`u16::reverse_bits`]: https://doc.rust-lang.org/std/primitive.u16.html#method.reverse_bits
-[`u32::reverse_bits`]: https://doc.rust-lang.org/std/primitive.u32.html#method.reverse_bits
-[`u64::reverse_bits`]: https://doc.rust-lang.org/std/primitive.u64.html#method.reverse_bits
-[`u8::reverse_bits`]: https://doc.rust-lang.org/std/primitive.u8.html#method.reverse_bits
-[`usize::reverse_bits`]: https://doc.rust-lang.org/std/primitive.usize.html#method.reverse_bits
-[rustc-book-pgo]: https://doc.rust-lang.org/rustc/profile-guided-optimization.html
+[62228]: https://github.com/dust-lang/dust/pull/62228/
+[62235]: https://github.com/dust-lang/dust/pull/62235/
+[61802]: https://github.com/dust-lang/dust/pull/61802/
+[61827]: https://github.com/dust-lang/dust/pull/61827/
+[61547]: https://github.com/dust-lang/dust/pull/61547/
+[61682]: https://github.com/dust-lang/dust/pull/61682/
+[61268]: https://github.com/dust-lang/dust/pull/61268/
+[61342]: https://github.com/dust-lang/dust/pull/61342/
+[61347]: https://github.com/dust-lang/dust/pull/61347/
+[61100]: https://github.com/dust-lang/dust/pull/61100/
+[61203]: https://github.com/dust-lang/dust/pull/61203/
+[61229]: https://github.com/dust-lang/dust/pull/61229/
+[60932]: https://github.com/dust-lang/dust/pull/60932/
+[cargo/7026]: https://github.com/dust-lang/cargo/pull/7026/
+[cargo/7056]: https://github.com/dust-lang/cargo/pull/7056/
+[`BufReader::buffer`]: https://doc.dust-lang.org/std/io/struct.BufReader.html#method.buffer
+[`BufWriter::buffer`]: https://doc.dust-lang.org/std/io/struct.BufWriter.html#method.buffer
+[`Cell::from_mut`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.from_mut
+[`Cell<slice>::as_slice_of_cells`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.as_slice_of_cells
+[`DoubleEndedIterator::nth_back`]: https://doc.dust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.nth_back
+[`Option::xor`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.xor
+[`RefCell::try_borrow_unguarded`]: https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.try_borrow_unguarded
+[`Wrapping::reverse_bits`]: https://doc.dust-lang.org/std/num/struct.Wrapping.html#method.reverse_bits
+[`i128::reverse_bits`]: https://doc.dust-lang.org/std/primitive.i128.html#method.reverse_bits
+[`i16::reverse_bits`]: https://doc.dust-lang.org/std/primitive.i16.html#method.reverse_bits
+[`i32::reverse_bits`]: https://doc.dust-lang.org/std/primitive.i32.html#method.reverse_bits
+[`i64::reverse_bits`]: https://doc.dust-lang.org/std/primitive.i64.html#method.reverse_bits
+[`i8::reverse_bits`]: https://doc.dust-lang.org/std/primitive.i8.html#method.reverse_bits
+[`isize::reverse_bits`]: https://doc.dust-lang.org/std/primitive.isize.html#method.reverse_bits
+[`slice::copy_within`]: https://doc.dust-lang.org/std/primitive.slice.html#method.copy_within
+[`u128::reverse_bits`]: https://doc.dust-lang.org/std/primitive.u128.html#method.reverse_bits
+[`u16::reverse_bits`]: https://doc.dust-lang.org/std/primitive.u16.html#method.reverse_bits
+[`u32::reverse_bits`]: https://doc.dust-lang.org/std/primitive.u32.html#method.reverse_bits
+[`u64::reverse_bits`]: https://doc.dust-lang.org/std/primitive.u64.html#method.reverse_bits
+[`u8::reverse_bits`]: https://doc.dust-lang.org/std/primitive.u8.html#method.reverse_bits
+[`usize::reverse_bits`]: https://doc.dust-lang.org/std/primitive.usize.html#method.reverse_bits
+[dustc-book-pgo]: https://doc.dust-lang.org/dustc/profile-guided-optimization.html
 
 
 Version 1.36.0 (2019-07-04)
@@ -1969,39 +1969,39 @@ Compatibility Notes
 - With the stabilisation of `mem::MaybeUninit`, `mem::uninitialized` use is no
   longer recommended, and will be deprecated in 1.39.0.
 
-[60318]: https://github.com/rust-lang/rust/pull/60318/
-[60364]: https://github.com/rust-lang/rust/pull/60364/
-[60370]: https://github.com/rust-lang/rust/pull/60370/
-[60404]: https://github.com/rust-lang/rust/pull/60404/
-[60234]: https://github.com/rust-lang/rust/pull/60234/
-[60244]: https://github.com/rust-lang/rust/pull/60244/
-[58623]: https://github.com/rust-lang/rust/pull/58623/
-[59648]: https://github.com/rust-lang/rust/pull/59648/
-[59675]: https://github.com/rust-lang/rust/pull/59675/
-[59825]: https://github.com/rust-lang/rust/pull/59825/
-[59826]: https://github.com/rust-lang/rust/pull/59826/
-[59445]: https://github.com/rust-lang/rust/pull/59445/
-[59114]: https://github.com/rust-lang/rust/pull/59114/
-[cargo/6860]: https://github.com/rust-lang/cargo/pull/6860/
-[cargo/6934]: https://github.com/rust-lang/cargo/pull/6934/
-[`VecDeque::rotate_left`]: https://doc.rust-lang.org/std/collections/struct.VecDeque.html#method.rotate_left
-[`VecDeque::rotate_right`]: https://doc.rust-lang.org/std/collections/struct.VecDeque.html#method.rotate_right
-[`Iterator::copied`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#tymethod.copied
-[`io::IoSlice`]: https://doc.rust-lang.org/std/io/struct.IoSlice.html
-[`io::IoSliceMut`]: https://doc.rust-lang.org/std/io/struct.IoSliceMut.html
-[`Read::read_vectored`]: https://doc.rust-lang.org/std/io/trait.Read.html#method.read_vectored
-[`Write::write_vectored`]: https://doc.rust-lang.org/std/io/trait.Write.html#method.write_vectored
-[`str::as_mut_ptr`]: https://doc.rust-lang.org/std/primitive.str.html#method.as_mut_ptr
-[`mem::MaybeUninit`]: https://doc.rust-lang.org/std/mem/union.MaybeUninit.html
-[`pointer::align_offset`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.align_offset
-[`future::Future`]: https://doc.rust-lang.org/std/future/trait.Future.html
-[`task::Context`]: https://doc.rust-lang.org/beta/std/task/struct.Context.html
-[`task::RawWaker`]: https://doc.rust-lang.org/beta/std/task/struct.RawWaker.html
-[`task::RawWakerVTable`]: https://doc.rust-lang.org/beta/std/task/struct.RawWakerVTable.html
-[`task::Waker`]: https://doc.rust-lang.org/beta/std/task/struct.Waker.html
-[`task::Poll`]: https://doc.rust-lang.org/beta/std/task/enum.Poll.html
-[clippy-1-36-0]: https://github.com/rust-lang/rust-clippy/blob/master/CHANGELOG.md#rust-136
-[cargo-1-36-0]: https://github.com/rust-lang/cargo/blob/master/CHANGELOG.md#cargo-136-2019-07-04
+[60318]: https://github.com/dust-lang/dust/pull/60318/
+[60364]: https://github.com/dust-lang/dust/pull/60364/
+[60370]: https://github.com/dust-lang/dust/pull/60370/
+[60404]: https://github.com/dust-lang/dust/pull/60404/
+[60234]: https://github.com/dust-lang/dust/pull/60234/
+[60244]: https://github.com/dust-lang/dust/pull/60244/
+[58623]: https://github.com/dust-lang/dust/pull/58623/
+[59648]: https://github.com/dust-lang/dust/pull/59648/
+[59675]: https://github.com/dust-lang/dust/pull/59675/
+[59825]: https://github.com/dust-lang/dust/pull/59825/
+[59826]: https://github.com/dust-lang/dust/pull/59826/
+[59445]: https://github.com/dust-lang/dust/pull/59445/
+[59114]: https://github.com/dust-lang/dust/pull/59114/
+[cargo/6860]: https://github.com/dust-lang/cargo/pull/6860/
+[cargo/6934]: https://github.com/dust-lang/cargo/pull/6934/
+[`VecDeque::rotate_left`]: https://doc.dust-lang.org/std/collections/struct.VecDeque.html#method.rotate_left
+[`VecDeque::rotate_right`]: https://doc.dust-lang.org/std/collections/struct.VecDeque.html#method.rotate_right
+[`Iterator::copied`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#tymethod.copied
+[`io::IoSlice`]: https://doc.dust-lang.org/std/io/struct.IoSlice.html
+[`io::IoSliceMut`]: https://doc.dust-lang.org/std/io/struct.IoSliceMut.html
+[`Read::read_vectored`]: https://doc.dust-lang.org/std/io/trait.Read.html#method.read_vectored
+[`Write::write_vectored`]: https://doc.dust-lang.org/std/io/trait.Write.html#method.write_vectored
+[`str::as_mut_ptr`]: https://doc.dust-lang.org/std/primitive.str.html#method.as_mut_ptr
+[`mem::MaybeUninit`]: https://doc.dust-lang.org/std/mem/union.MaybeUninit.html
+[`pointer::align_offset`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.align_offset
+[`future::Future`]: https://doc.dust-lang.org/std/future/trait.Future.html
+[`task::Context`]: https://doc.dust-lang.org/beta/std/task/struct.Context.html
+[`task::RawWaker`]: https://doc.dust-lang.org/beta/std/task/struct.RawWaker.html
+[`task::RawWakerVTable`]: https://doc.dust-lang.org/beta/std/task/struct.RawWakerVTable.html
+[`task::Waker`]: https://doc.dust-lang.org/beta/std/task/struct.Waker.html
+[`task::Poll`]: https://doc.dust-lang.org/beta/std/task/enum.Poll.html
+[clippy-1-36-0]: https://github.com/dust-lang/dust-clippy/blob/master/CHANGELOG.md#dust-136
+[cargo-1-36-0]: https://github.com/dust-lang/cargo/blob/master/CHANGELOG.md#cargo-136-2019-07-04
 
 
 Version 1.35.0 (2019-05-23)
@@ -2012,7 +2012,7 @@ Language
 - [`FnOnce`, `FnMut`, and the `Fn` traits are now implemented for `Box<FnOnce>`,
   `Box<FnMut>`, and `Box<Fn>` respectively.][59500]
 - [You can now coerce closures into unsafe function pointers.][59580] e.g.
-  ```rust
+  ```dust
   unsafe fn call_unsafe(func: unsafe fn()) {
       func()
   }
@@ -2065,41 +2065,41 @@ Stabilized APIs
 
 Cargo
 -----
-- [You can now set `cargo:rustc-cdylib-link-arg` at build time to pass custom
+- [You can now set `cargo:dustc-cdylib-link-arg` at build time to pass custom
   linker arguments when building a `cdylib`.][cargo/6298] Its usage is highly
   platform specific.
 
 Misc
 ----
-- [The Rust toolchain is now available natively for musl based distros.][58575]
+- [The Dust toolchain is now available natively for musl based distros.][58575]
 
-[59460]: https://github.com/rust-lang/rust/pull/59460/
-[59464]: https://github.com/rust-lang/rust/pull/59464/
-[59500]: https://github.com/rust-lang/rust/pull/59500/
-[59512]: https://github.com/rust-lang/rust/pull/59512/
-[59580]: https://github.com/rust-lang/rust/pull/59580/
-[59283]: https://github.com/rust-lang/rust/pull/59283/
-[59451]: https://github.com/rust-lang/rust/pull/59451/
-[59076]: https://github.com/rust-lang/rust/pull/59076/
-[58778]: https://github.com/rust-lang/rust/pull/58778/
-[58717]: https://github.com/rust-lang/rust/pull/58717/
-[58369]: https://github.com/rust-lang/rust/pull/58369/
-[58423]: https://github.com/rust-lang/rust/pull/58423/
-[58080]: https://github.com/rust-lang/rust/pull/58080/
-[57847]: https://github.com/rust-lang/rust/pull/57847/
-[58575]: https://github.com/rust-lang/rust/pull/58575
-[cargo/6298]: https://github.com/rust-lang/cargo/pull/6298/
-[`f32::copysign`]: https://doc.rust-lang.org/stable/std/primitive.f32.html#method.copysign
-[`f64::copysign`]: https://doc.rust-lang.org/stable/std/primitive.f64.html#method.copysign
-[`RefCell::replace_with`]: https://doc.rust-lang.org/stable/std/cell/struct.RefCell.html#method.replace_with
-[`RefCell::map_split`]: https://doc.rust-lang.org/stable/std/cell/struct.RefCell.html#method.map_split
-[`ptr::hash`]: https://doc.rust-lang.org/stable/std/ptr/fn.hash.html
-[`Range::contains`]: https://doc.rust-lang.org/std/ops/struct.Range.html#method.contains
-[`RangeFrom::contains`]: https://doc.rust-lang.org/std/ops/struct.RangeFrom.html#method.contains
-[`RangeTo::contains`]: https://doc.rust-lang.org/std/ops/struct.RangeTo.html#method.contains
-[`RangeInclusive::contains`]: https://doc.rust-lang.org/std/ops/struct.RangeInclusive.html#method.contains
-[`RangeToInclusive::contains`]: https://doc.rust-lang.org/std/ops/struct.RangeToInclusive.html#method.contains
-[`Option::copied`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.copied
+[59460]: https://github.com/dust-lang/dust/pull/59460/
+[59464]: https://github.com/dust-lang/dust/pull/59464/
+[59500]: https://github.com/dust-lang/dust/pull/59500/
+[59512]: https://github.com/dust-lang/dust/pull/59512/
+[59580]: https://github.com/dust-lang/dust/pull/59580/
+[59283]: https://github.com/dust-lang/dust/pull/59283/
+[59451]: https://github.com/dust-lang/dust/pull/59451/
+[59076]: https://github.com/dust-lang/dust/pull/59076/
+[58778]: https://github.com/dust-lang/dust/pull/58778/
+[58717]: https://github.com/dust-lang/dust/pull/58717/
+[58369]: https://github.com/dust-lang/dust/pull/58369/
+[58423]: https://github.com/dust-lang/dust/pull/58423/
+[58080]: https://github.com/dust-lang/dust/pull/58080/
+[57847]: https://github.com/dust-lang/dust/pull/57847/
+[58575]: https://github.com/dust-lang/dust/pull/58575
+[cargo/6298]: https://github.com/dust-lang/cargo/pull/6298/
+[`f32::copysign`]: https://doc.dust-lang.org/stable/std/primitive.f32.html#method.copysign
+[`f64::copysign`]: https://doc.dust-lang.org/stable/std/primitive.f64.html#method.copysign
+[`RefCell::replace_with`]: https://doc.dust-lang.org/stable/std/cell/struct.RefCell.html#method.replace_with
+[`RefCell::map_split`]: https://doc.dust-lang.org/stable/std/cell/struct.RefCell.html#method.map_split
+[`ptr::hash`]: https://doc.dust-lang.org/stable/std/ptr/fn.hash.html
+[`Range::contains`]: https://doc.dust-lang.org/std/ops/struct.Range.html#method.contains
+[`RangeFrom::contains`]: https://doc.dust-lang.org/std/ops/struct.RangeFrom.html#method.contains
+[`RangeTo::contains`]: https://doc.dust-lang.org/std/ops/struct.RangeTo.html#method.contains
+[`RangeInclusive::contains`]: https://doc.dust-lang.org/std/ops/struct.RangeInclusive.html#method.contains
+[`RangeToInclusive::contains`]: https://doc.dust-lang.org/std/ops/struct.RangeToInclusive.html#method.contains
+[`Option::copied`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.copied
 
 Version 1.34.2 (2019-05-14)
 ===========================
@@ -2107,7 +2107,7 @@ Version 1.34.2 (2019-05-14)
 * [Destabilize the `Error::type_id` function due to a security
    vulnerability][60785] ([CVE-2019-12083])
 
-[60785]: https://github.com/rust-lang/rust/pull/60785
+[60785]: https://github.com/dust-lang/dust/pull/60785
 [CVE-2019-12083]: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-12083
 
 Version 1.34.1 (2019-04-25)
@@ -2117,9 +2117,9 @@ Version 1.34.1 (2019-04-25)
 * [Fix false positives for the `missing_const_for_fn` Clippy lint][clippy/3844]
 * [Fix Clippy panic when checking some macros][clippy/3805]
 
-[clippy/3821]: https://github.com/rust-lang/rust-clippy/pull/3821
-[clippy/3844]: https://github.com/rust-lang/rust-clippy/pull/3844
-[clippy/3805]: https://github.com/rust-lang/rust-clippy/pull/3805
+[clippy/3821]: https://github.com/dust-lang/dust-clippy/pull/3821
+[clippy/3844]: https://github.com/dust-lang/dust-clippy/pull/3844
+[clippy/3805]: https://github.com/dust-lang/dust-clippy/pull/3805
 
 Version 1.34.0 (2019-04-11)
 ==========================
@@ -2140,7 +2140,7 @@ Compiler
 - [You can now target `riscv64imac-unknown-none-elf` and
   `riscv64gc-unknown-none-elf`.][58406]
 - [You can now enable linker plugin LTO optimisations with
-  `-C linker-plugin-lto`.][58057] This allows rustc to compile your Rust code
+  `-C linker-plugin-lto`.][58057] This allows dustc to compile your Dust code
   into LLVM bitcode allowing LLVM to perform LTO optimisations across C/C++ FFI
   boundaries.
 - [You can now target `powerpc64-unknown-freebsd`.][57809]
@@ -2215,56 +2215,56 @@ Misc
 Compatibility Notes
 -------------------
 - [`Command::before_exec` is being replaced by the unsafe method
-  `Command::pre_exec`][58059] and will be deprecated with Rust 1.37.0.
+  `Command::pre_exec`][58059] and will be deprecated with Dust 1.37.0.
 - [Use of `ATOMIC_{BOOL, ISIZE, USIZE}_INIT` is now deprecated][57425] as you
   can now use `const` functions in `static` variables.
 
-[58370]: https://github.com/rust-lang/rust/pull/58370/
-[58406]: https://github.com/rust-lang/rust/pull/58406/
-[58421]: https://github.com/rust-lang/rust/pull/58421/
-[58166]: https://github.com/rust-lang/rust/pull/58166/
-[58044]: https://github.com/rust-lang/rust/pull/58044/
-[58057]: https://github.com/rust-lang/rust/pull/58057/
-[58059]: https://github.com/rust-lang/rust/pull/58059/
-[57809]: https://github.com/rust-lang/rust/pull/57809/
-[57873]: https://github.com/rust-lang/rust/pull/57873/
-[57604]: https://github.com/rust-lang/rust/pull/57604/
-[57367]: https://github.com/rust-lang/rust/pull/57367/
-[57407]: https://github.com/rust-lang/rust/pull/57407/
-[57425]: https://github.com/rust-lang/rust/pull/57425/
-[57106]: https://github.com/rust-lang/rust/pull/57106/
-[56470]: https://github.com/rust-lang/rust/pull/56470/
-[cargo/6654]: https://github.com/rust-lang/cargo/pull/6654/
-[`Any::type_id`]: https://doc.rust-lang.org/std/any/trait.Any.html#tymethod.type_id
-[`Error::type_id`]: https://doc.rust-lang.org/std/error/trait.Error.html#method.type_id
-[`atomic::AtomicI16`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicI16.html
-[`atomic::AtomicI32`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicI32.html
-[`atomic::AtomicI64`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicI64.html
-[`atomic::AtomicI8`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicI8.html
-[`atomic::AtomicU16`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU16.html
-[`atomic::AtomicU32`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU32.html
-[`atomic::AtomicU64`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU64.html
-[`atomic::AtomicU8`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU8.html
-[`convert::Infallible`]: https://doc.rust-lang.org/std/convert/enum.Infallible.html
-[`convert::TryFrom`]: https://doc.rust-lang.org/std/convert/trait.TryFrom.html
-[`convert::TryInto`]: https://doc.rust-lang.org/std/convert/trait.TryInto.html
-[`iter::from_fn`]: https://doc.rust-lang.org/std/iter/fn.from_fn.html
-[`iter::successors`]: https://doc.rust-lang.org/std/iter/fn.successors.html
-[`num::NonZeroI128`]: https://doc.rust-lang.org/std/num/struct.NonZeroI128.html
-[`num::NonZeroI16`]: https://doc.rust-lang.org/std/num/struct.NonZeroI16.html
-[`num::NonZeroI32`]: https://doc.rust-lang.org/std/num/struct.NonZeroI32.html
-[`num::NonZeroI64`]: https://doc.rust-lang.org/std/num/struct.NonZeroI64.html
-[`num::NonZeroI8`]: https://doc.rust-lang.org/std/num/struct.NonZeroI8.html
-[`num::NonZeroIsize`]: https://doc.rust-lang.org/std/num/struct.NonZeroIsize.html
-[`slice::sort_by_cached_key`]: https://doc.rust-lang.org/std/primitive.slice.html#method.sort_by_cached_key
-[`str::escape_debug`]: https://doc.rust-lang.org/std/primitive.str.html#method.escape_debug
-[`str::escape_default`]: https://doc.rust-lang.org/std/primitive.str.html#method.escape_default
-[`str::escape_unicode`]: https://doc.rust-lang.org/std/primitive.str.html#method.escape_unicode
-[`str::split_ascii_whitespace`]: https://doc.rust-lang.org/std/primitive.str.html#method.split_ascii_whitespace
-[`Instant::checked_add`]: https://doc.rust-lang.org/std/time/struct.Instant.html#method.checked_add
-[`Instant::checked_sub`]: https://doc.rust-lang.org/std/time/struct.Instant.html#method.checked_sub
-[`SystemTime::checked_add`]: https://doc.rust-lang.org/std/time/struct.SystemTime.html#method.checked_add
-[`SystemTime::checked_sub`]: https://doc.rust-lang.org/std/time/struct.SystemTime.html#method.checked_sub
+[58370]: https://github.com/dust-lang/dust/pull/58370/
+[58406]: https://github.com/dust-lang/dust/pull/58406/
+[58421]: https://github.com/dust-lang/dust/pull/58421/
+[58166]: https://github.com/dust-lang/dust/pull/58166/
+[58044]: https://github.com/dust-lang/dust/pull/58044/
+[58057]: https://github.com/dust-lang/dust/pull/58057/
+[58059]: https://github.com/dust-lang/dust/pull/58059/
+[57809]: https://github.com/dust-lang/dust/pull/57809/
+[57873]: https://github.com/dust-lang/dust/pull/57873/
+[57604]: https://github.com/dust-lang/dust/pull/57604/
+[57367]: https://github.com/dust-lang/dust/pull/57367/
+[57407]: https://github.com/dust-lang/dust/pull/57407/
+[57425]: https://github.com/dust-lang/dust/pull/57425/
+[57106]: https://github.com/dust-lang/dust/pull/57106/
+[56470]: https://github.com/dust-lang/dust/pull/56470/
+[cargo/6654]: https://github.com/dust-lang/cargo/pull/6654/
+[`Any::type_id`]: https://doc.dust-lang.org/std/any/trait.Any.html#tymethod.type_id
+[`Error::type_id`]: https://doc.dust-lang.org/std/error/trait.Error.html#method.type_id
+[`atomic::AtomicI16`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicI16.html
+[`atomic::AtomicI32`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicI32.html
+[`atomic::AtomicI64`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicI64.html
+[`atomic::AtomicI8`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicI8.html
+[`atomic::AtomicU16`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU16.html
+[`atomic::AtomicU32`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU32.html
+[`atomic::AtomicU64`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU64.html
+[`atomic::AtomicU8`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU8.html
+[`convert::Infallible`]: https://doc.dust-lang.org/std/convert/enum.Infallible.html
+[`convert::TryFrom`]: https://doc.dust-lang.org/std/convert/trait.TryFrom.html
+[`convert::TryInto`]: https://doc.dust-lang.org/std/convert/trait.TryInto.html
+[`iter::from_fn`]: https://doc.dust-lang.org/std/iter/fn.from_fn.html
+[`iter::successors`]: https://doc.dust-lang.org/std/iter/fn.successors.html
+[`num::NonZeroI128`]: https://doc.dust-lang.org/std/num/struct.NonZeroI128.html
+[`num::NonZeroI16`]: https://doc.dust-lang.org/std/num/struct.NonZeroI16.html
+[`num::NonZeroI32`]: https://doc.dust-lang.org/std/num/struct.NonZeroI32.html
+[`num::NonZeroI64`]: https://doc.dust-lang.org/std/num/struct.NonZeroI64.html
+[`num::NonZeroI8`]: https://doc.dust-lang.org/std/num/struct.NonZeroI8.html
+[`num::NonZeroIsize`]: https://doc.dust-lang.org/std/num/struct.NonZeroIsize.html
+[`slice::sort_by_cached_key`]: https://doc.dust-lang.org/std/primitive.slice.html#method.sort_by_cached_key
+[`str::escape_debug`]: https://doc.dust-lang.org/std/primitive.str.html#method.escape_debug
+[`str::escape_default`]: https://doc.dust-lang.org/std/primitive.str.html#method.escape_default
+[`str::escape_unicode`]: https://doc.dust-lang.org/std/primitive.str.html#method.escape_unicode
+[`str::split_ascii_whitespace`]: https://doc.dust-lang.org/std/primitive.str.html#method.split_ascii_whitespace
+[`Instant::checked_add`]: https://doc.dust-lang.org/std/time/struct.Instant.html#method.checked_add
+[`Instant::checked_sub`]: https://doc.dust-lang.org/std/time/struct.Instant.html#method.checked_sub
+[`SystemTime::checked_add`]: https://doc.dust-lang.org/std/time/struct.SystemTime.html#method.checked_add
+[`SystemTime::checked_sub`]: https://doc.dust-lang.org/std/time/struct.SystemTime.html#method.checked_sub
 
 
 Version 1.33.0 (2019-02-28)
@@ -2280,7 +2280,7 @@ Language
 - [You can now have multiple patterns in `if let` and `while let`
   expressions.][57532] You can do this with the same syntax as a `match`
   expression. E.g.
-  ```rust
+  ```dust
   enum Creature {
       Crab(String),
       Lobster(String),
@@ -2301,7 +2301,7 @@ Language
 - [You can now use `let` bindings, assignments, expression statements,
   and irrefutable pattern destructuring in const functions.][57175]
 - [You can now call unsafe const functions.][57067] E.g.
-  ```rust
+  ```dust
   const unsafe fn foo() -> i32 { 5 }
   const fn bar() -> i32 {
       unsafe { foo() }
@@ -2314,7 +2314,7 @@ Language
   with an alignment of 2 bytes and a size of 6 bytes.
 - [You can now import an item from a module as an `_`.][56303] This allows you to
   import a trait's impls, and not have the name in the namespace. E.g.
-  ```rust
+  ```dust
   use std::io::Read as _;
 
   // Allowed as there is only one `Read` in the module.
@@ -2324,13 +2324,13 @@ Language
 
 Compiler
 --------
-- [You can now set a linker flavor for `rustc` with the `-Clinker-flavor`
+- [You can now set a linker flavor for `dustc` with the `-Clinker-flavor`
   command line argument.][56351]
 - [The minimum required LLVM version has been bumped to 6.0.][56642]
 - [Added support for the PowerPC64 architecture on FreeBSD.][57615]
 - [The `x86_64-fortanix-unknown-sgx` target support has been upgraded to
   tier 2 support.][57130] Visit the [platform support][platform-support] page for
-  information on Rust's platform support.
+  information on Dust's platform support.
 - [Added support for the `thumbv7neon-linux-androideabi` and
   `thumbv7neon-unknown-linux-gnueabihf` targets.][56947]
 - [Added support for the `x86_64-unknown-uefi` target.][56769]
@@ -2384,44 +2384,44 @@ Compatibility Notes
 - [Libtest no longer creates a new thread for each test when
   `--test-threads=1`.  It also runs the tests in deterministic order][56243]
 
-[55982]: https://github.com/rust-lang/rust/pull/55982/
-[56243]: https://github.com/rust-lang/rust/pull/56243
-[56303]: https://github.com/rust-lang/rust/pull/56303/
-[56351]: https://github.com/rust-lang/rust/pull/56351/
-[56362]: https://github.com/rust-lang/rust/pull/56362
-[56642]: https://github.com/rust-lang/rust/pull/56642/
-[56769]: https://github.com/rust-lang/rust/pull/56769/
-[56805]: https://github.com/rust-lang/rust/pull/56805
-[56947]: https://github.com/rust-lang/rust/pull/56947/
-[57049]: https://github.com/rust-lang/rust/pull/57049/
-[57067]: https://github.com/rust-lang/rust/pull/57067/
-[57105]: https://github.com/rust-lang/rust/pull/57105
-[57130]: https://github.com/rust-lang/rust/pull/57130/
-[57167]: https://github.com/rust-lang/rust/pull/57167/
-[57175]: https://github.com/rust-lang/rust/pull/57175/
-[57234]: https://github.com/rust-lang/rust/pull/57234/
-[57332]: https://github.com/rust-lang/rust/pull/57332/
-[57465]: https://github.com/rust-lang/rust/pull/57465/
-[57532]: https://github.com/rust-lang/rust/pull/57532/
-[57535]: https://github.com/rust-lang/rust/pull/57535/
-[57566]: https://github.com/rust-lang/rust/pull/57566/
-[57615]: https://github.com/rust-lang/rust/pull/57615/
-[cargo/6453]: https://github.com/rust-lang/cargo/pull/6453/
-[cargo/6484]: https://github.com/rust-lang/cargo/pull/6484/
-[`unix::FileExt::read_exact_at`]: https://doc.rust-lang.org/std/os/unix/fs/trait.FileExt.html#method.read_exact_at
-[`unix::FileExt::write_all_at`]: https://doc.rust-lang.org/std/os/unix/fs/trait.FileExt.html#method.write_all_at
-[`Option::transpose`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.transpose
-[`Result::transpose`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.transpose
-[`convert::identity`]: https://doc.rust-lang.org/std/convert/fn.identity.html
-[`pin::Pin`]: https://doc.rust-lang.org/std/pin/struct.Pin.html
-[`marker::Unpin`]: https://doc.rust-lang.org/stable/std/marker/trait.Unpin.html
-[`marker::PhantomPinned`]: https://doc.rust-lang.org/nightly/std/marker/struct.PhantomPinned.html
-[`Vec::resize_with`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.resize_with
-[`VecDeque::resize_with`]: https://doc.rust-lang.org/std/collections/struct.VecDeque.html#method.resize_with
-[`Duration::as_millis`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.as_millis
-[`Duration::as_micros`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.as_micros
-[`Duration::as_nanos`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.as_nanos
-[platform-support]: https://forge.rust-lang.org/platform-support.html
+[55982]: https://github.com/dust-lang/dust/pull/55982/
+[56243]: https://github.com/dust-lang/dust/pull/56243
+[56303]: https://github.com/dust-lang/dust/pull/56303/
+[56351]: https://github.com/dust-lang/dust/pull/56351/
+[56362]: https://github.com/dust-lang/dust/pull/56362
+[56642]: https://github.com/dust-lang/dust/pull/56642/
+[56769]: https://github.com/dust-lang/dust/pull/56769/
+[56805]: https://github.com/dust-lang/dust/pull/56805
+[56947]: https://github.com/dust-lang/dust/pull/56947/
+[57049]: https://github.com/dust-lang/dust/pull/57049/
+[57067]: https://github.com/dust-lang/dust/pull/57067/
+[57105]: https://github.com/dust-lang/dust/pull/57105
+[57130]: https://github.com/dust-lang/dust/pull/57130/
+[57167]: https://github.com/dust-lang/dust/pull/57167/
+[57175]: https://github.com/dust-lang/dust/pull/57175/
+[57234]: https://github.com/dust-lang/dust/pull/57234/
+[57332]: https://github.com/dust-lang/dust/pull/57332/
+[57465]: https://github.com/dust-lang/dust/pull/57465/
+[57532]: https://github.com/dust-lang/dust/pull/57532/
+[57535]: https://github.com/dust-lang/dust/pull/57535/
+[57566]: https://github.com/dust-lang/dust/pull/57566/
+[57615]: https://github.com/dust-lang/dust/pull/57615/
+[cargo/6453]: https://github.com/dust-lang/cargo/pull/6453/
+[cargo/6484]: https://github.com/dust-lang/cargo/pull/6484/
+[`unix::FileExt::read_exact_at`]: https://doc.dust-lang.org/std/os/unix/fs/trait.FileExt.html#method.read_exact_at
+[`unix::FileExt::write_all_at`]: https://doc.dust-lang.org/std/os/unix/fs/trait.FileExt.html#method.write_all_at
+[`Option::transpose`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.transpose
+[`Result::transpose`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.transpose
+[`convert::identity`]: https://doc.dust-lang.org/std/convert/fn.identity.html
+[`pin::Pin`]: https://doc.dust-lang.org/std/pin/struct.Pin.html
+[`marker::Unpin`]: https://doc.dust-lang.org/stable/std/marker/trait.Unpin.html
+[`marker::PhantomPinned`]: https://doc.dust-lang.org/nightly/std/marker/struct.PhantomPinned.html
+[`Vec::resize_with`]: https://doc.dust-lang.org/std/vec/struct.Vec.html#method.resize_with
+[`VecDeque::resize_with`]: https://doc.dust-lang.org/std/collections/struct.VecDeque.html#method.resize_with
+[`Duration::as_millis`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_millis
+[`Duration::as_micros`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_micros
+[`Duration::as_nanos`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_nanos
+[platform-support]: https://forge.dust-lang.org/platform-support.html
 
 Version 1.32.0 (2019-01-17)
 ==========================
@@ -2436,7 +2436,7 @@ Language
   now always resolve to the item (`enum`, `struct`, etc.) available in the
   module if present, before resolving to a external crate or an item the prelude.][56759]
   E.g.
-  ```rust
+  ```dust
   enum Color { Red, Green, Blue }
 
   use Color::*;
@@ -2448,7 +2448,7 @@ Language
   specifier.][56072] This will match against a literal of any type.
   E.g. `1`, `'A'`, `"Hello World"`
 - [Self can now be used as a constructor and pattern for unit and tuple structs.][56365] E.g.
-  ```rust
+  ```dust
   struct Point(i32, i32);
 
   impl Point {
@@ -2465,7 +2465,7 @@ Language
   }
   ```
 - [Self can also now be used in type definitions.][56366] E.g.
-  ```rust
+  ```dust
   enum List<T>
   where
       Self: PartialOrd<Self> // can write `Self` instead of `List<T>`
@@ -2489,8 +2489,8 @@ Libraries
 - [`PathBuf` now implements `FromStr`.][55148]
 - [`Box<[T]>` now implements `FromIterator<T>`.][55843]
 - [The `dbg!` macro has been stabilized.][56395] This macro enables you to
-  easily debug expressions in your rust program. E.g.
-  ```rust
+  easily debug expressions in your dust program. E.g.
+  ```dust
   let a = 2;
   let b = dbg!(a * 2) + 1;
   //      ^-- prints: [src/main.rs:4] a * 2 = 4
@@ -2602,7 +2602,7 @@ Cargo
 
 Misc
 ----
-- [`libproc_macro` has been added to the `rust-src` distribution.][55280]
+- [`libproc_macro` has been added to the `dust-src` distribution.][55280]
 
 Compatibility Notes
 -------------------
@@ -2612,132 +2612,132 @@ Compatibility Notes
   was unsound.
 
 
-[55148]: https://github.com/rust-lang/rust/pull/55148/
-[55238]: https://github.com/rust-lang/rust/pull/55238/
-[55280]: https://github.com/rust-lang/rust/pull/55280/
-[55610]: https://github.com/rust-lang/rust/pull/55610/
-[55663]: https://github.com/rust-lang/rust/pull/55663/
-[55702]: https://github.com/rust-lang/rust/pull/55702/
-[55837]: https://github.com/rust-lang/rust/pull/55837/
-[55843]: https://github.com/rust-lang/rust/pull/55843/
-[56072]: https://github.com/rust-lang/rust/pull/56072/
-[56245]: https://github.com/rust-lang/rust/pull/56245/
-[56365]: https://github.com/rust-lang/rust/pull/56365/
-[56366]: https://github.com/rust-lang/rust/pull/56366/
-[56395]: https://github.com/rust-lang/rust/pull/56395/
-[56759]: https://github.com/rust-lang/rust/pull/56759/
-[cargo/6218]: https://github.com/rust-lang/cargo/pull/6218/
-[cargo/6242]: https://github.com/rust-lang/cargo/pull/6242/
-[`CStr::as_ptr`]: https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.as_ptr
-[`Cell::as_ptr`]: https://doc.rust-lang.org/std/cell/struct.Cell.html#method.as_ptr
-[`Duration::as_secs`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.as_secs
-[`Duration::subsec_micros`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.subsec_micros
-[`Duration::subsec_millis`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.subsec_millis
-[`Duration::subsec_nanos`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.subsec_nanos
-[`Ipv4Addr::is_unspecified`]: https://doc.rust-lang.org/std/net/struct.Ipv4Addr.html#method.is_unspecified
-[`Ipv6Addr::new`]: https://doc.rust-lang.org/std/net/struct.Ipv6Addr.html#method.new
-[`Ipv6Addr::octets`]: https://doc.rust-lang.org/std/net/struct.Ipv6Addr.html#method.octets
-[`ManuallyDrop::into_inner`]: https://doc.rust-lang.org/std/mem/struct.ManuallyDrop.html#method.into_inner
-[`ManuallyDrop::new`]: https://doc.rust-lang.org/std/mem/struct.ManuallyDrop.html#method.new
-[`NonNull::as_ptr`]: https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.as_ptr
-[`RangeInclusive::end`]: https://doc.rust-lang.org/std/ops/struct.RangeInclusive.html#method.end
-[`RangeInclusive::start`]: https://doc.rust-lang.org/std/ops/struct.RangeInclusive.html#method.start
-[`UnsafeCell::get`]: https://doc.rust-lang.org/std/cell/struct.UnsafeCell.html#method.get
-[`slice::as_ptr`]: https://doc.rust-lang.org/std/primitive.slice.html#method.as_ptr
-[`char::is_ascii`]: https://doc.rust-lang.org/std/primitive.char.html#method.is_ascii
-[`i128::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i128.html#method.from_be_bytes
-[`i128::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i128.html#method.from_le_bytes
-[`i128::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i128.html#method.from_ne_bytes
-[`i128::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i128.html#method.to_be_bytes
-[`i128::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i128.html#method.to_le_bytes
-[`i128::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i128.html#method.to_ne_bytes
-[`i16::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i16.html#method.from_be_bytes
-[`i16::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i16.html#method.from_le_bytes
-[`i16::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i16.html#method.from_ne_bytes
-[`i16::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i16.html#method.to_be_bytes
-[`i16::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i16.html#method.to_le_bytes
-[`i16::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i16.html#method.to_ne_bytes
-[`i32::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i32.html#method.from_be_bytes
-[`i32::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i32.html#method.from_le_bytes
-[`i32::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i32.html#method.from_ne_bytes
-[`i32::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i32.html#method.to_be_bytes
-[`i32::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i32.html#method.to_le_bytes
-[`i32::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i32.html#method.to_ne_bytes
-[`i64::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i64.html#method.from_be_bytes
-[`i64::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i64.html#method.from_le_bytes
-[`i64::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i64.html#method.from_ne_bytes
-[`i64::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i64.html#method.to_be_bytes
-[`i64::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i64.html#method.to_le_bytes
-[`i64::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i64.html#method.to_ne_bytes
-[`i8::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i8.html#method.from_be_bytes
-[`i8::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i8.html#method.from_le_bytes
-[`i8::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i8.html#method.from_ne_bytes
-[`i8::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i8.html#method.to_be_bytes
-[`i8::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i8.html#method.to_le_bytes
-[`i8::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.i8.html#method.to_ne_bytes
-[`isize::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.isize.html#method.from_be_bytes
-[`isize::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.isize.html#method.from_le_bytes
-[`isize::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.isize.html#method.from_ne_bytes
-[`isize::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.isize.html#method.to_be_bytes
-[`isize::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.isize.html#method.to_le_bytes
-[`isize::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.isize.html#method.to_ne_bytes
-[`iter::empty`]: https://doc.rust-lang.org/std/iter/fn.empty.html
-[`str::as_ptr`]: https://doc.rust-lang.org/std/primitive.str.html#method.as_ptr
-[`u128::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u128.html#method.from_be_bytes
-[`u128::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u128.html#method.from_le_bytes
-[`u128::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u128.html#method.from_ne_bytes
-[`u128::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u128.html#method.to_be_bytes
-[`u128::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u128.html#method.to_le_bytes
-[`u128::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u128.html#method.to_ne_bytes
-[`u16::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u16.html#method.from_be_bytes
-[`u16::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u16.html#method.from_le_bytes
-[`u16::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u16.html#method.from_ne_bytes
-[`u16::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u16.html#method.to_be_bytes
-[`u16::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u16.html#method.to_le_bytes
-[`u16::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u16.html#method.to_ne_bytes
-[`u32::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u32.html#method.from_be_bytes
-[`u32::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u32.html#method.from_le_bytes
-[`u32::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u32.html#method.from_ne_bytes
-[`u32::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u32.html#method.to_be_bytes
-[`u32::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u32.html#method.to_le_bytes
-[`u32::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u32.html#method.to_ne_bytes
-[`u64::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u64.html#method.from_be_bytes
-[`u64::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u64.html#method.from_le_bytes
-[`u64::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u64.html#method.from_ne_bytes
-[`u64::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u64.html#method.to_be_bytes
-[`u64::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u64.html#method.to_le_bytes
-[`u64::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u64.html#method.to_ne_bytes
-[`u8::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u8.html#method.from_be_bytes
-[`u8::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u8.html#method.from_le_bytes
-[`u8::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u8.html#method.from_ne_bytes
-[`u8::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u8.html#method.to_be_bytes
-[`u8::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u8.html#method.to_le_bytes
-[`u8::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.u8.html#method.to_ne_bytes
-[`usize::from_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.usize.html#method.from_be_bytes
-[`usize::from_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.usize.html#method.from_le_bytes
-[`usize::from_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.usize.html#method.from_ne_bytes
-[`usize::to_be_bytes`]: https://doc.rust-lang.org/stable/std/primitive.usize.html#method.to_be_bytes
-[`usize::to_le_bytes`]: https://doc.rust-lang.org/stable/std/primitive.usize.html#method.to_le_bytes
-[`usize::to_ne_bytes`]: https://doc.rust-lang.org/stable/std/primitive.usize.html#method.to_ne_bytes
+[55148]: https://github.com/dust-lang/dust/pull/55148/
+[55238]: https://github.com/dust-lang/dust/pull/55238/
+[55280]: https://github.com/dust-lang/dust/pull/55280/
+[55610]: https://github.com/dust-lang/dust/pull/55610/
+[55663]: https://github.com/dust-lang/dust/pull/55663/
+[55702]: https://github.com/dust-lang/dust/pull/55702/
+[55837]: https://github.com/dust-lang/dust/pull/55837/
+[55843]: https://github.com/dust-lang/dust/pull/55843/
+[56072]: https://github.com/dust-lang/dust/pull/56072/
+[56245]: https://github.com/dust-lang/dust/pull/56245/
+[56365]: https://github.com/dust-lang/dust/pull/56365/
+[56366]: https://github.com/dust-lang/dust/pull/56366/
+[56395]: https://github.com/dust-lang/dust/pull/56395/
+[56759]: https://github.com/dust-lang/dust/pull/56759/
+[cargo/6218]: https://github.com/dust-lang/cargo/pull/6218/
+[cargo/6242]: https://github.com/dust-lang/cargo/pull/6242/
+[`CStr::as_ptr`]: https://doc.dust-lang.org/std/ffi/struct.CStr.html#method.as_ptr
+[`Cell::as_ptr`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.as_ptr
+[`Duration::as_secs`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.as_secs
+[`Duration::subsec_micros`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.subsec_micros
+[`Duration::subsec_millis`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.subsec_millis
+[`Duration::subsec_nanos`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.subsec_nanos
+[`Ipv4Addr::is_unspecified`]: https://doc.dust-lang.org/std/net/struct.Ipv4Addr.html#method.is_unspecified
+[`Ipv6Addr::new`]: https://doc.dust-lang.org/std/net/struct.Ipv6Addr.html#method.new
+[`Ipv6Addr::octets`]: https://doc.dust-lang.org/std/net/struct.Ipv6Addr.html#method.octets
+[`ManuallyDrop::into_inner`]: https://doc.dust-lang.org/std/mem/struct.ManuallyDrop.html#method.into_inner
+[`ManuallyDrop::new`]: https://doc.dust-lang.org/std/mem/struct.ManuallyDrop.html#method.new
+[`NonNull::as_ptr`]: https://doc.dust-lang.org/std/ptr/struct.NonNull.html#method.as_ptr
+[`RangeInclusive::end`]: https://doc.dust-lang.org/std/ops/struct.RangeInclusive.html#method.end
+[`RangeInclusive::start`]: https://doc.dust-lang.org/std/ops/struct.RangeInclusive.html#method.start
+[`UnsafeCell::get`]: https://doc.dust-lang.org/std/cell/struct.UnsafeCell.html#method.get
+[`slice::as_ptr`]: https://doc.dust-lang.org/std/primitive.slice.html#method.as_ptr
+[`char::is_ascii`]: https://doc.dust-lang.org/std/primitive.char.html#method.is_ascii
+[`i128::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.from_be_bytes
+[`i128::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.from_le_bytes
+[`i128::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.from_ne_bytes
+[`i128::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.to_be_bytes
+[`i128::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.to_le_bytes
+[`i128::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i128.html#method.to_ne_bytes
+[`i16::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.from_be_bytes
+[`i16::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.from_le_bytes
+[`i16::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.from_ne_bytes
+[`i16::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.to_be_bytes
+[`i16::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.to_le_bytes
+[`i16::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i16.html#method.to_ne_bytes
+[`i32::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.from_be_bytes
+[`i32::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.from_le_bytes
+[`i32::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.from_ne_bytes
+[`i32::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.to_be_bytes
+[`i32::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.to_le_bytes
+[`i32::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i32.html#method.to_ne_bytes
+[`i64::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.from_be_bytes
+[`i64::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.from_le_bytes
+[`i64::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.from_ne_bytes
+[`i64::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.to_be_bytes
+[`i64::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.to_le_bytes
+[`i64::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i64.html#method.to_ne_bytes
+[`i8::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.from_be_bytes
+[`i8::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.from_le_bytes
+[`i8::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.from_ne_bytes
+[`i8::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.to_be_bytes
+[`i8::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.to_le_bytes
+[`i8::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.i8.html#method.to_ne_bytes
+[`isize::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.from_be_bytes
+[`isize::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.from_le_bytes
+[`isize::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.from_ne_bytes
+[`isize::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.to_be_bytes
+[`isize::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.to_le_bytes
+[`isize::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.isize.html#method.to_ne_bytes
+[`iter::empty`]: https://doc.dust-lang.org/std/iter/fn.empty.html
+[`str::as_ptr`]: https://doc.dust-lang.org/std/primitive.str.html#method.as_ptr
+[`u128::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.from_be_bytes
+[`u128::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.from_le_bytes
+[`u128::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.from_ne_bytes
+[`u128::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.to_be_bytes
+[`u128::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.to_le_bytes
+[`u128::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u128.html#method.to_ne_bytes
+[`u16::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.from_be_bytes
+[`u16::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.from_le_bytes
+[`u16::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.from_ne_bytes
+[`u16::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.to_be_bytes
+[`u16::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.to_le_bytes
+[`u16::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u16.html#method.to_ne_bytes
+[`u32::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.from_be_bytes
+[`u32::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.from_le_bytes
+[`u32::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.from_ne_bytes
+[`u32::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.to_be_bytes
+[`u32::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.to_le_bytes
+[`u32::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u32.html#method.to_ne_bytes
+[`u64::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.from_be_bytes
+[`u64::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.from_le_bytes
+[`u64::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.from_ne_bytes
+[`u64::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.to_be_bytes
+[`u64::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.to_le_bytes
+[`u64::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u64.html#method.to_ne_bytes
+[`u8::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.from_be_bytes
+[`u8::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.from_le_bytes
+[`u8::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.from_ne_bytes
+[`u8::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.to_be_bytes
+[`u8::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.to_le_bytes
+[`u8::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.u8.html#method.to_ne_bytes
+[`usize::from_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.from_be_bytes
+[`usize::from_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.from_le_bytes
+[`usize::from_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.from_ne_bytes
+[`usize::to_be_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.to_be_bytes
+[`usize::to_le_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.to_le_bytes
+[`usize::to_ne_bytes`]: https://doc.dust-lang.org/stable/std/primitive.usize.html#method.to_ne_bytes
 
 
 Version 1.31.1 (2018-12-20)
 ===========================
 
-- [Fix Rust failing to build on `powerpc-unknown-netbsd`][56562]
+- [Fix Dust failing to build on `powerpc-unknown-netbsd`][56562]
 - [Fix broken go-to-definition in RLS][rls/1171]
 - [Fix infinite loop on hover in RLS][rls/1170]
 
-[56562]: https://github.com/rust-lang/rust/pull/56562
-[rls/1171]: https://github.com/rust-lang/rls/issues/1171
-[rls/1170]: https://github.com/rust-lang/rls/pull/1170
+[56562]: https://github.com/dust-lang/dust/pull/56562
+[rls/1171]: https://github.com/dust-lang/rls/issues/1171
+[rls/1170]: https://github.com/dust-lang/rls/pull/1170
 
 Version 1.31.0 (2018-12-06)
 ==========================
 
 Language
 --------
-- 🎉 [This version marks the release of the 2018 edition of Rust.][54057] 🎉
+- 🎉 [This version marks the release of the 2018 edition of Dust.][54057] 🎉
 - [New lifetime elision rules now allow for eliding lifetimes in functions and
   impl headers.][54778] E.g. `impl<'a> Reader for BufReader<'a> {}` can now be
   `impl Reader for BufReader<'_> {}`. Lifetimes are still required to be defined
@@ -2782,40 +2782,40 @@ Cargo
 - [You can now rename packages in your Cargo.toml][cargo/6319] We have a guide
   on [how to use the `package` key in your dependencies.][cargo-rename-reference]
 
-[52813]: https://github.com/rust-lang/rust/pull/52813/
-[53218]: https://github.com/rust-lang/rust/pull/53218/
-[53555]: https://github.com/rust-lang/rust/issues/53555/
-[54057]: https://github.com/rust-lang/rust/pull/54057/
-[54240]: https://github.com/rust-lang/rust/pull/54240/
-[54430]: https://github.com/rust-lang/rust/pull/54430/
-[54451]: https://github.com/rust-lang/rust/pull/54451/
-[54497]: https://github.com/rust-lang/rust/pull/54497/
-[54778]: https://github.com/rust-lang/rust/pull/54778/
-[54835]: https://github.com/rust-lang/rust/pull/54835/
-[54870]: https://github.com/rust-lang/rust/pull/54870/
-[RFC-911]: https://github.com/rust-lang/rfcs/pull/911
-[`Option::replace`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.replace
-[`slice::align_to_mut`]: https://doc.rust-lang.org/std/primitive.slice.html#method.align_to_mut
-[`slice::align_to`]: https://doc.rust-lang.org/std/primitive.slice.html#method.align_to
-[`slice::chunks_exact_mut`]: https://doc.rust-lang.org/std/primitive.slice.html#method.chunks_exact_mut
-[`slice::chunks_exact`]: https://doc.rust-lang.org/std/primitive.slice.html#method.chunks_exact
-[`slice::rchunks_exact_mut`]: https://doc.rust-lang.org/std/primitive.slice.html#method.rchunks_mut
-[`slice::rchunks_exact`]: https://doc.rust-lang.org/std/primitive.slice.html#method.rchunks_exact
-[`slice::rchunks_mut`]: https://doc.rust-lang.org/std/primitive.slice.html#method.rchunks_mut
-[`slice::rchunks`]: https://doc.rust-lang.org/std/primitive.slice.html#method.rchunks
-[cargo/6005]: https://github.com/rust-lang/cargo/pull/6005/
-[cargo/6319]: https://github.com/rust-lang/cargo/pull/6319/
-[cargo-rename-reference]: https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#renaming-dependencies-in-cargotoml
-[const-reference]: https://doc.rust-lang.org/reference/items/functions.html#const-functions
+[52813]: https://github.com/dust-lang/dust/pull/52813/
+[53218]: https://github.com/dust-lang/dust/pull/53218/
+[53555]: https://github.com/dust-lang/dust/issues/53555/
+[54057]: https://github.com/dust-lang/dust/pull/54057/
+[54240]: https://github.com/dust-lang/dust/pull/54240/
+[54430]: https://github.com/dust-lang/dust/pull/54430/
+[54451]: https://github.com/dust-lang/dust/pull/54451/
+[54497]: https://github.com/dust-lang/dust/pull/54497/
+[54778]: https://github.com/dust-lang/dust/pull/54778/
+[54835]: https://github.com/dust-lang/dust/pull/54835/
+[54870]: https://github.com/dust-lang/dust/pull/54870/
+[RFC-911]: https://github.com/dust-lang/rfcs/pull/911
+[`Option::replace`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.replace
+[`slice::align_to_mut`]: https://doc.dust-lang.org/std/primitive.slice.html#method.align_to_mut
+[`slice::align_to`]: https://doc.dust-lang.org/std/primitive.slice.html#method.align_to
+[`slice::chunks_exact_mut`]: https://doc.dust-lang.org/std/primitive.slice.html#method.chunks_exact_mut
+[`slice::chunks_exact`]: https://doc.dust-lang.org/std/primitive.slice.html#method.chunks_exact
+[`slice::rchunks_exact_mut`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rchunks_mut
+[`slice::rchunks_exact`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rchunks_exact
+[`slice::rchunks_mut`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rchunks_mut
+[`slice::rchunks`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rchunks
+[cargo/6005]: https://github.com/dust-lang/cargo/pull/6005/
+[cargo/6319]: https://github.com/dust-lang/cargo/pull/6319/
+[cargo-rename-reference]: https://doc.dust-lang.org/cargo/reference/specifying-dependencies.html#renaming-dependencies-in-cargotoml
+[const-reference]: https://doc.dust-lang.org/reference/items/functions.html#const-functions
 
 Version 1.30.1 (2018-11-08)
 ===========================
 
-- [Fixed overflow ICE in rustdoc][54199]
+- [Fixed overflow ICE in dustdoc][54199]
 - [Cap Cargo progress bar width at 60 in MSYS terminals][cargo/6122]
 
-[54199]: https://github.com/rust-lang/rust/pull/54199
-[cargo/6122]: https://github.com/rust-lang/cargo/pull/6122
+[54199]: https://github.com/dust-lang/dust/pull/54199
+[cargo/6122]: https://github.com/dust-lang/cargo/pull/6122
 
 Version 1.30.0 (2018-10-25)
 ==========================
@@ -2824,7 +2824,7 @@ Language
 --------
 - [Procedural macros are now available.][52081] These kinds of macros allow for
   more powerful code generation. There is a [new chapter available][proc-macros]
-  in the Rust Programming Language book that goes further in depth.
+  in the Dust Programming Language book that goes further in depth.
 - [You can now use keywords as identifiers using the raw identifiers
   syntax (`r#`),][53236] e.g. `let r#for = true;`
 - [Using anonymous parameters in traits is now deprecated with a warning and
@@ -2849,7 +2849,7 @@ Language
 - [Non-macro attributes now allow all forms of literals, not just
   strings.][53044] Previously, you would write `#[attr("true")]`, and you can now
   write `#[attr(true)]`.
-- [You can now specify a function to handle a panic in the Rust runtime with the
+- [You can now specify a function to handle a panic in the Dust runtime with the
   `#[panic_handler]` attribute.][51366]
 
 Compiler
@@ -2883,54 +2883,54 @@ Cargo
 ----
 - [`cargo run` doesn't require specifying a package in workspaces.][cargo/5877]
 - [`cargo doc` now supports `--message-format=json`.][cargo/5878] This is
-  equivalent to calling `rustdoc --error-format=json`.
+  equivalent to calling `dustdoc --error-format=json`.
 - [Cargo will now provide a progress bar for builds.][cargo/5995]
 
 Misc
 ----
-- [`rustdoc` allows you to specify what edition to treat your code as with the
+- [`dustdoc` allows you to specify what edition to treat your code as with the
   `--edition` option.][54057]
-- [`rustdoc` now has the `--color` (specify whether to output color) and
+- [`dustdoc` now has the `--color` (specify whether to output color) and
   `--error-format` (specify error format, e.g. `json`) options.][53003]
-- [We now distribute a `rust-gdbgui` script that invokes `gdbgui` with Rust
+- [We now distribute a `dust-gdbgui` script that invokes `gdbgui` with Dust
   debug symbols.][53774]
-- [Attributes from Rust tools such as `rustfmt` or `clippy` are now
-  available,][53459] e.g. `#[rustfmt::skip]` will skip formatting the next item.
+- [Attributes from Dust tools such as `dustfmt` or `clippy` are now
+  available,][53459] e.g. `#[dustfmt::skip]` will skip formatting the next item.
 
-[50911]: https://github.com/rust-lang/rust/pull/50911/
-[51363]: https://github.com/rust-lang/rust/pull/51363/
-[51366]: https://github.com/rust-lang/rust/pull/51366/
-[52081]: https://github.com/rust-lang/rust/pull/52081/
-[53003]: https://github.com/rust-lang/rust/pull/53003/
-[53033]: https://github.com/rust-lang/rust/pull/53033/
-[53044]: https://github.com/rust-lang/rust/pull/53044/
-[53165]: https://github.com/rust-lang/rust/pull/53165/
-[53611]: https://github.com/rust-lang/rust/pull/53611/
-[53213]: https://github.com/rust-lang/rust/pull/53213/
-[53236]: https://github.com/rust-lang/rust/pull/53236/
-[53272]: https://github.com/rust-lang/rust/pull/53272/
-[53370]: https://github.com/rust-lang/rust/pull/53370/
-[53459]: https://github.com/rust-lang/rust/pull/53459/
-[53774]: https://github.com/rust-lang/rust/pull/53774/
-[53822]: https://github.com/rust-lang/rust/pull/53822/
-[54057]: https://github.com/rust-lang/rust/pull/54057/
-[54146]: https://github.com/rust-lang/rust/pull/54146/
-[54404]: https://github.com/rust-lang/rust/pull/54404/
-[cargo/5877]: https://github.com/rust-lang/cargo/pull/5877/
-[cargo/5878]: https://github.com/rust-lang/cargo/pull/5878/
-[cargo/5995]: https://github.com/rust-lang/cargo/pull/5995/
-[proc-macros]: https://doc.rust-lang.org/nightly/book/2018-edition/ch19-06-macros.html
+[50911]: https://github.com/dust-lang/dust/pull/50911/
+[51363]: https://github.com/dust-lang/dust/pull/51363/
+[51366]: https://github.com/dust-lang/dust/pull/51366/
+[52081]: https://github.com/dust-lang/dust/pull/52081/
+[53003]: https://github.com/dust-lang/dust/pull/53003/
+[53033]: https://github.com/dust-lang/dust/pull/53033/
+[53044]: https://github.com/dust-lang/dust/pull/53044/
+[53165]: https://github.com/dust-lang/dust/pull/53165/
+[53611]: https://github.com/dust-lang/dust/pull/53611/
+[53213]: https://github.com/dust-lang/dust/pull/53213/
+[53236]: https://github.com/dust-lang/dust/pull/53236/
+[53272]: https://github.com/dust-lang/dust/pull/53272/
+[53370]: https://github.com/dust-lang/dust/pull/53370/
+[53459]: https://github.com/dust-lang/dust/pull/53459/
+[53774]: https://github.com/dust-lang/dust/pull/53774/
+[53822]: https://github.com/dust-lang/dust/pull/53822/
+[54057]: https://github.com/dust-lang/dust/pull/54057/
+[54146]: https://github.com/dust-lang/dust/pull/54146/
+[54404]: https://github.com/dust-lang/dust/pull/54404/
+[cargo/5877]: https://github.com/dust-lang/cargo/pull/5877/
+[cargo/5878]: https://github.com/dust-lang/cargo/pull/5878/
+[cargo/5995]: https://github.com/dust-lang/cargo/pull/5995/
+[proc-macros]: https://doc.dust-lang.org/nightly/book/2018-edition/ch19-06-macros.html
 
-[`Ipv4Addr::BROADCAST`]: https://doc.rust-lang.org/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.BROADCAST
-[`Ipv4Addr::LOCALHOST`]: https://doc.rust-lang.org/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.LOCALHOST
-[`Ipv4Addr::UNSPECIFIED`]: https://doc.rust-lang.org/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.UNSPECIFIED
-[`Ipv6Addr::LOCALHOST`]: https://doc.rust-lang.org/nightly/std/net/struct.Ipv6Addr.html#associatedconstant.LOCALHOST
-[`Ipv6Addr::UNSPECIFIED`]: https://doc.rust-lang.org/nightly/std/net/struct.Ipv6Addr.html#associatedconstant.UNSPECIFIED
-[`Iterator::find_map`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.find_map
-[`str::trim_end_matches`]: https://doc.rust-lang.org/nightly/std/primitive.str.html#method.trim_end_matches
-[`str::trim_end`]: https://doc.rust-lang.org/nightly/std/primitive.str.html#method.trim_end
-[`str::trim_start_matches`]: https://doc.rust-lang.org/nightly/std/primitive.str.html#method.trim_start_matches
-[`str::trim_start`]: https://doc.rust-lang.org/nightly/std/primitive.str.html#method.trim_start
+[`Ipv4Addr::BROADCAST`]: https://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.BROADCAST
+[`Ipv4Addr::LOCALHOST`]: https://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.LOCALHOST
+[`Ipv4Addr::UNSPECIFIED`]: https://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#associatedconstant.UNSPECIFIED
+[`Ipv6Addr::LOCALHOST`]: https://doc.dust-lang.org/nightly/std/net/struct.Ipv6Addr.html#associatedconstant.LOCALHOST
+[`Ipv6Addr::UNSPECIFIED`]: https://doc.dust-lang.org/nightly/std/net/struct.Ipv6Addr.html#associatedconstant.UNSPECIFIED
+[`Iterator::find_map`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.find_map
+[`str::trim_end_matches`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.trim_end_matches
+[`str::trim_end`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.trim_end
+[`str::trim_start_matches`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.trim_start_matches
+[`str::trim_start`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.trim_start
 
 
 Version 1.29.2 (2018-10-11)
@@ -2939,7 +2939,7 @@ Version 1.29.2 (2018-10-11)
 - [Workaround for an aliasing-related LLVM bug, which caused miscompilation.][54639]
 - The `rls-preview` component on the windows-gnu targets has been restored.
 
-[54639]: https://github.com/rust-lang/rust/pull/54639
+[54639]: https://github.com/dust-lang/dust/pull/54639
 
 
 Version 1.29.1 (2018-09-25)
@@ -2995,13 +2995,13 @@ Cargo
 
 Misc
 ----
-- [`rustdoc` now has the `--cap-lints` option which demotes all lints above
+- [`dustdoc` now has the `--cap-lints` option which demotes all lints above
   the specified level to that level.][52354] For example `--cap-lints warn`
   will demote `deny` and `forbid` lints to `warn`.
-- [`rustc` and `rustdoc` will now have the exit code of `1` if compilation
+- [`dustc` and `dustdoc` will now have the exit code of `1` if compilation
   fails and `101` if there is a panic.][52197]
-- [A preview of clippy has been made available through rustup.][51122]
-  You can install the preview with `rustup component add clippy-preview`.
+- [A preview of clippy has been made available through dustup.][51122]
+  You can install the preview with `dustup component add clippy-preview`.
 
 Compatibility Notes
 -------------------
@@ -3010,36 +3010,36 @@ Compatibility Notes
 - [`std::env::home_dir` is now deprecated for its unintuitive behavior.][51656]
   Consider using the `home_dir` function from
   https://crates.io/crates/dirs instead.
-- [`rustc` will no longer silently ignore invalid data in target spec.][52330]
+- [`dustc` will no longer silently ignore invalid data in target spec.][52330]
 - [`cfg` attributes and `--cfg` command line flags are now more
   strictly validated.][53893]
 
-[53893]: https://github.com/rust-lang/rust/pull/53893/
-[52861]: https://github.com/rust-lang/rust/pull/52861/
-[51966]: https://github.com/rust-lang/rust/pull/51966/
-[52656]: https://github.com/rust-lang/rust/pull/52656/
-[52239]: https://github.com/rust-lang/rust/pull/52239/
-[52330]: https://github.com/rust-lang/rust/pull/52330/
-[52354]: https://github.com/rust-lang/rust/pull/52354/
-[52402]: https://github.com/rust-lang/rust/pull/52402/
-[52103]: https://github.com/rust-lang/rust/pull/52103/
-[52197]: https://github.com/rust-lang/rust/pull/52197/
-[51807]: https://github.com/rust-lang/rust/pull/51807/
-[51899]: https://github.com/rust-lang/rust/pull/51899/
-[51912]: https://github.com/rust-lang/rust/pull/51912/
-[51511]: https://github.com/rust-lang/rust/pull/51511/
-[51619]: https://github.com/rust-lang/rust/pull/51619/
-[51656]: https://github.com/rust-lang/rust/pull/51656/
-[51178]: https://github.com/rust-lang/rust/pull/51178/
-[51122]: https://github.com/rust-lang/rust/pull/51122
-[50494]: https://github.com/rust-lang/rust/pull/50494/
-[cargo/5543]: https://github.com/rust-lang/cargo/pull/5543
-[cargo/5614]: https://github.com/rust-lang/cargo/pull/5614/
-[cargo/5723]: https://github.com/rust-lang/cargo/pull/5723/
-[cargo/5831]: https://github.com/rust-lang/cargo/pull/5831/
-[`Arc::downcast`]: https://doc.rust-lang.org/std/sync/struct.Arc.html#method.downcast
-[`Iterator::flatten`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.flatten
-[`Rc::downcast`]: https://doc.rust-lang.org/std/rc/struct.Rc.html#method.downcast
+[53893]: https://github.com/dust-lang/dust/pull/53893/
+[52861]: https://github.com/dust-lang/dust/pull/52861/
+[51966]: https://github.com/dust-lang/dust/pull/51966/
+[52656]: https://github.com/dust-lang/dust/pull/52656/
+[52239]: https://github.com/dust-lang/dust/pull/52239/
+[52330]: https://github.com/dust-lang/dust/pull/52330/
+[52354]: https://github.com/dust-lang/dust/pull/52354/
+[52402]: https://github.com/dust-lang/dust/pull/52402/
+[52103]: https://github.com/dust-lang/dust/pull/52103/
+[52197]: https://github.com/dust-lang/dust/pull/52197/
+[51807]: https://github.com/dust-lang/dust/pull/51807/
+[51899]: https://github.com/dust-lang/dust/pull/51899/
+[51912]: https://github.com/dust-lang/dust/pull/51912/
+[51511]: https://github.com/dust-lang/dust/pull/51511/
+[51619]: https://github.com/dust-lang/dust/pull/51619/
+[51656]: https://github.com/dust-lang/dust/pull/51656/
+[51178]: https://github.com/dust-lang/dust/pull/51178/
+[51122]: https://github.com/dust-lang/dust/pull/51122
+[50494]: https://github.com/dust-lang/dust/pull/50494/
+[cargo/5543]: https://github.com/dust-lang/cargo/pull/5543
+[cargo/5614]: https://github.com/dust-lang/cargo/pull/5614/
+[cargo/5723]: https://github.com/dust-lang/cargo/pull/5723/
+[cargo/5831]: https://github.com/dust-lang/cargo/pull/5831/
+[`Arc::downcast`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.downcast
+[`Iterator::flatten`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.flatten
+[`Rc::downcast`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.downcast
 
 
 Version 1.28.0 (2018-08-02)
@@ -3048,7 +3048,7 @@ Version 1.28.0 (2018-08-02)
 Language
 --------
 - [The `#[repr(transparent)]` attribute is now stable.][51562] This attribute
-  allows a Rust newtype wrapper (`struct NewType<T>(T);`) to be represented as
+  allows a Dust newtype wrapper (`struct NewType<T>(T);`) to be represented as
   the inner type across Foreign Function Interface (FFI) boundaries.
 - [The keywords `pure`, `sizeof`, `alignof`, and `offsetof` have been unreserved
   and can now be used as identifiers.][51196]
@@ -3068,7 +3068,7 @@ Compiler
   smaller binary.
 - [The short error format is now stable.][49546] Specified with
   `--error-format=short` this option will provide a more compressed output of
-  rust error messages.
+  dust error messages.
 - [Added a lint warning when you have duplicated `macro_export`s.][50143]
 - [Reduced the number of allocations in the macro parser.][50855] This can
   improve compile times of macro heavy crates on average by 5%.
@@ -3132,16 +3132,16 @@ Cargo
 
 Misc
 ----
-- [The `suggestion_applicability` field in `rustc`'s json output is now
+- [The `suggestion_applicability` field in `dustc`'s json output is now
   stable.][50486] This will allow dev tools to check whether a code suggestion
   would apply to them.
 
 Compatibility Notes
 -------------------
-- [Rust will consider trait objects with duplicated constraints to be the same
+- [Dust will consider trait objects with duplicated constraints to be the same
   type as without the duplicated constraint.][51276] For example the below code will
   now fail to compile.
-  ```rust
+  ```dust
   trait Trait {}
 
   impl Trait + Send {
@@ -3153,56 +3153,56 @@ Compatibility Notes
   }
   ```
 
-[49546]: https://github.com/rust-lang/rust/pull/49546/
-[50143]: https://github.com/rust-lang/rust/pull/50143/
-[50170]: https://github.com/rust-lang/rust/pull/50170/
-[50234]: https://github.com/rust-lang/rust/pull/50234/
-[50265]: https://github.com/rust-lang/rust/pull/50265/
-[50364]: https://github.com/rust-lang/rust/pull/50364/
-[50385]: https://github.com/rust-lang/rust/pull/50385/
-[50465]: https://github.com/rust-lang/rust/pull/50465/
-[50486]: https://github.com/rust-lang/rust/pull/50486/
-[50554]: https://github.com/rust-lang/rust/pull/50554/
-[50610]: https://github.com/rust-lang/rust/pull/50610/
-[50855]: https://github.com/rust-lang/rust/pull/50855/
-[51050]: https://github.com/rust-lang/rust/pull/51050/
-[51196]: https://github.com/rust-lang/rust/pull/51196/
-[51200]: https://github.com/rust-lang/rust/pull/51200/
-[51241]: https://github.com/rust-lang/rust/pull/51241/
-[51276]: https://github.com/rust-lang/rust/pull/51276/
-[51298]: https://github.com/rust-lang/rust/pull/51298/
-[51306]: https://github.com/rust-lang/rust/pull/51306/
-[51562]: https://github.com/rust-lang/rust/pull/51562/
-[cargo/5584]: https://github.com/rust-lang/cargo/pull/5584/
-[`Iterator::step_by`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.step_by
-[`Path::ancestors`]: https://doc.rust-lang.org/std/path/struct.Path.html#method.ancestors
-[`SystemTime::UNIX_EPOCH`]: https://doc.rust-lang.org/std/time/struct.SystemTime.html#associatedconstant.UNIX_EPOCH
-[`alloc::GlobalAlloc`]: https://doc.rust-lang.org/std/alloc/trait.GlobalAlloc.html
-[`alloc::Layout`]: https://doc.rust-lang.org/std/alloc/struct.Layout.html
-[`alloc::LayoutErr`]: https://doc.rust-lang.org/std/alloc/struct.LayoutErr.html
-[`alloc::System`]: https://doc.rust-lang.org/std/alloc/struct.System.html
-[`alloc::alloc`]: https://doc.rust-lang.org/std/alloc/fn.alloc.html
-[`alloc::alloc_zeroed`]: https://doc.rust-lang.org/std/alloc/fn.alloc_zeroed.html
-[`alloc::dealloc`]: https://doc.rust-lang.org/std/alloc/fn.dealloc.html
-[`alloc::realloc`]: https://doc.rust-lang.org/std/alloc/fn.realloc.html
-[`alloc::handle_alloc_error`]: https://doc.rust-lang.org/std/alloc/fn.handle_alloc_error.html
-[`btree_map::Entry::or_default`]: https://doc.rust-lang.org/std/collections/btree_map/enum.Entry.html#method.or_default
-[`fmt::Alignment`]: https://doc.rust-lang.org/std/fmt/enum.Alignment.html
-[`hash_map::Entry::or_default`]: https://doc.rust-lang.org/std/collections/hash_map/enum.Entry.html#method.or_default
-[`iter::repeat_with`]: https://doc.rust-lang.org/std/iter/fn.repeat_with.html
-[`num::NonZeroUsize`]: https://doc.rust-lang.org/std/num/struct.NonZeroUsize.html
-[`num::NonZeroU128`]: https://doc.rust-lang.org/std/num/struct.NonZeroU128.html
-[`num::NonZeroU16`]: https://doc.rust-lang.org/std/num/struct.NonZeroU16.html
-[`num::NonZeroU32`]: https://doc.rust-lang.org/std/num/struct.NonZeroU32.html
-[`num::NonZeroU64`]: https://doc.rust-lang.org/std/num/struct.NonZeroU64.html
-[`num::NonZeroU8`]: https://doc.rust-lang.org/std/num/struct.NonZeroU8.html
-[`ops::RangeBounds`]: https://doc.rust-lang.org/std/ops/trait.RangeBounds.html
-[`slice::SliceIndex`]: https://doc.rust-lang.org/std/slice/trait.SliceIndex.html
-[`slice::from_mut`]: https://doc.rust-lang.org/std/slice/fn.from_mut.html
-[`slice::from_ref`]: https://doc.rust-lang.org/std/slice/fn.from_ref.html
-[`{Any + Send + Sync}::downcast_mut`]: https://doc.rust-lang.org/std/any/trait.Any.html#method.downcast_mut-2
-[`{Any + Send + Sync}::downcast_ref`]: https://doc.rust-lang.org/std/any/trait.Any.html#method.downcast_ref-2
-[`{Any + Send + Sync}::is`]: https://doc.rust-lang.org/std/any/trait.Any.html#method.is-2
+[49546]: https://github.com/dust-lang/dust/pull/49546/
+[50143]: https://github.com/dust-lang/dust/pull/50143/
+[50170]: https://github.com/dust-lang/dust/pull/50170/
+[50234]: https://github.com/dust-lang/dust/pull/50234/
+[50265]: https://github.com/dust-lang/dust/pull/50265/
+[50364]: https://github.com/dust-lang/dust/pull/50364/
+[50385]: https://github.com/dust-lang/dust/pull/50385/
+[50465]: https://github.com/dust-lang/dust/pull/50465/
+[50486]: https://github.com/dust-lang/dust/pull/50486/
+[50554]: https://github.com/dust-lang/dust/pull/50554/
+[50610]: https://github.com/dust-lang/dust/pull/50610/
+[50855]: https://github.com/dust-lang/dust/pull/50855/
+[51050]: https://github.com/dust-lang/dust/pull/51050/
+[51196]: https://github.com/dust-lang/dust/pull/51196/
+[51200]: https://github.com/dust-lang/dust/pull/51200/
+[51241]: https://github.com/dust-lang/dust/pull/51241/
+[51276]: https://github.com/dust-lang/dust/pull/51276/
+[51298]: https://github.com/dust-lang/dust/pull/51298/
+[51306]: https://github.com/dust-lang/dust/pull/51306/
+[51562]: https://github.com/dust-lang/dust/pull/51562/
+[cargo/5584]: https://github.com/dust-lang/cargo/pull/5584/
+[`Iterator::step_by`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.step_by
+[`Path::ancestors`]: https://doc.dust-lang.org/std/path/struct.Path.html#method.ancestors
+[`SystemTime::UNIX_EPOCH`]: https://doc.dust-lang.org/std/time/struct.SystemTime.html#associatedconstant.UNIX_EPOCH
+[`alloc::GlobalAlloc`]: https://doc.dust-lang.org/std/alloc/trait.GlobalAlloc.html
+[`alloc::Layout`]: https://doc.dust-lang.org/std/alloc/struct.Layout.html
+[`alloc::LayoutErr`]: https://doc.dust-lang.org/std/alloc/struct.LayoutErr.html
+[`alloc::System`]: https://doc.dust-lang.org/std/alloc/struct.System.html
+[`alloc::alloc`]: https://doc.dust-lang.org/std/alloc/fn.alloc.html
+[`alloc::alloc_zeroed`]: https://doc.dust-lang.org/std/alloc/fn.alloc_zeroed.html
+[`alloc::dealloc`]: https://doc.dust-lang.org/std/alloc/fn.dealloc.html
+[`alloc::realloc`]: https://doc.dust-lang.org/std/alloc/fn.realloc.html
+[`alloc::handle_alloc_error`]: https://doc.dust-lang.org/std/alloc/fn.handle_alloc_error.html
+[`btree_map::Entry::or_default`]: https://doc.dust-lang.org/std/collections/btree_map/enum.Entry.html#method.or_default
+[`fmt::Alignment`]: https://doc.dust-lang.org/std/fmt/enum.Alignment.html
+[`hash_map::Entry::or_default`]: https://doc.dust-lang.org/std/collections/hash_map/enum.Entry.html#method.or_default
+[`iter::repeat_with`]: https://doc.dust-lang.org/std/iter/fn.repeat_with.html
+[`num::NonZeroUsize`]: https://doc.dust-lang.org/std/num/struct.NonZeroUsize.html
+[`num::NonZeroU128`]: https://doc.dust-lang.org/std/num/struct.NonZeroU128.html
+[`num::NonZeroU16`]: https://doc.dust-lang.org/std/num/struct.NonZeroU16.html
+[`num::NonZeroU32`]: https://doc.dust-lang.org/std/num/struct.NonZeroU32.html
+[`num::NonZeroU64`]: https://doc.dust-lang.org/std/num/struct.NonZeroU64.html
+[`num::NonZeroU8`]: https://doc.dust-lang.org/std/num/struct.NonZeroU8.html
+[`ops::RangeBounds`]: https://doc.dust-lang.org/std/ops/trait.RangeBounds.html
+[`slice::SliceIndex`]: https://doc.dust-lang.org/std/slice/trait.SliceIndex.html
+[`slice::from_mut`]: https://doc.dust-lang.org/std/slice/fn.from_mut.html
+[`slice::from_ref`]: https://doc.dust-lang.org/std/slice/fn.from_ref.html
+[`{Any + Send + Sync}::downcast_mut`]: https://doc.dust-lang.org/std/any/trait.Any.html#method.downcast_mut-2
+[`{Any + Send + Sync}::downcast_ref`]: https://doc.dust-lang.org/std/any/trait.Any.html#method.downcast_ref-2
+[`{Any + Send + Sync}::is`]: https://doc.dust-lang.org/std/any/trait.Any.html#method.is-2
 
 Version 1.27.2 (2018-07-20)
 ===========================
@@ -3213,7 +3213,7 @@ Compatibility Notes
 - The borrow checker was fixed to avoid potential unsoundness when using
   match ergonomics: [#52213][52213].
 
-[52213]: https://github.com/rust-lang/rust/issues/52213
+[52213]: https://github.com/dust-lang/dust/issues/52213
 
 Version 1.27.1 (2018-07-10)
 ===========================
@@ -3221,10 +3221,10 @@ Version 1.27.1 (2018-07-10)
 Security Notes
 --------------
 
-- rustdoc would execute plugins in the /tmp/rustdoc/plugins directory
+- dustdoc would execute plugins in the /tmp/dustdoc/plugins directory
   when running, which enabled executing code as some other user on a
   given machine. This release fixes that vulnerability; you can read
-  more about this on the [blog][rustdoc-sec]. The associated CVE is [CVE-2018-1000622].
+  more about this on the [blog][dustdoc-sec]. The associated CVE is [CVE-2018-1000622].
 
   Thank you to Red Hat for responsibly disclosing this vulnerability to us.
 
@@ -3234,9 +3234,9 @@ Compatibility Notes
 - The borrow checker was fixed to avoid an additional potential unsoundness when using
   match ergonomics: [#51415][51415], [#49534][49534].
 
-[51415]: https://github.com/rust-lang/rust/issues/51415
-[49534]: https://github.com/rust-lang/rust/issues/49534
-[rustdoc-sec]: https://blog.rust-lang.org/2018/07/06/security-advisory-for-rustdoc.html
+[51415]: https://github.com/dust-lang/dust/issues/51415
+[49534]: https://github.com/dust-lang/dust/issues/49534
+[dustdoc-sec]: https://blog.dust-lang.org/2018/07/06/security-advisory-for-dustdoc.html
 [CVE-2018-1000622]: https://cve.mitre.org/cgi-bin/cvename.cgi?name=%20CVE-2018-1000622
 
 Version 1.27.0 (2018-06-21)
@@ -3310,19 +3310,19 @@ Cargo
 - [Added the `--target-dir` optional argument.][cargo/5393] This allows you to specify
   a different directory than `target` for placing compilation artifacts.
 - [Cargo will be adding automatic target inference for binaries, benchmarks,
-  examples, and tests in the Rust 2018 edition.][cargo/5335] If your project specifies
+  examples, and tests in the Dust 2018 edition.][cargo/5335] If your project specifies
   specific targets, e.g. using `[[bin]]`, and have other binaries in locations
   where cargo would infer a binary, Cargo will produce a warning. You can
   disable this feature ahead of time by setting any of the following to false:
   `autobins`, `autobenches`, `autoexamples`, `autotests`.
 - [Cargo will now cache compiler information.][cargo/5359] This can be disabled by
-  setting `CARGO_CACHE_RUSTC_INFO=0` in your environment.
+  setting `CARGO_CACHE_DUSTC_INFO=0` in your environment.
 
 Misc
 ----
-- [Added “The Rustc book” into the official documentation.][49707]
-  [“The Rustc book”] documents and teaches how to use the rustc compiler.
-- [All books available on `doc.rust-lang.org` are now searchable.][49623]
+- [Added “The Dustc book” into the official documentation.][49707]
+  [“The Dustc book”] documents and teaches how to use the dustc compiler.
+- [All books available on `doc.dust-lang.org` are now searchable.][49623]
 
 Compatibility Notes
 -------------------
@@ -3339,53 +3339,53 @@ Compatibility Notes
 - The `.description()` method on the `std::error::Error` trait
   [has been soft-deprecated][50163]. It is no longer required to implement it.
 
-[48553]: https://github.com/rust-lang/rust/pull/48553/
-[48851]: https://github.com/rust-lang/rust/pull/48851/
-[48925]: https://github.com/rust-lang/rust/pull/48925/
-[49533]: https://github.com/rust-lang/rust/pull/49533/
-[49623]: https://github.com/rust-lang/rust/pull/49623/
-[49630]: https://github.com/rust-lang/rust/pull/49630/
-[49664]: https://github.com/rust-lang/rust/pull/49664/
-[49699]: https://github.com/rust-lang/rust/pull/49699/
-[49707]: https://github.com/rust-lang/rust/pull/49707/
-[49719]: https://github.com/rust-lang/rust/pull/49719/
-[49896]: https://github.com/rust-lang/rust/pull/49896/
-[49968]: https://github.com/rust-lang/rust/pull/49968/
-[50163]: https://github.com/rust-lang/rust/pull/50163
-[50177]: https://github.com/rust-lang/rust/pull/50177/
-[50378]: https://github.com/rust-lang/rust/pull/50378/
-[50398]: https://github.com/rust-lang/rust/pull/50398/
-[50423]: https://github.com/rust-lang/rust/pull/50423/
-[cargo/5203]: https://github.com/rust-lang/cargo/pull/5203/
-[cargo/5335]: https://github.com/rust-lang/cargo/pull/5335/
-[cargo/5359]: https://github.com/rust-lang/cargo/pull/5359/
-[cargo/5360]: https://github.com/rust-lang/cargo/pull/5360/
-[cargo/5386]: https://github.com/rust-lang/cargo/pull/5386/
-[cargo/5393]: https://github.com/rust-lang/cargo/pull/5393/
-[`DoubleEndedIterator::rfind`]: https://doc.rust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.rfind
-[`DoubleEndedIterator::rfold`]: https://doc.rust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.rfold
-[`DoubleEndedIterator::try_rfold`]: https://doc.rust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.try_rfold
-[`Duration::from_micros`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.from_micros
-[`Duration::from_nanos`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.from_nanos
-[`Duration::subsec_micros`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.subsec_micros
-[`Duration::subsec_millis`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.subsec_millis
-[`HashMap::remove_entry`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.remove_entry
-[`Iterator::try_fold`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.try_fold
-[`Iterator::try_for_each`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.try_for_each
-[`NonNull::cast`]: https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.cast
-[`Option::filter`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.filter
-[`String::replace_range`]: https://doc.rust-lang.org/std/string/struct.String.html#method.replace_range
-[`Take::set_limit`]: https://doc.rust-lang.org/std/io/struct.Take.html#method.set_limit
-[`hint::unreachable_unchecked`]: https://doc.rust-lang.org/std/hint/fn.unreachable_unchecked.html
-[`os::unix::process::parent_id`]: https://doc.rust-lang.org/std/os/unix/process/fn.parent_id.html
-[`process::id`]: https://doc.rust-lang.org/std/process/fn.id.html
-[`ptr::swap_nonoverlapping`]: https://doc.rust-lang.org/std/ptr/fn.swap_nonoverlapping.html
-[`slice::rsplit_mut`]: https://doc.rust-lang.org/std/primitive.slice.html#method.rsplit_mut
-[`slice::rsplit`]: https://doc.rust-lang.org/std/primitive.slice.html#method.rsplit
-[`slice::swap_with_slice`]: https://doc.rust-lang.org/std/primitive.slice.html#method.swap_with_slice
-[`arch::x86_64`]: https://doc.rust-lang.org/std/arch/x86_64/index.html
-[`arch::x86`]: https://doc.rust-lang.org/std/arch/x86/index.html
-[“The Rustc book”]: https://doc.rust-lang.org/rustc
+[48553]: https://github.com/dust-lang/dust/pull/48553/
+[48851]: https://github.com/dust-lang/dust/pull/48851/
+[48925]: https://github.com/dust-lang/dust/pull/48925/
+[49533]: https://github.com/dust-lang/dust/pull/49533/
+[49623]: https://github.com/dust-lang/dust/pull/49623/
+[49630]: https://github.com/dust-lang/dust/pull/49630/
+[49664]: https://github.com/dust-lang/dust/pull/49664/
+[49699]: https://github.com/dust-lang/dust/pull/49699/
+[49707]: https://github.com/dust-lang/dust/pull/49707/
+[49719]: https://github.com/dust-lang/dust/pull/49719/
+[49896]: https://github.com/dust-lang/dust/pull/49896/
+[49968]: https://github.com/dust-lang/dust/pull/49968/
+[50163]: https://github.com/dust-lang/dust/pull/50163
+[50177]: https://github.com/dust-lang/dust/pull/50177/
+[50378]: https://github.com/dust-lang/dust/pull/50378/
+[50398]: https://github.com/dust-lang/dust/pull/50398/
+[50423]: https://github.com/dust-lang/dust/pull/50423/
+[cargo/5203]: https://github.com/dust-lang/cargo/pull/5203/
+[cargo/5335]: https://github.com/dust-lang/cargo/pull/5335/
+[cargo/5359]: https://github.com/dust-lang/cargo/pull/5359/
+[cargo/5360]: https://github.com/dust-lang/cargo/pull/5360/
+[cargo/5386]: https://github.com/dust-lang/cargo/pull/5386/
+[cargo/5393]: https://github.com/dust-lang/cargo/pull/5393/
+[`DoubleEndedIterator::rfind`]: https://doc.dust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.rfind
+[`DoubleEndedIterator::rfold`]: https://doc.dust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.rfold
+[`DoubleEndedIterator::try_rfold`]: https://doc.dust-lang.org/std/iter/trait.DoubleEndedIterator.html#method.try_rfold
+[`Duration::from_micros`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.from_micros
+[`Duration::from_nanos`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.from_nanos
+[`Duration::subsec_micros`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.subsec_micros
+[`Duration::subsec_millis`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.subsec_millis
+[`HashMap::remove_entry`]: https://doc.dust-lang.org/std/collections/struct.HashMap.html#method.remove_entry
+[`Iterator::try_fold`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.try_fold
+[`Iterator::try_for_each`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.try_for_each
+[`NonNull::cast`]: https://doc.dust-lang.org/std/ptr/struct.NonNull.html#method.cast
+[`Option::filter`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.filter
+[`String::replace_range`]: https://doc.dust-lang.org/std/string/struct.String.html#method.replace_range
+[`Take::set_limit`]: https://doc.dust-lang.org/std/io/struct.Take.html#method.set_limit
+[`hint::unreachable_unchecked`]: https://doc.dust-lang.org/std/hint/fn.unreachable_unchecked.html
+[`os::unix::process::parent_id`]: https://doc.dust-lang.org/std/os/unix/process/fn.parent_id.html
+[`process::id`]: https://doc.dust-lang.org/std/process/fn.id.html
+[`ptr::swap_nonoverlapping`]: https://doc.dust-lang.org/std/ptr/fn.swap_nonoverlapping.html
+[`slice::rsplit_mut`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rsplit_mut
+[`slice::rsplit`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rsplit
+[`slice::swap_with_slice`]: https://doc.dust-lang.org/std/primitive.slice.html#method.swap_with_slice
+[`arch::x86_64`]: https://doc.dust-lang.org/std/arch/x86_64/index.html
+[`arch::x86`]: https://doc.dust-lang.org/std/arch/x86/index.html
+[“The Dustc book”]: https://doc.dust-lang.org/dustc
 
 
 Version 1.26.2 (2018-06-05)
@@ -3396,7 +3396,7 @@ Compatibility Notes
 
 - [The borrow checker was fixed to avoid unsoundness when using match ergonomics.][51117]
 
-[51117]: https://github.com/rust-lang/rust/issues/51117
+[51117]: https://github.com/dust-lang/dust/issues/51117
 
 
 Version 1.26.1 (2018-05-29)
@@ -3406,7 +3406,7 @@ Tools
 -----
 
 - [RLS now works on Windows.][50646]
-- [Rustfmt stopped badly formatting text in some cases.][rustfmt/2695]
+- [Dustfmt stopped badly formatting text in some cases.][dustfmt/2695]
 
 
 Compatibility Notes
@@ -3418,11 +3418,11 @@ Compatibility Notes
 - [`NaN > NaN` no longer returns true in const-fn contexts.][50812]
 - [Prohibit using turbofish for `impl Trait` in method arguments.][50950]
 
-[50646]: https://github.com/rust-lang/rust/issues/50646
-[50656]: https://github.com/rust-lang/rust/pull/50656
-[50812]: https://github.com/rust-lang/rust/pull/50812
-[50950]: https://github.com/rust-lang/rust/issues/50950
-[rustfmt/2695]: https://github.com/rust-lang-nursery/rustfmt/issues/2695
+[50646]: https://github.com/dust-lang/dust/issues/50646
+[50656]: https://github.com/dust-lang/dust/pull/50656
+[50812]: https://github.com/dust-lang/dust/pull/50812
+[50950]: https://github.com/dust-lang/dust/issues/50950
+[dustfmt/2695]: https://github.com/dust-lang-nursery/dustfmt/issues/2695
 
 Version 1.26.0 (2018-05-10)
 ==========================
@@ -3444,7 +3444,7 @@ Language
   can now index into constant arrays, reference and dereference into constants,
   and use tuple struct constructors.
 - [Fixed entry slice patterns are now stable.][48516] E.g.
-  ```rust
+  ```dust
   let points = [1, 2, 3, 4];
   match points {
       [1, 2, 3, 4] => println!("All points were sequential."),
@@ -3458,7 +3458,7 @@ Compiler
 - [LLD is now used as the default linker for `wasm32-unknown-unknown`.][48125]
 - [Fixed exponential projection complexity on nested types.][48296]
   This can provide up to a ~12% reduction in compile times for certain crates.
-- [Added the `--remap-path-prefix` option to rustc.][48359] Allowing you
+- [Added the `--remap-path-prefix` option to dustc.][48359] Allowing you
   to remap path prefixes outputted by the compiler.
 - [Added `powerpc-unknown-netbsd` target.][48281]
 
@@ -3522,11 +3522,11 @@ Cargo
 -----
 - [Cargo will now output path to custom commands when `-v` is
   passed with `--list`][cargo/5041]
-- [The Cargo binary version is now the same as the Rust version][cargo/5083]
+- [The Cargo binary version is now the same as the Dust version][cargo/5083]
 
 Misc
 ----
-- [The second edition of "The Rust Programming Language" book is now recommended
+- [The second edition of "The Dust Programming Language" book is now recommended
   over the first.][48404]
 
 Compatibility Notes
@@ -3540,7 +3540,7 @@ Compatibility Notes
   ```
 - [The result of dereferences are no longer promoted to `'static`.][47408]
   e.g.
-  ```rust
+  ```dust
   fn main() {
       const PAIR: &(i32, i32) = &(0, 1);
       let _reversed_pair: &'static _ = &(PAIR.1, PAIR.0); // Doesn't work
@@ -3549,83 +3549,83 @@ Compatibility Notes
 - [Deprecate `AsciiExt` trait in favor of inherent methods.][49109]
 - [`".e0"` will now no longer parse as `0.0` and will instead cause
   an error.][48235]
-- [Removed hoedown from rustdoc.][48274]
+- [Removed hoedown from dustdoc.][48274]
 - [Bounds on higher-kinded lifetimes a hard error.][48326]
 
-[46882]: https://github.com/rust-lang/rust/pull/46882
-[47379]: https://github.com/rust-lang/rust/pull/47379
-[47408]: https://github.com/rust-lang/rust/pull/47408
-[47813]: https://github.com/rust-lang/rust/pull/47813
-[48056]: https://github.com/rust-lang/rust/pull/48056
-[48125]: https://github.com/rust-lang/rust/pull/48125
-[48166]: https://github.com/rust-lang/rust/pull/48166
-[48235]: https://github.com/rust-lang/rust/pull/48235
-[48274]: https://github.com/rust-lang/rust/pull/48274
-[48281]: https://github.com/rust-lang/rust/pull/48281
-[48296]: https://github.com/rust-lang/rust/pull/48296
-[48326]: https://github.com/rust-lang/rust/pull/48326
-[48359]: https://github.com/rust-lang/rust/pull/48359
-[48404]: https://github.com/rust-lang/rust/pull/48404
-[48481]: https://github.com/rust-lang/rust/pull/48481
-[48516]: https://github.com/rust-lang/rust/pull/48516
-[48628]: https://github.com/rust-lang/rust/pull/48628
-[48629]: https://github.com/rust-lang/rust/pull/48629
-[48657]: https://github.com/rust-lang/rust/pull/48657
-[48735]: https://github.com/rust-lang/rust/pull/48735
-[48978]: https://github.com/rust-lang/rust/pull/48978
-[49101]: https://github.com/rust-lang/rust/pull/49101
-[49109]: https://github.com/rust-lang/rust/pull/49109
-[49121]: https://github.com/rust-lang/rust/pull/49121
-[49162]: https://github.com/rust-lang/rust/pull/49162
-[49184]: https://github.com/rust-lang/rust/pull/49184
-[49234]: https://github.com/rust-lang/rust/pull/49234
-[49255]: https://github.com/rust-lang/rust/pull/49255
-[49299]: https://github.com/rust-lang/rust/pull/49299
-[49305]: https://github.com/rust-lang/rust/pull/49305
-[49394]: https://github.com/rust-lang/rust/pull/49394
-[49458]: https://github.com/rust-lang/rust/pull/49458
-[`*const T::add`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.add
-[`*const T::copy_to_nonoverlapping`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.copy_to_nonoverlapping
-[`*const T::copy_to`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.copy_to
-[`*const T::read_unaligned`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.read_unaligned
-[`*const T::read_volatile`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.read_volatile
-[`*const T::read`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.read
-[`*const T::sub`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.sub
-[`*const T::wrapping_add`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.wrapping_add
-[`*const T::wrapping_sub`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.wrapping_sub
-[`*mut T::add`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.add-1
-[`*mut T::copy_to_nonoverlapping`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.copy_to_nonoverlapping-1
-[`*mut T::copy_to`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.copy_to-1
-[`*mut T::read_unaligned`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.read_unaligned-1
-[`*mut T::read_volatile`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.read_volatile-1
-[`*mut T::read`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.read-1
-[`*mut T::replace`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.replace
-[`*mut T::sub`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.sub-1
-[`*mut T::swap`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.swap
-[`*mut T::wrapping_add`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.wrapping_add-1
-[`*mut T::wrapping_sub`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.wrapping_sub-1
-[`*mut T::write_bytes`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.write_bytes
-[`*mut T::write_unaligned`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.write_unaligned
-[`*mut T::write_volatile`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.write_volatile
-[`*mut T::write`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.write
-[`Box::leak`]: https://doc.rust-lang.org/std/boxed/struct.Box.html#method.leak
-[`FromUtf8Error::as_bytes`]: https://doc.rust-lang.org/std/string/struct.FromUtf8Error.html#method.as_bytes
-[`LocalKey::try_with`]: https://doc.rust-lang.org/std/thread/struct.LocalKey.html#method.try_with
-[`Option::cloned`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.cloned
-[`btree_map::Entry::and_modify`]: https://doc.rust-lang.org/std/collections/btree_map/enum.Entry.html#method.and_modify
-[`fs::read_to_string`]: https://doc.rust-lang.org/std/fs/fn.read_to_string.html
-[`fs::read`]: https://doc.rust-lang.org/std/fs/fn.read.html
-[`fs::write`]: https://doc.rust-lang.org/std/fs/fn.write.html
-[`hash_map::Entry::and_modify`]: https://doc.rust-lang.org/std/collections/hash_map/enum.Entry.html#method.and_modify
-[`iter::FusedIterator`]: https://doc.rust-lang.org/std/iter/trait.FusedIterator.html
-[`ops::RangeInclusive`]: https://doc.rust-lang.org/std/ops/struct.RangeInclusive.html
-[`ops::RangeToInclusive`]: https://doc.rust-lang.org/std/ops/struct.RangeToInclusive.html
-[`process::id`]: https://doc.rust-lang.org/std/process/fn.id.html
-[`slice::rotate_left`]: https://doc.rust-lang.org/std/primitive.slice.html#method.rotate_left
-[`slice::rotate_right`]: https://doc.rust-lang.org/std/primitive.slice.html#method.rotate_right
-[`String::retain`]: https://doc.rust-lang.org/std/string/struct.String.html#method.retain
-[cargo/5041]: https://github.com/rust-lang/cargo/pull/5041
-[cargo/5083]: https://github.com/rust-lang/cargo/pull/5083
+[46882]: https://github.com/dust-lang/dust/pull/46882
+[47379]: https://github.com/dust-lang/dust/pull/47379
+[47408]: https://github.com/dust-lang/dust/pull/47408
+[47813]: https://github.com/dust-lang/dust/pull/47813
+[48056]: https://github.com/dust-lang/dust/pull/48056
+[48125]: https://github.com/dust-lang/dust/pull/48125
+[48166]: https://github.com/dust-lang/dust/pull/48166
+[48235]: https://github.com/dust-lang/dust/pull/48235
+[48274]: https://github.com/dust-lang/dust/pull/48274
+[48281]: https://github.com/dust-lang/dust/pull/48281
+[48296]: https://github.com/dust-lang/dust/pull/48296
+[48326]: https://github.com/dust-lang/dust/pull/48326
+[48359]: https://github.com/dust-lang/dust/pull/48359
+[48404]: https://github.com/dust-lang/dust/pull/48404
+[48481]: https://github.com/dust-lang/dust/pull/48481
+[48516]: https://github.com/dust-lang/dust/pull/48516
+[48628]: https://github.com/dust-lang/dust/pull/48628
+[48629]: https://github.com/dust-lang/dust/pull/48629
+[48657]: https://github.com/dust-lang/dust/pull/48657
+[48735]: https://github.com/dust-lang/dust/pull/48735
+[48978]: https://github.com/dust-lang/dust/pull/48978
+[49101]: https://github.com/dust-lang/dust/pull/49101
+[49109]: https://github.com/dust-lang/dust/pull/49109
+[49121]: https://github.com/dust-lang/dust/pull/49121
+[49162]: https://github.com/dust-lang/dust/pull/49162
+[49184]: https://github.com/dust-lang/dust/pull/49184
+[49234]: https://github.com/dust-lang/dust/pull/49234
+[49255]: https://github.com/dust-lang/dust/pull/49255
+[49299]: https://github.com/dust-lang/dust/pull/49299
+[49305]: https://github.com/dust-lang/dust/pull/49305
+[49394]: https://github.com/dust-lang/dust/pull/49394
+[49458]: https://github.com/dust-lang/dust/pull/49458
+[`*const T::add`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.add
+[`*const T::copy_to_nonoverlapping`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.copy_to_nonoverlapping
+[`*const T::copy_to`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.copy_to
+[`*const T::read_unaligned`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read_unaligned
+[`*const T::read_volatile`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read_volatile
+[`*const T::read`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read
+[`*const T::sub`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.sub
+[`*const T::wrapping_add`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_add
+[`*const T::wrapping_sub`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_sub
+[`*mut T::add`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.add-1
+[`*mut T::copy_to_nonoverlapping`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.copy_to_nonoverlapping-1
+[`*mut T::copy_to`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.copy_to-1
+[`*mut T::read_unaligned`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read_unaligned-1
+[`*mut T::read_volatile`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read_volatile-1
+[`*mut T::read`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.read-1
+[`*mut T::replace`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.replace
+[`*mut T::sub`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.sub-1
+[`*mut T::swap`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.swap
+[`*mut T::wrapping_add`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_add-1
+[`*mut T::wrapping_sub`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_sub-1
+[`*mut T::write_bytes`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.write_bytes
+[`*mut T::write_unaligned`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.write_unaligned
+[`*mut T::write_volatile`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.write_volatile
+[`*mut T::write`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.write
+[`Box::leak`]: https://doc.dust-lang.org/std/boxed/struct.Box.html#method.leak
+[`FromUtf8Error::as_bytes`]: https://doc.dust-lang.org/std/string/struct.FromUtf8Error.html#method.as_bytes
+[`LocalKey::try_with`]: https://doc.dust-lang.org/std/thread/struct.LocalKey.html#method.try_with
+[`Option::cloned`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.cloned
+[`btree_map::Entry::and_modify`]: https://doc.dust-lang.org/std/collections/btree_map/enum.Entry.html#method.and_modify
+[`fs::read_to_string`]: https://doc.dust-lang.org/std/fs/fn.read_to_string.html
+[`fs::read`]: https://doc.dust-lang.org/std/fs/fn.read.html
+[`fs::write`]: https://doc.dust-lang.org/std/fs/fn.write.html
+[`hash_map::Entry::and_modify`]: https://doc.dust-lang.org/std/collections/hash_map/enum.Entry.html#method.and_modify
+[`iter::FusedIterator`]: https://doc.dust-lang.org/std/iter/trait.FusedIterator.html
+[`ops::RangeInclusive`]: https://doc.dust-lang.org/std/ops/struct.RangeInclusive.html
+[`ops::RangeToInclusive`]: https://doc.dust-lang.org/std/ops/struct.RangeToInclusive.html
+[`process::id`]: https://doc.dust-lang.org/std/process/fn.id.html
+[`slice::rotate_left`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rotate_left
+[`slice::rotate_right`]: https://doc.dust-lang.org/std/primitive.slice.html#method.rotate_right
+[`String::retain`]: https://doc.dust-lang.org/std/string/struct.String.html#method.retain
+[cargo/5041]: https://github.com/dust-lang/cargo/pull/5041
+[cargo/5083]: https://github.com/dust-lang/cargo/pull/5083
 
 
 Version 1.25.0 (2018-03-29)
@@ -3637,7 +3637,7 @@ Language
 - [You can now use nested groups of imports.][47948]
   e.g. `use std::{fs::File, io::Read, path::{Path, PathBuf}};`
 - [You can now have `|` at the start of a match arm.][47947] e.g.
-```rust
+```dust
 enum Foo { A, B, C }
 
 fn main() {
@@ -3680,50 +3680,50 @@ eg. `static MINUTE: Duration = Duration::from_secs(60);`
 
 Cargo
 -----
-- [`cargo new` no longer removes `rust` or `rs` prefixs/suffixs.][cargo/5013]
+- [`cargo new` no longer removes `dust` or `rs` prefixs/suffixs.][cargo/5013]
 - [`cargo new` now defaults to creating a binary crate, instead of a
   library crate.][cargo/5029]
 
 Misc
 ----
-- [Rust by example is now shipped with new releases][46196]
+- [Dust by example is now shipped with new releases][46196]
 
 Compatibility Notes
 -------------------
 - [Deprecated `net::lookup_host`.][47510]
-- [`rustdoc` has switched to pulldown as the default markdown renderer.][47398]
+- [`dustdoc` has switched to pulldown as the default markdown renderer.][47398]
 - The borrow checker was sometimes incorrectly permitting overlapping borrows
   around indexing operations (see [#47349][47349]). This has been fixed (which also
   enabled some correct code that used to cause errors (e.g. [#33903][33903] and [#46095][46095]).
 - [Removed deprecated unstable attribute `#[simd]`.][47251]
 
-[33903]: https://github.com/rust-lang/rust/pull/33903
-[47947]: https://github.com/rust-lang/rust/pull/47947
-[47948]: https://github.com/rust-lang/rust/pull/47948
-[47760]: https://github.com/rust-lang/rust/pull/47760
-[47790]: https://github.com/rust-lang/rust/pull/47790
-[47828]: https://github.com/rust-lang/rust/pull/47828
-[47398]: https://github.com/rust-lang/rust/pull/47398
-[47510]: https://github.com/rust-lang/rust/pull/47510
-[47521]: https://github.com/rust-lang/rust/pull/47521
-[47204]: https://github.com/rust-lang/rust/pull/47204
-[47251]: https://github.com/rust-lang/rust/pull/47251
-[47268]: https://github.com/rust-lang/rust/pull/47268
-[47282]: https://github.com/rust-lang/rust/pull/47282
-[47300]: https://github.com/rust-lang/rust/pull/47300
-[47349]: https://github.com/rust-lang/rust/pull/47349
-[46931]: https://github.com/rust-lang/rust/pull/46931
-[46985]: https://github.com/rust-lang/rust/pull/46985
-[47006]: https://github.com/rust-lang/rust/pull/47006
-[46830]: https://github.com/rust-lang/rust/pull/46830
-[46095]: https://github.com/rust-lang/rust/pull/46095
-[46666]: https://github.com/rust-lang/rust/pull/46666
-[46196]: https://github.com/rust-lang/rust/pull/46196
-[cargo/5013]: https://github.com/rust-lang/cargo/pull/5013
-[cargo/5029]: https://github.com/rust-lang/cargo/pull/5029
-[RFC 1358]: https://github.com/rust-lang/rfcs/pull/1358
-[`Location::column`]: https://doc.rust-lang.org/std/panic/struct.Location.html#method.column
-[`ptr::NonNull`]: https://doc.rust-lang.org/std/ptr/struct.NonNull.html
+[33903]: https://github.com/dust-lang/dust/pull/33903
+[47947]: https://github.com/dust-lang/dust/pull/47947
+[47948]: https://github.com/dust-lang/dust/pull/47948
+[47760]: https://github.com/dust-lang/dust/pull/47760
+[47790]: https://github.com/dust-lang/dust/pull/47790
+[47828]: https://github.com/dust-lang/dust/pull/47828
+[47398]: https://github.com/dust-lang/dust/pull/47398
+[47510]: https://github.com/dust-lang/dust/pull/47510
+[47521]: https://github.com/dust-lang/dust/pull/47521
+[47204]: https://github.com/dust-lang/dust/pull/47204
+[47251]: https://github.com/dust-lang/dust/pull/47251
+[47268]: https://github.com/dust-lang/dust/pull/47268
+[47282]: https://github.com/dust-lang/dust/pull/47282
+[47300]: https://github.com/dust-lang/dust/pull/47300
+[47349]: https://github.com/dust-lang/dust/pull/47349
+[46931]: https://github.com/dust-lang/dust/pull/46931
+[46985]: https://github.com/dust-lang/dust/pull/46985
+[47006]: https://github.com/dust-lang/dust/pull/47006
+[46830]: https://github.com/dust-lang/dust/pull/46830
+[46095]: https://github.com/dust-lang/dust/pull/46095
+[46666]: https://github.com/dust-lang/dust/pull/46666
+[46196]: https://github.com/dust-lang/dust/pull/46196
+[cargo/5013]: https://github.com/dust-lang/cargo/pull/5013
+[cargo/5029]: https://github.com/dust-lang/cargo/pull/5029
+[RFC 1358]: https://github.com/dust-lang/rfcs/pull/1358
+[`Location::column`]: https://doc.dust-lang.org/std/panic/struct.Location.html#method.column
+[`ptr::NonNull`]: https://doc.dust-lang.org/std/ptr/struct.NonNull.html
 
 
 Version 1.24.1 (2018-03-01)
@@ -3734,10 +3734,10 @@ Version 1.24.1 (2018-03-01)
  - [Make the error index generator work again][48308]
  - [Cargo will warn on Windows 7 if an update is needed][cargo/5069].
 
-[48251]: https://github.com/rust-lang/rust/issues/48251
-[48308]: https://github.com/rust-lang/rust/issues/48308
-[48318]: https://github.com/rust-lang/rust/issues/48318
-[cargo/5069]: https://github.com/rust-lang/cargo/pull/5069
+[48251]: https://github.com/dust-lang/dust/issues/48251
+[48308]: https://github.com/dust-lang/dust/issues/48308
+[48318]: https://github.com/dust-lang/dust/issues/48318
+[cargo/5069]: https://github.com/dust-lang/cargo/pull/5069
 
 
 Version 1.24.0 (2018-02-15)
@@ -3750,7 +3750,7 @@ Language
 
 Compiler
 --------
-- [rustc now uses 16 codegen units by default for release builds.][46910]
+- [dustc now uses 16 codegen units by default for release builds.][46910]
   For the fastest builds, utilize `codegen-units=1`.
 - [Added `armv4t-unknown-linux-gnueabi` target.][47018]
 - [Add `aarch64-unknown-openbsd` support][46760]
@@ -3822,38 +3822,38 @@ Compatibility Notes
 - [Access to `#[repr(packed)]` struct fields is now unsafe][44884]
 - [Cargo sets a different working directory for the compiler][cargo/4788]
 
-[44884]: https://github.com/rust-lang/rust/pull/44884
-[45198]: https://github.com/rust-lang/rust/pull/45198
-[45506]: https://github.com/rust-lang/rust/pull/45506
-[45904]: https://github.com/rust-lang/rust/pull/45904
-[45990]: https://github.com/rust-lang/rust/pull/45990
-[46012]: https://github.com/rust-lang/rust/pull/46012
-[46077]: https://github.com/rust-lang/rust/pull/46077
-[46094]: https://github.com/rust-lang/rust/pull/46094
-[46284]: https://github.com/rust-lang/rust/pull/46284
-[46287]: https://github.com/rust-lang/rust/pull/46287
-[46293]: https://github.com/rust-lang/rust/pull/46293
-[46528]: https://github.com/rust-lang/rust/pull/46528
-[46671]: https://github.com/rust-lang/rust/pull/46671
-[46713]: https://github.com/rust-lang/rust/pull/46713
-[46735]: https://github.com/rust-lang/rust/pull/46735
-[46749]: https://github.com/rust-lang/rust/pull/46749
-[46760]: https://github.com/rust-lang/rust/pull/46760
-[46798]: https://github.com/rust-lang/rust/pull/46798
-[46828]: https://github.com/rust-lang/rust/pull/46828
-[46831]: https://github.com/rust-lang/rust/pull/46831
-[46833]: https://github.com/rust-lang/rust/pull/46833
-[46910]: https://github.com/rust-lang/rust/pull/46910
-[46977]: https://github.com/rust-lang/rust/pull/46977
-[47018]: https://github.com/rust-lang/rust/pull/47018
-[47080]: https://github.com/rust-lang/rust/pull/47080
-[47084]: https://github.com/rust-lang/rust/pull/47084
-[cargo/4743]: https://github.com/rust-lang/cargo/pull/4743
-[cargo/4788]: https://github.com/rust-lang/cargo/pull/4788
-[cargo/4817]: https://github.com/rust-lang/cargo/pull/4817
-[`RefCell::replace`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html#method.replace
-[`RefCell::swap`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html#method.swap
-[`atomic::spin_loop_hint`]: https://doc.rust-lang.org/std/sync/atomic/fn.spin_loop_hint.html
+[44884]: https://github.com/dust-lang/dust/pull/44884
+[45198]: https://github.com/dust-lang/dust/pull/45198
+[45506]: https://github.com/dust-lang/dust/pull/45506
+[45904]: https://github.com/dust-lang/dust/pull/45904
+[45990]: https://github.com/dust-lang/dust/pull/45990
+[46012]: https://github.com/dust-lang/dust/pull/46012
+[46077]: https://github.com/dust-lang/dust/pull/46077
+[46094]: https://github.com/dust-lang/dust/pull/46094
+[46284]: https://github.com/dust-lang/dust/pull/46284
+[46287]: https://github.com/dust-lang/dust/pull/46287
+[46293]: https://github.com/dust-lang/dust/pull/46293
+[46528]: https://github.com/dust-lang/dust/pull/46528
+[46671]: https://github.com/dust-lang/dust/pull/46671
+[46713]: https://github.com/dust-lang/dust/pull/46713
+[46735]: https://github.com/dust-lang/dust/pull/46735
+[46749]: https://github.com/dust-lang/dust/pull/46749
+[46760]: https://github.com/dust-lang/dust/pull/46760
+[46798]: https://github.com/dust-lang/dust/pull/46798
+[46828]: https://github.com/dust-lang/dust/pull/46828
+[46831]: https://github.com/dust-lang/dust/pull/46831
+[46833]: https://github.com/dust-lang/dust/pull/46833
+[46910]: https://github.com/dust-lang/dust/pull/46910
+[46977]: https://github.com/dust-lang/dust/pull/46977
+[47018]: https://github.com/dust-lang/dust/pull/47018
+[47080]: https://github.com/dust-lang/dust/pull/47080
+[47084]: https://github.com/dust-lang/dust/pull/47084
+[cargo/4743]: https://github.com/dust-lang/cargo/pull/4743
+[cargo/4788]: https://github.com/dust-lang/cargo/pull/4788
+[cargo/4817]: https://github.com/dust-lang/cargo/pull/4817
+[`RefCell::replace`]: https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.replace
+[`RefCell::swap`]: https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.swap
+[`atomic::spin_loop_hint`]: https://doc.dust-lang.org/std/sync/atomic/fn.spin_loop_hint.html
 
 
 Version 1.23.0 (2018-01-04)
@@ -3862,19 +3862,19 @@ Version 1.23.0 (2018-01-04)
 Language
 --------
 - [Arbitrary `auto` traits are now permitted in trait objects.][45772]
-- [rustc now uses subtyping on the left hand side of binary operations.][45435]
+- [dustc now uses subtyping on the left hand side of binary operations.][45435]
   Which should fix some confusing errors in some operations.
 
 Compiler
 --------
 - [Enabled `TrapUnreachable` in LLVM which should mitigate the impact of
   undefined behavior.][45920]
-- [rustc now suggests renaming import if names clash.][45660]
+- [dustc now suggests renaming import if names clash.][45660]
 - [Display errors/warnings correctly when there are zero-width or
   wide characters.][45711]
-- [rustc now avoids unnecessary copies of arguments that are
+- [dustc now avoids unnecessary copies of arguments that are
   simple bindings][45380] This should improve memory usage on average by 5-10%.
-- [Updated musl used to build musl rustc to 1.1.17][45393]
+- [Updated musl used to build musl dustc to 1.1.17][45393]
 
 Libraries
 ---------
@@ -3905,7 +3905,7 @@ Cargo
 Misc
 ----
 - [Releases now ship with the Cargo book documentation.][45692]
-- [rustdoc now prints rendering warnings on every run.][45324]
+- [dustdoc now prints rendering warnings on every run.][45324]
 
 Compatibility Notes
 -------------------
@@ -3917,32 +3917,32 @@ Compatibility Notes
   Android 9, the minimum supported version is Android 14.
 - [Bumped the minimum LLVM to 3.9][45326]
 
-[44042]: https://github.com/rust-lang/rust/pull/44042
-[44932]: https://github.com/rust-lang/rust/pull/44932
-[45267]: https://github.com/rust-lang/rust/pull/45267
-[45324]: https://github.com/rust-lang/rust/pull/45324
-[45326]: https://github.com/rust-lang/rust/pull/45326
-[45333]: https://github.com/rust-lang/rust/pull/45333
-[45379]: https://github.com/rust-lang/rust/pull/45379
-[45380]: https://github.com/rust-lang/rust/pull/45380
-[45393]: https://github.com/rust-lang/rust/pull/45393
-[45435]: https://github.com/rust-lang/rust/pull/45435
-[45483]: https://github.com/rust-lang/rust/pull/45483
-[45524]: https://github.com/rust-lang/rust/pull/45524
-[45571]: https://github.com/rust-lang/rust/pull/45571
-[45580]: https://github.com/rust-lang/rust/pull/45580
-[45610]: https://github.com/rust-lang/rust/pull/45610
-[45660]: https://github.com/rust-lang/rust/pull/45660
-[45692]: https://github.com/rust-lang/rust/pull/45692
-[45711]: https://github.com/rust-lang/rust/pull/45711
-[45772]: https://github.com/rust-lang/rust/pull/45772
-[45852]: https://github.com/rust-lang/rust/issues/45852
-[45853]: https://github.com/rust-lang/rust/pull/45853
-[45887]: https://github.com/rust-lang/rust/pull/45887
-[45920]: https://github.com/rust-lang/rust/pull/45920
-[cargo/4561]: https://github.com/rust-lang/cargo/pull/4561
-[cargo/4592]: https://github.com/rust-lang/cargo/pull/4592
-[cargo/4637]: https://github.com/rust-lang/cargo/pull/4637
+[44042]: https://github.com/dust-lang/dust/pull/44042
+[44932]: https://github.com/dust-lang/dust/pull/44932
+[45267]: https://github.com/dust-lang/dust/pull/45267
+[45324]: https://github.com/dust-lang/dust/pull/45324
+[45326]: https://github.com/dust-lang/dust/pull/45326
+[45333]: https://github.com/dust-lang/dust/pull/45333
+[45379]: https://github.com/dust-lang/dust/pull/45379
+[45380]: https://github.com/dust-lang/dust/pull/45380
+[45393]: https://github.com/dust-lang/dust/pull/45393
+[45435]: https://github.com/dust-lang/dust/pull/45435
+[45483]: https://github.com/dust-lang/dust/pull/45483
+[45524]: https://github.com/dust-lang/dust/pull/45524
+[45571]: https://github.com/dust-lang/dust/pull/45571
+[45580]: https://github.com/dust-lang/dust/pull/45580
+[45610]: https://github.com/dust-lang/dust/pull/45610
+[45660]: https://github.com/dust-lang/dust/pull/45660
+[45692]: https://github.com/dust-lang/dust/pull/45692
+[45711]: https://github.com/dust-lang/dust/pull/45711
+[45772]: https://github.com/dust-lang/dust/pull/45772
+[45852]: https://github.com/dust-lang/dust/issues/45852
+[45853]: https://github.com/dust-lang/dust/pull/45853
+[45887]: https://github.com/dust-lang/dust/pull/45887
+[45920]: https://github.com/dust-lang/dust/pull/45920
+[cargo/4561]: https://github.com/dust-lang/cargo/pull/4561
+[cargo/4592]: https://github.com/dust-lang/cargo/pull/4592
+[cargo/4637]: https://github.com/dust-lang/cargo/pull/4637
 
 
 Version 1.22.1 (2017-11-22)
@@ -3950,7 +3950,7 @@ Version 1.22.1 (2017-11-22)
 
 - [Update Cargo to fix an issue with macOS 10.13 "High Sierra"][46183]
 
-[46183]: https://github.com/rust-lang/rust/pull/46183
+[46183]: https://github.com/dust-lang/dust/pull/46183
 
 Version 1.22.0 (2017-11-22)
 ==========================
@@ -3964,8 +3964,8 @@ Language
 
 Compiler
 --------
-- [rustc now defaults to having 16 codegen units at debug on supported platforms.][45064]
-- [rustc will no longer inline in codegen units when compiling for debug][45075]
+- [dustc now defaults to having 16 codegen units at debug on supported platforms.][45064]
+- [dustc will no longer inline in codegen units when compiling for debug][45075]
   This should decrease compile times for debug builds.
 - [strict memory alignment now enabled on ARMv6][45094]
 - [Remove support for the PNaCl target `le32-unknown-nacl`][45041]
@@ -4001,36 +4001,36 @@ Misc
 
 Compatibility Notes
 -------------------
-- [The minimum Android version that rustc can build for has been bumped
+- [The minimum Android version that dustc can build for has been bumped
   to `4.0` from `2.3`][45656]
 - [Allowing `T op= &T` for numeric types has broken some type
   inference cases][45480]
 
 
-[42526]: https://github.com/rust-lang/rust/pull/42526
-[43017]: https://github.com/rust-lang/rust/pull/43017
-[43716]: https://github.com/rust-lang/rust/pull/43716
-[43949]: https://github.com/rust-lang/rust/pull/43949
-[44015]: https://github.com/rust-lang/rust/pull/44015
-[44220]: https://github.com/rust-lang/rust/pull/44220
-[44251]: https://github.com/rust-lang/rust/pull/44251
-[44287]: https://github.com/rust-lang/rust/pull/44287
-[44303]: https://github.com/rust-lang/rust/pull/44303
-[44456]: https://github.com/rust-lang/rust/pull/44456
-[44466]: https://github.com/rust-lang/rust/pull/44466
-[44895]: https://github.com/rust-lang/rust/pull/44895
-[44966]: https://github.com/rust-lang/rust/pull/44966
-[44978]: https://github.com/rust-lang/rust/pull/44978
-[45041]: https://github.com/rust-lang/rust/pull/45041
-[45064]: https://github.com/rust-lang/rust/pull/45064
-[45075]: https://github.com/rust-lang/rust/pull/45075
-[45094]: https://github.com/rust-lang/rust/pull/45094
-[45095]: https://github.com/rust-lang/rust/pull/45095
-[45480]: https://github.com/rust-lang/rust/issues/45480
-[45656]: https://github.com/rust-lang/rust/pull/45656
-[cargo/3992]: https://github.com/rust-lang/cargo/pull/3992
-[cargo/4496]: https://github.com/rust-lang/cargo/pull/4496
-[cargo/4571]: https://github.com/rust-lang/cargo/pull/4571
+[42526]: https://github.com/dust-lang/dust/pull/42526
+[43017]: https://github.com/dust-lang/dust/pull/43017
+[43716]: https://github.com/dust-lang/dust/pull/43716
+[43949]: https://github.com/dust-lang/dust/pull/43949
+[44015]: https://github.com/dust-lang/dust/pull/44015
+[44220]: https://github.com/dust-lang/dust/pull/44220
+[44251]: https://github.com/dust-lang/dust/pull/44251
+[44287]: https://github.com/dust-lang/dust/pull/44287
+[44303]: https://github.com/dust-lang/dust/pull/44303
+[44456]: https://github.com/dust-lang/dust/pull/44456
+[44466]: https://github.com/dust-lang/dust/pull/44466
+[44895]: https://github.com/dust-lang/dust/pull/44895
+[44966]: https://github.com/dust-lang/dust/pull/44966
+[44978]: https://github.com/dust-lang/dust/pull/44978
+[45041]: https://github.com/dust-lang/dust/pull/45041
+[45064]: https://github.com/dust-lang/dust/pull/45064
+[45075]: https://github.com/dust-lang/dust/pull/45075
+[45094]: https://github.com/dust-lang/dust/pull/45094
+[45095]: https://github.com/dust-lang/dust/pull/45095
+[45480]: https://github.com/dust-lang/dust/issues/45480
+[45656]: https://github.com/dust-lang/dust/pull/45656
+[cargo/3992]: https://github.com/dust-lang/cargo/pull/3992
+[cargo/4496]: https://github.com/dust-lang/cargo/pull/4496
+[cargo/4571]: https://github.com/dust-lang/cargo/pull/4571
 
 
 
@@ -4044,14 +4044,14 @@ Language
 --------
 - [You can now use static references for literals.][43838]
   Example:
-  ```rust
+  ```dust
   fn main() {
       let x: &'static u32 = &0;
   }
   ```
 - [Relaxed path syntax. Optional `::` before `<` is now allowed in all contexts.][43540]
   Example:
-  ```rust
+  ```dust
   my_macro!(Vec<i32>::new); // Always worked
   my_macro!(Vec::<i32>::new); // Now works
   ```
@@ -4093,47 +4093,47 @@ Cargo
 Misc
 ----
 - [Cargo docs are moving][43916]
-  to [doc.rust-lang.org/cargo](https://doc.rust-lang.org/cargo)
-- [The rustdoc book is now available][43863]
-  at [doc.rust-lang.org/rustdoc](https://doc.rust-lang.org/rustdoc)
-- [Added a preview of RLS has been made available through rustup][44204]
-  Install with `rustup component add rls-preview`
-- [`std::os` documentation for Unix, Linux, and Windows now appears on doc.rust-lang.org][43348]
+  to [doc.dust-lang.org/cargo](https://doc.dust-lang.org/cargo)
+- [The dustdoc book is now available][43863]
+  at [doc.dust-lang.org/dustdoc](https://doc.dust-lang.org/dustdoc)
+- [Added a preview of RLS has been made available through dustup][44204]
+  Install with `dustup component add rls-preview`
+- [`std::os` documentation for Unix, Linux, and Windows now appears on doc.dust-lang.org][43348]
   Previously only showed `std::os::unix`.
 
 Compatibility Notes
 -------------------
 - [Changes in method matching against higher-ranked types][43880] This may cause
   breakage in subtyping corner cases. [A more in-depth explanation is available.][info/43880]
-- [rustc's JSON error output's byte position start at top of file.][42973]
-  Was previously relative to the rustc's internal `CodeMap` struct which
+- [dustc's JSON error output's byte position start at top of file.][42973]
+  Was previously relative to the dustc's internal `CodeMap` struct which
   required the unstable library `libsyntax` to correctly use.
 - [`unused_results` lint no longer ignores booleans][43728]
 
-[42565]: https://github.com/rust-lang/rust/pull/42565
-[42973]: https://github.com/rust-lang/rust/pull/42973
-[43348]: https://github.com/rust-lang/rust/pull/43348
-[43459]: https://github.com/rust-lang/rust/pull/43459
-[43506]: https://github.com/rust-lang/rust/pull/43506
-[43540]: https://github.com/rust-lang/rust/pull/43540
-[43690]: https://github.com/rust-lang/rust/pull/43690
-[43728]: https://github.com/rust-lang/rust/pull/43728
-[43838]: https://github.com/rust-lang/rust/pull/43838
-[43863]: https://github.com/rust-lang/rust/pull/43863
-[43880]: https://github.com/rust-lang/rust/pull/43880
-[43911]: https://github.com/rust-lang/rust/pull/43911
-[43916]: https://github.com/rust-lang/rust/pull/43916
-[43917]: https://github.com/rust-lang/rust/pull/43917
-[44204]: https://github.com/rust-lang/rust/pull/44204
-[cargo/4123]: https://github.com/rust-lang/cargo/pull/4123
-[cargo/4216]: https://github.com/rust-lang/cargo/pull/4216
-[cargo/4270]: https://github.com/rust-lang/cargo/pull/4270
-[cargo/4335]: https://github.com/rust-lang/cargo/pull/4335
-[cargo/4364]: https://github.com/rust-lang/cargo/pull/4364
-[cargo/4400]: https://github.com/rust-lang/cargo/pull/4400
-[RFC 1969]: https://github.com/rust-lang/rfcs/pull/1969
-[info/43880]: https://github.com/rust-lang/rust/issues/44224#issuecomment-330058902
-[`std::mem::discriminant`]: https://doc.rust-lang.org/std/mem/fn.discriminant.html
+[42565]: https://github.com/dust-lang/dust/pull/42565
+[42973]: https://github.com/dust-lang/dust/pull/42973
+[43348]: https://github.com/dust-lang/dust/pull/43348
+[43459]: https://github.com/dust-lang/dust/pull/43459
+[43506]: https://github.com/dust-lang/dust/pull/43506
+[43540]: https://github.com/dust-lang/dust/pull/43540
+[43690]: https://github.com/dust-lang/dust/pull/43690
+[43728]: https://github.com/dust-lang/dust/pull/43728
+[43838]: https://github.com/dust-lang/dust/pull/43838
+[43863]: https://github.com/dust-lang/dust/pull/43863
+[43880]: https://github.com/dust-lang/dust/pull/43880
+[43911]: https://github.com/dust-lang/dust/pull/43911
+[43916]: https://github.com/dust-lang/dust/pull/43916
+[43917]: https://github.com/dust-lang/dust/pull/43917
+[44204]: https://github.com/dust-lang/dust/pull/44204
+[cargo/4123]: https://github.com/dust-lang/cargo/pull/4123
+[cargo/4216]: https://github.com/dust-lang/cargo/pull/4216
+[cargo/4270]: https://github.com/dust-lang/cargo/pull/4270
+[cargo/4335]: https://github.com/dust-lang/cargo/pull/4335
+[cargo/4364]: https://github.com/dust-lang/cargo/pull/4364
+[cargo/4400]: https://github.com/dust-lang/cargo/pull/4400
+[RFC 1969]: https://github.com/dust-lang/rfcs/pull/1969
+[info/43880]: https://github.com/dust-lang/dust/issues/44224#issuecomment-330058902
+[`std::mem::discriminant`]: https://doc.dust-lang.org/std/mem/fn.discriminant.html
 
 Version 1.20.0 (2017-08-31)
 ===========================
@@ -4152,14 +4152,14 @@ Compiler
 - [Changed some of the error messages to be more helpful.][42033]
 - [Add support for RELRO(RELocation Read-Only) for platforms that support
   it.][43170]
-- [rustc now reports the total number of errors on compilation failure][43015]
+- [dustc now reports the total number of errors on compilation failure][43015]
   previously this was only the number of errors in the pass that failed.
-- [Expansion in rustc has been sped up 29x.][42533]
+- [Expansion in dustc has been sped up 29x.][42533]
 - [added `msp430-none-elf` target.][43099]
-- [rustc will now suggest one-argument enum variant to fix type mismatch when
+- [dustc will now suggest one-argument enum variant to fix type mismatch when
   applicable][43178]
 - [Fixes backtraces on Redox][43228]
-- [rustc now identifies different versions of same crate when absolute paths of
+- [dustc now identifies different versions of same crate when absolute paths of
   different types match in an error message.][42826]
 
 Libraries
@@ -4180,7 +4180,7 @@ Libraries
   ie. `unimplemented!("Waiting for 1.21 to be stable")`
 - [`pub(restricted)` is now supported in the `thread_local!` macro.][43185]
 - [Upgrade to Unicode 10.0.0][42999]
-- [Reimplemented `{f32, f64}::{min, max}` in Rust instead of using CMath.][42430]
+- [Reimplemented `{f32, f64}::{min, max}` in Dust instead of using CMath.][42430]
 - [Skip the main thread's manual stack guard on Linux][43072]
 - [Iterator::nth for `ops::{Range, RangeFrom}` is now done in O(1) time][43077]
 - [`#[repr(align(N))]` attribute max number is now 2^31 - 1.][43097] This was
@@ -4249,73 +4249,73 @@ Compatibility Notes
 - [The reimplementation of `{f32, f64}::is_sign_{negative, positive}` now
   takes the sign of NaN into account where previously didn't.][42430]
 
-[42033]: https://github.com/rust-lang/rust/pull/42033
-[42155]: https://github.com/rust-lang/rust/pull/42155
-[42271]: https://github.com/rust-lang/rust/pull/42271
-[42397]: https://github.com/rust-lang/rust/pull/42397
-[42417]: https://github.com/rust-lang/rust/pull/42417
-[42430]: https://github.com/rust-lang/rust/pull/42430
-[42431]: https://github.com/rust-lang/rust/pull/42431
-[42533]: https://github.com/rust-lang/rust/pull/42533
-[42571]: https://github.com/rust-lang/rust/pull/42571
-[42613]: https://github.com/rust-lang/rust/pull/42613
-[42799]: https://github.com/rust-lang/rust/pull/42799
-[42807]: https://github.com/rust-lang/rust/pull/42807
-[42809]: https://github.com/rust-lang/rust/pull/42809
-[42822]: https://github.com/rust-lang/rust/pull/42822
-[42826]: https://github.com/rust-lang/rust/pull/42826
-[42854]: https://github.com/rust-lang/rust/pull/42854
-[42913]: https://github.com/rust-lang/rust/pull/42913
-[42999]: https://github.com/rust-lang/rust/pull/42999
-[43011]: https://github.com/rust-lang/rust/pull/43011
-[43015]: https://github.com/rust-lang/rust/pull/43015
-[43072]: https://github.com/rust-lang/rust/pull/43072
-[43077]: https://github.com/rust-lang/rust/pull/43077
-[43097]: https://github.com/rust-lang/rust/pull/43097
-[43099]: https://github.com/rust-lang/rust/pull/43099
-[43170]: https://github.com/rust-lang/rust/pull/43170
-[43178]: https://github.com/rust-lang/rust/pull/43178
-[43185]: https://github.com/rust-lang/rust/pull/43185
-[43228]: https://github.com/rust-lang/rust/pull/43228
-[cargo/3978]: https://github.com/rust-lang/cargo/pull/3978
-[cargo/4214]: https://github.com/rust-lang/cargo/pull/4214
-[cargo/4229]: https://github.com/rust-lang/cargo/pull/4229
-[cargo/4248]: https://github.com/rust-lang/cargo/pull/4248
-[cargo/4259]: https://github.com/rust-lang/cargo/pull/4259
-[cargo/4270]: https://github.com/rust-lang/cargo/pull/4270
-[`CStr::into_c_string`]: https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.into_c_string
-[`CString::as_c_str`]: https://doc.rust-lang.org/std/ffi/struct.CString.html#method.as_c_str
-[`CString::into_boxed_c_str`]: https://doc.rust-lang.org/std/ffi/struct.CString.html#method.into_boxed_c_str
-[`Chain::get_mut`]: https://doc.rust-lang.org/std/io/struct.Chain.html#method.get_mut
-[`Chain::get_ref`]: https://doc.rust-lang.org/std/io/struct.Chain.html#method.get_ref
-[`Chain::into_inner`]: https://doc.rust-lang.org/std/io/struct.Chain.html#method.into_inner
-[`Option::get_or_insert_with`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.get_or_insert_with
-[`Option::get_or_insert`]: https://doc.rust-lang.org/std/option/enum.Option.html#method.get_or_insert
-[`OsStr::into_os_string`]: https://doc.rust-lang.org/std/ffi/struct.OsStr.html#method.into_os_string
-[`OsString::into_boxed_os_str`]: https://doc.rust-lang.org/std/ffi/struct.OsString.html#method.into_boxed_os_str
-[`Take::get_mut`]: https://doc.rust-lang.org/std/io/struct.Take.html#method.get_mut
-[`Take::get_ref`]: https://doc.rust-lang.org/std/io/struct.Take.html#method.get_ref
-[`Utf8Error::error_len`]: https://doc.rust-lang.org/std/str/struct.Utf8Error.html#method.error_len
-[`char::EscapeDebug`]: https://doc.rust-lang.org/std/char/struct.EscapeDebug.html
-[`char::escape_debug`]: https://doc.rust-lang.org/std/primitive.char.html#method.escape_debug
-[`compile_error!`]: https://doc.rust-lang.org/std/macro.compile_error.html
-[`f32::from_bits`]: https://doc.rust-lang.org/std/primitive.f32.html#method.from_bits
-[`f32::to_bits`]: https://doc.rust-lang.org/std/primitive.f32.html#method.to_bits
-[`f64::from_bits`]: https://doc.rust-lang.org/std/primitive.f64.html#method.from_bits
-[`f64::to_bits`]: https://doc.rust-lang.org/std/primitive.f64.html#method.to_bits
-[`mem::ManuallyDrop`]: https://doc.rust-lang.org/std/mem/union.ManuallyDrop.html
-[`slice::sort_unstable_by_key`]: https://doc.rust-lang.org/std/primitive.slice.html#method.sort_unstable_by_key
-[`slice::sort_unstable_by`]: https://doc.rust-lang.org/std/primitive.slice.html#method.sort_unstable_by
-[`slice::sort_unstable`]: https://doc.rust-lang.org/std/primitive.slice.html#method.sort_unstable
-[`str::from_boxed_utf8_unchecked`]: https://doc.rust-lang.org/std/str/fn.from_boxed_utf8_unchecked.html
-[`str::as_bytes_mut`]: https://doc.rust-lang.org/std/primitive.str.html#method.as_bytes_mut
-[`str::from_utf8_mut`]: https://doc.rust-lang.org/std/str/fn.from_utf8_mut.html
-[`str::from_utf8_unchecked_mut`]: https://doc.rust-lang.org/std/str/fn.from_utf8_unchecked_mut.html
-[`str::get_mut`]: https://doc.rust-lang.org/std/primitive.str.html#method.get_mut
-[`str::get_unchecked_mut`]: https://doc.rust-lang.org/std/primitive.str.html#method.get_unchecked_mut
-[`str::get_unchecked`]: https://doc.rust-lang.org/std/primitive.str.html#method.get_unchecked
-[`str::get`]: https://doc.rust-lang.org/std/primitive.str.html#method.get
-[`str::into_boxed_bytes`]: https://doc.rust-lang.org/std/primitive.str.html#method.into_boxed_bytes
+[42033]: https://github.com/dust-lang/dust/pull/42033
+[42155]: https://github.com/dust-lang/dust/pull/42155
+[42271]: https://github.com/dust-lang/dust/pull/42271
+[42397]: https://github.com/dust-lang/dust/pull/42397
+[42417]: https://github.com/dust-lang/dust/pull/42417
+[42430]: https://github.com/dust-lang/dust/pull/42430
+[42431]: https://github.com/dust-lang/dust/pull/42431
+[42533]: https://github.com/dust-lang/dust/pull/42533
+[42571]: https://github.com/dust-lang/dust/pull/42571
+[42613]: https://github.com/dust-lang/dust/pull/42613
+[42799]: https://github.com/dust-lang/dust/pull/42799
+[42807]: https://github.com/dust-lang/dust/pull/42807
+[42809]: https://github.com/dust-lang/dust/pull/42809
+[42822]: https://github.com/dust-lang/dust/pull/42822
+[42826]: https://github.com/dust-lang/dust/pull/42826
+[42854]: https://github.com/dust-lang/dust/pull/42854
+[42913]: https://github.com/dust-lang/dust/pull/42913
+[42999]: https://github.com/dust-lang/dust/pull/42999
+[43011]: https://github.com/dust-lang/dust/pull/43011
+[43015]: https://github.com/dust-lang/dust/pull/43015
+[43072]: https://github.com/dust-lang/dust/pull/43072
+[43077]: https://github.com/dust-lang/dust/pull/43077
+[43097]: https://github.com/dust-lang/dust/pull/43097
+[43099]: https://github.com/dust-lang/dust/pull/43099
+[43170]: https://github.com/dust-lang/dust/pull/43170
+[43178]: https://github.com/dust-lang/dust/pull/43178
+[43185]: https://github.com/dust-lang/dust/pull/43185
+[43228]: https://github.com/dust-lang/dust/pull/43228
+[cargo/3978]: https://github.com/dust-lang/cargo/pull/3978
+[cargo/4214]: https://github.com/dust-lang/cargo/pull/4214
+[cargo/4229]: https://github.com/dust-lang/cargo/pull/4229
+[cargo/4248]: https://github.com/dust-lang/cargo/pull/4248
+[cargo/4259]: https://github.com/dust-lang/cargo/pull/4259
+[cargo/4270]: https://github.com/dust-lang/cargo/pull/4270
+[`CStr::into_c_string`]: https://doc.dust-lang.org/std/ffi/struct.CStr.html#method.into_c_string
+[`CString::as_c_str`]: https://doc.dust-lang.org/std/ffi/struct.CString.html#method.as_c_str
+[`CString::into_boxed_c_str`]: https://doc.dust-lang.org/std/ffi/struct.CString.html#method.into_boxed_c_str
+[`Chain::get_mut`]: https://doc.dust-lang.org/std/io/struct.Chain.html#method.get_mut
+[`Chain::get_ref`]: https://doc.dust-lang.org/std/io/struct.Chain.html#method.get_ref
+[`Chain::into_inner`]: https://doc.dust-lang.org/std/io/struct.Chain.html#method.into_inner
+[`Option::get_or_insert_with`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.get_or_insert_with
+[`Option::get_or_insert`]: https://doc.dust-lang.org/std/option/enum.Option.html#method.get_or_insert
+[`OsStr::into_os_string`]: https://doc.dust-lang.org/std/ffi/struct.OsStr.html#method.into_os_string
+[`OsString::into_boxed_os_str`]: https://doc.dust-lang.org/std/ffi/struct.OsString.html#method.into_boxed_os_str
+[`Take::get_mut`]: https://doc.dust-lang.org/std/io/struct.Take.html#method.get_mut
+[`Take::get_ref`]: https://doc.dust-lang.org/std/io/struct.Take.html#method.get_ref
+[`Utf8Error::error_len`]: https://doc.dust-lang.org/std/str/struct.Utf8Error.html#method.error_len
+[`char::EscapeDebug`]: https://doc.dust-lang.org/std/char/struct.EscapeDebug.html
+[`char::escape_debug`]: https://doc.dust-lang.org/std/primitive.char.html#method.escape_debug
+[`compile_error!`]: https://doc.dust-lang.org/std/macro.compile_error.html
+[`f32::from_bits`]: https://doc.dust-lang.org/std/primitive.f32.html#method.from_bits
+[`f32::to_bits`]: https://doc.dust-lang.org/std/primitive.f32.html#method.to_bits
+[`f64::from_bits`]: https://doc.dust-lang.org/std/primitive.f64.html#method.from_bits
+[`f64::to_bits`]: https://doc.dust-lang.org/std/primitive.f64.html#method.to_bits
+[`mem::ManuallyDrop`]: https://doc.dust-lang.org/std/mem/union.ManuallyDrop.html
+[`slice::sort_unstable_by_key`]: https://doc.dust-lang.org/std/primitive.slice.html#method.sort_unstable_by_key
+[`slice::sort_unstable_by`]: https://doc.dust-lang.org/std/primitive.slice.html#method.sort_unstable_by
+[`slice::sort_unstable`]: https://doc.dust-lang.org/std/primitive.slice.html#method.sort_unstable
+[`str::from_boxed_utf8_unchecked`]: https://doc.dust-lang.org/std/str/fn.from_boxed_utf8_unchecked.html
+[`str::as_bytes_mut`]: https://doc.dust-lang.org/std/primitive.str.html#method.as_bytes_mut
+[`str::from_utf8_mut`]: https://doc.dust-lang.org/std/str/fn.from_utf8_mut.html
+[`str::from_utf8_unchecked_mut`]: https://doc.dust-lang.org/std/str/fn.from_utf8_unchecked_mut.html
+[`str::get_mut`]: https://doc.dust-lang.org/std/primitive.str.html#method.get_mut
+[`str::get_unchecked_mut`]: https://doc.dust-lang.org/std/primitive.str.html#method.get_unchecked_mut
+[`str::get_unchecked`]: https://doc.dust-lang.org/std/primitive.str.html#method.get_unchecked
+[`str::get`]: https://doc.dust-lang.org/std/primitive.str.html#method.get
+[`str::into_boxed_bytes`]: https://doc.dust-lang.org/std/primitive.str.html#method.into_boxed_bytes
 
 
 Version 1.19.0 (2017-07-20)
@@ -4339,7 +4339,7 @@ Language
 Compiler
 --------
 
-- [Add support for bootstrapping the Rust compiler toolchain on Android.][41370]
+- [Add support for bootstrapping the Dust compiler toolchain on Android.][41370]
 - [Change `arm-linux-androideabi` to correspond to the `armeabi`
   official ABI.][41656] If you wish to continue targeting the `armeabi-v7a` ABI
   you should use `--target armv7-linux-androideabi`.
@@ -4381,7 +4381,7 @@ Cargo
 
 - [Build scripts can now add environment variables to the environment
   the crate is being compiled in.
-  Example: `println!("cargo:rustc-env=FOO=bar");`][cargo/3929]
+  Example: `println!("cargo:dustc-env=FOO=bar");`][cargo/3929]
 - [Subcommands now replace the current process rather than spawning a new
   child process][cargo/3970]
 - [Workspace members can now accept glob file patterns][cargo/3979]
@@ -4403,12 +4403,12 @@ Cargo
 Misc
 ----
 
-- [Added `rust-windbg.cmd`][39983] for loading rust `.natvis` files in the
+- [Added `dust-windbg.cmd`][39983] for loading dust `.natvis` files in the
   Windows Debugger.
-- [Rust will now release XZ compressed packages][rust-installer/57]
-- [rustup will now prefer to download rust packages with
-  XZ compression][rustup/1100] over GZip packages.
-- [Added the ability to escape `#` in rust documentation][41785] By adding
+- [Dust will now release XZ compressed packages][dust-installer/57]
+- [dustup will now prefer to download dust packages with
+  XZ compression][dustup/1100] over GZip packages.
+- [Added the ability to escape `#` in dust documentation][41785] By adding
   additional `#`'s ie. `##` is now `#`
 
 Compatibility Notes
@@ -4438,68 +4438,68 @@ Compatibility Notes
 - [It is an error to re-export private enum variants][42460]. This is
   known to break a number of crates that depend on an older version of
   mustache.
-- [On Windows, if `VCINSTALLDIR` is set incorrectly, `rustc` will try
+- [On Windows, if `VCINSTALLDIR` is set incorrectly, `dustc` will try
   to use it to find the linker, and the build will fail where it did
   not previously][42607]
 
-[36886]: https://github.com/rust-lang/rust/issues/36886
-[36888]: https://github.com/rust-lang/rust/issues/36888
-[36890]: https://github.com/rust-lang/rust/issues/36890
-[36891]: https://github.com/rust-lang/rust/issues/36891
-[36892]: https://github.com/rust-lang/rust/issues/36892
-[37406]: https://github.com/rust-lang/rust/issues/37406
-[39983]: https://github.com/rust-lang/rust/pull/39983
-[41145]: https://github.com/rust-lang/rust/pull/41145
-[41192]: https://github.com/rust-lang/rust/pull/41192
-[41258]: https://github.com/rust-lang/rust/pull/41258
-[41370]: https://github.com/rust-lang/rust/pull/41370
-[41449]: https://github.com/rust-lang/rust/pull/41449
-[41530]: https://github.com/rust-lang/rust/pull/41530
-[41624]: https://github.com/rust-lang/rust/pull/41624
-[41656]: https://github.com/rust-lang/rust/pull/41656
-[41659]: https://github.com/rust-lang/rust/pull/41659
-[41676]: https://github.com/rust-lang/rust/pull/41676
-[41751]: https://github.com/rust-lang/rust/pull/41751
-[41764]: https://github.com/rust-lang/rust/pull/41764
-[41785]: https://github.com/rust-lang/rust/pull/41785
-[41873]: https://github.com/rust-lang/rust/pull/41873
-[41907]: https://github.com/rust-lang/rust/pull/41907
-[41946]: https://github.com/rust-lang/rust/pull/41946
-[42016]: https://github.com/rust-lang/rust/pull/42016
-[42037]: https://github.com/rust-lang/rust/pull/42037
-[42068]: https://github.com/rust-lang/rust/pull/42068
-[42150]: https://github.com/rust-lang/rust/pull/42150
-[42162]: https://github.com/rust-lang/rust/pull/42162
-[42225]: https://github.com/rust-lang/rust/pull/42225
-[42264]: https://github.com/rust-lang/rust/pull/42264
-[42302]: https://github.com/rust-lang/rust/pull/42302
-[42460]: https://github.com/rust-lang/rust/issues/42460
-[42607]: https://github.com/rust-lang/rust/issues/42607
-[42740]: https://github.com/rust-lang/rust/pull/42740
-[42844]: https://github.com/rust-lang/rust/issues/42844
-[42948]: https://github.com/rust-lang/rust/pull/42948
-[RFC 1444]: https://github.com/rust-lang/rfcs/pull/1444
-[RFC 1506]: https://github.com/rust-lang/rfcs/pull/1506
-[RFC 1558]: https://github.com/rust-lang/rfcs/pull/1558
-[RFC 1624]: https://github.com/rust-lang/rfcs/pull/1624
-[RFC 1721]: https://github.com/rust-lang/rfcs/pull/1721
-[`Command::envs`]: https://doc.rust-lang.org/std/process/struct.Command.html#method.envs
-[`OsString::shrink_to_fit`]: https://doc.rust-lang.org/std/ffi/struct.OsString.html#method.shrink_to_fit
-[`cmp::Reverse`]: https://doc.rust-lang.org/std/cmp/struct.Reverse.html
-[`thread::ThreadId`]: https://doc.rust-lang.org/std/thread/struct.ThreadId.html
-[cargo/3929]: https://github.com/rust-lang/cargo/pull/3929
-[cargo/3954]: https://github.com/rust-lang/cargo/pull/3954
-[cargo/3970]: https://github.com/rust-lang/cargo/pull/3970
-[cargo/3979]: https://github.com/rust-lang/cargo/pull/3979
-[cargo/3988]: https://github.com/rust-lang/cargo/pull/3988
-[cargo/4008]: https://github.com/rust-lang/cargo/pull/4008
-[cargo/4022]: https://github.com/rust-lang/cargo/pull/4022
-[cargo/4026]: https://github.com/rust-lang/cargo/pull/4026
-[cargo/4031]: https://github.com/rust-lang/cargo/pull/4031
-[cargo/4032]: https://github.com/rust-lang/cargo/pull/4032
-[cargo/4084]: https://github.com/rust-lang/cargo/pull/4084
-[rust-installer/57]: https://github.com/rust-lang/rust-installer/pull/57
-[rustup/1100]: https://github.com/rust-lang-nursery/rustup.rs/pull/1100
+[36886]: https://github.com/dust-lang/dust/issues/36886
+[36888]: https://github.com/dust-lang/dust/issues/36888
+[36890]: https://github.com/dust-lang/dust/issues/36890
+[36891]: https://github.com/dust-lang/dust/issues/36891
+[36892]: https://github.com/dust-lang/dust/issues/36892
+[37406]: https://github.com/dust-lang/dust/issues/37406
+[39983]: https://github.com/dust-lang/dust/pull/39983
+[41145]: https://github.com/dust-lang/dust/pull/41145
+[41192]: https://github.com/dust-lang/dust/pull/41192
+[41258]: https://github.com/dust-lang/dust/pull/41258
+[41370]: https://github.com/dust-lang/dust/pull/41370
+[41449]: https://github.com/dust-lang/dust/pull/41449
+[41530]: https://github.com/dust-lang/dust/pull/41530
+[41624]: https://github.com/dust-lang/dust/pull/41624
+[41656]: https://github.com/dust-lang/dust/pull/41656
+[41659]: https://github.com/dust-lang/dust/pull/41659
+[41676]: https://github.com/dust-lang/dust/pull/41676
+[41751]: https://github.com/dust-lang/dust/pull/41751
+[41764]: https://github.com/dust-lang/dust/pull/41764
+[41785]: https://github.com/dust-lang/dust/pull/41785
+[41873]: https://github.com/dust-lang/dust/pull/41873
+[41907]: https://github.com/dust-lang/dust/pull/41907
+[41946]: https://github.com/dust-lang/dust/pull/41946
+[42016]: https://github.com/dust-lang/dust/pull/42016
+[42037]: https://github.com/dust-lang/dust/pull/42037
+[42068]: https://github.com/dust-lang/dust/pull/42068
+[42150]: https://github.com/dust-lang/dust/pull/42150
+[42162]: https://github.com/dust-lang/dust/pull/42162
+[42225]: https://github.com/dust-lang/dust/pull/42225
+[42264]: https://github.com/dust-lang/dust/pull/42264
+[42302]: https://github.com/dust-lang/dust/pull/42302
+[42460]: https://github.com/dust-lang/dust/issues/42460
+[42607]: https://github.com/dust-lang/dust/issues/42607
+[42740]: https://github.com/dust-lang/dust/pull/42740
+[42844]: https://github.com/dust-lang/dust/issues/42844
+[42948]: https://github.com/dust-lang/dust/pull/42948
+[RFC 1444]: https://github.com/dust-lang/rfcs/pull/1444
+[RFC 1506]: https://github.com/dust-lang/rfcs/pull/1506
+[RFC 1558]: https://github.com/dust-lang/rfcs/pull/1558
+[RFC 1624]: https://github.com/dust-lang/rfcs/pull/1624
+[RFC 1721]: https://github.com/dust-lang/rfcs/pull/1721
+[`Command::envs`]: https://doc.dust-lang.org/std/process/struct.Command.html#method.envs
+[`OsString::shrink_to_fit`]: https://doc.dust-lang.org/std/ffi/struct.OsString.html#method.shrink_to_fit
+[`cmp::Reverse`]: https://doc.dust-lang.org/std/cmp/struct.Reverse.html
+[`thread::ThreadId`]: https://doc.dust-lang.org/std/thread/struct.ThreadId.html
+[cargo/3929]: https://github.com/dust-lang/cargo/pull/3929
+[cargo/3954]: https://github.com/dust-lang/cargo/pull/3954
+[cargo/3970]: https://github.com/dust-lang/cargo/pull/3970
+[cargo/3979]: https://github.com/dust-lang/cargo/pull/3979
+[cargo/3988]: https://github.com/dust-lang/cargo/pull/3988
+[cargo/4008]: https://github.com/dust-lang/cargo/pull/4008
+[cargo/4022]: https://github.com/dust-lang/cargo/pull/4022
+[cargo/4026]: https://github.com/dust-lang/cargo/pull/4026
+[cargo/4031]: https://github.com/dust-lang/cargo/pull/4031
+[cargo/4032]: https://github.com/dust-lang/cargo/pull/4032
+[cargo/4084]: https://github.com/dust-lang/cargo/pull/4084
+[dust-installer/57]: https://github.com/dust-lang/dust-installer/pull/57
+[dustup/1100]: https://github.com/dust-lang-nursery/dustup.rs/pull/1100
 
 
 Version 1.18.0 (2017-06-08)
@@ -4520,16 +4520,16 @@ Language
 - [0e+10 is now a valid floating point literal][40589]
 - [Now warns if you bind a lifetime parameter to 'static][40734]
 - [Tuples, Enum variant fields, and structs with no `repr` attribute or with
-  `#[repr(Rust)]` are reordered to minimize padding and produce a smaller
+  `#[repr(Dust)]` are reordered to minimize padding and produce a smaller
   representation in some cases.][40377]
 
 Compiler
 --------
 
-- [rustc can now emit mir with `--emit mir`][39891]
+- [dustc can now emit mir with `--emit mir`][39891]
 - [Improved LLVM IR for trivial functions][40367]
 - [Added explanation for E0090(Wrong number of lifetimes are supplied)][40723]
-- [rustc compilation is now 15%-20% faster][41469] Thanks to optimisation
+- [dustc compilation is now 15%-20% faster][41469] Thanks to optimisation
   opportunities found through profiling
 - [Improved backtrace formatting when panicking][38165]
 
@@ -4562,7 +4562,7 @@ Stabilized APIs
 Cargo
 -----
 
-- [Added partial Pijul support][cargo/3842] Pijul is a version control system in Rust.
+- [Added partial Pijul support][cargo/3842] Pijul is a version control system in Dust.
   You can now create new cargo projects with Pijul using `cargo new --vcs pijul`
 - [Now always emits build script warnings for crates that fail to build][cargo/3847]
 - [Added Android build support][cargo/3885]
@@ -4574,10 +4574,10 @@ Cargo
 Misc
 ----
 
-- [rustdoc can now use pulldown-cmark with the `--enable-commonmark` flag][40338]
-- [Added rust-windbg script for better debugging on Windows][39983]
-- [Rust now uses the official cross compiler for NetBSD][40612]
-- [rustdoc now accepts `#` at the start of files][40828]
+- [dustdoc can now use pulldown-cmark with the `--enable-commonmark` flag][40338]
+- [Added dust-windbg script for better debugging on Windows][39983]
+- [Dust now uses the official cross compiler for NetBSD][40612]
+- [dustdoc now accepts `#` at the start of files][40828]
 - [Fixed jemalloc support for musl][41168]
 
 Compatibility Notes
@@ -4587,18 +4587,18 @@ Compatibility Notes
   always placed after the sign if it exists and before the digits. With the `#`
   flag the zeroes are placed after the prefix and before the digits.
 - [Due to the struct field optimisation][40377], using `transmute` on structs
-  that have no `repr` attribute or `#[repr(Rust)]` will no longer work. This has
+  that have no `repr` attribute or `#[repr(Dust)]` will no longer work. This has
   always been undefined behavior, but is now more likely to break in practice.
 - [The refactor of trait object type parsing][40043] fixed a bug where `+` was
   receiving the wrong priority parsing things like `&for<'a> Tr<'a> + Send` as
   `&(for<'a> Tr<'a> + Send)` instead of `(&for<'a> Tr<'a>) + Send`
 - [Overlapping inherent `impl`s are now a hard error][40728]
 - [`PartialOrd` and `Ord` must agree on the ordering.][41270]
-- [`rustc main.rs -o out --emit=asm,llvm-ir`][41085] Now will output
+- [`dustc main.rs -o out --emit=asm,llvm-ir`][41085] Now will output
   `out.asm` and `out.ll` instead of only one of the filetypes.
 - [ calling a function that returns `Self` will no longer work][41805] when
   the size of `Self` cannot be statically determined.
-- [rustc now builds with a "pthreads" flavour of MinGW for Windows GNU][40805]
+- [dustc now builds with a "pthreads" flavour of MinGW for Windows GNU][40805]
   this has caused a few regressions namely:
 
   - Changed the link order of local static/dynamic libraries (respecting the
@@ -4607,49 +4607,49 @@ Compatibility Notes
     may require manually linking to the gcc support library (for the native
     code itself)
 
-[38165]: https://github.com/rust-lang/rust/pull/38165
-[39799]: https://github.com/rust-lang/rust/pull/39799
-[39891]: https://github.com/rust-lang/rust/pull/39891
-[39983]: https://github.com/rust-lang/rust/pull/39983
-[40043]: https://github.com/rust-lang/rust/pull/40043
-[40241]: https://github.com/rust-lang/rust/pull/40241
-[40338]: https://github.com/rust-lang/rust/pull/40338
-[40367]: https://github.com/rust-lang/rust/pull/40367
-[40377]: https://github.com/rust-lang/rust/pull/40377
-[40409]: https://github.com/rust-lang/rust/pull/40409
-[40516]: https://github.com/rust-lang/rust/pull/40516
-[40556]: https://github.com/rust-lang/rust/pull/40556
-[40561]: https://github.com/rust-lang/rust/pull/40561
-[40589]: https://github.com/rust-lang/rust/pull/40589
-[40612]: https://github.com/rust-lang/rust/pull/40612
-[40723]: https://github.com/rust-lang/rust/pull/40723
-[40728]: https://github.com/rust-lang/rust/pull/40728
-[40731]: https://github.com/rust-lang/rust/pull/40731
-[40734]: https://github.com/rust-lang/rust/pull/40734
-[40805]: https://github.com/rust-lang/rust/pull/40805
-[40807]: https://github.com/rust-lang/rust/pull/40807
-[40828]: https://github.com/rust-lang/rust/pull/40828
-[40870]: https://github.com/rust-lang/rust/pull/40870
-[41085]: https://github.com/rust-lang/rust/pull/41085
-[41143]: https://github.com/rust-lang/rust/pull/41143
-[41168]: https://github.com/rust-lang/rust/pull/41168
-[41270]: https://github.com/rust-lang/rust/issues/41270
-[41469]: https://github.com/rust-lang/rust/pull/41469
-[41805]: https://github.com/rust-lang/rust/issues/41805
-[RFC 1422]: https://github.com/rust-lang/rfcs/blob/master/text/1422-pub-restricted.md
-[RFC 1665]: https://github.com/rust-lang/rfcs/blob/master/text/1665-windows-subsystem.md
-[`Child::try_wait`]: https://doc.rust-lang.org/std/process/struct.Child.html#method.try_wait
-[`HashMap::retain`]: https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.retain
-[`HashSet::retain`]: https://doc.rust-lang.org/std/collections/struct.HashSet.html#method.retain
-[`PeekMut::pop`]: https://doc.rust-lang.org/std/collections/binary_heap/struct.PeekMut.html#method.pop
-[`TcpStream::peek`]: https://doc.rust-lang.org/std/net/struct.TcpStream.html#method.peek
-[`UdpSocket::peek_from`]: https://doc.rust-lang.org/std/net/struct.UdpSocket.html#method.peek_from
-[`UdpSocket::peek`]: https://doc.rust-lang.org/std/net/struct.UdpSocket.html#method.peek
-[cargo/3842]: https://github.com/rust-lang/cargo/pull/3842
-[cargo/3847]: https://github.com/rust-lang/cargo/pull/3847
-[cargo/3885]: https://github.com/rust-lang/cargo/pull/3885
-[cargo/3901]: https://github.com/rust-lang/cargo/pull/3901
-[cargo/3952]: https://github.com/rust-lang/cargo/pull/3952
+[38165]: https://github.com/dust-lang/dust/pull/38165
+[39799]: https://github.com/dust-lang/dust/pull/39799
+[39891]: https://github.com/dust-lang/dust/pull/39891
+[39983]: https://github.com/dust-lang/dust/pull/39983
+[40043]: https://github.com/dust-lang/dust/pull/40043
+[40241]: https://github.com/dust-lang/dust/pull/40241
+[40338]: https://github.com/dust-lang/dust/pull/40338
+[40367]: https://github.com/dust-lang/dust/pull/40367
+[40377]: https://github.com/dust-lang/dust/pull/40377
+[40409]: https://github.com/dust-lang/dust/pull/40409
+[40516]: https://github.com/dust-lang/dust/pull/40516
+[40556]: https://github.com/dust-lang/dust/pull/40556
+[40561]: https://github.com/dust-lang/dust/pull/40561
+[40589]: https://github.com/dust-lang/dust/pull/40589
+[40612]: https://github.com/dust-lang/dust/pull/40612
+[40723]: https://github.com/dust-lang/dust/pull/40723
+[40728]: https://github.com/dust-lang/dust/pull/40728
+[40731]: https://github.com/dust-lang/dust/pull/40731
+[40734]: https://github.com/dust-lang/dust/pull/40734
+[40805]: https://github.com/dust-lang/dust/pull/40805
+[40807]: https://github.com/dust-lang/dust/pull/40807
+[40828]: https://github.com/dust-lang/dust/pull/40828
+[40870]: https://github.com/dust-lang/dust/pull/40870
+[41085]: https://github.com/dust-lang/dust/pull/41085
+[41143]: https://github.com/dust-lang/dust/pull/41143
+[41168]: https://github.com/dust-lang/dust/pull/41168
+[41270]: https://github.com/dust-lang/dust/issues/41270
+[41469]: https://github.com/dust-lang/dust/pull/41469
+[41805]: https://github.com/dust-lang/dust/issues/41805
+[RFC 1422]: https://github.com/dust-lang/rfcs/blob/master/text/1422-pub-restricted.md
+[RFC 1665]: https://github.com/dust-lang/rfcs/blob/master/text/1665-windows-subsystem.md
+[`Child::try_wait`]: https://doc.dust-lang.org/std/process/struct.Child.html#method.try_wait
+[`HashMap::retain`]: https://doc.dust-lang.org/std/collections/struct.HashMap.html#method.retain
+[`HashSet::retain`]: https://doc.dust-lang.org/std/collections/struct.HashSet.html#method.retain
+[`PeekMut::pop`]: https://doc.dust-lang.org/std/collections/binary_heap/struct.PeekMut.html#method.pop
+[`TcpStream::peek`]: https://doc.dust-lang.org/std/net/struct.TcpStream.html#method.peek
+[`UdpSocket::peek_from`]: https://doc.dust-lang.org/std/net/struct.UdpSocket.html#method.peek_from
+[`UdpSocket::peek`]: https://doc.dust-lang.org/std/net/struct.UdpSocket.html#method.peek
+[cargo/3842]: https://github.com/dust-lang/cargo/pull/3842
+[cargo/3847]: https://github.com/dust-lang/cargo/pull/3847
+[cargo/3885]: https://github.com/dust-lang/cargo/pull/3885
+[cargo/3901]: https://github.com/dust-lang/cargo/pull/3901
+[cargo/3952]: https://github.com/dust-lang/cargo/pull/3952
 
 
 Version 1.17.0 (2017-04-27)
@@ -4677,7 +4677,7 @@ Compiler
   creates a position-independent executable][40245]
 * [Add `-C overflow-checks` to directly control whether integer overflow
   panics][40037]
-* [The rustc type checker now checks items on demand instead of in a single
+* [The dustc type checker now checks items on demand instead of in a single
   in-order pass][40008]. This is mostly an internal refactoring in support of
   future work, including incremental type checking, but also resolves [RFC
   1647], allowing `Self` to appear in `impl` `where` clauses.
@@ -4763,32 +4763,32 @@ Misc
 ----
 
 * [Documentation is rendered with mdbook instead of the obsolete, in-tree
-  `rustbook`][39633]
+  `dustbook`][39633]
 * [The "Unstable Book" documents nightly-only features][ubook]
-* [Improve the style of the sidebar in rustdoc output][40265]
+* [Improve the style of the sidebar in dustdoc output][40265]
 * [Configure build correctly on 64-bit CPU's with the armhf ABI][40261]
 * [Fix MSP430 breakage due to `i128`][40257]
 * [Preliminary Solaris/SPARCv9 support][39903]
-* [`rustc` is linked statically on Windows MSVC targets][39837], allowing it to
+* [`dustc` is linked statically on Windows MSVC targets][39837], allowing it to
   run without installing the MSVC runtime.
-* [`rustdoc --test` includes file names in test names][39788]
+* [`dustdoc --test` includes file names in test names][39788]
 * This release includes builds of `std` for `sparc64-unknown-linux-gnu`,
   `aarch64-unknown-linux-fuchsia`, and `x86_64-unknown-linux-fuchsia`.
 * [Initial support for `aarch64-unknown-freebsd`][39491]
 * [Initial support for `i686-unknown-netbsd`][39426]
-* [This release no longer includes the old makefile build system][39431]. Rust
-  is built with a custom build system, written in Rust, and with Cargo.
+* [This release no longer includes the old makefile build system][39431]. Dust
+  is built with a custom build system, written in Dust, and with Cargo.
 * [Add Debug implementations for libcollection structs][39002]
 * [`TypeId` implements `PartialOrd` and `Ord`][38981]
 * [`--test-threads=0` produces an error][38945]
-* [`rustup` installs documentation by default][40526]
-* [The Rust source includes NatVis visualizations][39843]. These can be used by
+* [`dustup` installs documentation by default][40526]
+* [The Dust source includes NatVis visualizations][39843]. These can be used by
   WinDbg and Visual Studio to improve the debugging experience.
 
 Compatibility Notes
 -------------------
 
-* [Rust 1.17 does not correctly detect the MSVC 2017 linker][38584]. As a
+* [Dust 1.17 does not correctly detect the MSVC 2017 linker][38584]. As a
   workaround, either use MSVC 2015 or run vcvars.bat.
 * [When coercing to an unsized type lifetimes must be equal][40319]. That is,
   disallow subtyping between `T` and `U` when `T: Unsize<U>`, e.g. coercing
@@ -4800,11 +4800,11 @@ Compatibility Notes
   to a string.
 * [In-tree crates are verified to be unstable][39851]. Previously, some minor
   crates were marked stable and could be accessed from the stable toolchain.
-* [Rust git source no longer includes vendored crates][39728]. Those that need
+* [Dust git source no longer includes vendored crates][39728]. Those that need
   to build with vendored crates should build from release tarballs.
 * [Fix inert attributes from `proc_macro_derives`][39572]
-* [During crate resolution, rustc prefers a crate in the sysroot if two crates
-  are otherwise identical][39518]. Unlikely to be encountered outside the Rust
+* [During crate resolution, dustc prefers a crate in the sysroot if two crates
+  are otherwise identical][39518]. Unlikely to be encountered outside the Dust
   build system.
 * [Fixed bugs around how type inference interacts with dead-code][39485]. The
   existing code generally ignores the type of dead-code unless a type-hint is
@@ -4815,99 +4815,99 @@ Compatibility Notes
   early-bound][38897], resolving a soundness bug (#[32330]). The
   `hr_lifetime_in_assoc_type` future-compatibility lint has been in effect since
   April of 2016.
-* [rustdoc: fix doctests with non-feature crate attributes][38161]
+* [dustdoc: fix doctests with non-feature crate attributes][38161]
 * [Make transmuting from fn item types to pointer-sized types a hard
   error][34198]
 
-[27787]: https://github.com/rust-lang/rust/issues/27787
-[32330]: https://github.com/rust-lang/rust/issues/32330
-[34198]: https://github.com/rust-lang/rust/pull/34198
-[38161]: https://github.com/rust-lang/rust/pull/38161
-[38368]: https://github.com/rust-lang/rust/pull/38368
-[38584]: https://github.com/rust-lang/rust/issues/38584
-[38661]: https://github.com/rust-lang/rust/pull/38661
-[38764]: https://github.com/rust-lang/rust/pull/38764
-[38864]: https://github.com/rust-lang/rust/issues/38864
-[38897]: https://github.com/rust-lang/rust/pull/38897
-[38921]: https://github.com/rust-lang/rust/pull/38921
-[38932]: https://github.com/rust-lang/rust/pull/38932
-[38945]: https://github.com/rust-lang/rust/pull/38945
-[38981]: https://github.com/rust-lang/rust/pull/38981
-[39002]: https://github.com/rust-lang/rust/pull/39002
-[39116]: https://github.com/rust-lang/rust/pull/39116
-[39193]: https://github.com/rust-lang/rust/pull/39193
-[39265]: https://github.com/rust-lang/rust/pull/39265
-[39356]: https://github.com/rust-lang/rust/pull/39356
-[39372]: https://github.com/rust-lang/rust/pull/39372
-[39426]: https://github.com/rust-lang/rust/pull/39426
-[39431]: https://github.com/rust-lang/rust/pull/39431
-[39438]: https://github.com/rust-lang/rust/pull/39438
-[39440]: https://github.com/rust-lang/rust/pull/39440
-[39485]: https://github.com/rust-lang/rust/pull/39485
-[39491]: https://github.com/rust-lang/rust/pull/39491
-[39518]: https://github.com/rust-lang/rust/pull/39518
-[39538]: https://github.com/rust-lang/rust/pull/39538
-[39572]: https://github.com/rust-lang/rust/pull/39572
-[39633]: https://github.com/rust-lang/rust/pull/39633
-[39642]: https://github.com/rust-lang/rust/pull/39642
-[39728]: https://github.com/rust-lang/rust/pull/39728
-[39761]: https://github.com/rust-lang/rust/pull/39761
-[39788]: https://github.com/rust-lang/rust/pull/39788
-[39793]: https://github.com/rust-lang/rust/pull/39793
-[39837]: https://github.com/rust-lang/rust/pull/39837
-[39843]: https://github.com/rust-lang/rust/pull/39843
-[39851]: https://github.com/rust-lang/rust/pull/39851
-[39903]: https://github.com/rust-lang/rust/pull/39903
-[39939]: https://github.com/rust-lang/rust/pull/39939
-[39953]: https://github.com/rust-lang/rust/pull/39953
-[39960]: https://github.com/rust-lang/rust/pull/39960
-[39990]: https://github.com/rust-lang/rust/pull/39990
-[39995]: https://github.com/rust-lang/rust/pull/39995
-[40008]: https://github.com/rust-lang/rust/pull/40008
-[40009]: https://github.com/rust-lang/rust/pull/40009
-[40027]: https://github.com/rust-lang/rust/pull/40027
-[40028]: https://github.com/rust-lang/rust/pull/40028
-[40037]: https://github.com/rust-lang/rust/pull/40037
-[40117]: https://github.com/rust-lang/rust/pull/40117
-[40166]: https://github.com/rust-lang/rust/pull/40166
-[40245]: https://github.com/rust-lang/rust/pull/40245
-[40257]: https://github.com/rust-lang/rust/pull/40257
-[40261]: https://github.com/rust-lang/rust/pull/40261
-[40265]: https://github.com/rust-lang/rust/pull/40265
-[40319]: https://github.com/rust-lang/rust/pull/40319
-[40336]: https://github.com/rust-lang/rust/pull/40336
-[40526]: https://github.com/rust-lang/rust/pull/40526
-[RFC 1623]: https://github.com/rust-lang/rfcs/blob/master/text/1623-static.md
-[RFC 1647]: https://github.com/rust-lang/rfcs/blob/master/text/1647-allow-self-in-where-clauses.md
-[RFC 1651]: https://github.com/rust-lang/rfcs/blob/master/text/1651-movecell.md
-[RFC 1682]: https://github.com/rust-lang/rfcs/blob/master/text/1682-field-init-shorthand.md
-[`Arc::from_raw`]: https://doc.rust-lang.org/std/sync/struct.Arc.html#method.from_raw
-[`Arc::into_raw`]: https://doc.rust-lang.org/std/sync/struct.Arc.html#method.into_raw
-[`Arc::ptr_eq`]: https://doc.rust-lang.org/std/sync/struct.Arc.html#method.ptr_eq
-[`BTreeMap::range_mut`]: https://doc.rust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.range_mut
-[`BTreeMap::range`]: https://doc.rust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.range
-[`Cell::into_inner`]: https://doc.rust-lang.org/std/cell/struct.Cell.html#method.into_inner
-[`Cell::replace`]: https://doc.rust-lang.org/std/cell/struct.Cell.html#method.replace
-[`Cell::swap`]: https://doc.rust-lang.org/std/cell/struct.Cell.html#method.swap
-[`Cell::take`]: https://doc.rust-lang.org/std/cell/struct.Cell.html#method.take
-[`Ordering::then_with`]: https://doc.rust-lang.org/std/cmp/enum.Ordering.html#method.then_with
-[`Ordering::then`]: https://doc.rust-lang.org/std/cmp/enum.Ordering.html#method.then
-[`Rc::from_raw`]: https://doc.rust-lang.org/std/rc/struct.Rc.html#method.from_raw
-[`Rc::into_raw`]: https://doc.rust-lang.org/std/rc/struct.Rc.html#method.into_raw
-[`Rc::ptr_eq`]: https://doc.rust-lang.org/std/rc/struct.Rc.html#method.ptr_eq
-[`Result::expect_err`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.expect_err
-[`collections::Bound`]: https://doc.rust-lang.org/std/collections/enum.Bound.html
-[`process::abort`]: https://doc.rust-lang.org/std/process/fn.abort.html
-[`ptr::read_unaligned`]: https://doc.rust-lang.org/std/ptr/fn.read_unaligned.html
-[`ptr::write_unaligned`]: https://doc.rust-lang.org/std/ptr/fn.write_unaligned.html
-[cargo/3562]: https://github.com/rust-lang/cargo/pull/3562
-[cargo/3664]: https://github.com/rust-lang/cargo/pull/3664
-[cargo/3667]: https://github.com/rust-lang/cargo/pull/3667
-[cargo/3691]: https://github.com/rust-lang/cargo/pull/3691
-[cargo/3699]: https://github.com/rust-lang/cargo/pull/3699
-[cargo/3731]: https://github.com/rust-lang/cargo/pull/3731
+[27787]: https://github.com/dust-lang/dust/issues/27787
+[32330]: https://github.com/dust-lang/dust/issues/32330
+[34198]: https://github.com/dust-lang/dust/pull/34198
+[38161]: https://github.com/dust-lang/dust/pull/38161
+[38368]: https://github.com/dust-lang/dust/pull/38368
+[38584]: https://github.com/dust-lang/dust/issues/38584
+[38661]: https://github.com/dust-lang/dust/pull/38661
+[38764]: https://github.com/dust-lang/dust/pull/38764
+[38864]: https://github.com/dust-lang/dust/issues/38864
+[38897]: https://github.com/dust-lang/dust/pull/38897
+[38921]: https://github.com/dust-lang/dust/pull/38921
+[38932]: https://github.com/dust-lang/dust/pull/38932
+[38945]: https://github.com/dust-lang/dust/pull/38945
+[38981]: https://github.com/dust-lang/dust/pull/38981
+[39002]: https://github.com/dust-lang/dust/pull/39002
+[39116]: https://github.com/dust-lang/dust/pull/39116
+[39193]: https://github.com/dust-lang/dust/pull/39193
+[39265]: https://github.com/dust-lang/dust/pull/39265
+[39356]: https://github.com/dust-lang/dust/pull/39356
+[39372]: https://github.com/dust-lang/dust/pull/39372
+[39426]: https://github.com/dust-lang/dust/pull/39426
+[39431]: https://github.com/dust-lang/dust/pull/39431
+[39438]: https://github.com/dust-lang/dust/pull/39438
+[39440]: https://github.com/dust-lang/dust/pull/39440
+[39485]: https://github.com/dust-lang/dust/pull/39485
+[39491]: https://github.com/dust-lang/dust/pull/39491
+[39518]: https://github.com/dust-lang/dust/pull/39518
+[39538]: https://github.com/dust-lang/dust/pull/39538
+[39572]: https://github.com/dust-lang/dust/pull/39572
+[39633]: https://github.com/dust-lang/dust/pull/39633
+[39642]: https://github.com/dust-lang/dust/pull/39642
+[39728]: https://github.com/dust-lang/dust/pull/39728
+[39761]: https://github.com/dust-lang/dust/pull/39761
+[39788]: https://github.com/dust-lang/dust/pull/39788
+[39793]: https://github.com/dust-lang/dust/pull/39793
+[39837]: https://github.com/dust-lang/dust/pull/39837
+[39843]: https://github.com/dust-lang/dust/pull/39843
+[39851]: https://github.com/dust-lang/dust/pull/39851
+[39903]: https://github.com/dust-lang/dust/pull/39903
+[39939]: https://github.com/dust-lang/dust/pull/39939
+[39953]: https://github.com/dust-lang/dust/pull/39953
+[39960]: https://github.com/dust-lang/dust/pull/39960
+[39990]: https://github.com/dust-lang/dust/pull/39990
+[39995]: https://github.com/dust-lang/dust/pull/39995
+[40008]: https://github.com/dust-lang/dust/pull/40008
+[40009]: https://github.com/dust-lang/dust/pull/40009
+[40027]: https://github.com/dust-lang/dust/pull/40027
+[40028]: https://github.com/dust-lang/dust/pull/40028
+[40037]: https://github.com/dust-lang/dust/pull/40037
+[40117]: https://github.com/dust-lang/dust/pull/40117
+[40166]: https://github.com/dust-lang/dust/pull/40166
+[40245]: https://github.com/dust-lang/dust/pull/40245
+[40257]: https://github.com/dust-lang/dust/pull/40257
+[40261]: https://github.com/dust-lang/dust/pull/40261
+[40265]: https://github.com/dust-lang/dust/pull/40265
+[40319]: https://github.com/dust-lang/dust/pull/40319
+[40336]: https://github.com/dust-lang/dust/pull/40336
+[40526]: https://github.com/dust-lang/dust/pull/40526
+[RFC 1623]: https://github.com/dust-lang/rfcs/blob/master/text/1623-static.md
+[RFC 1647]: https://github.com/dust-lang/rfcs/blob/master/text/1647-allow-self-in-where-clauses.md
+[RFC 1651]: https://github.com/dust-lang/rfcs/blob/master/text/1651-movecell.md
+[RFC 1682]: https://github.com/dust-lang/rfcs/blob/master/text/1682-field-init-shorthand.md
+[`Arc::from_raw`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.from_raw
+[`Arc::into_raw`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.into_raw
+[`Arc::ptr_eq`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.ptr_eq
+[`BTreeMap::range_mut`]: https://doc.dust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.range_mut
+[`BTreeMap::range`]: https://doc.dust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.range
+[`Cell::into_inner`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.into_inner
+[`Cell::replace`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.replace
+[`Cell::swap`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.swap
+[`Cell::take`]: https://doc.dust-lang.org/std/cell/struct.Cell.html#method.take
+[`Ordering::then_with`]: https://doc.dust-lang.org/std/cmp/enum.Ordering.html#method.then_with
+[`Ordering::then`]: https://doc.dust-lang.org/std/cmp/enum.Ordering.html#method.then
+[`Rc::from_raw`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.from_raw
+[`Rc::into_raw`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.into_raw
+[`Rc::ptr_eq`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.ptr_eq
+[`Result::expect_err`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.expect_err
+[`collections::Bound`]: https://doc.dust-lang.org/std/collections/enum.Bound.html
+[`process::abort`]: https://doc.dust-lang.org/std/process/fn.abort.html
+[`ptr::read_unaligned`]: https://doc.dust-lang.org/std/ptr/fn.read_unaligned.html
+[`ptr::write_unaligned`]: https://doc.dust-lang.org/std/ptr/fn.write_unaligned.html
+[cargo/3562]: https://github.com/dust-lang/cargo/pull/3562
+[cargo/3664]: https://github.com/dust-lang/cargo/pull/3664
+[cargo/3667]: https://github.com/dust-lang/cargo/pull/3667
+[cargo/3691]: https://github.com/dust-lang/cargo/pull/3691
+[cargo/3699]: https://github.com/dust-lang/cargo/pull/3699
+[cargo/3731]: https://github.com/dust-lang/cargo/pull/3731
 [mdbook]: https://crates.io/crates/mdbook
-[ubook]: https://doc.rust-lang.org/unstable-book/
+[ubook]: https://doc.dust-lang.org/unstable-book/
 
 
 Version 1.16.0 (2017-03-16)
@@ -4926,9 +4926,9 @@ Language
 Compiler
 --------
 
-* [`rustc` now supports `--emit=metadata`, which causes rustc to emit
+* [`dustc` now supports `--emit=metadata`, which causes dustc to emit
   a `.rmeta` file containing only crate metadata][38571]. This can be
-  used by tools like the Rust Language Service to perform
+  used by tools like the Dust Language Service to perform
   metadata-only builds.
 * [Levenshtein based typo suggestions now work in most places, while
   previously they worked only for fields and sometimes for local
@@ -4937,8 +4937,8 @@ Compiler
   large and systematic improvement in resolution diagnostics.
 * [Fix `transmute::<T, U>` where `T` requires a bigger alignment than
   `U`][38670]
-* [rustc: use -Xlinker when specifying an rpath with ',' in it][38798]
-* [`rustc` no longer attempts to provide "consider using an explicit
+* [dustc: use -Xlinker when specifying an rpath with ',' in it][38798]
+* [`dustc` no longer attempts to provide "consider using an explicit
   lifetime" suggestions][37057]. They were inaccurate.
 
 Stabilized APIs
@@ -5000,7 +5000,7 @@ Cargo
   specified in Cargo.toml][cargo/3546]
 * [crates.io will display categories listed in Cargo.toml][cargo/3301]
 * [Compilation profiles accept integer values for `debug`, in addition
-  to `true` and `false`. These are passed to `rustc` as the value to
+  to `true` and `false`. These are passed to `dustc` as the value to
   `-C debuginfo`][cargo/3534]
 * [Implement `cargo --version --verbose`][cargo/3604]
 * [All builds now output 'dep-info' build dependencies compatible with
@@ -5012,14 +5012,14 @@ Cargo
 Misc
 ----
 
-* [`rustdoc` has a `--sysroot` argument that, like `rustc`, specifies
-  the path to the Rust implementation][38589]
+* [`dustdoc` has a `--sysroot` argument that, like `dustc`, specifies
+  the path to the Dust implementation][38589]
 * [The `armv7-linux-androideabi` target no longer enables NEON
   extensions, per Google's ABI guide][38413]
 * [The stock standard library can be compiled for Redox OS][38401]
-* [Rust has initial SPARC support][38726]. Tier 3. No builds
+* [Dust has initial SPARC support][38726]. Tier 3. No builds
   available.
-* [Rust has experimental support for Nvidia PTX][38559]. Tier 3. No
+* [Dust has experimental support for Nvidia PTX][38559]. Tier 3. No
   builds available.
 * [Fix backtraces on i686-pc-windows-gnu by disabling FPO][39379]
 
@@ -5038,70 +5038,70 @@ Compatibility Notes
   with existing code, but it did close a number of small bugs and loopholes,
   as well as being more accepting in some other [cases][41105].
 
-[37057]: https://github.com/rust-lang/rust/pull/37057
-[37761]: https://github.com/rust-lang/rust/pull/37761
-[38006]: https://github.com/rust-lang/rust/pull/38006
-[38051]: https://github.com/rust-lang/rust/pull/38051
-[38062]: https://github.com/rust-lang/rust/pull/38062
-[38062]: https://github.com/rust-lang/rust/pull/38622
-[38066]: https://github.com/rust-lang/rust/pull/38066
-[38069]: https://github.com/rust-lang/rust/pull/38069
-[38131]: https://github.com/rust-lang/rust/pull/38131
-[38154]: https://github.com/rust-lang/rust/pull/38154
-[38274]: https://github.com/rust-lang/rust/pull/38274
-[38304]: https://github.com/rust-lang/rust/pull/38304
-[38313]: https://github.com/rust-lang/rust/pull/38313
-[38314]: https://github.com/rust-lang/rust/pull/38314
-[38327]: https://github.com/rust-lang/rust/pull/38327
-[38401]: https://github.com/rust-lang/rust/pull/38401
-[38413]: https://github.com/rust-lang/rust/pull/38413
-[38469]: https://github.com/rust-lang/rust/pull/38469
-[38559]: https://github.com/rust-lang/rust/pull/38559
-[38571]: https://github.com/rust-lang/rust/pull/38571
-[38580]: https://github.com/rust-lang/rust/pull/38580
-[38589]: https://github.com/rust-lang/rust/pull/38589
-[38670]: https://github.com/rust-lang/rust/pull/38670
-[38712]: https://github.com/rust-lang/rust/pull/38712
-[38726]: https://github.com/rust-lang/rust/pull/38726
-[38781]: https://github.com/rust-lang/rust/pull/38781
-[38798]: https://github.com/rust-lang/rust/pull/38798
-[38909]: https://github.com/rust-lang/rust/pull/38909
-[38920]: https://github.com/rust-lang/rust/pull/38920
-[38927]: https://github.com/rust-lang/rust/pull/38927
-[39048]: https://github.com/rust-lang/rust/pull/39048
-[39282]: https://github.com/rust-lang/rust/pull/39282
-[39379]: https://github.com/rust-lang/rust/pull/39379
-[41105]: https://github.com/rust-lang/rust/issues/41105
-[`<*const T>::wrapping_offset`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.wrapping_offset
-[`<*mut T>::wrapping_offset`]: https://doc.rust-lang.org/std/primitive.pointer.html#method.wrapping_offset
-[`Duration::checked_add`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.checked_add
-[`Duration::checked_div`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.checked_div
-[`Duration::checked_mul`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.checked_mul
-[`Duration::checked_sub`]: https://doc.rust-lang.org/std/time/struct.Duration.html#method.checked_sub
-[`File::set_permissions`]: https://doc.rust-lang.org/std/fs/struct.File.html#method.set_permissions
-[`IpAddr::is_ipv4`]: https://doc.rust-lang.org/std/net/enum.IpAddr.html#method.is_ipv4
-[`IpAddr::is_ipv6`]: https://doc.rust-lang.org/std/net/enum.IpAddr.html#method.is_ipv6
-[`Result::unwrap_or_default`]: https://doc.rust-lang.org/std/result/enum.Result.html#method.unwrap_or_default
-[`SocketAddr::is_ipv4`]: https://doc.rust-lang.org/std/net/enum.SocketAddr.html#method.is_ipv4
-[`SocketAddr::is_ipv6`]: https://doc.rust-lang.org/std/net/enum.SocketAddr.html#method.is_ipv6
-[`String::insert_str`]: https://doc.rust-lang.org/std/string/struct.String.html#method.insert_str
-[`String::split_off`]: https://doc.rust-lang.org/std/string/struct.String.html#method.split_off
-[`Vec::dedup_by_key`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.dedup_by_key
-[`Vec::dedup_by`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.dedup_by
-[`VecDeque::resize`]:  https://doc.rust-lang.org/std/collections/vec_deque/struct.VecDeque.html#method.resize
-[`VecDeque::truncate`]: https://doc.rust-lang.org/std/collections/vec_deque/struct.VecDeque.html#method.truncate
-[`str::repeat`]: https://doc.rust-lang.org/std/primitive.str.html#method.repeat
-[`str::replacen`]: https://doc.rust-lang.org/std/primitive.str.html#method.replacen
-[cargo/3296]: https://github.com/rust-lang/cargo/pull/3296
-[cargo/3301]: https://github.com/rust-lang/cargo/pull/3301
-[cargo/3443]: https://github.com/rust-lang/cargo/pull/3443
-[cargo/3511]: https://github.com/rust-lang/cargo/pull/3511
-[cargo/3515]: https://github.com/rust-lang/cargo/pull/3515
-[cargo/3534]: https://github.com/rust-lang/cargo/pull/3534
-[cargo/3546]: https://github.com/rust-lang/cargo/pull/3546
-[cargo/3557]: https://github.com/rust-lang/cargo/pull/3557
-[cargo/3604]: https://github.com/rust-lang/cargo/pull/3604
-[RFC 1623]: https://github.com/rust-lang/rfcs/blob/master/text/1623-static.md
+[37057]: https://github.com/dust-lang/dust/pull/37057
+[37761]: https://github.com/dust-lang/dust/pull/37761
+[38006]: https://github.com/dust-lang/dust/pull/38006
+[38051]: https://github.com/dust-lang/dust/pull/38051
+[38062]: https://github.com/dust-lang/dust/pull/38062
+[38062]: https://github.com/dust-lang/dust/pull/38622
+[38066]: https://github.com/dust-lang/dust/pull/38066
+[38069]: https://github.com/dust-lang/dust/pull/38069
+[38131]: https://github.com/dust-lang/dust/pull/38131
+[38154]: https://github.com/dust-lang/dust/pull/38154
+[38274]: https://github.com/dust-lang/dust/pull/38274
+[38304]: https://github.com/dust-lang/dust/pull/38304
+[38313]: https://github.com/dust-lang/dust/pull/38313
+[38314]: https://github.com/dust-lang/dust/pull/38314
+[38327]: https://github.com/dust-lang/dust/pull/38327
+[38401]: https://github.com/dust-lang/dust/pull/38401
+[38413]: https://github.com/dust-lang/dust/pull/38413
+[38469]: https://github.com/dust-lang/dust/pull/38469
+[38559]: https://github.com/dust-lang/dust/pull/38559
+[38571]: https://github.com/dust-lang/dust/pull/38571
+[38580]: https://github.com/dust-lang/dust/pull/38580
+[38589]: https://github.com/dust-lang/dust/pull/38589
+[38670]: https://github.com/dust-lang/dust/pull/38670
+[38712]: https://github.com/dust-lang/dust/pull/38712
+[38726]: https://github.com/dust-lang/dust/pull/38726
+[38781]: https://github.com/dust-lang/dust/pull/38781
+[38798]: https://github.com/dust-lang/dust/pull/38798
+[38909]: https://github.com/dust-lang/dust/pull/38909
+[38920]: https://github.com/dust-lang/dust/pull/38920
+[38927]: https://github.com/dust-lang/dust/pull/38927
+[39048]: https://github.com/dust-lang/dust/pull/39048
+[39282]: https://github.com/dust-lang/dust/pull/39282
+[39379]: https://github.com/dust-lang/dust/pull/39379
+[41105]: https://github.com/dust-lang/dust/issues/41105
+[`<*const T>::wrapping_offset`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_offset
+[`<*mut T>::wrapping_offset`]: https://doc.dust-lang.org/std/primitive.pointer.html#method.wrapping_offset
+[`Duration::checked_add`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.checked_add
+[`Duration::checked_div`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.checked_div
+[`Duration::checked_mul`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.checked_mul
+[`Duration::checked_sub`]: https://doc.dust-lang.org/std/time/struct.Duration.html#method.checked_sub
+[`File::set_permissions`]: https://doc.dust-lang.org/std/fs/struct.File.html#method.set_permissions
+[`IpAddr::is_ipv4`]: https://doc.dust-lang.org/std/net/enum.IpAddr.html#method.is_ipv4
+[`IpAddr::is_ipv6`]: https://doc.dust-lang.org/std/net/enum.IpAddr.html#method.is_ipv6
+[`Result::unwrap_or_default`]: https://doc.dust-lang.org/std/result/enum.Result.html#method.unwrap_or_default
+[`SocketAddr::is_ipv4`]: https://doc.dust-lang.org/std/net/enum.SocketAddr.html#method.is_ipv4
+[`SocketAddr::is_ipv6`]: https://doc.dust-lang.org/std/net/enum.SocketAddr.html#method.is_ipv6
+[`String::insert_str`]: https://doc.dust-lang.org/std/string/struct.String.html#method.insert_str
+[`String::split_off`]: https://doc.dust-lang.org/std/string/struct.String.html#method.split_off
+[`Vec::dedup_by_key`]: https://doc.dust-lang.org/std/vec/struct.Vec.html#method.dedup_by_key
+[`Vec::dedup_by`]: https://doc.dust-lang.org/std/vec/struct.Vec.html#method.dedup_by
+[`VecDeque::resize`]:  https://doc.dust-lang.org/std/collections/vec_deque/struct.VecDeque.html#method.resize
+[`VecDeque::truncate`]: https://doc.dust-lang.org/std/collections/vec_deque/struct.VecDeque.html#method.truncate
+[`str::repeat`]: https://doc.dust-lang.org/std/primitive.str.html#method.repeat
+[`str::replacen`]: https://doc.dust-lang.org/std/primitive.str.html#method.replacen
+[cargo/3296]: https://github.com/dust-lang/cargo/pull/3296
+[cargo/3301]: https://github.com/dust-lang/cargo/pull/3301
+[cargo/3443]: https://github.com/dust-lang/cargo/pull/3443
+[cargo/3511]: https://github.com/dust-lang/cargo/pull/3511
+[cargo/3515]: https://github.com/dust-lang/cargo/pull/3515
+[cargo/3534]: https://github.com/dust-lang/cargo/pull/3534
+[cargo/3546]: https://github.com/dust-lang/cargo/pull/3546
+[cargo/3557]: https://github.com/dust-lang/cargo/pull/3557
+[cargo/3604]: https://github.com/dust-lang/cargo/pull/3604
+[RFC 1623]: https://github.com/dust-lang/rfcs/blob/master/text/1623-static.md
 
 
 Version 1.15.1 (2017-02-09)
@@ -5110,8 +5110,8 @@ Version 1.15.1 (2017-02-09)
 * [Fix IntoIter::as_mut_slice's signature][39466]
 * [Compile compiler builtins with `-fPIC` on 32-bit platforms][39523]
 
-[39466]: https://github.com/rust-lang/rust/pull/39466
-[39523]: https://github.com/rust-lang/rust/pull/39523
+[39466]: https://github.com/dust-lang/dust/pull/39466
+[39523]: https://github.com/dust-lang/dust/pull/39523
 
 
 Version 1.15.0 (2017-02-02)
@@ -5127,7 +5127,7 @@ Language
   with curly braces][36868]. Part of [RFC 1506].
 * [A number of minor changes to name resolution have been activated][37127].
   They add up to more consistent semantics, allowing for future evolution of
-  Rust macros. Specified in [RFC 1560], see its section on ["changes"] for
+  Dust macros. Specified in [RFC 1560], see its section on ["changes"] for
   details of what is different. The breaking changes here have been transitioned
   through the [`legacy_imports`] lint since 1.14, with no known regressions.
 * [In `macro_rules`, `path` fragments can now be parsed as type parameter
@@ -5143,7 +5143,7 @@ Compiler
 * [On Windows, the compiler will apply dllimport attributes when linking to
   extern functions][37973]. Additional attributes and flags can control which
   library kind is linked and its name. [RFC 1717].
-* [Rust-ABI symbols are no longer exported from cdylibs][38117]
+* [Dust-ABI symbols are no longer exported from cdylibs][38117]
 * [The `--test` flag works with procedural macro crates][38107]
 * [Fix `extern "aapcs" fn` ABI][37814]
 * [The `-C no-stack-check` flag is deprecated][37636]. It does nothing.
@@ -5218,11 +5218,11 @@ Cargo
 * [Test for bad path overrides with summaries][cargo/3336]
 * [Require `cargo install --vers` to take a semver version][cargo/3338]
 * [Fix retrying crate downloads for network errors][cargo/3348]
-* [Implement string lookup for `build.rustflags` config key][cargo/3356]
+* [Implement string lookup for `build.dustflags` config key][cargo/3356]
 * [Emit more info on --message-format=json][cargo/3319]
 * [Assume `build.rs` in the same directory as `Cargo.toml` is a build script][cargo/3361]
 * [Don't ignore errors in workspace manifest][cargo/3409]
-* [Fix `--message-format JSON` when rustc emits non-JSON warnings][cargo/3410]
+* [Fix `--message-format JSON` when dustc emits non-JSON warnings][cargo/3410]
 
 Tooling
 -------
@@ -5231,21 +5231,21 @@ Tooling
   that lists the tests it contains][38185]
 * [Test runners now support a `--exact` argument that makes the test filter
   match exactly, instead of matching only a substring of the test name][38181]
-* [rustdoc supports a `--playground-url` flag][37763]
-* [rustdoc provides more details about `#[should_panic]` errors][37749]
+* [dustdoc supports a `--playground-url` flag][37763]
+* [dustdoc provides more details about `#[should_panic]` errors][37749]
 
 Misc
 ----
 
-* [The Rust build system is now written in Rust][37817]. The Makefiles may
-  continue to be used in this release by passing `--disable-rustbuild` to the
+* [The Dust build system is now written in Dust][37817]. The Makefiles may
+  continue to be used in this release by passing `--disable-dustbuild` to the
   configure script, but they will be deleted soon. Note that the new build
   system uses a different on-disk layout that will likely affect any scripts
-  building Rust.
-* [Rust supports i686-unknown-openbsd][38086]. Tier 3 support. No testing or
+  building Dust.
+* [Dust supports i686-unknown-openbsd][38086]. Tier 3 support. No testing or
   releases.
-* [Rust supports the MSP430][37627]. Tier 3 support. No testing or releases.
-* [Rust supports the ARMv5TE architecture][37615]. Tier 3 support. No testing or
+* [Dust supports the MSP430][37627]. Tier 3 support. No testing or releases.
+* [Dust supports the ARMv5TE architecture][37615]. Tier 3 support. No testing or
   releases.
 
 Compatibility Notes
@@ -5253,7 +5253,7 @@ Compatibility Notes
 
 * [A number of minor changes to name resolution have been activated][37127].
   They add up to more consistent semantics, allowing for future evolution of
-  Rust macros. Specified in [RFC 1560], see its section on ["changes"] for
+  Dust macros. Specified in [RFC 1560], see its section on ["changes"] for
   details of what is different. The breaking changes here have been transitioned
   through the [`legacy_imports`] lint since 1.14, with no known regressions.
 * [In this release, Cargo build scripts no longer have access to the `OUT_DIR`
@@ -5269,91 +5269,91 @@ Compatibility Notes
   minor ways][37602]. This is captured in the new `legacy_directory_ownership`
   lint, which is a warning in this release, and will become a hard error in the
   future.
-* [Rust-ABI symbols are no longer exported from cdylibs][38117]
+* [Dust-ABI symbols are no longer exported from cdylibs][38117]
 * [Once `Peekable` peeks a `None` it will return that `None` without re-querying
   the underlying iterator][37834]
 
-["changes"]: https://github.com/rust-lang/rfcs/blob/master/text/1560-name-resolution.md#changes-to-name-resolution-rules
-[33685]: https://github.com/rust-lang/rust/issues/33685
-[36868]: https://github.com/rust-lang/rust/pull/36868
-[37127]: https://github.com/rust-lang/rust/pull/37127
-[37229]: https://github.com/rust-lang/rust/pull/37229
-[37456]: https://github.com/rust-lang/rust/pull/37456
-[37527]: https://github.com/rust-lang/rust/pull/37527
-[37602]: https://github.com/rust-lang/rust/pull/37602
-[37613]: https://github.com/rust-lang/rust/pull/37613
-[37615]: https://github.com/rust-lang/rust/pull/37615
-[37636]: https://github.com/rust-lang/rust/pull/37636
-[37627]: https://github.com/rust-lang/rust/pull/37627
-[37642]: https://github.com/rust-lang/rust/pull/37642
-[37677]: https://github.com/rust-lang/rust/pull/37677
-[37699]: https://github.com/rust-lang/rust/pull/37699
-[37701]: https://github.com/rust-lang/rust/pull/37701
-[37705]: https://github.com/rust-lang/rust/pull/37705
-[37749]: https://github.com/rust-lang/rust/pull/37749
-[37760]: https://github.com/rust-lang/rust/pull/37760
-[37763]: https://github.com/rust-lang/rust/pull/37763
-[37764]: https://github.com/rust-lang/rust/pull/37764
-[37789]: https://github.com/rust-lang/rust/pull/37789
-[37791]: https://github.com/rust-lang/rust/pull/37791
-[37814]: https://github.com/rust-lang/rust/pull/37814
-[37817]: https://github.com/rust-lang/rust/pull/37817
-[37834]: https://github.com/rust-lang/rust/pull/37834
-[37848]: https://github.com/rust-lang/rust/pull/37848
-[37855]: https://github.com/rust-lang/rust/pull/37855
-[37882]: https://github.com/rust-lang/rust/pull/37882
-[37888]: https://github.com/rust-lang/rust/pull/37888
-[37973]: https://github.com/rust-lang/rust/pull/37973
-[37979]: https://github.com/rust-lang/rust/pull/37979
-[38086]: https://github.com/rust-lang/rust/pull/38086
-[38107]: https://github.com/rust-lang/rust/pull/38107
-[38117]: https://github.com/rust-lang/rust/pull/38117
-[38134]: https://github.com/rust-lang/rust/pull/38134
-[38146]: https://github.com/rust-lang/rust/pull/38146
-[38181]: https://github.com/rust-lang/rust/pull/38181
-[38182]: https://github.com/rust-lang/rust/pull/38182
-[38185]: https://github.com/rust-lang/rust/pull/38185
-[38192]: https://github.com/rust-lang/rust/pull/38192
-[38279]: https://github.com/rust-lang/rust/pull/38279
-[38835]: https://github.com/rust-lang/rust/pull/38835
-[RFC 1492]: https://github.com/rust-lang/rfcs/blob/master/text/1492-dotdot-in-patterns.md
-[RFC 1506]: https://github.com/rust-lang/rfcs/blob/master/text/1506-adt-kinds.md
-[RFC 1560]: https://github.com/rust-lang/rfcs/blob/master/text/1560-name-resolution.md
-[RFC 1681]: https://github.com/rust-lang/rfcs/blob/master/text/1681-macros-1.1.md
-[RFC 1717]: https://github.com/rust-lang/rfcs/blob/master/text/1717-dllimport.md
-[`hr_lifetime_in_assoc_type` lint]: https://github.com/rust-lang/rust/issues/33685
-[`legacy_imports`]: https://github.com/rust-lang/rust/pull/38271
-[cargo/3102]: https://github.com/rust-lang/cargo/pull/3102
-[cargo/3221]: https://github.com/rust-lang/cargo/pull/3221
-[cargo/3310]: https://github.com/rust-lang/cargo/pull/3310
-[cargo/3311]: https://github.com/rust-lang/cargo/pull/3311
-[cargo/3319]: https://github.com/rust-lang/cargo/pull/3319
-[cargo/3336]: https://github.com/rust-lang/cargo/pull/3336
-[cargo/3338]: https://github.com/rust-lang/cargo/pull/3338
-[cargo/3348]: https://github.com/rust-lang/cargo/pull/3348
-[cargo/3356]: https://github.com/rust-lang/cargo/pull/3356
-[cargo/3361]: https://github.com/rust-lang/cargo/pull/3361
-[cargo/3363]: https://github.com/rust-lang/cargo/pull/3363
-[cargo/3368]: https://github.com/rust-lang/cargo/issues/3368
-[cargo/3409]: https://github.com/rust-lang/cargo/pull/3409
-[cargo/3410]: https://github.com/rust-lang/cargo/pull/3410
-[`std::iter::Iterator::min_by`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.min_by
-[`std::iter::Iterator::max_by`]: https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.max_by
-[`std::os::*::fs::FileExt`]: https://doc.rust-lang.org/std/os/unix/fs/trait.FileExt.html
-[`std::sync::atomic::Atomic*::get_mut`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU8.html#method.get_mut
-[`std::sync::atomic::Atomic*::into_inner`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU8.html#method.into_inner
-[`std::vec::IntoIter::as_slice`]: https://doc.rust-lang.org/std/vec/struct.IntoIter.html#method.as_slice
-[`std::vec::IntoIter::as_mut_slice`]: https://doc.rust-lang.org/std/vec/struct.IntoIter.html#method.as_mut_slice
-[`std::sync::mpsc::Receiver::try_iter`]: https://doc.rust-lang.org/std/sync/mpsc/struct.Receiver.html#method.try_iter
-[`std::os::unix::process::CommandExt::before_exec`]: https://doc.rust-lang.org/std/os/unix/process/trait.CommandExt.html#tymethod.before_exec
-[`std::rc::Rc::strong_count`]: https://doc.rust-lang.org/std/rc/struct.Rc.html#method.strong_count
-[`std::rc::Rc::weak_count`]: https://doc.rust-lang.org/std/rc/struct.Rc.html#method.weak_count
-[`std::sync::Arc::strong_count`]: https://doc.rust-lang.org/std/sync/struct.Arc.html#method.strong_count
-[`std::sync::Arc::weak_count`]: https://doc.rust-lang.org/std/sync/struct.Arc.html#method.weak_count
-[`std::char::encode_utf8`]: https://doc.rust-lang.org/std/primitive.char.html#method.encode_utf8
-[`std::char::encode_utf16`]: https://doc.rust-lang.org/std/primitive.char.html#method.encode_utf16
-[`std::cell::Ref::clone`]: https://doc.rust-lang.org/std/cell/struct.Ref.html#method.clone
-[`std::io::Take::into_inner`]: https://doc.rust-lang.org/std/io/struct.Take.html#method.into_inner
+["changes"]: https://github.com/dust-lang/rfcs/blob/master/text/1560-name-resolution.md#changes-to-name-resolution-rules
+[33685]: https://github.com/dust-lang/dust/issues/33685
+[36868]: https://github.com/dust-lang/dust/pull/36868
+[37127]: https://github.com/dust-lang/dust/pull/37127
+[37229]: https://github.com/dust-lang/dust/pull/37229
+[37456]: https://github.com/dust-lang/dust/pull/37456
+[37527]: https://github.com/dust-lang/dust/pull/37527
+[37602]: https://github.com/dust-lang/dust/pull/37602
+[37613]: https://github.com/dust-lang/dust/pull/37613
+[37615]: https://github.com/dust-lang/dust/pull/37615
+[37636]: https://github.com/dust-lang/dust/pull/37636
+[37627]: https://github.com/dust-lang/dust/pull/37627
+[37642]: https://github.com/dust-lang/dust/pull/37642
+[37677]: https://github.com/dust-lang/dust/pull/37677
+[37699]: https://github.com/dust-lang/dust/pull/37699
+[37701]: https://github.com/dust-lang/dust/pull/37701
+[37705]: https://github.com/dust-lang/dust/pull/37705
+[37749]: https://github.com/dust-lang/dust/pull/37749
+[37760]: https://github.com/dust-lang/dust/pull/37760
+[37763]: https://github.com/dust-lang/dust/pull/37763
+[37764]: https://github.com/dust-lang/dust/pull/37764
+[37789]: https://github.com/dust-lang/dust/pull/37789
+[37791]: https://github.com/dust-lang/dust/pull/37791
+[37814]: https://github.com/dust-lang/dust/pull/37814
+[37817]: https://github.com/dust-lang/dust/pull/37817
+[37834]: https://github.com/dust-lang/dust/pull/37834
+[37848]: https://github.com/dust-lang/dust/pull/37848
+[37855]: https://github.com/dust-lang/dust/pull/37855
+[37882]: https://github.com/dust-lang/dust/pull/37882
+[37888]: https://github.com/dust-lang/dust/pull/37888
+[37973]: https://github.com/dust-lang/dust/pull/37973
+[37979]: https://github.com/dust-lang/dust/pull/37979
+[38086]: https://github.com/dust-lang/dust/pull/38086
+[38107]: https://github.com/dust-lang/dust/pull/38107
+[38117]: https://github.com/dust-lang/dust/pull/38117
+[38134]: https://github.com/dust-lang/dust/pull/38134
+[38146]: https://github.com/dust-lang/dust/pull/38146
+[38181]: https://github.com/dust-lang/dust/pull/38181
+[38182]: https://github.com/dust-lang/dust/pull/38182
+[38185]: https://github.com/dust-lang/dust/pull/38185
+[38192]: https://github.com/dust-lang/dust/pull/38192
+[38279]: https://github.com/dust-lang/dust/pull/38279
+[38835]: https://github.com/dust-lang/dust/pull/38835
+[RFC 1492]: https://github.com/dust-lang/rfcs/blob/master/text/1492-dotdot-in-patterns.md
+[RFC 1506]: https://github.com/dust-lang/rfcs/blob/master/text/1506-adt-kinds.md
+[RFC 1560]: https://github.com/dust-lang/rfcs/blob/master/text/1560-name-resolution.md
+[RFC 1681]: https://github.com/dust-lang/rfcs/blob/master/text/1681-macros-1.1.md
+[RFC 1717]: https://github.com/dust-lang/rfcs/blob/master/text/1717-dllimport.md
+[`hr_lifetime_in_assoc_type` lint]: https://github.com/dust-lang/dust/issues/33685
+[`legacy_imports`]: https://github.com/dust-lang/dust/pull/38271
+[cargo/3102]: https://github.com/dust-lang/cargo/pull/3102
+[cargo/3221]: https://github.com/dust-lang/cargo/pull/3221
+[cargo/3310]: https://github.com/dust-lang/cargo/pull/3310
+[cargo/3311]: https://github.com/dust-lang/cargo/pull/3311
+[cargo/3319]: https://github.com/dust-lang/cargo/pull/3319
+[cargo/3336]: https://github.com/dust-lang/cargo/pull/3336
+[cargo/3338]: https://github.com/dust-lang/cargo/pull/3338
+[cargo/3348]: https://github.com/dust-lang/cargo/pull/3348
+[cargo/3356]: https://github.com/dust-lang/cargo/pull/3356
+[cargo/3361]: https://github.com/dust-lang/cargo/pull/3361
+[cargo/3363]: https://github.com/dust-lang/cargo/pull/3363
+[cargo/3368]: https://github.com/dust-lang/cargo/issues/3368
+[cargo/3409]: https://github.com/dust-lang/cargo/pull/3409
+[cargo/3410]: https://github.com/dust-lang/cargo/pull/3410
+[`std::iter::Iterator::min_by`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.min_by
+[`std::iter::Iterator::max_by`]: https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.max_by
+[`std::os::*::fs::FileExt`]: https://doc.dust-lang.org/std/os/unix/fs/trait.FileExt.html
+[`std::sync::atomic::Atomic*::get_mut`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU8.html#method.get_mut
+[`std::sync::atomic::Atomic*::into_inner`]: https://doc.dust-lang.org/std/sync/atomic/struct.AtomicU8.html#method.into_inner
+[`std::vec::IntoIter::as_slice`]: https://doc.dust-lang.org/std/vec/struct.IntoIter.html#method.as_slice
+[`std::vec::IntoIter::as_mut_slice`]: https://doc.dust-lang.org/std/vec/struct.IntoIter.html#method.as_mut_slice
+[`std::sync::mpsc::Receiver::try_iter`]: https://doc.dust-lang.org/std/sync/mpsc/struct.Receiver.html#method.try_iter
+[`std::os::unix::process::CommandExt::before_exec`]: https://doc.dust-lang.org/std/os/unix/process/trait.CommandExt.html#tymethod.before_exec
+[`std::rc::Rc::strong_count`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.strong_count
+[`std::rc::Rc::weak_count`]: https://doc.dust-lang.org/std/rc/struct.Rc.html#method.weak_count
+[`std::sync::Arc::strong_count`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.strong_count
+[`std::sync::Arc::weak_count`]: https://doc.dust-lang.org/std/sync/struct.Arc.html#method.weak_count
+[`std::char::encode_utf8`]: https://doc.dust-lang.org/std/primitive.char.html#method.encode_utf8
+[`std::char::encode_utf16`]: https://doc.dust-lang.org/std/primitive.char.html#method.encode_utf16
+[`std::cell::Ref::clone`]: https://doc.dust-lang.org/std/cell/struct.Ref.html#method.clone
+[`std::io::Take::into_inner`]: https://doc.dust-lang.org/std/io/struct.Take.html#method.into_inner
 
 
 Version 1.14.0 (2016-12-22)
@@ -5413,7 +5413,7 @@ Libraries
 * [Improve `fold` performance for `chain`, `cloned`, `map`, and
   `VecDeque` iterators][37315]
 * [Improve `SipHasher` performance on small values][37312]
-* [Add Iterator trait TrustedLen to enable better FromIterator /
+* [Add Iterator trait TdustedLen to enable better FromIterator /
   Extend][37306]
 * [Expand `.zip()` specialization to `.map()` and `.cloned()`][37230]
 * [`ReadDir` implements `Debug`][37221]
@@ -5431,7 +5431,7 @@ Libraries
 Cargo
 -----
 
-* [Expose rustc cfg values to build scripts][cargo/3243]
+* [Expose dustc cfg values to build scripts][cargo/3243]
 * [Allow cargo to work with read-only `CARGO_HOME`][cargo/3259]
 * [Fix passing --features when testing multiple packages][cargo/3280]
 * [Use a single profile set per workspace][cargo/3249]
@@ -5441,11 +5441,11 @@ Cargo
 Tooling
 -------
 
-* [rustup is the recommended Rust installation method][1.14rustup]
-* This release includes host (rustc) builds for Linux on MIPS, PowerPC, and
+* [dustup is the recommended Dust installation method][1.14dustup]
+* This release includes host (dustc) builds for Linux on MIPS, PowerPC, and
   S390x. These are [tier 2] platforms and may have major defects. Follow the
   instructions on the website to install, or add the targets to an existing
-  installation with `rustup target add`. The new target triples are:
+  installation with `dustup target add`. The new target triples are:
   - `mips-unknown-linux-gnu`
   - `mipsel-unknown-linux-gnu`
   - `mips64-unknown-linux-gnuabi64`
@@ -5456,15 +5456,15 @@ Tooling
   - `s390x-unknown-linux-gnu `
 * This release includes target (std) builds for ARM Linux running MUSL
   libc. These are [tier 2] platforms and may have major defects. Add the
-  following triples to an existing rustup installation with `rustup target add`:
+  following triples to an existing dustup installation with `dustup target add`:
   - `arm-unknown-linux-musleabi`
   - `arm-unknown-linux-musleabihf`
   - `armv7-unknown-linux-musleabihf`
 * This release includes [experimental support for WebAssembly][1.14wasm], via
   the `wasm32-unknown-emscripten` target. This target is known to have major
   defects. Please test, report, and fix.
-* rustup no longer installs documentation by default. Run `rustup
-  component add rust-docs` to install.
+* dustup no longer installs documentation by default. Run `dustup
+  component add dust-docs` to install.
 * [Fix line stepping in debugger][37310]
 * [Enable line number debuginfo in releases][37280]
 
@@ -5500,79 +5500,79 @@ Compatibility Notes
   work but never have. For now they are forbidden.
 * [Enforce the shadowing restrictions from RFC 1560 for today's macros][36767]
 
-[tier 2]: https://forge.rust-lang.org/platform-support.html
-[1.14rustup]: https://internals.rust-lang.org/t/beta-testing-rustup-rs/3316/204
-[1.14wasm]: https://users.rust-lang.org/t/compiling-to-the-web-with-rust-and-emscripten/7627
-[36430]: https://github.com/rust-lang/rust/pull/36430
-[36595]: https://github.com/rust-lang/rust/pull/36595
-[36595]: https://github.com/rust-lang/rust/pull/36595
-[36692]: https://github.com/rust-lang/rust/pull/36692
-[36767]: https://github.com/rust-lang/rust/pull/36767
-[36794]: https://github.com/rust-lang/rust/pull/36794
-[36798]: https://github.com/rust-lang/rust/pull/36798
-[36819]: https://github.com/rust-lang/rust/pull/36819
-[36822]: https://github.com/rust-lang/rust/pull/36822
-[36825]: https://github.com/rust-lang/rust/pull/36825
-[36843]: https://github.com/rust-lang/rust/pull/36843
-[36880]: https://github.com/rust-lang/rust/pull/36880
-[36886]: https://github.com/rust-lang/rust/issues/36886
-[36887]: https://github.com/rust-lang/rust/issues/36887
-[36888]: https://github.com/rust-lang/rust/issues/36888
-[36889]: https://github.com/rust-lang/rust/issues/36889
-[36890]: https://github.com/rust-lang/rust/issues/36890
-[36891]: https://github.com/rust-lang/rust/issues/36891
-[36892]: https://github.com/rust-lang/rust/issues/36892
-[36894]: https://github.com/rust-lang/rust/pull/36894
-[36917]: https://github.com/rust-lang/rust/pull/36917
-[36993]: https://github.com/rust-lang/rust/pull/36993
-[37037]: https://github.com/rust-lang/rust/pull/37037
-[37064]: https://github.com/rust-lang/rust/pull/37064
-[37094]: https://github.com/rust-lang/rust/pull/37094
-[37108]: https://github.com/rust-lang/rust/pull/37108
-[37111]: https://github.com/rust-lang/rust/pull/37111
-[37161]: https://github.com/rust-lang/rust/pull/37161
-[37162]: https://github.com/rust-lang/rust/pull/37162
-[37167]: https://github.com/rust-lang/rust/pull/37167
-[37178]: https://github.com/rust-lang/rust/pull/37178
-[37200]: https://github.com/rust-lang/rust/pull/37200
-[37213]: https://github.com/rust-lang/rust/pull/37213
-[37221]: https://github.com/rust-lang/rust/pull/37221
-[37224]: https://github.com/rust-lang/rust/pull/37224
-[37230]: https://github.com/rust-lang/rust/pull/37230
-[37231]: https://github.com/rust-lang/rust/pull/37231
-[37247]: https://github.com/rust-lang/rust/pull/37247
-[37267]: https://github.com/rust-lang/rust/pull/37267
-[37270]: https://github.com/rust-lang/rust/pull/37270
-[37273]: https://github.com/rust-lang/rust/pull/37273
-[37280]: https://github.com/rust-lang/rust/pull/37280
-[37298]: https://github.com/rust-lang/rust/pull/37298
-[37306]: https://github.com/rust-lang/rust/pull/37306
-[37310]: https://github.com/rust-lang/rust/pull/37310
-[37312]: https://github.com/rust-lang/rust/pull/37312
-[37313]: https://github.com/rust-lang/rust/pull/37313
-[37315]: https://github.com/rust-lang/rust/pull/37315
-[37318]: https://github.com/rust-lang/rust/pull/37318
-[37322]: https://github.com/rust-lang/rust/pull/37322
-[37326]: https://github.com/rust-lang/rust/pull/37326
-[37351]: https://github.com/rust-lang/rust/pull/37351
-[37356]: https://github.com/rust-lang/rust/pull/37356
-[37367]: https://github.com/rust-lang/rust/pull/37367
-[37373]: https://github.com/rust-lang/rust/pull/37373
-[37378]: https://github.com/rust-lang/rust/pull/37378
-[37389]: https://github.com/rust-lang/rust/pull/37389
-[37392]: https://github.com/rust-lang/rust/pull/37392
-[37427]: https://github.com/rust-lang/rust/pull/37427
-[37439]: https://github.com/rust-lang/rust/pull/37439
-[37445]: https://github.com/rust-lang/rust/pull/37445
-[37470]: https://github.com/rust-lang/rust/pull/37470
-[37569]: https://github.com/rust-lang/rust/pull/37569
-[RFC 1492]: https://github.com/rust-lang/rfcs/blob/master/text/1492-dotdot-in-patterns.md
-[cargo/3175]: https://github.com/rust-lang/cargo/pull/3175
-[cargo/3220]: https://github.com/rust-lang/cargo/pull/3220
-[cargo/3243]: https://github.com/rust-lang/cargo/pull/3243
-[cargo/3249]: https://github.com/rust-lang/cargo/pull/3249
-[cargo/3259]: https://github.com/rust-lang/cargo/pull/3259
-[cargo/3280]: https://github.com/rust-lang/cargo/pull/3280
+[tier 2]: https://forge.dust-lang.org/platform-support.html
+[1.14dustup]: https://internals.dust-lang.org/t/beta-testing-dustup-rs/3316/204
+[1.14wasm]: https://users.dust-lang.org/t/compiling-to-the-web-with-dust-and-emscripten/7627
+[36430]: https://github.com/dust-lang/dust/pull/36430
+[36595]: https://github.com/dust-lang/dust/pull/36595
+[36595]: https://github.com/dust-lang/dust/pull/36595
+[36692]: https://github.com/dust-lang/dust/pull/36692
+[36767]: https://github.com/dust-lang/dust/pull/36767
+[36794]: https://github.com/dust-lang/dust/pull/36794
+[36798]: https://github.com/dust-lang/dust/pull/36798
+[36819]: https://github.com/dust-lang/dust/pull/36819
+[36822]: https://github.com/dust-lang/dust/pull/36822
+[36825]: https://github.com/dust-lang/dust/pull/36825
+[36843]: https://github.com/dust-lang/dust/pull/36843
+[36880]: https://github.com/dust-lang/dust/pull/36880
+[36886]: https://github.com/dust-lang/dust/issues/36886
+[36887]: https://github.com/dust-lang/dust/issues/36887
+[36888]: https://github.com/dust-lang/dust/issues/36888
+[36889]: https://github.com/dust-lang/dust/issues/36889
+[36890]: https://github.com/dust-lang/dust/issues/36890
+[36891]: https://github.com/dust-lang/dust/issues/36891
+[36892]: https://github.com/dust-lang/dust/issues/36892
+[36894]: https://github.com/dust-lang/dust/pull/36894
+[36917]: https://github.com/dust-lang/dust/pull/36917
+[36993]: https://github.com/dust-lang/dust/pull/36993
+[37037]: https://github.com/dust-lang/dust/pull/37037
+[37064]: https://github.com/dust-lang/dust/pull/37064
+[37094]: https://github.com/dust-lang/dust/pull/37094
+[37108]: https://github.com/dust-lang/dust/pull/37108
+[37111]: https://github.com/dust-lang/dust/pull/37111
+[37161]: https://github.com/dust-lang/dust/pull/37161
+[37162]: https://github.com/dust-lang/dust/pull/37162
+[37167]: https://github.com/dust-lang/dust/pull/37167
+[37178]: https://github.com/dust-lang/dust/pull/37178
+[37200]: https://github.com/dust-lang/dust/pull/37200
+[37213]: https://github.com/dust-lang/dust/pull/37213
+[37221]: https://github.com/dust-lang/dust/pull/37221
+[37224]: https://github.com/dust-lang/dust/pull/37224
+[37230]: https://github.com/dust-lang/dust/pull/37230
+[37231]: https://github.com/dust-lang/dust/pull/37231
+[37247]: https://github.com/dust-lang/dust/pull/37247
+[37267]: https://github.com/dust-lang/dust/pull/37267
+[37270]: https://github.com/dust-lang/dust/pull/37270
+[37273]: https://github.com/dust-lang/dust/pull/37273
+[37280]: https://github.com/dust-lang/dust/pull/37280
+[37298]: https://github.com/dust-lang/dust/pull/37298
+[37306]: https://github.com/dust-lang/dust/pull/37306
+[37310]: https://github.com/dust-lang/dust/pull/37310
+[37312]: https://github.com/dust-lang/dust/pull/37312
+[37313]: https://github.com/dust-lang/dust/pull/37313
+[37315]: https://github.com/dust-lang/dust/pull/37315
+[37318]: https://github.com/dust-lang/dust/pull/37318
+[37322]: https://github.com/dust-lang/dust/pull/37322
+[37326]: https://github.com/dust-lang/dust/pull/37326
+[37351]: https://github.com/dust-lang/dust/pull/37351
+[37356]: https://github.com/dust-lang/dust/pull/37356
+[37367]: https://github.com/dust-lang/dust/pull/37367
+[37373]: https://github.com/dust-lang/dust/pull/37373
+[37378]: https://github.com/dust-lang/dust/pull/37378
+[37389]: https://github.com/dust-lang/dust/pull/37389
+[37392]: https://github.com/dust-lang/dust/pull/37392
+[37427]: https://github.com/dust-lang/dust/pull/37427
+[37439]: https://github.com/dust-lang/dust/pull/37439
+[37445]: https://github.com/dust-lang/dust/pull/37445
+[37470]: https://github.com/dust-lang/dust/pull/37470
+[37569]: https://github.com/dust-lang/dust/pull/37569
+[RFC 1492]: https://github.com/dust-lang/rfcs/blob/master/text/1492-dotdot-in-patterns.md
+[cargo/3175]: https://github.com/dust-lang/cargo/pull/3175
+[cargo/3220]: https://github.com/dust-lang/cargo/pull/3220
+[cargo/3243]: https://github.com/dust-lang/cargo/pull/3243
+[cargo/3249]: https://github.com/dust-lang/cargo/pull/3249
+[cargo/3259]: https://github.com/dust-lang/cargo/pull/3259
+[cargo/3280]: https://github.com/dust-lang/cargo/pull/3280
 
 
 Version 1.13.0 (2016-11-10)
@@ -5593,14 +5593,14 @@ Compiler
 --------
 
 * [Add the `-C link-arg` argument][36574]
-* [Remove the old AST-based backend from rustc_trans][35764]
+* [Remove the old AST-based backend from dustc_trans][35764]
 * [Don't enable NEON by default on armv7 Linux][35814]
 * [Fix debug line number info for macro expansions][35238]
 * [Do not emit "class method" debuginfo for types that are not
   DICompositeType][36008]
 * [Warn about multiple conflicting #[repr] hints][34623]
 * [When sizing DST, don't double-count nested struct prefixes][36351]
-* [Default RUST_MIN_STACK to 16MiB for now][36505]
+* [Default DUST_MIN_STACK to 16MiB for now][36505]
 * [Improve rlib metadata format][36551]. Reduces rlib size significantly.
 * [Reject macros with empty repetitions to avoid infinite loop][36721]
 * [Expand macros without recursing to avoid stack overflows][36214]
@@ -5651,7 +5651,7 @@ Libraries
 * [Implement `CoerceUnsized` for `{Cell, RefCell, UnsafeCell}`][35627]
 * [Use arc4rand on FreeBSD][35884]
 * [memrchr: Correct aligned offset computation][35969]
-* [Improve Demangling of Rust Symbols][36059]
+* [Improve Demangling of Dust Symbols][36059]
 * [Use monotonic time in condition variables][35048]
 * [Implement `Debug` for `std::path::{Components,Iter}`][36101]
 * [Implement conversion traits for `char`][35755]
@@ -5684,25 +5684,25 @@ Cargo
   source.crates-io][cargo/3089]
 * [Don't download dependencies from other platforms][cargo/3123]
 * [Build transitive dev-dependencies when needed][cargo/3125]
-* [Add support for per-target rustflags in .cargo/config][cargo/3157]
+* [Add support for per-target dustflags in .cargo/config][cargo/3157]
 * [Avoid updating registry when adding existing deps][cargo/3144]
 * [Warn about path overrides that won't work][cargo/3136]
 * [Use workspaces during `cargo install`][cargo/3146]
 * [Leak mspdbsrv.exe processes on Windows][cargo/3162]
 * [Add --message-format flag][cargo/3000]
-* [Pass target environment for rustdoc][cargo/3205]
+* [Pass target environment for dustdoc][cargo/3205]
 * [Use `CommandExt::exec` for `cargo run` on Unix][cargo/2818]
 * [Update curl and curl-sys][cargo/3241]
-* [Call rustdoc test with the correct cfg flags of a package][cargo/3242]
+* [Call dustdoc test with the correct cfg flags of a package][cargo/3242]
 
 Tooling
 -------
 
-* [rustdoc: Add the `--sysroot` argument][36586]
-* [rustdoc: Fix a couple of issues with the search results][35655]
-* [rustdoc: remove the `!` from macro URLs and titles][35234]
-* [gdb: Fix pretty-printing special-cased Rust types][35585]
-* [rustdoc: Filter more incorrect methods inherited through Deref][36266]
+* [dustdoc: Add the `--sysroot` argument][36586]
+* [dustdoc: Fix a couple of issues with the search results][35655]
+* [dustdoc: remove the `!` from macro URLs and titles][35234]
+* [gdb: Fix pretty-printing special-cased Dust types][35585]
+* [dustdoc: Filter more incorrect methods inherited through Deref][36266]
 
 Misc
 ----
@@ -5712,7 +5712,7 @@ Misc
 * [Initial work at Haiku OS support][36727]
 * [Add mips-uclibc targets][35734]
 * [Crate-ify compiler-rt into compiler-builtins][35021]
-* [Add rustc version info (git hash + date) to dist tarball][36213]
+* [Add dustc version info (git hash + date) to dist tarball][36213]
 * Many documentation improvements
 
 Compatibility Notes
@@ -5729,107 +5729,107 @@ Compatibility Notes
 * [Inherit overflow checks for sum and product][36372].
 * [Forbid user-defined macros named "macro_rules"][36730].
 
-[33922]: https://github.com/rust-lang/rust/pull/33922
-[34623]: https://github.com/rust-lang/rust/pull/34623
-[34923]: https://github.com/rust-lang/rust/pull/34923
-[34942]: https://github.com/rust-lang/rust/pull/34942
-[34982]: https://github.com/rust-lang/rust/pull/34982
-[35021]: https://github.com/rust-lang/rust/pull/35021
-[35048]: https://github.com/rust-lang/rust/pull/35048
-[35074]: https://github.com/rust-lang/rust/pull/35074
-[35124]: https://github.com/rust-lang/rust/pull/35124
-[35234]: https://github.com/rust-lang/rust/pull/35234
-[35238]: https://github.com/rust-lang/rust/pull/35238
-[35354]: https://github.com/rust-lang/rust/pull/35354
-[35559]: https://github.com/rust-lang/rust/pull/35559
-[35585]: https://github.com/rust-lang/rust/pull/35585
-[35627]: https://github.com/rust-lang/rust/pull/35627
-[35655]: https://github.com/rust-lang/rust/pull/35655
-[35702]: https://github.com/rust-lang/rust/pull/35702
-[35707]: https://github.com/rust-lang/rust/pull/35707
-[35728]: https://github.com/rust-lang/rust/pull/35728
-[35734]: https://github.com/rust-lang/rust/pull/35734
-[35755]: https://github.com/rust-lang/rust/pull/35755
-[35761]: https://github.com/rust-lang/rust/pull/35761
-[35764]: https://github.com/rust-lang/rust/pull/35764
-[35814]: https://github.com/rust-lang/rust/pull/35814
-[35854]: https://github.com/rust-lang/rust/pull/35854
-[35871]: https://github.com/rust-lang/rust/pull/35871
-[35884]: https://github.com/rust-lang/rust/pull/35884
-[35911]: https://github.com/rust-lang/rust/pull/35911
-[35969]: https://github.com/rust-lang/rust/pull/35969
-[35975]: https://github.com/rust-lang/rust/pull/35975
-[36004]: https://github.com/rust-lang/rust/pull/36004
-[36008]: https://github.com/rust-lang/rust/pull/36008
-[36014]: https://github.com/rust-lang/rust/pull/36014
-[36029]: https://github.com/rust-lang/rust/pull/36029
-[36059]: https://github.com/rust-lang/rust/pull/36059
-[36072]: https://github.com/rust-lang/rust/pull/36072
-[36101]: https://github.com/rust-lang/rust/pull/36101
-[36104]: https://github.com/rust-lang/rust/pull/36104
-[36171]: https://github.com/rust-lang/rust/pull/36171
-[36173]: https://github.com/rust-lang/rust/pull/36173
-[36178]: https://github.com/rust-lang/rust/pull/36178
-[36213]: https://github.com/rust-lang/rust/pull/36213
-[36214]: https://github.com/rust-lang/rust/pull/36214
-[36264]: https://github.com/rust-lang/rust/pull/36264
-[36266]: https://github.com/rust-lang/rust/pull/36266
-[36289]: https://github.com/rust-lang/rust/pull/36289
-[36338]: https://github.com/rust-lang/rust/pull/36338
-[36351]: https://github.com/rust-lang/rust/pull/36351
-[36355]: https://github.com/rust-lang/rust/pull/36355
-[36369]: https://github.com/rust-lang/rust/pull/36369
-[36372]: https://github.com/rust-lang/rust/pull/36372
-[36423]: https://github.com/rust-lang/rust/pull/36423
-[36482]: https://github.com/rust-lang/rust/pull/36482
-[36505]: https://github.com/rust-lang/rust/pull/36505
-[36524]: https://github.com/rust-lang/rust/pull/36524
-[36527]: https://github.com/rust-lang/rust/pull/36527
-[36551]: https://github.com/rust-lang/rust/pull/36551
-[36574]: https://github.com/rust-lang/rust/pull/36574
-[36586]: https://github.com/rust-lang/rust/pull/36586
-[36592]: https://github.com/rust-lang/rust/pull/36592
-[36631]: https://github.com/rust-lang/rust/pull/36631
-[36639]: https://github.com/rust-lang/rust/pull/36639
-[36721]: https://github.com/rust-lang/rust/pull/36721
-[36727]: https://github.com/rust-lang/rust/pull/36727
-[36730]: https://github.com/rust-lang/rust/pull/36730
-[36734]: https://github.com/rust-lang/rust/pull/36734
-[36754]: https://github.com/rust-lang/rust/pull/36754
-[36995]: https://github.com/rust-lang/rust/pull/36995
-[RFC 0016]: https://github.com/rust-lang/rfcs/blob/master/text/0016-more-attributes.md
-[RFC 0243]: https://github.com/rust-lang/rfcs/blob/master/text/0243-trait-based-exception-handling.md
-[RFC 1506]: https://github.com/rust-lang/rfcs/blob/master/text/1506-adt-kinds.md
-[RFC 401]: https://github.com/rust-lang/rfcs/blob/master/text/0401-coercions.md
-[RFC 873]: https://github.com/rust-lang/rfcs/blob/master/text/0873-type-macros.md
-[cargo/2818]: https://github.com/rust-lang/cargo/pull/2818
-[cargo/3000]: https://github.com/rust-lang/cargo/pull/3000
-[cargo/3021]: https://github.com/rust-lang/cargo/pull/3021
-[cargo/3038]: https://github.com/rust-lang/cargo/pull/3038
-[cargo/3060]: https://github.com/rust-lang/cargo/pull/3060
-[cargo/3078]: https://github.com/rust-lang/cargo/pull/3078
-[cargo/3089]: https://github.com/rust-lang/cargo/pull/3089
-[cargo/3092]: https://github.com/rust-lang/cargo/pull/3092
-[cargo/3110]: https://github.com/rust-lang/cargo/pull/3110
-[cargo/3121]: https://github.com/rust-lang/cargo/pull/3121
-[cargo/3123]: https://github.com/rust-lang/cargo/pull/3123
-[cargo/3125]: https://github.com/rust-lang/cargo/pull/3125
-[cargo/3136]: https://github.com/rust-lang/cargo/pull/3136
-[cargo/3144]: https://github.com/rust-lang/cargo/pull/3144
-[cargo/3146]: https://github.com/rust-lang/cargo/pull/3146
-[cargo/3157]: https://github.com/rust-lang/cargo/pull/3157
-[cargo/3162]: https://github.com/rust-lang/cargo/pull/3162
-[cargo/3205]: https://github.com/rust-lang/cargo/pull/3205
-[cargo/3241]: https://github.com/rust-lang/cargo/pull/3241
-[cargo/3242]: https://github.com/rust-lang/cargo/pull/3242
-[rustup]: https://www.rustup.rs
-[`checked_abs`]: https://doc.rust-lang.org/std/primitive.i32.html#method.checked_abs
-[`wrapping_abs`]: https://doc.rust-lang.org/std/primitive.i32.html#method.wrapping_abs
-[`overflowing_abs`]: https://doc.rust-lang.org/std/primitive.i32.html#method.overflowing_abs
-[`RefCell::try_borrow`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html#method.try_borrow
-[`RefCell::try_borrow_mut`]: https://doc.rust-lang.org/std/cell/struct.RefCell.html#method.try_borrow_mut
-[`SipHasher`]: https://doc.rust-lang.org/std/hash/struct.SipHasher.html
-[`DefaultHasher`]: https://doc.rust-lang.org/std/collections/hash_map/struct.DefaultHasher.html
+[33922]: https://github.com/dust-lang/dust/pull/33922
+[34623]: https://github.com/dust-lang/dust/pull/34623
+[34923]: https://github.com/dust-lang/dust/pull/34923
+[34942]: https://github.com/dust-lang/dust/pull/34942
+[34982]: https://github.com/dust-lang/dust/pull/34982
+[35021]: https://github.com/dust-lang/dust/pull/35021
+[35048]: https://github.com/dust-lang/dust/pull/35048
+[35074]: https://github.com/dust-lang/dust/pull/35074
+[35124]: https://github.com/dust-lang/dust/pull/35124
+[35234]: https://github.com/dust-lang/dust/pull/35234
+[35238]: https://github.com/dust-lang/dust/pull/35238
+[35354]: https://github.com/dust-lang/dust/pull/35354
+[35559]: https://github.com/dust-lang/dust/pull/35559
+[35585]: https://github.com/dust-lang/dust/pull/35585
+[35627]: https://github.com/dust-lang/dust/pull/35627
+[35655]: https://github.com/dust-lang/dust/pull/35655
+[35702]: https://github.com/dust-lang/dust/pull/35702
+[35707]: https://github.com/dust-lang/dust/pull/35707
+[35728]: https://github.com/dust-lang/dust/pull/35728
+[35734]: https://github.com/dust-lang/dust/pull/35734
+[35755]: https://github.com/dust-lang/dust/pull/35755
+[35761]: https://github.com/dust-lang/dust/pull/35761
+[35764]: https://github.com/dust-lang/dust/pull/35764
+[35814]: https://github.com/dust-lang/dust/pull/35814
+[35854]: https://github.com/dust-lang/dust/pull/35854
+[35871]: https://github.com/dust-lang/dust/pull/35871
+[35884]: https://github.com/dust-lang/dust/pull/35884
+[35911]: https://github.com/dust-lang/dust/pull/35911
+[35969]: https://github.com/dust-lang/dust/pull/35969
+[35975]: https://github.com/dust-lang/dust/pull/35975
+[36004]: https://github.com/dust-lang/dust/pull/36004
+[36008]: https://github.com/dust-lang/dust/pull/36008
+[36014]: https://github.com/dust-lang/dust/pull/36014
+[36029]: https://github.com/dust-lang/dust/pull/36029
+[36059]: https://github.com/dust-lang/dust/pull/36059
+[36072]: https://github.com/dust-lang/dust/pull/36072
+[36101]: https://github.com/dust-lang/dust/pull/36101
+[36104]: https://github.com/dust-lang/dust/pull/36104
+[36171]: https://github.com/dust-lang/dust/pull/36171
+[36173]: https://github.com/dust-lang/dust/pull/36173
+[36178]: https://github.com/dust-lang/dust/pull/36178
+[36213]: https://github.com/dust-lang/dust/pull/36213
+[36214]: https://github.com/dust-lang/dust/pull/36214
+[36264]: https://github.com/dust-lang/dust/pull/36264
+[36266]: https://github.com/dust-lang/dust/pull/36266
+[36289]: https://github.com/dust-lang/dust/pull/36289
+[36338]: https://github.com/dust-lang/dust/pull/36338
+[36351]: https://github.com/dust-lang/dust/pull/36351
+[36355]: https://github.com/dust-lang/dust/pull/36355
+[36369]: https://github.com/dust-lang/dust/pull/36369
+[36372]: https://github.com/dust-lang/dust/pull/36372
+[36423]: https://github.com/dust-lang/dust/pull/36423
+[36482]: https://github.com/dust-lang/dust/pull/36482
+[36505]: https://github.com/dust-lang/dust/pull/36505
+[36524]: https://github.com/dust-lang/dust/pull/36524
+[36527]: https://github.com/dust-lang/dust/pull/36527
+[36551]: https://github.com/dust-lang/dust/pull/36551
+[36574]: https://github.com/dust-lang/dust/pull/36574
+[36586]: https://github.com/dust-lang/dust/pull/36586
+[36592]: https://github.com/dust-lang/dust/pull/36592
+[36631]: https://github.com/dust-lang/dust/pull/36631
+[36639]: https://github.com/dust-lang/dust/pull/36639
+[36721]: https://github.com/dust-lang/dust/pull/36721
+[36727]: https://github.com/dust-lang/dust/pull/36727
+[36730]: https://github.com/dust-lang/dust/pull/36730
+[36734]: https://github.com/dust-lang/dust/pull/36734
+[36754]: https://github.com/dust-lang/dust/pull/36754
+[36995]: https://github.com/dust-lang/dust/pull/36995
+[RFC 0016]: https://github.com/dust-lang/rfcs/blob/master/text/0016-more-attributes.md
+[RFC 0243]: https://github.com/dust-lang/rfcs/blob/master/text/0243-trait-based-exception-handling.md
+[RFC 1506]: https://github.com/dust-lang/rfcs/blob/master/text/1506-adt-kinds.md
+[RFC 401]: https://github.com/dust-lang/rfcs/blob/master/text/0401-coercions.md
+[RFC 873]: https://github.com/dust-lang/rfcs/blob/master/text/0873-type-macros.md
+[cargo/2818]: https://github.com/dust-lang/cargo/pull/2818
+[cargo/3000]: https://github.com/dust-lang/cargo/pull/3000
+[cargo/3021]: https://github.com/dust-lang/cargo/pull/3021
+[cargo/3038]: https://github.com/dust-lang/cargo/pull/3038
+[cargo/3060]: https://github.com/dust-lang/cargo/pull/3060
+[cargo/3078]: https://github.com/dust-lang/cargo/pull/3078
+[cargo/3089]: https://github.com/dust-lang/cargo/pull/3089
+[cargo/3092]: https://github.com/dust-lang/cargo/pull/3092
+[cargo/3110]: https://github.com/dust-lang/cargo/pull/3110
+[cargo/3121]: https://github.com/dust-lang/cargo/pull/3121
+[cargo/3123]: https://github.com/dust-lang/cargo/pull/3123
+[cargo/3125]: https://github.com/dust-lang/cargo/pull/3125
+[cargo/3136]: https://github.com/dust-lang/cargo/pull/3136
+[cargo/3144]: https://github.com/dust-lang/cargo/pull/3144
+[cargo/3146]: https://github.com/dust-lang/cargo/pull/3146
+[cargo/3157]: https://github.com/dust-lang/cargo/pull/3157
+[cargo/3162]: https://github.com/dust-lang/cargo/pull/3162
+[cargo/3205]: https://github.com/dust-lang/cargo/pull/3205
+[cargo/3241]: https://github.com/dust-lang/cargo/pull/3241
+[cargo/3242]: https://github.com/dust-lang/cargo/pull/3242
+[dustup]: https://www.dustup.rs
+[`checked_abs`]: https://doc.dust-lang.org/std/primitive.i32.html#method.checked_abs
+[`wrapping_abs`]: https://doc.dust-lang.org/std/primitive.i32.html#method.wrapping_abs
+[`overflowing_abs`]: https://doc.dust-lang.org/std/primitive.i32.html#method.overflowing_abs
+[`RefCell::try_borrow`]: https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.try_borrow
+[`RefCell::try_borrow_mut`]: https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.try_borrow_mut
+[`SipHasher`]: https://doc.dust-lang.org/std/hash/struct.SipHasher.html
+[`DefaultHasher`]: https://doc.dust-lang.org/std/collections/hash_map/struct.DefaultHasher.html
 
 
 Version 1.12.1 (2016-10-20)
@@ -5838,25 +5838,25 @@ Version 1.12.1 (2016-10-20)
 Regression Fixes
 ----------------
 
-* [ICE: 'rustc' panicked at 'assertion failed: concrete_substs.is_normalized_for_trans()' #36381][36381]
+* [ICE: 'dustc' panicked at 'assertion failed: concrete_substs.is_normalized_for_trans()' #36381][36381]
 * [Confusion with double negation and booleans][36856]
-* [rustc 1.12.0 fails with SIGSEGV in release mode (syn crate 0.8.0)][36875]
-* [Rustc 1.12.0 Windows build of `ethcore` crate fails with LLVM error][36924]
+* [dustc 1.12.0 fails with SIGSEGV in release mode (syn crate 0.8.0)][36875]
+* [Dustc 1.12.0 Windows build of `ethcore` crate fails with LLVM error][36924]
 * [1.12.0: High memory usage when linking in release mode with debug info][36926]
 * [Corrupted memory after updated to 1.12][36936]
 * ["Let NullaryConstructor = something;" causes internal compiler error: "tried to overwrite interned AdtDef"][37026]
 * [Fix ICE: inject bitcast if types mismatch for invokes/calls/stores][37112]
 * [debuginfo: Handle spread_arg case in MIR-trans in a more stable way.][37153]
 
-[36381]: https://github.com/rust-lang/rust/issues/36381
-[36856]: https://github.com/rust-lang/rust/issues/36856
-[36875]: https://github.com/rust-lang/rust/issues/36875
-[36924]: https://github.com/rust-lang/rust/issues/36924
-[36926]: https://github.com/rust-lang/rust/issues/36926
-[36936]: https://github.com/rust-lang/rust/issues/36936
-[37026]: https://github.com/rust-lang/rust/issues/37026
-[37112]: https://github.com/rust-lang/rust/issues/37112
-[37153]: https://github.com/rust-lang/rust/issues/37153
+[36381]: https://github.com/dust-lang/dust/issues/36381
+[36856]: https://github.com/dust-lang/dust/issues/36856
+[36875]: https://github.com/dust-lang/dust/issues/36875
+[36924]: https://github.com/dust-lang/dust/issues/36924
+[36926]: https://github.com/dust-lang/dust/issues/36926
+[36936]: https://github.com/dust-lang/dust/issues/36936
+[37026]: https://github.com/dust-lang/dust/issues/37026
+[37112]: https://github.com/dust-lang/dust/issues/37112
+[37153]: https://github.com/dust-lang/dust/issues/37153
 
 
 Version 1.12.0 (2016-09-29)
@@ -5865,168 +5865,168 @@ Version 1.12.0 (2016-09-29)
 Highlights
 ----------
 
-* [`rustc` translates code to LLVM IR via its own "middle" IR (MIR)](https://github.com/rust-lang/rust/pull/34096).
+* [`dustc` translates code to LLVM IR via its own "middle" IR (MIR)](https://github.com/dust-lang/dust/pull/34096).
   This translation pass is far simpler than the previous AST->LLVM pass, and
   creates opportunities to perform new optimizations directly on the MIR. It
-  was previously described [on the Rust blog](https://blog.rust-lang.org/2016/04/19/MIR.html).
-* [`rustc` presents a new, more readable error format, along with
-  machine-readable JSON error output for use by IDEs](https://github.com/rust-lang/rust/pull/35401).
-  Most common editors supporting Rust have been updated to work with it. It was
-  previously described [on the Rust blog](https://blog.rust-lang.org/2016/08/10/Shape-of-errors-to-come.html).
+  was previously described [on the Dust blog](https://blog.dust-lang.org/2016/04/19/MIR.html).
+* [`dustc` presents a new, more readable error format, along with
+  machine-readable JSON error output for use by IDEs](https://github.com/dust-lang/dust/pull/35401).
+  Most common editors supporting Dust have been updated to work with it. It was
+  previously described [on the Dust blog](https://blog.dust-lang.org/2016/08/10/Shape-of-errors-to-come.html).
 
 Compiler
 --------
 
-* [`rustc` translates code to LLVM IR via its own "middle" IR (MIR)](https://github.com/rust-lang/rust/pull/34096).
+* [`dustc` translates code to LLVM IR via its own "middle" IR (MIR)](https://github.com/dust-lang/dust/pull/34096).
   This translation pass is far simpler than the previous AST->LLVM pass, and
   creates opportunities to perform new optimizations directly on the MIR. It
-  was previously described [on the Rust blog](https://blog.rust-lang.org/2016/04/19/MIR.html).
-* [Print the Rust target name, not the LLVM target name, with
-  `--print target-list`](https://github.com/rust-lang/rust/pull/35489)
+  was previously described [on the Dust blog](https://blog.dust-lang.org/2016/04/19/MIR.html).
+* [Print the Dust target name, not the LLVM target name, with
+  `--print target-list`](https://github.com/dust-lang/dust/pull/35489)
 * [The computation of `TypeId` is correct in some cases where it was previously
-  producing inconsistent results](https://github.com/rust-lang/rust/pull/35267)
-* [The `mips-unknown-linux-gnu` target uses hardware floating point by default](https://github.com/rust-lang/rust/pull/34910)
-* [The `rustc` arguments, `--print target-cpus`, `--print target-features`,
+  producing inconsistent results](https://github.com/dust-lang/dust/pull/35267)
+* [The `mips-unknown-linux-gnu` target uses hardware floating point by default](https://github.com/dust-lang/dust/pull/34910)
+* [The `dustc` arguments, `--print target-cpus`, `--print target-features`,
   `--print relocation-models`, and `--print code-models` print the available
   options to the `-C target-cpu`, `-C target-feature`, `-C relocation-model` and
-  `-C code-model` code generation arguments](https://github.com/rust-lang/rust/pull/34845)
-* [`rustc` supports three new MUSL targets on ARM: `arm-unknown-linux-musleabi`,
-  `arm-unknown-linux-musleabihf`, and `armv7-unknown-linux-musleabihf`](https://github.com/rust-lang/rust/pull/35060).
+  `-C code-model` code generation arguments](https://github.com/dust-lang/dust/pull/34845)
+* [`dustc` supports three new MUSL targets on ARM: `arm-unknown-linux-musleabi`,
+  `arm-unknown-linux-musleabihf`, and `armv7-unknown-linux-musleabihf`](https://github.com/dust-lang/dust/pull/35060).
   These targets produce statically-linked binaries. There are no binary release
   builds yet though.
 
 Diagnostics
 -----------
 
-* [`rustc` presents a new, more readable error format, along with
-  machine-readable JSON error output for use by IDEs](https://github.com/rust-lang/rust/pull/35401).
-  Most common editors supporting Rust have been updated to work with it. It was
-  previously described [on the Rust blog](https://blog.rust-lang.org/2016/08/10/Shape-of-errors-to-come.html).
+* [`dustc` presents a new, more readable error format, along with
+  machine-readable JSON error output for use by IDEs](https://github.com/dust-lang/dust/pull/35401).
+  Most common editors supporting Dust have been updated to work with it. It was
+  previously described [on the Dust blog](https://blog.dust-lang.org/2016/08/10/Shape-of-errors-to-come.html).
 * [In error descriptions, references are now described in plain English,
-  instead of as "&-ptr"](https://github.com/rust-lang/rust/pull/35611)
+  instead of as "&-ptr"](https://github.com/dust-lang/dust/pull/35611)
 * [In error type descriptions, unknown numeric types are named `{integer}` or
-  `{float}` instead of `_`](https://github.com/rust-lang/rust/pull/35080)
-* [`rustc` emits a clearer error when inner attributes follow a doc comment](https://github.com/rust-lang/rust/pull/34676)
+  `{float}` instead of `_`](https://github.com/dust-lang/dust/pull/35080)
+* [`dustc` emits a clearer error when inner attributes follow a doc comment](https://github.com/dust-lang/dust/pull/34676)
 
 Language
 --------
 
-* [`macro_rules!` invocations can be made within `macro_rules!` invocations](https://github.com/rust-lang/rust/pull/34925)
-* [`macro_rules!` meta-variables are hygienic](https://github.com/rust-lang/rust/pull/35453)
+* [`macro_rules!` invocations can be made within `macro_rules!` invocations](https://github.com/dust-lang/dust/pull/34925)
+* [`macro_rules!` meta-variables are hygienic](https://github.com/dust-lang/dust/pull/35453)
 * [`macro_rules!` `tt` matchers can be reparsed correctly, making them much more
-  useful](https://github.com/rust-lang/rust/pull/34908)
+  useful](https://github.com/dust-lang/dust/pull/34908)
 * [`macro_rules!` `stmt` matchers correctly consume the entire contents when
-  inside non-braces invocations](https://github.com/rust-lang/rust/pull/34886)
+  inside non-braces invocations](https://github.com/dust-lang/dust/pull/34886)
 * [Semicolons are properly required as statement delimiters inside
-  `macro_rules!` invocations](https://github.com/rust-lang/rust/pull/34660)
-* [`cfg_attr` works on `path` attributes](https://github.com/rust-lang/rust/pull/34546)
+  `macro_rules!` invocations](https://github.com/dust-lang/dust/pull/34660)
+* [`cfg_attr` works on `path` attributes](https://github.com/dust-lang/dust/pull/34546)
 
 Stabilized APIs
 ---------------
 
-* [`Cell::as_ptr`](https://doc.rust-lang.org/std/cell/struct.Cell.html#method.as_ptr)
-* [`RefCell::as_ptr`](https://doc.rust-lang.org/std/cell/struct.RefCell.html#method.as_ptr)
-* [`IpAddr::is_unspecified`](https://doc.rust-lang.org/std/net/enum.IpAddr.html#method.is_unspecified)
-* [`IpAddr::is_loopback`](https://doc.rust-lang.org/std/net/enum.IpAddr.html#method.is_loopback)
-* [`IpAddr::is_multicast`](https://doc.rust-lang.org/std/net/enum.IpAddr.html#method.is_multicast)
-* [`Ipv4Addr::is_unspecified`](https://doc.rust-lang.org/std/net/struct.Ipv4Addr.html#method.is_unspecified)
-* [`Ipv6Addr::octets`](https://doc.rust-lang.org/std/net/struct.Ipv6Addr.html#method.octets)
-* [`LinkedList::contains`](https://doc.rust-lang.org/std/collections/linked_list/struct.LinkedList.html#method.contains)
-* [`VecDeque::contains`](https://doc.rust-lang.org/std/collections/vec_deque/struct.VecDeque.html#method.contains)
-* [`ExitStatusExt::from_raw`](https://doc.rust-lang.org/std/os/unix/process/trait.ExitStatusExt.html#tymethod.from_raw).
+* [`Cell::as_ptr`](https://doc.dust-lang.org/std/cell/struct.Cell.html#method.as_ptr)
+* [`RefCell::as_ptr`](https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.as_ptr)
+* [`IpAddr::is_unspecified`](https://doc.dust-lang.org/std/net/enum.IpAddr.html#method.is_unspecified)
+* [`IpAddr::is_loopback`](https://doc.dust-lang.org/std/net/enum.IpAddr.html#method.is_loopback)
+* [`IpAddr::is_multicast`](https://doc.dust-lang.org/std/net/enum.IpAddr.html#method.is_multicast)
+* [`Ipv4Addr::is_unspecified`](https://doc.dust-lang.org/std/net/struct.Ipv4Addr.html#method.is_unspecified)
+* [`Ipv6Addr::octets`](https://doc.dust-lang.org/std/net/struct.Ipv6Addr.html#method.octets)
+* [`LinkedList::contains`](https://doc.dust-lang.org/std/collections/linked_list/struct.LinkedList.html#method.contains)
+* [`VecDeque::contains`](https://doc.dust-lang.org/std/collections/vec_deque/struct.VecDeque.html#method.contains)
+* [`ExitStatusExt::from_raw`](https://doc.dust-lang.org/std/os/unix/process/trait.ExitStatusExt.html#tymethod.from_raw).
   Both on Unix and Windows.
-* [`Receiver::recv_timeout`](https://doc.rust-lang.org/std/sync/mpsc/struct.Receiver.html#method.recv_timeout)
-* [`RecvTimeoutError`](https://doc.rust-lang.org/std/sync/mpsc/enum.RecvTimeoutError.html)
-* [`BinaryHeap::peek_mut`](https://doc.rust-lang.org/std/collections/binary_heap/struct.BinaryHeap.html#method.peek_mut)
-* [`PeekMut`](https://doc.rust-lang.org/std/collections/binary_heap/struct.PeekMut.html)
-* [`iter::Product`](https://doc.rust-lang.org/std/iter/trait.Product.html)
-* [`iter::Sum`](https://doc.rust-lang.org/std/iter/trait.Sum.html)
-* [`OccupiedEntry::remove_entry`](https://doc.rust-lang.org/std/collections/btree_map/struct.OccupiedEntry.html#method.remove_entry)
-* [`VacantEntry::into_key`](https://doc.rust-lang.org/std/collections/btree_map/struct.VacantEntry.html#method.into_key)
+* [`Receiver::recv_timeout`](https://doc.dust-lang.org/std/sync/mpsc/struct.Receiver.html#method.recv_timeout)
+* [`RecvTimeoutError`](https://doc.dust-lang.org/std/sync/mpsc/enum.RecvTimeoutError.html)
+* [`BinaryHeap::peek_mut`](https://doc.dust-lang.org/std/collections/binary_heap/struct.BinaryHeap.html#method.peek_mut)
+* [`PeekMut`](https://doc.dust-lang.org/std/collections/binary_heap/struct.PeekMut.html)
+* [`iter::Product`](https://doc.dust-lang.org/std/iter/trait.Product.html)
+* [`iter::Sum`](https://doc.dust-lang.org/std/iter/trait.Sum.html)
+* [`OccupiedEntry::remove_entry`](https://doc.dust-lang.org/std/collections/btree_map/struct.OccupiedEntry.html#method.remove_entry)
+* [`VacantEntry::into_key`](https://doc.dust-lang.org/std/collections/btree_map/struct.VacantEntry.html#method.into_key)
 
 Libraries
 ---------
 
 * [The `format!` macro and friends now allow a single argument to be formatted
-  in multiple styles](https://github.com/rust-lang/rust/pull/33642)
+  in multiple styles](https://github.com/dust-lang/dust/pull/33642)
 * [The lifetime bounds on `[T]::binary_search_by` and
-  `[T]::binary_search_by_key` have been adjusted to be more flexible](https://github.com/rust-lang/rust/pull/34762)
-* [`Option` implements `From` for its contained type](https://github.com/rust-lang/rust/pull/34828)
-* [`Cell`, `RefCell` and `UnsafeCell` implement `From` for their contained type](https://github.com/rust-lang/rust/pull/35392)
-* [`RwLock` panics if the reader count overflows](https://github.com/rust-lang/rust/pull/35378)
-* [`vec_deque::Drain`, `hash_map::Drain` and `hash_set::Drain` are covariant](https://github.com/rust-lang/rust/pull/35354)
-* [`vec::Drain` and `binary_heap::Drain` are covariant](https://github.com/rust-lang/rust/pull/34951)
-* [`Cow<str>` implements `FromIterator` for `char`, `&str` and `String`](https://github.com/rust-lang/rust/pull/35064)
-* [Sockets on Linux are correctly closed in subprocesses via `SOCK_CLOEXEC`](https://github.com/rust-lang/rust/pull/34946)
+  `[T]::binary_search_by_key` have been adjusted to be more flexible](https://github.com/dust-lang/dust/pull/34762)
+* [`Option` implements `From` for its contained type](https://github.com/dust-lang/dust/pull/34828)
+* [`Cell`, `RefCell` and `UnsafeCell` implement `From` for their contained type](https://github.com/dust-lang/dust/pull/35392)
+* [`RwLock` panics if the reader count overflows](https://github.com/dust-lang/dust/pull/35378)
+* [`vec_deque::Drain`, `hash_map::Drain` and `hash_set::Drain` are covariant](https://github.com/dust-lang/dust/pull/35354)
+* [`vec::Drain` and `binary_heap::Drain` are covariant](https://github.com/dust-lang/dust/pull/34951)
+* [`Cow<str>` implements `FromIterator` for `char`, `&str` and `String`](https://github.com/dust-lang/dust/pull/35064)
+* [Sockets on Linux are correctly closed in subprocesses via `SOCK_CLOEXEC`](https://github.com/dust-lang/dust/pull/34946)
 * [`hash_map::Entry`, `hash_map::VacantEntry` and `hash_map::OccupiedEntry`
-  implement `Debug`](https://github.com/rust-lang/rust/pull/34937)
+  implement `Debug`](https://github.com/dust-lang/dust/pull/34937)
 * [`btree_map::Entry`, `btree_map::VacantEntry` and `btree_map::OccupiedEntry`
-  implement `Debug`](https://github.com/rust-lang/rust/pull/34885)
-* [`String` implements `AddAssign`](https://github.com/rust-lang/rust/pull/34890)
+  implement `Debug`](https://github.com/dust-lang/dust/pull/34885)
+* [`String` implements `AddAssign`](https://github.com/dust-lang/dust/pull/34890)
 * [Variadic `extern fn` pointers implement the `Clone`, `PartialEq`, `Eq`,
-  `PartialOrd`, `Ord`, `Hash`, `fmt::Pointer`, and `fmt::Debug` traits](https://github.com/rust-lang/rust/pull/34879)
-* [`FileType` implements `Debug`](https://github.com/rust-lang/rust/pull/34757)
-* [References to `Mutex` and `RwLock` are unwind-safe](https://github.com/rust-lang/rust/pull/34756)
+  `PartialOrd`, `Ord`, `Hash`, `fmt::Pointer`, and `fmt::Debug` traits](https://github.com/dust-lang/dust/pull/34879)
+* [`FileType` implements `Debug`](https://github.com/dust-lang/dust/pull/34757)
+* [References to `Mutex` and `RwLock` are unwind-safe](https://github.com/dust-lang/dust/pull/34756)
 * [`mpsc::sync_channel` `Receiver`s return any available message before
-  reporting a disconnect](https://github.com/rust-lang/rust/pull/34731)
-* [Unicode definitions have been updated to 9.0](https://github.com/rust-lang/rust/pull/34599)
-* [`env` iterators implement `DoubleEndedIterator`](https://github.com/rust-lang/rust/pull/33312)
+  reporting a disconnect](https://github.com/dust-lang/dust/pull/34731)
+* [Unicode definitions have been updated to 9.0](https://github.com/dust-lang/dust/pull/34599)
+* [`env` iterators implement `DoubleEndedIterator`](https://github.com/dust-lang/dust/pull/33312)
 
 Cargo
 -----
 
-* [Support local mirrors of registries](https://github.com/rust-lang/cargo/pull/2857)
-* [Add support for command aliases](https://github.com/rust-lang/cargo/pull/2679)
-* [Allow `opt-level="s"` / `opt-level="z"` in profile overrides](https://github.com/rust-lang/cargo/pull/3007)
-* [Make `cargo doc --open --target` work as expected](https://github.com/rust-lang/cargo/pull/2988)
-* [Speed up noop registry updates](https://github.com/rust-lang/cargo/pull/2974)
-* [Update OpenSSL](https://github.com/rust-lang/cargo/pull/2971)
-* [Fix `--panic=abort` with plugins](https://github.com/rust-lang/cargo/pull/2954)
-* [Always pass `-C metadata` to the compiler](https://github.com/rust-lang/cargo/pull/2946)
-* [Fix depending on git repos with workspaces](https://github.com/rust-lang/cargo/pull/2938)
-* [Add a `--lib` flag to `cargo new`](https://github.com/rust-lang/cargo/pull/2921)
-* [Add `http.cainfo` for custom certs](https://github.com/rust-lang/cargo/pull/2917)
-* [Indicate the compilation profile after compiling](https://github.com/rust-lang/cargo/pull/2909)
-* [Allow enabling features for dependencies with `--features`](https://github.com/rust-lang/cargo/pull/2876)
-* [Add `--jobs` flag to `cargo package`](https://github.com/rust-lang/cargo/pull/2867)
-* [Add `--dry-run` to `cargo publish`](https://github.com/rust-lang/cargo/pull/2849)
-* [Add support for `RUSTDOCFLAGS`](https://github.com/rust-lang/cargo/pull/2794)
+* [Support local mirrors of registries](https://github.com/dust-lang/cargo/pull/2857)
+* [Add support for command aliases](https://github.com/dust-lang/cargo/pull/2679)
+* [Allow `opt-level="s"` / `opt-level="z"` in profile overrides](https://github.com/dust-lang/cargo/pull/3007)
+* [Make `cargo doc --open --target` work as expected](https://github.com/dust-lang/cargo/pull/2988)
+* [Speed up noop registry updates](https://github.com/dust-lang/cargo/pull/2974)
+* [Update OpenSSL](https://github.com/dust-lang/cargo/pull/2971)
+* [Fix `--panic=abort` with plugins](https://github.com/dust-lang/cargo/pull/2954)
+* [Always pass `-C metadata` to the compiler](https://github.com/dust-lang/cargo/pull/2946)
+* [Fix depending on git repos with workspaces](https://github.com/dust-lang/cargo/pull/2938)
+* [Add a `--lib` flag to `cargo new`](https://github.com/dust-lang/cargo/pull/2921)
+* [Add `http.cainfo` for custom certs](https://github.com/dust-lang/cargo/pull/2917)
+* [Indicate the compilation profile after compiling](https://github.com/dust-lang/cargo/pull/2909)
+* [Allow enabling features for dependencies with `--features`](https://github.com/dust-lang/cargo/pull/2876)
+* [Add `--jobs` flag to `cargo package`](https://github.com/dust-lang/cargo/pull/2867)
+* [Add `--dry-run` to `cargo publish`](https://github.com/dust-lang/cargo/pull/2849)
+* [Add support for `DUSTDOCFLAGS`](https://github.com/dust-lang/cargo/pull/2794)
 
 Performance
 -----------
 
-* [`panic::catch_unwind` is more optimized](https://github.com/rust-lang/rust/pull/35444)
-* [`panic::catch_unwind` no longer accesses thread-local storage on entry](https://github.com/rust-lang/rust/pull/34866)
+* [`panic::catch_unwind` is more optimized](https://github.com/dust-lang/dust/pull/35444)
+* [`panic::catch_unwind` no longer accesses thread-local storage on entry](https://github.com/dust-lang/dust/pull/34866)
 
 Tooling
 -------
 
 * [Test binaries now support a `--test-threads` argument to specify the number
   of threads used to run tests, and which acts the same as the
-  `RUST_TEST_THREADS` environment variable](https://github.com/rust-lang/rust/pull/35414)
-* [The test runner now emits a warning when tests run over 60 seconds](https://github.com/rust-lang/rust/pull/35405)
-* [rustdoc: Fix methods in search results](https://github.com/rust-lang/rust/pull/34752)
-* [`rust-lldb` warns about unsupported versions of LLDB](https://github.com/rust-lang/rust/pull/34646)
-* [Rust releases now come with source packages that can be installed by rustup
-  via `rustup component add rust-src`](https://github.com/rust-lang/rust/pull/34366).
+  `DUST_TEST_THREADS` environment variable](https://github.com/dust-lang/dust/pull/35414)
+* [The test runner now emits a warning when tests run over 60 seconds](https://github.com/dust-lang/dust/pull/35405)
+* [dustdoc: Fix methods in search results](https://github.com/dust-lang/dust/pull/34752)
+* [`dust-lldb` warns about unsupported versions of LLDB](https://github.com/dust-lang/dust/pull/34646)
+* [Dust releases now come with source packages that can be installed by dustup
+  via `dustup component add dust-src`](https://github.com/dust-lang/dust/pull/34366).
   The resulting source code can be used by tools and IDES, located in the
-  sysroot under `lib/rustlib/src`.
+  sysroot under `lib/dustlib/src`.
 
 Misc
 ----
 
-* [The compiler can now be built against LLVM 3.9](https://github.com/rust-lang/rust/pull/35594)
+* [The compiler can now be built against LLVM 3.9](https://github.com/dust-lang/dust/pull/35594)
 * Many minor improvements to the documentation.
-* [The Rust exception handling "personality" routine is now written in Rust](https://github.com/rust-lang/rust/pull/34832)
+* [The Dust exception handling "personality" routine is now written in Dust](https://github.com/dust-lang/dust/pull/34832)
 
 Compatibility Notes
 -------------------
 
 * [When printing Windows `OsStr`s, unpaired surrogate codepoints are escaped
-  with the lowercase format instead of the uppercase](https://github.com/rust-lang/rust/pull/35084)
+  with the lowercase format instead of the uppercase](https://github.com/dust-lang/dust/pull/35084)
 * [When formatting strings, if "precision" is specified, the "fill",
-  "align" and "width" specifiers are no longer ignored](https://github.com/rust-lang/rust/pull/34544)
-* [The `Debug` impl for strings no longer escapes all non-ASCII characters](https://github.com/rust-lang/rust/pull/34485)
+  "align" and "width" specifiers are no longer ignored](https://github.com/dust-lang/dust/pull/34544)
+* [The `Debug` impl for strings no longer escapes all non-ASCII characters](https://github.com/dust-lang/dust/pull/34485)
 
 
 Version 1.11.0 (2016-08-18)
@@ -6035,91 +6035,91 @@ Version 1.11.0 (2016-08-18)
 Language
 --------
 
-* [Support nested `cfg_attr` attributes](https://github.com/rust-lang/rust/pull/34216)
-* [Allow statement-generating braced macro invocations at the end of blocks](https://github.com/rust-lang/rust/pull/34436)
-* [Macros can be expanded inside of trait definitions](https://github.com/rust-lang/rust/pull/34213)
-* [`#[macro_use]` works properly when it is itself expanded from a macro](https://github.com/rust-lang/rust/pull/34032)
+* [Support nested `cfg_attr` attributes](https://github.com/dust-lang/dust/pull/34216)
+* [Allow statement-generating braced macro invocations at the end of blocks](https://github.com/dust-lang/dust/pull/34436)
+* [Macros can be expanded inside of trait definitions](https://github.com/dust-lang/dust/pull/34213)
+* [`#[macro_use]` works properly when it is itself expanded from a macro](https://github.com/dust-lang/dust/pull/34032)
 
 Stabilized APIs
 ---------------
 
-* [`BinaryHeap::append`](https://doc.rust-lang.org/std/collections/binary_heap/struct.BinaryHeap.html#method.append)
-* [`BTreeMap::append`](https://doc.rust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.append)
-* [`BTreeMap::split_off`](https://doc.rust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.split_off)
-* [`BTreeSet::append`](https://doc.rust-lang.org/std/collections/btree_set/struct.BTreeSet.html#method.append)
-* [`BTreeSet::split_off`](https://doc.rust-lang.org/std/collections/btree_set/struct.BTreeSet.html#method.split_off)
-* [`f32::to_degrees`](https://doc.rust-lang.org/std/primitive.f32.html#method.to_degrees)
+* [`BinaryHeap::append`](https://doc.dust-lang.org/std/collections/binary_heap/struct.BinaryHeap.html#method.append)
+* [`BTreeMap::append`](https://doc.dust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.append)
+* [`BTreeMap::split_off`](https://doc.dust-lang.org/std/collections/btree_map/struct.BTreeMap.html#method.split_off)
+* [`BTreeSet::append`](https://doc.dust-lang.org/std/collections/btree_set/struct.BTreeSet.html#method.append)
+* [`BTreeSet::split_off`](https://doc.dust-lang.org/std/collections/btree_set/struct.BTreeSet.html#method.split_off)
+* [`f32::to_degrees`](https://doc.dust-lang.org/std/primitive.f32.html#method.to_degrees)
   (in libcore - previously stabilized in libstd)
-* [`f32::to_radians`](https://doc.rust-lang.org/std/primitive.f32.html#method.to_radians)
+* [`f32::to_radians`](https://doc.dust-lang.org/std/primitive.f32.html#method.to_radians)
   (in libcore - previously stabilized in libstd)
-* [`f64::to_degrees`](https://doc.rust-lang.org/std/primitive.f64.html#method.to_degrees)
+* [`f64::to_degrees`](https://doc.dust-lang.org/std/primitive.f64.html#method.to_degrees)
   (in libcore - previously stabilized in libstd)
-* [`f64::to_radians`](https://doc.rust-lang.org/std/primitive.f64.html#method.to_radians)
+* [`f64::to_radians`](https://doc.dust-lang.org/std/primitive.f64.html#method.to_radians)
   (in libcore - previously stabilized in libstd)
-* [`Iterator::sum`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.sum)
-* [`Iterator::product`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.sum)
-* [`Cell::get_mut`](https://doc.rust-lang.org/std/cell/struct.Cell.html#method.get_mut)
-* [`RefCell::get_mut`](https://doc.rust-lang.org/std/cell/struct.RefCell.html#method.get_mut)
+* [`Iterator::sum`](https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.sum)
+* [`Iterator::product`](https://doc.dust-lang.org/std/iter/trait.Iterator.html#method.sum)
+* [`Cell::get_mut`](https://doc.dust-lang.org/std/cell/struct.Cell.html#method.get_mut)
+* [`RefCell::get_mut`](https://doc.dust-lang.org/std/cell/struct.RefCell.html#method.get_mut)
 
 Libraries
 ---------
 
 * [The `thread_local!` macro supports multiple definitions in a single
-   invocation, and can apply attributes](https://github.com/rust-lang/rust/pull/34077)
-* [`Cow` implements `Default`](https://github.com/rust-lang/rust/pull/34305)
+   invocation, and can apply attributes](https://github.com/dust-lang/dust/pull/34077)
+* [`Cow` implements `Default`](https://github.com/dust-lang/dust/pull/34305)
 * [`Wrapping` implements binary, octal, lower-hex and upper-hex
-  `Display` formatting](https://github.com/rust-lang/rust/pull/34190)
-* [The range types implement `Hash`](https://github.com/rust-lang/rust/pull/34180)
-* [`lookup_host` ignores unknown address types](https://github.com/rust-lang/rust/pull/34067)
-* [`assert_eq!` accepts a custom error message, like `assert!` does](https://github.com/rust-lang/rust/pull/33976)
-* [The main thread is now called "main" instead of "&lt;main&gt;"](https://github.com/rust-lang/rust/pull/33803)
+  `Display` formatting](https://github.com/dust-lang/dust/pull/34190)
+* [The range types implement `Hash`](https://github.com/dust-lang/dust/pull/34180)
+* [`lookup_host` ignores unknown address types](https://github.com/dust-lang/dust/pull/34067)
+* [`assert_eq!` accepts a custom error message, like `assert!` does](https://github.com/dust-lang/dust/pull/33976)
+* [The main thread is now called "main" instead of "&lt;main&gt;"](https://github.com/dust-lang/dust/pull/33803)
 
 Cargo
 -----
 
-* [Disallow specifying features of transitive deps](https://github.com/rust-lang/cargo/pull/2821)
-* [Add color support for Windows consoles](https://github.com/rust-lang/cargo/pull/2804)
-* [Fix `harness = false` on `[lib]` sections](https://github.com/rust-lang/cargo/pull/2795)
-* [Don't panic when `links` contains a '.'](https://github.com/rust-lang/cargo/pull/2787)
-* [Build scripts can emit warnings](https://github.com/rust-lang/cargo/pull/2630),
+* [Disallow specifying features of transitive deps](https://github.com/dust-lang/cargo/pull/2821)
+* [Add color support for Windows consoles](https://github.com/dust-lang/cargo/pull/2804)
+* [Fix `harness = false` on `[lib]` sections](https://github.com/dust-lang/cargo/pull/2795)
+* [Don't panic when `links` contains a '.'](https://github.com/dust-lang/cargo/pull/2787)
+* [Build scripts can emit warnings](https://github.com/dust-lang/cargo/pull/2630),
   and `-vv` prints warnings for all crates.
-* [Ignore file locks on OS X NFS mounts](https://github.com/rust-lang/cargo/pull/2720)
-* [Don't warn about `package.metadata` keys](https://github.com/rust-lang/cargo/pull/2668).
+* [Ignore file locks on OS X NFS mounts](https://github.com/dust-lang/cargo/pull/2720)
+* [Don't warn about `package.metadata` keys](https://github.com/dust-lang/cargo/pull/2668).
   This provides room for expansion by arbitrary tools.
-* [Add support for cdylib crate types](https://github.com/rust-lang/cargo/pull/2741)
-* [Prevent publishing crates when files are dirty](https://github.com/rust-lang/cargo/pull/2781)
-* [Don't fetch all crates on clean](https://github.com/rust-lang/cargo/pull/2704)
-* [Propagate --color option to rustc](https://github.com/rust-lang/cargo/pull/2779)
-* [Fix `cargo doc --open` on Windows](https://github.com/rust-lang/cargo/pull/2780)
-* [Improve autocompletion](https://github.com/rust-lang/cargo/pull/2772)
-* [Configure colors of stderr as well as stdout](https://github.com/rust-lang/cargo/pull/2739)
+* [Add support for cdylib crate types](https://github.com/dust-lang/cargo/pull/2741)
+* [Prevent publishing crates when files are dirty](https://github.com/dust-lang/cargo/pull/2781)
+* [Don't fetch all crates on clean](https://github.com/dust-lang/cargo/pull/2704)
+* [Propagate --color option to dustc](https://github.com/dust-lang/cargo/pull/2779)
+* [Fix `cargo doc --open` on Windows](https://github.com/dust-lang/cargo/pull/2780)
+* [Improve autocompletion](https://github.com/dust-lang/cargo/pull/2772)
+* [Configure colors of stderr as well as stdout](https://github.com/dust-lang/cargo/pull/2739)
 
 Performance
 -----------
 
 * [Caching projections speeds up type check dramatically for some
-  workloads](https://github.com/rust-lang/rust/pull/33816)
-* [The default `HashMap` hasher is SipHash 1-3 instead of SipHash 2-4](https://github.com/rust-lang/rust/pull/33940)
+  workloads](https://github.com/dust-lang/dust/pull/33816)
+* [The default `HashMap` hasher is SipHash 1-3 instead of SipHash 2-4](https://github.com/dust-lang/dust/pull/33940)
   This hasher is faster, but is believed to provide sufficient
   protection from collision attacks.
-* [Comparison of `Ipv4Addr` is 10x faster](https://github.com/rust-lang/rust/pull/33891)
+* [Comparison of `Ipv4Addr` is 10x faster](https://github.com/dust-lang/dust/pull/33891)
 
-Rustdoc
+Dustdoc
 -------
 
-* [Fix empty implementation section on some module pages](https://github.com/rust-lang/rust/pull/34536)
-* [Fix inlined renamed re-exports in import lists](https://github.com/rust-lang/rust/pull/34479)
-* [Fix search result layout for enum variants and struct fields](https://github.com/rust-lang/rust/pull/34477)
-* [Fix issues with source links to external crates](https://github.com/rust-lang/rust/pull/34387)
-* [Fix redirect pages for renamed re-exports](https://github.com/rust-lang/rust/pull/34245)
+* [Fix empty implementation section on some module pages](https://github.com/dust-lang/dust/pull/34536)
+* [Fix inlined renamed re-exports in import lists](https://github.com/dust-lang/dust/pull/34479)
+* [Fix search result layout for enum variants and struct fields](https://github.com/dust-lang/dust/pull/34477)
+* [Fix issues with source links to external crates](https://github.com/dust-lang/dust/pull/34387)
+* [Fix redirect pages for renamed re-exports](https://github.com/dust-lang/dust/pull/34245)
 
 Tooling
 -------
 
-* [rustc is better at finding the MSVC toolchain](https://github.com/rust-lang/rust/pull/34492)
-* [When emitting debug info, rustc emits frame pointers for closures,
-  shims and glue, as it does for all other functions](https://github.com/rust-lang/rust/pull/33909)
-* [rust-lldb warns about unsupported versions of LLDB](https://github.com/rust-lang/rust/pull/34646)
+* [dustc is better at finding the MSVC toolchain](https://github.com/dust-lang/dust/pull/34492)
+* [When emitting debug info, dustc emits frame pointers for closures,
+  shims and glue, as it does for all other functions](https://github.com/dust-lang/dust/pull/33909)
+* [dust-lldb warns about unsupported versions of LLDB](https://github.com/dust-lang/dust/pull/34646)
 * Many more errors have been given error codes and extended
   explanations
 * API documentation continues to be improved, with many new examples
@@ -6127,23 +6127,23 @@ Tooling
 Misc
 ----
 
-* [rustc no longer hangs when dependencies recursively re-export
-  submodules](https://github.com/rust-lang/rust/pull/34542)
-* [rustc requires LLVM 3.7+](https://github.com/rust-lang/rust/pull/34104)
-* [The 'How Safe and Unsafe Interact' chapter of The Rustonomicon was
-  rewritten](https://github.com/rust-lang/rust/pull/33895)
-* [rustc support 16-bit pointer sizes](https://github.com/rust-lang/rust/pull/33460).
+* [dustc no longer hangs when dependencies recursively re-export
+  submodules](https://github.com/dust-lang/dust/pull/34542)
+* [dustc requires LLVM 3.7+](https://github.com/dust-lang/dust/pull/34104)
+* [The 'How Safe and Unsafe Interact' chapter of The Dustonomicon was
+  rewritten](https://github.com/dust-lang/dust/pull/33895)
+* [dustc support 16-bit pointer sizes](https://github.com/dust-lang/dust/pull/33460).
   No targets use this yet, but it works toward AVR support.
 
 Compatibility Notes
 -------------------
 
-* [`const`s and `static`s may not have unsized types](https://github.com/rust-lang/rust/pull/34443)
+* [`const`s and `static`s may not have unsized types](https://github.com/dust-lang/dust/pull/34443)
 * [The new follow-set rules that place restrictions on `macro_rules!`
-  in order to ensure syntax forward-compatibility have been enabled](https://github.com/rust-lang/rust/pull/33982)
-  This was an [amendment to RFC 550](https://github.com/rust-lang/rfcs/pull/1384),
+  in order to ensure syntax forward-compatibility have been enabled](https://github.com/dust-lang/dust/pull/33982)
+  This was an [amendment to RFC 550](https://github.com/dust-lang/rfcs/pull/1384),
   and has been a warning since 1.10.
-* [`cfg` attribute process has been refactored to fix various bugs](https://github.com/rust-lang/rust/pull/33706).
+* [`cfg` attribute process has been refactored to fix various bugs](https://github.com/dust-lang/dust/pull/33706).
   This causes breakage in some corner cases.
 
 
@@ -6153,16 +6153,16 @@ Version 1.10.0 (2016-07-07)
 Language
 --------
 
-* [`Copy` types are required to have a trivial implementation of `Clone`](https://github.com/rust-lang/rust/pull/33420).
-  [RFC 1521](https://github.com/rust-lang/rfcs/blob/master/text/1521-copy-clone-semantics.md).
-* [Single-variant enums support the `#[repr(..)]` attribute](https://github.com/rust-lang/rust/pull/33355).
-* [Fix `#[derive(RustcEncodable)]` in the presence of other `encode` methods](https://github.com/rust-lang/rust/pull/32908).
+* [`Copy` types are required to have a trivial implementation of `Clone`](https://github.com/dust-lang/dust/pull/33420).
+  [RFC 1521](https://github.com/dust-lang/rfcs/blob/master/text/1521-copy-clone-semantics.md).
+* [Single-variant enums support the `#[repr(..)]` attribute](https://github.com/dust-lang/dust/pull/33355).
+* [Fix `#[derive(DustcEncodable)]` in the presence of other `encode` methods](https://github.com/dust-lang/dust/pull/32908).
 * [`panic!` can be converted to a runtime abort with the
-  `-C panic=abort` flag](https://github.com/rust-lang/rust/pull/32900).
-  [RFC 1513](https://github.com/rust-lang/rfcs/blob/master/text/1513-less-unwinding.md).
-* [Add a new crate type, 'cdylib'](https://github.com/rust-lang/rust/pull/33553).
-  cdylibs are dynamic libraries suitable for loading by non-Rust hosts.
-  [RFC 1510](https://github.com/rust-lang/rfcs/blob/master/text/1510-cdylib.md).
+  `-C panic=abort` flag](https://github.com/dust-lang/dust/pull/32900).
+  [RFC 1513](https://github.com/dust-lang/rfcs/blob/master/text/1513-less-unwinding.md).
+* [Add a new crate type, 'cdylib'](https://github.com/dust-lang/dust/pull/33553).
+  cdylibs are dynamic libraries suitable for loading by non-Dust hosts.
+  [RFC 1510](https://github.com/dust-lang/rfcs/blob/master/text/1510-cdylib.md).
   Note that Cargo does not yet directly support cdylibs.
 
 Stabilized APIs
@@ -6174,174 +6174,174 @@ Stabilized APIs
 * `os::windows::fs::OpenOptionsExt::attributes`
 * `os::windows::fs::OpenOptionsExt::security_qos_flags`
 * `os::unix::fs::OpenOptionsExt::custom_flags`
-* [`sync::Weak::new`](http://doc.rust-lang.org/alloc/arc/struct.Weak.html#method.new)
+* [`sync::Weak::new`](http://doc.dust-lang.org/alloc/arc/struct.Weak.html#method.new)
 * `Default for sync::Weak`
-* [`panic::set_hook`](http://doc.rust-lang.org/std/panic/fn.set_hook.html)
-* [`panic::take_hook`](http://doc.rust-lang.org/std/panic/fn.take_hook.html)
-* [`panic::PanicInfo`](http://doc.rust-lang.org/std/panic/struct.PanicInfo.html)
-* [`panic::PanicInfo::payload`](http://doc.rust-lang.org/std/panic/struct.PanicInfo.html#method.payload)
-* [`panic::PanicInfo::location`](http://doc.rust-lang.org/std/panic/struct.PanicInfo.html#method.location)
-* [`panic::Location`](http://doc.rust-lang.org/std/panic/struct.Location.html)
-* [`panic::Location::file`](http://doc.rust-lang.org/std/panic/struct.Location.html#method.file)
-* [`panic::Location::line`](http://doc.rust-lang.org/std/panic/struct.Location.html#method.line)
-* [`ffi::CStr::from_bytes_with_nul`](http://doc.rust-lang.org/std/ffi/struct.CStr.html#method.from_bytes_with_nul)
-* [`ffi::CStr::from_bytes_with_nul_unchecked`](http://doc.rust-lang.org/std/ffi/struct.CStr.html#method.from_bytes_with_nul_unchecked)
-* [`ffi::FromBytesWithNulError`](http://doc.rust-lang.org/std/ffi/struct.FromBytesWithNulError.html)
-* [`fs::Metadata::modified`](http://doc.rust-lang.org/std/fs/struct.Metadata.html#method.modified)
-* [`fs::Metadata::accessed`](http://doc.rust-lang.org/std/fs/struct.Metadata.html#method.accessed)
-* [`fs::Metadata::created`](http://doc.rust-lang.org/std/fs/struct.Metadata.html#method.created)
+* [`panic::set_hook`](http://doc.dust-lang.org/std/panic/fn.set_hook.html)
+* [`panic::take_hook`](http://doc.dust-lang.org/std/panic/fn.take_hook.html)
+* [`panic::PanicInfo`](http://doc.dust-lang.org/std/panic/struct.PanicInfo.html)
+* [`panic::PanicInfo::payload`](http://doc.dust-lang.org/std/panic/struct.PanicInfo.html#method.payload)
+* [`panic::PanicInfo::location`](http://doc.dust-lang.org/std/panic/struct.PanicInfo.html#method.location)
+* [`panic::Location`](http://doc.dust-lang.org/std/panic/struct.Location.html)
+* [`panic::Location::file`](http://doc.dust-lang.org/std/panic/struct.Location.html#method.file)
+* [`panic::Location::line`](http://doc.dust-lang.org/std/panic/struct.Location.html#method.line)
+* [`ffi::CStr::from_bytes_with_nul`](http://doc.dust-lang.org/std/ffi/struct.CStr.html#method.from_bytes_with_nul)
+* [`ffi::CStr::from_bytes_with_nul_unchecked`](http://doc.dust-lang.org/std/ffi/struct.CStr.html#method.from_bytes_with_nul_unchecked)
+* [`ffi::FromBytesWithNulError`](http://doc.dust-lang.org/std/ffi/struct.FromBytesWithNulError.html)
+* [`fs::Metadata::modified`](http://doc.dust-lang.org/std/fs/struct.Metadata.html#method.modified)
+* [`fs::Metadata::accessed`](http://doc.dust-lang.org/std/fs/struct.Metadata.html#method.accessed)
+* [`fs::Metadata::created`](http://doc.dust-lang.org/std/fs/struct.Metadata.html#method.created)
 * `sync::atomic::Atomic{Usize,Isize,Bool,Ptr}::compare_exchange`
 * `sync::atomic::Atomic{Usize,Isize,Bool,Ptr}::compare_exchange_weak`
 * `collections::{btree,hash}_map::{Occupied,Vacant,}Entry::key`
 * `os::unix::net::{UnixStream, UnixListener, UnixDatagram, SocketAddr}`
-* [`SocketAddr::is_unnamed`](http://doc.rust-lang.org/std/os/unix/net/struct.SocketAddr.html#method.is_unnamed)
-* [`SocketAddr::as_pathname`](http://doc.rust-lang.org/std/os/unix/net/struct.SocketAddr.html#method.as_pathname)
-* [`UnixStream::connect`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.connect)
-* [`UnixStream::pair`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.pair)
-* [`UnixStream::try_clone`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.try_clone)
-* [`UnixStream::local_addr`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.local_addr)
-* [`UnixStream::peer_addr`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.peer_addr)
-* [`UnixStream::set_read_timeout`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.read_timeout)
-* [`UnixStream::set_write_timeout`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.write_timeout)
-* [`UnixStream::read_timeout`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.read_timeout)
-* [`UnixStream::write_timeout`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.write_timeout)
-* [`UnixStream::set_nonblocking`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.set_nonblocking)
-* [`UnixStream::take_error`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.take_error)
-* [`UnixStream::shutdown`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixStream.html#method.shutdown)
+* [`SocketAddr::is_unnamed`](http://doc.dust-lang.org/std/os/unix/net/struct.SocketAddr.html#method.is_unnamed)
+* [`SocketAddr::as_pathname`](http://doc.dust-lang.org/std/os/unix/net/struct.SocketAddr.html#method.as_pathname)
+* [`UnixStream::connect`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.connect)
+* [`UnixStream::pair`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.pair)
+* [`UnixStream::try_clone`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.try_clone)
+* [`UnixStream::local_addr`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.local_addr)
+* [`UnixStream::peer_addr`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.peer_addr)
+* [`UnixStream::set_read_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.read_timeout)
+* [`UnixStream::set_write_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.write_timeout)
+* [`UnixStream::read_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.read_timeout)
+* [`UnixStream::write_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.write_timeout)
+* [`UnixStream::set_nonblocking`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.set_nonblocking)
+* [`UnixStream::take_error`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.take_error)
+* [`UnixStream::shutdown`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixStream.html#method.shutdown)
 * Read/Write/RawFd impls for `UnixStream`
-* [`UnixListener::bind`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixListener.html#method.bind)
-* [`UnixListener::accept`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixListener.html#method.accept)
-* [`UnixListener::try_clone`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixListener.html#method.try_clone)
-* [`UnixListener::local_addr`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixListener.html#method.local_addr)
-* [`UnixListener::set_nonblocking`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixListener.html#method.set_nonblocking)
-* [`UnixListener::take_error`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixListener.html#method.take_error)
-* [`UnixListener::incoming`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixListener.html#method.incoming)
+* [`UnixListener::bind`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.bind)
+* [`UnixListener::accept`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.accept)
+* [`UnixListener::try_clone`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.try_clone)
+* [`UnixListener::local_addr`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.local_addr)
+* [`UnixListener::set_nonblocking`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.set_nonblocking)
+* [`UnixListener::take_error`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.take_error)
+* [`UnixListener::incoming`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixListener.html#method.incoming)
 * RawFd impls for `UnixListener`
-* [`UnixDatagram::bind`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.bind)
-* [`UnixDatagram::unbound`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.unbound)
-* [`UnixDatagram::pair`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.pair)
-* [`UnixDatagram::connect`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.connect)
-* [`UnixDatagram::try_clone`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.try_clone)
-* [`UnixDatagram::local_addr`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.local_addr)
-* [`UnixDatagram::peer_addr`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.peer_addr)
-* [`UnixDatagram::recv_from`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.recv_from)
-* [`UnixDatagram::recv`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.recv)
-* [`UnixDatagram::send_to`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.send_to)
-* [`UnixDatagram::send`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.send)
-* [`UnixDatagram::set_read_timeout`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.set_read_timeout)
-* [`UnixDatagram::set_write_timeout`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.set_write_timeout)
-* [`UnixDatagram::read_timeout`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.read_timeout)
-* [`UnixDatagram::write_timeout`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.write_timeout)
-* [`UnixDatagram::set_nonblocking`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.set_nonblocking)
-* [`UnixDatagram::take_error`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.take_error)
-* [`UnixDatagram::shutdown`](http://doc.rust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.shutdown)
+* [`UnixDatagram::bind`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.bind)
+* [`UnixDatagram::unbound`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.unbound)
+* [`UnixDatagram::pair`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.pair)
+* [`UnixDatagram::connect`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.connect)
+* [`UnixDatagram::try_clone`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.try_clone)
+* [`UnixDatagram::local_addr`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.local_addr)
+* [`UnixDatagram::peer_addr`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.peer_addr)
+* [`UnixDatagram::recv_from`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.recv_from)
+* [`UnixDatagram::recv`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.recv)
+* [`UnixDatagram::send_to`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.send_to)
+* [`UnixDatagram::send`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.send)
+* [`UnixDatagram::set_read_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.set_read_timeout)
+* [`UnixDatagram::set_write_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.set_write_timeout)
+* [`UnixDatagram::read_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.read_timeout)
+* [`UnixDatagram::write_timeout`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.write_timeout)
+* [`UnixDatagram::set_nonblocking`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.set_nonblocking)
+* [`UnixDatagram::take_error`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.take_error)
+* [`UnixDatagram::shutdown`](http://doc.dust-lang.org/std/os/unix/net/struct.UnixDatagram.html#method.shutdown)
 * RawFd impls for `UnixDatagram`
 * `{BTree,Hash}Map::values_mut`
-* [`<[_]>::binary_search_by_key`](http://doc.rust-lang.org/std/primitive.slice.html#method.binary_search_by_key)
+* [`<[_]>::binary_search_by_key`](http://doc.dust-lang.org/std/primitive.slice.html#method.binary_search_by_key)
 
 Libraries
 ---------
 
-* [The `abs_sub` method of floats is deprecated](https://github.com/rust-lang/rust/pull/33664).
+* [The `abs_sub` method of floats is deprecated](https://github.com/dust-lang/dust/pull/33664).
   The semantics of this minor method are subtle and probably not what
   most people want.
-* [Add implementation of Ord for Cell<T> and RefCell<T> where T: Ord](https://github.com/rust-lang/rust/pull/33306).
+* [Add implementation of Ord for Cell<T> and RefCell<T> where T: Ord](https://github.com/dust-lang/dust/pull/33306).
 * [On Linux, if `HashMap`s can't be initialized with `getrandom` they
   will fall back to `/dev/urandom` temporarily to avoid blocking
-  during early boot](https://github.com/rust-lang/rust/pull/33086).
-* [Implemented negation for wrapping numerals](https://github.com/rust-lang/rust/pull/33067).
-* [Implement `Clone` for `binary_heap::IntoIter`](https://github.com/rust-lang/rust/pull/33050).
-* [Implement `Display` and `Hash` for `std::num::Wrapping`](https://github.com/rust-lang/rust/pull/33023).
-* [Add `Default` implementation for `&CStr`, `CString`](https://github.com/rust-lang/rust/pull/32990).
-* [Implement `From<Vec<T>>` and `Into<Vec<T>>` for `VecDeque<T>`](https://github.com/rust-lang/rust/pull/32866).
+  during early boot](https://github.com/dust-lang/dust/pull/33086).
+* [Implemented negation for wrapping numerals](https://github.com/dust-lang/dust/pull/33067).
+* [Implement `Clone` for `binary_heap::IntoIter`](https://github.com/dust-lang/dust/pull/33050).
+* [Implement `Display` and `Hash` for `std::num::Wrapping`](https://github.com/dust-lang/dust/pull/33023).
+* [Add `Default` implementation for `&CStr`, `CString`](https://github.com/dust-lang/dust/pull/32990).
+* [Implement `From<Vec<T>>` and `Into<Vec<T>>` for `VecDeque<T>`](https://github.com/dust-lang/dust/pull/32866).
 * [Implement `Default` for `UnsafeCell`, `fmt::Error`, `Condvar`,
-  `Mutex`, `RwLock`](https://github.com/rust-lang/rust/pull/32785).
+  `Mutex`, `RwLock`](https://github.com/dust-lang/dust/pull/32785).
 
 Cargo
 -----
-* [Cargo.toml supports the `profile.*.panic` option](https://github.com/rust-lang/cargo/pull/2687).
+* [Cargo.toml supports the `profile.*.panic` option](https://github.com/dust-lang/cargo/pull/2687).
   This controls the runtime behavior of the `panic!` macro
   and can be either "unwind" (the default), or "abort".
-  [RFC 1513](https://github.com/rust-lang/rfcs/blob/master/text/1513-less-unwinding.md).
-* [Don't throw away errors with `-p` arguments](https://github.com/rust-lang/cargo/pull/2723).
-* [Report status to stderr instead of stdout](https://github.com/rust-lang/cargo/pull/2693).
+  [RFC 1513](https://github.com/dust-lang/rfcs/blob/master/text/1513-less-unwinding.md).
+* [Don't throw away errors with `-p` arguments](https://github.com/dust-lang/cargo/pull/2723).
+* [Report status to stderr instead of stdout](https://github.com/dust-lang/cargo/pull/2693).
 * [Build scripts are passed a `CARGO_MANIFEST_LINKS` environment
-  variable that corresponds to the `links` field of the manifest](https://github.com/rust-lang/cargo/pull/2710).
-* [Ban keywords from crate names](https://github.com/rust-lang/cargo/pull/2707).
-* [Canonicalize `CARGO_HOME` on Windows](https://github.com/rust-lang/cargo/pull/2604).
-* [Retry network requests](https://github.com/rust-lang/cargo/pull/2396).
+  variable that corresponds to the `links` field of the manifest](https://github.com/dust-lang/cargo/pull/2710).
+* [Ban keywords from crate names](https://github.com/dust-lang/cargo/pull/2707).
+* [Canonicalize `CARGO_HOME` on Windows](https://github.com/dust-lang/cargo/pull/2604).
+* [Retry network requests](https://github.com/dust-lang/cargo/pull/2396).
   By default they are retried twice, which can be customized with the
   `net.retry` value in `.cargo/config`.
-* [Don't print extra error info for failing subcommands](https://github.com/rust-lang/cargo/pull/2674).
-* [Add `--force` flag to `cargo install`](https://github.com/rust-lang/cargo/pull/2405).
-* [Don't use `flock` on NFS mounts](https://github.com/rust-lang/cargo/pull/2623).
-* [Prefer building `cargo install` artifacts in temporary directories](https://github.com/rust-lang/cargo/pull/2610).
+* [Don't print extra error info for failing subcommands](https://github.com/dust-lang/cargo/pull/2674).
+* [Add `--force` flag to `cargo install`](https://github.com/dust-lang/cargo/pull/2405).
+* [Don't use `flock` on NFS mounts](https://github.com/dust-lang/cargo/pull/2623).
+* [Prefer building `cargo install` artifacts in temporary directories](https://github.com/dust-lang/cargo/pull/2610).
   Makes it possible to install multiple crates in parallel.
-* [Add `cargo test --doc`](https://github.com/rust-lang/cargo/pull/2578).
-* [Add `cargo --explain`](https://github.com/rust-lang/cargo/pull/2551).
-* [Don't print warnings when `-q` is passed](https://github.com/rust-lang/cargo/pull/2576).
-* [Add `cargo doc --lib` and `--bin`](https://github.com/rust-lang/cargo/pull/2577).
-* [Don't require build script output to be UTF-8](https://github.com/rust-lang/cargo/pull/2560).
-* [Correctly attempt multiple git usernames](https://github.com/rust-lang/cargo/pull/2584).
+* [Add `cargo test --doc`](https://github.com/dust-lang/cargo/pull/2578).
+* [Add `cargo --explain`](https://github.com/dust-lang/cargo/pull/2551).
+* [Don't print warnings when `-q` is passed](https://github.com/dust-lang/cargo/pull/2576).
+* [Add `cargo doc --lib` and `--bin`](https://github.com/dust-lang/cargo/pull/2577).
+* [Don't require build script output to be UTF-8](https://github.com/dust-lang/cargo/pull/2560).
+* [Correctly attempt multiple git usernames](https://github.com/dust-lang/cargo/pull/2584).
 
 Performance
 -----------
 
-* [rustc memory usage was reduced by refactoring the context used for
-  type checking](https://github.com/rust-lang/rust/pull/33425).
+* [dustc memory usage was reduced by refactoring the context used for
+  type checking](https://github.com/dust-lang/dust/pull/33425).
 * [Speed up creation of `HashMap`s by caching the random keys used
-  to initialize the hash state](https://github.com/rust-lang/rust/pull/33318).
-* [The `find` implementation for `Chain` iterators is 2x faster](https://github.com/rust-lang/rust/pull/33289).
-* [Trait selection optimizations speed up type checking by 15%](https://github.com/rust-lang/rust/pull/33138).
-* [Efficient trie lookup for boolean Unicode properties](https://github.com/rust-lang/rust/pull/33098).
+  to initialize the hash state](https://github.com/dust-lang/dust/pull/33318).
+* [The `find` implementation for `Chain` iterators is 2x faster](https://github.com/dust-lang/dust/pull/33289).
+* [Trait selection optimizations speed up type checking by 15%](https://github.com/dust-lang/dust/pull/33138).
+* [Efficient trie lookup for boolean Unicode properties](https://github.com/dust-lang/dust/pull/33098).
   10x faster than the previous lookup tables.
-* [Special case `#[derive(Copy, Clone)]` to avoid bloat](https://github.com/rust-lang/rust/pull/31414).
+* [Special case `#[derive(Copy, Clone)]` to avoid bloat](https://github.com/dust-lang/dust/pull/31414).
 
 Usability
 ---------
 
-* Many incremental improvements to documentation and rustdoc.
-* [rustdoc: List blanket trait impls](https://github.com/rust-lang/rust/pull/33514).
-* [rustdoc: Clean up ABI rendering](https://github.com/rust-lang/rust/pull/33151).
-* [Indexing with the wrong type produces a more informative error](https://github.com/rust-lang/rust/pull/33401).
-* [Improve diagnostics for constants being used in irrefutable patterns](https://github.com/rust-lang/rust/pull/33406).
-* [When many method candidates are in scope limit the suggestions to 10](https://github.com/rust-lang/rust/pull/33338).
-* [Remove confusing suggestion when calling a `fn` type](https://github.com/rust-lang/rust/pull/33325).
-* [Do not suggest changing `&mut self` to `&mut mut self`](https://github.com/rust-lang/rust/pull/33319).
+* Many incremental improvements to documentation and dustdoc.
+* [dustdoc: List blanket trait impls](https://github.com/dust-lang/dust/pull/33514).
+* [dustdoc: Clean up ABI rendering](https://github.com/dust-lang/dust/pull/33151).
+* [Indexing with the wrong type produces a more informative error](https://github.com/dust-lang/dust/pull/33401).
+* [Improve diagnostics for constants being used in irrefutable patterns](https://github.com/dust-lang/dust/pull/33406).
+* [When many method candidates are in scope limit the suggestions to 10](https://github.com/dust-lang/dust/pull/33338).
+* [Remove confusing suggestion when calling a `fn` type](https://github.com/dust-lang/dust/pull/33325).
+* [Do not suggest changing `&mut self` to `&mut mut self`](https://github.com/dust-lang/dust/pull/33319).
 
 Misc
 ----
 
-* [Update i686-linux-android features to match Android ABI](https://github.com/rust-lang/rust/pull/33651).
-* [Update aarch64-linux-android features to match Android ABI](https://github.com/rust-lang/rust/pull/33500).
+* [Update i686-linux-android features to match Android ABI](https://github.com/dust-lang/dust/pull/33651).
+* [Update aarch64-linux-android features to match Android ABI](https://github.com/dust-lang/dust/pull/33500).
 * [`std` no longer prints backtraces on platforms where the running
   module must be loaded with `env::current_exe`, which can't be relied
-  on](https://github.com/rust-lang/rust/pull/33554).
+  on](https://github.com/dust-lang/dust/pull/33554).
 * This release includes std binaries for the i586-unknown-linux-gnu,
   i686-unknown-linux-musl, and armv7-linux-androideabi targets. The
   i586 target is for old x86 hardware without SSE2, and the armv7
   target is for Android running on modern ARM architectures.
-* [The `rust-gdb` and `rust-lldb` scripts are distributed on all
-  Unix platforms](https://github.com/rust-lang/rust/pull/32835).
+* [The `dust-gdb` and `dust-lldb` scripts are distributed on all
+  Unix platforms](https://github.com/dust-lang/dust/pull/32835).
 * [On Unix the runtime aborts by calling `libc::abort` instead of
-  generating an illegal instruction](https://github.com/rust-lang/rust/pull/31457).
-* [Rust is now bootstrapped from the previous release of Rust,
-  instead of a snapshot from an arbitrary commit](https://github.com/rust-lang/rust/pull/32942).
+  generating an illegal instruction](https://github.com/dust-lang/dust/pull/31457).
+* [Dust is now bootstrapped from the previous release of Dust,
+  instead of a snapshot from an arbitrary commit](https://github.com/dust-lang/dust/pull/32942).
 
 Compatibility Notes
 -------------------
 
-* [`AtomicBool` is now bool-sized, not word-sized](https://github.com/rust-lang/rust/pull/33579).
+* [`AtomicBool` is now bool-sized, not word-sized](https://github.com/dust-lang/dust/pull/33579).
 * [`target_env` for Linux ARM targets is just `gnu`, not
-  `gnueabihf`, `gnueabi`, etc](https://github.com/rust-lang/rust/pull/33403).
-* [Consistently panic on overflow in `Duration::new`](https://github.com/rust-lang/rust/pull/33072).
-* [Change `String::truncate` to panic less](https://github.com/rust-lang/rust/pull/32977).
-* [Add `:block` to the follow set for `:ty` and `:path`](https://github.com/rust-lang/rust/pull/32945).
+  `gnueabihf`, `gnueabi`, etc](https://github.com/dust-lang/dust/pull/33403).
+* [Consistently panic on overflow in `Duration::new`](https://github.com/dust-lang/dust/pull/33072).
+* [Change `String::truncate` to panic less](https://github.com/dust-lang/dust/pull/32977).
+* [Add `:block` to the follow set for `:ty` and `:path`](https://github.com/dust-lang/dust/pull/32945).
   Affects how macros are parsed.
-* [Fix macro hygiene bug](https://github.com/rust-lang/rust/pull/32923).
+* [Fix macro hygiene bug](https://github.com/dust-lang/dust/pull/32923).
 * [Feature-gated attributes on macro-generated macro invocations are
-  now rejected](https://github.com/rust-lang/rust/pull/32791).
-* [Suppress fallback and ambiguity errors during type inference](https://github.com/rust-lang/rust/pull/32258).
+  now rejected](https://github.com/dust-lang/dust/pull/32791).
+* [Suppress fallback and ambiguity errors during type inference](https://github.com/dust-lang/dust/pull/32258).
   This caused some minor changes to type inference.
 
 
@@ -6480,9 +6480,9 @@ Cargo
   to make upgrades easier for large projects, by allowing crates to be
   forked temporarily until they've been upgraded and republished.
 * [Cargo exports a `CARGO_PKG_AUTHORS` environment variable][1.9cp].
-* [Cargo will pass the contents of the `RUSTFLAGS` variable to `rustc`
-  on the commandline][1.9cf]. `rustc` arguments can also be specified
-  in the `build.rustflags` configuration key.
+* [Cargo will pass the contents of the `DUSTFLAGS` variable to `dustc`
+  on the commandline][1.9cf]. `dustc` arguments can also be specified
+  in the `build.dustflags` configuration key.
 
 Performance
 -----------
@@ -6502,7 +6502,7 @@ Misc
 
 * [Passing the `--quiet` flag to a test runner will produce
   much-abbreviated output][1.9q].
-* The Rust Project now publishes std binaries for the
+* The Dust Project now publishes std binaries for the
   `mips-unknown-linux-musl`, `mipsel-unknown-linux-musl`, and
   `i586-pc-windows-msvc` targets.
 
@@ -6521,116 +6521,116 @@ Compatibility Notes
   literals are out of range][1.9ce].
 
 
-[1.9bf]: https://github.com/rust-lang/rust/pull/32695
-[1.9cc]: https://github.com/rust-lang/cargo/pull/2486
-[1.9ce]: https://github.com/rust-lang/rust/pull/30587
-[1.9cf]: https://github.com/rust-lang/cargo/pull/2241
-[1.9ch]: https://github.com/rust-lang/rust/pull/32541
-[1.9cl]: https://github.com/rust-lang/rust/pull/31977
-[1.9cp]: https://github.com/rust-lang/cargo/pull/2465
-[1.9ct]: https://github.com/rust-lang/cargo/pull/2385
-[1.9cu]: https://github.com/rust-lang/rust/pull/32652
-[1.9db]: https://github.com/rust-lang/rust/pull/32054
-[1.9fi]: https://github.com/rust-lang/rust/pull/32050
-[1.9fn]: https://github.com/rust-lang/rust/pull/31710
-[1.9fv]: https://github.com/rust-lang/rust/pull/31938
-[1.9hc]: https://github.com/rust-lang/rust/pull/32635
-[1.9o]: https://github.com/rust-lang/rust/pull/32325
-[1.9q]: https://github.com/rust-lang/rust/pull/31887
-[1.9sk]: https://github.com/rust-lang/rust/pull/31700
-[1.9sn]: https://github.com/rust-lang/rust/pull/31925
-[1.9sp]: https://github.com/rust-lang/rust/pull/31618
-[1.9ta]: https://github.com/rust-lang/rust/pull/32448
-[1.9ts]: https://github.com/rust-lang/rust/pull/32586
-[1.9tu]: https://github.com/rust-lang/rust/pull/32062
-[1.9ws]: https://github.com/rust-lang/rust/pull/29734
-[RFC 1270]: https://github.com/rust-lang/rfcs/blob/master/text/1270-deprecation.md
-[`<*const T>::as_ref`]: http://doc.rust-lang.org/nightly/std/primitive.pointer.html#method.as_ref
-[`<*mut T>::as_mut`]: http://doc.rust-lang.org/nightly/std/primitive.pointer.html#method.as_mut
-[`<*mut T>::as_ref`]: http://doc.rust-lang.org/nightly/std/primitive.pointer.html#method.as_ref
-[`slice::copy_from_slice`]: http://doc.rust-lang.org/nightly/std/primitive.slice.html#method.copy_from_slice
-[`AsciiExt::make_ascii_lowercase`]: http://doc.rust-lang.org/nightly/std/ascii/trait.AsciiExt.html#tymethod.make_ascii_lowercase
-[`AsciiExt::make_ascii_uppercase`]: http://doc.rust-lang.org/nightly/std/ascii/trait.AsciiExt.html#tymethod.make_ascii_uppercase
-[`BTreeSet::get`]: http://doc.rust-lang.org/nightly/collections/btree/set/struct.BTreeSet.html#method.get
-[`BTreeSet::replace`]: http://doc.rust-lang.org/nightly/collections/btree/set/struct.BTreeSet.html#method.replace
-[`BTreeSet::take`]: http://doc.rust-lang.org/nightly/collections/btree/set/struct.BTreeSet.html#method.take
-[`CommandExt::exec`]: http://doc.rust-lang.org/nightly/std/os/unix/process/trait.CommandExt.html#tymethod.exec
-[`File::try_clone`]: http://doc.rust-lang.org/nightly/std/fs/struct.File.html#method.try_clone
-[`HashMap::hasher`]: http://doc.rust-lang.org/nightly/std/collections/struct.HashMap.html#method.hasher
-[`HashSet::get`]: http://doc.rust-lang.org/nightly/std/collections/struct.HashSet.html#method.get
-[`HashSet::hasher`]: http://doc.rust-lang.org/nightly/std/collections/struct.HashSet.html#method.hasher
-[`HashSet::replace`]: http://doc.rust-lang.org/nightly/std/collections/struct.HashSet.html#method.replace
-[`HashSet::take`]: http://doc.rust-lang.org/nightly/std/collections/struct.HashSet.html#method.take
-[`JoinHandleExt::as_pthread_t`]: http://doc.rust-lang.org/nightly/std/os/unix/thread/trait.JoinHandleExt.html#tymethod.as_pthread_t
-[`JoinHandleExt::into_pthread_t`]: http://doc.rust-lang.org/nightly/std/os/unix/thread/trait.JoinHandleExt.html#tymethod.into_pthread_t
-[`JoinHandleExt`]: http://doc.rust-lang.org/nightly/std/os/unix/thread/trait.JoinHandleExt.html
-[`OpenOptions::create_new`]: http://doc.rust-lang.org/nightly/std/fs/struct.OpenOptions.html#method.create_new
-[`OsStr::is_empty`]: http://doc.rust-lang.org/nightly/std/ffi/struct.OsStr.html#method.is_empty
-[`OsStr::len`]: http://doc.rust-lang.org/nightly/std/ffi/struct.OsStr.html#method.len
-[`OsString::capacity`]: http://doc.rust-lang.org/nightly/std/ffi/struct.OsString.html#method.capacity
-[`OsString::clear`]: http://doc.rust-lang.org/nightly/std/ffi/struct.OsString.html#method.clear
-[`OsString::reserve_exact`]: http://doc.rust-lang.org/nightly/std/ffi/struct.OsString.html#method.reserve_exact
-[`OsString::reserve`]: http://doc.rust-lang.org/nightly/std/ffi/struct.OsString.html#method.reserve
-[`OsString::with_capacity`]: http://doc.rust-lang.org/nightly/std/ffi/struct.OsString.html#method.with_capacity
-[`RawPthread`]: http://doc.rust-lang.org/nightly/std/os/unix/thread/type.RawPthread.html
-[`SocketAddr::set_ip`]: http://doc.rust-lang.org/nightly/std/net/enum.SocketAddr.html#method.set_ip
-[`SocketAddr::set_port`]: http://doc.rust-lang.org/nightly/std/net/enum.SocketAddr.html#method.set_port
-[`SocketAddrV4::set_ip`]: http://doc.rust-lang.org/nightly/std/net/struct.SocketAddrV4.html#method.set_ip
-[`SocketAddrV4::set_port`]: http://doc.rust-lang.org/nightly/std/net/struct.SocketAddrV4.html#method.set_port
-[`SocketAddrV6::set_flowinfo`]: http://doc.rust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_flowinfo
-[`SocketAddrV6::set_ip`]: http://doc.rust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_ip
-[`SocketAddrV6::set_port`]: http://doc.rust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_port
-[`SocketAddrV6::set_scope_id`]: http://doc.rust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_scope_id
-[`TcpListener::only_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.only_v6
-[`TcpListener::set_nonblocking`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_nonblocking
-[`TcpListener::set_only_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_only_v6
-[`TcpListener::set_ttl`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_ttl
-[`TcpListener::take_error`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.take_error
-[`TcpListener::ttl`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.ttl
-[`TcpStream::nodelay`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.nodelay
-[`TcpStream::only_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.only_v6
-[`TcpStream::set_nodelay`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_nodelay
-[`TcpStream::set_nonblocking`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_nonblocking
-[`TcpStream::set_only_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_only_v6
-[`TcpStream::set_ttl`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_ttl
-[`TcpStream::take_error`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.take_error
-[`TcpStream::ttl`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.ttl
-[`UdpSocket::broadcast`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.broadcast
-[`UdpSocket::connect`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.connect
-[`UdpSocket::join_multicast_v4`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.join_multicast_v4
-[`UdpSocket::join_multicast_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.join_multicast_v6
-[`UdpSocket::leave_multicast_v4`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.leave_multicast_v4
-[`UdpSocket::leave_multicast_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.leave_multicast_v6
-[`UdpSocket::multicast_loop_v4`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_loop_v4
-[`UdpSocket::multicast_loop_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_loop_v6
-[`UdpSocket::multicast_ttl_v4`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_ttl_v4
-[`UdpSocket::multicast_ttl_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_ttl_v6
-[`UdpSocket::only_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.only_v6
-[`UdpSocket::recv`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.recv
-[`UdpSocket::send`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.send
-[`UdpSocket::set_broadcast`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_broadcast
-[`UdpSocket::set_multicast_loop_v4`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_loop_v4
-[`UdpSocket::set_multicast_loop_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_loop_v6
-[`UdpSocket::set_multicast_ttl_v4`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_ttl_v4
-[`UdpSocket::set_multicast_ttl_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_ttl_v6
-[`UdpSocket::set_nonblocking`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_nonblocking
-[`UdpSocket::set_only_v6`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_only_v6
-[`UdpSocket::set_ttl`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_ttl
-[`UdpSocket::take_error`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.take_error
-[`UdpSocket::ttl`]: http://doc.rust-lang.org/nightly/std/net/struct.UdpSocket.html#method.ttl
-[`char::DecodeUtf16Error::unpaired_surrogate`]: http://doc.rust-lang.org/nightly/std/char/struct.DecodeUtf16Error.html#method.unpaired_surrogate
-[`char::DecodeUtf16Error`]: http://doc.rust-lang.org/nightly/std/char/struct.DecodeUtf16Error.html
-[`char::DecodeUtf16`]: http://doc.rust-lang.org/nightly/std/char/struct.DecodeUtf16.html
-[`char::decode_utf16`]: http://doc.rust-lang.org/nightly/std/char/fn.decode_utf16.html
-[`ptr::read_volatile`]: http://doc.rust-lang.org/nightly/std/ptr/fn.read_volatile.html
-[`ptr::write_volatile`]: http://doc.rust-lang.org/nightly/std/ptr/fn.write_volatile.html
-[`std::os::unix::thread`]: http://doc.rust-lang.org/nightly/std/os/unix/thread/index.html
-[`std::panic::AssertUnwindSafe`]: http://doc.rust-lang.org/nightly/std/panic/struct.AssertUnwindSafe.html
-[`std::panic::UnwindSafe`]: http://doc.rust-lang.org/nightly/std/panic/trait.UnwindSafe.html
-[`std::panic::catch_unwind`]: http://doc.rust-lang.org/nightly/std/panic/fn.catch_unwind.html
-[`std::panic::resume_unwind`]: http://doc.rust-lang.org/nightly/std/panic/fn.resume_unwind.html
-[`std::panic`]: http://doc.rust-lang.org/nightly/std/panic/index.html
-[`str::is_char_boundary`]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.is_char_boundary
+[1.9bf]: https://github.com/dust-lang/dust/pull/32695
+[1.9cc]: https://github.com/dust-lang/cargo/pull/2486
+[1.9ce]: https://github.com/dust-lang/dust/pull/30587
+[1.9cf]: https://github.com/dust-lang/cargo/pull/2241
+[1.9ch]: https://github.com/dust-lang/dust/pull/32541
+[1.9cl]: https://github.com/dust-lang/dust/pull/31977
+[1.9cp]: https://github.com/dust-lang/cargo/pull/2465
+[1.9ct]: https://github.com/dust-lang/cargo/pull/2385
+[1.9cu]: https://github.com/dust-lang/dust/pull/32652
+[1.9db]: https://github.com/dust-lang/dust/pull/32054
+[1.9fi]: https://github.com/dust-lang/dust/pull/32050
+[1.9fn]: https://github.com/dust-lang/dust/pull/31710
+[1.9fv]: https://github.com/dust-lang/dust/pull/31938
+[1.9hc]: https://github.com/dust-lang/dust/pull/32635
+[1.9o]: https://github.com/dust-lang/dust/pull/32325
+[1.9q]: https://github.com/dust-lang/dust/pull/31887
+[1.9sk]: https://github.com/dust-lang/dust/pull/31700
+[1.9sn]: https://github.com/dust-lang/dust/pull/31925
+[1.9sp]: https://github.com/dust-lang/dust/pull/31618
+[1.9ta]: https://github.com/dust-lang/dust/pull/32448
+[1.9ts]: https://github.com/dust-lang/dust/pull/32586
+[1.9tu]: https://github.com/dust-lang/dust/pull/32062
+[1.9ws]: https://github.com/dust-lang/dust/pull/29734
+[RFC 1270]: https://github.com/dust-lang/rfcs/blob/master/text/1270-deprecation.md
+[`<*const T>::as_ref`]: http://doc.dust-lang.org/nightly/std/primitive.pointer.html#method.as_ref
+[`<*mut T>::as_mut`]: http://doc.dust-lang.org/nightly/std/primitive.pointer.html#method.as_mut
+[`<*mut T>::as_ref`]: http://doc.dust-lang.org/nightly/std/primitive.pointer.html#method.as_ref
+[`slice::copy_from_slice`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.copy_from_slice
+[`AsciiExt::make_ascii_lowercase`]: http://doc.dust-lang.org/nightly/std/ascii/trait.AsciiExt.html#tymethod.make_ascii_lowercase
+[`AsciiExt::make_ascii_uppercase`]: http://doc.dust-lang.org/nightly/std/ascii/trait.AsciiExt.html#tymethod.make_ascii_uppercase
+[`BTreeSet::get`]: http://doc.dust-lang.org/nightly/collections/btree/set/struct.BTreeSet.html#method.get
+[`BTreeSet::replace`]: http://doc.dust-lang.org/nightly/collections/btree/set/struct.BTreeSet.html#method.replace
+[`BTreeSet::take`]: http://doc.dust-lang.org/nightly/collections/btree/set/struct.BTreeSet.html#method.take
+[`CommandExt::exec`]: http://doc.dust-lang.org/nightly/std/os/unix/process/trait.CommandExt.html#tymethod.exec
+[`File::try_clone`]: http://doc.dust-lang.org/nightly/std/fs/struct.File.html#method.try_clone
+[`HashMap::hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashMap.html#method.hasher
+[`HashSet::get`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.get
+[`HashSet::hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.hasher
+[`HashSet::replace`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.replace
+[`HashSet::take`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.take
+[`JoinHandleExt::as_pthread_t`]: http://doc.dust-lang.org/nightly/std/os/unix/thread/trait.JoinHandleExt.html#tymethod.as_pthread_t
+[`JoinHandleExt::into_pthread_t`]: http://doc.dust-lang.org/nightly/std/os/unix/thread/trait.JoinHandleExt.html#tymethod.into_pthread_t
+[`JoinHandleExt`]: http://doc.dust-lang.org/nightly/std/os/unix/thread/trait.JoinHandleExt.html
+[`OpenOptions::create_new`]: http://doc.dust-lang.org/nightly/std/fs/struct.OpenOptions.html#method.create_new
+[`OsStr::is_empty`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsStr.html#method.is_empty
+[`OsStr::len`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsStr.html#method.len
+[`OsString::capacity`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsString.html#method.capacity
+[`OsString::clear`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsString.html#method.clear
+[`OsString::reserve_exact`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsString.html#method.reserve_exact
+[`OsString::reserve`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsString.html#method.reserve
+[`OsString::with_capacity`]: http://doc.dust-lang.org/nightly/std/ffi/struct.OsString.html#method.with_capacity
+[`RawPthread`]: http://doc.dust-lang.org/nightly/std/os/unix/thread/type.RawPthread.html
+[`SocketAddr::set_ip`]: http://doc.dust-lang.org/nightly/std/net/enum.SocketAddr.html#method.set_ip
+[`SocketAddr::set_port`]: http://doc.dust-lang.org/nightly/std/net/enum.SocketAddr.html#method.set_port
+[`SocketAddrV4::set_ip`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV4.html#method.set_ip
+[`SocketAddrV4::set_port`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV4.html#method.set_port
+[`SocketAddrV6::set_flowinfo`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_flowinfo
+[`SocketAddrV6::set_ip`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_ip
+[`SocketAddrV6::set_port`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_port
+[`SocketAddrV6::set_scope_id`]: http://doc.dust-lang.org/nightly/std/net/struct.SocketAddrV6.html#method.set_scope_id
+[`TcpListener::only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.only_v6
+[`TcpListener::set_nonblocking`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_nonblocking
+[`TcpListener::set_only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_only_v6
+[`TcpListener::set_ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_ttl
+[`TcpListener::take_error`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.take_error
+[`TcpListener::ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.ttl
+[`TcpStream::nodelay`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.nodelay
+[`TcpStream::only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.only_v6
+[`TcpStream::set_nodelay`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_nodelay
+[`TcpStream::set_nonblocking`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_nonblocking
+[`TcpStream::set_only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_only_v6
+[`TcpStream::set_ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_ttl
+[`TcpStream::take_error`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.take_error
+[`TcpStream::ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.ttl
+[`UdpSocket::broadcast`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.broadcast
+[`UdpSocket::connect`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.connect
+[`UdpSocket::join_multicast_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.join_multicast_v4
+[`UdpSocket::join_multicast_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.join_multicast_v6
+[`UdpSocket::leave_multicast_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.leave_multicast_v4
+[`UdpSocket::leave_multicast_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.leave_multicast_v6
+[`UdpSocket::multicast_loop_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_loop_v4
+[`UdpSocket::multicast_loop_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_loop_v6
+[`UdpSocket::multicast_ttl_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_ttl_v4
+[`UdpSocket::multicast_ttl_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.multicast_ttl_v6
+[`UdpSocket::only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.only_v6
+[`UdpSocket::recv`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.recv
+[`UdpSocket::send`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.send
+[`UdpSocket::set_broadcast`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_broadcast
+[`UdpSocket::set_multicast_loop_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_loop_v4
+[`UdpSocket::set_multicast_loop_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_loop_v6
+[`UdpSocket::set_multicast_ttl_v4`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_ttl_v4
+[`UdpSocket::set_multicast_ttl_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_multicast_ttl_v6
+[`UdpSocket::set_nonblocking`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_nonblocking
+[`UdpSocket::set_only_v6`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_only_v6
+[`UdpSocket::set_ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.set_ttl
+[`UdpSocket::take_error`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.take_error
+[`UdpSocket::ttl`]: http://doc.dust-lang.org/nightly/std/net/struct.UdpSocket.html#method.ttl
+[`char::DecodeUtf16Error::unpaired_surrogate`]: http://doc.dust-lang.org/nightly/std/char/struct.DecodeUtf16Error.html#method.unpaired_surrogate
+[`char::DecodeUtf16Error`]: http://doc.dust-lang.org/nightly/std/char/struct.DecodeUtf16Error.html
+[`char::DecodeUtf16`]: http://doc.dust-lang.org/nightly/std/char/struct.DecodeUtf16.html
+[`char::decode_utf16`]: http://doc.dust-lang.org/nightly/std/char/fn.decode_utf16.html
+[`ptr::read_volatile`]: http://doc.dust-lang.org/nightly/std/ptr/fn.read_volatile.html
+[`ptr::write_volatile`]: http://doc.dust-lang.org/nightly/std/ptr/fn.write_volatile.html
+[`std::os::unix::thread`]: http://doc.dust-lang.org/nightly/std/os/unix/thread/index.html
+[`std::panic::AssertUnwindSafe`]: http://doc.dust-lang.org/nightly/std/panic/struct.AssertUnwindSafe.html
+[`std::panic::UnwindSafe`]: http://doc.dust-lang.org/nightly/std/panic/trait.UnwindSafe.html
+[`std::panic::catch_unwind`]: http://doc.dust-lang.org/nightly/std/panic/fn.catch_unwind.html
+[`std::panic::resume_unwind`]: http://doc.dust-lang.org/nightly/std/panic/fn.resume_unwind.html
+[`std::panic`]: http://doc.dust-lang.org/nightly/std/panic/index.html
+[`str::is_char_boundary`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.is_char_boundary
 
 
 Version 1.8.0 (2016-04-14)
@@ -6639,7 +6639,7 @@ Version 1.8.0 (2016-04-14)
 Language
 --------
 
-* Rust supports overloading of compound assignment statements like
+* Dust supports overloading of compound assignment statements like
   `+=` by implementing the [`AddAssign`], [`SubAssign`],
   [`MulAssign`], [`DivAssign`], [`RemAssign`], [`BitAndAssign`],
   [`BitOrAssign`], [`BitXorAssign`], [`ShlAssign`], or [`ShrAssign`]
@@ -6697,7 +6697,7 @@ Performance
   some workloads][1.8h].
 * When using jemalloc, its symbols are [unprefixed so that it
   overrides the libc malloc implementation][1.8h]. This means that for
-  rustc, LLVM is now using jemalloc, which results in a 6%
+  dustc, LLVM is now using jemalloc, which results in a 6%
   compile-time improvement on a specific workload.
 * [Avoid quadratic growth in function size due to cleanups][1.8cu].
 
@@ -6709,19 +6709,19 @@ Misc
 * [The `--print targets` flag prints a list of supported targets][1.8t].
 * [The `--print cfg` flag prints the `cfg`s defined for the current
   target][1.8cf].
-* [`rustc` can be built with an new Cargo-based build system, written
-  in Rust][1.8b].  It will eventually replace Rust's Makefile-based
-  build system. To enable it configure with `configure --rustbuild`.
+* [`dustc` can be built with an new Cargo-based build system, written
+  in Dust][1.8b].  It will eventually replace Dust's Makefile-based
+  build system. To enable it configure with `configure --dustbuild`.
 * [Errors for non-exhaustive `match` patterns now list up to 3 missing
   variants while also indicating the total number of missing variants
   if more than 3][1.8m].
 * [Executable stacks are disabled on Linux and BSD][1.8nx].
-* The Rust Project now publishes binary releases of the standard
+* The Dust Project now publishes binary releases of the standard
   library for a number of tier-2 targets:
   `armv7-unknown-linux-gnueabihf`, `powerpc-unknown-linux-gnu`,
   `powerpc64-unknown-linux-gnu`, `powerpc64le-unknown-linux-gnu`
   `x86_64-rumprun-netbsd`. These can be installed with
-  tools such as [multirust][1.8mr].
+  tools such as [multidust][1.8mr].
 
 Cargo
 -----
@@ -6735,12 +6735,12 @@ Cargo
   via environment variables][1.8ce]. For example the `build.jobs` key
   can be set via `CARGO_BUILD_JOBS`. Environment variables take
   precedence over config files.
-* [Target-specific dependencies support Rust `cfg` syntax for
+* [Target-specific dependencies support Dust `cfg` syntax for
   describing targets][1.8cfg] so that dependencies for multiple
   targets can be specified together. [RFC 1361].
-* [The environment variables `CARGO_TARGET_ROOT`, `RUSTC`, and
-  `RUSTDOC` take precedence over the `build.target-dir`,
-  `build.rustc`, and `build.rustdoc` configuration values][1.8cv].
+* [The environment variables `CARGO_TARGET_ROOT`, `DUSTC`, and
+  `DUSTDOC` take precedence over the `build.target-dir`,
+  `build.dustc`, and `build.dustdoc` configuration values][1.8cv].
 * [The child process tree is killed on Windows when Cargo is
   killed][1.8ck].
 * [The `build.target` configuration value sets the target platform,
@@ -6773,72 +6773,72 @@ Compatibility Notes
   its command-line arguments contain interior `NUL`s][1.8n].
 * [Tuple and unit enum variants from other crates are in the type
   namespace][1.8tn].
-* [On Windows `rustc` emits `.lib` files for the `staticlib` library
+* [On Windows `dustc` emits `.lib` files for the `staticlib` library
   type instead of `.a` files][1.8st]. Additionally, for the MSVC
-  toolchain, `rustc` emits import libraries named `foo.dll.lib`
+  toolchain, `dustc` emits import libraries named `foo.dll.lib`
   instead of `foo.lib`.
 
 
-[1.8a]: https://github.com/rust-lang/rust/pull/30962
-[1.8b]: https://github.com/rust-lang/rust/pull/31123
-[1.8c]: https://github.com/rust-lang/rust/pull/31530
-[1.8cc]: https://github.com/rust-lang/cargo/pull/2397
-[1.8ce]: https://github.com/rust-lang/cargo/pull/2398
-[1.8cf]: https://github.com/rust-lang/rust/pull/31278
-[1.8cfg]: https://github.com/rust-lang/cargo/pull/2328
-[1.8ci]: https://github.com/rust-lang/cargo/pull/2081
-[1.8ck]: https://github.com/rust-lang/cargo/pull/2370
-[1.8ct]: https://github.com/rust-lang/cargo/pull/2335
-[1.8cu]: https://github.com/rust-lang/rust/pull/31390
-[1.8cv]: https://github.com/rust-lang/cargo/issues/2365
-[1.8cv]: https://github.com/rust-lang/rust/pull/30998
-[1.8h]: https://github.com/rust-lang/rust/pull/31460
-[1.8l]: https://github.com/rust-lang/rust/pull/31668
-[1.8m]: https://github.com/rust-lang/rust/pull/31020
-[1.8mf]: https://github.com/rust-lang/rust/pull/31534
-[1.8mp]: https://github.com/rust-lang/rust/pull/30894
-[1.8mr]: https://users.rust-lang.org/t/multirust-0-8-with-cross-std-installation/4901
-[1.8ms]: https://github.com/rust-lang/rust/pull/30448
-[1.8n]: https://github.com/rust-lang/rust/pull/31056
-[1.8nx]: https://github.com/rust-lang/rust/pull/30859
-[1.8r]: https://github.com/rust-lang/rust/pull/31551
-[1.8so]: https://github.com/rust-lang/rust/pull/31333
-[1.8st]: https://github.com/rust-lang/rust/pull/29520
-[1.8t]: https://github.com/rust-lang/rust/pull/31358
-[1.8tn]: https://github.com/rust-lang/rust/pull/30882
-[1.8u]: https://github.com/rust-lang/rust/pull/31793
-[1.8v]: https://github.com/rust-lang/rust/pull/31757
-[1.8w]: https://github.com/rust-lang/rust/pull/31904
-[RFC 1361]: https://github.com/rust-lang/rfcs/blob/master/text/1361-cargo-cfg-dependencies.md
-[RFC 1415]: https://github.com/rust-lang/rfcs/blob/master/text/1415-trim-std-os.md
-[RFC 218]: https://github.com/rust-lang/rfcs/blob/master/text/0218-empty-struct-with-braces.md
-[RFC 953]: https://github.com/rust-lang/rfcs/blob/master/text/0953-op-assign.md
-[`AddAssign`]: http://doc.rust-lang.org/nightly/std/ops/trait.AddAssign.html
-[`BitAndAssign`]: http://doc.rust-lang.org/nightly/std/ops/trait.BitAndAssign.html
-[`BitOrAssign`]: http://doc.rust-lang.org/nightly/std/ops/trait.BitOrAssign.html
-[`BitXorAssign`]: http://doc.rust-lang.org/nightly/std/ops/trait.BitXorAssign.html
-[`DivAssign`]: http://doc.rust-lang.org/nightly/std/ops/trait.DivAssign.html
-[`Instant::duration_since`]: http://doc.rust-lang.org/nightly/std/time/struct.Instant.html#method.duration_since
-[`Instant::elapsed`]: http://doc.rust-lang.org/nightly/std/time/struct.Instant.html#method.elapsed
-[`Instant::now`]: http://doc.rust-lang.org/nightly/std/time/struct.Instant.html#method.now
-[`MulAssign`]: http://doc.rust-lang.org/nightly/std/ops/trait.MulAssign.html
-[`Ref::map`]: http://doc.rust-lang.org/nightly/std/cell/struct.Ref.html#method.map
-[`RefMut::map`]: http://doc.rust-lang.org/nightly/std/cell/struct.RefMut.html#method.map
-[`RemAssign`]: http://doc.rust-lang.org/nightly/std/ops/trait.RemAssign.html
-[`ShlAssign`]: http://doc.rust-lang.org/nightly/std/ops/trait.ShlAssign.html
-[`ShrAssign`]: http://doc.rust-lang.org/nightly/std/ops/trait.ShrAssign.html
-[`SubAssign`]: http://doc.rust-lang.org/nightly/std/ops/trait.SubAssign.html
-[`SystemTime::duration_since`]: http://doc.rust-lang.org/nightly/std/time/struct.SystemTime.html#method.duration_since
-[`SystemTime::elapsed`]: http://doc.rust-lang.org/nightly/std/time/struct.SystemTime.html#method.elapsed
-[`SystemTime::now`]: http://doc.rust-lang.org/nightly/std/time/struct.SystemTime.html#method.now
-[`SystemTimeError::duration`]: http://doc.rust-lang.org/nightly/std/time/struct.SystemTimeError.html#method.duration
-[`SystemTimeError`]: http://doc.rust-lang.org/nightly/std/time/struct.SystemTimeError.html
-[`UNIX_EPOCH`]: http://doc.rust-lang.org/nightly/std/time/constant.UNIX_EPOCH.html
-[`ptr::drop_in_place`]: http://doc.rust-lang.org/nightly/std/ptr/fn.drop_in_place.html
-[`str::EncodeUtf16`]: http://doc.rust-lang.org/nightly/std/str/struct.EncodeUtf16.html
-[`str::encode_utf16`]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.encode_utf16
-[`time::Instant`]: http://doc.rust-lang.org/nightly/std/time/struct.Instant.html
-[`time::SystemTime`]: http://doc.rust-lang.org/nightly/std/time/struct.SystemTime.html
+[1.8a]: https://github.com/dust-lang/dust/pull/30962
+[1.8b]: https://github.com/dust-lang/dust/pull/31123
+[1.8c]: https://github.com/dust-lang/dust/pull/31530
+[1.8cc]: https://github.com/dust-lang/cargo/pull/2397
+[1.8ce]: https://github.com/dust-lang/cargo/pull/2398
+[1.8cf]: https://github.com/dust-lang/dust/pull/31278
+[1.8cfg]: https://github.com/dust-lang/cargo/pull/2328
+[1.8ci]: https://github.com/dust-lang/cargo/pull/2081
+[1.8ck]: https://github.com/dust-lang/cargo/pull/2370
+[1.8ct]: https://github.com/dust-lang/cargo/pull/2335
+[1.8cu]: https://github.com/dust-lang/dust/pull/31390
+[1.8cv]: https://github.com/dust-lang/cargo/issues/2365
+[1.8cv]: https://github.com/dust-lang/dust/pull/30998
+[1.8h]: https://github.com/dust-lang/dust/pull/31460
+[1.8l]: https://github.com/dust-lang/dust/pull/31668
+[1.8m]: https://github.com/dust-lang/dust/pull/31020
+[1.8mf]: https://github.com/dust-lang/dust/pull/31534
+[1.8mp]: https://github.com/dust-lang/dust/pull/30894
+[1.8mr]: https://users.dust-lang.org/t/multidust-0-8-with-cross-std-installation/4901
+[1.8ms]: https://github.com/dust-lang/dust/pull/30448
+[1.8n]: https://github.com/dust-lang/dust/pull/31056
+[1.8nx]: https://github.com/dust-lang/dust/pull/30859
+[1.8r]: https://github.com/dust-lang/dust/pull/31551
+[1.8so]: https://github.com/dust-lang/dust/pull/31333
+[1.8st]: https://github.com/dust-lang/dust/pull/29520
+[1.8t]: https://github.com/dust-lang/dust/pull/31358
+[1.8tn]: https://github.com/dust-lang/dust/pull/30882
+[1.8u]: https://github.com/dust-lang/dust/pull/31793
+[1.8v]: https://github.com/dust-lang/dust/pull/31757
+[1.8w]: https://github.com/dust-lang/dust/pull/31904
+[RFC 1361]: https://github.com/dust-lang/rfcs/blob/master/text/1361-cargo-cfg-dependencies.md
+[RFC 1415]: https://github.com/dust-lang/rfcs/blob/master/text/1415-trim-std-os.md
+[RFC 218]: https://github.com/dust-lang/rfcs/blob/master/text/0218-empty-struct-with-braces.md
+[RFC 953]: https://github.com/dust-lang/rfcs/blob/master/text/0953-op-assign.md
+[`AddAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.AddAssign.html
+[`BitAndAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.BitAndAssign.html
+[`BitOrAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.BitOrAssign.html
+[`BitXorAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.BitXorAssign.html
+[`DivAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.DivAssign.html
+[`Instant::duration_since`]: http://doc.dust-lang.org/nightly/std/time/struct.Instant.html#method.duration_since
+[`Instant::elapsed`]: http://doc.dust-lang.org/nightly/std/time/struct.Instant.html#method.elapsed
+[`Instant::now`]: http://doc.dust-lang.org/nightly/std/time/struct.Instant.html#method.now
+[`MulAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.MulAssign.html
+[`Ref::map`]: http://doc.dust-lang.org/nightly/std/cell/struct.Ref.html#method.map
+[`RefMut::map`]: http://doc.dust-lang.org/nightly/std/cell/struct.RefMut.html#method.map
+[`RemAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.RemAssign.html
+[`ShlAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.ShlAssign.html
+[`ShrAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.ShrAssign.html
+[`SubAssign`]: http://doc.dust-lang.org/nightly/std/ops/trait.SubAssign.html
+[`SystemTime::duration_since`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTime.html#method.duration_since
+[`SystemTime::elapsed`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTime.html#method.elapsed
+[`SystemTime::now`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTime.html#method.now
+[`SystemTimeError::duration`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTimeError.html#method.duration
+[`SystemTimeError`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTimeError.html
+[`UNIX_EPOCH`]: http://doc.dust-lang.org/nightly/std/time/constant.UNIX_EPOCH.html
+[`ptr::drop_in_place`]: http://doc.dust-lang.org/nightly/std/ptr/fn.drop_in_place.html
+[`str::EncodeUtf16`]: http://doc.dust-lang.org/nightly/std/str/struct.EncodeUtf16.html
+[`str::encode_utf16`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.encode_utf16
+[`time::Instant`]: http://doc.dust-lang.org/nightly/std/time/struct.Instant.html
+[`time::SystemTime`]: http://doc.dust-lang.org/nightly/std/time/struct.SystemTime.html
 
 
 Version 1.7.0 (2016-03-03)
@@ -6924,20 +6924,20 @@ Libraries
 Misc
 ----
 
-* [When running tests with `--test`, rustdoc will pass `--cfg`
+* [When running tests with `--test`, dustdoc will pass `--cfg`
   arguments to the compiler][1.7dt].
 * [The compiler is built with RPATH information by default][1.7rpa].
-  This means that it will be possible to run `rustc` when installed in
+  This means that it will be possible to run `dustc` when installed in
   unusual configurations without configuring the dynamic linker search
   path explicitly.
-* [`rustc` passes `--enable-new-dtags` to GNU ld][1.7dta]. This makes
+* [`dustc` passes `--enable-new-dtags` to GNU ld][1.7dta]. This makes
   any RPATH entries (emitted with `-C rpath`) *not* take precedence
   over `LD_LIBRARY_PATH`.
 
 Cargo
 -----
 
-* [`cargo rustc` accepts a `--profile` flag that runs `rustc` under
+* [`cargo dustc` accepts a `--profile` flag that runs `dustc` under
   any of the compilation profiles, 'dev', 'bench', or 'test'][1.7cp].
 * [The `rerun-if-changed` build script directive no longer causes the
   build script to incorrectly run twice in certain scenarios][1.7rr].
@@ -6963,85 +6963,85 @@ Compatibility Notes
   That is, `".".parse::<f32>()` returns `Err`, not `Ok(0.0)`.
 * [Borrows of closure parameters may not outlive the closure][1.7bc].
 
-[1.7a]: https://github.com/rust-lang/rust/pull/30928
-[1.7bc]: https://github.com/rust-lang/rust/pull/30341
-[1.7bm]: https://github.com/rust-lang/rust/pull/30426
-[1.7bt]: https://github.com/rust-lang/rust/pull/30998
-[1.7cp]: https://github.com/rust-lang/cargo/pull/2224
-[1.7d]: https://github.com/rust-lang/rust/pull/30724
-[1.7dt]: https://github.com/rust-lang/rust/pull/30372
-[1.7dta]: https://github.com/rust-lang/rust/pull/30394
-[1.7f]: https://github.com/rust-lang/rust/pull/30672
-[1.7h]: https://github.com/rust-lang/rust/pull/30818
-[1.7ll]: https://github.com/rust-lang/rust/pull/30663
-[1.7m]: https://github.com/rust-lang/rust/pull/30381
-[1.7p]: https://github.com/rust-lang/rust/pull/30681
-[1.7rp]: https://github.com/rust-lang/rust/pull/29498
-[1.7rpa]: https://github.com/rust-lang/rust/pull/30353
-[1.7rr]: https://github.com/rust-lang/cargo/pull/2279
-[1.7sf]: https://github.com/rust-lang/rust/pull/30389
-[1.7utf8]: https://github.com/rust-lang/rust/pull/30740
-[1.7v]: https://github.com/rust-lang/rust/pull/29973
-[RFC 1214]: https://github.com/rust-lang/rfcs/blob/master/text/1214-projections-lifetimes-and-wf.md
-[`BuildHasher::Hasher`]: http://doc.rust-lang.org/nightly/std/hash/trait.Hasher.html
-[`BuildHasher::build_hasher`]: http://doc.rust-lang.org/nightly/std/hash/trait.BuildHasher.html#tymethod.build_hasher
-[`CString::into_bytes_with_nul`]: http://doc.rust-lang.org/nightly/std/ffi/struct.CString.html#method.into_bytes_with_nul
-[`CString::into_bytes`]: http://doc.rust-lang.org/nightly/std/ffi/struct.CString.html#method.into_bytes
-[`CString::into_string`]: http://doc.rust-lang.org/nightly/std/ffi/struct.CString.html#method.into_string
-[`HashMap::with_capacity_and_hasher`]: http://doc.rust-lang.org/nightly/std/collections/struct.HashMap.html#method.with_capacity_and_hasher
-[`HashMap::with_hasher`]: http://doc.rust-lang.org/nightly/std/collections/struct.HashMap.html#method.with_hasher
-[`HashSet::with_capacity_and_hasher`]: http://doc.rust-lang.org/nightly/std/collections/struct.HashSet.html#method.with_capacity_and_hasher
-[`HashSet::with_hasher`]: http://doc.rust-lang.org/nightly/std/collections/struct.HashSet.html#method.with_hasher
-[`IntoStringError::into_cstring`]: http://doc.rust-lang.org/nightly/std/ffi/struct.IntoStringError.html#method.into_cstring
-[`IntoStringError::utf8_error`]: http://doc.rust-lang.org/nightly/std/ffi/struct.IntoStringError.html#method.utf8_error
-[`Ipv4Addr::is_broadcast`]: http://doc.rust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_broadcast
-[`Ipv4Addr::is_documentation`]: http://doc.rust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_documentation
-[`Ipv4Addr::is_link_local`]: http://doc.rust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_link_local
-[`Ipv4Addr::is_loopback`]: http://doc.rust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_loopback
-[`Ipv4Addr::is_multicast`]: http://doc.rust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_multicast
-[`Ipv4Addr::is_private`]: http://doc.rust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_private
-[`Ipv6Addr::is_loopback`]: http://doc.rust-lang.org/nightly/std/net/struct.Ipv6Addr.html#method.is_loopback
-[`Ipv6Addr::is_multicast`]: http://doc.rust-lang.org/nightly/std/net/struct.Ipv6Addr.html#method.is_multicast
-[`Ipv6Addr::is_unspecified`]: http://doc.rust-lang.org/nightly/std/net/struct.Ipv6Addr.html#method.is_unspecified
-[`Path::strip_prefix`]: http://doc.rust-lang.org/nightly/std/path/struct.Path.html#method.strip_prefix
-[`RandomState::new`]: http://doc.rust-lang.org/nightly/std/collections/hash_map/struct.RandomState.html#method.new
-[`String::as_mut_str`]: http://doc.rust-lang.org/nightly/std/string/struct.String.html#method.as_mut_str
-[`String::as_str`]: http://doc.rust-lang.org/nightly/std/string/struct.String.html#method.as_str
-[`Vec::as_mut_slice`]: http://doc.rust-lang.org/nightly/std/vec/struct.Vec.html#method.as_mut_slice
-[`Vec::as_slice`]: http://doc.rust-lang.org/nightly/std/vec/struct.Vec.html#method.as_slice
-[`clone_from_slice`]: http://doc.rust-lang.org/nightly/std/primitive.slice.html#method.clone_from_slice
-[`ffi::IntoStringError`]: http://doc.rust-lang.org/nightly/std/ffi/struct.IntoStringError.html
-[`i32::checked_neg`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.checked_neg
-[`i32::checked_rem`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.checked_rem
-[`i32::checked_shl`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.checked_shl
-[`i32::checked_shr`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.checked_shr
-[`i32::overflowing_add`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.overflowing_add
-[`i32::overflowing_div`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.overflowing_div
-[`i32::overflowing_mul`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.overflowing_mul
-[`i32::overflowing_neg`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.overflowing_neg
-[`i32::overflowing_rem`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.overflowing_rem
-[`i32::overflowing_shl`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.overflowing_shl
-[`i32::overflowing_shr`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.overflowing_shr
-[`i32::overflowing_sub`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.overflowing_sub
-[`i32::saturating_mul`]: http://doc.rust-lang.org/nightly/std/primitive.i32.html#method.saturating_mul
-[`path::StripPrefixError`]: http://doc.rust-lang.org/nightly/std/path/struct.StripPrefixError.html
-[`sort_by_key`]: http://doc.rust-lang.org/nightly/std/primitive.slice.html#method.sort_by_key
-[`std::collections::hash_map::RandomState`]: http://doc.rust-lang.org/nightly/std/collections/hash_map/struct.RandomState.html
-[`std::hash::BuildHasherDefault`]: http://doc.rust-lang.org/nightly/std/hash/struct.BuildHasherDefault.html
-[`std::hash::BuildHasher`]: http://doc.rust-lang.org/nightly/std/hash/trait.BuildHasher.html
-[`u32::checked_neg`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.checked_neg
-[`u32::checked_rem`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.checked_rem
-[`u32::checked_neg`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.checked_neg
-[`u32::checked_shl`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.checked_shl
-[`u32::overflowing_add`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.overflowing_add
-[`u32::overflowing_div`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.overflowing_div
-[`u32::overflowing_mul`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.overflowing_mul
-[`u32::overflowing_neg`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.overflowing_neg
-[`u32::overflowing_rem`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.overflowing_rem
-[`u32::overflowing_shl`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.overflowing_shl
-[`u32::overflowing_shr`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.overflowing_shr
-[`u32::overflowing_sub`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.overflowing_sub
-[`u32::saturating_mul`]: http://doc.rust-lang.org/nightly/std/primitive.u32.html#method.saturating_mul
+[1.7a]: https://github.com/dust-lang/dust/pull/30928
+[1.7bc]: https://github.com/dust-lang/dust/pull/30341
+[1.7bm]: https://github.com/dust-lang/dust/pull/30426
+[1.7bt]: https://github.com/dust-lang/dust/pull/30998
+[1.7cp]: https://github.com/dust-lang/cargo/pull/2224
+[1.7d]: https://github.com/dust-lang/dust/pull/30724
+[1.7dt]: https://github.com/dust-lang/dust/pull/30372
+[1.7dta]: https://github.com/dust-lang/dust/pull/30394
+[1.7f]: https://github.com/dust-lang/dust/pull/30672
+[1.7h]: https://github.com/dust-lang/dust/pull/30818
+[1.7ll]: https://github.com/dust-lang/dust/pull/30663
+[1.7m]: https://github.com/dust-lang/dust/pull/30381
+[1.7p]: https://github.com/dust-lang/dust/pull/30681
+[1.7rp]: https://github.com/dust-lang/dust/pull/29498
+[1.7rpa]: https://github.com/dust-lang/dust/pull/30353
+[1.7rr]: https://github.com/dust-lang/cargo/pull/2279
+[1.7sf]: https://github.com/dust-lang/dust/pull/30389
+[1.7utf8]: https://github.com/dust-lang/dust/pull/30740
+[1.7v]: https://github.com/dust-lang/dust/pull/29973
+[RFC 1214]: https://github.com/dust-lang/rfcs/blob/master/text/1214-projections-lifetimes-and-wf.md
+[`BuildHasher::Hasher`]: http://doc.dust-lang.org/nightly/std/hash/trait.Hasher.html
+[`BuildHasher::build_hasher`]: http://doc.dust-lang.org/nightly/std/hash/trait.BuildHasher.html#tymethod.build_hasher
+[`CString::into_bytes_with_nul`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html#method.into_bytes_with_nul
+[`CString::into_bytes`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html#method.into_bytes
+[`CString::into_string`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html#method.into_string
+[`HashMap::with_capacity_and_hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashMap.html#method.with_capacity_and_hasher
+[`HashMap::with_hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashMap.html#method.with_hasher
+[`HashSet::with_capacity_and_hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.with_capacity_and_hasher
+[`HashSet::with_hasher`]: http://doc.dust-lang.org/nightly/std/collections/struct.HashSet.html#method.with_hasher
+[`IntoStringError::into_cstring`]: http://doc.dust-lang.org/nightly/std/ffi/struct.IntoStringError.html#method.into_cstring
+[`IntoStringError::utf8_error`]: http://doc.dust-lang.org/nightly/std/ffi/struct.IntoStringError.html#method.utf8_error
+[`Ipv4Addr::is_broadcast`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_broadcast
+[`Ipv4Addr::is_documentation`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_documentation
+[`Ipv4Addr::is_link_local`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_link_local
+[`Ipv4Addr::is_loopback`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_loopback
+[`Ipv4Addr::is_multicast`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_multicast
+[`Ipv4Addr::is_private`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv4Addr.html#method.is_private
+[`Ipv6Addr::is_loopback`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv6Addr.html#method.is_loopback
+[`Ipv6Addr::is_multicast`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv6Addr.html#method.is_multicast
+[`Ipv6Addr::is_unspecified`]: http://doc.dust-lang.org/nightly/std/net/struct.Ipv6Addr.html#method.is_unspecified
+[`Path::strip_prefix`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.strip_prefix
+[`RandomState::new`]: http://doc.dust-lang.org/nightly/std/collections/hash_map/struct.RandomState.html#method.new
+[`String::as_mut_str`]: http://doc.dust-lang.org/nightly/std/string/struct.String.html#method.as_mut_str
+[`String::as_str`]: http://doc.dust-lang.org/nightly/std/string/struct.String.html#method.as_str
+[`Vec::as_mut_slice`]: http://doc.dust-lang.org/nightly/std/vec/struct.Vec.html#method.as_mut_slice
+[`Vec::as_slice`]: http://doc.dust-lang.org/nightly/std/vec/struct.Vec.html#method.as_slice
+[`clone_from_slice`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.clone_from_slice
+[`ffi::IntoStringError`]: http://doc.dust-lang.org/nightly/std/ffi/struct.IntoStringError.html
+[`i32::checked_neg`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.checked_neg
+[`i32::checked_rem`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.checked_rem
+[`i32::checked_shl`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.checked_shl
+[`i32::checked_shr`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.checked_shr
+[`i32::overflowing_add`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_add
+[`i32::overflowing_div`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_div
+[`i32::overflowing_mul`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_mul
+[`i32::overflowing_neg`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_neg
+[`i32::overflowing_rem`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_rem
+[`i32::overflowing_shl`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_shl
+[`i32::overflowing_shr`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_shr
+[`i32::overflowing_sub`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.overflowing_sub
+[`i32::saturating_mul`]: http://doc.dust-lang.org/nightly/std/primitive.i32.html#method.saturating_mul
+[`path::StripPrefixError`]: http://doc.dust-lang.org/nightly/std/path/struct.StripPrefixError.html
+[`sort_by_key`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.sort_by_key
+[`std::collections::hash_map::RandomState`]: http://doc.dust-lang.org/nightly/std/collections/hash_map/struct.RandomState.html
+[`std::hash::BuildHasherDefault`]: http://doc.dust-lang.org/nightly/std/hash/struct.BuildHasherDefault.html
+[`std::hash::BuildHasher`]: http://doc.dust-lang.org/nightly/std/hash/trait.BuildHasher.html
+[`u32::checked_neg`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.checked_neg
+[`u32::checked_rem`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.checked_rem
+[`u32::checked_neg`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.checked_neg
+[`u32::checked_shl`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.checked_shl
+[`u32::overflowing_add`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_add
+[`u32::overflowing_div`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_div
+[`u32::overflowing_mul`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_mul
+[`u32::overflowing_neg`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_neg
+[`u32::overflowing_rem`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_rem
+[`u32::overflowing_shl`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_shl
+[`u32::overflowing_shr`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_shr
+[`u32::overflowing_sub`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.overflowing_sub
+[`u32::saturating_mul`]: http://doc.dust-lang.org/nightly/std/primitive.u32.html#method.saturating_mul
 
 
 Version 1.6.0 (2016-01-21)
@@ -7053,7 +7053,7 @@ Language
 * The `#![no_std]` attribute causes a crate to not be linked to the
   standard library, but only the [core library][1.6co], as described
   in [RFC 1184]. The core library defines common types and traits but
-  has no platform dependencies whatsoever, and is the basis for Rust
+  has no platform dependencies whatsoever, and is the basis for Dust
   software in environments that cannot support a full port of the
   standard library, such as operating systems. Most of the core
   library is now stable.
@@ -7134,7 +7134,7 @@ Misc
 Compatibility Notes
 -------------------
 
-* The compiler no longer makes use of the [`RUST_PATH`][1.6rp]
+* The compiler no longer makes use of the [`DUST_PATH`][1.6rp]
   environment variable when locating crates. This was a pre-cargo
   feature for integrating with the package manager that was
   accidentally never removed.
@@ -7146,57 +7146,57 @@ Compatibility Notes
   unit structs. This is a warning now, but will become an error in
   future releases. Patterns that share the same name as a const are
   now an error.
-* A bug was fixed that causes [rustc not to apply default type
+* A bug was fixed that causes [dustc not to apply default type
   parameters][1.6xc] when resolving certain method implementations of
   traits defined in other crates.
 
-[1.6a]: https://github.com/rust-lang/rust/pull/29454
-[1.6ae]: https://github.com/rust-lang/rust/pull/29770
-[1.6bh]: https://github.com/rust-lang/rust/pull/29811
-[1.6c]: https://github.com/rust-lang/cargo/pull/2192
-[1.6cc]: https://github.com/rust-lang/cargo/pull/2131
-[1.6co]: http://doc.rust-lang.org/core/index.html
-[1.6dv]: https://github.com/rust-lang/rust/pull/30000
-[1.6f]: https://github.com/rust-lang/rust/pull/29129
-[1.6m]: https://github.com/rust-lang/rust/pull/29828
-[1.6ms]: https://github.com/rust-lang/rust/pull/29604
-[1.6p]: https://github.com/rust-lang/rust/pull/29726
-[1.6rp]: https://github.com/rust-lang/rust/pull/30034
-[1.6rr]: https://github.com/rust-lang/cargo/pull/2134
-[1.6s]: https://github.com/rust-lang/rust/pull/29675
-[1.6ts]: https://github.com/rust-lang/rust/issues/21546
-[1.6uc]: https://github.com/rust-lang/rust/pull/29837
-[1.6us]: https://github.com/rust-lang/rust/pull/29383
-[1.6xc]: https://github.com/rust-lang/rust/issues/30123
-[RFC 1184]: https://github.com/rust-lang/rfcs/blob/master/text/1184-stabilize-no_std.md
-[RFC 1241]: https://github.com/rust-lang/rfcs/blob/master/text/1241-no-wildcard-deps.md
-[`ErrorKind::UnexpectedEof`]: http://doc.rust-lang.org/nightly/std/io/enum.ErrorKind.html#variant.UnexpectedEof
-[`Iterator::max_by_key`]: http://doc.rust-lang.org/nightly/std/iter/trait.Iterator.html#method.max_by_key
-[`Iterator::min_by_key`]: http://doc.rust-lang.org/nightly/std/iter/trait.Iterator.html#method.min_by_key
-[`Mutex::get_mut`]: http://doc.rust-lang.org/nightly/std/sync/struct.Mutex.html#method.get_mut
-[`Mutex::into_inner`]: http://doc.rust-lang.org/nightly/std/sync/struct.Mutex.html#method.into_inner
-[`Read::read_exact`]: http://doc.rust-lang.org/nightly/std/io/trait.Read.html#method.read_exact
-[`RwLock::get_mut`]: http://doc.rust-lang.org/nightly/std/sync/struct.RwLock.html#method.get_mut
-[`RwLock::into_inner`]: http://doc.rust-lang.org/nightly/std/sync/struct.RwLock.html#method.into_inner
-[`Vec::extend_from_slice`]: http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html#method.extend_from_slice
-[`collections::binary_heap::BinaryHeap::drain`]: http://doc.rust-lang.org/nightly/std/collections/binary_heap/struct.BinaryHeap.html#method.drain
-[`collections::binary_heap::Drain`]: http://doc.rust-lang.org/nightly/std/collections/binary_heap/struct.Drain.html
-[`collections::hash_map::Drain`]: http://doc.rust-lang.org/nightly/std/collections/hash_map/struct.Drain.html
-[`collections::hash_map::HashMap::drain`]: http://doc.rust-lang.org/nightly/std/collections/hash_map/struct.HashMap.html#method.drain
-[`collections::hash_set::Drain`]: http://doc.rust-lang.org/nightly/std/collections/hash_set/struct.Drain.html
-[`collections::hash_set::HashSet::drain`]: http://doc.rust-lang.org/nightly/std/collections/hash_set/struct.HashSet.html#method.drain
-[`fs::DirBuilder::create`]: http://doc.rust-lang.org/nightly/std/fs/struct.DirBuilder.html#method.create
-[`fs::DirBuilder::new`]: http://doc.rust-lang.org/nightly/std/fs/struct.DirBuilder.html#method.new
-[`fs::DirBuilder::recursive`]: http://doc.rust-lang.org/nightly/std/fs/struct.DirBuilder.html#method.recursive
-[`fs::DirBuilder`]: http://doc.rust-lang.org/nightly/std/fs/struct.DirBuilder.html
-[`os::unix::fs::DirBuilderExt::mode`]: http://doc.rust-lang.org/nightly/std/os/unix/fs/trait.DirBuilderExt.html#tymethod.mode
-[`os::unix::fs::DirBuilderExt`]: http://doc.rust-lang.org/nightly/std/os/unix/fs/trait.DirBuilderExt.html
-[`string::Drain`]: http://doc.rust-lang.org/nightly/std/string/struct.Drain.html
-[`string::String::drain`]: http://doc.rust-lang.org/nightly/std/string/struct.String.html#method.drain
-[`vec::Drain`]: http://doc.rust-lang.org/nightly/std/vec/struct.Drain.html
-[`vec::Vec::drain`]: http://doc.rust-lang.org/nightly/std/vec/struct.Vec.html#method.drain
-[`vec_deque::Drain`]: http://doc.rust-lang.org/nightly/std/collections/vec_deque/struct.Drain.html
-[`vec_deque::VecDeque::drain`]: http://doc.rust-lang.org/nightly/std/collections/vec_deque/struct.VecDeque.html#method.drain
+[1.6a]: https://github.com/dust-lang/dust/pull/29454
+[1.6ae]: https://github.com/dust-lang/dust/pull/29770
+[1.6bh]: https://github.com/dust-lang/dust/pull/29811
+[1.6c]: https://github.com/dust-lang/cargo/pull/2192
+[1.6cc]: https://github.com/dust-lang/cargo/pull/2131
+[1.6co]: http://doc.dust-lang.org/core/index.html
+[1.6dv]: https://github.com/dust-lang/dust/pull/30000
+[1.6f]: https://github.com/dust-lang/dust/pull/29129
+[1.6m]: https://github.com/dust-lang/dust/pull/29828
+[1.6ms]: https://github.com/dust-lang/dust/pull/29604
+[1.6p]: https://github.com/dust-lang/dust/pull/29726
+[1.6rp]: https://github.com/dust-lang/dust/pull/30034
+[1.6rr]: https://github.com/dust-lang/cargo/pull/2134
+[1.6s]: https://github.com/dust-lang/dust/pull/29675
+[1.6ts]: https://github.com/dust-lang/dust/issues/21546
+[1.6uc]: https://github.com/dust-lang/dust/pull/29837
+[1.6us]: https://github.com/dust-lang/dust/pull/29383
+[1.6xc]: https://github.com/dust-lang/dust/issues/30123
+[RFC 1184]: https://github.com/dust-lang/rfcs/blob/master/text/1184-stabilize-no_std.md
+[RFC 1241]: https://github.com/dust-lang/rfcs/blob/master/text/1241-no-wildcard-deps.md
+[`ErrorKind::UnexpectedEof`]: http://doc.dust-lang.org/nightly/std/io/enum.ErrorKind.html#variant.UnexpectedEof
+[`Iterator::max_by_key`]: http://doc.dust-lang.org/nightly/std/iter/trait.Iterator.html#method.max_by_key
+[`Iterator::min_by_key`]: http://doc.dust-lang.org/nightly/std/iter/trait.Iterator.html#method.min_by_key
+[`Mutex::get_mut`]: http://doc.dust-lang.org/nightly/std/sync/struct.Mutex.html#method.get_mut
+[`Mutex::into_inner`]: http://doc.dust-lang.org/nightly/std/sync/struct.Mutex.html#method.into_inner
+[`Read::read_exact`]: http://doc.dust-lang.org/nightly/std/io/trait.Read.html#method.read_exact
+[`RwLock::get_mut`]: http://doc.dust-lang.org/nightly/std/sync/struct.RwLock.html#method.get_mut
+[`RwLock::into_inner`]: http://doc.dust-lang.org/nightly/std/sync/struct.RwLock.html#method.into_inner
+[`Vec::extend_from_slice`]: http://doc.dust-lang.org/nightly/collections/vec/struct.Vec.html#method.extend_from_slice
+[`collections::binary_heap::BinaryHeap::drain`]: http://doc.dust-lang.org/nightly/std/collections/binary_heap/struct.BinaryHeap.html#method.drain
+[`collections::binary_heap::Drain`]: http://doc.dust-lang.org/nightly/std/collections/binary_heap/struct.Drain.html
+[`collections::hash_map::Drain`]: http://doc.dust-lang.org/nightly/std/collections/hash_map/struct.Drain.html
+[`collections::hash_map::HashMap::drain`]: http://doc.dust-lang.org/nightly/std/collections/hash_map/struct.HashMap.html#method.drain
+[`collections::hash_set::Drain`]: http://doc.dust-lang.org/nightly/std/collections/hash_set/struct.Drain.html
+[`collections::hash_set::HashSet::drain`]: http://doc.dust-lang.org/nightly/std/collections/hash_set/struct.HashSet.html#method.drain
+[`fs::DirBuilder::create`]: http://doc.dust-lang.org/nightly/std/fs/struct.DirBuilder.html#method.create
+[`fs::DirBuilder::new`]: http://doc.dust-lang.org/nightly/std/fs/struct.DirBuilder.html#method.new
+[`fs::DirBuilder::recursive`]: http://doc.dust-lang.org/nightly/std/fs/struct.DirBuilder.html#method.recursive
+[`fs::DirBuilder`]: http://doc.dust-lang.org/nightly/std/fs/struct.DirBuilder.html
+[`os::unix::fs::DirBuilderExt::mode`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.DirBuilderExt.html#tymethod.mode
+[`os::unix::fs::DirBuilderExt`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.DirBuilderExt.html
+[`string::Drain`]: http://doc.dust-lang.org/nightly/std/string/struct.Drain.html
+[`string::String::drain`]: http://doc.dust-lang.org/nightly/std/string/struct.String.html#method.drain
+[`vec::Drain`]: http://doc.dust-lang.org/nightly/std/vec/struct.Drain.html
+[`vec::Vec::drain`]: http://doc.dust-lang.org/nightly/std/vec/struct.Vec.html#method.drain
+[`vec_deque::Drain`]: http://doc.dust-lang.org/nightly/std/collections/vec_deque/struct.Drain.html
+[`vec_deque::VecDeque::drain`]: http://doc.dust-lang.org/nightly/std/collections/vec_deque/struct.VecDeque.html#method.drain
 
 
 Version 1.5.0 (2015-12-10)
@@ -7231,7 +7231,7 @@ Highlights
   [`str::MatchIndices`], [`str::RMatchIndices`],
   [`str::match_indices`], [`str::rmatch_indices`],
   [`str::slice_mut_unchecked`], [`string::ParseError`].
-* Rust applications hosted on crates.io can be installed locally to
+* Dust applications hosted on crates.io can be installed locally to
   `~/.cargo/bin` with the [`cargo install`] command. Among other
   things this makes it easier to augment Cargo with new subcommands:
   when a binary named e.g. `cargo-foo` is found in `$PATH` it can be
@@ -7304,7 +7304,7 @@ Libraries
 * [`AsMut` is implemented for `Vec`][1.5am].
 * The `clone_from` implementations for `String` and `BinaryHeap` [have
   been optimized][1.5cf] and no longer rely on the default impl.
-* The `extern "Rust"`, `extern "C"`, `unsafe extern "Rust"` and
+* The `extern "Dust"`, `extern "C"`, `unsafe extern "Dust"` and
   `unsafe extern "C"` function types now [implement `Clone`,
   `PartialEq`, `Eq`, `PartialOrd`, `Ord`, `Hash`, `fmt::Pointer`, and
   `fmt::Debug` for up to 12 arguments][1.5fp].
@@ -7319,103 +7319,103 @@ Miscellaneous
 
 * [Crate metadata size was reduced by 20%][1.5md].
 * [Improvements to code generation reduced the size of libcore by 3.3
-  MB and rustc's memory usage by 18MB][1.5m].
+  MB and dustc's memory usage by 18MB][1.5m].
 * [Improvements to deref translation increased performance in
   unoptimized builds][1.5dr].
 * Various errors in trait resolution [are deduplicated to only be
   reported once][1.5te].
-* Rust has preliminary [support for rumprun kernels][1.5rr].
-* Rust has preliminary [support for NetBSD on amd64][1.5na].
+* Dust has preliminary [support for rumprun kernels][1.5rr].
+* Dust has preliminary [support for NetBSD on amd64][1.5na].
 
-[1.5use]: https://github.com/rust-lang/rust/pull/28364
-[1.5po]: https://github.com/rust-lang/rust/pull/28436
-[1.5ev]: https://github.com/rust-lang/rust/pull/28442
-[1.5nu]: https://github.com/rust-lang/rust/pull/28468
-[1.5dr]: https://github.com/rust-lang/rust/pull/28491
-[1.5vdz]: https://github.com/rust-lang/rust/pull/28494
-[1.5md]: https://github.com/rust-lang/rust/pull/28521
-[1.5fg]: https://github.com/rust-lang/rust/pull/28522
-[1.5dv]: https://github.com/rust-lang/rust/pull/28531
-[1.5na]: https://github.com/rust-lang/rust/pull/28543
-[1.5fp]: https://github.com/rust-lang/rust/pull/28560
-[1.5rr]: https://github.com/rust-lang/rust/pull/28593
-[1.5cf]: https://github.com/rust-lang/rust/pull/28602
-[1.5nl]: https://github.com/rust-lang/rust/pull/28605
-[1.5te]: https://github.com/rust-lang/rust/pull/28645
-[1.5at]: https://github.com/rust-lang/rust/pull/28650
-[1.5am]: https://github.com/rust-lang/rust/pull/28663
-[1.5m]: https://github.com/rust-lang/rust/pull/28778
-[1.5ict]: https://github.com/rust-lang/rust/pull/28779
-[1.5a]: https://github.com/rust-lang/rust/pull/28811
-[1.5pi]: https://github.com/rust-lang/rust/pull/28826
-[1.5ce]: https://github.com/rust-lang/rfcs/blob/master/text/1229-compile-time-asserts.md
-[1.5p]: https://github.com/rust-lang/rfcs/blob/master/text/1238-nonparametric-dropck.md
-[1.5i]: https://github.com/rust-lang/rust/pull/28921
-[1.5fs]: https://github.com/rust-lang/rust/pull/29021
-[1.5f]: https://github.com/rust-lang/rust/pull/29129
-[1.5ds]: https://github.com/rust-lang/rust/pull/29148
-[1.5s]: https://github.com/rust-lang/rust/pull/29190
-[1.5d]: https://github.com/rust-lang/rust/pull/29245
-[1.5o]: https://github.com/rust-lang/rust/pull/29259
-[1.5nd]: https://github.com/rust-lang/rust/pull/28578
-[1.5wf2]: https://github.com/rust-lang/rfcs/blob/master/text/1214-projections-lifetimes-and-wf.md
-[1.5wf1]: https://github.com/rust-lang/rust/pull/28669
-[dropck]: https://doc.rust-lang.org/nightly/nomicon/dropck.html
-[1.5c]: https://github.com/rust-lang/rust/pull/29110
-[1.5w]: https://github.com/rust-lang/rfcs/blob/master/text/1241-no-wildcard-deps.md
-[`cargo install`]: https://github.com/rust-lang/rfcs/blob/master/text/1200-cargo-install.md
-[`BinaryHeap::from`]: http://doc.rust-lang.org/nightly/std/convert/trait.From.html#method.from
-[`BinaryHeap::into_sorted_vec`]: http://doc.rust-lang.org/nightly/std/collections/struct.BinaryHeap.html#method.into_sorted_vec
-[`BinaryHeap::into_vec`]: http://doc.rust-lang.org/nightly/std/collections/struct.BinaryHeap.html#method.into_vec
-[`Condvar::wait_timeout`]: http://doc.rust-lang.org/nightly/std/sync/struct.Condvar.html#method.wait_timeout
-[`FileTypeExt::is_block_device`]: http://doc.rust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_block_device
-[`FileTypeExt::is_char_device`]: http://doc.rust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_char_device
-[`FileTypeExt::is_fifo`]: http://doc.rust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_fifo
-[`FileTypeExt::is_socket`]: http://doc.rust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_socket
-[`FileTypeExt`]: http://doc.rust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html
-[`Formatter::alternate`]: http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.alternate
-[`Formatter::fill`]: http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.fill
-[`Formatter::precision`]: http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.precision
-[`Formatter::sign_aware_zero_pad`]: http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.sign_aware_zero_pad
-[`Formatter::sign_minus`]: http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.sign_minus
-[`Formatter::sign_plus`]: http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.sign_plus
-[`Formatter::width`]: http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.width
-[`Iterator::cmp`]: http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html#method.cmp
-[`Iterator::eq`]: http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html#method.eq
-[`Iterator::ge`]: http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html#method.ge
-[`Iterator::gt`]: http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html#method.gt
-[`Iterator::le`]: http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html#method.le
-[`Iterator::lt`]: http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html#method.lt
-[`Iterator::ne`]: http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html#method.ne
-[`Iterator::partial_cmp`]: http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html#method.partial_cmp
-[`Path::canonicalize`]: http://doc.rust-lang.org/nightly/std/path/struct.Path.html#method.canonicalize
-[`Path::exists`]: http://doc.rust-lang.org/nightly/std/path/struct.Path.html#method.exists
-[`Path::is_dir`]: http://doc.rust-lang.org/nightly/std/path/struct.Path.html#method.is_dir
-[`Path::is_file`]: http://doc.rust-lang.org/nightly/std/path/struct.Path.html#method.is_file
-[`Path::metadata`]: http://doc.rust-lang.org/nightly/std/path/struct.Path.html#method.metadata
-[`Path::read_dir`]: http://doc.rust-lang.org/nightly/std/path/struct.Path.html#method.read_dir
-[`Path::read_link`]: http://doc.rust-lang.org/nightly/std/path/struct.Path.html#method.read_link
-[`Path::symlink_metadata`]: http://doc.rust-lang.org/nightly/std/path/struct.Path.html#method.symlink_metadata
-[`Utf8Error::valid_up_to`]: http://doc.rust-lang.org/nightly/core/str/struct.Utf8Error.html#method.valid_up_to
-[`Vec::resize`]: http://doc.rust-lang.org/nightly/std/vec/struct.Vec.html#method.resize
-[`VecDeque::as_mut_slices`]: http://doc.rust-lang.org/nightly/std/collections/struct.VecDeque.html#method.as_mut_slices
-[`VecDeque::as_slices`]: http://doc.rust-lang.org/nightly/std/collections/struct.VecDeque.html#method.as_slices
-[`VecDeque::insert`]: http://doc.rust-lang.org/nightly/std/collections/struct.VecDeque.html#method.insert
-[`VecDeque::shrink_to_fit`]: http://doc.rust-lang.org/nightly/std/collections/struct.VecDeque.html#method.shrink_to_fit
-[`VecDeque::swap_remove_back`]: http://doc.rust-lang.org/nightly/std/collections/struct.VecDeque.html#method.swap_remove_back
-[`VecDeque::swap_remove_front`]: http://doc.rust-lang.org/nightly/std/collections/struct.VecDeque.html#method.swap_remove_front
-[`slice::split_first_mut`]: http://doc.rust-lang.org/nightly/std/primitive.slice.html#method.split_first_mut
-[`slice::split_first`]: http://doc.rust-lang.org/nightly/std/primitive.slice.html#method.split_first
-[`slice::split_last_mut`]: http://doc.rust-lang.org/nightly/std/primitive.slice.html#method.split_last_mut
-[`slice::split_last`]: http://doc.rust-lang.org/nightly/std/primitive.slice.html#method.split_last
-[`char::from_u32_unchecked`]: http://doc.rust-lang.org/nightly/std/char/fn.from_u32_unchecked.html
-[`fs::canonicalize`]: http://doc.rust-lang.org/nightly/std/fs/fn.canonicalize.html
-[`str::MatchIndices`]: http://doc.rust-lang.org/nightly/std/str/struct.MatchIndices.html
-[`str::RMatchIndices`]: http://doc.rust-lang.org/nightly/std/str/struct.RMatchIndices.html
-[`str::match_indices`]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.match_indices
-[`str::rmatch_indices`]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.rmatch_indices
-[`str::slice_mut_unchecked`]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.slice_mut_unchecked
-[`string::ParseError`]: http://doc.rust-lang.org/nightly/std/string/enum.ParseError.html
+[1.5use]: https://github.com/dust-lang/dust/pull/28364
+[1.5po]: https://github.com/dust-lang/dust/pull/28436
+[1.5ev]: https://github.com/dust-lang/dust/pull/28442
+[1.5nu]: https://github.com/dust-lang/dust/pull/28468
+[1.5dr]: https://github.com/dust-lang/dust/pull/28491
+[1.5vdz]: https://github.com/dust-lang/dust/pull/28494
+[1.5md]: https://github.com/dust-lang/dust/pull/28521
+[1.5fg]: https://github.com/dust-lang/dust/pull/28522
+[1.5dv]: https://github.com/dust-lang/dust/pull/28531
+[1.5na]: https://github.com/dust-lang/dust/pull/28543
+[1.5fp]: https://github.com/dust-lang/dust/pull/28560
+[1.5rr]: https://github.com/dust-lang/dust/pull/28593
+[1.5cf]: https://github.com/dust-lang/dust/pull/28602
+[1.5nl]: https://github.com/dust-lang/dust/pull/28605
+[1.5te]: https://github.com/dust-lang/dust/pull/28645
+[1.5at]: https://github.com/dust-lang/dust/pull/28650
+[1.5am]: https://github.com/dust-lang/dust/pull/28663
+[1.5m]: https://github.com/dust-lang/dust/pull/28778
+[1.5ict]: https://github.com/dust-lang/dust/pull/28779
+[1.5a]: https://github.com/dust-lang/dust/pull/28811
+[1.5pi]: https://github.com/dust-lang/dust/pull/28826
+[1.5ce]: https://github.com/dust-lang/rfcs/blob/master/text/1229-compile-time-asserts.md
+[1.5p]: https://github.com/dust-lang/rfcs/blob/master/text/1238-nonparametric-dropck.md
+[1.5i]: https://github.com/dust-lang/dust/pull/28921
+[1.5fs]: https://github.com/dust-lang/dust/pull/29021
+[1.5f]: https://github.com/dust-lang/dust/pull/29129
+[1.5ds]: https://github.com/dust-lang/dust/pull/29148
+[1.5s]: https://github.com/dust-lang/dust/pull/29190
+[1.5d]: https://github.com/dust-lang/dust/pull/29245
+[1.5o]: https://github.com/dust-lang/dust/pull/29259
+[1.5nd]: https://github.com/dust-lang/dust/pull/28578
+[1.5wf2]: https://github.com/dust-lang/rfcs/blob/master/text/1214-projections-lifetimes-and-wf.md
+[1.5wf1]: https://github.com/dust-lang/dust/pull/28669
+[dropck]: https://doc.dust-lang.org/nightly/nomicon/dropck.html
+[1.5c]: https://github.com/dust-lang/dust/pull/29110
+[1.5w]: https://github.com/dust-lang/rfcs/blob/master/text/1241-no-wildcard-deps.md
+[`cargo install`]: https://github.com/dust-lang/rfcs/blob/master/text/1200-cargo-install.md
+[`BinaryHeap::from`]: http://doc.dust-lang.org/nightly/std/convert/trait.From.html#method.from
+[`BinaryHeap::into_sorted_vec`]: http://doc.dust-lang.org/nightly/std/collections/struct.BinaryHeap.html#method.into_sorted_vec
+[`BinaryHeap::into_vec`]: http://doc.dust-lang.org/nightly/std/collections/struct.BinaryHeap.html#method.into_vec
+[`Condvar::wait_timeout`]: http://doc.dust-lang.org/nightly/std/sync/struct.Condvar.html#method.wait_timeout
+[`FileTypeExt::is_block_device`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_block_device
+[`FileTypeExt::is_char_device`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_char_device
+[`FileTypeExt::is_fifo`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_fifo
+[`FileTypeExt::is_socket`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html#tymethod.is_socket
+[`FileTypeExt`]: http://doc.dust-lang.org/nightly/std/os/unix/fs/trait.FileTypeExt.html
+[`Formatter::alternate`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.alternate
+[`Formatter::fill`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.fill
+[`Formatter::precision`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.precision
+[`Formatter::sign_aware_zero_pad`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.sign_aware_zero_pad
+[`Formatter::sign_minus`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.sign_minus
+[`Formatter::sign_plus`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.sign_plus
+[`Formatter::width`]: http://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.width
+[`Iterator::cmp`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.cmp
+[`Iterator::eq`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.eq
+[`Iterator::ge`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.ge
+[`Iterator::gt`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.gt
+[`Iterator::le`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.le
+[`Iterator::lt`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.lt
+[`Iterator::ne`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.ne
+[`Iterator::partial_cmp`]: http://doc.dust-lang.org/nightly/core/iter/trait.Iterator.html#method.partial_cmp
+[`Path::canonicalize`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.canonicalize
+[`Path::exists`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.exists
+[`Path::is_dir`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.is_dir
+[`Path::is_file`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.is_file
+[`Path::metadata`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.metadata
+[`Path::read_dir`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.read_dir
+[`Path::read_link`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.read_link
+[`Path::symlink_metadata`]: http://doc.dust-lang.org/nightly/std/path/struct.Path.html#method.symlink_metadata
+[`Utf8Error::valid_up_to`]: http://doc.dust-lang.org/nightly/core/str/struct.Utf8Error.html#method.valid_up_to
+[`Vec::resize`]: http://doc.dust-lang.org/nightly/std/vec/struct.Vec.html#method.resize
+[`VecDeque::as_mut_slices`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.as_mut_slices
+[`VecDeque::as_slices`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.as_slices
+[`VecDeque::insert`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.insert
+[`VecDeque::shrink_to_fit`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.shrink_to_fit
+[`VecDeque::swap_remove_back`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.swap_remove_back
+[`VecDeque::swap_remove_front`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.swap_remove_front
+[`slice::split_first_mut`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.split_first_mut
+[`slice::split_first`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.split_first
+[`slice::split_last_mut`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.split_last_mut
+[`slice::split_last`]: http://doc.dust-lang.org/nightly/std/primitive.slice.html#method.split_last
+[`char::from_u32_unchecked`]: http://doc.dust-lang.org/nightly/std/char/fn.from_u32_unchecked.html
+[`fs::canonicalize`]: http://doc.dust-lang.org/nightly/std/fs/fn.canonicalize.html
+[`str::MatchIndices`]: http://doc.dust-lang.org/nightly/std/str/struct.MatchIndices.html
+[`str::RMatchIndices`]: http://doc.dust-lang.org/nightly/std/str/struct.RMatchIndices.html
+[`str::match_indices`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.match_indices
+[`str::rmatch_indices`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.rmatch_indices
+[`str::slice_mut_unchecked`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.slice_mut_unchecked
+[`string::ParseError`]: http://doc.dust-lang.org/nightly/std/string/enum.ParseError.html
 
 Version 1.4.0 (2015-10-29)
 ==========================
@@ -7501,7 +7501,7 @@ Libraries
 * [`BinaryHeap` implements `Debug`][bh2].
 * [`Borrow` and `BorrowMut` are implemented for fixed-size
   arrays][bm].
-* [`extern fn`s with the "Rust" and "C" ABIs implement common
+* [`extern fn`s with the "Dust" and "C" ABIs implement common
   traits including `Eq`, `Ord`, `Debug`, `Hash`][fp].
 * [String comparison is faster][faststr].
 * `&mut T` where `T: std::fmt::Write` [also implements
@@ -7524,77 +7524,77 @@ Miscellaneous
 * [Cargo now displays useful information about what its doing during
   `cargo update`][cu].
 
-[`Arc::downgrade`]: http://doc.rust-lang.org/nightly/alloc/arc/struct.Arc.html#method.downgrade
-[`Arc::make_mut`]: http://doc.rust-lang.org/nightly/alloc/arc/struct.Arc.html#method.make_mut
-[`Arc::get_mut`]: http://doc.rust-lang.org/nightly/alloc/arc/struct.Arc.html#method.get_mut
-[`Arc::try_unwrap`]: http://doc.rust-lang.org/nightly/alloc/arc/struct.Arc.html#method.try_unwrap
-[`Box::from_raw`]: http://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html#method.from_raw
-[`Box::into_raw`]: http://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html#method.into_raw
-[`CStr::to_str`]: http://doc.rust-lang.org/nightly/std/ffi/struct.CStr.html#method.to_str
-[`CStr::to_string_lossy`]: http://doc.rust-lang.org/nightly/std/ffi/struct.CStr.html#method.to_string_lossy
-[`CString::from_raw`]: http://doc.rust-lang.org/nightly/std/ffi/struct.CString.html#method.from_raw
-[`CString::into_raw`]: http://doc.rust-lang.org/nightly/std/ffi/struct.CString.html#method.into_raw
-[`IntoRawFd::into_raw_fd`]: http://doc.rust-lang.org/nightly/std/os/unix/io/trait.IntoRawFd.html#tymethod.into_raw_fd
-[`IntoRawFd`]: http://doc.rust-lang.org/nightly/std/os/unix/io/trait.IntoRawFd.html
-[`Rc::downgrade`]: http://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html#method.downgrade
-[`Rc::get_mut`]: http://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html#method.get_mut
-[`Rc::make_mut`]: http://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html#method.make_mut
-[`Rc::try_unwrap`]: http://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html#method.try_unwrap
-[`Result::expect`]: http://doc.rust-lang.org/nightly/core/result/enum.Result.html#method.expect
-[`String::into_boxed_str`]: http://doc.rust-lang.org/nightly/collections/string/struct.String.html#method.into_boxed_str
-[`TcpStream::read_timeout`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.read_timeout
-[`TcpStream::set_read_timeout`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_read_timeout
-[`TcpStream::write_timeout`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.write_timeout
-[`TcpStream::set_write_timeout`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_write_timeout
-[`UdpSocket::read_timeout`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.read_timeout
-[`UdpSocket::set_read_timeout`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_read_timeout
-[`UdpSocket::write_timeout`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.write_timeout
-[`UdpSocket::set_write_timeout`]: http://doc.rust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_write_timeout
-[`VecDeque::append`]: http://doc.rust-lang.org/nightly/std/collections/struct.VecDeque.html#method.append
-[`VecDeque::retain`]: http://doc.rust-lang.org/nightly/std/collections/struct.VecDeque.html#method.retain
-[`VecDeque::split_off`]: http://doc.rust-lang.org/nightly/std/collections/struct.VecDeque.html#method.split_off
-[`rc::Weak::upgrade`]: http://doc.rust-lang.org/nightly/std/rc/struct.Weak.html#method.upgrade
-[`rc::Weak`]: http://doc.rust-lang.org/nightly/std/rc/struct.Weak.html
-[`slice::Iter::as_slice`]: http://doc.rust-lang.org/nightly/std/slice/struct.Iter.html#method.as_slice
-[`slice::IterMut::into_slice`]: http://doc.rust-lang.org/nightly/std/slice/struct.IterMut.html#method.into_slice
-[`str::CharIndices::as_str`]: http://doc.rust-lang.org/nightly/std/str/struct.CharIndices.html#method.as_str
-[`str::Chars::as_str`]: http://doc.rust-lang.org/nightly/std/str/struct.Chars.html#method.as_str
-[`str::split_at_mut`]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.split_at_mut
-[`str::split_at`]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.split_at
-[`sync::Weak::upgrade`]: http://doc.rust-lang.org/nightly/std/sync/struct.Weak.html#method.upgrade
-[`sync::Weak`]: http://doc.rust-lang.org/nightly/std/sync/struct.Weak.html
-[`thread::park_timeout`]: http://doc.rust-lang.org/nightly/std/thread/fn.park_timeout.html
-[`thread::sleep`]: http://doc.rust-lang.org/nightly/std/thread/fn.sleep.html
-[bh2]: https://github.com/rust-lang/rust/pull/28156
-[binfat]: https://github.com/rust-lang/rust/pull/28270
-[bm]: https://github.com/rust-lang/rust/pull/28197
-[cc]: https://github.com/rust-lang/rust/pull/27531
-[crlf]: https://github.com/rust-lang/rust/pull/28034
-[cu]: https://github.com/rust-lang/cargo/pull/1931
-[d]: https://github.com/rust-lang/rust/pull/27825
-[dep]: https://github.com/rust-lang/rust/pull/28339
-[es]: https://github.com/rust-lang/rust/pull/27956
-[ext]: https://github.com/rust-lang/rust/pull/28094
-[faststr]: https://github.com/rust-lang/rust/pull/28338
-[ffi]: https://github.com/rust-lang/rust/pull/28779
-[fp]: https://github.com/rust-lang/rust/pull/28268
-[fp2]: https://github.com/rust-lang/rust/pull/28560
-[fp3]: https://github.com/rust-lang/rust/pull/27307
-[i]: https://github.com/rust-lang/rust/pull/27451
-[into2]: https://github.com/rust-lang/rust/pull/28039
-[it]: https://github.com/rust-lang/rust/pull/27652
-[mm]: https://github.com/rust-lang/rust/pull/27338
-[mutw]: https://github.com/rust-lang/rust/pull/28368
-[sound]: https://github.com/rust-lang/rust/pull/27641
-[p]: https://github.com/rust-lang/rust/pull/27866
-[pec]: https://github.com/rust-lang/rust/pull/28486
-[pr]: https://github.com/rust-lang/rust/pull/27896
-[RFC 839]: https://github.com/rust-lang/rfcs/blob/master/text/0839-embrace-extend-extinguish.md
-[RFC 1214]: https://github.com/rust-lang/rfcs/blob/master/text/1214-projections-lifetimes-and-wf.md
-[s]: https://github.com/rust-lang/rust/pull/27474
-[stab]: https://github.com/rust-lang/rust/pull/28339
-[stat]: https://github.com/rust-lang/rust/pull/28321
-[vd]: https://github.com/rust-lang/rust/pull/28494
+[`Arc::downgrade`]: http://doc.dust-lang.org/nightly/alloc/arc/struct.Arc.html#method.downgrade
+[`Arc::make_mut`]: http://doc.dust-lang.org/nightly/alloc/arc/struct.Arc.html#method.make_mut
+[`Arc::get_mut`]: http://doc.dust-lang.org/nightly/alloc/arc/struct.Arc.html#method.get_mut
+[`Arc::try_unwrap`]: http://doc.dust-lang.org/nightly/alloc/arc/struct.Arc.html#method.try_unwrap
+[`Box::from_raw`]: http://doc.dust-lang.org/nightly/alloc/boxed/struct.Box.html#method.from_raw
+[`Box::into_raw`]: http://doc.dust-lang.org/nightly/alloc/boxed/struct.Box.html#method.into_raw
+[`CStr::to_str`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CStr.html#method.to_str
+[`CStr::to_string_lossy`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CStr.html#method.to_string_lossy
+[`CString::from_raw`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html#method.from_raw
+[`CString::into_raw`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html#method.into_raw
+[`IntoRawFd::into_raw_fd`]: http://doc.dust-lang.org/nightly/std/os/unix/io/trait.IntoRawFd.html#tymethod.into_raw_fd
+[`IntoRawFd`]: http://doc.dust-lang.org/nightly/std/os/unix/io/trait.IntoRawFd.html
+[`Rc::downgrade`]: http://doc.dust-lang.org/nightly/alloc/rc/struct.Rc.html#method.downgrade
+[`Rc::get_mut`]: http://doc.dust-lang.org/nightly/alloc/rc/struct.Rc.html#method.get_mut
+[`Rc::make_mut`]: http://doc.dust-lang.org/nightly/alloc/rc/struct.Rc.html#method.make_mut
+[`Rc::try_unwrap`]: http://doc.dust-lang.org/nightly/alloc/rc/struct.Rc.html#method.try_unwrap
+[`Result::expect`]: http://doc.dust-lang.org/nightly/core/result/enum.Result.html#method.expect
+[`String::into_boxed_str`]: http://doc.dust-lang.org/nightly/collections/string/struct.String.html#method.into_boxed_str
+[`TcpStream::read_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.read_timeout
+[`TcpStream::set_read_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_read_timeout
+[`TcpStream::write_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.write_timeout
+[`TcpStream::set_write_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_write_timeout
+[`UdpSocket::read_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.read_timeout
+[`UdpSocket::set_read_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_read_timeout
+[`UdpSocket::write_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.write_timeout
+[`UdpSocket::set_write_timeout`]: http://doc.dust-lang.org/nightly/std/net/struct.TcpStream.html#method.set_write_timeout
+[`VecDeque::append`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.append
+[`VecDeque::retain`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.retain
+[`VecDeque::split_off`]: http://doc.dust-lang.org/nightly/std/collections/struct.VecDeque.html#method.split_off
+[`rc::Weak::upgrade`]: http://doc.dust-lang.org/nightly/std/rc/struct.Weak.html#method.upgrade
+[`rc::Weak`]: http://doc.dust-lang.org/nightly/std/rc/struct.Weak.html
+[`slice::Iter::as_slice`]: http://doc.dust-lang.org/nightly/std/slice/struct.Iter.html#method.as_slice
+[`slice::IterMut::into_slice`]: http://doc.dust-lang.org/nightly/std/slice/struct.IterMut.html#method.into_slice
+[`str::CharIndices::as_str`]: http://doc.dust-lang.org/nightly/std/str/struct.CharIndices.html#method.as_str
+[`str::Chars::as_str`]: http://doc.dust-lang.org/nightly/std/str/struct.Chars.html#method.as_str
+[`str::split_at_mut`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.split_at_mut
+[`str::split_at`]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.split_at
+[`sync::Weak::upgrade`]: http://doc.dust-lang.org/nightly/std/sync/struct.Weak.html#method.upgrade
+[`sync::Weak`]: http://doc.dust-lang.org/nightly/std/sync/struct.Weak.html
+[`thread::park_timeout`]: http://doc.dust-lang.org/nightly/std/thread/fn.park_timeout.html
+[`thread::sleep`]: http://doc.dust-lang.org/nightly/std/thread/fn.sleep.html
+[bh2]: https://github.com/dust-lang/dust/pull/28156
+[binfat]: https://github.com/dust-lang/dust/pull/28270
+[bm]: https://github.com/dust-lang/dust/pull/28197
+[cc]: https://github.com/dust-lang/dust/pull/27531
+[crlf]: https://github.com/dust-lang/dust/pull/28034
+[cu]: https://github.com/dust-lang/cargo/pull/1931
+[d]: https://github.com/dust-lang/dust/pull/27825
+[dep]: https://github.com/dust-lang/dust/pull/28339
+[es]: https://github.com/dust-lang/dust/pull/27956
+[ext]: https://github.com/dust-lang/dust/pull/28094
+[faststr]: https://github.com/dust-lang/dust/pull/28338
+[ffi]: https://github.com/dust-lang/dust/pull/28779
+[fp]: https://github.com/dust-lang/dust/pull/28268
+[fp2]: https://github.com/dust-lang/dust/pull/28560
+[fp3]: https://github.com/dust-lang/dust/pull/27307
+[i]: https://github.com/dust-lang/dust/pull/27451
+[into2]: https://github.com/dust-lang/dust/pull/28039
+[it]: https://github.com/dust-lang/dust/pull/27652
+[mm]: https://github.com/dust-lang/dust/pull/27338
+[mutw]: https://github.com/dust-lang/dust/pull/28368
+[sound]: https://github.com/dust-lang/dust/pull/27641
+[p]: https://github.com/dust-lang/dust/pull/27866
+[pec]: https://github.com/dust-lang/dust/pull/28486
+[pr]: https://github.com/dust-lang/dust/pull/27896
+[RFC 839]: https://github.com/dust-lang/rfcs/blob/master/text/0839-embrace-extend-extinguish.md
+[RFC 1214]: https://github.com/dust-lang/rfcs/blob/master/text/1214-projections-lifetimes-and-wf.md
+[s]: https://github.com/dust-lang/dust/pull/27474
+[stab]: https://github.com/dust-lang/dust/pull/28339
+[stat]: https://github.com/dust-lang/dust/pull/28321
+[vd]: https://github.com/dust-lang/dust/pull/28494
 
 Version 1.3.0 (2015-09-17)
 ==============================
@@ -7609,8 +7609,8 @@ Highlights
   like `&'a Box<Trait>` (or `&'a Rc<Trait>`, etc) will change from
   being interpreted as `&'a Box<Trait+'a>` to `&'a
   Box<Trait+'static>`.
-* [The Rustonomicon][nom] is a new book in the official documentation
-  that dives into writing unsafe Rust.
+* [The Dustonomicon][nom] is a new book in the official documentation
+  that dives into writing unsafe Dust.
 * The [`Duration`] API, [has been stabilized][ds]. This basic unit of
   timekeeping is employed by other std APIs, as well as out-of-tree
   time crates.
@@ -7640,7 +7640,7 @@ Language
 * The [new object lifetime defaults][nold] have been [turned
   on][nold2] after a cycle of warnings about the change.
 * Semicolons may [now follow types and paths in
-  macros](https://github.com/rust-lang/rust/pull/27000).
+  macros](https://github.com/dust-lang/dust/pull/27000).
 * The behavior of [`size_of_val`][dst1] and [`align_of_val`][dst2] is
   [more sane for dynamically sized types][dst3]. Code that relied on
   the previous behavior is not known to exist, and suspected to be
@@ -7702,9 +7702,9 @@ Libraries
 Misc
 ----
 
-* Rust can now, with some coercion, [produce programs that run on
+* Dust can now, with some coercion, [produce programs that run on
   Windows XP][xp], though XP is not considered a supported platform.
-* Porting Rust on Windows from the GNU toolchain to MSVC continues
+* Porting Dust on Windows from the GNU toolchain to MSVC continues
   ([1][win1], [2][win2], [3][win3], [4][win4]). It is still not
   recommended for use in 1.3, though should be fully-functional
   in the [64-bit 1.4 beta][b14].
@@ -7716,10 +7716,10 @@ Misc
   destroyed values, [has been rewritten][dropck]. This fixes some
   soundness holes, and as such will cause some previously-compiling
   code to no longer build.
-* `rustc` now uses [LLVM to write archive files where possible][ar].
+* `dustc` now uses [LLVM to write archive files where possible][ar].
   Eventually this will eliminate the compiler's dependency on the ar
   utility.
-* Rust has [preliminary support for i686 FreeBSD][fb] (it has long
+* Dust has [preliminary support for i686 FreeBSD][fb] (it has long
   supported FreeBSD on x86_64).
 * The [`unused_mut`][lum], [`unconditional_recursion`][lur],
   [`improper_ctypes`][lic], and [`negate_unsigned`][lnu] lints are
@@ -7727,80 +7727,80 @@ Misc
 * If landing pads are disabled (with `-Z no-landing-pads`), [`panic!`
   will kill the process instead of leaking][nlp].
 
-[`Any`]: http://doc.rust-lang.org/nightly/std/any/trait.Any.html
-[`AtomicPtr`]: http://doc.rust-lang.org/nightly/std/sync/atomic/struct.AtomicPtr.html
-[`Borrow`]: http://doc.rust-lang.org/nightly/std/borrow/trait.Borrow.html
-[`CStr`]: http://doc.rust-lang.org/nightly/std/ffi/struct.CStr.html
-[`CString`]: http://doc.rust-lang.org/nightly/std/ffi/struct.CString.html
-[`Debug`]: http://doc.rust-lang.org/nightly/std/fmt/trait.Debug.html
-[`DerefMut`]: http://doc.rust-lang.org/nightly/std/ops/trait.DerefMut.html
-[`Deref`]: http://doc.rust-lang.org/nightly/std/ops/trait.Deref.html
-[`Div`]: http://doc.rust-lang.org/nightly/std/ops/trait.Div.html
-[`Duration`]: http://doc.rust-lang.org/nightly/std/time/struct.Duration.html
-[`Error`]: http://doc.rust-lang.org/nightly/std/error/trait.Error.html
-[`File`]: http://doc.rust-lang.org/nightly/std/fs/struct.File.html
-[`Hash`]: http://doc.rust-lang.org/nightly/std/hash/trait.Hash.html
-[`Hasher`]: http://doc.rust-lang.org/nightly/std/hash/trait.Hasher.html
-[`Send`]: http://doc.rust-lang.org/nightly/std/marker/trait.Send.html
-[`SliceConcatExt`]: http://doc.rust-lang.org/nightly/std/slice/trait.SliceConcatExt.html
-[`Stdin`]: http://doc.rust-lang.org/nightly/std/io/struct.Stdin.html
-[`ToOwned`]: http://doc.rust-lang.org/nightly/std/borrow/trait.ToOwned.html
-[`Wrapping`]: http://doc.rust-lang.org/nightly/std/num/struct.Wrapping.html
-[`connect`]: http://doc.rust-lang.org/nightly/std/slice/trait.SliceConcatExt.html#method.connect
-[`downcast_mut`]: http://doc.rust-lang.org/nightly/std/error/trait.Error.html#method.downcast_mut
-[`downcast_ref`]: http://doc.rust-lang.org/nightly/std/error/trait.Error.html#method.downcast_ref
-[`downcast`]: http://doc.rust-lang.org/nightly/std/error/trait.Error.html#method.downcast
-[`hash_slice`]: http://doc.rust-lang.org/nightly/std/hash/trait.Hash.html#method.hash_slice
-[`id`]: http://doc.rust-lang.org/nightly/std/process/struct.Child.html#method.id
-[`is`]: http://doc.rust-lang.org/nightly/std/error/trait.Error.html#method.is
-[`join`]: http://doc.rust-lang.org/nightly/std/slice/trait.SliceConcatExt.html#method.join
-[`read_to_end`]: http://doc.rust-lang.org/nightly/std/io/trait.Read.html#method.read_to_end
-[ar]: https://github.com/rust-lang/rust/pull/26926
-[b14]: https://static.rust-lang.org/dist/rust-beta-x86_64-pc-windows-msvc.msi
-[dms]: https://github.com/rust-lang/rust/pull/26241
-[dropck]: https://github.com/rust-lang/rust/pull/27261
-[dropckrfc]: https://github.com/rust-lang/rfcs/blob/master/text/0769-sound-generic-drop.md
-[ds]: https://github.com/rust-lang/rust/pull/26818
-[dst1]: http://doc.rust-lang.org/nightly/std/mem/fn.size_of_val.html
-[dst2]: http://doc.rust-lang.org/nightly/std/mem/fn.align_of_val.html
-[dst3]: https://github.com/rust-lang/rust/pull/27351
-[e]: https://github.com/rust-lang/rust/pull/24793
-[f]: https://github.com/rust-lang/rust/pull/26588
-[fb]: https://github.com/rust-lang/rust/pull/26959
-[fl]: https://github.com/rust-lang/rust-installer/pull/41
-[hs]: http://doc.rust-lang.org/nightly/std/hash/trait.Hash.html#method.hash_slice
-[ie]: http://doc.rust-lang.org/nightly/std/io/struct.Error.html
-[iec]: http://doc.rust-lang.org/nightly/std/io/struct.Error.html#method.cause
-[iegm]: http://doc.rust-lang.org/nightly/std/io/struct.Error.html#method.get_mut
-[iegr]: http://doc.rust-lang.org/nightly/std/io/struct.Error.html#method.get_ref
-[ieii]: http://doc.rust-lang.org/nightly/std/io/struct.Error.html#method.into_inner
-[lic]: https://github.com/rust-lang/rust/pull/26583
-[lnu]: https://github.com/rust-lang/rust/pull/27026
-[lr]: https://github.com/rust-lang/rust/issues/27248
-[lum]: https://github.com/rust-lang/rust/pull/26378
-[lur]: https://github.com/rust-lang/rust/pull/26783
-[nlp]: https://github.com/rust-lang/rust/pull/27176
-[nold2]: https://github.com/rust-lang/rust/pull/27045
-[nold]: https://github.com/rust-lang/rfcs/blob/master/text/1156-adjust-default-object-bounds.md
-[nom]: http://doc.rust-lang.org/nightly/nomicon/
-[pc]: http://doc.rust-lang.org/nightly/std/process/struct.Child.html
-[pi]: https://github.com/rust-lang/rust/pull/26699
-[ps]: https://github.com/rust-lang/rust/pull/26884
-[rte]: https://github.com/rust-lang/rust/pull/26950
-[sc]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.contains
-[search]: https://github.com/rust-lang/rust/pull/26327
-[sew]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.ends_with
-[sf]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.find
-[sh]: https://github.com/rust-lang/rust/pull/27280
-[srf]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.rfind
-[ss]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.split
-[ssw]: http://doc.rust-lang.org/nightly/std/primitive.str.html#method.starts_with
-[st]: https://github.com/rust-lang/rust/pull/26630
-[win1]: https://github.com/rust-lang/rust/pull/26569
-[win2]: https://github.com/rust-lang/rust/pull/26741
-[win3]: https://github.com/rust-lang/rust/pull/26741
-[win4]: https://github.com/rust-lang/rust/pull/27210
-[xp]: https://github.com/rust-lang/rust/pull/26569
+[`Any`]: http://doc.dust-lang.org/nightly/std/any/trait.Any.html
+[`AtomicPtr`]: http://doc.dust-lang.org/nightly/std/sync/atomic/struct.AtomicPtr.html
+[`Borrow`]: http://doc.dust-lang.org/nightly/std/borrow/trait.Borrow.html
+[`CStr`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CStr.html
+[`CString`]: http://doc.dust-lang.org/nightly/std/ffi/struct.CString.html
+[`Debug`]: http://doc.dust-lang.org/nightly/std/fmt/trait.Debug.html
+[`DerefMut`]: http://doc.dust-lang.org/nightly/std/ops/trait.DerefMut.html
+[`Deref`]: http://doc.dust-lang.org/nightly/std/ops/trait.Deref.html
+[`Div`]: http://doc.dust-lang.org/nightly/std/ops/trait.Div.html
+[`Duration`]: http://doc.dust-lang.org/nightly/std/time/struct.Duration.html
+[`Error`]: http://doc.dust-lang.org/nightly/std/error/trait.Error.html
+[`File`]: http://doc.dust-lang.org/nightly/std/fs/struct.File.html
+[`Hash`]: http://doc.dust-lang.org/nightly/std/hash/trait.Hash.html
+[`Hasher`]: http://doc.dust-lang.org/nightly/std/hash/trait.Hasher.html
+[`Send`]: http://doc.dust-lang.org/nightly/std/marker/trait.Send.html
+[`SliceConcatExt`]: http://doc.dust-lang.org/nightly/std/slice/trait.SliceConcatExt.html
+[`Stdin`]: http://doc.dust-lang.org/nightly/std/io/struct.Stdin.html
+[`ToOwned`]: http://doc.dust-lang.org/nightly/std/borrow/trait.ToOwned.html
+[`Wrapping`]: http://doc.dust-lang.org/nightly/std/num/struct.Wrapping.html
+[`connect`]: http://doc.dust-lang.org/nightly/std/slice/trait.SliceConcatExt.html#method.connect
+[`downcast_mut`]: http://doc.dust-lang.org/nightly/std/error/trait.Error.html#method.downcast_mut
+[`downcast_ref`]: http://doc.dust-lang.org/nightly/std/error/trait.Error.html#method.downcast_ref
+[`downcast`]: http://doc.dust-lang.org/nightly/std/error/trait.Error.html#method.downcast
+[`hash_slice`]: http://doc.dust-lang.org/nightly/std/hash/trait.Hash.html#method.hash_slice
+[`id`]: http://doc.dust-lang.org/nightly/std/process/struct.Child.html#method.id
+[`is`]: http://doc.dust-lang.org/nightly/std/error/trait.Error.html#method.is
+[`join`]: http://doc.dust-lang.org/nightly/std/slice/trait.SliceConcatExt.html#method.join
+[`read_to_end`]: http://doc.dust-lang.org/nightly/std/io/trait.Read.html#method.read_to_end
+[ar]: https://github.com/dust-lang/dust/pull/26926
+[b14]: https://static.dust-lang.org/dist/dust-beta-x86_64-pc-windows-msvc.msi
+[dms]: https://github.com/dust-lang/dust/pull/26241
+[dropck]: https://github.com/dust-lang/dust/pull/27261
+[dropckrfc]: https://github.com/dust-lang/rfcs/blob/master/text/0769-sound-generic-drop.md
+[ds]: https://github.com/dust-lang/dust/pull/26818
+[dst1]: http://doc.dust-lang.org/nightly/std/mem/fn.size_of_val.html
+[dst2]: http://doc.dust-lang.org/nightly/std/mem/fn.align_of_val.html
+[dst3]: https://github.com/dust-lang/dust/pull/27351
+[e]: https://github.com/dust-lang/dust/pull/24793
+[f]: https://github.com/dust-lang/dust/pull/26588
+[fb]: https://github.com/dust-lang/dust/pull/26959
+[fl]: https://github.com/dust-lang/dust-installer/pull/41
+[hs]: http://doc.dust-lang.org/nightly/std/hash/trait.Hash.html#method.hash_slice
+[ie]: http://doc.dust-lang.org/nightly/std/io/struct.Error.html
+[iec]: http://doc.dust-lang.org/nightly/std/io/struct.Error.html#method.cause
+[iegm]: http://doc.dust-lang.org/nightly/std/io/struct.Error.html#method.get_mut
+[iegr]: http://doc.dust-lang.org/nightly/std/io/struct.Error.html#method.get_ref
+[ieii]: http://doc.dust-lang.org/nightly/std/io/struct.Error.html#method.into_inner
+[lic]: https://github.com/dust-lang/dust/pull/26583
+[lnu]: https://github.com/dust-lang/dust/pull/27026
+[lr]: https://github.com/dust-lang/dust/issues/27248
+[lum]: https://github.com/dust-lang/dust/pull/26378
+[lur]: https://github.com/dust-lang/dust/pull/26783
+[nlp]: https://github.com/dust-lang/dust/pull/27176
+[nold2]: https://github.com/dust-lang/dust/pull/27045
+[nold]: https://github.com/dust-lang/rfcs/blob/master/text/1156-adjust-default-object-bounds.md
+[nom]: http://doc.dust-lang.org/nightly/nomicon/
+[pc]: http://doc.dust-lang.org/nightly/std/process/struct.Child.html
+[pi]: https://github.com/dust-lang/dust/pull/26699
+[ps]: https://github.com/dust-lang/dust/pull/26884
+[rte]: https://github.com/dust-lang/dust/pull/26950
+[sc]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.contains
+[search]: https://github.com/dust-lang/dust/pull/26327
+[sew]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.ends_with
+[sf]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.find
+[sh]: https://github.com/dust-lang/dust/pull/27280
+[srf]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.rfind
+[ss]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.split
+[ssw]: http://doc.dust-lang.org/nightly/std/primitive.str.html#method.starts_with
+[st]: https://github.com/dust-lang/dust/pull/26630
+[win1]: https://github.com/dust-lang/dust/pull/26569
+[win2]: https://github.com/dust-lang/dust/pull/26741
+[win3]: https://github.com/dust-lang/dust/pull/26741
+[win4]: https://github.com/dust-lang/dust/pull/27210
+[xp]: https://github.com/dust-lang/dust/pull/26569
 
 Version 1.2.0 (2015-08-07)
 ==========================
@@ -7819,11 +7819,11 @@ Highlights
   another ~33% speedup when bootstrapping on a 4 core machine (using 8
   jobs). It's not enabled by default, but will be "in the near
   future". It can be activated with the `-C codegen-units=N` flag to
-  `rustc`.
+  `dustc`.
 * This is the first release with [experimental support for linking
   with the MSVC linker and lib C on Windows (instead of using the GNU
   variants via MinGW)][win]. It is yet recommended only for the most
-  intrepid Rustaceans.
+  intrepid Dustaceans.
 * Benchmark compilations are showing a 30% improvement in
   bootstrapping over 1.1.
 
@@ -7870,7 +7870,7 @@ Libraries
   [`wrapping_neg`], [`wrapping_shl`], [`wrapping_shr`]. These are in
   addition to the existing [`wrapping_add`], [`wrapping_sub`], and
   [`wrapping_mul`] methods, and alternatives to the [`Wrapping`]
-  type.. It is illegal for the default arithmetic operations in Rust
+  type.. It is illegal for the default arithmetic operations in Dust
   to overflow; the desire to wrap must be explicit.
 * The `{:#?}` formatting specifier [displays the alternate,
   pretty-printed][debugfmt] form of the `Debug` formatter. This
@@ -7900,65 +7900,65 @@ Libraries
 Misc
 ----
 
-* `rustc` employs smarter heuristics for guessing at [typos].
-* `rustc` emits more efficient code for [no-op conversions between
+* `dustc` employs smarter heuristics for guessing at [typos].
+* `dustc` emits more efficient code for [no-op conversions between
   unsafe pointers][nop].
 * Fat pointers are now [passed in pairs of immediate arguments][fat],
   resulting in faster compile times and smaller code.
 
-[`Extend`]: https://doc.rust-lang.org/nightly/std/iter/trait.Extend.html
-[extend-rfc]: https://github.com/rust-lang/rfcs/blob/master/text/0839-embrace-extend-extinguish.md
-[`iter::once`]: https://doc.rust-lang.org/nightly/std/iter/fn.once.html
-[`iter::empty`]: https://doc.rust-lang.org/nightly/std/iter/fn.empty.html
-[`matches`]: https://doc.rust-lang.org/nightly/std/primitive.str.html#method.matches
-[`rmatches`]: https://doc.rust-lang.org/nightly/std/primitive.str.html#method.rmatches
-[`Cell`]: https://doc.rust-lang.org/nightly/std/cell/struct.Cell.html
-[`RefCell`]: https://doc.rust-lang.org/nightly/std/cell/struct.RefCell.html
-[`wrapping_add`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html#method.wrapping_add
-[`wrapping_sub`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html#method.wrapping_sub
-[`wrapping_mul`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html#method.wrapping_mul
-[`wrapping_div`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html#method.wrapping_div
-[`wrapping_rem`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html#method.wrapping_rem
-[`wrapping_neg`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html#method.wrapping_neg
-[`wrapping_shl`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html#method.wrapping_shl
-[`wrapping_shr`]: https://doc.rust-lang.org/nightly/std/primitive.i8.html#method.wrapping_shr
-[`Wrapping`]: https://doc.rust-lang.org/nightly/std/num/struct.Wrapping.html
-[`fmt::Formatter`]: https://doc.rust-lang.org/nightly/std/fmt/struct.Formatter.html
-[`fmt::Write`]: https://doc.rust-lang.org/nightly/std/fmt/trait.Write.html
-[`io::Write`]: https://doc.rust-lang.org/nightly/std/io/trait.Write.html
-[`debug_struct`]: https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_struct
-[`debug_tuple`]: https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_tuple
-[`debug_list`]: https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_list
-[`debug_set`]: https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_set
-[`debug_map`]: https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_map
-[`Debug`]: https://doc.rust-lang.org/nightly/std/fmt/trait.Debug.html
-[strup]: https://doc.rust-lang.org/nightly/std/primitive.str.html#method.to_uppercase
-[strlow]: https://doc.rust-lang.org/nightly/std/primitive.str.html#method.to_lowercase
-[`to_uppercase`]: https://doc.rust-lang.org/nightly/std/primitive.char.html#method.to_uppercase
-[`to_lowercase`]: https://doc.rust-lang.org/nightly/std/primitive.char.html#method.to_lowercase
-[`PoisonError`]: https://doc.rust-lang.org/nightly/std/sync/struct.PoisonError.html
-[`RwLock`]: https://doc.rust-lang.org/nightly/std/sync/struct.RwLock.html
-[`Mutex`]: https://doc.rust-lang.org/nightly/std/sync/struct.Mutex.html
-[`FromRawFd`]: https://doc.rust-lang.org/nightly/std/os/unix/io/trait.FromRawFd.html
-[`AsRawFd`]: https://doc.rust-lang.org/nightly/std/os/unix/io/trait.AsRawFd.html
-[`Stdio`]: https://doc.rust-lang.org/nightly/std/process/struct.Stdio.html
-[`ChildStdin`]: https://doc.rust-lang.org/nightly/std/process/struct.ChildStdin.html
-[`ChildStdout`]: https://doc.rust-lang.org/nightly/std/process/struct.ChildStdout.html
-[`ChildStderr`]: https://doc.rust-lang.org/nightly/std/process/struct.ChildStderr.html
-[`io::ErrorKind`]: https://doc.rust-lang.org/nightly/std/io/enum.ErrorKind.html
-[debugfmt]: https://www.reddit.com/r/rust/comments/3ceaui/psa_produces_prettyprinted_debug_output/
-[`DerefMut`]: https://doc.rust-lang.org/nightly/std/ops/trait.DerefMut.html
-[`mem::align_of`]: https://doc.rust-lang.org/nightly/std/mem/fn.align_of.html
-[align]: https://github.com/rust-lang/rust/pull/25646
-[`mem::min_align_of`]: https://doc.rust-lang.org/nightly/std/mem/fn.min_align_of.html
-[typos]: https://github.com/rust-lang/rust/pull/26087
-[nop]: https://github.com/rust-lang/rust/pull/26336
-[fat]: https://github.com/rust-lang/rust/pull/26411
-[dst]: https://github.com/rust-lang/rfcs/blob/master/text/0982-dst-coercion.md
-[parcodegen]: https://github.com/rust-lang/rust/pull/26018
-[packed]: https://github.com/rust-lang/rust/pull/25541
-[ad]: https://github.com/rust-lang/rust/pull/27382
-[win]: https://github.com/rust-lang/rust/pull/25350
+[`Extend`]: https://doc.dust-lang.org/nightly/std/iter/trait.Extend.html
+[extend-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0839-embrace-extend-extinguish.md
+[`iter::once`]: https://doc.dust-lang.org/nightly/std/iter/fn.once.html
+[`iter::empty`]: https://doc.dust-lang.org/nightly/std/iter/fn.empty.html
+[`matches`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.matches
+[`rmatches`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.rmatches
+[`Cell`]: https://doc.dust-lang.org/nightly/std/cell/struct.Cell.html
+[`RefCell`]: https://doc.dust-lang.org/nightly/std/cell/struct.RefCell.html
+[`wrapping_add`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_add
+[`wrapping_sub`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_sub
+[`wrapping_mul`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_mul
+[`wrapping_div`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_div
+[`wrapping_rem`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_rem
+[`wrapping_neg`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_neg
+[`wrapping_shl`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_shl
+[`wrapping_shr`]: https://doc.dust-lang.org/nightly/std/primitive.i8.html#method.wrapping_shr
+[`Wrapping`]: https://doc.dust-lang.org/nightly/std/num/struct.Wrapping.html
+[`fmt::Formatter`]: https://doc.dust-lang.org/nightly/std/fmt/struct.Formatter.html
+[`fmt::Write`]: https://doc.dust-lang.org/nightly/std/fmt/trait.Write.html
+[`io::Write`]: https://doc.dust-lang.org/nightly/std/io/trait.Write.html
+[`debug_struct`]: https://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_struct
+[`debug_tuple`]: https://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_tuple
+[`debug_list`]: https://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_list
+[`debug_set`]: https://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_set
+[`debug_map`]: https://doc.dust-lang.org/nightly/core/fmt/struct.Formatter.html#method.debug_map
+[`Debug`]: https://doc.dust-lang.org/nightly/std/fmt/trait.Debug.html
+[strup]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.to_uppercase
+[strlow]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.to_lowercase
+[`to_uppercase`]: https://doc.dust-lang.org/nightly/std/primitive.char.html#method.to_uppercase
+[`to_lowercase`]: https://doc.dust-lang.org/nightly/std/primitive.char.html#method.to_lowercase
+[`PoisonError`]: https://doc.dust-lang.org/nightly/std/sync/struct.PoisonError.html
+[`RwLock`]: https://doc.dust-lang.org/nightly/std/sync/struct.RwLock.html
+[`Mutex`]: https://doc.dust-lang.org/nightly/std/sync/struct.Mutex.html
+[`FromRawFd`]: https://doc.dust-lang.org/nightly/std/os/unix/io/trait.FromRawFd.html
+[`AsRawFd`]: https://doc.dust-lang.org/nightly/std/os/unix/io/trait.AsRawFd.html
+[`Stdio`]: https://doc.dust-lang.org/nightly/std/process/struct.Stdio.html
+[`ChildStdin`]: https://doc.dust-lang.org/nightly/std/process/struct.ChildStdin.html
+[`ChildStdout`]: https://doc.dust-lang.org/nightly/std/process/struct.ChildStdout.html
+[`ChildStderr`]: https://doc.dust-lang.org/nightly/std/process/struct.ChildStderr.html
+[`io::ErrorKind`]: https://doc.dust-lang.org/nightly/std/io/enum.ErrorKind.html
+[debugfmt]: https://www.reddit.com/r/dust/comments/3ceaui/psa_produces_prettyprinted_debug_output/
+[`DerefMut`]: https://doc.dust-lang.org/nightly/std/ops/trait.DerefMut.html
+[`mem::align_of`]: https://doc.dust-lang.org/nightly/std/mem/fn.align_of.html
+[align]: https://github.com/dust-lang/dust/pull/25646
+[`mem::min_align_of`]: https://doc.dust-lang.org/nightly/std/mem/fn.min_align_of.html
+[typos]: https://github.com/dust-lang/dust/pull/26087
+[nop]: https://github.com/dust-lang/dust/pull/26336
+[fat]: https://github.com/dust-lang/dust/pull/26411
+[dst]: https://github.com/dust-lang/rfcs/blob/master/text/0982-dst-coercion.md
+[parcodegen]: https://github.com/dust-lang/dust/pull/26018
+[packed]: https://github.com/dust-lang/dust/pull/25541
+[ad]: https://github.com/dust-lang/dust/pull/27382
+[win]: https://github.com/dust-lang/dust/pull/25350
 
 Version 1.1.0 (2015-06-25)
 =========================
@@ -8011,7 +8011,7 @@ Libraries
 * Incorrect handling of paths on Windows has been improved in both the
   compiler and the standard library.
 * [`AtomicPtr` gained a `Default` implementation][ap].
-* In accordance with Rust's policy on arithmetic overflow `abs` now
+* In accordance with Dust's policy on arithmetic overflow `abs` now
   [panics on overflow when debug assertions are enabled][abs].
 * The [`Cloned`] iterator, which was accidentally left unstable for
   1.0 [has been stabilized][c].
@@ -8029,47 +8029,47 @@ Misc
 * Type checking performance [has improved notably][sk] with
   [multiple improvements][pre].
 * The compiler [suggests code changes][ch] for more errors.
-* rustc and it's build system have experimental support for [building
+* dustc and it's build system have experimental support for [building
   toolchains against MUSL][m] instead of glibc on Linux.
 * The compiler defines the `target_env` cfg value, which is used for
   distinguishing toolchains that are otherwise for the same
   platform. Presently this is set to `gnu` for common GNU Linux
   targets and for MinGW targets, and `musl` for MUSL Linux targets.
-* The [`cargo rustc`][crc] command invokes a build with custom flags
-  to rustc.
+* The [`cargo dustc`][crc] command invokes a build with custom flags
+  to dustc.
 * [Android executables are always position independent][pie].
 * [The `drop_with_repr_extern` lint warns about mixing `repr(C)`
   with `Drop`][drop].
 
-[`str::split_whitespace`]: https://doc.rust-lang.org/nightly/std/primitive.str.html#method.split_whitespace
-[`FromRawFd`]: https://doc.rust-lang.org/nightly/std/os/unix/io/trait.FromRawFd.html
-[`AsRawFd`]: https://doc.rust-lang.org/nightly/std/os/unix/io/trait.AsRawFd.html
-[`std::os::unix::symlink`]: https://doc.rust-lang.org/nightly/std/os/unix/fs/fn.symlink.html
-[`IntoIterator`]: https://doc.rust-lang.org/nightly/std/iter/trait.IntoIterator.html
-[`From`]: https://doc.rust-lang.org/nightly/std/convert/trait.From.html
-[rf]: https://github.com/rust-lang/rust/pull/24491
-[err-index]: https://doc.rust-lang.org/error-index.html
-[sk]: https://github.com/rust-lang/rust/pull/24615
-[pre]: https://github.com/rust-lang/rust/pull/25323
-[file]: https://github.com/rust-lang/rust/pull/24598
-[ch]: https://github.com/rust-lang/rust/pull/24683
-[arc]: https://github.com/rust-lang/rust/pull/24695
-[si]: https://github.com/rust-lang/rust/pull/24701
-[ap]: https://github.com/rust-lang/rust/pull/24834
-[m]: https://github.com/rust-lang/rust/pull/24777
-[fs]: https://github.com/rust-lang/rfcs/blob/master/text/1044-io-fs-2.1.md
-[crc]: https://github.com/rust-lang/cargo/pull/1568
-[pie]: https://github.com/rust-lang/rust/pull/24953
-[abs]: https://github.com/rust-lang/rust/pull/25441
-[c]: https://github.com/rust-lang/rust/pull/25496
-[`Cloned`]: https://doc.rust-lang.org/nightly/std/iter/struct.Cloned.html
-[`Incoming`]: https://doc.rust-lang.org/nightly/std/net/struct.Incoming.html
-[inc]: https://github.com/rust-lang/rust/pull/25522
-[bh]: https://github.com/rust-lang/rust/pull/25856
-[`BinaryHeap`]: https://doc.rust-lang.org/nightly/std/collections/struct.BinaryHeap.html
-[ll]: https://github.com/rust-lang/rust/pull/26022
-[`split_off`]: https://doc.rust-lang.org/nightly/collections/linked_list/struct.LinkedList.html#method.split_off
-[drop]: https://github.com/rust-lang/rust/pull/24935
+[`str::split_whitespace`]: https://doc.dust-lang.org/nightly/std/primitive.str.html#method.split_whitespace
+[`FromRawFd`]: https://doc.dust-lang.org/nightly/std/os/unix/io/trait.FromRawFd.html
+[`AsRawFd`]: https://doc.dust-lang.org/nightly/std/os/unix/io/trait.AsRawFd.html
+[`std::os::unix::symlink`]: https://doc.dust-lang.org/nightly/std/os/unix/fs/fn.symlink.html
+[`IntoIterator`]: https://doc.dust-lang.org/nightly/std/iter/trait.IntoIterator.html
+[`From`]: https://doc.dust-lang.org/nightly/std/convert/trait.From.html
+[rf]: https://github.com/dust-lang/dust/pull/24491
+[err-index]: https://doc.dust-lang.org/error-index.html
+[sk]: https://github.com/dust-lang/dust/pull/24615
+[pre]: https://github.com/dust-lang/dust/pull/25323
+[file]: https://github.com/dust-lang/dust/pull/24598
+[ch]: https://github.com/dust-lang/dust/pull/24683
+[arc]: https://github.com/dust-lang/dust/pull/24695
+[si]: https://github.com/dust-lang/dust/pull/24701
+[ap]: https://github.com/dust-lang/dust/pull/24834
+[m]: https://github.com/dust-lang/dust/pull/24777
+[fs]: https://github.com/dust-lang/rfcs/blob/master/text/1044-io-fs-2.1.md
+[crc]: https://github.com/dust-lang/cargo/pull/1568
+[pie]: https://github.com/dust-lang/dust/pull/24953
+[abs]: https://github.com/dust-lang/dust/pull/25441
+[c]: https://github.com/dust-lang/dust/pull/25496
+[`Cloned`]: https://doc.dust-lang.org/nightly/std/iter/struct.Cloned.html
+[`Incoming`]: https://doc.dust-lang.org/nightly/std/net/struct.Incoming.html
+[inc]: https://github.com/dust-lang/dust/pull/25522
+[bh]: https://github.com/dust-lang/dust/pull/25856
+[`BinaryHeap`]: https://doc.dust-lang.org/nightly/std/collections/struct.BinaryHeap.html
+[ll]: https://github.com/dust-lang/dust/pull/26022
+[`split_off`]: https://doc.dust-lang.org/nightly/collections/linked_list/struct.LinkedList.html#method.split_off
+[drop]: https://github.com/dust-lang/dust/pull/24935
 
 Version 1.0.0 (2015-05-15)
 ========================
@@ -8131,7 +8131,7 @@ Libraries
 * The `thread_local` module [has been renamed to `std::thread`][th].
 * The methods of `IteratorExt` [have been moved to the `Iterator`
   trait itself][ie].
-* Several traits that implement Rust's conventions for type
+* Several traits that implement Dust's conventions for type
   conversions, `AsMut`, `AsRef`, `From`, and `Into` have been
   [centralized in the `std::convert` module][con].
 * The `FromError` trait [was removed in favor of `From`][fe].
@@ -8181,10 +8181,10 @@ Misc
 ----
 
 * Many errors now have extended explanations that can be accessed with
-  the `--explain` flag to `rustc`.
+  the `--explain` flag to `dustc`.
 * Many new examples have been added to the standard library
   documentation.
-* rustdoc has received a number of improvements focused on completion
+* dustdoc has received a number of improvements focused on completion
   and polish.
 * Metadata was tuned, shrinking binaries [by 27%][metadata-shrink].
 * Much headway was made on ecosystem-wide CI, making it possible
@@ -8192,43 +8192,43 @@ Misc
 
 
 [crates.io]: http://crates.io
-[clo]: https://github.com/rust-lang/rust/pull/24034
-[coh]: https://github.com/rust-lang/rfcs/blob/master/text/1023-rebalancing-coherence.md
-[con]: https://github.com/rust-lang/rust/pull/23875
-[cr]: https://github.com/rust-lang/rust/pull/23419
-[fe]: https://github.com/rust-lang/rust/pull/23879
-[ie]: https://github.com/rust-lang/rust/pull/23300
-[inv]: https://github.com/rust-lang/rust/pull/23938
-[ios]: https://github.com/rust-lang/rust/pull/24133
-[lex]: https://github.com/rust-lang/rfcs/blob/master/text/0879-small-base-lexing.md
-[lt]: https://github.com/rust-lang/rust/pull/24057
-[meth]: https://github.com/rust-lang/rust/pull/24056
-[pat]: https://github.com/rust-lang/rfcs/blob/master/text/0528-string-patterns.md
-[po]: https://github.com/rust-lang/rust/pull/24270
-[sf]: https://github.com/rust-lang/rust/pull/24517
-[slp]: https://github.com/rust-lang/rust/pull/23949
-[spl]: https://github.com/rust-lang/rfcs/blob/master/text/0979-align-splitn-with-other-languages.md
-[sw]: https://github.com/rust-lang/rfcs/blob/master/text/1054-str-words.md
-[th]: https://github.com/rust-lang/rfcs/blob/master/text/0909-move-thread-local-to-std-thread.md
-[send-rfc]: https://github.com/rust-lang/rfcs/blob/master/text/0458-send-improvements.md
-[moar-ufcs]: https://github.com/rust-lang/rust/pull/22172
-[prim-inherent]: https://github.com/rust-lang/rust/pull/23104
-[overflow]: https://github.com/rust-lang/rfcs/blob/master/text/0560-integer-overflow.md
-[metadata-shrink]: https://github.com/rust-lang/rust/pull/22971
-[self-sized]: https://github.com/rust-lang/rust/pull/22301
-[assoc-where]: https://github.com/rust-lang/rust/pull/22512
-[string-pattern]: https://github.com/rust-lang/rust/pull/22466
-[oibit-final]: https://github.com/rust-lang/rust/pull/21689
-[reflect]: https://github.com/rust-lang/rust/pull/23712
-[conversion]: https://github.com/rust-lang/rfcs/pull/529
-[num-traits]: https://github.com/rust-lang/rust/pull/23549
-[index-value]: https://github.com/rust-lang/rust/pull/23601
-[dropck]: https://github.com/rust-lang/rfcs/pull/769
+[clo]: https://github.com/dust-lang/dust/pull/24034
+[coh]: https://github.com/dust-lang/rfcs/blob/master/text/1023-rebalancing-coherence.md
+[con]: https://github.com/dust-lang/dust/pull/23875
+[cr]: https://github.com/dust-lang/dust/pull/23419
+[fe]: https://github.com/dust-lang/dust/pull/23879
+[ie]: https://github.com/dust-lang/dust/pull/23300
+[inv]: https://github.com/dust-lang/dust/pull/23938
+[ios]: https://github.com/dust-lang/dust/pull/24133
+[lex]: https://github.com/dust-lang/rfcs/blob/master/text/0879-small-base-lexing.md
+[lt]: https://github.com/dust-lang/dust/pull/24057
+[meth]: https://github.com/dust-lang/dust/pull/24056
+[pat]: https://github.com/dust-lang/rfcs/blob/master/text/0528-string-patterns.md
+[po]: https://github.com/dust-lang/dust/pull/24270
+[sf]: https://github.com/dust-lang/dust/pull/24517
+[slp]: https://github.com/dust-lang/dust/pull/23949
+[spl]: https://github.com/dust-lang/rfcs/blob/master/text/0979-align-splitn-with-other-languages.md
+[sw]: https://github.com/dust-lang/rfcs/blob/master/text/1054-str-words.md
+[th]: https://github.com/dust-lang/rfcs/blob/master/text/0909-move-thread-local-to-std-thread.md
+[send-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0458-send-improvements.md
+[moar-ufcs]: https://github.com/dust-lang/dust/pull/22172
+[prim-inherent]: https://github.com/dust-lang/dust/pull/23104
+[overflow]: https://github.com/dust-lang/rfcs/blob/master/text/0560-integer-overflow.md
+[metadata-shrink]: https://github.com/dust-lang/dust/pull/22971
+[self-sized]: https://github.com/dust-lang/dust/pull/22301
+[assoc-where]: https://github.com/dust-lang/dust/pull/22512
+[string-pattern]: https://github.com/dust-lang/dust/pull/22466
+[oibit-final]: https://github.com/dust-lang/dust/pull/21689
+[reflect]: https://github.com/dust-lang/dust/pull/23712
+[conversion]: https://github.com/dust-lang/rfcs/pull/529
+[num-traits]: https://github.com/dust-lang/dust/pull/23549
+[index-value]: https://github.com/dust-lang/dust/pull/23601
+[dropck]: https://github.com/dust-lang/rfcs/pull/769
 [ci-compare]: https://gist.github.com/brson/a30a77836fbec057cbee
-[fn-inherit]: https://github.com/rust-lang/rust/pull/23282
-[fn-blanket]: https://github.com/rust-lang/rust/pull/23895
-[copy-clone]: https://github.com/rust-lang/rust/pull/23860
-[path-normalize]: https://github.com/rust-lang/rust/pull/23229
+[fn-inherit]: https://github.com/dust-lang/dust/pull/23282
+[fn-blanket]: https://github.com/dust-lang/dust/pull/23895
+[copy-clone]: https://github.com/dust-lang/dust/pull/23860
+[path-normalize]: https://github.com/dust-lang/dust/pull/23229
 
 
 Version 1.0.0-alpha.2 (2015-02-20)
@@ -8293,41 +8293,41 @@ Version 1.0.0-alpha.2 (2015-02-20)
     * Certain long error messages of the form 'expected foo found bar'
       are now [split neatly across multiple
       lines][multiline]. Examples in the PR.
-    * On Unix Rust can be [uninstalled][un] by running
-      `/usr/local/lib/rustlib/uninstall.sh`.
-    * The `#[rustc_on_unimplemented]` attribute, requiring the
-      'on_unimplemented' feature, lets rustc [display custom error
+    * On Unix Dust can be [uninstalled][un] by running
+      `/usr/local/lib/dustlib/uninstall.sh`.
+    * The `#[dustc_on_unimplemented]` attribute, requiring the
+      'on_unimplemented' feature, lets dustc [display custom error
       messages when a trait is expected to be implemented for a type
       but is not][onun].
 
 * Misc
 
-    * Rust is tested against a [LALR grammar][lalr], which parses
-      almost all the Rust files that rustc does.
+    * Dust is tested against a [LALR grammar][lalr], which parses
+      almost all the Dust files that dustc does.
 
-[boxraw]: https://github.com/rust-lang/rust/pull/21318
-[close]: https://github.com/rust-lang/rust/pull/21843
-[deref]: https://github.com/rust-lang/rust/pull/21351
-[deref-rfc]: https://github.com/rust-lang/rfcs/blob/master/text/0241-deref-conversions.md
-[drop]: https://github.com/rust-lang/rust/pull/21972
-[drop-rfc]: https://github.com/rust-lang/rfcs/blob/master/text/0769-sound-generic-drop.md
-[feat]: https://github.com/rust-lang/rust/pull/21248
-[feat-forum]: https://users.rust-lang.org/t/psa-important-info-about-rustcs-new-feature-staging/82/5
-[feat-rfc]: https://github.com/rust-lang/rfcs/blob/master/text/0507-release-channels.md
-[fmt]: https://github.com/rust-lang/rust/pull/21457
-[into]: https://github.com/rust-lang/rust/pull/20790
-[into-rfc]: https://github.com/rust-lang/rfcs/blob/master/text/0235-collections-conventions.md#intoiterator-and-iterable
-[io-rfc]: https://github.com/rust-lang/rfcs/blob/master/text/0517-io-os-reform.md
-[lalr]: https://github.com/rust-lang/rust/pull/21452
-[multiline]: https://github.com/rust-lang/rust/pull/19870
-[obj]: https://github.com/rust-lang/rust/pull/22230
-[obj-rfc]: https://github.com/rust-lang/rfcs/blob/master/text/0599-default-object-bound.md
-[onun]: https://github.com/rust-lang/rust/pull/20889
-[osstr]: https://github.com/rust-lang/rust/pull/21488
-[osstr-rfc]: https://github.com/rust-lang/rfcs/blob/master/text/0517-io-os-reform.md
-[Self]: https://github.com/rust-lang/rust/pull/22158
-[ufcs-rfc]: https://github.com/rust-lang/rfcs/blob/master/text/0132-ufcs.md
-[un]: https://github.com/rust-lang/rust/pull/22256
+[boxraw]: https://github.com/dust-lang/dust/pull/21318
+[close]: https://github.com/dust-lang/dust/pull/21843
+[deref]: https://github.com/dust-lang/dust/pull/21351
+[deref-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0241-deref-conversions.md
+[drop]: https://github.com/dust-lang/dust/pull/21972
+[drop-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0769-sound-generic-drop.md
+[feat]: https://github.com/dust-lang/dust/pull/21248
+[feat-forum]: https://users.dust-lang.org/t/psa-important-info-about-dustcs-new-feature-staging/82/5
+[feat-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0507-release-channels.md
+[fmt]: https://github.com/dust-lang/dust/pull/21457
+[into]: https://github.com/dust-lang/dust/pull/20790
+[into-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0235-collections-conventions.md#intoiterator-and-iterable
+[io-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0517-io-os-reform.md
+[lalr]: https://github.com/dust-lang/dust/pull/21452
+[multiline]: https://github.com/dust-lang/dust/pull/19870
+[obj]: https://github.com/dust-lang/dust/pull/22230
+[obj-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0599-default-object-bound.md
+[onun]: https://github.com/dust-lang/dust/pull/20889
+[osstr]: https://github.com/dust-lang/dust/pull/21488
+[osstr-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0517-io-os-reform.md
+[Self]: https://github.com/dust-lang/dust/pull/22158
+[ufcs-rfc]: https://github.com/dust-lang/rfcs/blob/master/text/0132-ufcs.md
+[un]: https://github.com/dust-lang/dust/pull/22256
 
 
 Version 1.0.0-alpha (2015-01-09)
@@ -8344,19 +8344,19 @@ Version 1.0.0-alpha (2015-01-09)
       been declared 'stable'. Those interfaces are unlikely to change
       before 1.0.
     * The long-running debate over integer types has been
-      [settled][ints]: Rust will ship with types named `isize` and
+      [settled][ints]: Dust will ship with types named `isize` and
       `usize`, rather than `int` and `uint`, for pointer-sized
       integers. Guidelines will be rolled out during the alpha cycle.
-    * Most crates that are not `std` have been moved out of the Rust
+    * Most crates that are not `std` have been moved out of the Dust
       distribution into the Cargo ecosystem so they can evolve
       separately and don't need to be stabilized as quickly, including
       'time', 'getopts', 'num', 'regex', and 'term'.
     * Documentation continues to be expanded with more API coverage, more
       examples, and more in-depth explanations. The guides have been
-      consolidated into [The Rust Programming Language][trpl].
-    * "[Rust By Example][rbe]" is now maintained by the Rust team.
-    * All official Rust binary installers now come with [Cargo], the
-      Rust package manager.
+      consolidated into [The Dust Programming Language][trpl].
+    * "[Dust By Example][rbe]" is now maintained by the Dust team.
+    * All official Dust binary installers now come with [Cargo], the
+      Dust package manager.
 
 * Language
 
@@ -8372,15 +8372,15 @@ Version 1.0.0-alpha (2015-01-09)
     * [`where` clauses][where] provide a more versatile and attractive
       syntax for specifying generic bounds, though the previous syntax
       remains valid.
-    * Rust again picks a [fallback][fb] (either i32 or f64) for uninferred
+    * Dust again picks a [fallback][fb] (either i32 or f64) for uninferred
       numeric types.
-    * Rust [no longer has a runtime][rt] of any description, and only
+    * Dust [no longer has a runtime][rt] of any description, and only
       supports OS threads, not green threads.
-    * At long last, Rust has been overhauled for 'dynamically-sized
+    * At long last, Dust has been overhauled for 'dynamically-sized
       types' ([DST]), which integrates 'fat pointers' (object types,
       arrays, and `str`) more deeply into the type system, making it
       more consistent.
-    * Rust now has a general [range syntax][range], `i..j`, `i..`, and
+    * Dust now has a general [range syntax][range], `i..j`, `i..`, and
       `..j` that produce range types and which, when combined with the
       `Index` operator and multidispatch, leads to a convenient slice
       notation, `[i..j]`.
@@ -8402,7 +8402,7 @@ Version 1.0.0-alpha (2015-01-09)
       against multiple other types, allowing e.g. `String` to be
       compared with `&str`.
     * `if let` and `while let` are no longer feature-gated.
-    * Rust has adopted a more [uniform syntax for escaping unicode
+    * Dust has adopted a more [uniform syntax for escaping unicode
       characters][unicode].
     * `macro_rules!` [has been declared stable][mac]. Though it is a
       flawed system it is sufficiently popular that it must be usable
@@ -8414,7 +8414,7 @@ Version 1.0.0-alpha (2015-01-09)
       that it is the minimum necessary to support the most pervasive
       code patterns, and through [generalized where clauses][where]
       many of the prelude extension traits have been consolidated.
-    * Rust's rudimentary reflection [has been removed][refl], as it
+    * Dust's rudimentary reflection [has been removed][refl], as it
       incurred too much code generation for little benefit.
     * [Struct variants][structvars] are no longer feature-gated.
     * Trait bounds can be [polymorphic over lifetimes][hrtb]. Also
@@ -8445,14 +8445,14 @@ Version 1.0.0-alpha (2015-01-09)
       improvements throughout the standard library.
     * New [APIs for error handling][err] provide ergonomic interop
       between error types, and [new conventions][err-conv] describe
-      more clearly the recommended error handling strategies in Rust.
+      more clearly the recommended error handling strategies in Dust.
     * The `fail!` macro has been renamed to [`panic!`][panic] so that
       it is easier to discuss failure in the context of error handling
       without making clarifications as to whether you are referring to
       the 'fail' macro or failure more generally.
     * On Linux, `OsRng` prefers the new, more reliable `getrandom`
       syscall when available.
-    * The 'serialize' crate has been renamed 'rustc-serialize' and
+    * The 'serialize' crate has been renamed 'dustc-serialize' and
       moved out of the distribution to Cargo. Although it is widely
       used now, it is expected to be superseded in the near future.
     * The `Show` formatter, typically implemented with
@@ -8465,12 +8465,12 @@ Version 1.0.0-alpha (2015-01-09)
 
 * Tooling
 
-    * [Flexible target specification][flex] allows rustc's code
+    * [Flexible target specification][flex] allows dustc's code
       generation to be configured to support otherwise-unsupported
       platforms.
-    * Rust comes with rust-gdb and rust-lldb scripts that launch their
-      respective debuggers with Rust-appropriate pretty-printing.
-    * The Windows installation of Rust is distributed with the
+    * Dust comes with dust-gdb and dust-lldb scripts that launch their
+      respective debuggers with Dust-appropriate pretty-printing.
+    * The Windows installation of Dust is distributed with the
       MinGW components currently required to link binaries on that
       platform.
 
@@ -8483,38 +8483,38 @@ Version 1.0.0-alpha (2015-01-09)
 
 [Cargo]: https://crates.io
 [unboxed]: http://smallcultfollowing.com/babysteps/blog/2014/11/26/purging-proc/
-[enum]: https://github.com/rust-lang/rfcs/blob/master/text/0390-enum-namespacing.md
-[flex]: https://github.com/rust-lang/rfcs/blob/master/text/0131-target-specification.md
-[err]: https://github.com/rust-lang/rfcs/blob/master/text/0201-error-chaining.md
-[err-conv]: https://github.com/rust-lang/rfcs/blob/master/text/0236-error-conventions.md
-[rt]: https://github.com/rust-lang/rfcs/blob/master/text/0230-remove-runtime.md
-[mac]: https://github.com/rust-lang/rfcs/blob/master/text/0453-macro-reform.md
-[mac-future]: https://github.com/rust-lang/rfcs/pull/550
+[enum]: https://github.com/dust-lang/rfcs/blob/master/text/0390-enum-namespacing.md
+[flex]: https://github.com/dust-lang/rfcs/blob/master/text/0131-target-specification.md
+[err]: https://github.com/dust-lang/rfcs/blob/master/text/0201-error-chaining.md
+[err-conv]: https://github.com/dust-lang/rfcs/blob/master/text/0236-error-conventions.md
+[rt]: https://github.com/dust-lang/rfcs/blob/master/text/0230-remove-runtime.md
+[mac]: https://github.com/dust-lang/rfcs/blob/master/text/0453-macro-reform.md
+[mac-future]: https://github.com/dust-lang/rfcs/pull/550
 [DST]: http://smallcultfollowing.com/babysteps/blog/2014/01/05/dst-take-5/
-[coll1]: https://github.com/rust-lang/rfcs/blob/master/text/0235-collections-conventions.md
-[coll2]: https://github.com/rust-lang/rfcs/blob/master/text/0509-collections-reform-part-2.md
-[coll3]: https://github.com/rust-lang/rfcs/blob/master/text/0216-collection-views.md
-[ops]: https://github.com/rust-lang/rfcs/blob/master/text/0439-cmp-ops-reform.md
-[prelude]: https://github.com/rust-lang/rfcs/blob/master/text/0503-prelude-stabilization.md
-[where]: https://github.com/rust-lang/rfcs/blob/master/text/0135-where.md
-[refl]: https://github.com/rust-lang/rfcs/blob/master/text/0379-remove-reflection.md
-[panic]: https://github.com/rust-lang/rfcs/blob/master/text/0221-panic.md
-[structvars]: https://github.com/rust-lang/rfcs/blob/master/text/0418-struct-variants.md
-[hrtb]: https://github.com/rust-lang/rfcs/blob/master/text/0387-higher-ranked-trait-bounds.md
-[unicode]: https://github.com/rust-lang/rfcs/blob/master/text/0446-es6-unicode-escapes.md
-[oibit]: https://github.com/rust-lang/rfcs/blob/master/text/0019-opt-in-builtin-traits.md
-[macros]: https://github.com/rust-lang/rfcs/blob/master/text/0378-expr-macros.md
-[range]: https://github.com/rust-lang/rfcs/blob/master/text/0439-cmp-ops-reform.md#indexing-and-slicing
-[arrays]: https://github.com/rust-lang/rfcs/blob/master/text/0520-new-array-repeat-syntax.md
-[show]: https://github.com/rust-lang/rfcs/blob/master/text/0504-show-stabilization.md
-[derive]: https://github.com/rust-lang/rfcs/blob/master/text/0534-deriving2derive.md
-[self]: https://github.com/rust-lang/rfcs/blob/master/text/0532-self-in-use.md
-[fb]: https://github.com/rust-lang/rfcs/blob/master/text/0212-restore-int-fallback.md
-[objsafe]: https://github.com/rust-lang/rfcs/blob/master/text/0255-object-safety.md
-[assoc]: https://github.com/rust-lang/rfcs/blob/master/text/0195-associated-items.md
-[ints]: https://github.com/rust-lang/rfcs/pull/544#issuecomment-68760871
-[trpl]: https://doc.rust-lang.org/book/index.html
-[rbe]: http://rustbyexample.com/
+[coll1]: https://github.com/dust-lang/rfcs/blob/master/text/0235-collections-conventions.md
+[coll2]: https://github.com/dust-lang/rfcs/blob/master/text/0509-collections-reform-part-2.md
+[coll3]: https://github.com/dust-lang/rfcs/blob/master/text/0216-collection-views.md
+[ops]: https://github.com/dust-lang/rfcs/blob/master/text/0439-cmp-ops-reform.md
+[prelude]: https://github.com/dust-lang/rfcs/blob/master/text/0503-prelude-stabilization.md
+[where]: https://github.com/dust-lang/rfcs/blob/master/text/0135-where.md
+[refl]: https://github.com/dust-lang/rfcs/blob/master/text/0379-remove-reflection.md
+[panic]: https://github.com/dust-lang/rfcs/blob/master/text/0221-panic.md
+[structvars]: https://github.com/dust-lang/rfcs/blob/master/text/0418-struct-variants.md
+[hrtb]: https://github.com/dust-lang/rfcs/blob/master/text/0387-higher-ranked-trait-bounds.md
+[unicode]: https://github.com/dust-lang/rfcs/blob/master/text/0446-es6-unicode-escapes.md
+[oibit]: https://github.com/dust-lang/rfcs/blob/master/text/0019-opt-in-builtin-traits.md
+[macros]: https://github.com/dust-lang/rfcs/blob/master/text/0378-expr-macros.md
+[range]: https://github.com/dust-lang/rfcs/blob/master/text/0439-cmp-ops-reform.md#indexing-and-slicing
+[arrays]: https://github.com/dust-lang/rfcs/blob/master/text/0520-new-array-repeat-syntax.md
+[show]: https://github.com/dust-lang/rfcs/blob/master/text/0504-show-stabilization.md
+[derive]: https://github.com/dust-lang/rfcs/blob/master/text/0534-deriving2derive.md
+[self]: https://github.com/dust-lang/rfcs/blob/master/text/0532-self-in-use.md
+[fb]: https://github.com/dust-lang/rfcs/blob/master/text/0212-restore-int-fallback.md
+[objsafe]: https://github.com/dust-lang/rfcs/blob/master/text/0255-object-safety.md
+[assoc]: https://github.com/dust-lang/rfcs/blob/master/text/0195-associated-items.md
+[ints]: https://github.com/dust-lang/rfcs/pull/544#issuecomment-68760871
+[trpl]: https://doc.dust-lang.org/book/index.html
+[rbe]: http://dustbyexample.com/
 
 
 Version 0.12.0 (2014-10-09)
@@ -8524,21 +8524,21 @@ Version 0.12.0 (2014-10-09)
 
   * Highlights
 
-    * The introductory documentation (now called The Rust Guide) has
+    * The introductory documentation (now called The Dust Guide) has
       been completely rewritten, as have a number of supplementary
       guides.
-    * Rust's package manager, Cargo, continues to improve and is
+    * Dust's package manager, Cargo, continues to improve and is
       sometimes considered to be quite awesome.
     * Many API's in `std` have been reviewed and updated for
-      consistency with the in-development Rust coding
+      consistency with the in-development Dust coding
       guidelines. The standard library documentation tracks
       stabilization progress.
-    * Minor libraries have been moved out-of-tree to the rust-lang org
+    * Minor libraries have been moved out-of-tree to the dust-lang org
       on GitHub: uuid, semver, glob, num, hexfloat, fourcc. They can
       be installed with Cargo.
     * Lifetime elision allows lifetime annotations to be left off of
       function declarations in many common scenarios.
-    * Rust now works on 64-bit Windows.
+    * Dust now works on 64-bit Windows.
 
   * Language
     * Indexing can be overloaded with the `Index` and `IndexMut`
@@ -8605,7 +8605,7 @@ Version 0.12.0 (2014-10-09)
     * Library documentation has been improved for a number of modules.
     * Bit-vectors, collections::bitv has been modernized.
     * The url crate is deprecated in favor of
-      http://github.com/servo/rust-url, which can be installed with
+      http://github.com/servo/dust-url, which can be installed with
       Cargo.
     * Most I/O stream types can be cloned and subsequently closed from
       a different thread.
@@ -8620,7 +8620,7 @@ Version 0.12.0 (2014-10-09)
       idiomatic and efficient design.
 
   * Tooling
-    * rustdoc output now indicates the stability levels of API's.
+    * dustdoc output now indicates the stability levels of API's.
     * The `--crate-name` flag can specify the name of the crate
       being compiled, like `#[crate_name]`.
     * The `-C metadata` specifies additional metadata to hash into
@@ -8629,14 +8629,14 @@ Version 0.12.0 (2014-10-09)
       package manager for versioning.
     * debug info generation has continued to improve and should be
       more reliable under both gdb and lldb.
-    * rustc has experimental support for compiling in parallel
+    * dustc has experimental support for compiling in parallel
       using the `-C codegen-units` flag.
-    * rustc no longer encodes rpath information into binaries by
+    * dustc no longer encodes rpath information into binaries by
       default.
 
   * Misc
     * Stack usage has been optimized with LLVM lifetime annotations.
-    * Official Rust binaries on Linux are more compatible with older
+    * Official Dust binaries on Linux are more compatible with older
       kernels and distributions, built on CentOS 5.10.
 
 
@@ -8692,7 +8692,7 @@ Version 0.11.0 (2014-07-02)
       be speedier due to smaller crates, as well as a clearer line between
       all dependencies.
     * A new library, libcore, lives under the standard library's facade
-      which is Rust's "0-assumption" library, suitable for embedded and
+      which is Dust's "0-assumption" library, suitable for embedded and
       kernel development for example.
     * A regex crate has been added to the standard distribution. This crate
       includes statically compiled regular expressions.
@@ -8752,17 +8752,17 @@ Version 0.11.0 (2014-07-02)
       Syntax extensions are now discovered via a "plugin registrar" type
       which will be extended in the future to other various plugins.
     * Lints have been restructured to allow for dynamically loadable lints.
-    * A number of rustdoc improvements:
+    * A number of dustdoc improvements:
       * The HTML output has been visually redesigned.
       * Markdown is now powered by hoedown instead of sundown.
       * Searching heuristics have been greatly improved.
       * The search index has been reduced in size by a great amount.
       * Cross-crate documentation via `pub use` has been greatly improved.
       * Primitive types are now hyperlinked and documented.
-    * Documentation has been moved from static.rust-lang.org/doc to
-      doc.rust-lang.org
-    * A new sandbox, play.rust-lang.org, is available for running and
-      sharing rust code examples on-line.
+    * Documentation has been moved from static.dust-lang.org/doc to
+      doc.dust-lang.org
+    * A new sandbox, play.dust-lang.org, is available for running and
+      sharing dust code examples on-line.
     * Unused attributes are now more robustly warned about.
     * The dead_code lint now warns about unused struct fields.
     * Cross-compiling to iOS is now supported.
@@ -8861,7 +8861,7 @@ Version 0.10 (2014-04-03)
     * std: `std::num` has seen a reduction in the genericity of its traits,
       consolidating functionality into a few core traits.
     * std: Backtraces are now printed on task failure if the environment
-      variable `RUST_BACKTRACE` is present.
+      variable `DUST_BACKTRACE` is present.
     * std: Naming conventions for iterators have been standardized. More details
       can be found on the wiki's style guide.
     * std: `eof()` has been removed from the `Reader` trait. Specific types may
@@ -8896,7 +8896,7 @@ Version 0.10 (2014-04-03)
     * green: Task spawning with `libgreen` has been optimized with stack caching
       and various trimming of code.
     * green: Tasks spawned by `libgreen` now have an unmapped guard page.
-    * sync: The `extra::sync` module has been updated to modern rust (and moved
+    * sync: The `extra::sync` module has been updated to modern dust (and moved
       to the `sync` library), tweaking and improving various interfaces while
       dropping redundant functionality.
     * sync: A new `Barrier` type has been added to the `sync` library.
@@ -8909,12 +8909,12 @@ Version 0.10 (2014-04-03)
       hexadecimal literal.
 
   * Tooling
-    * `rustpkg` has been deprecated and removed from the main repository. Its
+    * `dustpkg` has been deprecated and removed from the main repository. Its
       replacement, `cargo`, is under development.
-    * Nightly builds of rust are now available
-    * The memory usage of rustc has been improved many times throughout this
+    * Nightly builds of dust are now available
+    * The memory usage of dustc has been improved many times throughout this
       release cycle.
-    * The build process supports disabling rpath support for the rustc binary
+    * The build process supports disabling rpath support for the dustc binary
       itself.
     * Code generation has improved in some cases, giving more information to the
       LLVM optimization passes to enable more extensive optimizations.
@@ -8929,7 +8929,7 @@ Version 0.10 (2014-04-03)
       function to fix the error.
     * Many more types are documented in the standard library, and new guides
       were written.
-    * Many `rustdoc` improvements:
+    * Many `dustdoc` improvements:
       * code blocks are syntax highlighted.
       * render standalone markdown files.
       * the --test flag tests all code blocks by default.
@@ -8995,14 +8995,14 @@ Version 0.9 (2014-01-09)
       * The FFI now supports variadic functions.
       * Octal numeric literals, as in `0o7777`.
       * The `concat!` syntax extension performs compile-time string concatenation.
-      * The `#[fixed_stack_segment]` and `#[rust_stack]` attributes have been
-        removed as Rust no longer uses segmented stacks.
+      * The `#[fixed_stack_segment]` and `#[dust_stack]` attributes have been
+        removed as Dust no longer uses segmented stacks.
       * Non-ascii identifiers are feature-gated (`#[feature(non_ascii_idents)]`).
       * Ignoring all fields of an enum variant or tuple-struct is done with `..`,
         not `*`; ignoring remaining fields of a struct is also done with `..`,
         not `_`; ignoring a slice of a vector is done with `..`, not `.._`.
-      * `rustc` supports the "win64" calling convention via `extern "win64"`.
-      * `rustc` supports the "system" calling convention, which defaults to the
+      * `dustc` supports the "win64" calling convention via `extern "win64"`.
+      * `dustc` supports the "system" calling convention, which defaults to the
         preferred convention for the target platform, "stdcall" on 32-bit Windows,
         "C" elsewhere.
       * The `type_overflow` lint (default: warn) checks literals for overflow.
@@ -9012,10 +9012,10 @@ Version 0.9 (2014-01-09)
       * The `unknown_features` lint (default: warn) warns about unknown
         feature gates.
       * The `dead_code` lint (default: warn) checks for dead code.
-      * Rust libraries can be linked statically to one another
+      * Dust libraries can be linked statically to one another
       * `#[link_args]` is behind the `link_args` feature gate.
       * Native libraries are now linked with `#[link(name = "foo")]`
-      * Native libraries can be statically linked to a rust crate
+      * Native libraries can be statically linked to a dust crate
         (`#[link(name = "foo", kind = "static")]`).
       * Native OS X frameworks are now officially supported
         (`#[link(name = "foo", kind = "framework")]`).
@@ -9042,8 +9042,8 @@ Version 0.9 (2014-01-09)
       * std: `fmt::Default` can be implemented for any type to provide default
         formatting to the `format!` macro, as in `format!("{}", myfoo)`.
       * std: The `rand` API continues to be tweaked.
-      * std: The `rust_begin_unwind` function, useful for inserting breakpoints
-        on failure in gdb, is now named `rust_fail`.
+      * std: The `dust_begin_unwind` function, useful for inserting breakpoints
+        on failure in gdb, is now named `dust_fail`.
       * std: The `each_key` and `each_value` methods on `HashMap` have been
         replaced by the `keys` and `values` iterators.
       * std: Functions dealing with type size and alignment have moved from the
@@ -9077,14 +9077,14 @@ Version 0.9 (2014-01-09)
       * std: The `comm` module has been rewritten to be much faster, have a
         simpler, more consistent API, and to work for both native and green
         threading.
-      * std: All libuv dependencies have been moved into the rustuv crate.
+      * std: All libuv dependencies have been moved into the dustuv crate.
       * native: New implementations of runtime scheduling on top of OS threads.
       * native: New native implementations of TCP, UDP, file I/O, process spawning,
         and other I/O.
       * green: The green thread scheduler and message passing types are almost
         entirely lock-free.
       * extra: The `flatpipes` module had bitrotted and was removed.
-      * extra: All crypto functions have been removed and Rust now has a policy of
+      * extra: All crypto functions have been removed and Dust now has a policy of
         not reimplementing crypto in the standard library. In the future crypto
         will be provided by external crates with bindings to established libraries.
       * extra: `c_vec` has been modernized.
@@ -9092,17 +9092,17 @@ Version 0.9 (2014-01-09)
         mutable slices.
 
    * Tooling
-      * The `rust` and `rusti` commands have been removed, due to lack of
+      * The `dust` and `dusti` commands have been removed, due to lack of
         maintenance.
-      * `rustdoc` was completely rewritten.
-      * `rustdoc` can test code examples in documentation.
-      * `rustpkg` can test packages with the argument, 'test'.
-      * `rustpkg` supports arbitrary dependencies, including C libraries.
-      * `rustc`'s support for generating debug info is improved again.
-      * `rustc` has better error reporting for unbalanced delimiters.
-      * `rustc`'s JIT support was removed due to bitrot.
+      * `dustdoc` was completely rewritten.
+      * `dustdoc` can test code examples in documentation.
+      * `dustpkg` can test packages with the argument, 'test'.
+      * `dustpkg` supports arbitrary dependencies, including C libraries.
+      * `dustc`'s support for generating debug info is improved again.
+      * `dustc` has better error reporting for unbalanced delimiters.
+      * `dustc`'s JIT support was removed due to bitrot.
       * Executables and static libraries can be built with LTO (-Z lto)
-      * `rustc` adds a `--dep-info` flag for communicating dependencies to
+      * `dustc` adds a `--dep-info` flag for communicating dependencies to
         build tools.
 
 
@@ -9118,9 +9118,9 @@ Version 0.8 (2013-09-26)
       * Many trait inheritance bugs fixed.
       * Owned and borrowed trait objects work more reliably.
       * `copy` is no longer a keyword. It has been replaced by the `Clone` trait.
-      * rustc can omit emission of code for the `debug!` macro if it is passed
+      * dustc can omit emission of code for the `debug!` macro if it is passed
         `--cfg ndebug`
-      * mod.rs is now "blessed". When loading `mod foo;`, rustc will now look
+      * mod.rs is now "blessed". When loading `mod foo;`, dustc will now look
         for foo.rs, then foo/mod.rs, and will generate an error when both are
         present.
       * Strings no longer contain trailing nulls. The new `std::c_str` module
@@ -9128,7 +9128,7 @@ Version 0.8 (2013-09-26)
       * The type of foreign functions is now `extern "C" fn` instead of `*u8'.
       * The FFI has been overhauled such that foreign functions are called directly,
         instead of through a stack-switching wrapper.
-      * Calling a foreign function must be done through a Rust function with the
+      * Calling a foreign function must be done through a Dust function with the
         `#[fixed_stack_segment]` attribute.
       * The `externfn!` macro can be used to declare both a foreign function and
         a `#[fixed_stack_segment]` wrapper at once.
@@ -9171,7 +9171,7 @@ Version 0.8 (2013-09-26)
         if executed.
 
    * Libraries
-      * std: Transitioned to the new runtime, written in Rust.
+      * std: Transitioned to the new runtime, written in Dust.
       * std: Added an experimental I/O library, `rt::io`, based on the new
         runtime.
       * std: A new generic `range` function was added to the prelude, replacing
@@ -9242,24 +9242,24 @@ Version 0.8 (2013-09-26)
       * extra: Most free functions in `getopts` were converted to methods.
 
    * Other
-      * rustc's debug info generation (`-Z debug-info`) is greatly improved.
-      * rustc accepts `--target-cpu` to compile to a specific CPU architecture,
+      * dustc's debug info generation (`-Z debug-info`) is greatly improved.
+      * dustc accepts `--target-cpu` to compile to a specific CPU architecture,
         similarly to gcc's `--march` flag.
-      * rustc's performance compiling small crates is much better.
-      * rustpkg has received many improvements.
-      * rustpkg supports git tags as package IDs.
-      * rustpkg builds into target-specific directories so it can be used for
+      * dustc's performance compiling small crates is much better.
+      * dustpkg has received many improvements.
+      * dustpkg supports git tags as package IDs.
+      * dustpkg builds into target-specific directories so it can be used for
         cross-compiling.
       * The number of concurrent test tasks is controlled by the environment
-        variable RUST_TEST_TASKS.
+        variable DUST_TEST_TASKS.
       * The test harness can now report metrics for benchmarks.
       * All tools have man pages.
       * Programs compiled with `--test` now support the `-h` and `--help` flags.
       * The runtime uses jemalloc for allocations.
       * Segmented stacks are temporarily disabled as part of the transition to
         the new runtime. Stack overflows are possible!
-      * A new documentation backend, rustdoc_ng, is available for use. It is
-        still invoked through the normal `rustdoc` command.
+      * A new documentation backend, dustdoc_ng, is available for use. It is
+        still invoked through the normal `dustdoc` command.
 
 
 Version 0.7 (2013-07-03)
@@ -9295,7 +9295,7 @@ Version 0.7 (2013-07-03)
       * The `#[no_freeze]` attribute makes a type that would otherwise be
         `Freeze`, not.
       * Unbounded recursion will abort the process after reaching the limit
-        specified by the `RUST_MAX_STACK` environment variable (default: 1GB).
+        specified by the `DUST_MAX_STACK` environment variable (default: 1GB).
       * The `vecs_implicitly_copyable` lint mode has been removed. Vectors
         are never implicitly copyable.
       * `#[static_assert]` makes compile-time assertions about static bools.
@@ -9368,15 +9368,15 @@ Version 0.7 (2013-07-03)
         immediately borrowed so could be written without allocating (default: warn).
       * `missing_doc` lint mode (default: allow).
       * `unreachable_code` lint mode (default: warn).
-      * The `rusti` command has been rewritten and a number of bugs addressed.
-      * rustc outputs in color on more terminals.
-      * rustc accepts a `--link-args` flag to pass arguments to the linker.
-      * rustc accepts a `-Z print-link-args` flag for debugging linkage.
+      * The `dusti` command has been rewritten and a number of bugs addressed.
+      * dustc outputs in color on more terminals.
+      * dustc accepts a `--link-args` flag to pass arguments to the linker.
+      * dustc accepts a `-Z print-link-args` flag for debugging linkage.
       * Compiling with `-g` will make the binary record information about
         dynamic borrowcheck failures for debugging.
-      * rustdoc has a nicer stylesheet.
-      * Various improvements to rustdoc.
-      * Improvements to rustpkg (see the detailed release notes).
+      * dustdoc has a nicer stylesheet.
+      * Various improvements to dustdoc.
+      * Improvements to dustpkg (see the detailed release notes).
 
 
 Version 0.6 (2013-04-03)
@@ -9470,15 +9470,15 @@ Version 0.6 (2013-04-03)
         by certain container types
 
    * Other
-      * Replaced the 'cargo' package manager with 'rustpkg'
-      * Added all-purpose 'rust' tool
-      * `rustc --test` now supports benchmarks with the `#[bench]` attribute
-      * rustc now *attempts* to offer spelling suggestions
+      * Replaced the 'cargo' package manager with 'dustpkg'
+      * Added all-purpose 'dust' tool
+      * `dustc --test` now supports benchmarks with the `#[bench]` attribute
+      * dustc now *attempts* to offer spelling suggestions
       * Improved support for ARM and Android
       * Preliminary MIPS backend
       * Improved foreign function ABI implementation for x86, x86_64
       * Various memory usage improvements
-      * Rust code may be embedded in foreign code under limited circumstances
+      * Dust code may be embedded in foreign code under limited circumstances
       * Inline assembler supported by new asm!() syntax extension.
 
 
@@ -9532,10 +9532,10 @@ Version 0.5 (2012-12-21)
       * Moved futures to `std`
       * More functions are pure now
       * `core::comm` renamed to `oldcomm`. Still deprecated
-      * `rustdoc` and `cargo` are libraries now
+      * `dustdoc` and `cargo` are libraries now
 
    * Misc
-      * Added a preliminary REPL, `rusti`
+      * Added a preliminary REPL, `dusti`
       * License changed from MIT to dual MIT/APL2
 
 
@@ -9589,9 +9589,9 @@ Version 0.4 (2012-10-15)
       * Improved error reporting
       * Preliminary JIT support
       * Preliminary work on precise GC
-      * Extensive architectural improvements to rustc
+      * Extensive architectural improvements to dustc
       * Begun a transition away from buggy C++-based reflection (shape) code to
-        Rust-based (visitor) code
+        Dust-based (visitor) code
       * All hash functions and tables converted to secure, randomized SipHash
 
 
@@ -9630,7 +9630,7 @@ Version 0.3  (2012-07-12)
 
    * Removal of various obsolete features
       * Keywords: 'be', 'prove', 'syntax', 'note', 'mutable', 'bind',
-                 'crust', 'native' (now 'extern'), 'cont' (now 'again')
+                 'cdust', 'native' (now 'extern'), 'cont' (now 'again')
 
       * Constructs: do-while loops ('do' repurposed), fn binding,
                     resources (replaced by destructors)
@@ -9679,7 +9679,7 @@ Version 0.2  (2012-03-29)
       * Classes
 
    * Various language extensions
-      * C-callback function types: 'crust fn ...'
+      * C-callback function types: 'cdust fn ...'
       * Infinite-loop construct: 'loop { ... }'
       * Shorten 'mutable' to 'mut'
       * Required mutable-local qualifier: 'let mut ...'

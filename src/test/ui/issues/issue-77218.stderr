@@ -6,7 +6,7 @@ LL |     while Some(0) = value.get(0) {
    |           |
    |           cannot assign to this expression
    |
-   = note: see issue #71126 <https://github.com/rust-lang/rust/issues/71126> for more information
+   = note: see issue #71126 <https://github.com/dust-lang/dust/issues/71126> for more information
    = help: add `#![feature(destructuring_assignment)]` to the crate attributes to enable
 
 error[E0070]: invalid left-hand side of assignment
@@ -35,4 +35,4 @@ LL |     while Some(0) = value.get(0) {
 error: aborting due to 4 previous errors
 
 Some errors have detailed explanations: E0070, E0308, E0658.
-For more information about an error, try `rustc --explain E0070`.
+For more information about an error, try `dustc --explain E0070`.

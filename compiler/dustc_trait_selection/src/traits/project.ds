@@ -19,17 +19,17 @@ use super::{Normalized, NormalizedTy, ProjectionCacheEntry, ProjectionCacheKey};
 use crate::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
 use crate::infer::{InferCtxt, InferOk, LateBoundRegionConversionTime};
 use crate::traits::error_reporting::InferCtxtExt;
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_errors::ErrorReported;
-use rustc_hir::def_id::DefId;
-use rustc_hir::lang_items::LangItem;
-use rustc_infer::infer::resolve::OpportunisticRegionResolver;
-use rustc_middle::ty::fold::{TypeFoldable, TypeFolder};
-use rustc_middle::ty::subst::Subst;
-use rustc_middle::ty::{self, ToPolyTraitRef, ToPredicate, Ty, TyCtxt, WithConstness};
-use rustc_span::symbol::sym;
+use dustc_data_structures::stack::ensure_sufficient_stack;
+use dustc_errors::ErrorReported;
+use dustc_hir::def_id::DefId;
+use dustc_hir::lang_items::LangItem;
+use dustc_infer::infer::resolve::OpportunisticRegionResolver;
+use dustc_middle::ty::fold::{TypeFoldable, TypeFolder};
+use dustc_middle::ty::subst::Subst;
+use dustc_middle::ty::{self, ToPolyTraitRef, ToPredicate, Ty, TyCtxt, WithConstness};
+use dustc_span::symbol::sym;
 
-pub use rustc_middle::traits::Reveal;
+pub use dustc_middle::traits::Reveal;
 
 pub type PolyProjectionObligation<'tcx> = Obligation<'tcx, ty::PolyProjectionPredicate<'tcx>>;
 
@@ -988,7 +988,7 @@ fn assemble_candidates_from_impls<'cx, 'tcx>(
                 // type.
                 //
                 // NOTE: This should be kept in sync with the similar code in
-                // `rustc_ty_utils::instance::resolve_associated_item()`.
+                // `dustc_ty_utils::instance::resolve_associated_item()`.
                 let node_item =
                     assoc_ty_def(selcx, impl_data.impl_def_id, obligation.predicate.item_def_id)
                         .map_err(|ErrorReported| ())?;

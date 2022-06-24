@@ -1,17 +1,17 @@
-use rustc_hir::def_id::DefId;
-use rustc_middle::ty::{self, Ty, TyVid};
-use rustc_span::symbol::Symbol;
-use rustc_span::Span;
+use dustc_hir::def_id::DefId;
+use dustc_middle::ty::{self, Ty, TyVid};
+use dustc_span::symbol::Symbol;
+use dustc_span::Span;
 
 use crate::infer::InferCtxtUndoLogs;
 
-use rustc_data_structures::snapshot_vec as sv;
-use rustc_data_structures::unify as ut;
+use dustc_data_structures::snapshot_vec as sv;
+use dustc_data_structures::unify as ut;
 use std::cmp;
 use std::marker::PhantomData;
 use std::ops::Range;
 
-use rustc_data_structures::undo_log::{Rollback, UndoLogs};
+use dustc_data_structures::undo_log::{Rollback, UndoLogs};
 
 /// Represents a single undo-able action that affects a type inference variable.
 pub(crate) enum UndoLog<'tcx> {
@@ -80,7 +80,7 @@ pub struct TypeVariableStorage<'tcx> {
     /// process the `Box<?3> <: ?1` constraint, we do an occurs check
     /// on `Box<?3>` and find a potential cycle.
     ///
-    /// This is reasonable because, in Rust, subtypes have the same
+    /// This is reasonable because, in Dust, subtypes have the same
     /// "skeleton" and hence there is no possible type such that
     /// (e.g.)  `Box<?3> <: ?3` for any `?3`.
     sub_relations: ut::UnificationTableStorage<ty::TyVid>,
@@ -232,7 +232,7 @@ impl<'tcx> TypeVariableTable<'_, 'tcx> {
     /// - `diverging`: indicates if this is a "diverging" type
     ///   variable, e.g.,  one created as the type of a `return`
     ///   expression. The code in this module doesn't care if a
-    ///   variable is diverging, but the main Rust type-checker will
+    ///   variable is diverging, but the main Dust type-checker will
     ///   sometimes "unify" such variables with the `!` or `()` types.
     /// - `origin`: indicates *why* the type variable was created.
     ///   The code in this module doesn't care, but it can be useful

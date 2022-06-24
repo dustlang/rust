@@ -5,7 +5,7 @@ LL | #![cfg_attr(full_tait, feature(type_alias_impl_trait))]
    |                                ^^^^^^^^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #63063 <https://github.com/rust-lang/rust/issues/63063> for more information
+   = note: see issue #63063 <https://github.com/dust-lang/dust/issues/63063> for more information
 
 error[E0277]: the trait bound `T: Clone` is not satisfied
   --> $DIR/bounds-are-checked-2.rs:9:13
@@ -20,4 +20,4 @@ LL | type X<T: Clone> = impl Clone;
 
 error: aborting due to previous error; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

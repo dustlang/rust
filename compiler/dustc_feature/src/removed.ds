@@ -1,7 +1,7 @@
 //! List of the removed feature gates.
 
 use super::{to_nonzero, Feature, State};
-use rustc_span::symbol::sym;
+use dustc_span::symbol::sym;
 
 macro_rules! declare_features {
     ($(
@@ -41,7 +41,7 @@ macro_rules! declare_features {
     };
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 declare_features! (
     // -------------------------------------------------------------------------
     // feature-group-start: removed features
@@ -111,9 +111,9 @@ declare_features! (
     /// + `__diagnostic_used`
     /// + `__register_diagnostic`
     /// +`__build_diagnostic_array`
-    (removed, rustc_diagnostic_macros, "1.38.0", None, None, None),
+    (removed, dustc_diagnostic_macros, "1.38.0", None, None, None),
     /// Allows using `#[on_unimplemented(..)]` on traits.
-    /// (Moved to `rustc_attrs`.)
+    /// (Moved to `dustc_attrs`.)
     (removed, on_unimplemented, "1.40.0", None, None, None),
     /// Allows overlapping impls of marker traits.
     (removed, overlapping_marker_traits, "1.42.0", Some(29864), None,
@@ -129,7 +129,7 @@ declare_features! (
     // -------------------------------------------------------------------------
 );
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 declare_features! (
     (stable_removed, no_stack_check, "1.0.0", None, None),
 );

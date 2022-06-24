@@ -1,4 +1,4 @@
-#![crate_name = "rustdoc_test"]
+#![crate_name = "dustdoc_test"]
 
 use std::ops::Deref;
 

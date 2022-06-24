@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_interface"
+name = "dustc_interface"
 version = "0.0.0"
 edition = "2018"
 
@@ -10,48 +10,48 @@ doctest = false
 [dependencies]
 libc = "0.2"
 tracing = "0.1"
-rustc-rayon-core = "0.3.1"
-rayon = { version = "0.3.1", package = "rustc-rayon" }
+dustc-rayon-core = "0.3.1"
+rayon = { version = "0.3.1", package = "dustc-rayon" }
 smallvec = { version = "1.6.1", features = ["union", "may_dangle"] }
-rustc_ast = { path = "../rustc_ast" }
-rustc_attr = { path = "../rustc_attr" }
-rustc_builtin_macros = { path = "../rustc_builtin_macros" }
-rustc_expand = { path = "../rustc_expand" }
-rustc_parse = { path = "../rustc_parse" }
-rustc_session = { path = "../rustc_session" }
-rustc_span = { path = "../rustc_span" }
-rustc_serialize = { path = "../rustc_serialize" }
-rustc_middle = { path = "../rustc_middle" }
-rustc_ast_lowering = { path = "../rustc_ast_lowering" }
-rustc_ast_passes = { path = "../rustc_ast_passes" }
-rustc_incremental = { path = "../rustc_incremental" }
-rustc_traits = { path = "../rustc_traits" }
-rustc_data_structures = { path = "../rustc_data_structures" }
-rustc_codegen_ssa = { path = "../rustc_codegen_ssa" }
-rustc_symbol_mangling = { path = "../rustc_symbol_mangling" }
-rustc_codegen_llvm = { path = "../rustc_codegen_llvm", optional = true }
-rustc_hir = { path = "../rustc_hir" }
-rustc_index = { path = "../rustc_index" }
-rustc_metadata = { path = "../rustc_metadata" }
-rustc_mir = { path = "../rustc_mir" }
-rustc_mir_build = { path = "../rustc_mir_build" }
-rustc_passes = { path = "../rustc_passes" }
-rustc_typeck = { path = "../rustc_typeck" }
-rustc_lint = { path = "../rustc_lint" }
-rustc_errors = { path = "../rustc_errors" }
-rustc_plugin_impl = { path = "../rustc_plugin_impl" }
-rustc_privacy = { path = "../rustc_privacy" }
-rustc_query_impl = { path = "../rustc_query_impl" }
-rustc_resolve = { path = "../rustc_resolve" }
-rustc_trait_selection = { path = "../rustc_trait_selection" }
-rustc_ty_utils = { path = "../rustc_ty_utils" }
+dustc_ast = { path = "../dustc_ast" }
+dustc_attr = { path = "../dustc_attr" }
+dustc_builtin_macros = { path = "../dustc_builtin_macros" }
+dustc_expand = { path = "../dustc_expand" }
+dustc_parse = { path = "../dustc_parse" }
+dustc_session = { path = "../dustc_session" }
+dustc_span = { path = "../dustc_span" }
+dustc_serialize = { path = "../dustc_serialize" }
+dustc_middle = { path = "../dustc_middle" }
+dustc_ast_lowering = { path = "../dustc_ast_lowering" }
+dustc_ast_passes = { path = "../dustc_ast_passes" }
+dustc_incremental = { path = "../dustc_incremental" }
+dustc_traits = { path = "../dustc_traits" }
+dustc_data_structures = { path = "../dustc_data_structures" }
+dustc_codegen_ssa = { path = "../dustc_codegen_ssa" }
+dustc_symbol_mangling = { path = "../dustc_symbol_mangling" }
+dustc_codegen_llvm = { path = "../dustc_codegen_llvm", optional = true }
+dustc_hir = { path = "../dustc_hir" }
+dustc_index = { path = "../dustc_index" }
+dustc_metadata = { path = "../dustc_metadata" }
+dustc_mir = { path = "../dustc_mir" }
+dustc_mir_build = { path = "../dustc_mir_build" }
+dustc_passes = { path = "../dustc_passes" }
+dustc_typeck = { path = "../dustc_typeck" }
+dustc_lint = { path = "../dustc_lint" }
+dustc_errors = { path = "../dustc_errors" }
+dustc_plugin_impl = { path = "../dustc_plugin_impl" }
+dustc_privacy = { path = "../dustc_privacy" }
+dustc_query_impl = { path = "../dustc_query_impl" }
+dustc_resolve = { path = "../dustc_resolve" }
+dustc_trait_selection = { path = "../dustc_trait_selection" }
+dustc_ty_utils = { path = "../dustc_ty_utils" }
 tempfile = "3.0.5"
 
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3", features = ["libloaderapi"] }
 
 [dev-dependencies]
-rustc_target = { path = "../rustc_target" }
+dustc_target = { path = "../dustc_target" }
 
 [features]
-llvm = ['rustc_codegen_llvm']
+llvm = ['dustc_codegen_llvm']

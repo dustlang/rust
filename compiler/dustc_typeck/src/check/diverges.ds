@@ -1,5 +1,5 @@
-use rustc_span::source_map::DUMMY_SP;
-use rustc_span::{self, Span};
+use dustc_span::source_map::DUMMY_SP;
+use dustc_span::{self, Span};
 use std::{cmp, ops};
 
 /// Tracks whether executing a node may exit normally (versus

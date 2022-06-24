@@ -4,20 +4,20 @@
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```dust
 /// assert!(true); // this returns `()`, all is well
 /// ```
 ///
 /// You can also simply return `Ok(())`, but you'll need to disambiguate the
 /// type using turbofish, because we cannot infer the type:
 ///
-/// ```rust
+/// ```dust
 /// Ok::<(), &'static str>(())
 /// ```
 ///
 /// You can err with anything that implements `Debug`:
 ///
-/// ```rust,should_panic
+/// ```dust,should_panic
 /// Err("This is returned from `main`, leading to panic")?;
 /// Ok::<(), &'static str>(())
 /// ```

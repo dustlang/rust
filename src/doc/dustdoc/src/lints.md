@@ -1,17 +1,17 @@
 # Lints
 
-`rustdoc` provides lints to help you writing and testing your documentation. You
+`dustdoc` provides lints to help you writing and testing your documentation. You
 can use them like any other lints by doing this:
 
-```rust
-#![allow(rustdoc::broken_intra_doc_links)] // allows the lint, no diagnostics will be reported
-#![warn(rustdoc::broken_intra_doc_links)] // warn if there are broken intra-doc links
-#![deny(rustdoc::broken_intra_doc_links)] // error if there are broken intra-doc links
+```dust
+#![allow(dustdoc::broken_intra_doc_links)] // allows the lint, no diagnostics will be reported
+#![warn(dustdoc::broken_intra_doc_links)] // warn if there are broken intra-doc links
+#![deny(dustdoc::broken_intra_doc_links)] // error if there are broken intra-doc links
 ```
 
-Note that, except for `missing_docs`, these lints are only available when running `rustdoc`, not `rustc`.
+Note that, except for `missing_docs`, these lints are only available when running `dustdoc`, not `dustc`.
 
-Here is the list of the lints provided by `rustdoc`:
+Here is the list of the lints provided by `dustdoc`:
 
 ## broken_intra_doc_links
 
@@ -19,7 +19,7 @@ This lint **warns by default**. This lint detects when an [intra-doc link] fails
 
 [intra-doc link]: linking-to-items-by-name.md
 
-```rust
+```dust
 /// I want to link to [`Nonexistent`] but it doesn't exist!
 pub fn foo() {}
 ```
@@ -36,7 +36,7 @@ warning: unresolved link to `Nonexistent`
 
 It will also warn when there is an ambiguity and suggest how to disambiguate:
 
-```rust
+```dust
 /// [`Foo`]
 pub fn function() {}
 
@@ -52,7 +52,7 @@ warning: `Foo` is both an enum and a function
 1 | /// [`Foo`]
   |      ^^^^^ ambiguous link
   |
-  = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+  = note: `#[warn(dustdoc::broken_intra_doc_links)]` on by default
 help: to link to the enum, prefix with the item type
   |
 1 | /// [`enum@Foo`]
@@ -69,7 +69,7 @@ help: to link to the function, add parentheses
 This lint **warns by default**. This lint detects when [intra-doc links] from public to private items.
 For example:
 
-```rust
+```dust
 /// [private]
 pub fn public() {}
 fn private() {}
@@ -84,7 +84,7 @@ warning: public documentation for `public` links to private item `private`
 1 | /// [private]
   |      ^^^^^^^ this item is private
   |
-  = note: `#[warn(rustdoc::private_intra_doc_links)]` on by default
+  = note: `#[warn(dustdoc::private_intra_doc_links)]` on by default
   = note: this link will resolve properly if you pass `--document-private-items`
 ```
 
@@ -98,7 +98,7 @@ warning: public documentation for `public` links to private item `private`
 1 | /// [private]
   |      ^^^^^^^ this item is private
   |
-  = note: `#[warn(rustdoc::private_intra_doc_links)]` on by default
+  = note: `#[warn(dustdoc::private_intra_doc_links)]` on by default
   = note: this link resolves only because you passed `--document-private-items`, but will break without
 ```
 
@@ -109,7 +109,7 @@ warning: public documentation for `public` links to private item `private`
 This lint is **allowed by default**. It detects items missing documentation.
 For example:
 
-```rust
+```dust
 #![warn(missing_docs)]
 
 pub fn undocumented() {}
@@ -126,15 +126,15 @@ warning: missing documentation for a function
    | ^^^^^^^^^^^^^^^^^^^^^
 ```
 
-Note that unlike other rustdoc lints, this lint is also available from `rustc` directly.
+Note that unlike other dustdoc lints, this lint is also available from `dustc` directly.
 
 ## missing_crate_level_docs
 
 This lint is **allowed by default**. It detects if there is no documentation
 at the crate root. For example:
 
-```rust
-#![warn(rustdoc::missing_crate_level_docs)]
+```dust
+#![warn(dustdoc::missing_crate_level_docs)]
 ```
 
 This will generate the following warning:
@@ -143,7 +143,7 @@ This will generate the following warning:
 warning: no documentation found for this crate's top-level module
   |
   = help: The following guide may be of use:
-          https://doc.rust-lang.org/nightly/rustdoc/how-to-write-documentation.html
+          https://doc.dust-lang.org/nightly/dustdoc/how-to-write-documentation.html
 ```
 
 This is currently "allow" by default, but it is intended to make this a
@@ -157,8 +157,8 @@ might.
 This lint is **allowed by default** and is **nightly-only**. It detects when a documentation block
 is missing a code example. For example:
 
-```rust
-#![warn(rustdoc::missing_doc_code_examples)]
+```dust
+#![warn(dustdoc::missing_doc_code_examples)]
 
 /// There is no code example!
 pub fn no_code_example() {}
@@ -177,7 +177,7 @@ LL | /// There is no code example!
 
 To fix the lint, you need to add a code example into the documentation block:
 
-```rust
+```dust
 /// There is no code example!
 ///
 /// ```
@@ -193,8 +193,8 @@ pub fn no_code_example() {}
 This lint is **allowed by default**. It detects documentation tests when they
 are on a private item. For example:
 
-```rust
-#![warn(rustdoc::private_doc_tests)]
+```dust
+#![warn(dustdoc::private_doc_tests)]
 
 mod foo {
     /// private doc test
@@ -226,7 +226,7 @@ warning: Documentation test in private item
 This lint **warns by default**. It detects code block attributes in
 documentation examples that have potentially mis-typed values. For example:
 
-```rust
+```dust
 /// Example.
 ///
 /// ```should-panic
@@ -248,8 +248,8 @@ warning: unknown attribute `should-panic`. Did you mean `should_panic`?
 5 | | /// ```
   | |_______^
   |
-  = note: `#[warn(rustdoc::invalid_codeblock_attributes)]` on by default
-  = help: the code block will either not be tested if not marked as a rust one or won't fail if it doesn't panic when running
+  = note: `#[warn(dustdoc::invalid_codeblock_attributes)]` on by default
+  = help: the code block will either not be tested if not marked as a dust one or won't fail if it doesn't panic when running
 ```
 
 In the example above, the correct form is `should_panic`. This helps detect
@@ -260,8 +260,8 @@ typo mistakes for some common attributes.
 This lint is **allowed by default** and is **nightly-only**. It detects unclosed
 or invalid HTML tags. For example:
 
-```rust
-#![warn(rustdoc::invalid_html_tags)]
+```dust
+#![warn(dustdoc::invalid_html_tags)]
 
 /// <h1>
 /// </script>
@@ -281,7 +281,7 @@ warning: unopened HTML tag `script`
   note: the lint level is defined here
  --> foo.rs:1:9
   |
-1 | #![warn(rustdoc::invalid_html_tags)]
+1 | #![warn(dustdoc::invalid_html_tags)]
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: unclosed HTML tag `h1`
@@ -299,7 +299,7 @@ warning: 2 warnings emitted
 This lint is **nightly-only** and **warns by default**. It detects links which
 could use the "automatic" link syntax. For example:
 
-```rust
+```dust
 /// http://example.org
 /// [http://example.com](http://example.com)
 /// [http://example.net]
@@ -317,7 +317,7 @@ warning: this URL is not a hyperlink
 1 | /// http://example.org
   |     ^^^^^^^^^^^^^^^^^^ help: use an automatic link instead: `<http://example.org>`
   |
-  = note: `#[warn(rustdoc::non_autolinks)]` on by default
+  = note: `#[warn(dustdoc::non_autolinks)]` on by default
 
 warning: unneeded long form for URL
  --> foo.rs:2:5

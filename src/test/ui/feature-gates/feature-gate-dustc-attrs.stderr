@@ -1,47 +1,47 @@
-error: attributes starting with `rustc` are reserved for use by the `rustc` compiler
-  --> $DIR/feature-gate-rustc-attrs.rs:8:3
+error: attributes starting with `dustc` are reserved for use by the `dustc` compiler
+  --> $DIR/feature-gate-dustc-attrs.rs:8:3
    |
-LL | #[rustc::unknown]
+LL | #[dustc::unknown]
    |   ^^^^^
 
-error: expected attribute, found macro `rustc::unknown`
-  --> $DIR/feature-gate-rustc-attrs.rs:8:3
+error: expected attribute, found macro `dustc::unknown`
+  --> $DIR/feature-gate-dustc-attrs.rs:8:3
    |
-LL | #[rustc::unknown]
+LL | #[dustc::unknown]
    |   ^^^^^^^^^^^^^^ not an attribute
 
-error: attributes starting with `rustc` are reserved for use by the `rustc` compiler
-  --> $DIR/feature-gate-rustc-attrs.rs:13:12
+error: attributes starting with `dustc` are reserved for use by the `dustc` compiler
+  --> $DIR/feature-gate-dustc-attrs.rs:13:12
    |
-LL | #[unknown::rustc]
+LL | #[unknown::dustc]
    |            ^^^^^
 
-error: expected attribute, found macro `unknown::rustc`
-  --> $DIR/feature-gate-rustc-attrs.rs:13:3
+error: expected attribute, found macro `unknown::dustc`
+  --> $DIR/feature-gate-dustc-attrs.rs:13:3
    |
-LL | #[unknown::rustc]
+LL | #[unknown::dustc]
    |   ^^^^^^^^^^^^^^ not an attribute
 
-error: attributes starting with `rustc` are reserved for use by the `rustc` compiler
-  --> $DIR/feature-gate-rustc-attrs.rs:20:3
+error: attributes starting with `dustc` are reserved for use by the `dustc` compiler
+  --> $DIR/feature-gate-dustc-attrs.rs:20:3
    |
-LL | #[rustc_unknown]
+LL | #[dustc_unknown]
    |   ^^^^^^^^^^^^^
 
-error: cannot find attribute `rustc_unknown` in this scope
-  --> $DIR/feature-gate-rustc-attrs.rs:20:3
+error: cannot find attribute `dustc_unknown` in this scope
+  --> $DIR/feature-gate-dustc-attrs.rs:20:3
    |
-LL | #[rustc_unknown]
+LL | #[dustc_unknown]
    |   ^^^^^^^^^^^^^
 
-error[E0658]: the `#[rustc_dummy]` attribute is just used for rustc unit tests and will never be stable
-  --> $DIR/feature-gate-rustc-attrs.rs:18:1
+error[E0658]: the `#[dustc_dummy]` attribute is just used for dustc unit tests and will never be stable
+  --> $DIR/feature-gate-dustc-attrs.rs:18:1
    |
-LL | #[rustc_dummy]
+LL | #[dustc_dummy]
    | ^^^^^^^^^^^^^^
    |
-   = help: add `#![feature(rustc_attrs)]` to the crate attributes to enable
+   = help: add `#![feature(dustc_attrs)]` to the crate attributes to enable
 
 error: aborting due to 7 previous errors
 
-For more information about this error, try `rustc --explain E0658`.
+For more information about this error, try `dustc --explain E0658`.

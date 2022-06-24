@@ -1,4 +1,4 @@
-error: `#[stable]` const functions must also be either `#[rustc_const_stable]` or `#[rustc_const_unstable]`
+error: `#[stable]` const functions must also be either `#[dustc_const_stable]` or `#[dustc_const_unstable]`
   --> $DIR/missing-const-stability.rs:6:1
    |
 LL | pub const fn foo() {}

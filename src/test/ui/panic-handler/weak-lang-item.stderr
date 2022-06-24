@@ -16,4 +16,4 @@ error: `#[panic_handler]` function required, but not found
 
 error: aborting due to 3 previous errors
 
-For more information about this error, try `rustc --explain E0259`.
+For more information about this error, try `dustc --explain E0259`.

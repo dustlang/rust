@@ -51,4 +51,4 @@ LL | unsafe impl Send for &'static [NotSync] {}
 error: aborting due to 5 previous errors
 
 Some errors have detailed explanations: E0117, E0119, E0321.
-For more information about an error, try `rustc --explain E0117`.
+For more information about an error, try `dustc --explain E0117`.

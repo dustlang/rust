@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 fn main() {
     let vec = vec![b'a', b'b', b'c'];

@@ -1,4 +1,4 @@
-To learn more about how dependency tracking works in rustc, see the [rustc
+To learn more about how dependency tracking works in dustc, see the [dustc
 guide].
 
-[rustc dev guide]: https://rustc-dev-guide.rust-lang.org/query.html
+[dustc dev guide]: https://dustc-dev-guide.dust-lang.org/query.html

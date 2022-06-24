@@ -1,6 +1,6 @@
 //! This module contains `TyKind` and its major components.
 
-#![allow(rustc::usage_of_ty_tykind)]
+#![allow(dustc::usage_of_ty_tykind)]
 
 use self::TyKind::*;
 
@@ -12,14 +12,14 @@ use crate::ty::{
 };
 use crate::ty::{DelaySpanBugEmitted, List, ParamEnv, TyS};
 use polonius_engine::Atom;
-use rustc_data_structures::captures::Captures;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_index::vec::Idx;
-use rustc_macros::HashStable;
-use rustc_span::symbol::{kw, Symbol};
-use rustc_target::abi::VariantIdx;
-use rustc_target::spec::abi;
+use dustc_data_structures::captures::Captures;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_index::vec::Idx;
+use dustc_macros::HashStable;
+use dustc_span::symbol::{kw, Symbol};
+use dustc_target::abi::VariantIdx;
+use dustc_target::spec::abi;
 use std::borrow::Cow;
 use std::cmp::Ordering;
 use std::marker::PhantomData;
@@ -90,10 +90,10 @@ impl BoundRegionKind {
 /// Defines the kinds of types.
 ///
 /// N.B., if you change this, you'll probably want to change the corresponding
-/// AST structure in `librustc_ast/ast.rs` as well.
+/// AST structure in `libdustc_ast/ast.rs` as well.
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash, TyEncodable, TyDecodable, Debug)]
 #[derive(HashStable)]
-#[rustc_diagnostic_item = "TyKind"]
+#[dustc_diagnostic_item = "TyKind"]
 pub enum TyKind<'tcx> {
     /// The primitive boolean type. Written as `bool`.
     Bool,
@@ -119,7 +119,7 @@ pub enum TyKind<'tcx> {
     /// definition and not a concrete use of it.
     Adt(&'tcx AdtDef, SubstsRef<'tcx>),
 
-    /// An unsized FFI type that is opaque to Rust. Written as `extern type T`.
+    /// An unsized FFI type that is opaque to Dust. Written as `extern type T`.
     Foreign(DefId),
 
     /// The pointee of a string slice. Written as `str`.
@@ -144,7 +144,7 @@ pub enum TyKind<'tcx> {
     ///
     /// For example the type of `bar` here:
     ///
-    /// ```rust
+    /// ```dust
     /// fn foo() -> i32 { 1 }
     /// let bar = foo; // bar: fn() -> i32 {foo}
     /// ```
@@ -154,7 +154,7 @@ pub enum TyKind<'tcx> {
     ///
     /// For example the type of `bar` here:
     ///
-    /// ```rust
+    /// ```dust
     /// fn foo() -> i32 { 1 }
     /// let bar: fn() -> i32 = foo;
     /// ```
@@ -426,7 +426,7 @@ impl<'tcx> ClosureSubsts<'tcx> {
     /// closure.
     // FIXME(eddyb) this should be unnecessary, as the shallowly resolved
     // type is known at the time of the creation of `ClosureSubsts`,
-    // see `rustc_typeck::check::closure`.
+    // see `dustc_typeck::check::closure`.
     pub fn sig_as_fn_ptr_ty(self) -> Ty<'tcx> {
         self.split().closure_sig_as_fn_ptr_ty.expect_ty()
     }
@@ -654,7 +654,7 @@ impl<'tcx> GeneratorSubsts<'tcx> {
     }
 
     /// This returns the types of the MIR locals which had to be stored across suspension points.
-    /// It is calculated in rustc_mir::transform::generator::StateTransform.
+    /// It is calculated in dustc_mir::transform::generator::StateTransform.
     /// All the types here must be in the tuple in GeneratorInterior.
     ///
     /// The locals are grouped by their variant number. Note that some locals may
@@ -771,7 +771,7 @@ impl<'tcx> Binder<ExistentialPredicate<'tcx>> {
 impl<'tcx> List<ty::Binder<ExistentialPredicate<'tcx>>> {
     /// Returns the "principal `DefId`" of this set of existential predicates.
     ///
-    /// A Rust trait object type consists (in addition to a lifetime bound)
+    /// A Dust trait object type consists (in addition to a lifetime bound)
     /// of a set of trait bounds, which are separated into any number
     /// of auto-trait bounds, and at most one non-auto-trait bound. The
     /// non-auto-trait bound is called the "principal" of the trait
@@ -1200,7 +1200,7 @@ impl<'tcx> FnSig<'tcx> {
             inputs_and_output: List::empty(),
             c_variadic: false,
             unsafety: hir::Unsafety::Normal,
-            abi: abi::Abi::Rust,
+            abi: abi::Abi::Dust,
         }
     }
 }
@@ -1288,7 +1288,7 @@ pub type Region<'tcx> = &'tcx RegionKind;
 /// Representation of regions. Note that the NLL checker uses a distinct
 /// representation of regions. For this reason, it internally replaces all the
 /// regions with inference variables -- the index of the variable is then used
-/// to index into internal NLL data structures. See `rustc_mir::borrow_check`
+/// to index into internal NLL data structures. See `dustc_mir::borrow_check`
 /// module for more information.
 ///
 /// ## The Region lattice within a given function
@@ -1364,7 +1364,7 @@ pub type Region<'tcx> = &'tcx RegionKind;
 /// To do this, we replace the bound regions with placeholder markers,
 /// which don't satisfy any relation not explicitly provided.
 ///
-/// There are two kinds of placeholder regions in rustc: `ReFree` and
+/// There are two kinds of placeholder regions in dustc: `ReFree` and
 /// `RePlaceholder`. When checking an item's body, `ReFree` is supposed
 /// to be used. These also support explicit bounds: both the internally-stored
 /// *scope*, which the region is assumed to outlive, as well as other
@@ -1383,11 +1383,11 @@ pub type Region<'tcx> = &'tcx RegionKind;
 /// the inference variable is supposed to satisfy the relation
 /// *for every value of the placeholder region*. To ensure that doesn't
 /// happen, you can use `leak_check`. This is more clearly explained
-/// by the [rustc dev guide].
+/// by the [dustc dev guide].
 ///
 /// [1]: http://smallcultfollowing.com/babysteps/blog/2013/10/29/intermingled-parameter-lists/
 /// [2]: http://smallcultfollowing.com/babysteps/blog/2013/11/04/intermingled-parameter-lists/
-/// [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/traits/hrtb.html
+/// [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/traits/hrtb.html
 #[derive(Clone, PartialEq, Eq, Hash, Copy, TyEncodable, TyDecodable, PartialOrd, Ord)]
 pub enum RegionKind {
     /// Region bound in a type or fn declaration which will be
@@ -1440,7 +1440,7 @@ pub struct ConstVid<'tcx> {
     pub phantom: PhantomData<&'tcx ()>,
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     /// A **region** (lifetime) **v**ariable **ID**.
     pub struct RegionVid {
         DEBUG_FORMAT = custom,
@@ -1453,7 +1453,7 @@ impl Atom for RegionVid {
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct BoundVar { .. }
 }
 
@@ -1787,7 +1787,7 @@ impl<'tcx> TyS<'tcx> {
 
                 match f0_ty.kind() {
                     Array(f0_elem_ty, f0_len) => {
-                        // FIXME(repr_simd): https://github.com/rust-lang/rust/pull/78863#discussion_r522784112
+                        // FIXME(repr_simd): https://github.com/dust-lang/dust/pull/78863#discussion_r522784112
                         // The way we evaluate the `N` in `[T; N]` here only works since we use
                         // `simd_size_and_type` post-monomorphization. It will probably start to ICE
                         // if we use it in generic code. See the `simd-array-trait` ui test.
@@ -1852,7 +1852,7 @@ impl<'tcx> TyS<'tcx> {
 
     /// A scalar type is one that denotes an atomic datum, with no sub-components.
     /// (A RawPtr is scalar because it represents a non-managed pointer, so its
-    /// contents are abstract to rustc.)
+    /// contents are abstract to dustc.)
     #[inline]
     pub fn is_scalar(&self) -> bool {
         matches!(
@@ -2160,7 +2160,7 @@ impl<'tcx> TyS<'tcx> {
     ///
     /// Note that during type checking, we use an inference variable
     /// to represent the closure kind, because it has not yet been
-    /// inferred. Once upvar inference (in `src/librustc_typeck/check/upvar.rs`)
+    /// inferred. Once upvar inference (in `src/libdustc_typeck/check/upvar.rs`)
     /// is complete, that type variable will be unified.
     pub fn to_opt_closure_kind(&self) -> Option<ty::ClosureKind> {
         match self.kind() {

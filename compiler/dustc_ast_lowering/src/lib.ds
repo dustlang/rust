@@ -35,33 +35,33 @@
 #![feature(box_patterns)]
 #![recursion_limit = "256"]
 
-use rustc_ast::node_id::NodeMap;
-use rustc_ast::token::{self, DelimToken, Nonterminal, Token};
-use rustc_ast::tokenstream::{CanSynthesizeMissingTokens, DelimSpan, TokenStream, TokenTree};
-use rustc_ast::visit::{self, AssocCtxt, Visitor};
-use rustc_ast::walk_list;
-use rustc_ast::{self as ast, *};
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::captures::Captures;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Namespace, PartialRes, PerNS, Res};
-use rustc_hir::def_id::{DefId, DefIdMap, LocalDefId, CRATE_DEF_ID};
-use rustc_hir::definitions::{DefKey, DefPathData, Definitions};
-use rustc_hir::intravisit;
-use rustc_hir::{ConstArg, GenericArg, ParamName};
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_session::lint::builtin::{BARE_TRAIT_OBJECTS, MISSING_ABI};
-use rustc_session::lint::{BuiltinLintDiagnostics, LintBuffer};
-use rustc_session::parse::ParseSess;
-use rustc_session::Session;
-use rustc_span::hygiene::ExpnId;
-use rustc_span::source_map::{respan, DesugaringKind};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::Span;
-use rustc_target::spec::abi::Abi;
+use dustc_ast::node_id::NodeMap;
+use dustc_ast::token::{self, DelimToken, Nonterminal, Token};
+use dustc_ast::tokenstream::{CanSynthesizeMissingTokens, DelimSpan, TokenStream, TokenTree};
+use dustc_ast::visit::{self, AssocCtxt, Visitor};
+use dustc_ast::walk_list;
+use dustc_ast::{self as ast, *};
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::captures::Captures;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Namespace, PartialRes, PerNS, Res};
+use dustc_hir::def_id::{DefId, DefIdMap, LocalDefId, CRATE_DEF_ID};
+use dustc_hir::definitions::{DefKey, DefPathData, Definitions};
+use dustc_hir::intravisit;
+use dustc_hir::{ConstArg, GenericArg, ParamName};
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_session::lint::builtin::{BARE_TRAIT_OBJECTS, MISSING_ABI};
+use dustc_session::lint::{BuiltinLintDiagnostics, LintBuffer};
+use dustc_session::parse::ParseSess;
+use dustc_session::Session;
+use dustc_span::hygiene::ExpnId;
+use dustc_span::source_map::{respan, DesugaringKind};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::Span;
+use dustc_target::spec::abi::Abi;
 
 use smallvec::{smallvec, SmallVec};
 use std::collections::BTreeMap;
@@ -82,7 +82,7 @@ mod path;
 
 const HIR_ID_COUNTER_LOCKED: u32 = 0xFFFFFFFF;
 
-rustc_hir::arena_types!(rustc_arena::declare_arena, [], 'tcx);
+dustc_hir::arena_types!(dustc_arena::declare_arena, [], 'tcx);
 
 struct LoweringContext<'a, 'hir: 'a> {
     /// Used to assign IDs to HIR nodes that do not directly correspond to AST nodes.
@@ -92,7 +92,7 @@ struct LoweringContext<'a, 'hir: 'a> {
 
     /// HACK(Centril): there is a cyclic dependency between the parser and lowering
     /// if we don't have this function pointer. To avoid that dependency so that
-    /// librustc_middle is independent of the parser, we use dynamic dispatch here.
+    /// libdustc_middle is independent of the parser, we use dynamic dispatch here.
     nt_to_tokenstream: NtToTokenstream,
 
     /// Used to allocate HIR nodes.
@@ -712,7 +712,7 @@ impl<'a, 'hir> LoweringContext<'a, 'hir> {
         self.resolver.get_import_res(id).present_items()
     }
 
-    fn diagnostic(&self) -> &rustc_errors::Handler {
+    fn diagnostic(&self) -> &dustc_errors::Handler {
         self.sess.diagnostic()
     }
 
@@ -998,7 +998,7 @@ impl<'a, 'hir> LoweringContext<'a, 'hir> {
                 // or have tokens available for all nonterminals in the case of a nested
                 // `macro_rules`: e.g:
                 //
-                // ```rust
+                // ```dust
                 // macro_rules! outer {
                 //     ($e:expr) => {
                 //         macro_rules! inner {
@@ -1440,7 +1440,7 @@ impl<'a, 'hir> LoweringContext<'a, 'hir> {
                             )
                         });
                         // Set the name to `impl Bound1 + Bound2`.
-                        let ident = Ident::from_str_and_span(&pprust::ty_to_string(t), span);
+                        let ident = Ident::from_str_and_span(&ppdust::ty_to_string(t), span);
                         in_band_ty_params.push(hir::GenericParam {
                             hir_id: self.lower_node_id(def_node_id),
                             name: ParamName::Plain(ident),
@@ -1516,7 +1516,7 @@ impl<'a, 'hir> LoweringContext<'a, 'hir> {
         // Make sure we know that some funky desugaring has been going on here.
         // This is a first: there is code in other places like for loop
         // desugaring that explicitly states that we don't want to track that.
-        // Not tracking it makes lints in rustc and clippy very fragile, as
+        // Not tracking it makes lints in dustc and clippy very fragile, as
         // frequently opened issues show.
         let opaque_ty_span = self.mark_span_with_reason(DesugaringKind::OpaqueTy, span, None);
 
@@ -1967,7 +1967,7 @@ impl<'a, 'hir> LoweringContext<'a, 'hir> {
         //
         // So for example in this snippet:
         //
-        // ```rust
+        // ```dust
         // impl<'a> Foo<'a> {
         //   async fn bar<'b>(&self, x: &'b Vec<f64>, y: &str) -> &u32 {
         //   //               ^ '0                       ^ '1     ^ '2
@@ -1984,7 +1984,7 @@ impl<'a, 'hir> LoweringContext<'a, 'hir> {
         //
         // and we would then desugar `bar` to the equivalent of:
         //
-        // ```rust
+        // ```dust
         // impl<'a> Foo<'a> {
         //   fn bar<'b, '0, '1>(&'0 self, x: &'b Vec<f64>, y: &'1 str) -> Bar<'a, 'b, '0, '1, '_>
         // }
@@ -2277,7 +2277,7 @@ impl<'a, 'hir> LoweringContext<'a, 'hir> {
                     synthetic: param
                         .attrs
                         .iter()
-                        .filter(|attr| self.sess.check_name(attr, sym::rustc_synthetic))
+                        .filter(|attr| self.sess.check_name(attr, sym::dustc_synthetic))
                         .map(|_| hir::SyntheticTyParamKind::FromAttr)
                         .next(),
                 };

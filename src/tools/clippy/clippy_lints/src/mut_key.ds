@@ -1,10 +1,10 @@
 use crate::utils::{match_def_path, paths, span_lint, trait_ref_of_method};
-use rustc_hir as hir;
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::ty::TypeFoldable;
-use rustc_middle::ty::{Adt, Array, RawPtr, Ref, Slice, Tuple, Ty, TypeAndMut};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
+use dustc_hir as hir;
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::ty::TypeFoldable;
+use dustc_middle::ty::{Adt, Array, RawPtr, Ref, Slice, Tuple, Ty, TypeAndMut};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for sets/maps with mutable key types.
@@ -19,7 +19,7 @@ declare_clippy_lint! {
     /// The `bytes` crate is a great example of this.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// use std::cmp::{PartialEq, Eq};
     /// use std::collections::HashSet;
     /// use std::hash::{Hash, Hasher};

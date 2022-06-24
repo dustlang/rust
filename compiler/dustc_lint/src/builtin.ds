@@ -1,16 +1,16 @@
-//! Lints in the Rust compiler.
+//! Lints in the Dust compiler.
 //!
 //! This contains lints which can feasibly be implemented as their own
-//! AST visitor. Also see `rustc_session::lint::builtin`, which contains the
+//! AST visitor. Also see `dustc_session::lint::builtin`, which contains the
 //! definitions of lints that are emitted directly inside the main compiler.
 //!
-//! To add a new lint to rustc, declare it here using `declare_lint!()`.
+//! To add a new lint to dustc, declare it here using `declare_lint!()`.
 //! Then add code to emit the new lint in the appropriate circumstances.
 //! You can do that in an existing `LintPass` if it makes sense, or in a
 //! new `LintPass`, or using `Session::add_lint` elsewhere in the
 //! compiler. Only do the latter if the check can't be written cleanly as a
 //! `LintPass` (also, note that such lints will need to be defined in
-//! `rustc_session::lint::builtin`, not here).
+//! `dustc_session::lint::builtin`, not here).
 //!
 //! If you define a new `EarlyLintPass`, you will also need to add it to the
 //! `add_early_builtin!` or `add_early_builtin_with_new!` invocation in
@@ -24,49 +24,49 @@ use crate::{
     types::{transparent_newtype_field, CItemKind},
     EarlyContext, EarlyLintPass, LateContext, LateLintPass, LintContext,
 };
-use rustc_ast::attr;
-use rustc_ast::tokenstream::{TokenStream, TokenTree};
-use rustc_ast::visit::{FnCtxt, FnKind};
-use rustc_ast::{self as ast, *};
-use rustc_ast_pretty::pprust::{self, expr_to_string};
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::stack::ensure_sufficient_stack;
-use rustc_errors::{Applicability, DiagnosticBuilder, DiagnosticStyledString};
-use rustc_feature::{deprecated_attributes, AttributeGate, AttributeTemplate, AttributeType};
-use rustc_feature::{GateIssue, Stability};
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::{DefId, LocalDefId, LocalDefIdSet};
-use rustc_hir::{ForeignItemKind, GenericParamKind, PatKind};
-use rustc_hir::{HirId, Node};
-use rustc_index::vec::Idx;
-use rustc_middle::lint::LintDiagnosticBuilder;
-use rustc_middle::ty::print::with_no_trimmed_paths;
-use rustc_middle::ty::subst::{GenericArgKind, Subst};
-use rustc_middle::ty::Instance;
-use rustc_middle::ty::{self, layout::LayoutError, Ty, TyCtxt};
-use rustc_session::Session;
-use rustc_span::edition::Edition;
-use rustc_span::source_map::Spanned;
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{BytePos, Span};
-use rustc_target::abi::{LayoutOf, VariantIdx};
-use rustc_trait_selection::traits::misc::can_type_implement_copy;
+use dustc_ast::attr;
+use dustc_ast::tokenstream::{TokenStream, TokenTree};
+use dustc_ast::visit::{FnCtxt, FnKind};
+use dustc_ast::{self as ast, *};
+use dustc_ast_pretty::ppdust::{self, expr_to_string};
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::stack::ensure_sufficient_stack;
+use dustc_errors::{Applicability, DiagnosticBuilder, DiagnosticStyledString};
+use dustc_feature::{deprecated_attributes, AttributeGate, AttributeTemplate, AttributeType};
+use dustc_feature::{GateIssue, Stability};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::{DefId, LocalDefId, LocalDefIdSet};
+use dustc_hir::{ForeignItemKind, GenericParamKind, PatKind};
+use dustc_hir::{HirId, Node};
+use dustc_index::vec::Idx;
+use dustc_middle::lint::LintDiagnosticBuilder;
+use dustc_middle::ty::print::with_no_trimmed_paths;
+use dustc_middle::ty::subst::{GenericArgKind, Subst};
+use dustc_middle::ty::Instance;
+use dustc_middle::ty::{self, layout::LayoutError, Ty, TyCtxt};
+use dustc_session::Session;
+use dustc_span::edition::Edition;
+use dustc_span::source_map::Spanned;
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{BytePos, Span};
+use dustc_target::abi::{LayoutOf, VariantIdx};
+use dustc_trait_selection::traits::misc::can_type_implement_copy;
 
 use crate::nonstandard_style::{method_context, MethodLateContext};
 
 use std::fmt::Write;
 use tracing::{debug, trace};
 
-// hardwired lints from librustc_middle
-pub use rustc_session::lint::builtin::*;
+// hardwired lints from libdustc_middle
+pub use dustc_session::lint::builtin::*;
 
 declare_lint! {
     /// The `while_true` lint detects `while true { }`.
     ///
     /// ### Example
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// while true {
     ///
     /// }
@@ -130,7 +130,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(box_pointers)]
     /// struct Foo {
     ///     x: Box<isize>,
@@ -143,7 +143,7 @@ declare_lint! {
     ///
     /// This lint is mostly historical, and not particularly useful. `Box<T>`
     /// used to be built into the language, and the only way to do heap
-    /// allocation. Today's Rust can call into other allocators, etc.
+    /// allocation. Today's Dust can call into other allocators, etc.
     BOX_POINTERS,
     Allow,
     "use of owned (Box type) heap memory"
@@ -202,7 +202,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// struct Point {
     ///     x: i32,
     ///     y: i32,
@@ -291,7 +291,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(unsafe_code)]
     /// fn main() {
     ///     unsafe {
@@ -333,7 +333,7 @@ impl UnsafeCode {
             lint.build(msg)
                 .note(
                     "the linker's behavior with multiple libraries exporting duplicate symbol \
-                    names is undefined and Rust cannot provide guarantees when you manually \
+                    names is undefined and Dust cannot provide guarantees when you manually \
                     override them",
                 )
                 .emit();
@@ -441,7 +441,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(missing_docs)]
     /// pub fn foo() {}
     /// ```
@@ -666,11 +666,11 @@ declare_lint! {
     /// The `missing_copy_implementations` lint detects potentially-forgotten
     /// implementations of [`Copy`].
     ///
-    /// [`Copy`]: https://doc.rust-lang.org/std/marker/trait.Copy.html
+    /// [`Copy`]: https://doc.dust-lang.org/std/marker/trait.Copy.html
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(missing_copy_implementations)]
     /// pub struct Foo {
     ///     pub field: i32
@@ -750,11 +750,11 @@ declare_lint! {
     /// The `missing_debug_implementations` lint detects missing
     /// implementations of [`fmt::Debug`].
     ///
-    /// [`fmt::Debug`]: https://doc.rust-lang.org/std/fmt/trait.Debug.html
+    /// [`fmt::Debug`]: https://doc.dust-lang.org/std/fmt/trait.Debug.html
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(missing_debug_implementations)]
     /// pub struct Foo;
     /// # fn main() {}
@@ -834,7 +834,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,edition2015,compile_fail
+    /// ```dust,edition2015,compile_fail
     /// #![deny(anonymous_parameters)]
     /// // edition 2015
     /// pub trait Foo {
@@ -850,7 +850,7 @@ declare_lint! {
     /// This syntax is mostly a historical accident, and can be worked around
     /// quite easily by adding an `_` pattern or a descriptive identifier:
     ///
-    /// ```rust
+    /// ```dust
     /// trait Foo {
     ///     fn foo(_: usize);
     /// }
@@ -866,13 +866,13 @@ declare_lint! {
     /// parameter). This provides a completely automated way to update old
     /// code for a new edition. See [issue #41686] for more details.
     ///
-    /// [issue #41686]: https://github.com/rust-lang/rust/issues/41686
-    /// [`cargo fix`]: https://doc.rust-lang.org/cargo/commands/cargo-fix.html
+    /// [issue #41686]: https://github.com/dust-lang/dust/issues/41686
+    /// [`cargo fix`]: https://doc.dust-lang.org/cargo/commands/cargo-fix.html
     pub ANONYMOUS_PARAMETERS,
     Allow,
     "detects anonymous parameters",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #41686 <https://github.com/rust-lang/rust/issues/41686>",
+        reference: "issue #41686 <https://github.com/dust-lang/dust/issues/41686>",
         edition: Some(Edition::Edition2018),
     };
 }
@@ -970,7 +970,7 @@ impl EarlyLintPass for DeprecatedAttr {
             }
         }
         if cx.sess().check_name(attr, sym::no_start) || cx.sess().check_name(attr, sym::crate_id) {
-            let path_str = pprust::path_to_string(&attr.get_normal_item().path);
+            let path_str = ppdust::path_to_string(&attr.get_normal_item().path);
             let msg = format!("use of deprecated attribute `{}`: no longer used.", path_str);
             lint_deprecated_attr(cx, attr, &msg, None);
         }
@@ -1000,7 +1000,7 @@ fn warn_if_doc(cx: &EarlyContext<'_>, node_span: Span, node_kind: &str, attrs: &
                 let mut err = lint.build("unused doc comment");
                 err.span_label(
                     node_span,
-                    format!("rustdoc does not generate documentation for {}", node_kind),
+                    format!("dustdoc does not generate documentation for {}", node_kind),
                 );
                 err.emit();
             });
@@ -1038,11 +1038,11 @@ declare_lint! {
     /// The `no_mangle_const_items` lint detects any `const` items with the
     /// [`no_mangle` attribute].
     ///
-    /// [`no_mangle` attribute]: https://doc.rust-lang.org/reference/abi.html#the-no_mangle-attribute
+    /// [`no_mangle` attribute]: https://doc.dust-lang.org/reference/abi.html#the-no_mangle-attribute
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #[no_mangle]
     /// const FOO: i32 = 5;
     /// ```
@@ -1054,8 +1054,8 @@ declare_lint! {
     /// Constants do not have their symbols exported, and therefore, this
     /// probably means you meant to use a [`static`], not a [`const`].
     ///
-    /// [`static`]: https://doc.rust-lang.org/reference/items/static-items.html
-    /// [`const`]: https://doc.rust-lang.org/reference/items/constant-items.html
+    /// [`static`]: https://doc.dust-lang.org/reference/items/static-items.html
+    /// [`const`]: https://doc.dust-lang.org/reference/items/constant-items.html
     NO_MANGLE_CONST_ITEMS,
     Deny,
     "const items will not have their symbols exported"
@@ -1067,7 +1067,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #[no_mangle]
     /// fn foo<T>(t: T) {
     ///
@@ -1082,7 +1082,7 @@ declare_lint! {
     /// the generic parameter. The [`no_mangle` attribute] has no effect in
     /// this situation, and should be removed.
     ///
-    /// [`no_mangle` attribute]: https://doc.rust-lang.org/reference/abi.html#the-no_mangle-attribute
+    /// [`no_mangle` attribute]: https://doc.dust-lang.org/reference/abi.html#the-no_mangle-attribute
     NO_MANGLE_GENERIC_ITEMS,
     Warn,
     "generic items must be mangled"
@@ -1157,11 +1157,11 @@ declare_lint! {
     /// The `mutable_transmutes` lint catches transmuting from `&T` to `&mut
     /// T` because it is [undefined behavior].
     ///
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// unsafe {
     ///     let y = std::mem::transmute::<&i32, &mut i32>(&5);
     /// }
@@ -1174,7 +1174,7 @@ declare_lint! {
     /// Certain assumptions are made about aliasing of data, and this transmute
     /// violates those assumptions. Consider using [`UnsafeCell`] instead.
     ///
-    /// [`UnsafeCell`]: https://doc.rust-lang.org/std/cell/struct.UnsafeCell.html
+    /// [`UnsafeCell`]: https://doc.dust-lang.org/std/cell/struct.UnsafeCell.html
     MUTABLE_TRANSMUTES,
     Deny,
     "mutating transmuted &mut T from &T may cause undefined behavior"
@@ -1184,7 +1184,7 @@ declare_lint_pass!(MutableTransmutes => [MUTABLE_TRANSMUTES]);
 
 impl<'tcx> LateLintPass<'tcx> for MutableTransmutes {
     fn check_expr(&mut self, cx: &LateContext<'_>, expr: &hir::Expr<'_>) {
-        use rustc_target::spec::abi::Abi::RustIntrinsic;
+        use dustc_target::spec::abi::Abi::DustIntrinsic;
         if let Some((&ty::Ref(_, _, from_mt), &ty::Ref(_, _, to_mt))) =
             get_transmute_from_to(cx, expr).map(|(ty1, ty2)| (ty1.kind(), ty2.kind()))
         {
@@ -1217,7 +1217,7 @@ impl<'tcx> LateLintPass<'tcx> for MutableTransmutes {
         }
 
         fn def_id_is_transmute(cx: &LateContext<'_>, def_id: DefId) -> bool {
-            cx.tcx.fn_sig(def_id).abi() == RustIntrinsic
+            cx.tcx.fn_sig(def_id).abi() == DustIntrinsic
                 && cx.tcx.item_name(def_id) == sym::transmute
         }
     }
@@ -1255,7 +1255,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,compile_fail
+    /// ```dust,compile_fail
     /// #![deny(unreachable_pub)]
     /// mod foo {
     ///     pub mod bar {
@@ -1274,7 +1274,7 @@ declare_lint! {
     /// that the item is only visible within its own crate.
     ///
     /// This lint is "allow" by default because it will trigger for a large
-    /// amount existing Rust code, and has some false-positives. Eventually it
+    /// amount existing Dust code, and has some false-positives. Eventually it
     /// is desired for this to become warn-by-default.
     pub UNREACHABLE_PUB,
     Allow,
@@ -1359,7 +1359,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// type SendVec<T: Send> = Vec<T>;
     /// ```
     ///
@@ -1403,7 +1403,7 @@ impl TypeAliasBounds {
         // bound.  Let's see if this type does that.
 
         // We use a HIR visitor to walk the type.
-        use rustc_hir::intravisit::{self, Visitor};
+        use dustc_hir::intravisit::{self, Visitor};
         struct WalkAssocTypes<'a, 'db> {
             err: &'a mut DiagnosticBuilder<'db>,
         }
@@ -1531,7 +1531,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![feature(trivial_bounds)]
     /// pub struct A where i32: Copy;
     /// ```
@@ -1553,8 +1553,8 @@ declare_lint! {
     /// See [RFC 2056] for more details. This feature is currently only
     /// available on the nightly channel, see [tracking issue #48214].
     ///
-    /// [RFC 2056]: https://github.com/rust-lang/rfcs/blob/master/text/2056-allow-trivial-where-clause-constraints.md
-    /// [tracking issue #48214]: https://github.com/rust-lang/rust/issues/48214
+    /// [RFC 2056]: https://github.com/dust-lang/rfcs/blob/master/text/2056-allow-trivial-where-clause-constraints.md
+    /// [tracking issue #48214]: https://github.com/dust-lang/dust/issues/48214
     TRIVIAL_BOUNDS,
     Warn,
     "these bounds don't depend on an type parameters"
@@ -1568,8 +1568,8 @@ declare_lint_pass!(
 
 impl<'tcx> LateLintPass<'tcx> for TrivialConstraints {
     fn check_item(&mut self, cx: &LateContext<'tcx>, item: &'tcx hir::Item<'tcx>) {
-        use rustc_middle::ty::fold::TypeFoldable;
-        use rustc_middle::ty::PredicateKind::*;
+        use dustc_middle::ty::fold::TypeFoldable;
+        use dustc_middle::ty::PredicateKind::*;
 
         if cx.tcx.features().trivial_bounds {
             let predicates = cx.tcx.predicates_of(item.def_id);
@@ -1633,11 +1633,11 @@ declare_lint! {
     /// The `ellipsis_inclusive_range_patterns` lint detects the [`...` range
     /// pattern], which is deprecated.
     ///
-    /// [`...` range pattern]: https://doc.rust-lang.org/reference/patterns.html#range-patterns
+    /// [`...` range pattern]: https://doc.dust-lang.org/reference/patterns.html#range-patterns
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// let x = 123;
     /// match x {
     ///     0...100 => {}
@@ -1652,7 +1652,7 @@ declare_lint! {
     /// The `...` range pattern syntax was changed to `..=` to avoid potential
     /// confusion with the [`..` range expression]. Use the new form instead.
     ///
-    /// [`..` range expression]: https://doc.rust-lang.org/reference/expressions/range-expr.html
+    /// [`..` range expression]: https://doc.dust-lang.org/reference/expressions/range-expr.html
     pub ELLIPSIS_INCLUSIVE_RANGE_PATTERNS,
     Warn,
     "`...` range patterns are deprecated"
@@ -1743,11 +1743,11 @@ declare_lint! {
     /// that are not able to be run by the test harness because they are in a
     /// position where they are not nameable.
     ///
-    /// [test]: https://doc.rust-lang.org/reference/attributes/testing.html#the-test-attribute
+    /// [test]: https://doc.dust-lang.org/reference/attributes/testing.html#the-test-attribute
     ///
     /// ### Example
     ///
-    /// ```rust,test
+    /// ```dust,test
     /// fn main() {
     ///     #[test]
     ///     fn foo() {
@@ -1769,8 +1769,8 @@ declare_lint! {
     /// not being used. Whether or not this should be allowed has not yet been
     /// decided, see [RFC 2471] and [issue #36629].
     ///
-    /// [RFC 2471]: https://github.com/rust-lang/rfcs/pull/2471#issuecomment-397414443
-    /// [issue #36629]: https://github.com/rust-lang/rust/issues/36629
+    /// [RFC 2471]: https://github.com/dust-lang/rfcs/pull/2471#issuecomment-397414443
+    /// [issue #36629]: https://github.com/dust-lang/dust/issues/36629
     UNNAMEABLE_TEST_ITEMS,
     Warn,
     "detects an item that cannot be named being marked as `#[test_case]`",
@@ -1802,7 +1802,7 @@ impl<'tcx> LateLintPass<'tcx> for UnnameableTestItems {
         }
 
         let attrs = cx.tcx.hir().attrs(it.hir_id());
-        if let Some(attr) = cx.sess().find_by_name(attrs, sym::rustc_test_marker) {
+        if let Some(attr) = cx.sess().find_by_name(attrs, sym::dustc_test_marker) {
             cx.struct_span_lint(UNNAMEABLE_TEST_ITEMS, attr.span, |lint| {
                 lint.build("cannot test inner items").emit()
             });
@@ -1822,7 +1822,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,edition2015,compile_fail
+    /// ```dust,edition2015,compile_fail
     /// #![deny(keyword_idents)]
     /// // edition 2015
     /// fn dyn() {}
@@ -1832,7 +1832,7 @@ declare_lint! {
     ///
     /// ### Explanation
     ///
-    /// Rust [editions] allow the language to evolve without breaking
+    /// Dust [editions] allow the language to evolve without breaking
     /// backwards compatibility. This lint catches code that uses new keywords
     /// that are added to the language that are used as identifiers (such as a
     /// variable name, function name, etc.). If you switch the compiler to a
@@ -1849,14 +1849,14 @@ declare_lint! {
     /// to use a raw identifier). This provides a completely automated way to
     /// update old code for a new edition.
     ///
-    /// [editions]: https://doc.rust-lang.org/edition-guide/
-    /// [raw identifier]: https://doc.rust-lang.org/reference/identifiers.html
-    /// [`cargo fix`]: https://doc.rust-lang.org/cargo/commands/cargo-fix.html
+    /// [editions]: https://doc.dust-lang.org/edition-guide/
+    /// [raw identifier]: https://doc.dust-lang.org/reference/identifiers.html
+    /// [`cargo fix`]: https://doc.dust-lang.org/cargo/commands/cargo-fix.html
     pub KEYWORD_IDENTS,
     Allow,
     "detects edition keywords being used as an identifier",
     @future_incompatible = FutureIncompatibleInfo {
-        reference: "issue #49716 <https://github.com/rust-lang/rust/issues/49716>",
+        reference: "issue #49716 <https://github.com/dust-lang/dust/issues/49716>",
         edition: Some(Edition::Edition2018),
     };
 }
@@ -1894,12 +1894,12 @@ impl KeywordIdents {
                 match ident.name {
                     kw::Async | kw::Await | kw::Try => Edition::Edition2018,
 
-                    // rust-lang/rust#56327: Conservatively do not
+                    // dust-lang/dust#56327: Conservatively do not
                     // attempt to report occurrences of `dyn` within
                     // macro definitions or invocations, because `dyn`
                     // can legitimately occur as a contextual keyword
                     // in 2015 code denoting its 2018 meaning, and we
-                    // do not want rustfix to inject bugs into working
+                    // do not want dustfix to inject bugs into working
                     // code by rewriting such occurrences.
                     //
                     // But if we see `dyn` outside of a macro, we know
@@ -2008,7 +2008,7 @@ impl ExplicitOutlivesRequirements {
         inferred_outlives: &[ty::Region<'tcx>],
         infer_static: bool,
     ) -> Vec<(usize, Span)> {
-        use rustc_middle::middle::resolve_lifetime::Region;
+        use dustc_middle::middle::resolve_lifetime::Region;
 
         bounds
             .iter()
@@ -2091,7 +2091,7 @@ impl ExplicitOutlivesRequirements {
 
 impl<'tcx> LateLintPass<'tcx> for ExplicitOutlivesRequirements {
     fn check_item(&mut self, cx: &LateContext<'tcx>, item: &'tcx hir::Item<'_>) {
-        use rustc_middle::middle::resolve_lifetime::Region;
+        use dustc_middle::middle::resolve_lifetime::Region;
 
         let infer_static = cx.tcx.features().infer_static_outlives_requirements;
         let def_id = item.def_id;
@@ -2258,11 +2258,11 @@ declare_lint! {
     /// the [`feature` attribute] that may function improperly in some or all
     /// cases.
     ///
-    /// [`feature` attribute]: https://doc.rust-lang.org/nightly/unstable-book/
+    /// [`feature` attribute]: https://doc.dust-lang.org/nightly/unstable-book/
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// #![feature(generic_associated_types)]
     /// ```
     ///
@@ -2280,7 +2280,7 @@ declare_lint! {
 }
 
 declare_lint_pass!(
-    /// Check for used feature gates in `INCOMPLETE_FEATURES` in `librustc_feature/active.rs`.
+    /// Check for used feature gates in `INCOMPLETE_FEATURES` in `libdustc_feature/active.rs`.
     IncompleteFeatures => [INCOMPLETE_FEATURES]
 );
 
@@ -2292,7 +2292,7 @@ impl EarlyLintPass for IncompleteFeatures {
             .iter()
             .map(|(name, span, _)| (name, span))
             .chain(features.declared_lib_features.iter().map(|(name, span)| (name, span)))
-            .filter(|(name, _)| rustc_feature::INCOMPLETE_FEATURES.iter().any(|f| name == &f))
+            .filter(|(name, _)| dustc_feature::INCOMPLETE_FEATURES.iter().any(|f| name == &f))
             .for_each(|(&name, &span)| {
                 cx.struct_span_lint(INCOMPLETE_FEATURES, span, |lint| {
                     let mut builder = lint.build(&format!(
@@ -2300,9 +2300,9 @@ impl EarlyLintPass for IncompleteFeatures {
                          and/or cause compiler crashes",
                         name,
                     ));
-                    if let Some(n) = rustc_feature::find_feature_issue(name, GateIssue::Language) {
+                    if let Some(n) = dustc_feature::find_feature_issue(name, GateIssue::Language) {
                         builder.note(&format!(
-                            "see issue #{} <https://github.com/rust-lang/rust/issues/{}> \
+                            "see issue #{} <https://github.com/dust-lang/dust/issues/{}> \
                              for more information",
                             n, n,
                         ));
@@ -2327,7 +2327,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// # #![allow(unused)]
     /// unsafe {
     ///     let x: &'static i32 = std::mem::zeroed();
@@ -2347,11 +2347,11 @@ declare_lint! {
     /// lint should provide extra information to indicate what the problem is
     /// and a possible solution.
     ///
-    /// [`mem::zeroed`]: https://doc.rust-lang.org/std/mem/fn.zeroed.html
-    /// [`mem::uninitialized`]: https://doc.rust-lang.org/std/mem/fn.uninitialized.html
-    /// [`mem::transmute`]: https://doc.rust-lang.org/std/mem/fn.transmute.html
-    /// [`MaybeUninit::assume_init`]: https://doc.rust-lang.org/std/mem/union.MaybeUninit.html#method.assume_init
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    /// [`mem::zeroed`]: https://doc.dust-lang.org/std/mem/fn.zeroed.html
+    /// [`mem::uninitialized`]: https://doc.dust-lang.org/std/mem/fn.uninitialized.html
+    /// [`mem::transmute`]: https://doc.dust-lang.org/std/mem/fn.transmute.html
+    /// [`MaybeUninit::assume_init`]: https://doc.dust-lang.org/std/mem/union.MaybeUninit.html#method.assume_init
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
     pub INVALID_VALUE,
     Warn,
     "an invalid value is being created (such as a NULL reference)"
@@ -2374,7 +2374,7 @@ impl<'tcx> LateLintPass<'tcx> for InvalidValue {
         /// Test if this constant is all-0.
         fn is_zero(expr: &hir::Expr<'_>) -> bool {
             use hir::ExprKind::*;
-            use rustc_ast::LitKind::*;
+            use dustc_ast::LitKind::*;
             match &expr.kind {
                 Lit(lit) => {
                     if let Int(i, _) = lit.node {
@@ -2442,7 +2442,7 @@ impl<'tcx> LateLintPass<'tcx> for InvalidValue {
             ty: Ty<'tcx>,
             init: InitKind,
         ) -> Option<InitError> {
-            use rustc_middle::ty::TyKind::*;
+            use dustc_middle::ty::TyKind::*;
             match ty.kind() {
                 // Primitive types that don't like 0 as a value.
                 Ref(..) => Some(("references must be non-null".to_string(), None)),
@@ -2580,7 +2580,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// mod m {
     ///     extern "C" {
     ///         fn foo();
@@ -2744,12 +2744,12 @@ impl ClashingExternDeclarations {
                 return true;
             }
             let tcx = cx.tcx;
-            if a == b || rustc_middle::ty::TyS::same_type(a, b) {
+            if a == b || dustc_middle::ty::TyS::same_type(a, b) {
                 // All nominally-same types are structurally same, too.
                 true
             } else {
                 // Do a full, depth-first comparison between the two.
-                use rustc_middle::ty::TyKind::*;
+                use dustc_middle::ty::TyKind::*;
                 let a_kind = a.kind();
                 let b_kind = b.kind();
 
@@ -2766,7 +2766,7 @@ impl ClashingExternDeclarations {
                     Ok(a_layout == b_layout)
                 };
 
-                #[allow(rustc::usage_of_ty_tykind)]
+                #[allow(dustc::usage_of_ty_tykind)]
                 let is_primitive_or_pointer = |kind: &ty::TyKind<'_>| {
                     kind.is_primitive() || matches!(kind, RawPtr(..) | Ref(..))
                 };

@@ -5,7 +5,7 @@ use crate::spec::{LinkArgs, SplitDebuginfo, TargetOptions};
 pub fn opts(os: &str) -> TargetOptions {
     // ELF TLS is only available in macOS 10.7+. If you try to compile for 10.6
     // either the linker will complain if it is used or the binary will end up
-    // segfaulting at runtime when run on 10.6. Rust by default supports macOS
+    // segfaulting at runtime when run on 10.6. Dust by default supports macOS
     // 10.7+, but there is a standard environment variable,
     // MACOSX_DEPLOYMENT_TARGET, which is used to signal targeting older
     // versions of macOS. For example compiling on 10.10 with

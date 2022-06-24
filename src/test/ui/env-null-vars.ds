@@ -7,7 +7,7 @@
 
 // issue-53200
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 extern crate libc;
 
 use std::env;

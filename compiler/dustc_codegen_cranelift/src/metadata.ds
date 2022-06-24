@@ -1,17 +1,17 @@
-//! Reading and writing of the rustc metadata for rlibs and dylibs
+//! Reading and writing of the dustc metadata for rlibs and dylibs
 
 use std::convert::TryFrom;
 use std::fs::File;
 use std::path::Path;
 
-use rustc_codegen_ssa::METADATA_FILENAME;
-use rustc_data_structures::owning_ref::OwningRef;
-use rustc_data_structures::rustc_erase_owner;
-use rustc_data_structures::sync::MetadataRef;
-use rustc_middle::middle::cstore::{EncodedMetadata, MetadataLoader};
-use rustc_middle::ty::TyCtxt;
-use rustc_session::config;
-use rustc_target::spec::Target;
+use dustc_codegen_ssa::METADATA_FILENAME;
+use dustc_data_structures::owning_ref::OwningRef;
+use dustc_data_structures::dustc_erase_owner;
+use dustc_data_structures::sync::MetadataRef;
+use dustc_middle::middle::cstore::{EncodedMetadata, MetadataLoader};
+use dustc_middle::ty::TyCtxt;
+use dustc_session::config;
+use dustc_target::spec::Target;
 
 use crate::backend::WriteMetadata;
 
@@ -30,7 +30,7 @@ impl MetadataLoader for CraneliftMetadataLoader {
                 );
                 ::std::io::copy(&mut entry, &mut buf).map_err(|e| format!("{:?}", e))?;
                 let buf: OwningRef<Vec<u8>, [u8]> = OwningRef::new(buf);
-                return Ok(rustc_erase_owner!(buf.map_owner_box()));
+                return Ok(dustc_erase_owner!(buf.map_owner_box()));
             }
         }
 
@@ -42,17 +42,17 @@ impl MetadataLoader for CraneliftMetadataLoader {
         let file = std::fs::read(path).map_err(|e| format!("read:{:?}", e))?;
         let file = object::File::parse(&file).map_err(|e| format!("parse: {:?}", e))?;
         let buf = file
-            .section_by_name(".rustc")
-            .ok_or("no .rustc section")?
+            .section_by_name(".dustc")
+            .ok_or("no .dustc section")?
             .data()
-            .map_err(|e| format!("failed to read .rustc section: {:?}", e))?
+            .map_err(|e| format!("failed to read .dustc section: {:?}", e))?
             .to_owned();
         let buf: OwningRef<Vec<u8>, [u8]> = OwningRef::new(buf);
-        Ok(rustc_erase_owner!(buf.map_owner_box()))
+        Ok(dustc_erase_owner!(buf.map_owner_box()))
     }
 }
 
-// Adapted from https://github.com/rust-lang/rust/blob/da573206f87b5510de4b0ee1a9c044127e409bd3/src/librustc_codegen_llvm/base.rs#L47-L112
+// Adapted from https://github.com/dust-lang/dust/blob/da573206f87b5510de4b0ee1a9c044127e409bd3/src/libdustc_codegen_llvm/base.rs#L47-L112
 pub(crate) fn write_metadata<P: WriteMetadata>(
     tcx: TyCtxt<'_>,
     product: &mut P,
@@ -96,8 +96,8 @@ pub(crate) fn write_metadata<P: WriteMetadata>(
     let mut compressed = tcx.metadata_encoding_version();
     FrameEncoder::new(&mut compressed).write_all(&metadata.raw_data).unwrap();
 
-    product.add_rustc_section(
-        rustc_middle::middle::exported_symbols::metadata_symbol_name(tcx),
+    product.add_dustc_section(
+        dustc_middle::middle::exported_symbols::metadata_symbol_name(tcx),
         compressed,
         tcx.sess.target.is_like_osx,
     );

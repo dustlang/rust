@@ -1,4 +1,4 @@
-// From rust:
+// From dust:
 /* global search, sourcesIndex */
 
 // Local js definitions:
@@ -82,12 +82,12 @@ function toggleSidebar() {
         sidebar.style.left = "";
         this.style.left = "";
         child.innerText = "<";
-        updateLocalStorage("rustdoc-source-sidebar-show", "true");
+        updateLocalStorage("dustdoc-source-sidebar-show", "true");
     } else {
         sidebar.style.left = "-300px";
         this.style.left = "0";
         child.innerText = ">";
-        updateLocalStorage("rustdoc-source-sidebar-show", "false");
+        updateLocalStorage("dustdoc-source-sidebar-show", "false");
     }
 }
 
@@ -101,7 +101,7 @@ function createSidebarToggle() {
 
     var inner2 = document.createElement("div");
     inner2.style.paddingTop = "3px";
-    if (getCurrentValue("rustdoc-source-sidebar-show") === "true") {
+    if (getCurrentValue("dustdoc-source-sidebar-show") === "true") {
         inner2.innerText = "<";
     } else {
         inner2.innerText = ">";
@@ -126,7 +126,7 @@ function createSourceSidebar() {
 
     var sidebar = document.createElement("div");
     sidebar.id = "source-sidebar";
-    if (getCurrentValue("rustdoc-source-sidebar-show") !== "true") {
+    if (getCurrentValue("dustdoc-source-sidebar-show") !== "true") {
         sidebar.style.left = "-300px";
     }
 

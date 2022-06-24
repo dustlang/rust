@@ -4,21 +4,21 @@
 
 use crate::check::FnCtxt;
 
-use rustc_data_structures::stable_map::FxHashMap;
-use rustc_errors::ErrorReported;
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_infer::infer::error_reporting::TypeAnnotationNeeded::E0282;
-use rustc_infer::infer::InferCtxt;
-use rustc_middle::hir::place::Place as HirPlace;
-use rustc_middle::mir::FakeReadCause;
-use rustc_middle::ty::adjustment::{Adjust, Adjustment, PointerCast};
-use rustc_middle::ty::fold::{TypeFoldable, TypeFolder};
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_span::symbol::sym;
-use rustc_span::Span;
-use rustc_trait_selection::opaque_types::InferCtxtExt;
+use dustc_data_structures::stable_map::FxHashMap;
+use dustc_errors::ErrorReported;
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_infer::infer::error_reporting::TypeAnnotationNeeded::E0282;
+use dustc_infer::infer::InferCtxt;
+use dustc_middle::hir::place::Place as HirPlace;
+use dustc_middle::mir::FakeReadCause;
+use dustc_middle::ty::adjustment::{Adjust, Adjustment, PointerCast};
+use dustc_middle::ty::fold::{TypeFoldable, TypeFolder};
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_span::symbol::sym;
+use dustc_span::Span;
+use dustc_trait_selection::opaque_types::InferCtxtExt;
 
 use std::mem;
 
@@ -44,10 +44,10 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
 
         // This attribute causes us to dump some writeback information
         // in the form of errors, which is uSymbol for unit tests.
-        let rustc_dump_user_substs =
-            self.tcx.has_attr(item_def_id.to_def_id(), sym::rustc_dump_user_substs);
+        let dustc_dump_user_substs =
+            self.tcx.has_attr(item_def_id.to_def_id(), sym::dustc_dump_user_substs);
 
-        let mut wbcx = WritebackCx::new(self, body, rustc_dump_user_substs);
+        let mut wbcx = WritebackCx::new(self, body, dustc_dump_user_substs);
         for param in body.params {
             wbcx.visit_node_id(param.pat.span, param.hir_id);
         }
@@ -108,14 +108,14 @@ struct WritebackCx<'cx, 'tcx> {
 
     body: &'tcx hir::Body<'tcx>,
 
-    rustc_dump_user_substs: bool,
+    dustc_dump_user_substs: bool,
 }
 
 impl<'cx, 'tcx> WritebackCx<'cx, 'tcx> {
     fn new(
         fcx: &'cx FnCtxt<'cx, 'tcx>,
         body: &'tcx hir::Body<'tcx>,
-        rustc_dump_user_substs: bool,
+        dustc_dump_user_substs: bool,
     ) -> WritebackCx<'cx, 'tcx> {
         let owner = body.id().hir_id.owner;
 
@@ -123,7 +123,7 @@ impl<'cx, 'tcx> WritebackCx<'cx, 'tcx> {
             fcx,
             typeck_results: ty::TypeckResults::new(owner),
             body,
-            rustc_dump_user_substs,
+            dustc_dump_user_substs,
         }
     }
 
@@ -448,7 +448,7 @@ impl<'cx, 'tcx> WritebackCx<'cx, 'tcx> {
             self.typeck_results.user_provided_types_mut().insert(hir_id, *c_ty);
 
             if let ty::UserType::TypeOf(_, user_substs) = c_ty.value {
-                if self.rustc_dump_user_substs {
+                if self.dustc_dump_user_substs {
                     // This is a unit-testing mechanism.
                     let span = self.tcx().hir().span(hir_id);
                     // We need to buffer the errors in order to guarantee a consistent
@@ -508,7 +508,7 @@ impl<'cx, 'tcx> WritebackCx<'cx, 'tcx> {
 
             // Also replace all generic params with the ones from the opaque type
             // definition so that
-            // ```rust
+            // ```dust
             // type Foo<T> = impl Baz + 'static;
             // fn foo<U>() -> Foo<U> { .. }
             // ```

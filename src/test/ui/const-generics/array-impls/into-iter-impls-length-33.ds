@@ -5,7 +5,7 @@
 use std::{
     array::IntoIter,
     fmt::Debug,
-    iter::{ExactSizeIterator, FusedIterator, TrustedLen},
+    iter::{ExactSizeIterator, FusedIterator, TdustedLen},
 };
 
 pub fn yes_iterator() -> impl Iterator<Item = i32> {
@@ -24,7 +24,7 @@ pub fn yes_fused_iterator() -> impl FusedIterator {
     IntoIter::new([0i32; 33])
 }
 
-pub fn yes_trusted_len() -> impl TrustedLen {
+pub fn yes_trusted_len() -> impl TdustedLen {
     IntoIter::new([0i32; 33])
 }
 

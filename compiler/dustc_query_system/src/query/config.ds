@@ -5,8 +5,8 @@ use crate::dep_graph::SerializedDepNodeIndex;
 use crate::query::caches::QueryCache;
 use crate::query::{QueryCacheStore, QueryContext, QueryState};
 
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_errors::DiagnosticBuilder;
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_errors::DiagnosticBuilder;
 use std::fmt::Debug;
 use std::hash::Hash;
 

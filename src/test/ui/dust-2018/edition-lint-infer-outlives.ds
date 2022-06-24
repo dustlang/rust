@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![allow(unused)]
 #![deny(explicit_outlives_requirements)]
@@ -786,7 +786,7 @@ mod unions {
 
 // But outlives inference for 'static lifetimes is under a separate
 // feature-gate for now
-// (https://github.com/rust-lang/rust/issues/44493#issuecomment-407846046).
+// (https://github.com/dust-lang/dust/issues/44493#issuecomment-407846046).
 struct StaticRef<T: 'static> {
     field: &'static T
 }

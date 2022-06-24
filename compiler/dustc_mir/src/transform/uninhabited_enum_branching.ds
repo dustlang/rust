@@ -1,14 +1,14 @@
 //! A pass that eliminates branches on uninhabited enum variants.
 
 use crate::transform::MirPass;
-use rustc_data_structures::stable_set::FxHashSet;
-use rustc_middle::mir::{
+use dustc_data_structures::stable_set::FxHashSet;
+use dustc_middle::mir::{
     BasicBlock, BasicBlockData, Body, Local, Operand, Rvalue, StatementKind, SwitchTargets,
     TerminatorKind,
 };
-use rustc_middle::ty::layout::TyAndLayout;
-use rustc_middle::ty::{Ty, TyCtxt};
-use rustc_target::abi::{Abi, Variants};
+use dustc_middle::ty::layout::TyAndLayout;
+use dustc_middle::ty::{Ty, TyCtxt};
+use dustc_target::abi::{Abi, Variants};
 
 pub struct UninhabitedEnumBranching;
 

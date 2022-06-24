@@ -5,10 +5,10 @@
 #[macro_use]
 extern crate bitflags;
 #[macro_use]
-extern crate rustc_macros;
+extern crate dustc_macros;
 
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::unify::{EqUnifyValue, UnifyKey};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::unify::{EqUnifyValue, UnifyKey};
 use std::fmt;
 use std::mem::discriminant;
 
@@ -97,7 +97,7 @@ bitflags! {
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     /// A [De Bruijn index][dbi] is a standard means of representing
     /// regions (and perhaps later types) in a higher-ranked setting. In
     /// particular, imagine a type like this:
@@ -372,7 +372,7 @@ pub enum InferTy {
 
     /// A [`FreshTy`][Self::FreshTy] is one that is generated as a replacement
     /// for an unbound type variable. This is convenient for caching etc. See
-    /// `rustc_infer::infer::freshen` for more details.
+    /// `dustc_infer::infer::freshen` for more details.
     ///
     /// Compare with [`TyVar`][Self::TyVar].
     FreshTy(u32),

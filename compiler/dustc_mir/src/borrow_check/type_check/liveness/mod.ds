@@ -1,6 +1,6 @@
-use rustc_data_structures::fx::FxHashSet;
-use rustc_middle::mir::{Body, Local};
-use rustc_middle::ty::{RegionVid, TyCtxt};
+use dustc_data_structures::fx::FxHashSet;
+use dustc_middle::mir::{Body, Local};
+use dustc_middle::ty::{RegionVid, TyCtxt};
 use std::rc::Rc;
 
 use crate::dataflow::impls::MaybeInitializedPlaces;

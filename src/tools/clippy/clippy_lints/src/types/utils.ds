@@ -1,6 +1,6 @@
-use rustc_hir::{GenericArg, QPath, TyKind};
-use rustc_lint::LateContext;
-use rustc_span::source_map::Span;
+use dustc_hir::{GenericArg, QPath, TyKind};
+use dustc_lint::LateContext;
+use dustc_span::source_map::Span;
 
 use crate::utils::last_path_segment;
 

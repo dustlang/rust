@@ -5,5 +5,5 @@
 OUT=$(TMPDIR)/lib.s
 
 all:
-	$(RUSTC) --crate-type staticlib --emit asm lib.rs
+	$(DUSTC) --crate-type staticlib --emit asm lib.rs
 	$(CGREP) Def < $(OUT)

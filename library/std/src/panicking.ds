@@ -18,7 +18,7 @@ use crate::mem::{self, ManuallyDrop};
 use crate::process;
 use crate::sync::atomic::{AtomicBool, Ordering};
 use crate::sys::stdio::panic_output;
-use crate::sys_common::backtrace::{self, RustBacktrace};
+use crate::sys_common::backtrace::{self, DustBacktrace};
 use crate::sys_common::rwlock::RWLock;
 use crate::sys_common::{thread_info, util};
 use crate::thread;
@@ -42,30 +42,30 @@ use realstd::io::set_output_capture;
 // hook up these functions, but it is not this day!
 #[allow(improper_ctypes)]
 extern "C" {
-    fn __rust_panic_cleanup(payload: *mut u8) -> *mut (dyn Any + Send + 'static);
+    fn __dust_panic_cleanup(payload: *mut u8) -> *mut (dyn Any + Send + 'static);
 
     /// `payload` is passed through another layer of raw pointers as `&mut dyn Trait` is not
     /// FFI-safe. `BoxMeUp` lazily performs allocation only when needed (this avoids allocations
     /// when using the "abort" panic runtime).
     #[unwind(allowed)]
-    fn __rust_start_panic(payload: *mut &mut dyn BoxMeUp) -> u32;
+    fn __dust_start_panic(payload: *mut &mut dyn BoxMeUp) -> u32;
 }
 
-/// This function is called by the panic runtime if FFI code catches a Rust
+/// This function is called by the panic runtime if FFI code catches a Dust
 /// panic but doesn't rethrow it. We don't support this case since it messes
 /// with our panic count.
 #[cfg(not(test))]
-#[rustc_std_internal_symbol]
-extern "C" fn __rust_drop_panic() -> ! {
-    rtabort!("Rust panics must be rethrown");
+#[dustc_std_internal_symbol]
+extern "C" fn __dust_drop_panic() -> ! {
+    rtabort!("Dust panics must be rethrown");
 }
 
 /// This function is called by the panic runtime if it catches an exception
-/// object which does not correspond to a Rust panic.
+/// object which does not correspond to a Dust panic.
 #[cfg(not(test))]
-#[rustc_std_internal_symbol]
-extern "C" fn __rust_foreign_exception() -> ! {
-    rtabort!("Rust cannot catch foreign exceptions");
+#[dustc_std_internal_symbol]
+extern "C" fn __dust_foreign_exception() -> ! {
+    rtabort!("Dust cannot catch foreign exceptions");
 }
 
 #[derive(Copy, Clone)]
@@ -181,9 +181,9 @@ fn default_hook(info: &PanicInfo<'_>) {
     // If this is a double panic, make sure that we print a backtrace
     // for this panic. Otherwise only print it if logging is enabled.
     let backtrace_env = if panic_count::get() >= 2 {
-        RustBacktrace::Print(crate::backtrace_rs::PrintFmt::Full)
+        DustBacktrace::Print(crate::backtrace_rs::PrintFmt::Full)
     } else {
-        backtrace::rust_backtrace_env()
+        backtrace::dust_backtrace_env()
     };
 
     // The current implementation always returns `Some`.
@@ -205,13 +205,13 @@ fn default_hook(info: &PanicInfo<'_>) {
         static FIRST_PANIC: AtomicBool = AtomicBool::new(true);
 
         match backtrace_env {
-            RustBacktrace::Print(format) => drop(backtrace::print(err, format)),
-            RustBacktrace::Disabled => {}
-            RustBacktrace::RuntimeDisabled => {
+            DustBacktrace::Print(format) => drop(backtrace::print(err, format)),
+            DustBacktrace::Disabled => {}
+            DustBacktrace::RuntimeDisabled => {
                 if FIRST_PANIC.swap(false, Ordering::SeqCst) {
                     let _ = writeln!(
                         err,
-                        "note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+                        "note: run with `DUST_BACKTRACE=1` environment variable to display a backtrace"
                     );
                 }
             }
@@ -354,10 +354,10 @@ pub unsafe fn r#try<R, F: FnOnce() -> R>(f: F) -> Result<R, Box<dyn Any + Send>>
     #[cold]
     unsafe fn cleanup(payload: *mut u8) -> Box<dyn Any + Send + 'static> {
         // SAFETY: The whole unsafe block hinges on a correct implementation of
-        // the panic handler `__rust_panic_cleanup`. As such we can only
+        // the panic handler `__dust_panic_cleanup`. As such we can only
         // assume it returns the correct thing for `Box::from_raw` to work
         // without undefined behavior.
-        let obj = unsafe { Box::from_raw(__rust_panic_cleanup(payload)) };
+        let obj = unsafe { Box::from_raw(__dust_panic_cleanup(payload)) };
         panic_count::decrease();
         obj
     }
@@ -387,7 +387,7 @@ pub unsafe fn r#try<R, F: FnOnce() -> R>(f: F) -> Result<R, Box<dyn Any + Send>>
     // SAFETY:
     // data must be non-NUL, correctly aligned, and a pointer to a `Data<F, R>`
     // Since this uses `cleanup` it also hinges on a correct implementation of
-    // `__rustc_panic_cleanup`.
+    // `__dustc_panic_cleanup`.
     //
     // This function cannot be marked as `unsafe` because `intrinsics::r#try`
     // expects normal function pointers.
@@ -395,7 +395,7 @@ pub unsafe fn r#try<R, F: FnOnce() -> R>(f: F) -> Result<R, Box<dyn Any + Send>>
     fn do_catch<F: FnOnce() -> R, R>(data: *mut u8, payload: *mut u8) {
         // SAFETY: this is the responsibilty of the caller, see above.
         //
-        // When `__rustc_panic_cleaner` is correctly implemented we can rely
+        // When `__dustc_panic_cleaner` is correctly implemented we can rely
         // on `obj` being the correct thing to pass to `data.p` (after wrapping
         // in `ManuallyDrop`).
         unsafe {
@@ -490,11 +490,11 @@ pub fn begin_panic_handler(info: &PanicInfo<'_>) -> ! {
 
     let loc = info.location().unwrap(); // The current implementation always returns Some
     let msg = info.message().unwrap(); // The current implementation always returns Some
-    crate::sys_common::backtrace::__rust_end_short_backtrace(move || {
+    crate::sys_common::backtrace::__dust_end_short_backtrace(move || {
         if let Some(msg) = msg.as_str() {
-            rust_panic_with_hook(&mut StrPanicPayload(msg), info.message(), loc);
+            dust_panic_with_hook(&mut StrPanicPayload(msg), info.message(), loc);
         } else {
-            rust_panic_with_hook(&mut PanicPayload::new(msg), info.message(), loc);
+            dust_panic_with_hook(&mut PanicPayload::new(msg), info.message(), loc);
         }
     })
 }
@@ -516,8 +516,8 @@ pub fn begin_panic<M: Any + Send>(msg: M) -> ! {
     }
 
     let loc = Location::caller();
-    return crate::sys_common::backtrace::__rust_end_short_backtrace(move || {
-        rust_panic_with_hook(&mut PanicPayload::new(msg), None, loc)
+    return crate::sys_common::backtrace::__dust_end_short_backtrace(move || {
+        dust_panic_with_hook(&mut PanicPayload::new(msg), None, loc)
     });
 
     struct PanicPayload<A> {
@@ -558,7 +558,7 @@ pub fn begin_panic<M: Any + Send>(msg: M) -> ! {
 /// Executes the primary logic for a panic, including checking for recursive
 /// panics, panic hooks, and finally dispatching to the panic runtime to either
 /// abort or unwind.
-fn rust_panic_with_hook(
+fn dust_panic_with_hook(
     payload: &mut dyn BoxMeUp,
     message: Option<&fmt::Arguments<'_>>,
     location: &Location<'_>,
@@ -607,12 +607,12 @@ fn rust_panic_with_hook(
         intrinsics::abort()
     }
 
-    rust_panic(payload)
+    dust_panic(payload)
 }
 
 /// This is the entry point for `resume_unwind`.
 /// It just forwards the payload to the panic runtime.
-pub fn rust_panic_without_hook(payload: Box<dyn Any + Send>) -> ! {
+pub fn dust_panic_without_hook(payload: Box<dyn Any + Send>) -> ! {
     panic_count::increase();
 
     struct RewrapBox(Box<dyn Any + Send>);
@@ -627,17 +627,17 @@ pub fn rust_panic_without_hook(payload: Box<dyn Any + Send>) -> ! {
         }
     }
 
-    rust_panic(&mut RewrapBox(payload))
+    dust_panic(&mut RewrapBox(payload))
 }
 
-/// An unmangled function (through `rustc_std_internal_symbol`) on which to slap
+/// An unmangled function (through `dustc_std_internal_symbol`) on which to slap
 /// yer breakpoints.
 #[inline(never)]
-#[cfg_attr(not(test), rustc_std_internal_symbol)]
-fn rust_panic(mut msg: &mut dyn BoxMeUp) -> ! {
+#[cfg_attr(not(test), dustc_std_internal_symbol)]
+fn dust_panic(mut msg: &mut dyn BoxMeUp) -> ! {
     let code = unsafe {
         let obj = &mut msg as *mut &mut dyn BoxMeUp;
-        __rust_start_panic(obj)
+        __dust_start_panic(obj)
     };
     rtabort!("failed to initiate panic, error {}", code)
 }

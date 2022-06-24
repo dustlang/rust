@@ -4,13 +4,13 @@ use crate::utils::{
     get_enclosing_block, higher, is_type_diagnostic_item, path_to_local, snippet, span_lint_and_sugg, sugg,
 };
 use if_chain::if_chain;
-use rustc_ast::ast;
-use rustc_errors::Applicability;
-use rustc_hir::intravisit::walk_block;
-use rustc_hir::{BinOpKind, Block, Expr, ExprKind, HirId, Pat, PatKind, StmtKind};
-use rustc_lint::LateContext;
-use rustc_middle::ty::{self, Ty};
-use rustc_span::symbol::sym;
+use dustc_ast::ast;
+use dustc_errors::Applicability;
+use dustc_hir::intravisit::walk_block;
+use dustc_hir::{BinOpKind, Block, Expr, ExprKind, HirId, Pat, PatKind, StmtKind};
+use dustc_lint::LateContext;
+use dustc_middle::ty::{self, Ty};
+use dustc_span::symbol::sym;
 use std::iter::Iterator;
 
 /// Checks for for loops that sequentially copy items from one slice-like

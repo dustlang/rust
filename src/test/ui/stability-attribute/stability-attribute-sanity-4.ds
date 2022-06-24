@@ -2,7 +2,7 @@
 
 #![feature(staged_api)]
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 mod bogus_attribute_types_2 {
     #[unstable] //~ ERROR malformed `unstable` attribute
@@ -18,11 +18,11 @@ mod bogus_attribute_types_2 {
     fn f4() { }
 
     #[stable(feature = "a", since = "b")]
-    #[rustc_deprecated] //~ ERROR malformed `rustc_deprecated` attribute
+    #[dustc_deprecated] //~ ERROR malformed `dustc_deprecated` attribute
     fn f5() { }
 
     #[stable(feature = "a", since = "b")]
-    #[rustc_deprecated = "a"] //~ ERROR malformed `rustc_deprecated` attribute
+    #[dustc_deprecated = "a"] //~ ERROR malformed `dustc_deprecated` attribute
     fn f6() { }
 }
 

@@ -4,7 +4,7 @@ fn foo() -> bool {
     true
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn main() {
     // weird `else` formatting:
     if foo() {

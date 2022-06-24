@@ -1,13 +1,13 @@
-use rustc_hir::def_id::LOCAL_CRATE;
-use rustc_middle::ty::query::Providers;
-use rustc_session::Session;
-use rustc_span::symbol::sym;
-use rustc_span::symbol::Symbol;
+use dustc_hir::def_id::LOCAL_CRATE;
+use dustc_middle::ty::query::Providers;
+use dustc_session::Session;
+use dustc_span::symbol::sym;
+use dustc_span::symbol::Symbol;
 
 // When adding features to the below lists
-// check whether they're named already elsewhere in rust
+// check whether they're named already elsewhere in dust
 // e.g. in stdarch and whether the given name matches LLVM's
-// if it doesn't, to_llvm_feature in llvm_util in rustc_codegen_llvm needs to be adapted
+// if it doesn't, to_llvm_feature in llvm_util in dustc_codegen_llvm needs to be adapted
 
 const ARM_ALLOWED_FEATURES: &[(&str, Option<Symbol>)] = &[
     ("aclass", Some(sym::arm_target_feature)),
@@ -134,7 +134,7 @@ const WASM_ALLOWED_FEATURES: &[(&str, Option<Symbol>)] = &[
     ("nontrapping-fptoint", Some(sym::wasm_target_feature)),
 ];
 
-/// When rustdoc is running, provide a list of all known features so that all their respective
+/// When dustdoc is running, provide a list of all known features so that all their respective
 /// primitives may be documented.
 ///
 /// IMPORTANT: If you're adding another feature list above, make sure to add it to this iterator!
@@ -168,8 +168,8 @@ pub fn supported_target_features(sess: &Session) -> &'static [(&'static str, Opt
 pub(crate) fn provide(providers: &mut Providers) {
     providers.supported_target_features = |tcx, cnum| {
         assert_eq!(cnum, LOCAL_CRATE);
-        if tcx.sess.opts.actually_rustdoc {
-            // rustdoc needs to be able to document functions that use all the features, so
+        if tcx.sess.opts.actually_dustdoc {
+            // dustdoc needs to be able to document functions that use all the features, so
             // whitelist them all
             all_known_features().map(|(a, b)| (a.to_string(), b)).collect()
         } else {

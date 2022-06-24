@@ -1,11 +1,11 @@
 //! Implementation of the `#[cfg_accessible(path)]` attribute macro.
 
-use rustc_ast as ast;
-use rustc_expand::base::{Annotatable, ExpandResult, ExtCtxt, Indeterminate, MultiItemModifier};
-use rustc_feature::AttributeTemplate;
-use rustc_parse::validate_attr;
-use rustc_span::symbol::sym;
-use rustc_span::Span;
+use dustc_ast as ast;
+use dustc_expand::base::{Annotatable, ExpandResult, ExtCtxt, Indeterminate, MultiItemModifier};
+use dustc_feature::AttributeTemplate;
+use dustc_parse::validate_attr;
+use dustc_span::symbol::sym;
+use dustc_span::Span;
 
 crate struct Expander;
 

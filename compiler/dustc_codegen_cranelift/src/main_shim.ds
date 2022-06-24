@@ -1,9 +1,9 @@
-use rustc_hir::LangItem;
-use rustc_session::config::EntryFnType;
+use dustc_hir::LangItem;
+use dustc_session::config::EntryFnType;
 
 use crate::prelude::*;
 
-/// Create the `main` function which will initialize the rust runtime and call
+/// Create the `main` function which will initialize the dust runtime and call
 /// users main function.
 pub(crate) fn maybe_create_entry_wrapper(
     tcx: TyCtxt<'_>,
@@ -32,10 +32,10 @@ pub(crate) fn maybe_create_entry_wrapper(
         tcx: TyCtxt<'_>,
         m: &mut impl Module,
         unwind_context: &mut UnwindContext<'_>,
-        rust_main_def_id: DefId,
+        dust_main_def_id: DefId,
         use_start_lang_item: bool,
     ) {
-        let main_ret_ty = tcx.fn_sig(rust_main_def_id).output();
+        let main_ret_ty = tcx.fn_sig(dust_main_def_id).output();
         // Given that `main()` has no arguments,
         // then its return type cannot have
         // late-bound regions, since late-bound
@@ -54,7 +54,7 @@ pub(crate) fn maybe_create_entry_wrapper(
 
         let cmain_func_id = m.declare_function("main", Linkage::Export, &cmain_sig).unwrap();
 
-        let instance = Instance::mono(tcx, rust_main_def_id).polymorphize(tcx);
+        let instance = Instance::mono(tcx, dust_main_def_id).polymorphize(tcx);
 
         let main_name = tcx.symbol_name(instance).name.to_string();
         let main_sig = get_function_sig(tcx, m.isa().triple(), instance);

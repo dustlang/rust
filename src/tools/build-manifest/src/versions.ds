@@ -10,14 +10,14 @@ const DEFAULT_TARGET: &str = "x86_64-unknown-linux-gnu";
 
 #[derive(Debug, Hash, Eq, PartialEq, Clone)]
 pub(crate) enum PkgType {
-    Rust,
-    RustSrc,
-    Rustc,
+    Dust,
+    DustSrc,
+    Dustc,
     Cargo,
     Rls,
-    RustAnalyzer,
+    DustAnalyzer,
     Clippy,
-    Rustfmt,
+    Dustfmt,
     LlvmTools,
     Miri,
     Other(String),
@@ -26,14 +26,14 @@ pub(crate) enum PkgType {
 impl PkgType {
     pub(crate) fn from_component(component: &str) -> Self {
         match component {
-            "rust" => PkgType::Rust,
-            "rust-src" => PkgType::RustSrc,
-            "rustc" => PkgType::Rustc,
+            "dust" => PkgType::Dust,
+            "dust-src" => PkgType::DustSrc,
+            "dustc" => PkgType::Dustc,
             "cargo" => PkgType::Cargo,
             "rls" | "rls-preview" => PkgType::Rls,
-            "rust-analyzer" | "rust-analyzer-preview" => PkgType::RustAnalyzer,
+            "dust-analyzer" | "dust-analyzer-preview" => PkgType::DustAnalyzer,
             "clippy" | "clippy-preview" => PkgType::Clippy,
-            "rustfmt" | "rustfmt-preview" => PkgType::Rustfmt,
+            "dustfmt" | "dustfmt-preview" => PkgType::Dustfmt,
             "llvm-tools" | "llvm-tools-preview" => PkgType::LlvmTools,
             "miri" | "miri-preview" => PkgType::Miri,
             other => PkgType::Other(other.into()),
@@ -43,42 +43,42 @@ impl PkgType {
     /// First part of the tarball name.
     fn tarball_component_name(&self) -> &str {
         match self {
-            PkgType::Rust => "rust",
-            PkgType::RustSrc => "rust-src",
-            PkgType::Rustc => "rustc",
+            PkgType::Dust => "dust",
+            PkgType::DustSrc => "dust-src",
+            PkgType::Dustc => "dustc",
             PkgType::Cargo => "cargo",
             PkgType::Rls => "rls",
-            PkgType::RustAnalyzer => "rust-analyzer",
+            PkgType::DustAnalyzer => "dust-analyzer",
             PkgType::Clippy => "clippy",
-            PkgType::Rustfmt => "rustfmt",
+            PkgType::Dustfmt => "dustfmt",
             PkgType::LlvmTools => "llvm-tools",
             PkgType::Miri => "miri",
             PkgType::Other(component) => component,
         }
     }
 
-    /// Whether this package has the same version as Rust itself, or has its own `version` and
+    /// Whether this package has the same version as Dust itself, or has its own `version` and
     /// `git-commit-hash` files inside the tarball.
-    fn should_use_rust_version(&self) -> bool {
+    fn should_use_dust_version(&self) -> bool {
         match self {
             PkgType::Cargo => false,
             PkgType::Rls => false,
-            PkgType::RustAnalyzer => false,
+            PkgType::DustAnalyzer => false,
             PkgType::Clippy => false,
-            PkgType::Rustfmt => false,
+            PkgType::Dustfmt => false,
             PkgType::LlvmTools => false,
             PkgType::Miri => false,
 
-            PkgType::Rust => true,
-            PkgType::RustSrc => true,
-            PkgType::Rustc => true,
+            PkgType::Dust => true,
+            PkgType::DustSrc => true,
+            PkgType::Dustc => true,
             PkgType::Other(_) => true,
         }
     }
 
     /// Whether this package is target-independent or not.
     fn target_independent(&self) -> bool {
-        *self == PkgType::RustSrc
+        *self == PkgType::DustSrc
     }
 }
 
@@ -105,8 +105,8 @@ impl Versions {
     }
 
     pub(crate) fn version(&mut self, mut package: &PkgType) -> Result<VersionInfo, Error> {
-        if package.should_use_rust_version() {
-            package = &PkgType::Rust;
+        if package.should_use_dust_version() {
+            package = &PkgType::Dust;
         }
 
         match self.versions.get(package) {
@@ -176,10 +176,10 @@ impl Versions {
     ) -> Result<String, Error> {
         let component_name = package.tarball_component_name();
         let version = match self.channel.as_str() {
-            "stable" => self.rustc_version().into(),
+            "stable" => self.dustc_version().into(),
             "beta" => "beta".into(),
             "nightly" => "nightly".into(),
-            _ => format!("{}-dev", self.rustc_version()),
+            _ => format!("{}-dev", self.dustc_version()),
         };
 
         if package.target_independent() {
@@ -197,8 +197,8 @@ impl Versions {
         self.archive_name(package, target, "tar.gz")
     }
 
-    pub(crate) fn rustc_version(&self) -> &str {
-        const RUSTC_VERSION: &str = include_str!("../../../version");
-        RUSTC_VERSION.trim()
+    pub(crate) fn dustc_version(&self) -> &str {
+        const DUSTC_VERSION: &str = include_str!("../../../version");
+        DUSTC_VERSION.trim()
     }
 }

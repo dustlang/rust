@@ -1,7 +1,7 @@
 //! List of the accepted feature gates.
 
 use super::{to_nonzero, Feature, State};
-use rustc_span::symbol::sym;
+use dustc_span::symbol::sym;
 
 macro_rules! declare_features {
     ($(
@@ -23,7 +23,7 @@ macro_rules! declare_features {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 declare_features! (
     // -------------------------------------------------------------------------
     // feature-group-start: for testing purposes
@@ -252,7 +252,7 @@ declare_features! (
     (accepted, non_exhaustive, "1.40.0", Some(44109), None),
     /// Allows calling constructor functions in `const fn`.
     (accepted, const_constructor, "1.40.0", Some(61456), None),
-    /// Allows the use of `#[cfg(doctest)]`, set when rustdoc is collecting doctests.
+    /// Allows the use of `#[cfg(doctest)]`, set when dustdoc is collecting doctests.
     (accepted, cfg_doctest, "1.40.0", Some(62210), None),
     /// Allows relaxing the coherence rules such that
     /// `impl<T> ForeignTrait<LocalType> for ForeignType<T>` is permitted.

@@ -10,7 +10,7 @@ use super::{count, wrap_index, RingSlices};
 /// documentation for more.
 ///
 /// [`iter`]: super::VecDeque::iter
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Iter<'a, T: 'a> {
     pub(crate) ring: &'a [T],
     pub(crate) tail: usize,
@@ -26,14 +26,14 @@ impl<T: fmt::Debug> fmt::Debug for Iter<'_, T> {
 }
 
 // FIXME(#26925) Remove in favor of `#[derive(Clone)]`
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> Clone for Iter<'_, T> {
     fn clone(&self) -> Self {
         Iter { ring: self.ring, tail: self.tail, head: self.head }
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T> Iterator for Iter<'a, T> {
     type Item = &'a T;
 
@@ -103,7 +103,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
     #[inline]
     fn next_back(&mut self) -> Option<&'a T> {
@@ -148,7 +148,7 @@ impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> ExactSizeIterator for Iter<'_, T> {
     fn is_empty(&self) -> bool {
         self.head == self.tail

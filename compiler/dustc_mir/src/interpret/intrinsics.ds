@@ -4,17 +4,17 @@
 
 use std::convert::TryFrom;
 
-use rustc_hir::def_id::DefId;
-use rustc_middle::mir::{
+use dustc_hir::def_id::DefId;
+use dustc_middle::mir::{
     self,
     interpret::{ConstValue, GlobalId, InterpResult, Scalar},
     BinOp,
 };
-use rustc_middle::ty;
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::{Ty, TyCtxt};
-use rustc_span::symbol::{sym, Symbol};
-use rustc_target::abi::{Abi, LayoutOf as _, Primitive, Size};
+use dustc_middle::ty;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::{Ty, TyCtxt};
+use dustc_span::symbol::{sym, Symbol};
+use dustc_target::abi::{Abi, LayoutOf as _, Primitive, Size};
 
 use super::{
     util::ensure_monomorphic_enough, CheckInAllocMsg, ImmTy, InterpCx, Machine, OpTy, PlaceTy,
@@ -41,7 +41,7 @@ fn numeric_intrinsic<Tag>(name: Symbol, bits: u128, kind: Primitive) -> Scalar<T
 }
 
 /// The logic for all nullary intrinsics is implemented here. These intrinsics don't get evaluated
-/// inside an `InterpCx` and instead have their value computed directly from rustc internal info.
+/// inside an `InterpCx` and instead have their value computed directly from dustc internal info.
 crate fn eval_nullary_intrinsic<'tcx>(
     tcx: TyCtxt<'tcx>,
     param_env: ty::ParamEnv<'tcx>,
@@ -128,7 +128,7 @@ impl<'mir, 'tcx: 'mir, M: Machine<'mir, 'tcx>> InterpCx<'mir, 'tcx, M> {
         };
 
         // Keep the patterns in this match ordered the same as the list in
-        // `src/librustc_middle/ty/constness.rs`
+        // `src/libdustc_middle/ty/constness.rs`
         match intrinsic_name {
             sym::caller_location => {
                 let span = self.find_closest_untracked_caller_location();

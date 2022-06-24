@@ -1,9 +1,9 @@
 use crate::utils::{match_qpath, match_trait_method, paths, span_lint_and_sugg};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_lint::LateContext;
-use rustc_span::source_map::Span;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_lint::LateContext;
+use dustc_span::source_map::Span;
 
 use super::FLAT_MAP_IDENTITY;
 

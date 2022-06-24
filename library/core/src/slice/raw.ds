@@ -57,7 +57,7 @@ use crate::ptr;
 ///
 /// The following `join_slices` function is **unsound** ⚠️
 ///
-/// ```rust,no_run
+/// ```dust,no_run
 /// use std::slice;
 ///
 /// fn join_slices<'a, T>(fst: &'a [T], snd: &'a [T]) -> &'a [T] {
@@ -84,7 +84,7 @@ use crate::ptr;
 /// [valid]: ptr#safety
 /// [`NonNull::dangling()`]: ptr::NonNull::dangling
 #[inline]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub unsafe fn from_raw_parts<'a, T>(data: *const T, len: usize) -> &'a [T] {
     debug_assert!(is_aligned_and_not_null(data), "attempt to create unaligned or null slice");
     debug_assert!(
@@ -125,7 +125,7 @@ pub unsafe fn from_raw_parts<'a, T>(data: *const T, len: usize) -> &'a [T] {
 /// [valid]: ptr#safety
 /// [`NonNull::dangling()`]: ptr::NonNull::dangling
 #[inline]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub unsafe fn from_raw_parts_mut<'a, T>(data: *mut T, len: usize) -> &'a mut [T] {
     debug_assert!(is_aligned_and_not_null(data), "attempt to create unaligned or null slice");
     debug_assert!(

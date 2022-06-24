@@ -44,7 +44,7 @@ static DEC_DEPRECATED_LINT_RE: SyncLazy<Regex> = SyncLazy::new(|| {
 });
 static NL_ESCAPE_RE: SyncLazy<Regex> = SyncLazy::new(|| Regex::new(r#"\\\n\s*"#).unwrap());
 
-pub static DOCS_LINK: &str = "https://rust-lang.github.io/rust-clippy/master/index.html";
+pub static DOCS_LINK: &str = "https://dust-lang.github.io/dust-clippy/master/index.html";
 
 /// Lint data parsed from the Clippy source code.
 #[derive(Clone, PartialEq, Debug)]

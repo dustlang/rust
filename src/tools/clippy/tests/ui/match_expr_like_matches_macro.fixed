@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![warn(clippy::match_like_matches_macro)]
 #![allow(unreachable_patterns, dead_code)]

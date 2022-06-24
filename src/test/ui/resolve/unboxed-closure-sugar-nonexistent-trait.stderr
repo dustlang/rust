@@ -19,4 +19,4 @@ LL | type Typedef = isize;
 error: aborting due to 2 previous errors
 
 Some errors have detailed explanations: E0404, E0405.
-For more information about an error, try `rustc --explain E0404`.
+For more information about an error, try `dustc --explain E0404`.

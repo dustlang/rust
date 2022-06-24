@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![allow(clippy::bind_instead_of_map)]
 
@@ -9,7 +9,7 @@ fn main() {
     // Single line case.
     let _ = opt.map_or(None, |x| Some(x + 1));
     // Multi-line case.
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     let _ = opt.map_or(None, |x| {
                         Some(x + 1)
                        });

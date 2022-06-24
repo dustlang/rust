@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_feature"
+name = "dustc_feature"
 version = "0.0.0"
 edition = "2018"
 
@@ -8,5 +8,5 @@ edition = "2018"
 doctest = false
 
 [dependencies]
-rustc_data_structures = { path = "../rustc_data_structures" }
-rustc_span = { path = "../rustc_span" }
+dustc_data_structures = { path = "../dustc_data_structures" }
+dustc_span = { path = "../dustc_span" }

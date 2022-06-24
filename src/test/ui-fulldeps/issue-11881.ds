@@ -3,20 +3,20 @@
 #![allow(unused_must_use)]
 #![allow(dead_code)]
 #![allow(unused_imports)]
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_macros;
-extern crate rustc_serialize;
+extern crate dustc_macros;
+extern crate dustc_serialize;
 
 use std::fmt;
 use std::io::prelude::*;
 use std::io::Cursor;
 use std::slice;
 
-use rustc_macros::Encodable;
-use rustc_serialize::json;
-use rustc_serialize::opaque;
-use rustc_serialize::{Encodable, Encoder};
+use dustc_macros::Encodable;
+use dustc_serialize::json;
+use dustc_serialize::opaque;
+use dustc_serialize::{Encodable, Encoder};
 
 #[derive(Encodable)]
 struct Foo {

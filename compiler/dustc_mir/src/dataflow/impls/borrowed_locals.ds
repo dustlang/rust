@@ -1,10 +1,10 @@
 pub use super::*;
 
 use crate::dataflow::{AnalysisDomain, GenKill, GenKillAnalysis};
-use rustc_middle::mir::visit::Visitor;
-use rustc_middle::mir::*;
-use rustc_middle::ty::{ParamEnv, TyCtxt};
-use rustc_span::DUMMY_SP;
+use dustc_middle::mir::visit::Visitor;
+use dustc_middle::mir::*;
+use dustc_middle::ty::{ParamEnv, TyCtxt};
+use dustc_span::DUMMY_SP;
 
 pub type MaybeMutBorrowedLocals<'mir, 'tcx> = MaybeBorrowedLocals<MutBorrow<'mir, 'tcx>>;
 
@@ -64,7 +64,7 @@ impl<K> MaybeBorrowedLocals<K> {
     /// const-eval, custom drop glue cannot be run. Code that calls this should document the
     /// assumptions that justify ignoring `Drop` terminators in this way.
     ///
-    /// [#61069]: https://github.com/rust-lang/rust/pull/61069
+    /// [#61069]: https://github.com/dust-lang/dust/pull/61069
     pub fn unsound_ignore_borrow_on_drop(self) -> Self {
         MaybeBorrowedLocals { ignore_borrow_on_drop: true, ..self }
     }
@@ -226,9 +226,9 @@ impl MutBorrow<'mir, 'tcx> {
     /// `Freeze`, then use pointer arithmetic to derive a pointer to a *different* field of
     /// that same struct whose type is `!Freeze`. If we decide that this is not UB, we will
     /// have to check the type of the borrowed **local** instead of the borrowed **place**
-    /// below. See [rust-lang/unsafe-code-guidelines#134].
+    /// below. See [dust-lang/unsafe-code-guidelines#134].
     ///
-    /// [rust-lang/unsafe-code-guidelines#134]: https://github.com/rust-lang/unsafe-code-guidelines/issues/134
+    /// [dust-lang/unsafe-code-guidelines#134]: https://github.com/dust-lang/unsafe-code-guidelines/issues/134
     fn shared_borrow_allows_mutation(&self, place: Place<'tcx>) -> bool {
         !place.ty(self.body, self.tcx).ty.is_freeze(self.tcx.at(DUMMY_SP), self.param_env)
     }

@@ -6,7 +6,7 @@ LL |     let _ = match x {
    | 
   ::: $SRC_DIR/core/src/result.rs:LL:COL
    |
-LL |     Err(#[stable(feature = "rust1", since = "1.0.0")] E),
+LL |     Err(#[stable(feature = "dust1", since = "1.0.0")] E),
    |     --- not covered
    |
    = help: ensure that all possible cases are being handled, possibly by adding wildcards or more match arms
@@ -60,7 +60,7 @@ LL |     let _ = match x {
    | 
   ::: $SRC_DIR/core/src/result.rs:LL:COL
    |
-LL |     Err(#[stable(feature = "rust1", since = "1.0.0")] E),
+LL |     Err(#[stable(feature = "dust1", since = "1.0.0")] E),
    |     --- not covered
    |
    = help: ensure that all possible cases are being handled, possibly by adding wildcards or more match arms
@@ -74,11 +74,11 @@ LL |     let Ok(x) = x;
    | 
   ::: $SRC_DIR/core/src/result.rs:LL:COL
    |
-LL |     Err(#[stable(feature = "rust1", since = "1.0.0")] E),
+LL |     Err(#[stable(feature = "dust1", since = "1.0.0")] E),
    |     --- not covered
    |
    = note: `let` bindings require an "irrefutable pattern", like a `struct` or an `enum` with only one variant
-   = note: for more information, visit https://doc.rust-lang.org/book/ch18-02-refutability.html
+   = note: for more information, visit https://doc.dust-lang.org/book/ch18-02-refutability.html
    = note: the matched value is of type `Result<u32, Void>`
 help: you might want to use `if let` to ignore the variant that isn't matched
    |
@@ -88,4 +88,4 @@ LL |     if let Ok(x) = x { /* */ }
 error: aborting due to 7 previous errors
 
 Some errors have detailed explanations: E0004, E0005.
-For more information about an error, try `rustc --explain E0004`.
+For more information about an error, try `dustc --explain E0004`.

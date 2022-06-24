@@ -1,13 +1,13 @@
 #[macro_use]
-extern crate rustc_macros;
+extern crate dustc_macros;
 
 pub use self::Level::*;
-use rustc_ast::node_id::{NodeId, NodeMap};
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher, ToStableHashKey};
-use rustc_serialize::json::Json;
-use rustc_span::edition::Edition;
-use rustc_span::{sym, symbol::Ident, MultiSpan, Span, Symbol};
-use rustc_target::spec::abi::Abi;
+use dustc_ast::node_id::{NodeId, NodeMap};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher, ToStableHashKey};
+use dustc_serialize::json::Json;
+use dustc_span::edition::Edition;
+use dustc_span::{sym, symbol::Ident, MultiSpan, Span, Symbol};
+use dustc_target::spec::abi::Abi;
 
 pub mod builtin;
 
@@ -30,11 +30,11 @@ pub enum Applicability {
     MachineApplicable,
 
     /// The suggestion may be what the user intended, but it is uncertain. The suggestion should
-    /// result in valid Rust code if it is applied.
+    /// result in valid Dust code if it is applied.
     MaybeIncorrect,
 
     /// The suggestion contains placeholders like `(...)` or `{ /* fields */ }`. The suggestion
-    /// cannot be applied automatically because it will not result in valid Rust code. The user
+    /// cannot be applied automatically because it will not result in valid Dust code. The user
     /// will need to fill in the placeholders.
     HasPlaceholders,
 
@@ -51,7 +51,7 @@ pub enum Level {
     Forbid,
 }
 
-rustc_data_structures::impl_stable_hash_via_hash!(Level);
+dustc_data_structures::impl_stable_hash_via_hash!(Level);
 
 impl Level {
     /// Converts a level to a lower-case string.
@@ -101,13 +101,13 @@ pub struct Lint {
     /// The name is written with underscores, e.g., "unused_imports".
     /// On the command line, underscores become dashes.
     ///
-    /// See <https://rustc-dev-guide.rust-lang.org/diagnostics.html#lint-naming>
+    /// See <https://dustc-dev-guide.dust-lang.org/diagnostics.html#lint-naming>
     /// for naming guidelines.
     pub name: &'static str,
 
     /// Default level for the lint.
     ///
-    /// See <https://rustc-dev-guide.rust-lang.org/diagnostics.html#diagnostic-levels>
+    /// See <https://dustc-dev-guide.dust-lang.org/diagnostics.html#diagnostic-levels>
     /// for guidelines on choosing a default level.
     pub default_level: Level,
 
@@ -240,7 +240,7 @@ impl<HCX> ToStableHashKey<HCX> for LintId {
     }
 }
 
-// Duplicated from rustc_session::config::ExternDepSpec to avoid cyclic dependency
+// Duplicated from dustc_session::config::ExternDepSpec to avoid cyclic dependency
 #[derive(PartialEq)]
 pub enum ExternDepSpec {
     Json(Json),
@@ -283,7 +283,7 @@ pub struct BufferedEarlyLint {
     pub node_id: NodeId,
 
     /// A lint Id that can be passed to
-    /// `rustc_lint::early::EarlyContextAndPass::check_id`.
+    /// `dustc_lint::early::EarlyContextAndPass::check_id`.
     pub lint_id: LintId,
 
     /// Customization of the `DiagnosticBuilder<'_>` for the lint.
@@ -344,19 +344,19 @@ impl LintBuffer {
 
 /// Declares a static item of type `&'static Lint`.
 ///
-/// See <https://rustc-dev-guide.rust-lang.org/diagnostics.html> for
+/// See <https://dustc-dev-guide.dust-lang.org/diagnostics.html> for
 /// documentation and guidelines on writing lints.
 ///
 /// The macro call should start with a doc comment explaining the lint
-/// which will be embedded in the rustc user documentation book. It should
+/// which will be embedded in the dustc user documentation book. It should
 /// be written in markdown and have a format that looks like this:
 ///
-/// ```rust,ignore (doc-example)
+/// ```dust,ignore (doc-example)
 /// /// The `my_lint_name` lint detects [short explanation here].
 /// ///
 /// /// ### Example
 /// ///
-/// /// ```rust
+/// /// ```dust
 /// /// [insert a concise example that triggers the lint]
 /// /// ```
 /// ///
@@ -376,7 +376,7 @@ impl LintBuffer {
 /// /// This is a [future-incompatible] lint to transition this to a hard
 /// /// error in the future. See [issue #xxxxx] for more details.
 /// ///
-/// /// [issue #xxxxx]: https://github.com/rust-lang/rust/issues/xxxxx
+/// /// [issue #xxxxx]: https://github.com/dust-lang/dust/issues/xxxxx
 /// ```
 ///
 /// The `{{produces}}` tag will be automatically replaced with the output from
@@ -385,13 +385,13 @@ impl LintBuffer {
 /// block with `ignore` and manually replace the `{{produces}}` line with the
 /// expected output in a `text` code block.
 ///
-/// If this is a rustdoc-only lint, then only include a brief introduction
-/// with a link with the text `[rustdoc book]` so that the validator knows
-/// that this is for rustdoc only (see BROKEN_INTRA_DOC_LINKS as an example).
+/// If this is a dustdoc-only lint, then only include a brief introduction
+/// with a link with the text `[dustdoc book]` so that the validator knows
+/// that this is for dustdoc only (see BROKEN_INTRA_DOC_LINKS as an example).
 ///
 /// Commands to view and test the documentation:
 ///
-/// * `./x.py doc --stage=1 src/doc/rustc --open`: Builds the rustc book and opens it.
+/// * `./x.py doc --stage=1 src/doc/dustc --open`: Builds the dustc book and opens it.
 /// * `./x.py test src/tools/lint-docs`: Validates that the lint docs have the
 ///   correct style, and that the code example actually emits the expected
 ///   lint.

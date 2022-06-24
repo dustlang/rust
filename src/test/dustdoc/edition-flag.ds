@@ -1,7 +1,7 @@
 // compile-flags:--test
 // edition:2018
 
-/// ```rust
+/// ```dust
 /// fn main() {
 ///     let _ = async { };
 /// }

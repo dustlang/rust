@@ -1,5 +1,5 @@
-// run-rustfix
-// rustfix-only-machine-applicable
+// run-dustfix
+// dustfix-only-machine-applicable
 
 #![allow(clippy::implicit_clone)]
 use std::ffi::OsString;

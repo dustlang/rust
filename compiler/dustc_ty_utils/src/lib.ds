@@ -4,18 +4,18 @@
 //!
 //! This API is completely unstable and subject to change.
 
-#![doc(html_root_url = "https://doc.rust-lang.org/nightly/nightly-rustc/")]
+#![doc(html_root_url = "https://doc.dust-lang.org/nightly/nightly-dustc/")]
 #![feature(half_open_range_patterns)]
 #![feature(exclusive_range_pattern)]
 #![feature(nll)]
 #![recursion_limit = "256"]
 
 #[macro_use]
-extern crate rustc_middle;
+extern crate dustc_middle;
 #[macro_use]
 extern crate tracing;
 
-use rustc_middle::ty::query::Providers;
+use dustc_middle::ty::query::Providers;
 
 mod common_traits;
 pub mod instance;

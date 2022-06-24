@@ -1,7 +1,7 @@
 use super::*;
-use rustc_span::source_map::DUMMY_SP;
-use rustc_span::symbol::Symbol;
-use rustc_span::with_default_session_globals;
+use dustc_span::source_map::DUMMY_SP;
+use dustc_span::symbol::Symbol;
+use dustc_span::with_default_session_globals;
 
 fn create_doc_fragment(s: &str) -> Vec<DocFragment> {
     vec![DocFragment {

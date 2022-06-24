@@ -5,11 +5,11 @@
 
 #![allow(warnings)]
 #![feature(nll)]
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 struct SomeStruct<T> { t: T }
 
-#[rustc_dump_user_substs]
+#[dustc_dump_user_substs]
 fn main() {
     SomeStruct { t: 22 }; // Nothing given, no annotation.
 

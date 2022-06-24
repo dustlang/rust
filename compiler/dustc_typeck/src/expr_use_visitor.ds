@@ -5,19 +5,19 @@
 pub use self::ConsumeMode::*;
 
 // Export these here so that Clippy can use them.
-pub use rustc_middle::hir::place::{Place, PlaceBase, PlaceWithHirId, Projection};
+pub use dustc_middle::hir::place::{Place, PlaceBase, PlaceWithHirId, Projection};
 
-use rustc_data_structures::fx::FxIndexMap;
-use rustc_hir as hir;
-use rustc_hir::def::Res;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::PatKind;
-use rustc_index::vec::Idx;
-use rustc_infer::infer::InferCtxt;
-use rustc_middle::hir::place::ProjectionKind;
-use rustc_middle::mir::FakeReadCause;
-use rustc_middle::ty::{self, adjustment, TyCtxt};
-use rustc_target::abi::VariantIdx;
+use dustc_data_structures::fx::FxIndexMap;
+use dustc_hir as hir;
+use dustc_hir::def::Res;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::PatKind;
+use dustc_index::vec::Idx;
+use dustc_infer::infer::InferCtxt;
+use dustc_middle::hir::place::ProjectionKind;
+use dustc_middle::mir::FakeReadCause;
+use dustc_middle::ty::{self, adjustment, TyCtxt};
+use dustc_target::abi::VariantIdx;
 
 use crate::mem_categorization as mc;
 
@@ -655,7 +655,7 @@ impl<'a, 'tcx> ExprUseVisitor<'a, 'tcx> {
     /// In the following example the closures `c` only captures `p.x`` even though `incr`
     /// is a capture of the nested closure
     ///
-    /// ```rust,ignore(cannot-test-this-because-pseduo-code)
+    /// ```dust,ignore(cannot-test-this-because-pseduo-code)
     /// let p = ..;
     /// let c = || {
     ///    let incr = 10;
@@ -699,7 +699,7 @@ impl<'a, 'tcx> ExprUseVisitor<'a, 'tcx> {
                             // The only places we want to fake read before creating the parent closure are the ones that
                             // are not local to it/ defined by it.
                             //
-                            // ```rust,ignore(cannot-test-this-because-pseduo-code)
+                            // ```dust,ignore(cannot-test-this-because-pseduo-code)
                             // let v1 = (0, 1);
                             // let c = || { // fake reads: v1
                             //    let v2 = (0, 1);

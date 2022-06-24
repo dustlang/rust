@@ -1,21 +1,21 @@
-use rustc_hir as hir;
-use rustc_hir::Node;
-use rustc_index::vec::Idx;
-use rustc_middle::hir::map::Map;
-use rustc_middle::mir::{Mutability, Place, PlaceRef, ProjectionElem};
-use rustc_middle::ty::{self, Ty, TyCtxt};
-use rustc_middle::{
+use dustc_hir as hir;
+use dustc_hir::Node;
+use dustc_index::vec::Idx;
+use dustc_middle::hir::map::Map;
+use dustc_middle::mir::{Mutability, Place, PlaceRef, ProjectionElem};
+use dustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_middle::{
     hir::place::PlaceBase,
     mir::{self, ClearCrossCrate, Local, LocalDecl, LocalInfo, Location},
 };
-use rustc_span::source_map::DesugaringKind;
-use rustc_span::symbol::{kw, Symbol};
-use rustc_span::Span;
+use dustc_span::source_map::DesugaringKind;
+use dustc_span::symbol::{kw, Symbol};
+use dustc_span::Span;
 
 use crate::borrow_check::diagnostics::BorrowedContentSource;
 use crate::borrow_check::MirBorrowckCtxt;
 use crate::util::collect_writes::FindAssignments;
-use rustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_errors::{Applicability, DiagnosticBuilder};
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub(crate) enum AccessKind {
@@ -892,7 +892,7 @@ fn annotate_struct_field(
 /// If possible, suggest replacing `ref` with `ref mut`.
 fn suggest_ref_mut(tcx: TyCtxt<'_>, binding_span: Span) -> Option<String> {
     let hi_src = tcx.sess.source_map().span_to_snippet(binding_span).ok()?;
-    if hi_src.starts_with("ref") && hi_src["ref".len()..].starts_with(rustc_lexer::is_whitespace) {
+    if hi_src.starts_with("ref") && hi_src["ref".len()..].starts_with(dustc_lexer::is_whitespace) {
         let replacement = format!("ref mut{}", &hi_src["ref".len()..]);
         Some(replacement)
     } else {

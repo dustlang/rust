@@ -1,9 +1,9 @@
 use crate::consts::{constant, Constant};
 use crate::utils::{is_direct_expn_of, is_expn_of, match_panic_call, snippet_opt, span_lint_and_help};
 use if_chain::if_chain;
-use rustc_hir::{Expr, ExprKind, UnOp};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{Expr, ExprKind, UnOp};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for `assert!(true)` and `assert!(false)` calls.
@@ -14,7 +14,7 @@ declare_clippy_lint! {
     /// **Known problems:** None
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// assert!(false)
     /// assert!(true)
     /// const B: bool = false;
@@ -100,7 +100,7 @@ enum AssertKind {
 
 /// Check if the expression matches
 ///
-/// ```rust,ignore
+/// ```dust,ignore
 /// if !c {
 ///   {
 ///     ::std::rt::begin_panic(message, _)

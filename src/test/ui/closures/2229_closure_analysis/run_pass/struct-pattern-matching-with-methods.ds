@@ -2,7 +2,7 @@
 #![feature(capture_disjoint_fields)]
 //~^ WARNING: the feature `capture_disjoint_fields` is incomplete
 #![warn(unused)]
-#![feature(rustc_attrs)]
+#![feature(dustc_attrs)]
 
 #[derive(Debug, Clone, Copy)]
 enum PointType {

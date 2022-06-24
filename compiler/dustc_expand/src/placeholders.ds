@@ -1,15 +1,15 @@
 use crate::base::ExtCtxt;
 use crate::expand::{AstFragment, AstFragmentKind};
 
-use rustc_ast as ast;
-use rustc_ast::mut_visit::*;
-use rustc_ast::ptr::P;
-use rustc_span::source_map::DUMMY_SP;
-use rustc_span::symbol::Ident;
+use dustc_ast as ast;
+use dustc_ast::mut_visit::*;
+use dustc_ast::ptr::P;
+use dustc_span::source_map::DUMMY_SP;
+use dustc_span::symbol::Ident;
 
 use smallvec::{smallvec, SmallVec};
 
-use rustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::fx::FxHashMap;
 
 pub fn placeholder(
     kind: AstFragmentKind,
@@ -309,7 +309,7 @@ impl<'a, 'b> MutVisitor for PlaceholderExpander<'a, 'b> {
 
         if style == ast::MacStmtStyle::Semicolon {
             // Implement the proposal described in
-            // https://github.com/rust-lang/rust/issues/61733#issuecomment-509626449
+            // https://github.com/dust-lang/dust/issues/61733#issuecomment-509626449
             //
             // The macro invocation expands to the list of statements. If the
             // list of statements is empty, then 'parse' the trailing semicolon

@@ -31,8 +31,8 @@ impl<T: ?Sized> *const T {
     /// let ptr: *const u8 = s.as_ptr();
     /// assert!(!ptr.is_null());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_const_unstable(feature = "const_ptr_is_null", issue = "74939")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_const_unstable(feature = "const_ptr_is_null", issue = "74939")]
     #[inline]
     pub const fn is_null(self) -> bool {
         // Compare via a cast to a thin pointer, so fat pointers are only
@@ -42,7 +42,7 @@ impl<T: ?Sized> *const T {
 
     /// Casts to a pointer of another type.
     #[stable(feature = "ptr_cast", since = "1.38.0")]
-    #[rustc_const_stable(feature = "const_ptr_cast", since = "1.38.0")]
+    #[dustc_const_stable(feature = "const_ptr_cast", since = "1.38.0")]
     #[inline]
     pub const fn cast<U>(self) -> *const U {
         self as _
@@ -53,7 +53,7 @@ impl<T: ?Sized> *const T {
     /// The pointer can be later reconstructed with [`from_raw_parts`].
     #[cfg(not(bootstrap))]
     #[unstable(feature = "ptr_metadata", issue = "81513")]
-    #[rustc_const_unstable(feature = "ptr_metadata", issue = "81513")]
+    #[dustc_const_unstable(feature = "ptr_metadata", issue = "81513")]
     #[inline]
     pub const fn to_raw_parts(self) -> (*const (), <T as super::Pointee>::Metadata) {
         (self.cast(), metadata(self))
@@ -76,7 +76,7 @@ impl<T: ?Sized> *const T {
     ///
     /// * The pointer must point to an initialized instance of `T`.
     ///
-    /// * You must enforce Rust's aliasing rules, since the returned lifetime `'a` is
+    /// * You must enforce Dust's aliasing rules, since the returned lifetime `'a` is
     ///   arbitrarily chosen and does not necessarily reflect the actual lifetime of the data.
     ///   In particular, for the duration of this lifetime, the memory the pointer points to must
     ///   not get mutated (except inside `UnsafeCell`).
@@ -138,7 +138,7 @@ impl<T: ?Sized> *const T {
     ///
     /// * It must be "dereferencable" in the sense defined in [the module documentation].
     ///
-    /// * You must enforce Rust's aliasing rules, since the returned lifetime `'a` is
+    /// * You must enforce Dust's aliasing rules, since the returned lifetime `'a` is
     ///   arbitrarily chosen and does not necessarily reflect the actual lifetime of the data.
     ///   In particular, for the duration of this lifetime, the memory the pointer points to must
     ///   not get mutated (except inside `UnsafeCell`).
@@ -184,7 +184,7 @@ impl<T: ?Sized> *const T {
     /// Behavior:
     ///
     /// * Both the starting and resulting pointer must be either in bounds or one
-    ///   byte past the end of the same allocated object. Note that in Rust,
+    ///   byte past the end of the same allocated object. Note that in Dust,
     ///   every (stack-allocated) variable is considered a separate allocated object.
     ///
     /// * The computed offset, **in bytes**, cannot overflow an `isize`.
@@ -224,9 +224,9 @@ impl<T: ?Sized> *const T {
     ///     println!("{}", *ptr.offset(2) as char);
     /// }
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[must_use = "returns a new pointer rather than modifying its argument"]
-    #[rustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
+    #[dustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
     #[inline]
     pub const unsafe fn offset(self, count: isize) -> *const T
     where
@@ -246,7 +246,7 @@ impl<T: ?Sized> *const T {
     /// This operation itself is always safe, but using the resulting pointer is not.
     ///
     /// The resulting pointer remains attached to the same allocated object that `self` points to.
-    /// It may *not* be used to access a different allocated object. Note that in Rust, every
+    /// It may *not* be used to access a different allocated object. Note that in Dust, every
     /// (stack-allocated) variable is considered a separate allocated object.
     ///
     /// In other words, `let z = x.wrapping_offset((y as isize) - (x as isize))` does *not* make `z`
@@ -291,7 +291,7 @@ impl<T: ?Sized> *const T {
     /// ```
     #[stable(feature = "ptr_wrapping_offset", since = "1.16.0")]
     #[must_use = "returns a new pointer rather than modifying its argument"]
-    #[rustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
+    #[dustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
     #[inline]
     pub const fn wrapping_offset(self, count: isize) -> *const T
     where
@@ -314,7 +314,7 @@ impl<T: ?Sized> *const T {
     /// Behavior:
     ///
     /// * Both the starting and other pointer must be either in bounds or one
-    ///   byte past the end of the same allocated object. Note that in Rust,
+    ///   byte past the end of the same allocated object. Note that in Dust,
     ///   every (stack-allocated) variable is considered a separate allocated object.
     ///
     /// * Both pointers must be *derived from* a pointer to the same object.
@@ -327,8 +327,8 @@ impl<T: ?Sized> *const T {
     ///
     /// * The distance being in bounds cannot rely on "wrapping around" the address space.
     ///
-    /// Rust types are never larger than `isize::MAX` and Rust allocations never wrap around the
-    /// address space, so two pointers within some value of any Rust type `T` will always satisfy
+    /// Dust types are never larger than `isize::MAX` and Dust allocations never wrap around the
+    /// address space, so two pointers within some value of any Dust type `T` will always satisfy
     /// the last two conditions. The standard library also generally ensures that allocations
     /// never reach a size where an offset is a concern. For instance, `Vec` and `Box` ensure they
     /// never allocate more than `isize::MAX` bytes, so `ptr_into_vec.offset_from(vec.as_ptr())`
@@ -368,7 +368,7 @@ impl<T: ?Sized> *const T {
     ///
     /// *Incorrect* usage:
     ///
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// let ptr1 = Box::into_raw(Box::new(0u8)) as *const u8;
     /// let ptr2 = Box::into_raw(Box::new(1u8)) as *const u8;
     /// let diff = (ptr2 as isize).wrapping_sub(ptr1 as isize);
@@ -383,7 +383,7 @@ impl<T: ?Sized> *const T {
     /// }
     /// ```
     #[stable(feature = "ptr_offset_from", since = "1.47.0")]
-    #[rustc_const_unstable(feature = "const_ptr_offset_from", issue = "41079")]
+    #[dustc_const_unstable(feature = "const_ptr_offset_from", issue = "41079")]
     #[inline]
     pub const unsafe fn offset_from(self, origin: *const T) -> isize
     where
@@ -417,7 +417,7 @@ impl<T: ?Sized> *const T {
     /// differences, and it should also not be stabilized before we have a better understanding
     /// of this issue.
     #[unstable(feature = "const_raw_ptr_comparison", issue = "53020")]
-    #[rustc_const_unstable(feature = "const_raw_ptr_comparison", issue = "53020")]
+    #[dustc_const_unstable(feature = "const_raw_ptr_comparison", issue = "53020")]
     #[inline]
     pub const fn guaranteed_eq(self, other: *const T) -> bool
     where
@@ -448,7 +448,7 @@ impl<T: ?Sized> *const T {
     /// differences, and it should also not be stabilized before we have a better understanding
     /// of this issue.
     #[unstable(feature = "const_raw_ptr_comparison", issue = "53020")]
-    #[rustc_const_unstable(feature = "const_raw_ptr_comparison", issue = "53020")]
+    #[dustc_const_unstable(feature = "const_raw_ptr_comparison", issue = "53020")]
     #[inline]
     pub const fn guaranteed_ne(self, other: *const T) -> bool
     where
@@ -468,7 +468,7 @@ impl<T: ?Sized> *const T {
     /// Behavior:
     ///
     /// * Both the starting and resulting pointer must be either in bounds or one
-    ///   byte past the end of the same allocated object. Note that in Rust,
+    ///   byte past the end of the same allocated object. Note that in Dust,
     ///   every (stack-allocated) variable is considered a separate allocated object.
     ///
     /// * The computed offset, **in bytes**, cannot overflow an `isize`.
@@ -510,7 +510,7 @@ impl<T: ?Sized> *const T {
     /// ```
     #[stable(feature = "pointer_methods", since = "1.26.0")]
     #[must_use = "returns a new pointer rather than modifying its argument"]
-    #[rustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
+    #[dustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
     #[inline]
     pub const unsafe fn add(self, count: usize) -> Self
     where
@@ -532,7 +532,7 @@ impl<T: ?Sized> *const T {
     /// Behavior:
     ///
     /// * Both the starting and resulting pointer must be either in bounds or one
-    ///   byte past the end of the same allocated object. Note that in Rust,
+    ///   byte past the end of the same allocated object. Note that in Dust,
     ///   every (stack-allocated) variable is considered a separate allocated object.
     ///
     /// * The computed offset cannot exceed `isize::MAX` **bytes**.
@@ -574,7 +574,7 @@ impl<T: ?Sized> *const T {
     /// ```
     #[stable(feature = "pointer_methods", since = "1.26.0")]
     #[must_use = "returns a new pointer rather than modifying its argument"]
-    #[rustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
+    #[dustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
     #[inline]
     pub const unsafe fn sub(self, count: usize) -> Self
     where
@@ -595,7 +595,7 @@ impl<T: ?Sized> *const T {
     /// This operation itself is always safe, but using the resulting pointer is not.
     ///
     /// The resulting pointer remains attached to the same allocated object that `self` points to.
-    /// It may *not* be used to access a different allocated object. Note that in Rust, every
+    /// It may *not* be used to access a different allocated object. Note that in Dust, every
     /// (stack-allocated) variable is considered a separate allocated object.
     ///
     /// In other words, `let z = x.wrapping_add((y as usize) - (x as usize))` does *not* make `z`
@@ -640,7 +640,7 @@ impl<T: ?Sized> *const T {
     /// ```
     #[stable(feature = "pointer_methods", since = "1.26.0")]
     #[must_use = "returns a new pointer rather than modifying its argument"]
-    #[rustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
+    #[dustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
     #[inline]
     pub const fn wrapping_add(self, count: usize) -> Self
     where
@@ -660,7 +660,7 @@ impl<T: ?Sized> *const T {
     /// This operation itself is always safe, but using the resulting pointer is not.
     ///
     /// The resulting pointer remains attached to the same allocated object that `self` points to.
-    /// It may *not* be used to access a different allocated object. Note that in Rust, every
+    /// It may *not* be used to access a different allocated object. Note that in Dust, every
     /// (stack-allocated) variable is considered a separate allocated object.
     ///
     /// In other words, `let z = x.wrapping_sub((x as usize) - (y as usize))` does *not* make `z`
@@ -705,7 +705,7 @@ impl<T: ?Sized> *const T {
     /// ```
     #[stable(feature = "pointer_methods", since = "1.26.0")]
     #[must_use = "returns a new pointer rather than modifying its argument"]
-    #[rustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
+    #[dustc_const_unstable(feature = "const_ptr_offset", issue = "71499")]
     #[inline]
     pub const fn wrapping_sub(self, count: usize) -> Self
     where
@@ -762,7 +762,7 @@ impl<T: ?Sized> *const T {
     ///
     /// [`ptr::read`]: crate::ptr::read()
     #[stable(feature = "pointer_methods", since = "1.26.0")]
-    #[rustc_const_unstable(feature = "const_ptr_read", issue = "80377")]
+    #[dustc_const_unstable(feature = "const_ptr_read", issue = "80377")]
     #[inline]
     pub const unsafe fn read(self) -> T
     where
@@ -801,7 +801,7 @@ impl<T: ?Sized> *const T {
     ///
     /// [`ptr::read_unaligned`]: crate::ptr::read_unaligned()
     #[stable(feature = "pointer_methods", since = "1.26.0")]
-    #[rustc_const_unstable(feature = "const_ptr_read", issue = "80377")]
+    #[dustc_const_unstable(feature = "const_ptr_read", issue = "80377")]
     #[inline]
     pub const unsafe fn read_unaligned(self) -> T
     where
@@ -819,7 +819,7 @@ impl<T: ?Sized> *const T {
     /// See [`ptr::copy`] for safety concerns and examples.
     ///
     /// [`ptr::copy`]: crate::ptr::copy()
-    #[rustc_const_unstable(feature = "const_intrinsic_copy", issue = "80697")]
+    #[dustc_const_unstable(feature = "const_intrinsic_copy", issue = "80697")]
     #[stable(feature = "pointer_methods", since = "1.26.0")]
     #[inline]
     pub const unsafe fn copy_to(self, dest: *mut T, count: usize)
@@ -838,7 +838,7 @@ impl<T: ?Sized> *const T {
     /// See [`ptr::copy_nonoverlapping`] for safety concerns and examples.
     ///
     /// [`ptr::copy_nonoverlapping`]: crate::ptr::copy_nonoverlapping()
-    #[rustc_const_unstable(feature = "const_intrinsic_copy", issue = "80697")]
+    #[dustc_const_unstable(feature = "const_intrinsic_copy", issue = "80697")]
     #[stable(feature = "pointer_methods", since = "1.26.0")]
     #[inline]
     pub const unsafe fn copy_to_nonoverlapping(self, dest: *mut T, count: usize)
@@ -912,7 +912,7 @@ impl<T> *const [T] {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```dust
     /// #![feature(slice_ptr_len)]
     ///
     /// use std::ptr;
@@ -922,13 +922,13 @@ impl<T> *const [T] {
     /// ```
     #[inline]
     #[unstable(feature = "slice_ptr_len", issue = "71146")]
-    #[rustc_const_unstable(feature = "const_slice_ptr_len", issue = "71146")]
+    #[dustc_const_unstable(feature = "const_slice_ptr_len", issue = "71146")]
     pub const fn len(self) -> usize {
         #[cfg(bootstrap)]
         {
             // SAFETY: this is safe because `*const [T]` and `FatPtr<T>` have the same layout.
             // Only `std` can make this guarantee.
-            unsafe { Repr { rust: self }.raw }.len
+            unsafe { Repr { dust: self }.raw }.len
         }
         #[cfg(not(bootstrap))]
         metadata(self)
@@ -940,7 +940,7 @@ impl<T> *const [T] {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```dust
     /// #![feature(slice_ptr_get)]
     /// use std::ptr;
     ///
@@ -949,7 +949,7 @@ impl<T> *const [T] {
     /// ```
     #[inline]
     #[unstable(feature = "slice_ptr_get", issue = "74265")]
-    #[rustc_const_unstable(feature = "slice_ptr_get", issue = "74265")]
+    #[dustc_const_unstable(feature = "slice_ptr_get", issue = "74265")]
     pub const fn as_ptr(self) -> *const T {
         self as *const T
     }
@@ -960,7 +960,7 @@ impl<T> *const [T] {
     /// Calling this method with an out-of-bounds index or when `self` is not dereferencable
     /// is *[undefined behavior]* even if the resulting pointer is not used.
     ///
-    /// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
+    /// [undefined behavior]: https://doc.dust-lang.org/reference/behavior-considered-undefined.html
     ///
     /// # Examples
     ///
@@ -1009,7 +1009,7 @@ impl<T> *const [T] {
     /// * The total size `ptr.len() * mem::size_of::<T>()` of the slice must be no larger than `isize::MAX`.
     ///   See the safety documentation of [`pointer::offset`].
     ///
-    /// * You must enforce Rust's aliasing rules, since the returned lifetime `'a` is
+    /// * You must enforce Dust's aliasing rules, since the returned lifetime `'a` is
     ///   arbitrarily chosen and does not necessarily reflect the actual lifetime of the data.
     ///   In particular, for the duration of this lifetime, the memory the pointer points to must
     ///   not get mutated (except inside `UnsafeCell`).
@@ -1032,7 +1032,7 @@ impl<T> *const [T] {
 }
 
 // Equality for pointers
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> PartialEq for *const T {
     #[inline]
     fn eq(&self, other: &*const T) -> bool {
@@ -1040,11 +1040,11 @@ impl<T: ?Sized> PartialEq for *const T {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> Eq for *const T {}
 
 // Comparison for pointers
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> Ord for *const T {
     #[inline]
     fn cmp(&self, other: &*const T) -> Ordering {
@@ -1058,7 +1058,7 @@ impl<T: ?Sized> Ord for *const T {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> PartialOrd for *const T {
     #[inline]
     fn partial_cmp(&self, other: &*const T) -> Option<Ordering> {

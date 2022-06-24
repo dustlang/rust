@@ -1,11 +1,11 @@
 use hir::Node;
-use rustc_hir as hir;
-use rustc_hir::def_id::{CrateNum, DefId, LOCAL_CRATE};
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::subst::GenericArgKind;
-use rustc_middle::ty::{self, CratePredicatesMap, ToPredicate, TyCtxt};
-use rustc_span::symbol::sym;
-use rustc_span::Span;
+use dustc_hir as hir;
+use dustc_hir::def_id::{CrateNum, DefId, LOCAL_CRATE};
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::subst::GenericArgKind;
+use dustc_middle::ty::{self, CratePredicatesMap, ToPredicate, TyCtxt};
+use dustc_span::symbol::sym;
+use dustc_span::Span;
 
 mod explicit;
 mod implicit_infer;
@@ -27,7 +27,7 @@ fn inferred_outlives_of(tcx: TyCtxt<'_>, item_def_id: DefId) -> &[(ty::Predicate
 
                 let predicates = crate_map.predicates.get(&item_def_id).copied().unwrap_or(&[]);
 
-                if tcx.has_attr(item_def_id, sym::rustc_outlives) {
+                if tcx.has_attr(item_def_id, sym::dustc_outlives) {
                     let mut pred: Vec<String> = predicates
                         .iter()
                         .map(|(out_pred, _)| match out_pred.kind().skip_binder() {
@@ -39,7 +39,7 @@ fn inferred_outlives_of(tcx: TyCtxt<'_>, item_def_id: DefId) -> &[(ty::Predicate
                     pred.sort();
 
                     let span = tcx.def_span(item_def_id);
-                    let mut err = tcx.sess.struct_span_err(span, "rustc_outlives");
+                    let mut err = tcx.sess.struct_span_err(span, "dustc_outlives");
                     for p in &pred {
                         err.note(p);
                     }

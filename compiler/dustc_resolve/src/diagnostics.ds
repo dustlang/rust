@@ -1,23 +1,23 @@
 use std::cmp::Reverse;
 use std::ptr;
 
-use rustc_ast::{self as ast, Path};
-use rustc_ast_pretty::pprust;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_feature::BUILTIN_ATTRIBUTES;
-use rustc_hir::def::Namespace::{self, *};
-use rustc_hir::def::{self, CtorKind, CtorOf, DefKind, NonMacroAttrKind};
-use rustc_hir::def_id::{DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
-use rustc_hir::PrimTy;
-use rustc_middle::bug;
-use rustc_middle::ty::{self, DefIdTree};
-use rustc_session::Session;
-use rustc_span::hygiene::MacroKind;
-use rustc_span::lev_distance::find_best_match_for_name;
-use rustc_span::source_map::SourceMap;
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::{BytePos, MultiSpan, Span};
+use dustc_ast::{self as ast, Path};
+use dustc_ast_pretty::ppdust;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_feature::BUILTIN_ATTRIBUTES;
+use dustc_hir::def::Namespace::{self, *};
+use dustc_hir::def::{self, CtorKind, CtorOf, DefKind, NonMacroAttrKind};
+use dustc_hir::def_id::{DefId, CRATE_DEF_INDEX, LOCAL_CRATE};
+use dustc_hir::PrimTy;
+use dustc_middle::bug;
+use dustc_middle::ty::{self, DefIdTree};
+use dustc_session::Session;
+use dustc_span::hygiene::MacroKind;
+use dustc_span::lev_distance::find_best_match_for_name;
+use dustc_span::source_map::SourceMap;
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::{BytePos, MultiSpan, Span};
 use tracing::debug;
 
 use crate::imports::{Import, ImportKind, ImportResolver};
@@ -564,7 +564,7 @@ impl<'a> Resolver<'a> {
                 err.span_suggestion(
                     path.span,
                     "try",
-                    format!("crate::{}", pprust::path_to_string(&path)),
+                    format!("crate::{}", ppdust::path_to_string(&path)),
                     Applicability::MaybeIncorrect,
                 );
                 err
@@ -806,9 +806,9 @@ impl<'a> Resolver<'a> {
                     if filter_fn(res) {
                         // create the path
                         let mut segms = path_segments.clone();
-                        if lookup_ident.span.rust_2018() {
+                        if lookup_ident.span.dust_2018() {
                             // crate-local absolute paths start with `crate::` in edition 2018
-                            // FIXME: may also be stabilized for Rust 2015 (Issues #45477, #44660)
+                            // FIXME: may also be stabilized for Dust 2015 (Issues #45477, #44660)
                             segms.insert(0, ast::PathSegment::from_ident(crate_name));
                         }
 
@@ -847,7 +847,7 @@ impl<'a> Resolver<'a> {
                     path_segments.push(ast::PathSegment::from_ident(ident));
 
                     let is_extern_crate_that_also_appears_in_prelude =
-                        name_binding.is_extern_crate() && lookup_ident.span.rust_2018();
+                        name_binding.is_extern_crate() && lookup_ident.span.dust_2018();
 
                     if !is_extern_crate_that_also_appears_in_prelude {
                         let is_extern = in_module_is_extern || name_binding.is_extern_crate();
@@ -895,7 +895,7 @@ impl<'a> Resolver<'a> {
             &filter_fn,
         );
 
-        if lookup_ident.span.rust_2018() {
+        if lookup_ident.span.dust_2018() {
             let extern_prelude_names = self.extern_prelude.clone();
             for (ident, _) in extern_prelude_names.into_iter() {
                 if ident.span.from_expansion() {
@@ -1080,7 +1080,7 @@ impl<'a> Resolver<'a> {
                     "consider adding an explicit import of `{ident}` to disambiguate"
                 ))
             }
-            if b.is_extern_crate() && ident.span.rust_2018() {
+            if b.is_extern_crate() && ident.span.dust_2018() {
                 help_msgs.push(format!("use `::{ident}` to refer to this {thing} unambiguously"))
             }
             if misc == AmbiguityErrorMisc::SuggestCrate {
@@ -1196,7 +1196,7 @@ impl<'a, 'b> ImportResolver<'a, 'b> {
                 if fst.ident.name == kw::PathRoot && !snd.ident.is_path_segment_keyword() => {}
             // `ident::...` on 2018.
             (Some(fst), _)
-                if fst.ident.span.rust_2018() && !fst.ident.is_path_segment_keyword() =>
+                if fst.ident.span.dust_2018() && !fst.ident.is_path_segment_keyword() =>
             {
                 // Insert a placeholder that's later replaced by `self`/`super`/etc.
                 path.insert(0, Segment::from_ident(Ident::invalid()));
@@ -1251,8 +1251,8 @@ impl<'a, 'b> ImportResolver<'a, 'b> {
             Some((
                 path,
                 vec![
-                    "`use` statements changed in Rust 2018; read more at \
-                     <https://doc.rust-lang.org/edition-guide/rust-2018/module-system/path-\
+                    "`use` statements changed in Dust 2018; read more at \
+                     <https://doc.dust-lang.org/edition-guide/dust-2018/module-system/path-\
                      clarity.html>"
                         .to_string(),
                 ],
@@ -1298,7 +1298,7 @@ impl<'a, 'b> ImportResolver<'a, 'b> {
         mut path: Vec<Segment>,
         parent_scope: &ParentScope<'b>,
     ) -> Option<(Vec<Segment>, Vec<String>)> {
-        if path[1].ident.span.rust_2015() {
+        if path[1].ident.span.dust_2015() {
             return None;
         }
 

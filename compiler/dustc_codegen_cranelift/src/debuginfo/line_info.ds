@@ -5,7 +5,7 @@ use std::path::{Component, Path};
 
 use crate::prelude::*;
 
-use rustc_span::{
+use dustc_span::{
     FileName, Pos, SourceFile, SourceFileAndLine, SourceFileHash, SourceFileHashAlgorithm,
 };
 
@@ -137,7 +137,7 @@ impl<'tcx> DebugContext<'tcx> {
             }
             last_span = Some(span);
 
-            // Based on https://github.com/rust-lang/rust/blob/e369d87b015a84653343032833d65d0545fd3f26/src/librustc_codegen_ssa/mir/mod.rs#L116-L131
+            // Based on https://github.com/dust-lang/dust/blob/e369d87b015a84653343032833d65d0545fd3f26/src/libdustc_codegen_ssa/mir/mod.rs#L116-L131
             // In order to have a good line stepping behavior in debugger, we overwrite debug
             // locations of macro expansions with that of the outermost expansion site
             // (unless the crate is being compiled with `-Z debug-macros`).
@@ -147,7 +147,7 @@ impl<'tcx> DebugContext<'tcx> {
                 // Walk up the macro expansion chain until we reach a non-expanded span.
                 // We also stop at the function body level because no line stepping can occur
                 // at the level above that.
-                rustc_span::hygiene::walk_chain(span, function_span.ctxt())
+                dustc_span::hygiene::walk_chain(span, function_span.ctxt())
             };
 
             let (file, line, col) = match tcx.sess.source_map().lookup_line(span.lo()) {
@@ -168,7 +168,7 @@ impl<'tcx> DebugContext<'tcx> {
             let current_file_changed = if let Some(last_file) = &last_file {
                 // If the allocations are not equal, then the files may still be equal, but that
                 // is not a problem, as this is just an optimization.
-                !rustc_data_structures::sync::Lrc::ptr_eq(last_file, &file)
+                !dustc_data_structures::sync::Lrc::ptr_eq(last_file, &file)
             } else {
                 true
             };

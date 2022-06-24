@@ -130,4 +130,4 @@ LL |         asm!("{}", inout(reg) v[0]);
 error: aborting due to 18 previous errors
 
 Some errors have detailed explanations: E0381, E0596.
-For more information about an error, try `rustc --explain E0381`.
+For more information about an error, try `dustc --explain E0381`.

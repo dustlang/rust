@@ -4,7 +4,7 @@ use crate::{net, sys};
 
 macro_rules! impl_as_raw_fd {
     ($($t:ident)*) => {$(
-        #[stable(feature = "rust1", since = "1.0.0")]
+        #[stable(feature = "dust1", since = "1.0.0")]
         impl AsRawFd for net::$t {
             fn as_raw_fd(&self) -> RawFd {
                 *self.as_inner().socket().as_inner()

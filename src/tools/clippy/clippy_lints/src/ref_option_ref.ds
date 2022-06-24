@@ -1,11 +1,11 @@
 use crate::utils::{last_path_segment, snippet, span_lint_and_sugg};
-use rustc_hir::{GenericArg, Mutability, Ty, TyKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::symbol::sym;
+use dustc_hir::{GenericArg, Mutability, Ty, TyKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::symbol::sym;
 
 use if_chain::if_chain;
-use rustc_errors::Applicability;
+use dustc_errors::Applicability;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for usage of `&Option<&T>`.
@@ -18,11 +18,11 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// let x: &Option<&u32> = &Some(&0u32);
     /// ```
     /// Use instead:
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// let x: Option<&u32> = Some(&0u32);
     /// ```
     pub REF_OPTION_REF,

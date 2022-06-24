@@ -1,7 +1,7 @@
 use super::serialized::{SerializedDepGraph, SerializedDepNodeIndex};
 use super::{DepKind, DepNode};
-use rustc_data_structures::fingerprint::Fingerprint;
-use rustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::fingerprint::Fingerprint;
+use dustc_data_structures::fx::FxHashMap;
 
 #[derive(Debug)]
 pub struct PreviousDepGraph<K: DepKind> {

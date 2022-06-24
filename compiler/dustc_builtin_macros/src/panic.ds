@@ -1,9 +1,9 @@
-use rustc_ast::ptr::P;
-use rustc_ast::tokenstream::{DelimSpan, TokenStream};
-use rustc_ast::*;
-use rustc_expand::base::*;
-use rustc_span::symbol::sym;
-use rustc_span::Span;
+use dustc_ast::ptr::P;
+use dustc_ast::tokenstream::{DelimSpan, TokenStream};
+use dustc_ast::*;
+use dustc_expand::base::*;
+use dustc_span::symbol::sym;
+use dustc_span::Span;
 
 // This expands to either
 // - `$crate::panic::panic_2015!(...)` or
@@ -19,7 +19,7 @@ pub fn expand_panic<'cx>(
     sp: Span,
     tts: TokenStream,
 ) -> Box<dyn MacResult + 'cx> {
-    let panic = if sp.rust_2021() { sym::panic_2021 } else { sym::panic_2015 };
+    let panic = if sp.dust_2021() { sym::panic_2021 } else { sym::panic_2015 };
 
     let sp = cx.with_call_site_ctxt(sp);
 

@@ -1,12 +1,12 @@
-# Contributing to rustc
+# Contributing to dustc
 
-We'd love to have your help improving `rustc`! To that end, we've written [a
-whole book][rustc_dev_guide] on its
+We'd love to have your help improving `dustc`! To that end, we've written [a
+whole book][dustc_dev_guide] on its
 internals, how it works, and how to get started working on it. To learn
 more, you'll want to check that out.
 
 If you would like to contribute to _this_ book, you can find its source in the
-rustc source at [src/doc/rustc][rustc_book].
+dustc source at [src/doc/dustc][dustc_book].
 
-[rustc_dev_guide]: https://rustc-dev-guide.rust-lang.org/
-[rustc_book]: https://github.com/rust-lang/rust/tree/master/src/doc/rustc
+[dustc_dev_guide]: https://dustc-dev-guide.dust-lang.org/
+[dustc_book]: https://github.com/dust-lang/dust/tree/master/src/doc/dustc

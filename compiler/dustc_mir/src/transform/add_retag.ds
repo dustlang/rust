@@ -5,8 +5,8 @@
 //! normal MIR semantics.
 
 use crate::transform::MirPass;
-use rustc_middle::mir::*;
-use rustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_middle::mir::*;
+use dustc_middle::ty::{self, Ty, TyCtxt};
 
 pub struct AddRetag;
 

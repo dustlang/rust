@@ -1,12 +1,12 @@
 use crate::traits::*;
-use rustc_index::vec::IndexVec;
-use rustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
-use rustc_middle::mir;
-use rustc_middle::ty;
-use rustc_session::config::DebugInfo;
-use rustc_span::symbol::{kw, Symbol};
-use rustc_span::{BytePos, Span};
-use rustc_target::abi::{LayoutOf, Size};
+use dustc_index::vec::IndexVec;
+use dustc_middle::middle::codegen_fn_attrs::CodegenFnAttrFlags;
+use dustc_middle::mir;
+use dustc_middle::ty;
+use dustc_session::config::DebugInfo;
+use dustc_span::symbol::{kw, Symbol};
+use dustc_span::{BytePos, Span};
+use dustc_target::abi::{LayoutOf, Size};
 
 use super::operand::{OperandRef, OperandValue};
 use super::place::PlaceRef;
@@ -110,7 +110,7 @@ impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
             // We also stop at the function body level because no line stepping can occur
             // at the level above that.
             // Use span of the outermost expansion site, while keeping the original lexical scope.
-            span = rustc_span::hygiene::walk_chain(span, self.mir.span.ctxt());
+            span = dustc_span::hygiene::walk_chain(span, self.mir.span.ctxt());
         }
 
         span
@@ -238,7 +238,7 @@ impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
 
             LocalRef::Operand(Some(operand)) => {
                 // Don't spill operands onto the stack in naked functions.
-                // See: https://github.com/rust-lang/rust/issues/42779
+                // See: https://github.com/dust-lang/dust/issues/42779
                 let attrs = bx.tcx().codegen_fn_attrs(self.instance.def_id());
                 if attrs.flags.contains(CodegenFnAttrFlags::NAKED) {
                     return;
@@ -344,7 +344,7 @@ impl<'a, 'tcx, Bx: BuilderMethods<'a, 'tcx>> FunctionCx<'a, 'tcx, Bx> {
                         {
                             let arg_index = place.local.index() - 1;
                             if target_is_msvc {
-                                // Rust compiler decomposes every &str or slice argument into two components:
+                                // Dust compiler decomposes every &str or slice argument into two components:
                                 // a pointer to the memory address where the data is stored and a usize representing
                                 // the length of the str (or slice). These components will later be used to reconstruct
                                 // the original argument inside the body of the function that owns it (see the

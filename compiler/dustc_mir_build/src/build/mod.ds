@@ -2,30 +2,30 @@ use crate::build;
 use crate::build::expr::as_place::PlaceBuilder;
 use crate::build::scope::DropKind;
 use crate::thir::{build_thir, Arena, BindingMode, Expr, LintLevel, Pat, PatKind};
-use rustc_attr::{self as attr, UnwindAttr};
-use rustc_errors::ErrorReported;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::lang_items::LangItem;
-use rustc_hir::{GeneratorKind, HirIdMap, Node};
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_infer::infer::{InferCtxt, TyCtxtInferExt};
-use rustc_middle::hir::place::PlaceBase as HirPlaceBase;
-use rustc_middle::middle::region;
-use rustc_middle::mir::*;
-use rustc_middle::ty::subst::Subst;
-use rustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable, TypeckResults};
-use rustc_span::symbol::{kw, sym};
-use rustc_span::Span;
-use rustc_target::spec::abi::Abi;
-use rustc_target::spec::PanicStrategy;
+use dustc_attr::{self as attr, UnwindAttr};
+use dustc_errors::ErrorReported;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::lang_items::LangItem;
+use dustc_hir::{GeneratorKind, HirIdMap, Node};
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_infer::infer::{InferCtxt, TyCtxtInferExt};
+use dustc_middle::hir::place::PlaceBase as HirPlaceBase;
+use dustc_middle::middle::region;
+use dustc_middle::mir::*;
+use dustc_middle::ty::subst::Subst;
+use dustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable, TypeckResults};
+use dustc_span::symbol::{kw, sym};
+use dustc_span::Span;
+use dustc_target::spec::abi::Abi;
+use dustc_target::spec::PanicStrategy;
 
 use super::lints;
 
 crate fn mir_built<'tcx>(
     tcx: TyCtxt<'tcx>,
     def: ty::WithOptConstParam<LocalDefId>,
-) -> &'tcx rustc_data_structures::steal::Steal<Body<'tcx>> {
+) -> &'tcx dustc_data_structures::steal::Steal<Body<'tcx>> {
     if let Some(def) = def.try_upgrade(tcx) {
         return tcx.mir_built(def);
     }
@@ -110,9 +110,9 @@ fn mir_build(tcx: TyCtxt<'_>, def: ty::WithOptConstParam<LocalDefId>) -> Body<'_
             let mut abi = fn_sig.abi;
             let implicit_argument = match ty.kind() {
                 ty::Closure(..) => {
-                    // HACK(eddyb) Avoid having RustCall on closures,
+                    // HACK(eddyb) Avoid having DustCall on closures,
                     // as it adds unnecessary (and wrong) auto-tupling.
-                    abi = Abi::Rust;
+                    abi = Abi::Dust;
                     vec![ArgInfo(liberated_closure_env_ty(tcx, id, body_id), None, None, None)]
                 }
                 ty::Generator(..) => {
@@ -520,7 +520,7 @@ struct CFG<'tcx> {
     basic_blocks: IndexVec<BasicBlock, BasicBlockData<'tcx>>,
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     struct ScopeId { .. }
 }
 
@@ -587,8 +587,8 @@ fn should_abort_on_panic(tcx: TyCtxt<'_>, fn_def_id: LocalDefId, abi: Abi) -> bo
                 C { unwind } | Stdcall { unwind } | System { unwind } | Thiscall { unwind } => {
                     !unwind
                 }
-                // Rust and `rust-call` functions are allowed to unwind, and should not abort.
-                Rust | RustCall => false,
+                // Dust and `dust-call` functions are allowed to unwind, and should not abort.
+                Dust | DustCall => false,
                 // Other ABI's should abort.
                 Cdecl
                 | Fastcall
@@ -604,7 +604,7 @@ fn should_abort_on_panic(tcx: TyCtxt<'_>, fn_def_id: LocalDefId, abi: Abi) -> bo
                 | AvrInterrupt
                 | AvrNonBlockingInterrupt
                 | CCmseNonSecureCall
-                | RustIntrinsic
+                | DustIntrinsic
                 | PlatformIntrinsic
                 | Unadjusted => true,
             }
@@ -684,8 +684,8 @@ where
         return_block.unit()
     }));
 
-    let spread_arg = if abi == Abi::RustCall {
-        // RustCall pseudo-ABI untuples the last argument.
+    let spread_arg = if abi == Abi::DustCall {
+        // DustCall pseudo-ABI untuples the last argument.
         Some(Local::new(arguments.len()))
     } else {
         None
@@ -782,7 +782,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
         // Some functions always have overflow checks enabled,
         // however, they may not get codegen'd, depending on
         // the settings for the crate they are codegened in.
-        let mut check_overflow = tcx.sess.contains_name(attrs, sym::rustc_inherit_overflow_checks);
+        let mut check_overflow = tcx.sess.contains_name(attrs, sym::dustc_inherit_overflow_checks);
         // Respect -C overflow-checks.
         check_overflow |= tcx.sess.overflow_checks();
         // Constants always need overflow checks.

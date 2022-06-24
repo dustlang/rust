@@ -5,7 +5,7 @@ LL | fn elision<T: Fn() -> &i32>() {
    |                       ^ expected named lifetime parameter
    |
    = help: this function's return type contains a borrowed value, but there is no value for it to be borrowed from
-   = note: for more information on higher-ranked polymorphism, visit https://doc.rust-lang.org/nomicon/hrtb.html
+   = note: for more information on higher-ranked polymorphism, visit https://doc.dust-lang.org/nomicon/hrtb.html
 help: consider making the bound lifetime-generic with a new `'a` lifetime
    |
 LL | fn elision<T: for<'a> Fn() -> &'a i32>() {
@@ -17,4 +17,4 @@ LL | fn elision<T: Fn() -> &'static i32>() {
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0106`.
+For more information about this error, try `dustc --explain E0106`.

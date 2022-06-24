@@ -5,7 +5,7 @@ LL | #![feature(unsized_locals, unsized_fn_params)]
    |            ^^^^^^^^^^^^^^
    |
    = note: `#[warn(incomplete_features)]` on by default
-   = note: see issue #48055 <https://github.com/rust-lang/rust/issues/48055> for more information
+   = note: see issue #48055 <https://github.com/dust-lang/dust/issues/48055> for more information
 
 error[E0382]: borrow of moved value: `x`
   --> $DIR/borrow-after-move.rs:21:24
@@ -69,4 +69,4 @@ LL |         println!("{}", &x);
 
 error: aborting due to 5 previous errors; 1 warning emitted
 
-For more information about this error, try `rustc --explain E0382`.
+For more information about this error, try `dustc --explain E0382`.

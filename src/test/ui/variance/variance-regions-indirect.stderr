@@ -2,7 +2,7 @@ error[E0208]: [+, -, o, *]
   --> $DIR/variance-regions-indirect.rs:8:1
    |
 LL | / enum Base<'a, 'b, 'c:'b, 'd> {
-LL | |     Test8A(extern "Rust" fn(&'a isize)),
+LL | |     Test8A(extern "Dust" fn(&'a isize)),
 LL | |     Test8B(&'b [isize]),
 LL | |     Test8C(&'b mut &'c str),
 LL | | }

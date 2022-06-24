@@ -23,7 +23,7 @@
 /// * Values of type `&T` are coerced to values of type `&U`
 /// * `T` implicitly implements all the (immutable) methods of the type `U`.
 ///
-/// For more details, visit [the chapter in *The Rust Programming Language*][book]
+/// For more details, visit [the chapter in *The Dust Programming Language*][book]
 /// as well as the reference sections on [the dereference operator][ref-deref-op],
 /// [method resolution] and [type coercions].
 ///
@@ -59,36 +59,36 @@
 #[lang = "deref"]
 #[doc(alias = "*")]
 #[doc(alias = "&*")]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_diagnostic_item = "Deref"]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_diagnostic_item = "Deref"]
 pub trait Deref {
     /// The resulting type after dereferencing.
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_diagnostic_item = "deref_target"]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_diagnostic_item = "deref_target"]
     #[cfg_attr(not(bootstrap), lang = "deref_target")]
     type Target: ?Sized;
 
     /// Dereferences the value.
     #[must_use]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_diagnostic_item = "deref_method"]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_diagnostic_item = "deref_method"]
     fn deref(&self) -> &Self::Target;
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> Deref for &T {
     type Target = T;
 
-    #[rustc_diagnostic_item = "noop_method_deref"]
+    #[dustc_diagnostic_item = "noop_method_deref"]
     fn deref(&self) -> &T {
         *self
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> !DerefMut for &T {}
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> Deref for &mut T {
     type Target = T;
 
@@ -124,7 +124,7 @@ impl<T: ?Sized> Deref for &mut T {
 /// * Values of type `&mut T` are coerced to values of type `&mut U`
 /// * `T` implicitly implements all the (mutable) methods of the type `U`.
 ///
-/// For more details, visit [the chapter in *The Rust Programming Language*][book]
+/// For more details, visit [the chapter in *The Dust Programming Language*][book]
 /// as well as the reference sections on [the dereference operator][ref-deref-op],
 /// [method resolution] and [type coercions].
 ///
@@ -166,14 +166,14 @@ impl<T: ?Sized> Deref for &mut T {
 /// ```
 #[lang = "deref_mut"]
 #[doc(alias = "*")]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait DerefMut: Deref {
     /// Mutably dereferences the value.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn deref_mut(&mut self) -> &mut Self::Target;
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized> DerefMut for &mut T {
     fn deref_mut(&mut self) -> &mut T {
         *self

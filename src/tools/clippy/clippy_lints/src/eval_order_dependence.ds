@@ -1,10 +1,10 @@
 use crate::utils::{get_parent_expr, path_to_local, path_to_local_id, span_lint, span_lint_and_note};
-use rustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
-use rustc_hir::{BinOpKind, Block, Expr, ExprKind, Guard, HirId, Local, Node, Stmt, StmtKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty;
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::intravisit::{walk_expr, NestedVisitorMap, Visitor};
+use dustc_hir::{BinOpKind, Block, Expr, ExprKind, Guard, HirId, Local, Node, Stmt, StmtKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty;
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for a read and a write to the same variable where
@@ -12,13 +12,13 @@ declare_clippy_lint! {
     /// order of sub-expressions.
     ///
     /// **Why is this bad?** It is often confusing to read. In addition, the
-    /// sub-expression evaluation order for Rust is not well documented.
+    /// sub-expression evaluation order for Dust is not well documented.
     ///
     /// **Known problems:** Code which intentionally depends on the evaluation
     /// order, or which is correct for any evaluation order.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// let mut x = 0;
     ///
     /// // Bad
@@ -45,13 +45,13 @@ declare_clippy_lint! {
     /// statements.
     ///
     /// **Why is this bad?** It is often confusing to read. In addition, the
-    /// sub-expression evaluation order for Rust is not well documented.
+    /// sub-expression evaluation order for Dust is not well documented.
     ///
     /// **Known problems:** Someone might want to use `some_bool || panic!()` as a
     /// shorthand.
     ///
     /// **Example:**
-    /// ```rust,no_run
+    /// ```dust,no_run
     /// # fn b() -> bool { true }
     /// # fn c() -> bool { true }
     /// let a = b() || panic!() || c();
@@ -320,7 +320,7 @@ impl<'a, 'tcx> Visitor<'tcx> for ReadVisitor<'a, 'tcx> {
             // only to have its address taken, so we stop here. Technically,
             // this misses some weird cases, eg.
             //
-            // ```rust
+            // ```dust
             // let mut x = 0;
             // let a = foo(&{x = 1; x}, x);
             // ```

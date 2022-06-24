@@ -1,6 +1,6 @@
 [package]
 authors = ["The Rust Project Developers"]
-name = "rustc_span"
+name = "dustc_span"
 version = "0.0.0"
 edition = "2018"
 
@@ -8,11 +8,11 @@ edition = "2018"
 doctest = false
 
 [dependencies]
-rustc_serialize = { path = "../rustc_serialize" }
-rustc_macros = { path = "../rustc_macros" }
-rustc_data_structures = { path = "../rustc_data_structures" }
-rustc_index = { path = "../rustc_index" }
-rustc_arena = { path = "../rustc_arena" }
+dustc_serialize = { path = "../dustc_serialize" }
+dustc_macros = { path = "../dustc_macros" }
+dustc_data_structures = { path = "../dustc_data_structures" }
+dustc_index = { path = "../dustc_index" }
+dustc_arena = { path = "../dustc_arena" }
 scoped-tls = "1.0"
 unicode-width = "0.1.4"
 cfg-if = "0.1.2"

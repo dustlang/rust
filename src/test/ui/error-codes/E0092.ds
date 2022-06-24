@@ -1,5 +1,5 @@
 #![feature(intrinsics)]
-extern "rust-intrinsic" {
+extern "dust-intrinsic" {
     fn atomic_foo(); //~ ERROR E0092
 }
 

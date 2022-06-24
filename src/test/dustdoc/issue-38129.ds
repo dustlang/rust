@@ -1,6 +1,6 @@
 // compile-flags:--test
 
-// This file tests the source-partitioning behavior of rustdoc.
+// This file tests the source-partitioning behavior of dustdoc.
 // Each test contains some code that should be put into the generated
 // `fn main` and some attributes should be left outside (except the first
 // one, which has no attributes).

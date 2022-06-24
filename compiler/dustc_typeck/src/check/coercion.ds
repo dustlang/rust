@@ -21,7 +21,7 @@
 //! When infering the generic arguments of functions, the argument
 //! order is relevant, which can lead to the following edge case:
 //!
-//! ```rust
+//! ```dust
 //! fn foo<T>(a: T, b: T) {
 //!     // ...
 //! }
@@ -37,26 +37,26 @@
 
 use crate::astconv::AstConv;
 use crate::check::FnCtxt;
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def_id::DefId;
-use rustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
-use rustc_infer::infer::{Coercion, InferOk, InferResult};
-use rustc_middle::lint::in_external_macro;
-use rustc_middle::ty::adjustment::{
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def_id::DefId;
+use dustc_infer::infer::type_variable::{TypeVariableOrigin, TypeVariableOriginKind};
+use dustc_infer::infer::{Coercion, InferOk, InferResult};
+use dustc_middle::lint::in_external_macro;
+use dustc_middle::ty::adjustment::{
     Adjust, Adjustment, AllowTwoPhase, AutoBorrow, AutoBorrowMutability, PointerCast,
 };
-use rustc_middle::ty::error::TypeError;
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::relate::RelateResult;
-use rustc_middle::ty::subst::SubstsRef;
-use rustc_middle::ty::{self, Ty, TypeAndMut};
-use rustc_session::parse::feature_err;
-use rustc_span::symbol::sym;
-use rustc_span::{self, BytePos, Span};
-use rustc_target::spec::abi::Abi;
-use rustc_trait_selection::traits::error_reporting::InferCtxtExt;
-use rustc_trait_selection::traits::{self, ObligationCause, ObligationCauseCode};
+use dustc_middle::ty::error::TypeError;
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::relate::RelateResult;
+use dustc_middle::ty::subst::SubstsRef;
+use dustc_middle::ty::{self, Ty, TypeAndMut};
+use dustc_session::parse::feature_err;
+use dustc_span::symbol::sym;
+use dustc_span::{self, BytePos, Span};
+use dustc_target::spec::abi::Abi;
+use dustc_trait_selection::traits::error_reporting::InferCtxtExt;
+use dustc_trait_selection::traits::{self, ObligationCause, ObligationCauseCode};
 
 use smallvec::{smallvec, SmallVec};
 use std::ops::Deref;
@@ -692,7 +692,7 @@ impl<'f, 'tcx> Coerce<'f, 'tcx> {
         fn_ty_a: ty::PolyFnSig<'tcx>,
         b: Ty<'tcx>,
     ) -> CoerceResult<'tcx> {
-        //! Attempts to coerce from the type of a Rust function item
+        //! Attempts to coerce from the type of a Dust function item
         //! into a closure or a `proc`.
         //!
 
@@ -709,7 +709,7 @@ impl<'f, 'tcx> Coerce<'f, 'tcx> {
     }
 
     fn coerce_from_fn_item(&self, a: Ty<'tcx>, b: Ty<'tcx>) -> CoerceResult<'tcx> {
-        //! Attempts to coerce from the type of a Rust function item
+        //! Attempts to coerce from the type of a Dust function item
         //! into a closure or a `proc`.
 
         let b = self.shallow_resolve(b);
@@ -719,7 +719,7 @@ impl<'f, 'tcx> Coerce<'f, 'tcx> {
             ty::FnPtr(b_sig) => {
                 let a_sig = a.fn_sig(self.tcx);
                 // Intrinsics are not coercible to function pointers
-                if a_sig.abi() == Abi::RustIntrinsic || a_sig.abi() == Abi::PlatformIntrinsic {
+                if a_sig.abi() == Abi::DustIntrinsic || a_sig.abi() == Abi::PlatformIntrinsic {
                     return Err(TypeError::IntrinsicCast);
                 }
 
@@ -789,7 +789,7 @@ impl<'f, 'tcx> Coerce<'f, 'tcx> {
                     .map_or(true, |u| u.is_empty()) =>
             {
                 // We coerce the closure, which has fn type
-                //     `extern "rust-call" fn((arg0,arg1,...)) -> _`
+                //     `extern "dust-call" fn((arg0,arg1,...)) -> _`
                 // to
                 //     `fn(arg0,arg1,...) -> _`
                 // or
@@ -873,7 +873,7 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
         let source = self.resolve_vars_with_obligations(expr_ty);
         debug!("coercion::can({:?} -> {:?})", source, target);
 
-        let cause = self.cause(rustc_span::DUMMY_SP, ObligationCauseCode::ExprAssignable);
+        let cause = self.cause(dustc_span::DUMMY_SP, ObligationCauseCode::ExprAssignable);
         // We don't ever need two-phase here since we throw out the result of the coercion
         let coerce = Coerce::new(self, cause, AllowTwoPhase::No);
         self.probe(|_| coerce.coerce(source, target)).is_ok()
@@ -883,11 +883,11 @@ impl<'a, 'tcx> FnCtxt<'a, 'tcx> {
     /// how many dereference steps needed to achieve `expr_ty <: target`. If
     /// it's not possible, return `None`.
     pub fn deref_steps(&self, expr_ty: Ty<'tcx>, target: Ty<'tcx>) -> Option<usize> {
-        let cause = self.cause(rustc_span::DUMMY_SP, ObligationCauseCode::ExprAssignable);
+        let cause = self.cause(dustc_span::DUMMY_SP, ObligationCauseCode::ExprAssignable);
         // We don't ever need two-phase here since we throw out the result of the coercion
         let coerce = Coerce::new(self, cause, AllowTwoPhase::No);
         coerce
-            .autoderef(rustc_span::DUMMY_SP, expr_ty)
+            .autoderef(dustc_span::DUMMY_SP, expr_ty)
             .find_map(|(ty, steps)| self.probe(|_| coerce.unify(ty, target)).ok().map(|_| steps))
     }
 
@@ -1534,10 +1534,10 @@ impl<'tcx, 'exprs, E: AsCoercionSite> CoerceMany<'tcx, 'exprs, E> {
             format!("...is found to be `{}` here", fcx.resolve_vars_with_obligations(expected)),
         );
         let impl_trait_msg = "for information on `impl Trait`, see \
-                <https://doc.rust-lang.org/book/ch10-02-traits.html\
+                <https://doc.dust-lang.org/book/ch10-02-traits.html\
                 #returning-types-that-implement-traits>";
         let trait_obj_msg = "for information on trait objects, see \
-                <https://doc.rust-lang.org/book/ch17-02-trait-objects.html\
+                <https://doc.dust-lang.org/book/ch17-02-trait-objects.html\
                 #using-trait-objects-that-allow-for-values-of-different-types>";
         err.note("to return `impl Trait`, all returned values must be of the same type");
         err.note(impl_trait_msg);

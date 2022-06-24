@@ -2,7 +2,7 @@
 
 # ignore-windows
 
-ifeq ($(shell $(RUSTC) -vV | grep 'host: $(TARGET)'),)
+ifeq ($(shell $(DUSTC) -vV | grep 'host: $(TARGET)'),)
 
 # Don't run this test when cross compiling.
 all:
@@ -19,7 +19,7 @@ PANIC_SYMS += panicking panic_fmt
 endif
 
 all: main.rs
-	$(RUSTC) $< -O
+	$(DUSTC) $< -O
 	$(NM) $(call RUN_BINFILE,main) | $(CGREP) -v $(PANIC_SYMS)
 
 endif

@@ -1,10 +1,10 @@
-name: Bootstrap rustc using cg_clif
+name: Bootstrap dustc using cg_clif
 
 on:
   - push
 
 jobs:
-  bootstrap_rustc:
+  bootstrap_dustc:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: target
-        key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('rust-toolchain', '**/Cargo.lock') }}
+        key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('dust-toolchain', '**/Cargo.lock') }}
 
     - name: Prepare dependencies
       run: |
@@ -39,6 +39,6 @@ jobs:
     - name: Test
       run: |
         # Enable backtraces for easier debugging
-        export RUST_BACKTRACE=1
+        export DUST_BACKTRACE=1
 
         ./scripts/test_bootstrap.sh

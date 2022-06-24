@@ -1,8 +1,8 @@
 use crate::ty;
 use crate::ty::Ty;
 
-use rustc_hir::HirId;
-use rustc_target::abi::VariantIdx;
+use dustc_hir::HirId;
+use dustc_target::abi::VariantIdx;
 
 #[derive(
     Clone,
@@ -80,7 +80,7 @@ pub struct Projection<'tcx> {
 
 /// A `Place` represents how a value is located in memory.
 ///
-/// This is an HIR version of [`rustc_middle::mir::Place`].
+/// This is an HIR version of [`dustc_middle::mir::Place`].
 #[derive(Clone, Debug, PartialEq, Eq, Hash, TyEncodable, TyDecodable, TypeFoldable, HashStable)]
 pub struct Place<'tcx> {
     /// The type of the `PlaceBase`
@@ -93,7 +93,7 @@ pub struct Place<'tcx> {
 
 /// A `PlaceWithHirId` represents how a value is located in memory.
 ///
-/// This is an HIR version of [`rustc_middle::mir::Place`].
+/// This is an HIR version of [`dustc_middle::mir::Place`].
 #[derive(Clone, Debug, PartialEq, Eq, Hash, TyEncodable, TyDecodable, TypeFoldable, HashStable)]
 pub struct PlaceWithHirId<'tcx> {
     /// `HirId` of the expression or pattern producing this value.

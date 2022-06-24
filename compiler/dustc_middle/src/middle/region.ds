@@ -2,19 +2,19 @@
 //! the parent links in the region hierarchy.
 //!
 //! For more information about how MIR-based region-checking works,
-//! see the [rustc dev guide].
+//! see the [dustc dev guide].
 //!
-//! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/borrow_check.html
+//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/borrow_check.html
 
 use crate::ich::{NodeIdHashingMode, StableHashingContext};
 use crate::ty::TyCtxt;
-use rustc_hir as hir;
-use rustc_hir::Node;
+use dustc_hir as hir;
+use dustc_hir::Node;
 
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_macros::HashStable;
-use rustc_span::{Span, DUMMY_SP};
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_macros::HashStable;
+use dustc_span::{Span, DUMMY_SP};
 
 use std::fmt;
 
@@ -124,7 +124,7 @@ pub enum ScopeData {
     Remainder(FirstStatementIndex),
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     /// Represents a subscope of `block` for a binding that is introduced
     /// by `block.stmts[first_statement_index]`. Such subscopes represent
     /// a suffix of the block. Note that each subscope does not include
@@ -259,7 +259,7 @@ pub struct ScopeTree {
     /// at yield-points at these indexes.
     ///
     /// For an example, suppose we have some code such as:
-    /// ```rust,ignore (example)
+    /// ```dust,ignore (example)
     ///     foo(f(), yield y, bar(g()))
     /// ```
     ///
@@ -293,7 +293,7 @@ pub struct ScopeTree {
     /// Then:
     ///
     ///   1. From the ordering guarantee of HIR visitors (see
-    ///   `rustc_hir::intravisit`), `D` does not dominate `U`.
+    ///   `dustc_hir::intravisit`), `D` does not dominate `U`.
     ///
     ///   2. Therefore, `D` is *potentially* storage-dead at `U` (because
     ///   we might visit `U` without ever getting to `D`).

@@ -6,8 +6,8 @@
 
 pub struct Int(i32);
 
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_const_stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_const_stable(feature = "dust1", since = "1.0.0")]
 impl const std::ops::Sub for Int {
     type Output = Self;
 
@@ -17,7 +17,7 @@ impl const std::ops::Sub for Int {
     }
 }
 
-#[rustc_const_unstable(feature = "const_add", issue = "none")]
+#[dustc_const_unstable(feature = "const_add", issue = "none")]
 impl const std::ops::Add for Int {
     type Output = Self;
 
@@ -26,16 +26,16 @@ impl const std::ops::Add for Int {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_const_stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_const_stable(feature = "dust1", since = "1.0.0")]
 pub const fn foo() -> Int {
     Int(1i32) + Int(2i32)
     //~^ ERROR not yet stable as a const fn
 }
 
 // ok
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_const_unstable(feature = "bar", issue = "none")]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_const_unstable(feature = "bar", issue = "none")]
 pub const fn bar() -> Int {
     Int(1i32) + Int(2i32)
 }

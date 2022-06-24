@@ -2,19 +2,19 @@ use crate::ich;
 use crate::middle::cstore::CrateStore;
 use crate::ty::{fast_reject, TyCtxt};
 
-use rustc_ast as ast;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
-use rustc_data_structures::sync::Lrc;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_hir::definitions::{DefPathHash, Definitions};
-use rustc_session::Session;
-use rustc_span::source_map::SourceMap;
-use rustc_span::symbol::Symbol;
-use rustc_span::{BytePos, CachingSourceMapView, SourceFile, SpanData};
+use dustc_ast as ast;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
+use dustc_data_structures::sync::Lrc;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_hir::definitions::{DefPathHash, Definitions};
+use dustc_session::Session;
+use dustc_span::source_map::SourceMap;
+use dustc_span::symbol::Symbol;
+use dustc_span::{BytePos, CachingSourceMapView, SourceFile, SpanData};
 
-use rustc_span::def_id::{CrateNum, CRATE_DEF_INDEX};
+use dustc_span::def_id::{CrateNum, CRATE_DEF_INDEX};
 use smallvec::SmallVec;
 use std::cmp::Ord;
 use std::thread::LocalKey;
@@ -226,7 +226,7 @@ impl<'a> HashStable<StableHashingContext<'a>> for ast::NodeId {
     }
 }
 
-impl<'a> rustc_span::HashStableContext for StableHashingContext<'a> {
+impl<'a> dustc_span::HashStableContext for StableHashingContext<'a> {
     fn hash_spans(&self) -> bool {
         self.hash_spans
     }
@@ -243,9 +243,9 @@ impl<'a> rustc_span::HashStableContext for StableHashingContext<'a> {
         hcx.def_path_hash(def_id).hash_stable(hcx, hasher);
     }
 
-    fn expn_id_cache() -> &'static LocalKey<rustc_span::ExpnIdCache> {
+    fn expn_id_cache() -> &'static LocalKey<dustc_span::ExpnIdCache> {
         thread_local! {
-            static CACHE: rustc_span::ExpnIdCache = Default::default();
+            static CACHE: dustc_span::ExpnIdCache = Default::default();
         }
         &CACHE
     }

@@ -85,4 +85,4 @@ LL |         v.y = 2;
 error: aborting due to 9 previous errors
 
 Some errors have detailed explanations: E0382, E0594.
-For more information about an error, try `rustc --explain E0382`.
+For more information about an error, try `dustc --explain E0382`.

@@ -7,16 +7,16 @@
 //! errors. We still look for those primitives in the MIR const-checker to ensure nothing slips
 //! through, but errors for structured control flow in a `const` should be emitted here.
 
-use rustc_attr as attr;
-use rustc_errors::struct_span_err;
-use rustc_hir as hir;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_middle::hir::map::Map;
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::parse::feature_err;
-use rustc_span::{sym, Span, Symbol};
+use dustc_attr as attr;
+use dustc_errors::struct_span_err;
+use dustc_hir as hir;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_middle::hir::map::Map;
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::parse::feature_err;
+use dustc_span::{sym, Span, Symbol};
 
 /// An expression that is not *always* legal in a const context.
 #[derive(Clone, Copy)]
@@ -86,7 +86,7 @@ impl<'tcx> CheckConstVisitor<'tcx> {
 
         let is_feature_allowed = |feature_gate| {
             // All features require that the corresponding gate be enabled,
-            // even if the function has `#[rustc_allow_const_fn_unstable(the_gate)]`.
+            // even if the function has `#[dustc_allow_const_fn_unstable(the_gate)]`.
             if !tcx.features().enabled(feature_gate) {
                 return false;
             }
@@ -99,13 +99,13 @@ impl<'tcx> CheckConstVisitor<'tcx> {
 
             // If this crate is not using stability attributes, or this function is not claiming to be a
             // stable `const fn`, that is all that is required.
-            if !tcx.features().staged_api || tcx.has_attr(def_id, sym::rustc_const_unstable) {
+            if !tcx.features().staged_api || tcx.has_attr(def_id, sym::dustc_const_unstable) {
                 return true;
             }
 
             // However, we cannot allow stable `const fn`s to use unstable features without an explicit
-            // opt-in via `rustc_allow_const_fn_unstable`.
-            attr::rustc_allow_const_fn_unstable(&tcx.sess, &tcx.get_attrs(def_id))
+            // opt-in via `dustc_allow_const_fn_unstable`.
+            attr::dustc_allow_const_fn_unstable(&tcx.sess, &tcx.get_attrs(def_id))
                 .any(|name| name == feature_gate)
         };
 

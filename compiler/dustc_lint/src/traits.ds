@@ -1,8 +1,8 @@
 use crate::LateContext;
 use crate::LateLintPass;
 use crate::LintContext;
-use rustc_hir as hir;
-use rustc_span::symbol::sym;
+use dustc_hir as hir;
+use dustc_span::symbol::sym;
 
 declare_lint! {
     /// The `drop_bounds` lint checks for generics with `std::ops::Drop` as
@@ -10,7 +10,7 @@ declare_lint! {
     ///
     /// ### Example
     ///
-    /// ```rust
+    /// ```dust
     /// fn foo<T: Drop>() {}
     /// ```
     ///
@@ -45,7 +45,7 @@ declare_lint_pass!(
 
 impl<'tcx> LateLintPass<'tcx> for DropTraitConstraints {
     fn check_item(&mut self, cx: &LateContext<'tcx>, item: &'tcx hir::Item<'tcx>) {
-        use rustc_middle::ty::PredicateKind::*;
+        use dustc_middle::ty::PredicateKind::*;
 
         let predicates = cx.tcx.explicit_predicates_of(item.def_id);
         for &(predicate, span) in predicates.predicates {

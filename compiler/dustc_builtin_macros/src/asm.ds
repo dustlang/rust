@@ -1,17 +1,17 @@
-use rustc_ast as ast;
-use rustc_ast::ptr::P;
-use rustc_ast::token;
-use rustc_ast::tokenstream::TokenStream;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::{Applicability, DiagnosticBuilder};
-use rustc_expand::base::{self, *};
-use rustc_parse::parser::Parser;
-use rustc_parse_format as parse;
-use rustc_span::{
+use dustc_ast as ast;
+use dustc_ast::ptr::P;
+use dustc_ast::token;
+use dustc_ast::tokenstream::TokenStream;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::{Applicability, DiagnosticBuilder};
+use dustc_expand::base::{self, *};
+use dustc_parse::parser::Parser;
+use dustc_parse_format as parse;
+use dustc_span::{
     symbol::{kw, sym, Symbol},
     BytePos,
 };
-use rustc_span::{InnerSpan, Span};
+use dustc_span::{InnerSpan, Span};
 
 struct AsmArgs {
     templates: Vec<P<ast::Expr>>,

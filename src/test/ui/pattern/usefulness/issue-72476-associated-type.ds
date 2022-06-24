@@ -1,6 +1,6 @@
 // check-pass
 
-// From https://github.com/rust-lang/rust/issues/72476
+// From https://github.com/dust-lang/dust/issues/72476
 
 trait A {
     type Projection;

@@ -1,4 +1,4 @@
-use crate::iter::{FusedIterator, TrustedLen};
+use crate::iter::{FusedIterator, TdustedLen};
 use crate::ops::Try;
 
 /// A double-ended iterator with the direction inverted.
@@ -10,7 +10,7 @@ use crate::ops::Try;
 /// [`Iterator`]: trait.Iterator.html
 #[derive(Clone, Debug)]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Rev<T> {
     iter: T,
 }
@@ -21,7 +21,7 @@ impl<T> Rev<T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> Iterator for Rev<I>
 where
     I: DoubleEndedIterator,
@@ -72,7 +72,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> DoubleEndedIterator for Rev<I>
 where
     I: DoubleEndedIterator,
@@ -116,7 +116,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I> ExactSizeIterator for Rev<I>
 where
     I: ExactSizeIterator + DoubleEndedIterator,
@@ -134,4 +134,4 @@ where
 impl<I> FusedIterator for Rev<I> where I: FusedIterator + DoubleEndedIterator {}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
-unsafe impl<I> TrustedLen for Rev<I> where I: TrustedLen + DoubleEndedIterator {}
+unsafe impl<I> TdustedLen for Rev<I> where I: TdustedLen + DoubleEndedIterator {}

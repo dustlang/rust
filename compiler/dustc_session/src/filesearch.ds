@@ -6,7 +6,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use crate::search_paths::{PathKind, SearchPath, SearchPathFile};
-use rustc_fs_util::fix_windows_verbatim_for_gcc;
+use dustc_fs_util::fix_windows_verbatim_for_gcc;
 use tracing::debug;
 
 #[derive(Copy, Clone)]
@@ -93,7 +93,7 @@ impl<'a> FileSearch<'a> {
     pub fn get_tools_search_paths(&self, self_contained: bool) -> Vec<PathBuf> {
         let mut p = PathBuf::from(self.sysroot);
         p.push(find_libdir(self.sysroot).as_ref());
-        p.push(RUST_LIB_DIR);
+        p.push(DUST_LIB_DIR);
         p.push(&self.triple);
         p.push("bin");
         if self_contained { vec![p.clone(), p.join("self-contained")] } else { vec![p] }
@@ -103,7 +103,7 @@ impl<'a> FileSearch<'a> {
 pub fn relative_target_lib_path(sysroot: &Path, target_triple: &str) -> PathBuf {
     let mut p = PathBuf::from(find_libdir(sysroot).as_ref());
     assert!(p.is_relative());
-    p.push(RUST_LIB_DIR);
+    p.push(DUST_LIB_DIR);
     p.push(target_triple);
     p.push("lib");
     p
@@ -140,15 +140,15 @@ pub fn get_or_default_sysroot() -> PathBuf {
     }
 
     // Use env::args().next() to get the path of the executable without
-    // following symlinks/canonicalizing any component. This makes the rustc
-    // binary able to locate Rust libraries in systems using content-addressable
+    // following symlinks/canonicalizing any component. This makes the dustc
+    // binary able to locate Dust libraries in systems using content-addressable
     // storage (CAS).
     fn from_env_args_next() -> Option<PathBuf> {
         match env::args_os().next() {
             Some(first_arg) => {
                 let mut p = PathBuf::from(first_arg);
 
-                // Check if sysroot is found using env::args().next() only if the rustc in argv[0]
+                // Check if sysroot is found using env::args().next() only if the dustc in argv[0]
                 // is a symlink (see #79253). We might want to change/remove it to conform with
                 // https://www.gnu.org/prep/standards/standards.html#Finding-Program-Files in the
                 // future.
@@ -172,13 +172,13 @@ pub fn get_or_default_sysroot() -> PathBuf {
     from_env_args_next().unwrap_or_else(from_current_exe)
 }
 
-// The name of the directory rustc expects libraries to be located.
+// The name of the directory dustc expects libraries to be located.
 fn find_libdir(sysroot: &Path) -> Cow<'static, str> {
-    // FIXME: This is a quick hack to make the rustc binary able to locate
-    // Rust libraries in Linux environments where libraries might be installed
+    // FIXME: This is a quick hack to make the dustc binary able to locate
+    // Dust libraries in Linux environments where libraries might be installed
     // to lib64/lib32. This would be more foolproof by basing the sysroot off
-    // of the directory where `librustc_driver` is located, rather than
-    // where the rustc binary is.
+    // of the directory where `libdustc_driver` is located, rather than
+    // where the dustc binary is.
     // If --libdir is set during configuration to the value other than
     // "lib" (i.e., non-default), this value is used (see issue #16552).
 
@@ -192,7 +192,7 @@ fn find_libdir(sysroot: &Path) -> Cow<'static, str> {
 
     match option_env!("CFG_LIBDIR_RELATIVE") {
         None | Some("lib") => {
-            if sysroot.join(PRIMARY_LIB_DIR).join(RUST_LIB_DIR).exists() {
+            if sysroot.join(PRIMARY_LIB_DIR).join(DUST_LIB_DIR).exists() {
                 PRIMARY_LIB_DIR.into()
             } else {
                 SECONDARY_LIB_DIR.into()
@@ -202,6 +202,6 @@ fn find_libdir(sysroot: &Path) -> Cow<'static, str> {
     }
 }
 
-// The name of rustc's own place to organize libraries.
-// Used to be "rustc", now the default is "rustlib"
-const RUST_LIB_DIR: &str = "rustlib";
+// The name of dustc's own place to organize libraries.
+// Used to be "dustc", now the default is "dustlib"
+const DUST_LIB_DIR: &str = "dustlib";

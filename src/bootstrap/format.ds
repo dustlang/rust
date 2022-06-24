@@ -1,4 +1,4 @@
-//! Runs rustfmt on the repository.
+//! Runs dustfmt on the repository.
 
 use crate::Build;
 use build_helper::{output, t};
@@ -8,8 +8,8 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::sync::mpsc::SyncSender;
 
-fn rustfmt(src: &Path, rustfmt: &Path, paths: &[PathBuf], check: bool) -> impl FnMut() {
-    let mut cmd = Command::new(&rustfmt);
+fn dustfmt(src: &Path, dustfmt: &Path, paths: &[PathBuf], check: bool) -> impl FnMut() {
+    let mut cmd = Command::new(&dustfmt);
     // avoid the submodule config paths from coming into play,
     // we only allow a single global config for the workspace for now
     cmd.arg("--config-path").arg(&src.canonicalize().unwrap());
@@ -21,8 +21,8 @@ fn rustfmt(src: &Path, rustfmt: &Path, paths: &[PathBuf], check: bool) -> impl F
     }
     cmd.args(paths);
     let cmd_debug = format!("{:?}", cmd);
-    let mut cmd = cmd.spawn().expect("running rustfmt");
-    // poor man's async: return a closure that'll wait for rustfmt's completion
+    let mut cmd = cmd.spawn().expect("running dustfmt");
+    // poor man's async: return a closure that'll wait for dustfmt's completion
     move || {
         let status = cmd.wait().unwrap();
         if !status.success() {
@@ -38,7 +38,7 @@ fn rustfmt(src: &Path, rustfmt: &Path, paths: &[PathBuf], check: bool) -> impl F
 }
 
 #[derive(serde::Deserialize)]
-struct RustfmtConfig {
+struct DustfmtConfig {
     ignore: Vec<String>,
 }
 
@@ -48,18 +48,18 @@ pub fn format(build: &Build, check: bool) {
     }
     let mut builder = ignore::types::TypesBuilder::new();
     builder.add_defaults();
-    builder.select("rust");
+    builder.select("dust");
     let matcher = builder.build().unwrap();
-    let rustfmt_config = build.src.join("rustfmt.toml");
-    if !rustfmt_config.exists() {
-        eprintln!("Not running formatting checks; rustfmt.toml does not exist.");
+    let dustfmt_config = build.src.join("dustfmt.toml");
+    if !dustfmt_config.exists() {
+        eprintln!("Not running formatting checks; dustfmt.toml does not exist.");
         eprintln!("This may happen in distributed tarballs.");
         return;
     }
-    let rustfmt_config = t!(std::fs::read_to_string(&rustfmt_config));
-    let rustfmt_config: RustfmtConfig = t!(toml::from_str(&rustfmt_config));
+    let dustfmt_config = t!(std::fs::read_to_string(&dustfmt_config));
+    let dustfmt_config: DustfmtConfig = t!(toml::from_str(&dustfmt_config));
     let mut ignore_fmt = ignore::overrides::OverrideBuilder::new(&build.src);
-    for ignore in rustfmt_config.ignore {
+    for ignore in dustfmt_config.ignore {
         ignore_fmt.add(&format!("!{}", ignore)).expect(&ignore);
     }
     let git_available = match Command::new("git")
@@ -96,7 +96,7 @@ pub fn format(build: &Build, check: bool) {
                     entry.split(' ').nth(1).expect("every git status entry should list a path")
                 });
             for untracked_path in untracked_paths {
-                eprintln!("skip untracked path {} during rustfmt invocations", untracked_path);
+                eprintln!("skip untracked path {} during dustfmt invocations", untracked_path);
                 ignore_fmt.add(&format!("!{}", untracked_path)).expect(&untracked_path);
             }
         } else {
@@ -107,9 +107,9 @@ pub fn format(build: &Build, check: bool) {
     }
     let ignore_fmt = ignore_fmt.build().unwrap();
 
-    let rustfmt_path = build
+    let dustfmt_path = build
         .config
-        .initial_rustfmt
+        .initial_dustfmt
         .as_ref()
         .unwrap_or_else(|| {
             eprintln!("./x.py fmt is not supported on this channel");
@@ -132,7 +132,7 @@ pub fn format(build: &Build, check: bool) {
             // try getting a few more paths from the channel to amortize the overhead of spawning processes
             let paths: Vec<_> = rx.try_iter().take(7).chain(std::iter::once(path)).collect();
 
-            let child = rustfmt(&src, &rustfmt_path, paths.as_slice(), check);
+            let child = dustfmt(&src, &dustfmt_path, paths.as_slice(), check);
             children.push_back(child);
 
             if children.len() >= max_processes {

@@ -1,5 +1,5 @@
 #![crate_name = "foo"]
-#![doc(html_playground_url = "https://play.rust-lang.org/")]
+#![doc(html_playground_url = "https://play.dust-lang.org/")]
 
 /// bar docs
 ///

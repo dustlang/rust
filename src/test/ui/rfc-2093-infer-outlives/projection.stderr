@@ -1,4 +1,4 @@
-error: rustc_outlives
+error: dustc_outlives
   --> $DIR/projection.rs:4:1
    |
 LL | / struct Foo<'a, T: Iterator> {

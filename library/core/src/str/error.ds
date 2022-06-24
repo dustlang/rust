@@ -42,7 +42,7 @@ use crate::fmt;
 /// }
 /// ```
 #[derive(Copy, Eq, PartialEq, Clone, Debug)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct Utf8Error {
     pub(super) valid_up_to: usize,
     pub(super) error_len: Option<u8>,
@@ -99,7 +99,7 @@ impl Utf8Error {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Display for Utf8Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         if let Some(error_len) = self.error_len {
@@ -118,12 +118,12 @@ impl fmt::Display for Utf8Error {
 ///
 /// [`from_str`]: super::FromStr::from_str
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct ParseBoolError {
     pub(super) _priv: (),
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl fmt::Display for ParseBoolError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         "provided string was not `true` or `false`".fmt(f)

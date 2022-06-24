@@ -52,11 +52,11 @@
 #include "llvm/IR/IRPrintingPasses.h"
 #include "llvm/Linker/Linker.h"
 
-extern "C" void LLVMRustSetLastError(const char *);
+extern "C" void LLVMDustSetLastError(const char *);
 
-enum class LLVMRustResult { Success, Failure };
+enum class LLVMDustResult { Success, Failure };
 
-enum LLVMRustAttribute {
+enum LLVMDustAttribute {
   AlwaysInline = 0,
   ByVal = 1,
   Cold = 2,
@@ -89,28 +89,28 @@ enum LLVMRustAttribute {
   WillReturn = 29,
 };
 
-typedef struct OpaqueRustString *RustStringRef;
+typedef struct OpaqueDustString *DustStringRef;
 typedef struct LLVMOpaqueTwine *LLVMTwineRef;
 typedef struct LLVMOpaqueSMDiagnostic *LLVMSMDiagnosticRef;
 
-extern "C" void LLVMRustStringWriteImpl(RustStringRef Str, const char *Ptr,
+extern "C" void LLVMDustStringWriteImpl(DustStringRef Str, const char *Ptr,
                                         size_t Size);
 
-class RawRustStringOstream : public llvm::raw_ostream {
-  RustStringRef Str;
+class RawDustStringOstream : public llvm::raw_ostream {
+  DustStringRef Str;
   uint64_t Pos;
 
   void write_impl(const char *Ptr, size_t Size) override {
-    LLVMRustStringWriteImpl(Str, Ptr, Size);
+    LLVMDustStringWriteImpl(Str, Ptr, Size);
     Pos += Size;
   }
 
   uint64_t current_pos() const override { return Pos; }
 
 public:
-  explicit RawRustStringOstream(RustStringRef Str) : Str(Str), Pos(0) {}
+  explicit RawDustStringOstream(DustStringRef Str) : Str(Str), Pos(0) {}
 
-  ~RawRustStringOstream() {
+  ~RawDustStringOstream() {
     // LLVM requires this.
     flush();
   }

@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 #![warn(clippy::manual_ok_or)]
 #![allow(clippy::blacklisted_name)]
 #![allow(clippy::redundant_closure)]
@@ -17,7 +17,7 @@ fn main() {
     None::<i32>.ok_or("error");
 
     // multiline case
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     foo.ok_or(&format!(
         "{}{}{}{}{}{}{}",
         "Alice", "Bob", "Sarah", "Marc", "Sandra", "Eric", "Jenifer"));

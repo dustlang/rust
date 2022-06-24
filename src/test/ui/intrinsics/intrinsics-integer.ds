@@ -2,8 +2,8 @@
 
 #![feature(intrinsics)]
 
-mod rusti {
-    extern "rust-intrinsic" {
+mod dusti {
+    extern "dust-intrinsic" {
         pub fn ctpop<T>(x: T) -> T;
         pub fn ctlz<T>(x: T) -> T;
         pub fn ctlz_nonzero<T>(x: T) -> T;
@@ -15,7 +15,7 @@ mod rusti {
 }
 
 pub fn main() {
-    use rusti::*;
+    use dusti::*;
 
     assert_eq!(ctpop(0u8), 0); assert_eq!(ctpop(0i8), 0);
     assert_eq!(ctpop(0u16), 0); assert_eq!(ctpop(0i16), 0);

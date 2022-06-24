@@ -4,7 +4,7 @@ use std::fmt;
 
 use serde::{Serialize, Serializer};
 
-use rustc_span::hygiene::MacroKind;
+use dustc_span::hygiene::MacroKind;
 
 use crate::clean;
 

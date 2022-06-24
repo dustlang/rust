@@ -2,7 +2,7 @@
 // This test checks that calling `mem::{uninitialized,zeroed}` with certain types results
 // in a lint.
 
-#![feature(never_type, rustc_attrs)]
+#![feature(never_type, dustc_attrs)]
 #![allow(deprecated)]
 #![deny(invalid_value)]
 
@@ -18,8 +18,8 @@ struct RefPair((&'static i32, i32));
 struct Wrap<T> { wrapped: T }
 enum WrapEnum<T> { Wrapped(T) }
 
-#[rustc_layout_scalar_valid_range_start(0)]
-#[rustc_layout_scalar_valid_range_end(128)]
+#[dustc_layout_scalar_valid_range_start(0)]
+#[dustc_layout_scalar_valid_range_end(128)]
 #[repr(transparent)]
 pub(crate) struct NonBig(u64);
 
@@ -111,7 +111,7 @@ fn main() {
         let _val: MaybeUninit<&'static i32> = mem::zeroed();
         let _val: i32 = mem::zeroed();
         let _val: bool = MaybeUninit::zeroed().assume_init();
-        // Some things that happen to work due to rustc implementation details,
+        // Some things that happen to work due to dustc implementation details,
         // but are not guaranteed to keep working.
         let _val: i32 = mem::uninitialized();
         let _val: OneFruit = mem::uninitialized();

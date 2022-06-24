@@ -13,4 +13,4 @@ LL |     for (i, _) in & & & & &v.iter().enumerate() {
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0277`.
+For more information about this error, try `dustc --explain E0277`.

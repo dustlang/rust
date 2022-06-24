@@ -6,8 +6,8 @@ use crate::infer::canonical::query_response;
 use crate::infer::canonical::QueryRegionConstraints;
 use crate::traits::engine::TraitEngineExt as _;
 use crate::traits::{ObligationCause, TraitEngine};
-use rustc_infer::traits::TraitEngineExt as _;
-use rustc_span::source_map::DUMMY_SP;
+use dustc_infer::traits::TraitEngineExt as _;
+use dustc_span::source_map::DUMMY_SP;
 use std::rc::Rc;
 
 pub struct CustomTypeOp<F, G> {

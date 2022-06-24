@@ -677,4 +677,4 @@ LL |     fn f4((&mut X(_t),): (&mut X,)) { }
 
 error: aborting due to 60 previous errors
 
-For more information about this error, try `rustc --explain E0507`.
+For more information about this error, try `dustc --explain E0507`.

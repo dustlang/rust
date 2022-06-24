@@ -1,6 +1,6 @@
-//! MIR datatypes and passes. See the [rustc dev guide] for more info.
+//! MIR datatypes and passes. See the [dustc dev guide] for more info.
 //!
-//! [rustc dev guide]: https://rustc-dev-guide.rust-lang.org/mir/index.html
+//! [dustc dev guide]: https://dustc-dev-guide.dust-lang.org/mir/index.html
 
 use crate::mir::coverage::{CodeRegion, CoverageKind};
 use crate::mir::interpret::{Allocation, GlobalAlloc, Scalar};
@@ -12,23 +12,23 @@ use crate::ty::print::{FmtPrinter, Printer};
 use crate::ty::subst::{Subst, SubstsRef};
 use crate::ty::{self, List, Ty, TyCtxt};
 use crate::ty::{AdtDef, InstanceDef, Region, ScalarInt, UserTypeAnnotationIndex};
-use rustc_hir as hir;
-use rustc_hir::def::{CtorKind, Namespace};
-use rustc_hir::def_id::{DefId, CRATE_DEF_INDEX};
-use rustc_hir::{self, GeneratorKind};
-use rustc_target::abi::{Size, VariantIdx};
+use dustc_hir as hir;
+use dustc_hir::def::{CtorKind, Namespace};
+use dustc_hir::def_id::{DefId, CRATE_DEF_INDEX};
+use dustc_hir::{self, GeneratorKind};
+use dustc_target::abi::{Size, VariantIdx};
 
 use polonius_engine::Atom;
-pub use rustc_ast::Mutability;
-use rustc_data_structures::fx::FxHashSet;
-use rustc_data_structures::graph::dominators::{dominators, Dominators};
-use rustc_data_structures::graph::{self, GraphSuccessors};
-use rustc_index::bit_set::BitMatrix;
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_serialize::{Decodable, Encodable};
-use rustc_span::symbol::Symbol;
-use rustc_span::{Span, DUMMY_SP};
-use rustc_target::asm::InlineAsmRegOrRegClass;
+pub use dustc_ast::Mutability;
+use dustc_data_structures::fx::FxHashSet;
+use dustc_data_structures::graph::dominators::{dominators, Dominators};
+use dustc_data_structures::graph::{self, GraphSuccessors};
+use dustc_index::bit_set::BitMatrix;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_serialize::{Decodable, Encodable};
+use dustc_span::symbol::Symbol;
+use dustc_span::{Span, DUMMY_SP};
+use dustc_target::asm::InlineAsmRegOrRegClass;
 use std::borrow::Cow;
 use std::convert::TryInto;
 use std::fmt::{self, Debug, Display, Formatter, Write};
@@ -206,7 +206,7 @@ pub struct Body<'tcx> {
     /// Mark an argument local (which must be a tuple) as getting passed as
     /// its individual components at the LLVM level.
     ///
-    /// This is used for the "rust-call" ABI.
+    /// This is used for the "dust-call" ABI.
     pub spread_arg: Option<Local>,
 
     /// Debug information pertaining to user variables, including captures.
@@ -225,7 +225,7 @@ pub struct Body<'tcx> {
     /// The repeat count in the following example is polymorphic, but can still be evaluated
     /// without knowing anything about the type parameter `T`.
     ///
-    /// ```rust
+    /// ```dust
     /// fn test<T>() {
     ///     let _ = [0; std::mem::size_of::<*mut T>()];
     /// }
@@ -706,7 +706,7 @@ impl BorrowKind {
 ///////////////////////////////////////////////////////////////////////////
 // Variables and temps
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct Local {
         derive [HashStable]
         DEBUG_FORMAT = "_{}",
@@ -785,7 +785,7 @@ TrivialTypeFoldableAndLiftImpls! { BindingForm<'tcx>, }
 
 mod binding_form_impl {
     use crate::ich::StableHashingContext;
-    use rustc_data_structures::stable_hasher::{HashStable, StableHasher};
+    use dustc_data_structures::stable_hasher::{HashStable, StableHasher};
 
     impl<'a, 'tcx> HashStable<StableHashingContext<'a>> for super::BindingForm<'tcx> {
         fn hash_stable(&self, hcx: &mut StableHashingContext<'a>, hasher: &mut StableHasher) {
@@ -1129,7 +1129,7 @@ pub struct VarDebugInfo<'tcx> {
 ///////////////////////////////////////////////////////////////////////////
 // BasicBlock
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     /// A node in the MIR [control-flow graph][CFG].
     ///
     /// There are no branches (e.g., `if`s, function calls, etc.) within a basic block, which makes
@@ -1145,13 +1145,13 @@ rustc_index::newtype_index! {
     /// Note that this type is just an index into [`Body.basic_blocks`](Body::basic_blocks);
     /// the actual data that a basic block holds is in [`BasicBlockData`].
     ///
-    /// Read more about basic blocks in the [rustc-dev-guide][guide-mir].
+    /// Read more about basic blocks in the [dustc-dev-guide][guide-mir].
     ///
-    /// [CFG]: https://rustc-dev-guide.rust-lang.org/appendix/background.html#cfg
+    /// [CFG]: https://dustc-dev-guide.dust-lang.org/appendix/background.html#cfg
     /// [data-flow analyses]:
-    ///     https://rustc-dev-guide.rust-lang.org/appendix/background.html#what-is-a-dataflow-analysis
-    /// [`CriticalCallEdges`]: ../../rustc_mir/transform/add_call_guards/enum.AddCallGuards.html#variant.CriticalCallEdges
-    /// [guide-mir]: https://rustc-dev-guide.rust-lang.org/mir/
+    ///     https://dustc-dev-guide.dust-lang.org/appendix/background.html#what-is-a-dataflow-analysis
+    /// [`CriticalCallEdges`]: ../../dustc_mir/transform/add_call_guards/enum.AddCallGuards.html#variant.CriticalCallEdges
+    /// [guide-mir]: https://dustc-dev-guide.dust-lang.org/mir/
     pub struct BasicBlock {
         derive [HashStable]
         DEBUG_FORMAT = "bb{}",
@@ -1280,7 +1280,7 @@ impl<'tcx> BasicBlockData<'tcx> {
     pub fn expand_statements<F, I>(&mut self, mut f: F)
     where
         F: FnMut(&mut Statement<'tcx>) -> Option<I>,
-        I: iter::TrustedLen<Item = Statement<'tcx>>,
+        I: iter::TdustedLen<Item = Statement<'tcx>>,
     {
         // Gather all the iterators we'll need to splice in, and their positions.
         let mut splices: Vec<(usize, I)> = vec![];
@@ -1518,7 +1518,7 @@ pub enum StatementKind<'tcx> {
     /// Retag references in the given place, ensuring they got fresh tags. This is
     /// part of the Stacked Borrows model. These statements are currently only interpreted
     /// by miri and only generated when "-Z mir-emit-retag" is passed.
-    /// See <https://internals.rust-lang.org/t/stacked-borrows-an-aliasing-model-for-rust/8153/>
+    /// See <https://internals.dust-lang.org/t/stacked-borrows-an-aliasing-model-for-dust/8153/>
     /// for more details.
     Retag(RetagKind, Box<Place<'tcx>>),
 
@@ -1783,7 +1783,7 @@ static_assert_size!(PlaceElem<'_>, 24);
 /// need neither the `V` parameter for `Index` nor the `T` for `Field`.
 pub type ProjectionKind = ProjectionElem<(), ()>;
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct Field {
         derive [HashStable]
         DEBUG_FORMAT = "field[{}]"
@@ -1945,7 +1945,7 @@ impl Debug for Place<'_> {
 ///////////////////////////////////////////////////////////////////////////
 // Scopes
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct SourceScope {
         derive [HashStable]
         DEBUG_FORMAT = "scope[{}]",
@@ -2392,7 +2392,7 @@ impl<'tcx> Debug for Rvalue<'tcx> {
 /// Constants
 ///
 /// Two constants are equal if they are the same constant. Note that
-/// this does not necessarily mean that they are `==` in Rust. In
+/// this does not necessarily mean that they are `==` in Dust. In
 /// particular, one must be wary of `NaN`!
 
 #[derive(Clone, Copy, PartialEq, PartialOrd, TyEncodable, TyDecodable, Hash, HashStable)]
@@ -2531,7 +2531,7 @@ impl ConstantKind<'tcx> {
 ///
 /// An example:
 ///
-/// ```rust
+/// ```dust
 /// struct S<'a>((i32, &'a str), String);
 /// let S((_, w): (i32, &'static str), _): S = ...;
 /// //    ------  ^^^^^^^^^^^^^^^^^^^ (1)
@@ -2689,7 +2689,7 @@ impl<'tcx> TypeFoldable<'tcx> for UserTypeProjection {
     }
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct Promoted {
         derive [HashStable]
         DEBUG_FORMAT = "promoted[{}]"

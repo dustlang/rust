@@ -172,4 +172,4 @@ LL | union Union<T: Copy> { f: T }
 error: aborting due to 13 previous errors
 
 Some errors have detailed explanations: E0308, E0366, E0367, E0495.
-For more information about an error, try `rustc --explain E0308`.
+For more information about an error, try `dustc --explain E0308`.

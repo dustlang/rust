@@ -3,7 +3,7 @@
 # ignore-windows-msvc
 
 all:
-	$(RUSTC) --emit=obj app.rs
-	nm $(TMPDIR)/app.o | $(CGREP) rust_begin_unwind
-	nm $(TMPDIR)/app.o | $(CGREP) rust_eh_personality
-	nm $(TMPDIR)/app.o | $(CGREP) rust_oom
+	$(DUSTC) --emit=obj app.rs
+	nm $(TMPDIR)/app.o | $(CGREP) dust_begin_unwind
+	nm $(TMPDIR)/app.o | $(CGREP) dust_eh_personality
+	nm $(TMPDIR)/app.o | $(CGREP) dust_oom

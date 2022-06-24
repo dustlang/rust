@@ -1,7 +1,7 @@
 use crate::transform::MirPass;
-use rustc_index::vec::{Idx, IndexVec};
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
+use dustc_index::vec::{Idx, IndexVec};
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
 
 #[derive(PartialEq)]
 pub enum AddCallGuards {

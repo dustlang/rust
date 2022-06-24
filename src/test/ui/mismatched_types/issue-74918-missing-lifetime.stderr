@@ -27,4 +27,4 @@ LL |     fn next(&mut self) -> Option<Self::Item>;
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0106`.
+For more information about this error, try `dustc --explain E0106`.

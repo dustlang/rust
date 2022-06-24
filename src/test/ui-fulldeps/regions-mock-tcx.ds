@@ -9,14 +9,14 @@
 // - Multiple lifetime parameters
 // - Arenas
 
-#![feature(rustc_private, libc)]
+#![feature(dustc_private, libc)]
 
-extern crate rustc_arena;
+extern crate dustc_arena;
 extern crate libc;
 
 use TypeStructure::{TypeInt, TypeFunction};
 use AstKind::{ExprInt, ExprVar, ExprLambda};
-use rustc_arena::TypedArena;
+use dustc_arena::TypedArena;
 use std::collections::HashMap;
 use std::mem;
 

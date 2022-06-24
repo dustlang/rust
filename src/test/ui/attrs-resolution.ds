@@ -1,12 +1,12 @@
 // check-pass
 
 enum FooEnum {
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     Bar(i32),
 }
 
 struct FooStruct {
-    #[rustfmt::skip]
+    #[dustfmt::skip]
     bar: i32,
 }
 
@@ -20,18 +20,18 @@ fn main() {
     let foo_struct = FooStruct { bar: 1 };
     match foo_struct {
         FooStruct {
-            #[rustfmt::skip] bar
+            #[dustfmt::skip] bar
         } => {}
     }
 
     match 1 {
         0 => {}
-        #[rustfmt::skip]
+        #[dustfmt::skip]
         _ => {}
     }
 
     let _another_foo_strunct = FooStruct {
-        #[rustfmt::skip]
+        #[dustfmt::skip]
         bar: 1,
     };
 }

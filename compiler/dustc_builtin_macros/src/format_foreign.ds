@@ -1,6 +1,6 @@
 pub mod printf {
     use super::strcursor::StrCursor as Cur;
-    use rustc_span::InnerSpan;
+    use dustc_span::InnerSpan;
 
     /// Represents a single `printf`-style substitution.
     #[derive(Clone, PartialEq, Debug)]
@@ -32,7 +32,7 @@ pub mod printf {
             }
         }
 
-        /// Translate this substitution into an equivalent Rust formatting directive.
+        /// Translate this substitution into an equivalent Dust formatting directive.
         ///
         /// This ignores cases where the substitution does not have an exact equivalent, or where
         /// the substitution would be unnecessary.
@@ -66,9 +66,9 @@ pub mod printf {
     }
 
     impl Format<'_> {
-        /// Translate this directive into an equivalent Rust formatting directive.
+        /// Translate this directive into an equivalent Dust formatting directive.
         ///
-        /// Returns `None` in cases where the `printf` directive does not have an exact Rust
+        /// Returns `None` in cases where the `printf` directive does not have an exact Dust
         /// equivalent, rather than guessing.
         pub fn translate(&self) -> Option<String> {
             use std::fmt::Write;
@@ -90,12 +90,12 @@ pub mod printf {
                 (c_alt, c_zero, c_left, c_plus)
             };
 
-            // Has a special form in Rust for numbers.
+            // Has a special form in Dust for numbers.
             let fill = c_zero.then_some("0");
 
             let align = c_left.then_some("<");
 
-            // Rust doesn't have an equivalent to the `' '` flag.
+            // Dust doesn't have an equivalent to the `' '` flag.
             let sign = c_plus.then_some("+");
 
             // Not *quite* the same, depending on the type...
@@ -103,7 +103,7 @@ pub mod printf {
 
             let width = match self.width {
                 Some(Num::Next) => {
-                    // NOTE: Rust doesn't support this.
+                    // NOTE: Dust doesn't support this.
                     return None;
                 }
                 w @ Some(Num::Arg(_)) => w,
@@ -113,7 +113,7 @@ pub mod printf {
 
             let precision = self.precision;
 
-            // NOTE: although length *can* have an effect, we can't duplicate the effect in Rust, so
+            // NOTE: although length *can* have an effect, we can't duplicate the effect in Dust, so
             // we just ignore it.
 
             let (type_, use_zero_fill, is_int) = match self.type_ {
@@ -130,7 +130,7 @@ pub mod printf {
 
             let (fill, width, precision) = match (is_int, width, precision) {
                 (true, Some(_), Some(_)) => {
-                    // Rust can't duplicate this insanity.
+                    // Dust can't duplicate this insanity.
                     return None;
                 }
                 (true, None, Some(p)) => (Some("0"), Some(p), None),
@@ -373,7 +373,7 @@ pub mod printf {
         // Next parsing state.
         let mut state = Start;
 
-        // Sadly, Rust isn't *quite* smart enough to know these *must* be initialised by the end.
+        // Sadly, Dust isn't *quite* smart enough to know these *must* be initialised by the end.
         let mut parameter: Option<u16> = None;
         let mut flags: &str = "";
         let mut width: Option<Num> = None;
@@ -589,7 +589,7 @@ pub mod printf {
 
 pub mod shell {
     use super::strcursor::StrCursor as Cur;
-    use rustc_span::InnerSpan;
+    use dustc_span::InnerSpan;
 
     #[derive(Clone, PartialEq, Debug)]
     pub enum Substitution<'a> {

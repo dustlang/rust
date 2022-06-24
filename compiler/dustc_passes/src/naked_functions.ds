@@ -1,16 +1,16 @@
 //! Checks validity of naked functions.
 
-use rustc_ast::InlineAsmOptions;
-use rustc_hir as hir;
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::intravisit::{ErasedMap, FnKind, NestedVisitorMap, Visitor};
-use rustc_hir::{ExprKind, HirId, InlineAsmOperand, StmtKind};
-use rustc_middle::ty::query::Providers;
-use rustc_middle::ty::TyCtxt;
-use rustc_session::lint::builtin::UNSUPPORTED_NAKED_FUNCTIONS;
-use rustc_span::symbol::sym;
-use rustc_span::Span;
-use rustc_target::spec::abi::Abi;
+use dustc_ast::InlineAsmOptions;
+use dustc_hir as hir;
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::intravisit::{ErasedMap, FnKind, NestedVisitorMap, Visitor};
+use dustc_hir::{ExprKind, HirId, InlineAsmOperand, StmtKind};
+use dustc_middle::ty::query::Providers;
+use dustc_middle::ty::TyCtxt;
+use dustc_session::lint::builtin::UNSUPPORTED_NAKED_FUNCTIONS;
+use dustc_span::symbol::sym;
+use dustc_span::Span;
+use dustc_target::spec::abi::Abi;
 
 fn check_mod_naked_functions(tcx: TyCtxt<'_>, module_def_id: LocalDefId) {
     tcx.hir().visit_item_likes_in_module(
@@ -74,11 +74,11 @@ impl<'tcx> Visitor<'tcx> for CheckNakedFunctions<'tcx> {
     }
 }
 
-/// Checks that function uses non-Rust ABI.
+/// Checks that function uses non-Dust ABI.
 fn check_abi(tcx: TyCtxt<'_>, hir_id: HirId, abi: Abi, fn_ident_span: Span) {
-    if abi == Abi::Rust {
+    if abi == Abi::Dust {
         tcx.struct_span_lint_hir(UNSUPPORTED_NAKED_FUNCTIONS, hir_id, fn_ident_span, |lint| {
-            lint.build("Rust ABI is unsupported in naked functions").emit();
+            lint.build("Dust ABI is unsupported in naked functions").emit();
         });
     }
 }

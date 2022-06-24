@@ -1,4 +1,4 @@
-% Writing Safe Low-level and Unsafe Code in Rust
+% Writing Safe Low-level and Unsafe Code in Dust
 
 This content has moved into
-[the Rust Programming Language book](book/unsafe.html).
+[the Dust Programming Language book](book/unsafe.html).

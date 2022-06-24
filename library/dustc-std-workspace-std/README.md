@@ -1,3 +1,3 @@
-# The `rustc-std-workspace-std` crate
+# The `dustc-std-workspace-std` crate
 
-See documentation for the `rustc-std-workspace-core` crate.
+See documentation for the `dustc-std-workspace-core` crate.

@@ -18,8 +18,8 @@ use crate::llvm;
 use crate::llvm::AttributePlace::Function;
 use crate::type_::Type;
 use crate::value::Value;
-use rustc_codegen_ssa::traits::*;
-use rustc_middle::ty::Ty;
+use dustc_codegen_ssa::traits::*;
+use dustc_middle::ty::Ty;
 use tracing::debug;
 
 /// Declare a function.
@@ -35,7 +35,7 @@ fn declare_raw_fn(
 ) -> &'ll Value {
     debug!("declare_raw_fn(name={:?}, ty={:?})", name, ty);
     let llfn = unsafe {
-        llvm::LLVMRustGetOrInsertFunction(cx.llmod, name.as_ptr().cast(), name.len(), ty)
+        llvm::LLVMDustGetOrInsertFunction(cx.llmod, name.as_ptr().cast(), name.len(), ty)
     };
 
     llvm::SetFunctionCallConv(llfn, callconv);
@@ -57,12 +57,12 @@ impl CodegenCx<'ll, 'tcx> {
     /// return its Value instead.
     pub fn declare_global(&self, name: &str, ty: &'ll Type) -> &'ll Value {
         debug!("declare_global(name={:?})", name);
-        unsafe { llvm::LLVMRustGetOrInsertGlobal(self.llmod, name.as_ptr().cast(), name.len(), ty) }
+        unsafe { llvm::LLVMDustGetOrInsertGlobal(self.llmod, name.as_ptr().cast(), name.len(), ty) }
     }
 
     /// Declare a C ABI function.
     ///
-    /// Only use this for foreign function ABIs and glue. For Rust functions use
+    /// Only use this for foreign function ABIs and glue. For Dust functions use
     /// `declare_fn` instead.
     ///
     /// If there’s a value with the same name already declared, the function will
@@ -76,14 +76,14 @@ impl CodegenCx<'ll, 'tcx> {
         declare_raw_fn(self, name, llvm::CCallConv, unnamed, fn_type)
     }
 
-    /// Declare a Rust function.
+    /// Declare a Dust function.
     ///
     /// If there’s a value with the same name already declared, the function will
     /// update the declaration and return existing Value instead.
     pub fn declare_fn(&self, name: &str, fn_abi: &FnAbi<'tcx, Ty<'tcx>>) -> &'ll Value {
-        debug!("declare_rust_fn(name={:?}, fn_abi={:?})", name, fn_abi);
+        debug!("declare_dust_fn(name={:?}, fn_abi={:?})", name, fn_abi);
 
-        // Function addresses in Rust are never significant, allowing functions to
+        // Function addresses in Dust are never significant, allowing functions to
         // be merged.
         let llfn = declare_raw_fn(
             self,
@@ -114,13 +114,13 @@ impl CodegenCx<'ll, 'tcx> {
     ///
     /// Use this function when you intend to define a global without a name.
     pub fn define_private_global(&self, ty: &'ll Type) -> &'ll Value {
-        unsafe { llvm::LLVMRustInsertPrivateGlobal(self.llmod, ty) }
+        unsafe { llvm::LLVMDustInsertPrivateGlobal(self.llmod, ty) }
     }
 
     /// Gets declared value by name.
     pub fn get_declared_value(&self, name: &str) -> Option<&'ll Value> {
         debug!("get_declared_value(name={:?})", name);
-        unsafe { llvm::LLVMRustGetNamedValue(self.llmod, name.as_ptr().cast(), name.len()) }
+        unsafe { llvm::LLVMDustGetNamedValue(self.llmod, name.as_ptr().cast(), name.len()) }
     }
 
     /// Gets defined or externally defined (AvailableExternally linkage) value by

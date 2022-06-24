@@ -1,14 +1,14 @@
 use super::{ForceCollect, Parser, PathStyle, TrailingToken};
 use crate::{maybe_recover_from_interpolated_ty_qpath, maybe_whole};
-use rustc_ast::mut_visit::{noop_visit_pat, MutVisitor};
-use rustc_ast::ptr::P;
-use rustc_ast::token;
-use rustc_ast::{self as ast, AttrVec, Attribute, MacCall, Pat, PatField, PatKind, RangeEnd};
-use rustc_ast::{BindingMode, Expr, ExprKind, Mutability, Path, QSelf, RangeSyntax};
-use rustc_ast_pretty::pprust;
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder, PResult};
-use rustc_span::source_map::{respan, Span, Spanned};
-use rustc_span::symbol::{kw, sym, Ident};
+use dustc_ast::mut_visit::{noop_visit_pat, MutVisitor};
+use dustc_ast::ptr::P;
+use dustc_ast::token;
+use dustc_ast::{self as ast, AttrVec, Attribute, MacCall, Pat, PatField, PatKind, RangeEnd};
+use dustc_ast::{BindingMode, Expr, ExprKind, Mutability, Path, QSelf, RangeSyntax};
+use dustc_ast_pretty::ppdust;
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder, PResult};
+use dustc_span::source_map::{respan, Span, Spanned};
+use dustc_span::symbol::{kw, sym, Ident};
 
 type Expected = Option<&'static str>;
 
@@ -58,7 +58,7 @@ impl<'a> Parser<'a> {
     /// Corresponds to `top_pat` in RFC 2535 and allows or-pattern at the top level.
     /// Used for parsing patterns in all cases when `pat<no_top_alt>` is not used.
     ///
-    /// Note that after the FCP in <https://github.com/rust-lang/rust/issues/81415>,
+    /// Note that after the FCP in <https://github.com/dust-lang/dust/issues/81415>,
     /// a leading vert is allowed in nested or-patterns, too. This allows us to
     /// simplify the grammar somewhat.
     pub fn parse_pat_allow_top_alt(
@@ -79,7 +79,7 @@ impl<'a> Parser<'a> {
         rc: RecoverComma,
     ) -> PResult<'a, (P<Pat>, bool)> {
         // Keep track of whether we recovered from a trailing vert so that we can avoid duplicated
-        // suggestions (which bothers rustfix).
+        // suggestions (which bothers dustfix).
         //
         // Allow a '|' before the pats (RFCs 1925, 2530, and 2535).
         let (leading_vert_span, mut trailing_vert) = match self.eat_or_separator(None) {
@@ -168,11 +168,11 @@ impl<'a> Parser<'a> {
                 // If all we have is a leading vert, then print a special message. This is the case
                 // if `parse_pat_allow_top_alt` returns an or-pattern with one variant.
                 let msg = "remove the `|`";
-                let fix = pprust::pat_to_string(&pat);
+                let fix = ppdust::pat_to_string(&pat);
                 (msg, fix)
             } else {
                 let msg = "wrap the pattern in parentheses";
-                let fix = format!("({})", pprust::pat_to_string(&pat));
+                let fix = format!("({})", ppdust::pat_to_string(&pat));
                 (msg, fix)
             };
 
@@ -351,7 +351,7 @@ impl<'a> Parser<'a> {
         let mut err = self.struct_span_err(span, &format!("a {} `|` is {}", pos, ctx));
         err.span_suggestion(
             span,
-            &format!("remove the `{}`", pprust::token_to_string(&self.token)),
+            &format!("remove the `{}`", ppdust::token_to_string(&self.token)),
             String::new(),
             Applicability::MachineApplicable,
         );
@@ -531,7 +531,7 @@ impl<'a> Parser<'a> {
             self.struct_span_err(sp, "pattern on wrong side of `@`")
                 .span_label(lhs_span, "pattern on the left, should be on the right")
                 .span_label(rhs.span, "binding on the right, should be on the left")
-                .span_suggestion(sp, "switch the order", pprust::pat_to_string(&rhs), applicability)
+                .span_suggestion(sp, "switch the order", ppdust::pat_to_string(&rhs), applicability)
                 .emit();
         } else {
             // The special case above doesn't apply so we may have e.g. `A(x) @ B(y)`.
@@ -562,7 +562,7 @@ impl<'a> Parser<'a> {
             .span_suggestion(
                 pat.span,
                 "add parentheses to clarify the precedence",
-                format!("({})", pprust::pat_to_string(&pat)),
+                format!("({})", ppdust::pat_to_string(&pat)),
                 // "ambiguous interpretation" implies that we have to be guessing
                 Applicability::MaybeIncorrect,
             )
@@ -682,7 +682,7 @@ impl<'a> Parser<'a> {
     /// Error on `mut $pat` where `$pat` is not an ident.
     fn ban_mut_general_pat(&self, lo: Span, pat: &Pat, changed_any_binding: bool) {
         let span = lo.to(pat.span);
-        let fix = pprust::pat_to_string(&pat);
+        let fix = ppdust::pat_to_string(&pat);
         let (problem, suggestion) = if changed_any_binding {
             ("`mut` must be attached to each individual binding", "add `mut` to each binding")
         } else {

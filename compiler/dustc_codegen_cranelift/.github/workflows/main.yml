@@ -34,7 +34,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: target
-        key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('rust-toolchain', '**/Cargo.lock') }}
+        key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('dust-toolchain', '**/Cargo.lock') }}
 
     - name: Prepare dependencies
       run: |
@@ -45,7 +45,7 @@ jobs:
     - name: Test
       run: |
         # Enable backtraces for easier debugging
-        export RUST_BACKTRACE=1
+        export DUST_BACKTRACE=1
 
         # Reduce amount of benchmark runs as they are slow
         export COMPILE_RUNS=2

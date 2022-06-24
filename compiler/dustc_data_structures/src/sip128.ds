@@ -12,7 +12,7 @@ const ELEM_SIZE: usize = mem::size_of::<u64>();
 
 // Size of the buffer in number of elements, not including the spill.
 //
-// The selection of this size was guided by rustc-perf benchmark comparisons of
+// The selection of this size was guided by dustc-perf benchmark comparisons of
 // different buffer sizes. It should be periodically reevaluated as the compiler
 // implementation and input characteristics change.
 //

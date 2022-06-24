@@ -48,22 +48,22 @@
 //! result of `*x'`, effectively, where `x'` is a `Categorization::Upvar` reference
 //! tied to `x`. The type of `x'` will be a borrowed pointer.
 
-use rustc_middle::hir::place::*;
-use rustc_middle::ty::adjustment;
-use rustc_middle::ty::fold::TypeFoldable;
-use rustc_middle::ty::{self, Ty, TyCtxt};
+use dustc_middle::hir::place::*;
+use dustc_middle::ty::adjustment;
+use dustc_middle::ty::fold::TypeFoldable;
+use dustc_middle::ty::{self, Ty, TyCtxt};
 
-use rustc_data_structures::fx::FxIndexMap;
-use rustc_hir as hir;
-use rustc_hir::def::{CtorOf, DefKind, Res};
-use rustc_hir::def_id::LocalDefId;
-use rustc_hir::pat_util::EnumerateAndAdjustIterator;
-use rustc_hir::PatKind;
-use rustc_index::vec::Idx;
-use rustc_infer::infer::InferCtxt;
-use rustc_span::Span;
-use rustc_target::abi::VariantIdx;
-use rustc_trait_selection::infer::InferCtxtExt;
+use dustc_data_structures::fx::FxIndexMap;
+use dustc_hir as hir;
+use dustc_hir::def::{CtorOf, DefKind, Res};
+use dustc_hir::def_id::LocalDefId;
+use dustc_hir::pat_util::EnumerateAndAdjustIterator;
+use dustc_hir::PatKind;
+use dustc_index::vec::Idx;
+use dustc_infer::infer::InferCtxt;
+use dustc_span::Span;
+use dustc_target::abi::VariantIdx;
+use dustc_trait_selection::infer::InferCtxtExt;
 
 crate trait HirNode {
     fn hir_id(&self) -> hir::HirId;

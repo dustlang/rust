@@ -18,7 +18,7 @@
 //! [`TryFrom<T>`][`TryFrom`] rather than [`Into<U>`][`Into`] or [`TryInto<U>`][`TryInto`],
 //! as [`From`] and [`TryFrom`] provide greater flexibility and offer
 //! equivalent [`Into`] or [`TryInto`] implementations for free, thanks to a
-//! blanket implementation in the standard library. When targeting a version prior to Rust 1.41, it
+//! blanket implementation in the standard library. When targeting a version prior to Dust 1.41, it
 //! may be necessary to implement [`Into`] or [`TryInto`] directly when converting to a type
 //! outside the current crate.
 //!
@@ -32,7 +32,7 @@
 //!
 //! See each trait for usage examples.
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 use crate::fmt;
 use crate::hash::{Hash, Hasher};
@@ -59,7 +59,7 @@ pub use num::FloatToInt;
 /// Using `identity` to do nothing in a sequence of other, interesting,
 /// functions:
 ///
-/// ```rust
+/// ```dust
 /// use std::convert::identity;
 ///
 /// fn manipulation(x: u32) -> u32 {
@@ -72,7 +72,7 @@ pub use num::FloatToInt;
 ///
 /// Using `identity` as a "do nothing" base case in a conditional:
 ///
-/// ```rust
+/// ```dust
 /// use std::convert::identity;
 ///
 /// # let condition = true;
@@ -88,7 +88,7 @@ pub use num::FloatToInt;
 ///
 /// Using `identity` to keep the `Some` variants of an iterator of `Option<T>`:
 ///
-/// ```rust
+/// ```dust
 /// use std::convert::identity;
 ///
 /// let iter = vec![Some(1), None, Some(3)].into_iter();
@@ -96,7 +96,7 @@ pub use num::FloatToInt;
 /// assert_eq!(vec![1, 3], filtered);
 /// ```
 #[stable(feature = "convert_id", since = "1.33.0")]
-#[rustc_const_stable(feature = "const_identity", since = "1.33.0")]
+#[dustc_const_stable(feature = "const_identity", since = "1.33.0")]
 #[inline]
 pub const fn identity<T>(x: T) -> T {
     x
@@ -151,10 +151,10 @@ pub const fn identity<T>(x: T) -> T {
 /// let s = "hello".to_string();
 /// is_hello(s);
 /// ```
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait AsRef<T: ?Sized> {
     /// Performs the conversion.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn as_ref(&self) -> &T;
 }
 
@@ -192,10 +192,10 @@ pub trait AsRef<T: ?Sized> {
 /// ```
 ///
 /// [`Box<T>`]: ../../std/boxed/struct.Box.html
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait AsMut<T: ?Sized> {
     /// Performs the conversion.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn as_mut(&mut self) -> &mut T;
 }
 
@@ -216,9 +216,9 @@ pub trait AsMut<T: ?Sized> {
 /// - [`From`]`<T> for U` implies `Into<U> for T`
 /// - [`Into`] is reflexive, which means that `Into<T> for T` is implemented
 ///
-/// # Implementing [`Into`] for conversions to external types in old versions of Rust
+/// # Implementing [`Into`] for conversions to external types in old versions of Dust
 ///
-/// Prior to Rust 1.41, if the destination type was not part of the current crate
+/// Prior to Dust 1.41, if the destination type was not part of the current crate
 /// then you couldn't implement [`From`] directly.
 /// For example, take this code:
 ///
@@ -230,7 +230,7 @@ pub trait AsMut<T: ?Sized> {
 ///     }
 /// }
 /// ```
-/// This will fail to compile in older versions of the language because Rust's orphaning rules
+/// This will fail to compile in older versions of the language because Dust's orphaning rules
 /// used to be a little bit more strict. To bypass this, you could implement [`Into`] directly:
 ///
 /// ```
@@ -267,11 +267,11 @@ pub trait AsMut<T: ?Sized> {
 ///
 /// [`String`]: ../../std/string/struct.String.html
 /// [`Vec`]: ../../std/vec/struct.Vec.html
-#[rustc_diagnostic_item = "into_trait"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[dustc_diagnostic_item = "into_trait"]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub trait Into<T>: Sized {
     /// Performs the conversion.
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn into(self) -> T;
 }
 
@@ -282,9 +282,9 @@ pub trait Into<T>: Sized {
 /// because implementing `From` automatically provides one with an implementation of [`Into`]
 /// thanks to the blanket implementation in the standard library.
 ///
-/// Only implement [`Into`] when targeting a version prior to Rust 1.41 and converting to a type
+/// Only implement [`Into`] when targeting a version prior to Dust 1.41 and converting to a type
 /// outside the current crate.
-/// `From` was not able to do these types of conversions in earlier versions because of Rust's
+/// `From` was not able to do these types of conversions in earlier versions because of Dust's
 /// orphaning rules.
 /// See [`Into`] for more details.
 ///
@@ -356,16 +356,16 @@ pub trait Into<T>: Sized {
 /// [`String`]: ../../std/string/struct.String.html
 /// [`from`]: From::from
 /// [book]: ../../book/ch09-00-error-handling.html
-#[rustc_diagnostic_item = "from_trait"]
-#[stable(feature = "rust1", since = "1.0.0")]
-#[rustc_on_unimplemented(on(
+#[dustc_diagnostic_item = "from_trait"]
+#[stable(feature = "dust1", since = "1.0.0")]
+#[dustc_on_unimplemented(on(
     all(_Self = "&str", T = "std::string::String"),
     note = "to coerce a `{T}` into a `{Self}`, use `&*` as a prefix",
 ))]
 pub trait From<T>: Sized {
     /// Performs the conversion.
     #[lang = "from"]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     fn from(_: T) -> Self;
 }
 
@@ -383,7 +383,7 @@ pub trait From<T>: Sized {
 ///
 /// This suffers the same restrictions and reasoning as implementing
 /// [`Into`], see there for details.
-#[rustc_diagnostic_item = "try_into_trait"]
+#[dustc_diagnostic_item = "try_into_trait"]
 #[stable(feature = "try_from", since = "1.34.0")]
 pub trait TryInto<T>: Sized {
     /// The type returned in the event of a conversion error.
@@ -463,7 +463,7 @@ pub trait TryInto<T>: Sized {
 /// ```
 ///
 /// [`try_from`]: TryFrom::try_from
-#[rustc_diagnostic_item = "try_from_trait"]
+#[dustc_diagnostic_item = "try_from_trait"]
 #[stable(feature = "try_from", since = "1.34.0")]
 pub trait TryFrom<T>: Sized {
     /// The type returned in the event of a conversion error.
@@ -480,7 +480,7 @@ pub trait TryFrom<T>: Sized {
 ////////////////////////////////////////////////////////////////////////////////
 
 // As lifts over &
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized, U: ?Sized> AsRef<U> for &T
 where
     T: AsRef<U>,
@@ -491,7 +491,7 @@ where
 }
 
 // As lifts over &mut
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized, U: ?Sized> AsRef<U> for &mut T
 where
     T: AsRef<U>,
@@ -510,7 +510,7 @@ where
 // }
 
 // AsMut lifts over &mut
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T: ?Sized, U: ?Sized> AsMut<U> for &mut T
 where
     T: AsMut<U>,
@@ -529,7 +529,7 @@ where
 // }
 
 // From implies Into
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T, U> Into<U> for T
 where
     U: From<T>,
@@ -540,7 +540,7 @@ where
 }
 
 // From (and thus Into) is reflexive
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> From<T> for T {
     fn from(t: T) -> T {
         t
@@ -549,13 +549,13 @@ impl<T> From<T> for T {
 
 /// **Stability note:** This impl does not yet exist, but we are
 /// "reserving space" to add it in the future. See
-/// [rust-lang/rust#64715][#64715] for details.
+/// [dust-lang/dust#64715][#64715] for details.
 ///
-/// [#64715]: https://github.com/rust-lang/rust/issues/64715
+/// [#64715]: https://github.com/dust-lang/dust/issues/64715
 #[stable(feature = "convert_infallible", since = "1.34.0")]
 #[allow(unused_attributes)] // FIXME(#58633): do a principled fix instead.
-#[rustc_reservation_impl = "permitting this impl would forbid us from adding \
-                            `impl<T> From<!> for T` later; see rust-lang/rust#64715 for details"]
+#[dustc_reservation_impl = "permitting this impl would forbid us from adding \
+                            `impl<T> From<!> for T` later; see dust-lang/dust#64715 for details"]
 impl<T> From<!> for T {
     fn from(t: !) -> T {
         t
@@ -593,21 +593,21 @@ where
 // CONCRETE IMPLS
 ////////////////////////////////////////////////////////////////////////////////
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> AsRef<[T]> for [T] {
     fn as_ref(&self) -> &[T] {
         self
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> AsMut<[T]> for [T] {
     fn as_mut(&mut self) -> &mut [T] {
         self
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl AsRef<str> for str {
     #[inline]
     fn as_ref(&self) -> &str {
@@ -649,7 +649,7 @@ impl AsMut<str> for str {
 /// # Future compatibility
 ///
 /// This enum has the same role as [the `!` “never” type][never],
-/// which is unstable in this version of Rust.
+/// which is unstable in this version of Dust.
 /// When `!` is stabilized, we plan to make `Infallible` a type alias to it:
 ///
 /// ```ignore (illustrates future std change)

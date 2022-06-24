@@ -7,7 +7,7 @@ const path = require('path');
 const {Options, runTest} = require('browser-ui-test');
 
 function showHelp() {
-    console.log("rustdoc-js options:");
+    console.log("dustdoc-js options:");
     console.log("  --doc-folder [PATH]        : location of the generated doc folder");
     console.log("  --help                     : show this message then quit");
     console.log("  --test-file [PATH]         : location of the JS test file");

@@ -31,10 +31,10 @@
 //! variable only once, and it does so as soon as it can, so it is reasonable to ask what the type
 //! inferencer knows "so far".
 
-use rustc_middle::ty::fold::TypeFolder;
-use rustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable};
+use dustc_middle::ty::fold::TypeFolder;
+use dustc_middle::ty::{self, Ty, TyCtxt, TypeFoldable};
 
-use rustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::fx::FxHashMap;
 
 use std::collections::hash_map::Entry;
 

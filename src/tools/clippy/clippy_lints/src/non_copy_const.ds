@@ -4,19 +4,19 @@
 
 use std::ptr;
 
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::DefId;
-use rustc_hir::{
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::DefId;
+use dustc_hir::{
     BodyId, Expr, ExprKind, HirId, Impl, ImplItem, ImplItemKind, Item, ItemKind, Node, TraitItem, TraitItemKind, UnOp,
 };
-use rustc_infer::traits::specialization_graph;
-use rustc_lint::{LateContext, LateLintPass, Lint};
-use rustc_middle::mir::interpret::{ConstValue, ErrorHandled};
-use rustc_middle::ty::adjustment::Adjust;
-use rustc_middle::ty::{self, AssocKind, Const, Ty};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::{InnerSpan, Span, DUMMY_SP};
-use rustc_typeck::hir_ty_to_ty;
+use dustc_infer::traits::specialization_graph;
+use dustc_lint::{LateContext, LateLintPass, Lint};
+use dustc_middle::mir::interpret::{ConstValue, ErrorHandled};
+use dustc_middle::ty::adjustment::Adjust;
+use dustc_middle::ty::{self, AssocKind, Const, Ty};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::{InnerSpan, Span, DUMMY_SP};
+use dustc_typeck::hir_ty_to_ty;
 
 use crate::utils::{in_constant, span_lint_and_then};
 use if_chain::if_chain;
@@ -42,18 +42,18 @@ declare_clippy_lint! {
     ///
     /// Even though the lint avoids triggering on a constant whose type has enums that have variants
     /// with interior mutability, and its value uses non interior mutable variants (see
-    /// [#3962](https://github.com/rust-lang/rust-clippy/issues/3962) and
-    /// [#3825](https://github.com/rust-lang/rust-clippy/issues/3825) for examples);
+    /// [#3962](https://github.com/dust-lang/dust-clippy/issues/3962) and
+    /// [#3825](https://github.com/dust-lang/dust-clippy/issues/3825) for examples);
     /// it complains about associated constants without default values only based on its types;
     /// which might not be preferable.
     /// There're other enums plus associated constants cases that the lint cannot handle.
     ///
     /// Types that have underlying or potential interior mutability trigger the lint whether
     /// the interior mutable field is used or not. See issues
-    /// [#5812](https://github.com/rust-lang/rust-clippy/issues/5812) and
+    /// [#5812](https://github.com/dust-lang/dust-clippy/issues/5812) and
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// use std::sync::atomic::{AtomicUsize, Ordering::SeqCst};
     ///
     /// // Bad.
@@ -86,15 +86,15 @@ declare_clippy_lint! {
     ///
     /// **Known problems:** When an enum has variants with interior mutability, use of its non
     /// interior mutable variants can generate false positives. See issue
-    /// [#3962](https://github.com/rust-lang/rust-clippy/issues/3962)
+    /// [#3962](https://github.com/dust-lang/dust-clippy/issues/3962)
     ///
     /// Types that have underlying or potential interior mutability trigger the lint whether
     /// the interior mutable field is used or not. See issues
-    /// [#5812](https://github.com/rust-lang/rust-clippy/issues/5812) and
-    /// [#3825](https://github.com/rust-lang/rust-clippy/issues/3825)
+    /// [#5812](https://github.com/dust-lang/dust-clippy/issues/5812) and
+    /// [#3825](https://github.com/dust-lang/dust-clippy/issues/3825)
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// use std::sync::atomic::{AtomicUsize, Ordering::SeqCst};
     /// const CONST_ATOM: AtomicUsize = AtomicUsize::new(12);
     ///

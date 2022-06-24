@@ -16,4 +16,4 @@ LL | | #![issue_59191::no_main]
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0601`.
+For more information about this error, try `dustc --explain E0601`.

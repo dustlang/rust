@@ -64,18 +64,18 @@ pub mod eh_frames {
     // Unwind info registration/deregistration routines.
     // See the docs of libpanic_unwind.
     extern "C" {
-        fn rust_eh_register_frames(eh_frame_begin: *const u8, object: *mut u8);
-        fn rust_eh_unregister_frames(eh_frame_begin: *const u8, object: *mut u8);
+        fn dust_eh_register_frames(eh_frame_begin: *const u8, object: *mut u8);
+        fn dust_eh_unregister_frames(eh_frame_begin: *const u8, object: *mut u8);
     }
 
     unsafe extern "C" fn init() {
         // register unwind info on module startup
-        rust_eh_register_frames(&__EH_FRAME_BEGIN__ as *const u8, &mut OBJ as *mut _ as *mut u8);
+        dust_eh_register_frames(&__EH_FRAME_BEGIN__ as *const u8, &mut OBJ as *mut _ as *mut u8);
     }
 
     unsafe extern "C" fn uninit() {
         // unregister on shutdown
-        rust_eh_unregister_frames(&__EH_FRAME_BEGIN__ as *const u8, &mut OBJ as *mut _ as *mut u8);
+        dust_eh_unregister_frames(&__EH_FRAME_BEGIN__ as *const u8, &mut OBJ as *mut _ as *mut u8);
     }
 
     // MinGW-specific init/uninit routine registration

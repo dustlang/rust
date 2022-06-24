@@ -5,18 +5,18 @@ use crate::type_::Type;
 use crate::type_of::LayoutLlvmExt;
 use crate::value::Value;
 
-use rustc_ast::LlvmAsmDialect;
-use rustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
-use rustc_codegen_ssa::mir::operand::OperandValue;
-use rustc_codegen_ssa::mir::place::PlaceRef;
-use rustc_codegen_ssa::traits::*;
-use rustc_data_structures::fx::FxHashMap;
-use rustc_hir as hir;
-use rustc_middle::ty::layout::TyAndLayout;
-use rustc_middle::{bug, span_bug};
-use rustc_span::{Pos, Span};
-use rustc_target::abi::*;
-use rustc_target::asm::*;
+use dustc_ast::LlvmAsmDialect;
+use dustc_ast::{InlineAsmOptions, InlineAsmTemplatePiece};
+use dustc_codegen_ssa::mir::operand::OperandValue;
+use dustc_codegen_ssa::mir::place::PlaceRef;
+use dustc_codegen_ssa::traits::*;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_hir as hir;
+use dustc_middle::ty::layout::TyAndLayout;
+use dustc_middle::{bug, span_bug};
+use dustc_span::{Pos, Span};
+use dustc_target::abi::*;
+use dustc_target::asm::*;
 
 use libc::{c_char, c_uint};
 use tracing::debug;
@@ -333,7 +333,7 @@ impl AsmMethods for CodegenCx<'ll, 'tcx> {
     fn codegen_global_asm(&self, ga: &hir::GlobalAsm) {
         let asm = ga.asm.as_str();
         unsafe {
-            llvm::LLVMRustAppendModuleInlineAsm(self.llmod, asm.as_ptr().cast(), asm.len());
+            llvm::LLVMDustAppendModuleInlineAsm(self.llmod, asm.as_ptr().cast(), asm.len());
         }
     }
 }
@@ -364,10 +364,10 @@ fn inline_asm_call(
     let fty = bx.cx.type_func(&argtys[..], output);
     unsafe {
         // Ask LLVM to verify that the constraints are well-formed.
-        let constraints_ok = llvm::LLVMRustInlineAsmVerify(fty, cons.as_ptr().cast(), cons.len());
+        let constraints_ok = llvm::LLVMDustInlineAsmVerify(fty, cons.as_ptr().cast(), cons.len());
         debug!("constraint verification result: {:?}", constraints_ok);
         if constraints_ok {
-            let v = llvm::LLVMRustInlineAsm(
+            let v = llvm::LLVMDustInlineAsm(
                 fty,
                 asm.as_ptr().cast(),
                 asm.len(),

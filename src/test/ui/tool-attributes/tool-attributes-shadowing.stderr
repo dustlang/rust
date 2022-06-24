@@ -1,9 +1,9 @@
-error[E0433]: failed to resolve: could not find `skip` in `rustfmt`
+error[E0433]: failed to resolve: could not find `skip` in `dustfmt`
   --> $DIR/tool-attributes-shadowing.rs:3:12
    |
-LL | #[rustfmt::skip]
-   |            ^^^^ could not find `skip` in `rustfmt`
+LL | #[dustfmt::skip]
+   |            ^^^^ could not find `skip` in `dustfmt`
 
 error: aborting due to previous error
 
-For more information about this error, try `rustc --explain E0433`.
+For more information about this error, try `dustc --explain E0433`.

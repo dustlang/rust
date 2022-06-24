@@ -41,4 +41,4 @@ LL |         let x = y.borrow().clone(); x
 
 error: aborting due to 2 previous errors
 
-For more information about this error, try `rustc --explain E0597`.
+For more information about this error, try `dustc --explain E0597`.

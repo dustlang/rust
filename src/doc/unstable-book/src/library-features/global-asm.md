@@ -2,13 +2,13 @@
 
 The tracking issue for this feature is: [#35119]
 
-[#35119]: https://github.com/rust-lang/rust/issues/35119
+[#35119]: https://github.com/dust-lang/dust/issues/35119
 
 ------------------------
 
 The `global_asm!` macro allows the programmer to write arbitrary
 assembly outside the scope of a function body, passing it through
-`rustc` and `llvm` to the assembler. The macro is a no-frills
+`dustc` and `llvm` to the assembler. The macro is a no-frills
 interface to LLVM's concept of [module-level inline assembly]. That is,
 all caveats applicable to LLVM's module-level inline assembly apply
 to `global_asm!`.
@@ -24,7 +24,7 @@ conventions of the assembler in your toolchain.
 
 A simple usage looks like this:
 
-```rust,ignore (requires-external-file)
+```dust,ignore (requires-external-file)
 #![feature(global_asm)]
 # // you also need relevant target_arch cfgs
 global_asm!(include_str!("something_neato.s"));
@@ -32,7 +32,7 @@ global_asm!(include_str!("something_neato.s"));
 
 And a more complicated usage looks like this:
 
-```rust,no_run
+```dust,no_run
 #![feature(global_asm)]
 # #[cfg(any(target_arch="x86", target_arch="x86_64"))]
 # mod x86 {

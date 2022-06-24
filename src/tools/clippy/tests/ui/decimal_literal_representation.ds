@@ -1,8 +1,8 @@
-// run-rustfix
+// run-dustfix
 
 #[warn(clippy::decimal_literal_representation)]
 #[allow(unused_variables)]
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn main() {
     let good = (       // Hex:
         127,           // 0x7F

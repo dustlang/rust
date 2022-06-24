@@ -10,7 +10,7 @@ use super::VecDeque;
 ///
 /// [`into_iter`]: VecDeque::into_iter
 #[derive(Clone)]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct IntoIter<T> {
     pub(crate) inner: VecDeque<T>,
 }
@@ -22,7 +22,7 @@ impl<T: fmt::Debug> fmt::Debug for IntoIter<T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> Iterator for IntoIter<T> {
     type Item = T;
 
@@ -38,7 +38,7 @@ impl<T> Iterator for IntoIter<T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> DoubleEndedIterator for IntoIter<T> {
     #[inline]
     fn next_back(&mut self) -> Option<T> {
@@ -46,7 +46,7 @@ impl<T> DoubleEndedIterator for IntoIter<T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<T> ExactSizeIterator for IntoIter<T> {
     fn is_empty(&self) -> bool {
         self.inner.is_empty()

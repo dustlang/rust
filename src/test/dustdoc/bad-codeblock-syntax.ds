@@ -14,7 +14,7 @@ pub fn bar() {}
 
 // @has bad_codeblock_syntax/fn.quux.html
 // @has - '//*[@class="docblock"]' '\_'
-/// ```rust
+/// ```dust
 /// \_
 /// ```
 pub fn quux() {}
@@ -27,10 +27,10 @@ pub fn quux() {}
 pub fn ok() {}
 
 // @has bad_codeblock_syntax/fn.escape.html
-// @has - '//*[@class="docblock"]' '\_ <script>alert("not valid Rust");</script>'
+// @has - '//*[@class="docblock"]' '\_ <script>alert("not valid Dust");</script>'
 /// ```
 /// \_
-/// <script>alert("not valid Rust");</script>
+/// <script>alert("not valid Dust");</script>
 /// ```
 pub fn escape() {}
 

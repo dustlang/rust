@@ -180,4 +180,4 @@ LL | fn vac_contra_val<'a, 'new>(v: VacantEntry<'a, (), &'new ()>)
 
 error: aborting due to 12 previous errors
 
-For more information about this error, try `rustc --explain E0308`.
+For more information about this error, try `dustc --explain E0308`.

@@ -44,7 +44,7 @@ fn macro_in_closure() {
     }
 }
 
-#[rustfmt::skip]
+#[dustfmt::skip]
 fn main() {
     let mut range = 0..10;
     range.all(|i| {i < 10} );

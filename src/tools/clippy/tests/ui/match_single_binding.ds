@@ -1,4 +1,4 @@
-// run-rustfix
+// run-dustfix
 
 #![warn(clippy::match_single_binding)]
 #![allow(unused_variables, clippy::many_single_char_names, clippy::toplevel_ref_arg)]

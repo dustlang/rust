@@ -1,4 +1,4 @@
-// Rustdoc shouldn't display `mut` in function arguments, which are
+// Dustdoc shouldn't display `mut` in function arguments, which are
 // implementation details. Regression test for #81289.
 
 #![crate_name = "foo"]
@@ -13,6 +13,6 @@ impl Foo {
     pub fn bar(mut bar: ()) {}
 }
 
-// @count foo/fn.baz.html '//*[@class="rust fn"]' 1
-// @!has - '//*[@class="rust fn"]' 'mut'
+// @count foo/fn.baz.html '//*[@class="dust fn"]' 1
+// @!has - '//*[@class="dust fn"]' 'mut'
 pub fn baz(mut foo: Foo) {}

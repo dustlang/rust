@@ -4,10 +4,10 @@ use crate::utils::{
     snippet_with_macro_callsite, span_lint_and_sugg, span_lint_and_then, visitors::find_all_ret_expressions,
 };
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_lint::LateContext;
-use rustc_span::Span;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_lint::LateContext;
+use dustc_span::Span;
 
 pub(crate) struct OptionAndThenSome;
 

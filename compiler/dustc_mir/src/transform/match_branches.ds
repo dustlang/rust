@@ -1,6 +1,6 @@
 use crate::transform::MirPass;
-use rustc_middle::mir::*;
-use rustc_middle::ty::TyCtxt;
+use dustc_middle::mir::*;
+use dustc_middle::ty::TyCtxt;
 
 use super::simplify::simplify_cfg;
 
@@ -13,7 +13,7 @@ pub struct MatchBranchSimplification;
 ///
 /// For example:
 ///
-/// ```rust
+/// ```dust
 /// bb0: {
 ///     switchInt(move _3) -> [42_isize: bb1, otherwise: bb2];
 /// }
@@ -31,7 +31,7 @@ pub struct MatchBranchSimplification;
 ///
 /// into:
 ///
-/// ```rust
+/// ```dust
 /// bb0: {
 ///    _2 = Eq(move _3, const 42_isize);
 ///    goto -> bb3;
@@ -134,7 +134,7 @@ impl<'tcx> MirPass<'tcx> for MatchBranchSimplification {
                                 tcx,
                                 switch_ty,
                                 crate::interpret::Scalar::from_uint(val, size),
-                                rustc_span::DUMMY_SP,
+                                dustc_span::DUMMY_SP,
                             );
                             let op = if f_b { BinOp::Eq } else { BinOp::Ne };
                             let rhs = Rvalue::BinaryOp(

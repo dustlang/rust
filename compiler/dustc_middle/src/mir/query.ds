@@ -2,15 +2,15 @@
 
 use crate::mir::{abstract_const, Body, Promoted};
 use crate::ty::{self, Ty, TyCtxt};
-use rustc_data_structures::fx::FxHashMap;
-use rustc_data_structures::sync::Lrc;
-use rustc_errors::ErrorReported;
-use rustc_hir as hir;
-use rustc_hir::def_id::{DefId, LocalDefId};
-use rustc_index::bit_set::BitMatrix;
-use rustc_index::vec::IndexVec;
-use rustc_span::Span;
-use rustc_target::abi::VariantIdx;
+use dustc_data_structures::fx::FxHashMap;
+use dustc_data_structures::sync::Lrc;
+use dustc_errors::ErrorReported;
+use dustc_hir as hir;
+use dustc_hir::def_id::{DefId, LocalDefId};
+use dustc_index::bit_set::BitMatrix;
+use dustc_index::vec::IndexVec;
+use dustc_span::Span;
+use dustc_target::abi::VariantIdx;
 use smallvec::SmallVec;
 use std::cell::Cell;
 use std::fmt::{self, Debug};
@@ -65,7 +65,7 @@ impl UnsafetyViolationDetails {
                 "inline assembly is entirely unchecked and can cause undefined behavior",
             ),
             InitializingTypeWith => (
-                "initializing type with `rustc_layout_scalar_valid_range` attr",
+                "initializing type with `dustc_layout_scalar_valid_range` attr",
                 "initializing a layout restricted type's field with a value outside the valid \
                  range is undefined behavior",
             ),
@@ -84,7 +84,7 @@ impl UnsafetyViolationDetails {
             ),
             UseOfExternStatic => (
                 "use of extern static",
-                "extern statics are not controlled by the Rust type system: invalid data, \
+                "extern statics are not controlled by the Dust type system: invalid data, \
                  aliasing violations or data races will cause undefined behavior",
             ),
             DerefOfRawPointer => (
@@ -136,7 +136,7 @@ pub struct UnsafetyCheckResult {
     pub unsafe_blocks: Lrc<[(hir::HirId, bool)]>,
 }
 
-rustc_index::newtype_index! {
+dustc_index::newtype_index! {
     pub struct GeneratorSavedLocal {
         derive [HashStable]
         DEBUG_FORMAT = "_{}",
@@ -232,7 +232,7 @@ pub struct BorrowCheckResult<'tcx> {
 /// The result of the `mir_const_qualif` query.
 ///
 /// Each field (except `error_occured`) corresponds to an implementer of the `Qualif` trait in
-/// `rustc_mir/src/transform/check_consts/qualifs.rs`. See that file for more information on each
+/// `dustc_mir/src/transform/check_consts/qualifs.rs`. See that file for more information on each
 /// `Qualif`.
 #[derive(Clone, Copy, Debug, Default, TyEncodable, TyDecodable, HashStable)]
 pub struct ConstQualifs {
@@ -326,7 +326,7 @@ pub struct ClosureOutlivesRequirement<'tcx> {
 /// are interesting (for error reporting). Order of variants indicates sort
 /// order of the category, thereby influencing diagnostic output.
 ///
-/// See also `rustc_mir::borrow_check::constraints`.
+/// See also `dustc_mir::borrow_check::constraints`.
 #[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord, Hash)]
 #[derive(TyEncodable, TyDecodable, HashStable)]
 pub enum ConstraintCategory {

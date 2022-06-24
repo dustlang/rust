@@ -12,8 +12,8 @@
 extern crate crate_method_reexport_grrrrrrr2;
 
 pub fn main() {
-    use crate_method_reexport_grrrrrrr2::rust::add;
-    use crate_method_reexport_grrrrrrr2::rust::cx;
+    use crate_method_reexport_grrrrrrr2::dust::add;
+    use crate_method_reexport_grrrrrrr2::dust::cx;
     let x: Box<_> = box ();
     x.cx();
     let y = ();

@@ -1,7 +1,7 @@
 use crate::utils::{is_copy, match_path, paths, span_lint_and_note};
-use rustc_hir::{Impl, Item, ItemKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_hir::{Impl, Item, ItemKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks for types that implement `Copy` as well as
@@ -13,7 +13,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust,ignore
+    /// ```dust,ignore
     /// #[derive(Copy, Clone)]
     /// struct Countdown(u8);
     ///

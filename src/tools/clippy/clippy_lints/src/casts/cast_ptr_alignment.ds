@@ -1,8 +1,8 @@
-use rustc_hir::{Expr, ExprKind, GenericArg};
-use rustc_lint::LateContext;
-use rustc_middle::ty::{self, Ty};
-use rustc_span::symbol::sym;
-use rustc_target::abi::LayoutOf;
+use dustc_hir::{Expr, ExprKind, GenericArg};
+use dustc_lint::LateContext;
+use dustc_middle::ty::{self, Ty};
+use dustc_span::symbol::sym;
+use dustc_target::abi::LayoutOf;
 
 use if_chain::if_chain;
 

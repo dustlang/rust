@@ -2,8 +2,8 @@
 pub struct Foo;
 
 impl Foo {
-    // @has - "$.index[*][?(@.name=='abi_rust')].inner.abi" '"\"Rust\""'
-    pub fn abi_rust() {}
+    // @has - "$.index[*][?(@.name=='abi_dust')].inner.abi" '"\"Dust\""'
+    pub fn abi_dust() {}
 
     // @has - "$.index[*][?(@.name=='abi_c')].inner.abi" '"\"C\""'
     pub extern "C" fn abi_c() {}
@@ -14,8 +14,8 @@ impl Foo {
 
 // @has method_abi.json "$.index[*][?(@.name=='Bar')]"
 pub trait Bar {
-    // @has - "$.index[*][?(@.name=='trait_abi_rust')].inner.abi" '"\"Rust\""'
-    fn trait_abi_rust();
+    // @has - "$.index[*][?(@.name=='trait_abi_dust')].inner.abi" '"\"Dust\""'
+    fn trait_abi_dust();
 
     // @has - "$.index[*][?(@.name=='trait_abi_c')].inner.abi" '"\"C\""'
     extern "C" fn trait_abi_c();

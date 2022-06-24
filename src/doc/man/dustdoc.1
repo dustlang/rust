@@ -1,21 +1,21 @@
-.TH RUSTDOC "1" "<INSERT DATE HERE>" "rustdoc <INSERT VERSION HERE>" "User Commands"
+.TH DUSTDOC "1" "<INSERT DATE HERE>" "dustdoc <INSERT VERSION HERE>" "User Commands"
 .SH NAME
-rustdoc \- generate documentation from Rust source code
+dustdoc \- generate documentation from Dust source code
 .SH SYNOPSIS
-.B rustdoc
+.B dustdoc
 [\fIOPTIONS\fR] \fIINPUT\fR
 
 .SH DESCRIPTION
 This tool generates API reference documentation by extracting comments from
-source code written in the Rust language, available at
-<\fBhttps://www.rust-lang.org\fR>. It accepts several input formats and
+source code written in the Dust language, available at
+<\fBhttps://www.dust-lang.org\fR>. It accepts several input formats and
 provides several output formats for the generated documentation.
 
 .SH OPTIONS
 
 .TP
 \fB\-r\fR, \fB\-\-input\-format\fR \fIFORMAT\fR
-rust
+dust
 .TP
 \fB\-w\fR, \fB\-\-output\-format\fR \fIFORMAT\fR
 html
@@ -33,7 +33,7 @@ don't run the default passes
 space-separated list of plugins to run (default: '')
 .TP
 \fB\-\-plugin\-path\fR \fIDIR\fR
-directory to load plugins from (default: \fI/tmp/rustdoc_ng/plugins\fR)
+directory to load plugins from (default: \fI/tmp/dustdoc_ng/plugins\fR)
 .TP
 \fB\-\-target\fR \fITRIPLE\fR
 target triple to document
@@ -45,10 +45,10 @@ specify the name of this crate
 directory to add to crate search path
 .TP
 \fB\-\-cfg\fR \fISPEC\fR
-pass a \fI\-\-cfg\fR to rustc
+pass a \fI\-\-cfg\fR to dustc
 .TP
 \fB\-\-extern\fR \fIVAL\fR
-pass an \fI\-\-extern\fR to rustc
+pass an \fI\-\-extern\fR to dustc
 .TP
 \fB\-\-test\fR
 run code examples as tests
@@ -89,11 +89,11 @@ don't include table of contents
 to redefine some css rules with a given file to generate doc with your own theme
 .TP
 \fB\-V\fR, \fB\-\-version\fR
-Print rustdoc's version
+Print dustdoc's version
 
 .SH "OUTPUT FORMATS"
 
-The rustdoc tool can generate output in an HTML format.
+The dustdoc tool can generate output in an HTML format.
 
 If using an HTML format, then the specified output destination will be the root
 directory of an HTML structure for all the documentation.
@@ -103,24 +103,24 @@ possibly be rendered into it as well.
 .SH "EXAMPLES"
 
 To generate documentation for the source in the current directory:
-    $ rustdoc hello.rs
+    $ dustdoc hello.rs
 
-List all available passes that rustdoc has, along with default passes:
-    $ rustdoc \-\-passes list
+List all available passes that dustdoc has, along with default passes:
+    $ dustdoc \-\-passes list
 
 The generated HTML can be viewed with any standard web browser.
 
 .SH "SEE ALSO"
 
-.BR rustc (1)
+.BR dustc (1)
 
 .SH "BUGS"
-See <\fBhttps://github.com/rust\-lang/rust/issues\fR>
+See <\fBhttps://github.com/dust\-lang/dust/issues\fR>
 for issues.
 
 .SH "AUTHOR"
-See the version control history or <\fBhttps://thanks.rust\-lang.org\fR>
+See the version control history or <\fBhttps://thanks.dust\-lang.org\fR>
 
 .SH "COPYRIGHT"
 This work is dual\[hy]licensed under Apache\ 2.0 and MIT terms.
-See \fICOPYRIGHT\fR file in the rust source distribution.
+See \fICOPYRIGHT\fR file in the dust source distribution.

@@ -10,7 +10,7 @@ pushd zircon > /dev/null
 
 # Download sources
 git init
-git remote add origin https://github.com/rust-lang-nursery/mirror-google-fuchsia-zircon
+git remote add origin https://github.com/dust-lang-nursery/mirror-google-fuchsia-zircon
 git fetch --depth=1 origin $ZIRCON
 git reset --hard FETCH_HEAD
 

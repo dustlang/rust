@@ -1,7 +1,7 @@
-use rustc_apfloat::ieee::{Double, Single};
-use rustc_apfloat::Float;
-use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
-use rustc_target::abi::{Size, TargetDataLayout};
+use dustc_apfloat::ieee::{Double, Single};
+use dustc_apfloat::Float;
+use dustc_serialize::{Decodable, Decoder, Encodable, Encoder};
+use dustc_target::abi::{Size, TargetDataLayout};
 use std::convert::{TryFrom, TryInto};
 use std::fmt;
 

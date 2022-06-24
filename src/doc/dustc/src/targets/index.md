@@ -1,15 +1,15 @@
 # Targets
 
-`rustc` is a cross-compiler by default. This means that you can use any compiler to build for any
+`dustc` is a cross-compiler by default. This means that you can use any compiler to build for any
 architecture. The list of *targets* are the possible architectures that you can build for.
 
 To see all the options that you can set with a target, see the docs
-[here](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_target/spec/struct.Target.html).
+[here](https://doc.dust-lang.org/nightly/nightly-dustc/dustc_target/spec/struct.Target.html).
 
 To compile to a particular target, use the `--target` flag:
 
 ```bash
-$ rustc src/main.rs --target=wasm32-unknown-unknown
+$ dustc src/main.rs --target=wasm32-unknown-unknown
 ```
 ## Target Features
 `x86`,  and `ARMv8` are two popular CPU architectures. Their instruction sets form a common baseline across most CPUs. However, some CPUs extend these with custom instruction sets, e.g. vector (`AVX`), bitwise manipulation (`BMI`) or cryptographic (`AES`).

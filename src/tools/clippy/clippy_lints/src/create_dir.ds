@@ -1,9 +1,9 @@
 use crate::utils::{match_def_path, paths, snippet, span_lint_and_sugg};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_errors::Applicability;
+use dustc_hir::{Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
 
 declare_clippy_lint! {
     /// **What it does:** Checks usage of `std::fs::create_dir` and suggest using `std::fs::create_dir_all` instead.
@@ -14,11 +14,11 @@ declare_clippy_lint! {
     ///
     /// **Example:**
     ///
-    /// ```rust
+    /// ```dust
     /// std::fs::create_dir("foo");
     /// ```
     /// Use instead:
-    /// ```rust
+    /// ```dust
     /// std::fs::create_dir_all("foo");
     /// ```
     pub CREATE_DIR,

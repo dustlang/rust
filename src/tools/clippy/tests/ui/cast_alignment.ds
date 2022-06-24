@@ -1,6 +1,6 @@
 //! Test casts for alignment issues
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 extern crate libc;
 
 #[warn(clippy::cast_ptr_alignment)]

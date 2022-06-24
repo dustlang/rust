@@ -2,11 +2,11 @@ use crate::middle::codegen_fn_attrs::CodegenFnAttrFlags;
 use crate::ty::print::{FmtPrinter, Printer};
 use crate::ty::subst::{InternalSubsts, Subst};
 use crate::ty::{self, SubstsRef, Ty, TyCtxt, TypeFoldable};
-use rustc_errors::ErrorReported;
-use rustc_hir::def::Namespace;
-use rustc_hir::def_id::{CrateNum, DefId};
-use rustc_hir::lang_items::LangItem;
-use rustc_macros::HashStable;
+use dustc_errors::ErrorReported;
+use dustc_hir::def::Namespace;
+use dustc_hir::def_id::{CrateNum, DefId};
+use dustc_hir::lang_items::LangItem;
+use dustc_macros::HashStable;
 
 use std::fmt;
 
@@ -33,7 +33,7 @@ pub enum InstanceDef<'tcx> {
     /// - generators
     Item(ty::WithOptConstParam<DefId>),
 
-    /// An intrinsic `fn` item (with `"rust-intrinsic"` or `"platform-intrinsic"` ABI).
+    /// An intrinsic `fn` item (with `"dust-intrinsic"` or `"platform-intrinsic"` ABI).
     ///
     /// Alongside `Virtual`, this is the only `InstanceDef` that does not have its own callable MIR.
     /// Instead, codegen and const eval "magically" evaluate calls to intrinsics purely in the
@@ -178,7 +178,7 @@ impl<'tcx> InstanceDef<'tcx> {
     /// Note that this is only a hint. See the documentation for
     /// `generates_cgu_internal_copy` for more information.
     pub fn requires_inline(&self, tcx: TyCtxt<'tcx>) -> bool {
-        use rustc_hir::definitions::DefPathData;
+        use dustc_hir::definitions::DefPathData;
         let def_id = match *self {
             ty::InstanceDef::Item(def) => def.did,
             ty::InstanceDef::DropGlue(_, Some(_)) => return false,

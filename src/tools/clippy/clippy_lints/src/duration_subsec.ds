@@ -1,9 +1,9 @@
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::{BinOpKind, Expr, ExprKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Spanned;
+use dustc_errors::Applicability;
+use dustc_hir::{BinOpKind, Expr, ExprKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Spanned;
 
 use crate::consts::{constant, Constant};
 use crate::utils::paths;
@@ -19,7 +19,7 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// # use std::time::Duration;
     /// let dur = Duration::new(5, 0);
     ///

@@ -1,12 +1,12 @@
 // run-pass
 // `#[derive(Trait)]` works for empty structs/variants with braces or parens.
 
-#![feature(rustc_private)]
+#![feature(dustc_private)]
 
-extern crate rustc_macros;
-extern crate rustc_serialize;
+extern crate dustc_macros;
+extern crate dustc_serialize;
 
-use rustc_macros::{Decodable, Encodable};
+use dustc_macros::{Decodable, Encodable};
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default, Debug, Encodable, Decodable)]
 struct S {}

@@ -13,7 +13,7 @@ note: the lint level is defined here
 LL | #![deny(late_bound_lifetime_arguments)]
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #42868 <https://github.com/rust-lang/rust/issues/42868>
+   = note: for more information, see issue #42868 <https://github.com/dust-lang/dust/issues/42868>
 
 error: cannot specify lifetime arguments explicitly if late bound lifetime parameters are present
   --> $DIR/method-call-lifetime-args-lint.rs:16:23
@@ -25,7 +25,7 @@ LL |     S.late_implicit::<'static>(&0, &0);
    |                       ^^^^^^^
    |
    = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #42868 <https://github.com/rust-lang/rust/issues/42868>
+   = note: for more information, see issue #42868 <https://github.com/dust-lang/dust/issues/42868>
 
 error: aborting due to 2 previous errors
 

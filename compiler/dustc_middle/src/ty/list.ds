@@ -1,6 +1,6 @@
 use crate::arena::Arena;
 
-use rustc_serialize::{Encodable, Encoder};
+use dustc_serialize::{Encodable, Encoder};
 
 use std::alloc::Layout;
 use std::cmp::Ordering;
@@ -35,7 +35,7 @@ pub struct List<T> {
     opaque: OpaqueListContents,
 }
 
-unsafe impl<'a, T: 'a> rustc_data_structures::tagged_ptr::Pointer for &'a List<T> {
+unsafe impl<'a, T: 'a> dustc_data_structures::tagged_ptr::Pointer for &'a List<T> {
     const BITS: usize = std::mem::align_of::<usize>().trailing_zeros() as usize;
     fn into_usize(self) -> usize {
         self as *const List<T> as usize

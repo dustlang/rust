@@ -2,14 +2,14 @@
 // `Providers` struct for requesting a value of that type, and a method
 // on `tcx: TyCtxt` (and `tcx.at(span)`) for doing that request in a way
 // which memoizes and does dep-graph tracking, wrapping around the actual
-// `Providers` that the driver creates (using several `rustc_*` crates).
+// `Providers` that the driver creates (using several `dustc_*` crates).
 //
 // The result type of each query must implement `Clone`, and additionally
 // `ty::query::values::Value`, which produces an appropriate placeholder
 // (error) value if the query resulted in a query cycle.
 // Queries marked with `fatal_cycle` do not need the latter implementation,
 // as they will raise an fatal error on query cycles instead.
-rustc_queries! {
+dustc_queries! {
     query trigger_delay_span_bug(key: DefId) -> () {
         desc { "trigger a delay span bug" }
     }
@@ -65,7 +65,7 @@ rustc_queries! {
     ///
     /// This can be conveniently accessed by methods on `tcx.hir()`.
     /// Avoid calling this query directly.
-    query hir_attrs(key: LocalDefId) -> rustc_middle::hir::AttributeMap<'tcx> {
+    query hir_attrs(key: LocalDefId) -> dustc_middle::hir::AttributeMap<'tcx> {
         eval_always
         desc { |tcx| "HIR owner attributes in `{}`", tcx.def_path_str(key.to_def_id()) }
     }
@@ -196,7 +196,7 @@ rustc_queries! {
     }
 
     /// Internal helper query. Use `tcx.expansion_that_defined` instead
-    query expn_that_defined(key: DefId) -> rustc_span::ExpnId {
+    query expn_that_defined(key: DefId) -> dustc_span::ExpnId {
         desc { |tcx| "expansion that defined `{}`", tcx.def_path_str(key) }
     }
 
@@ -429,7 +429,7 @@ rustc_queries! {
     /// returns the full set of predicates. If `Some<Ident>`, then the query returns only the
     /// subset of super-predicates that reference traits that define the given associated type.
     /// This is used to avoid cycles in resolving types like `T::Item`.
-    query super_predicates_that_define_assoc_type(key: (DefId, Option<rustc_span::symbol::Ident>)) -> ty::GenericPredicates<'tcx> {
+    query super_predicates_that_define_assoc_type(key: (DefId, Option<dustc_span::symbol::Ident>)) -> ty::GenericPredicates<'tcx> {
         desc { |tcx| "computing the super traits of `{}`{}",
             tcx.def_path_str(key.0),
             if let Some(assoc_name) = key.1 { format!(" with associated type name `{}`", assoc_name) } else { "".to_string() },
@@ -438,7 +438,7 @@ rustc_queries! {
 
     /// To avoid cycles within the predicates of a single item we compute
     /// per-type-parameter predicates for resolving `T::AssocTy`.
-    query type_param_predicates(key: (DefId, LocalDefId, rustc_span::symbol::Ident)) -> ty::GenericPredicates<'tcx> {
+    query type_param_predicates(key: (DefId, LocalDefId, dustc_span::symbol::Ident)) -> ty::GenericPredicates<'tcx> {
         desc { |tcx| "computing the bounds for type parameter `{}`", {
             let id = tcx.hir().local_def_id_to_hir_id(key.1);
             tcx.hir().ty_param_name(id)
@@ -487,7 +487,7 @@ rustc_queries! {
     /// Returns `true` if this is a const `impl`. **Do not call this function manually.**
     ///
     /// This query caches the base data for the `is_const_impl` helper function, which also
-    /// takes into account stability attributes (e.g., `#[rustc_const_unstable]`).
+    /// takes into account stability attributes (e.g., `#[dustc_const_unstable]`).
     query is_const_impl_raw(key: DefId) -> bool {
         desc { |tcx| "checking if item is const impl: `{}`", tcx.def_path_str(key) }
     }
@@ -499,7 +499,7 @@ rustc_queries! {
     /// Returns `true` if calls to the function may be promoted.
     ///
     /// This is either because the function is e.g., a tuple-struct or tuple-variant
-    /// constructor, or because it has the `#[rustc_promotable]` attribute. The attribute should
+    /// constructor, or because it has the `#[dustc_promotable]` attribute. The attribute should
     /// be removed in the future in favour of some form of check which figures out whether the
     /// function does not inspect the bits of any of its arguments (so is essentially just a
     /// constructor function).
@@ -809,7 +809,7 @@ rustc_queries! {
         desc { "deref constant" }
     }
 
-    query const_caller_location(key: (rustc_span::Symbol, u32, u32)) -> ConstValue<'tcx> {
+    query const_caller_location(key: (dustc_span::Symbol, u32, u32)) -> ConstValue<'tcx> {
         desc { "get a &core::panic::Location referring to a span" }
     }
 
@@ -898,11 +898,11 @@ rustc_queries! {
         cache_on_disk_if { true }
     }
 
-    query fn_arg_names(def_id: DefId) -> &'tcx [rustc_span::symbol::Ident] {
+    query fn_arg_names(def_id: DefId) -> &'tcx [dustc_span::symbol::Ident] {
         desc { |tcx| "looking up function parameter names for `{}`", tcx.def_path_str(def_id) }
     }
     /// Gets the rendered value of the specified constant or associated constant.
-    /// Used by rustdoc.
+    /// Used by dustdoc.
     query rendered_const(def_id: DefId) -> String {
         desc { |tcx| "rendering constant intializer of `{}`", tcx.def_path_str(def_id) }
     }
@@ -943,7 +943,7 @@ rustc_queries! {
     /// To allow caching this between crates, you must pass in [`LOCAL_CRATE`] as the crate number.
     /// Passing in any other crate will cause an ICE.
     ///
-    /// [`LOCAL_CRATE`]: rustc_hir::def_id::LOCAL_CRATE
+    /// [`LOCAL_CRATE`]: dustc_hir::def_id::LOCAL_CRATE
     query all_local_trait_impls(local_crate: CrateNum) -> &'tcx BTreeMap<DefId, Vec<LocalDefId>> {
         desc { "local trait impls" }
     }
@@ -1019,7 +1019,7 @@ rustc_queries! {
 
     query layout_raw(
         env: ty::ParamEnvAnd<'tcx, Ty<'tcx>>
-    ) -> Result<&'tcx rustc_target::abi::Layout, ty::layout::LayoutError<'tcx>> {
+    ) -> Result<&'tcx dustc_target::abi::Layout, ty::layout::LayoutError<'tcx>> {
         desc { "computing layout of `{}`", env.value }
     }
 
@@ -1189,7 +1189,7 @@ rustc_queries! {
         eval_always
         desc { "looking up the disambiguator a crate" }
     }
-    // The macro which defines `rustc_metadata::provide_extern` depends on this query's name.
+    // The macro which defines `dustc_metadata::provide_extern` depends on this query's name.
     // Changing the name should cause a compiler error, but in case that changes, be aware.
     query crate_hash(_: CrateNum) -> Svh {
         eval_always
@@ -1598,7 +1598,7 @@ rustc_queries! {
         desc { |tcx| "estimating size for `{}`", tcx.def_path_str(def.def_id()) }
     }
 
-    query features_query(_: CrateNum) -> &'tcx rustc_feature::Features {
+    query features_query(_: CrateNum) -> &'tcx dustc_feature::Features {
         eval_always
         desc { "looking up enabled feature gates" }
     }

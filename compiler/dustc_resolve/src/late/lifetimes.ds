@@ -6,24 +6,24 @@
 //! way. Therefore, we break lifetime name resolution into a separate pass.
 
 use crate::late::diagnostics::{ForLifetimeSpanType, MissingLifetimeSpot};
-use rustc_ast::walk_list;
-use rustc_data_structures::fx::{FxHashMap, FxHashSet};
-use rustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
-use rustc_hir as hir;
-use rustc_hir::def::{DefKind, Res};
-use rustc_hir::def_id::{CrateNum, DefIdMap, LOCAL_CRATE};
-use rustc_hir::hir_id::ItemLocalId;
-use rustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
-use rustc_hir::{GenericArg, GenericParam, LifetimeName, Node, ParamName, QPath};
-use rustc_hir::{GenericParamKind, HirIdMap, HirIdSet, LifetimeParamKind};
-use rustc_middle::hir::map::Map;
-use rustc_middle::middle::resolve_lifetime::*;
-use rustc_middle::ty::{self, DefIdTree, GenericParamDefKind, TyCtxt};
-use rustc_middle::{bug, span_bug};
-use rustc_session::lint;
-use rustc_span::def_id::{DefId, LocalDefId};
-use rustc_span::symbol::{kw, sym, Ident, Symbol};
-use rustc_span::Span;
+use dustc_ast::walk_list;
+use dustc_data_structures::fx::{FxHashMap, FxHashSet};
+use dustc_errors::{struct_span_err, Applicability, DiagnosticBuilder};
+use dustc_hir as hir;
+use dustc_hir::def::{DefKind, Res};
+use dustc_hir::def_id::{CrateNum, DefIdMap, LOCAL_CRATE};
+use dustc_hir::hir_id::ItemLocalId;
+use dustc_hir::intravisit::{self, NestedVisitorMap, Visitor};
+use dustc_hir::{GenericArg, GenericParam, LifetimeName, Node, ParamName, QPath};
+use dustc_hir::{GenericParamKind, HirIdMap, HirIdSet, LifetimeParamKind};
+use dustc_middle::hir::map::Map;
+use dustc_middle::middle::resolve_lifetime::*;
+use dustc_middle::ty::{self, DefIdTree, GenericParamDefKind, TyCtxt};
+use dustc_middle::{bug, span_bug};
+use dustc_session::lint;
+use dustc_span::def_id::{DefId, LocalDefId};
+use dustc_span::symbol::{kw, sym, Ident, Symbol};
+use dustc_span::Span;
 use std::borrow::Cow;
 use std::cell::Cell;
 use std::mem::take;
@@ -158,7 +158,7 @@ crate struct LifetimeContext<'a, 'tcx> {
 
     /// This is slightly complicated. Our representation for poly-trait-refs contains a single
     /// binder and thus we only allow a single level of quantification. However,
-    /// the syntax of Rust permits quantification in two places, e.g., `T: for <'a> Foo<'a>`
+    /// the syntax of Dust permits quantification in two places, e.g., `T: for <'a> Foo<'a>`
     /// and `for <'a, 'b> &'b T: Foo<'a>`. In order to get the De Bruijn indices
     /// correct when representing these constraints, we should only introduce one
     /// scope. However, we want to support both locations for the quantifier and
@@ -1240,7 +1240,7 @@ fn compute_object_lifetime_defaults(tcx: TyCtxt<'_>) -> HirIdMap<Vec<ObjectLifet
 
                 // Debugging aid.
                 let attrs = tcx.hir().attrs(item.hir_id());
-                if tcx.sess.contains_name(attrs, sym::rustc_object_lifetime_default) {
+                if tcx.sess.contains_name(attrs, sym::dustc_object_lifetime_default) {
                     let object_lifetime_default_reprs: String = result
                         .iter()
                         .map(|set| match *set {
@@ -1960,7 +1960,7 @@ impl<'a, 'tcx> LifetimeContext<'a, 'tcx> {
         // Compute a vector of defaults, one for each type parameter,
         // per the rules given in RFCs 599 and 1156. Example:
         //
-        // ```rust
+        // ```dust
         // struct Foo<'a, T: 'a, U> { }
         // ```
         //
@@ -2060,7 +2060,7 @@ impl<'a, 'tcx> LifetimeContext<'a, 'tcx> {
         // declared like so, then the default object lifetime bound in
         // `XX` should be `'b`:
         //
-        // ```rust
+        // ```dust
         // trait Foo<'a> {
         //   type Item: 'a;
         // }

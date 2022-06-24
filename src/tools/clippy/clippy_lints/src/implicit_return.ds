@@ -1,16 +1,16 @@
 use crate::utils::{match_panic_def_id, snippet_opt, span_lint_and_then};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir::intravisit::FnKind;
-use rustc_hir::{Body, Expr, ExprKind, FnDecl, HirId, MatchSource, StmtKind};
-use rustc_lint::{LateContext, LateLintPass};
-use rustc_session::{declare_lint_pass, declare_tool_lint};
-use rustc_span::source_map::Span;
+use dustc_errors::Applicability;
+use dustc_hir::intravisit::FnKind;
+use dustc_hir::{Body, Expr, ExprKind, FnDecl, HirId, MatchSource, StmtKind};
+use dustc_lint::{LateContext, LateLintPass};
+use dustc_session::{declare_lint_pass, declare_tool_lint};
+use dustc_span::source_map::Span;
 
 declare_clippy_lint! {
     /// **What it does:** Checks for missing return statements at the end of a block.
     ///
-    /// **Why is this bad?** Actually omitting the return keyword is idiomatic Rust code. Programmers
+    /// **Why is this bad?** Actually omitting the return keyword is idiomatic Dust code. Programmers
     /// coming from other languages might prefer the expressiveness of `return`. It's possible to miss
     /// the last returning statement because the only difference is a missing `;`. Especially in bigger
     /// code with multiple return paths having a `return` keyword makes it easier to find the
@@ -19,13 +19,13 @@ declare_clippy_lint! {
     /// **Known problems:** None.
     ///
     /// **Example:**
-    /// ```rust
+    /// ```dust
     /// fn foo(x: usize) -> usize {
     ///     x
     /// }
     /// ```
     /// add return
-    /// ```rust
+    /// ```dust
     /// fn foo(x: usize) -> usize {
     ///     return x;
     /// }

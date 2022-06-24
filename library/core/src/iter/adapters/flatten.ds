@@ -8,7 +8,7 @@ use crate::ops::Try;
 /// This `struct` is created by [`Iterator::flat_map`]. See its documentation
 /// for more.
 #[must_use = "iterators are lazy and do nothing unless consumed"]
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub struct FlatMap<I, U: IntoIterator, F> {
     inner: FlattenCompat<Map<I, F>, <U as IntoIterator>::IntoIter>,
 }
@@ -19,7 +19,7 @@ impl<I: Iterator, U: IntoIterator, F: FnMut(I::Item) -> U> FlatMap<I, U, F> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I: Clone, U, F: Clone> Clone for FlatMap<I, U, F>
 where
     U: Clone + IntoIterator<IntoIter: Clone>,
@@ -39,7 +39,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I: Iterator, U: IntoIterator, F> Iterator for FlatMap<I, U, F>
 where
     F: FnMut(I::Item) -> U,
@@ -75,7 +75,7 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl<I: DoubleEndedIterator, U, F> DoubleEndedIterator for FlatMap<I, U, F>
 where
     F: FnMut(I::Item) -> U,

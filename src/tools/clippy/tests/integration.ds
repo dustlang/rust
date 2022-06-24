@@ -33,7 +33,7 @@ fn integration_test() {
 
     let output = Command::new(clippy_binary)
         .current_dir(repo_dir)
-        .env("RUST_BACKTRACE", "full")
+        .env("DUST_BACKTRACE", "full")
         .env("CARGO_TARGET_DIR", target_dir)
         .args(&[
             "clippy",
@@ -51,7 +51,7 @@ fn integration_test() {
     let stderr = String::from_utf8_lossy(&output.stderr);
     if stderr.contains("internal compiler error") {
         let backtrace_start = stderr
-            .find("thread 'rustc' panicked at")
+            .find("thread 'dustc' panicked at")
             .expect("start of backtrace not found");
         let backtrace_end = stderr
             .rfind("error: internal compiler error")
@@ -70,8 +70,8 @@ fn integration_test() {
         panic!("error: E0463");
     } else if stderr.contains("E0514") {
         panic!("incompatible crate versions");
-    } else if stderr.contains("failed to run `rustc` to learn about target-specific information") {
-        panic!("couldn't find librustc_driver, consider setting `LD_LIBRARY_PATH`");
+    } else if stderr.contains("failed to run `dustc` to learn about target-specific information") {
+        panic!("couldn't find libdustc_driver, consider setting `LD_LIBRARY_PATH`");
     } else if stderr.contains("toolchain") && stderr.contains("is not installed") {
         panic!("missing required toolchain");
     }

@@ -1,9 +1,9 @@
 use crate::utils::{get_trait_def_id, implements_trait, paths, span_lint_and_sugg, sugg};
 use if_chain::if_chain;
-use rustc_errors::Applicability;
-use rustc_hir as hir;
-use rustc_lint::{LateContext, LintContext};
-use rustc_middle::ty::Ty;
+use dustc_errors::Applicability;
+use dustc_hir as hir;
+use dustc_lint::{LateContext, LintContext};
+use dustc_middle::ty::Ty;
 
 use super::FROM_ITER_INSTEAD_OF_COLLECT;
 

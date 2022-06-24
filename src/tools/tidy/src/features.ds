@@ -88,7 +88,7 @@ pub fn check(
         &[
             &src_path.join("test/ui"),
             &src_path.join("test/ui-fulldeps"),
-            &src_path.join("test/rustdoc-ui"),
+            &src_path.join("test/dustdoc-ui"),
         ],
         &mut |path| super::filter_dirs(path),
         &mut |entry, contents| {
@@ -240,10 +240,10 @@ pub fn collect_lang_features(base_compiler_path: &Path, bad: &mut bool) -> Featu
 }
 
 fn collect_lang_features_in(base: &Path, file: &str, bad: &mut bool) -> Features {
-    let path = base.join("rustc_feature").join("src").join(file);
+    let path = base.join("dustc_feature").join("src").join(file);
     let contents = t!(fs::read_to_string(&path));
 
-    // We allow rustc-internal features to omit a tracking issue.
+    // We allow dustc-internal features to omit a tracking issue.
     // To make tidy accept omitting a tracking issue, group the list of features
     // without one inside `// no-tracking-issue` and `// no-tracking-issue-end`.
     let mut next_feature_omits_tracking_issue = false;
@@ -399,7 +399,7 @@ fn map_lib_features(
             }
 
             // This is an early exit -- all the attributes we're concerned with must contain this:
-            // * rustc_const_unstable(
+            // * dustc_const_unstable(
             // * unstable(
             // * stable(
             if !contents.contains("stable(") {
@@ -444,7 +444,7 @@ fn map_lib_features(
                     }
                 }
                 becoming_feature = None;
-                if line.contains("rustc_const_unstable(") {
+                if line.contains("dustc_const_unstable(") {
                     // `const fn` features are handled specially.
                     let feature_name = match find_attr_val(line, "feature") {
                         Some(name) => name,

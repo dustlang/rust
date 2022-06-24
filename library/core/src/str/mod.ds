@@ -4,7 +4,7 @@
 //!
 //! [`std::str`]: ../../std/str/index.html
 
-#![stable(feature = "rust1", since = "1.0.0")]
+#![stable(feature = "dust1", since = "1.0.0")]
 
 mod converts;
 mod error;
@@ -25,29 +25,29 @@ pub mod pattern;
 #[allow(missing_docs)]
 pub mod lossy;
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use converts::{from_utf8, from_utf8_unchecked};
 
 #[stable(feature = "str_mut_extras", since = "1.20.0")]
 pub use converts::{from_utf8_mut, from_utf8_unchecked_mut};
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use error::{ParseBoolError, Utf8Error};
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use traits::FromStr;
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use iter::{Bytes, CharIndices, Chars, Lines, SplitWhitespace};
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 #[allow(deprecated)]
 pub use iter::LinesAny;
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use iter::{RSplit, RSplitTerminator, Split, SplitTerminator};
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 pub use iter::{RSplitN, SplitN};
 
 #[stable(feature = "str_matches", since = "1.2.0")]
@@ -139,8 +139,8 @@ impl str {
     /// assert_eq!("ƒoo".chars().count(), 3);
     /// ```
     #[doc(alias = "length")]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_const_stable(feature = "const_str_len", since = "1.32.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "const_str_len", since = "1.32.0")]
     #[inline]
     pub const fn len(&self) -> usize {
         self.as_bytes().len()
@@ -160,8 +160,8 @@ impl str {
     /// assert!(!s.is_empty());
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_const_stable(feature = "const_str_is_empty", since = "1.32.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "const_str_is_empty", since = "1.32.0")]
     pub const fn is_empty(&self) -> bool {
         self.len() == 0
     }
@@ -216,11 +216,11 @@ impl str {
     /// let bytes = "bors".as_bytes();
     /// assert_eq!(b"bors", bytes);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_const_stable(feature = "str_as_bytes", since = "1.32.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "str_as_bytes", since = "1.32.0")]
     #[inline(always)]
     #[allow(unused_attributes)]
-    #[rustc_allow_const_fn_unstable(const_fn_transmute)]
+    #[dustc_allow_const_fn_unstable(const_fn_transmute)]
     pub const fn as_bytes(&self) -> &[u8] {
         // SAFETY: const sound because we transmute two types with the same layout
         unsafe { mem::transmute(self) }
@@ -291,8 +291,8 @@ impl str {
     /// let s = "Hello";
     /// let ptr = s.as_ptr();
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_const_stable(feature = "rustc_str_as_ptr", since = "1.32.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_const_stable(feature = "dustc_str_as_ptr", since = "1.32.0")]
     #[inline]
     pub const fn as_ptr(&self) -> *const u8 {
         self as *const str as *const u8
@@ -481,8 +481,8 @@ impl str {
     ///     assert_eq!("world", s.slice_unchecked(7, 12));
     /// }
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_deprecated(since = "1.29.0", reason = "use `get_unchecked(begin..end)` instead")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_deprecated(since = "1.29.0", reason = "use `get_unchecked(begin..end)` instead")]
     #[inline]
     pub unsafe fn slice_unchecked(&self, begin: usize, end: usize) -> &str {
         // SAFETY: the caller must uphold the safety contract for `get_unchecked`;
@@ -515,7 +515,7 @@ impl str {
     /// * `begin` and `end` must be byte positions within the string slice.
     /// * `begin` and `end` must lie on UTF-8 sequence boundaries.
     #[stable(feature = "str_slice_mut", since = "1.5.0")]
-    #[rustc_deprecated(since = "1.29.0", reason = "use `get_unchecked_mut(begin..end)` instead")]
+    #[dustc_deprecated(since = "1.29.0", reason = "use `get_unchecked_mut(begin..end)` instead")]
     #[inline]
     pub unsafe fn slice_mut_unchecked(&mut self, begin: usize, end: usize) -> &mut str {
         // SAFETY: the caller must uphold the safety contract for `get_unchecked_mut`;
@@ -624,7 +624,7 @@ impl str {
     /// It's important to remember that [`char`] represents a Unicode Scalar
     /// Value, and may not match your idea of what a 'character' is. Iteration
     /// over grapheme clusters may be what you actually want. This functionality
-    /// is not provided by Rust's standard library, check crates.io instead.
+    /// is not provided by Dust's standard library, check crates.io instead.
     ///
     /// # Examples
     ///
@@ -663,7 +663,7 @@ impl str {
     ///
     /// assert_eq!(None, chars.next());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn chars(&self) -> Chars<'_> {
         Chars { iter: self.as_bytes().iter() }
@@ -720,7 +720,7 @@ impl str {
     ///
     /// assert_eq!(None, char_indices.next());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn char_indices(&self) -> CharIndices<'_> {
         CharIndices { front_offset: 0, iter: self.chars() }
@@ -745,7 +745,7 @@ impl str {
     ///
     /// assert_eq!(None, bytes.next());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn bytes(&self) -> Bytes<'_> {
         Bytes(self.as_bytes().iter().copied())
@@ -875,15 +875,15 @@ impl str {
     ///
     /// assert_eq!(None, lines.next());
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn lines(&self) -> Lines<'_> {
         Lines(self.split_terminator('\n').map(LinesAnyMap))
     }
 
     /// An iterator over the lines of a string.
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_deprecated(since = "1.4.0", reason = "use lines() instead now")]
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_deprecated(since = "1.4.0", reason = "use lines() instead now")]
     #[inline]
     #[allow(deprecated)]
     pub fn lines_any(&self) -> LinesAny<'_> {
@@ -930,7 +930,7 @@ impl str {
     /// assert!(bananas.contains("nana"));
     /// assert!(!bananas.contains("apples"));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn contains<'a, P: Pattern<'a>>(&'a self, pat: P) -> bool {
         pat.is_contained_in(self)
@@ -957,7 +957,7 @@ impl str {
     /// assert!(bananas.starts_with("bana"));
     /// assert!(!bananas.starts_with("nana"));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn starts_with<'a, P: Pattern<'a>>(&'a self, pat: P) -> bool {
         pat.is_prefix_of(self)
     }
@@ -983,7 +983,7 @@ impl str {
     /// assert!(bananas.ends_with("anas"));
     /// assert!(!bananas.ends_with("nana"));
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn ends_with<'a, P>(&'a self, pat: P) -> bool
     where
         P: Pattern<'a, Searcher: ReverseSearcher<'a>>,
@@ -1033,7 +1033,7 @@ impl str {
     ///
     /// assert_eq!(s.find(x), None);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn find<'a, P: Pattern<'a>>(&'a self, pat: P) -> Option<usize> {
         pat.into_searcher(self).next_match().map(|(i, _)| i)
@@ -1079,7 +1079,7 @@ impl str {
     ///
     /// assert_eq!(s.rfind(x), None);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn rfind<'a, P>(&'a self, pat: P) -> Option<usize>
     where
@@ -1178,7 +1178,7 @@ impl str {
     /// and end of the string.
     ///
     /// ```
-    /// let f: Vec<_> = "rust".split("").collect();
+    /// let f: Vec<_> = "dust".split("").collect();
     /// assert_eq!(f, &["", "r", "u", "s", "t", ""]);
     /// ```
     ///
@@ -1201,7 +1201,7 @@ impl str {
     /// Use [`split_whitespace`] for this behavior.
     ///
     /// [`split_whitespace`]: str::split_whitespace
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn split<'a, P: Pattern<'a>>(&'a self, pat: P) -> Split<'a, P> {
         Split(SplitInternal {
@@ -1296,7 +1296,7 @@ impl str {
     /// let v: Vec<&str> = "abc1defXghi".rsplit(|c| c == '1' || c == 'X').collect();
     /// assert_eq!(v, ["ghi", "def", "abc"]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn rsplit<'a, P>(&'a self, pat: P) -> RSplit<'a, P>
     where
@@ -1344,7 +1344,7 @@ impl str {
     /// let v: Vec<&str> = "A..B..".split_terminator(".").collect();
     /// assert_eq!(v, ["A", "", "B", ""]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn split_terminator<'a, P: Pattern<'a>>(&'a self, pat: P) -> SplitTerminator<'a, P> {
         SplitTerminator(SplitInternal { allow_trailing_empty: false, ..self.split(pat).0 })
@@ -1387,7 +1387,7 @@ impl str {
     /// let v: Vec<&str> = "A..B..".rsplit_terminator(".").collect();
     /// assert_eq!(v, ["", "B", "", "A"]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn rsplit_terminator<'a, P>(&'a self, pat: P) -> RSplitTerminator<'a, P>
     where
@@ -1442,7 +1442,7 @@ impl str {
     /// let v: Vec<&str> = "abc1defXghi".splitn(2, |c| c == '1' || c == 'X').collect();
     /// assert_eq!(v, ["abc", "defXghi"]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn splitn<'a, P: Pattern<'a>>(&'a self, n: usize, pat: P) -> SplitN<'a, P> {
         SplitN(SplitNInternal { iter: self.split(pat).0, count: n })
@@ -1491,7 +1491,7 @@ impl str {
     /// let v: Vec<&str> = "abc1defXghi".rsplitn(2, |c| c == '1' || c == 'X').collect();
     /// assert_eq!(v, ["ghi", "abc1def"]);
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     #[inline]
     pub fn rsplitn<'a, P>(&'a self, n: usize, pat: P) -> RSplitN<'a, P>
     where
@@ -1718,7 +1718,7 @@ impl str {
     #[inline]
     #[must_use = "this returns the trimmed string as a slice, \
                   without modifying the original"]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn trim(&self) -> &str {
         self.trim_matches(|c: char| c.is_whitespace())
     }
@@ -1831,8 +1831,8 @@ impl str {
     /// assert!(Some('ע') == s.trim_left().chars().next());
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_deprecated(
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_deprecated(
         since = "1.33.0",
         reason = "superseded by `trim_start`",
         suggestion = "trim_start"
@@ -1873,8 +1873,8 @@ impl str {
     /// assert!(Some('ת') == s.trim_right().chars().rev().next());
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_deprecated(
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_deprecated(
         since = "1.33.0",
         reason = "superseded by `trim_end`",
         suggestion = "trim_end"
@@ -1911,7 +1911,7 @@ impl str {
     /// ```
     #[must_use = "this returns the trimmed string as a new slice, \
                   without modifying the original"]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn trim_matches<'a, P>(&'a self, pat: P) -> &'a str
     where
         P: Pattern<'a, Searcher: DoubleEndedSearcher<'a>>,
@@ -2105,8 +2105,8 @@ impl str {
     /// let x: &[_] = &['1', '2'];
     /// assert_eq!("12foo1bar12".trim_left_matches(x), "foo1bar12");
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_deprecated(
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_deprecated(
         since = "1.33.0",
         reason = "superseded by `trim_start_matches`",
         suggestion = "trim_start_matches"
@@ -2148,8 +2148,8 @@ impl str {
     /// ```
     /// assert_eq!("1fooX".trim_right_matches(|c| c == '1' || c == 'X'), "1foo");
     /// ```
-    #[stable(feature = "rust1", since = "1.0.0")]
-    #[rustc_deprecated(
+    #[stable(feature = "dust1", since = "1.0.0")]
+    #[dustc_deprecated(
         since = "1.33.0",
         reason = "superseded by `trim_end_matches`",
         suggestion = "trim_end_matches"
@@ -2205,7 +2205,7 @@ impl str {
     /// assert!(nope.is_err());
     /// ```
     #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
+    #[stable(feature = "dust1", since = "1.0.0")]
     pub fn parse<F: FromStr>(&self) -> Result<F, F::Err> {
         FromStr::from_str(self)
     }
@@ -2422,7 +2422,7 @@ impl str {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl AsRef<[u8]> for str {
     #[inline]
     fn as_ref(&self) -> &[u8] {
@@ -2430,7 +2430,7 @@ impl AsRef<[u8]> for str {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "dust1", since = "1.0.0")]
 impl Default for &str {
     /// Creates an empty str
     #[inline]

@@ -1,6 +1,6 @@
 use crate::utils::span_lint_and_help;
-use rustc_hir as hir;
-use rustc_lint::LateContext;
+use dustc_hir as hir;
+use dustc_lint::LateContext;
 
 use super::SUSPICIOUS_MAP;
 
