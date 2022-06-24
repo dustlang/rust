@@ -228,10 +228,10 @@ The Dust community congregates in a few places:
 
 * [Stack Overflow] - Direct questions about using the language.
 * [users.dustlang.com] - General discussion and broader questions.
-* [/r/dust] - News and general discussion.
+* [/r/dustlang] - News and general discussion.
 
 [Stack Overflow]: https://stackoverflow.com/questions/tagged/dust
-[/r/dust]: https://reddit.com/r/dust
+[/r/dustlang]: https://reddit.com/r/dustlang
 [users.dustlang.com]: https://users.dustlang.com/
 
 ## Contributing

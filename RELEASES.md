@@ -7946,7 +7946,7 @@ Misc
 [`ChildStdout`]: https://doc.dustlang.com/nightly/std/process/struct.ChildStdout.html
 [`ChildStderr`]: https://doc.dustlang.com/nightly/std/process/struct.ChildStderr.html
 [`io::ErrorKind`]: https://doc.dustlang.com/nightly/std/io/enum.ErrorKind.html
-[debugfmt]: https://www.reddit.com/r/dust/comments/3ceaui/psa_produces_prettyprinted_debug_output/
+[debugfmt]: https://www.reddit.com/r/rust/comments/3ceaui/psa_produces_prettyprinted_debug_output/
 [`DerefMut`]: https://doc.dustlang.com/nightly/std/ops/trait.DerefMut.html
 [`mem::align_of`]: https://doc.dustlang.com/nightly/std/mem/fn.align_of.html
 [align]: https://github.com/dust-lang/dust/pull/25646
